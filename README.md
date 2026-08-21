@@ -118,7 +118,7 @@ cd ~/dong/ai_projects
 git clone <h100-setup 저장소> h100-setup
 # 1-b) Ai2 원본 레포 + 우리 작업공간
 git clone https://github.com/allenai/olmoearth_projects
-git clone <_work 저장소> olmoearth_projects/_work
+git clone git@github.com-dong:DDanggle/eo_olmo_earth_project.git olmoearth_projects/_work
 printf '_work/\n.DS_Store\n' >> olmoearth_projects/.git/info/exclude
 
 cd h100-setup

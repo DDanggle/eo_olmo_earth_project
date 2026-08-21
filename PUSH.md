@@ -1,7 +1,11 @@
-# GitHub 푸시 준비 — 아직 아무것도 올리지 않았습니다
+# GitHub 상태 — 푸시 완료 (2026-08-21)
 
-이 저장소(`_work`)는 **로컬 git 저장소**이며 원격(remote)이 없습니다.
-`git remote -v`가 비어 있는지 확인하세요. 올릴지, 공개/비공개로 할지는 당신의 결정입니다.
+- 원격: `git@github.com-dong:DDanggle/eo_olmo_earth_project.git` (브랜치 `main`)
+- **저장소 공개 상태: public** (푸시 시점 확인). LFMC 재현성 발견(PR_DOSSIER #2)이
+  Ai2에 통보되기 전 공개 상태이므로, 필요하면 GitHub 설정에서 private으로 전환할 수 있다.
+- 이후 갱신: `git push` (upstream 설정됨)
+
+아래는 최초 푸시 전에 점검한 항목들 — 향후 다른 저장소를 올릴 때 재사용한다.
 
 ## 올리기 전에 확인할 것
 
