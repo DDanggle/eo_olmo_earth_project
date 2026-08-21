@@ -4,6 +4,23 @@
 
 이 파일이 **입구**입니다. 처음 보는 사람(또는 새 컴퓨터의 나)은 여기부터 읽습니다.
 
+## 이 폴더의 위치와 두 저장소의 관계
+
+```
+~/dong/ai_projects/
+├── h100-setup/                    # [접속 전용] kt cloud AI Nexus 세션·터널·전송 (nexus CLI)
+└── olmoearth_projects/            # Ai2 원본 레포 클론 (PR 작업용)
+    └── _work/                     # ★ 여기 — 우리 연구 작업공간 (자체 git 저장소)
+        ├── README.md GOAL.md STUDY.md PAPER_NOTES_v1.md ISSUE_DRAFT_lfmc.md
+        ├── code/                  # 실험 스크립트
+        └── bin/nx                 # 서버 조작 래퍼 (h100-setup의 nexus 호출)
+```
+
+- `_work/`는 바깥 클론의 `.git/info/exclude`에 등록돼 **원본 레포 git에 보이지 않습니다** →
+  PR 작업(브랜치 `fix/sample-annotation-oe-schema` 등)이 우리 파일로 더러워지지 않습니다.
+- `_work/`는 **자체 git 저장소**라 우리 작업만 따로 버전 관리됩니다.
+- 서버 조작은 `./bin/nx`로 합니다. `h100-setup` 위치가 다르면 `H100_SETUP_DIR` 환경변수로 지정.
+
 | 파일 | 역할 |
 |---|---|
 | **README.md** (이 파일) | 전체 요약 + 실험 대장 + 새 컴퓨터 재현 절차 |
@@ -93,9 +110,18 @@ Ai2의 지구관측 파운데이션 모델 **OlmoEarth**를 실제로 돌려보�
 
 ### 4.1 로컬 준비 (맥/리눅스)
 
+두 저장소를 모두 가져온다.
+
 ```bash
-# 1) 이 저장소를 새 컴퓨터로 복사 (git 또는 rsync)
-git clone <이 저장소> h100-setup && cd h100-setup
+cd ~/dong/ai_projects
+# 1-a) 접속 도구
+git clone <h100-setup 저장소> h100-setup
+# 1-b) Ai2 원본 레포 + 우리 작업공간
+git clone https://github.com/allenai/olmoearth_projects
+git clone <_work 저장소> olmoearth_projects/_work
+printf '_work/\n.DS_Store\n' >> olmoearth_projects/.git/info/exclude
+
+cd h100-setup
 
 # 2) 자격증명 — .env는 저장소에 없다 (gitignore). 기존 컴퓨터에서 복사하거나 새로 작성
 cp .env.example .env && $EDITOR .env    # NIPA 포털 ID/PW 입력
@@ -110,10 +136,11 @@ cp .env.example .env && $EDITOR .env    # NIPA 포털 ID/PW 입력
 ### 4.2 서버 세션 + 환경 복원
 
 ```bash
-./nexus up                 # 세션 시작 (있으면 재사용)
-./nexus tunnel up          # SSH 터널 (컨테이너가 바뀌면 반드시 재실행)
-./nexus push projects/olmoearth/bootstrap.sh olmoearth/
-./nexus run "bash /home/work/data/olmoearth/bootstrap.sh"
+cd ~/dong/ai_projects/olmoearth_projects/_work
+./bin/nx up                # 세션 시작 (있으면 재사용)
+./bin/nx tunnel up         # SSH 터널 (컨테이너가 바뀌면 반드시 재실행)
+./bin/nx push $PWD/bootstrap.sh olmoearth/
+./bin/nx run "bash /home/work/data/olmoearth/bootstrap.sh"
 ```
 
 `bootstrap.sh`는 멱등이며, 영구 저장소(`/home/work/data/olmoearth`)에
@@ -121,7 +148,7 @@ cp .env.example .env && $EDITOR .env    # NIPA 포털 ID/PW 입력
 
 **추가 venv**: 임베딩 실험은 rslearn git master가 필요하다(`EmbeddingTask`가 PyPI에 없음).
 ```bash
-./nexus ssh
+./bin/nx ssh
 export UV_CACHE_DIR=/home/work/data/.cache/uv PATH=/home/work/data/.local/bin:$PATH
 uv venv --python 3.11 /home/work/data/olmoearth/.venv-master
 VIRTUAL_ENV=/home/work/data/olmoearth/.venv-master \
@@ -132,26 +159,26 @@ VIRTUAL_ENV=/home/work/data/olmoearth/.venv-master \
 
 ```bash
 # 코드 업로드
-./nexus push projects/olmoearth/code /olmoearth/code
+./bin/nx push $PWD/code olmoearth/
 
 # (A) LFMC 재현성 감사 — 데이터 50GB 다운로드 + NFS 압축해제 ~4시간 주의
 #     docs/lfmc.md의 공개 dataset.tar와 HF 체크포인트를 받아 model test 실행
 #     상세 절차와 통제 실험 구성은 ISSUE_DRAFT_lfmc.md 참고
 
 # (B) 임베딩 검색 스토어
-./nexus run "env -u PYTHONPATH bash /home/work/data/olmoearth/code/setup_embed_store.sh"
-python projects/olmoearth/code/fetch_osm_aquaculture.py wando 34.15 126.55 34.50 126.95
-./nexus push osm_aqua_wando.json olmoearth/embed_search/
-./nexus run "env -u PYTHONPATH /home/work/data/olmoearth/.venv-master/bin/python \
+./bin/nx sh "bash /home/work/data/olmoearth/code/setup_embed_store.sh"
+python code/fetch_osm_aquaculture.py wando 34.15 126.55 34.50 126.95
+./bin/nx push $PWD/osm_aqua_wando.json olmoearth/embed_search/
+./bin/nx sh "/home/work/data/olmoearth/.venv-master/bin/python \
   /home/work/data/olmoearth/code/search_similarity.py wando"
 
 # (C) 변화탐지 v5 (권장 경로)
-./nexus run "env -u PYTHONPATH bash /home/work/data/olmoearth/code/setup_jeju_v2.sh"
+./bin/nx sh "bash /home/work/data/olmoearth/code/setup_jeju_v2.sh"
 ```
 
 **긴 작업은 반드시 백그라운드로.** SSH가 끊기면 전경 작업은 같이 죽는다:
 ```bash
-./nexus ssh
+./bin/nx ssh     # 또는:  ./bin/nx sh '명령'  (PYTHONPATH 자동 차단)
 setsid nohup env -u PYTHONPATH <명령> > /home/work/data/.jobs/이름.log 2>&1 &
 echo $! > /home/work/data/.jobs/이름.pid
 ```
