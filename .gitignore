@@ -1,8 +1,10 @@
-# 산출물은 서버 영구저장소(/home/work/data/olmoearth)에 있음
-*.png
+# 대용량 원본은 서버 영구저장소(/home/work/data/olmoearth)에 있음
 *.npz
-*.geojson
 *.json.gz
-results/
+
+# 아티팩트는 예외 — 눈으로 확인한 근거이므로 저장소에 포함한다
+*.png
+*.geojson
+!artifacts/**
 __pycache__/
 .DS_Store
