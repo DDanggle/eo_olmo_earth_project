@@ -56,22 +56,42 @@ bash /home/work/data/code/aihub_setup.sh get 71363 \
 「위성영상 조회서비스」를 계속 혼동했고, 그 결과 code 30(미등록)을 서비스 미승인으로 오해할
 수 있었다. 실제 원인은 **엔드포인트가 달랐던 것**이다. 포털 화면이 유일한 정확한 출처다.
 
-### 실측 상태
+### 실측 상태 (2026-08-25, 오퍼레이션명 확보 후)
 
 | 서비스 | 결과 |
 |---|---|
-| 건축HUB `ArchPmsHubService/getApBasisOulnInfo` | `SERVICETIMEOUT_ERROR` (05) — **인증 통과.** 상류 지연, 재시도 사안 |
-| `CloudSatlitInfoService` | 오퍼레이션명 10개 시도 전부 `NO_OPENAPI_SERVICE_ERROR` (12) |
-| `BsnsAreaService` | 오퍼레이션명 7개 시도 전부 `NO_OPENAPI_SERVICE_ERROR` (12) |
+| 건축HUB `ArchPmsHubService/getApBasisOulnInfo` | `SERVICETIMEOUT_ERROR` (05) — **인증 통과.** 상류 지연 |
+| 기상청 `CloudSatlitInfoService/getGk2acldAll` | `resultCode 11 NO_MANDATORY_REQUEST_PARAMETERS_ERROR` — **인증 통과** |
 
-code 12는 **경로가 존재하지 않음**을 뜻한다(키 문제가 아니다). 즉 서비스 base는 맞고
-**오퍼레이션 이름을 모른다.** 이름 추측은 17회 시도 후 중단했다 — 검색엔진에 색인되지 않았다.
+**`resultCode 11`은 게이트웨이 오류가 아니라 서비스 자체 응답이다.** 즉 키·서비스·오퍼레이션이
+모두 정상이고, 남은 것은 파라미터 값이다. code 30/12가 아니라는 점이 결정적이다.
 
-### 사용자가 알려줄 것 하나
+`CloudSatlitInfoService` 상세기능 (포털 확인):
 
-활용신청 상세 페이지의 End Point 아래에 **「상세기능」** 목록이 있다. 각 행에 오퍼레이션명과
-요청주소가 적혀 있다. 그 오퍼레이션명(예: `getXxxList`)만 알려주면 즉시 검증한다.
-또는 같은 페이지의 **참고문서(OpenAPI 활용가이드 zip)** 안 요청 URL 예시도 동일하게 쓸 수 있다.
+| 오퍼레이션 | 내용 |
+|---|---|
+| `getGk2acldAll` | 천리안위성2A호 구름탐지 한반도 |
+| `getGk2aappsAll` | 에어로졸 산출물 한반도 |
+| `getGk2afogAll` | 안개 한반도 |
+| `getGk2adcoewAll` | 주간구름 산출물 한반도 |
+| `getGk2aclaAll` | 구름분석 한반도 |
+| `getGk2acldArea` | 구름탐지 **행정구역** |
+| `getGk2aap…Area` | 에어로졸 행정구역 (이하 행정구역 계열) |
+
+요청변수: `ServiceKey`, `pageNo`, `numOfRows`, `dataType`(XML/JSON),
+`dateTime`(**참고 참조**), `resultType`(**참고 참조**).
+
+### 남은 것 — 참고문서의 코드표 2개
+
+`dateTime`과 `resultType`은 명세가 "참고 참조"이고 값 목록이 참고문서에만 있다.
+형식 3종(`YYYYMMDDHHMM`/`YYYYMMDDHH`/`YYYYMMDD`) × `resultType` 7종을 시도했으나 전부
+`resultCode 11`이었다. 추측을 반복하지 않는다.
+
+필요한 것: 활용신청 상세 페이지의 **참고문서(OpenAPI 활용가이드)** 안
+① `dateTime` 형식·유효범위 ② `resultType` 허용값 목록. 이 둘만 있으면 즉시 닫힌다.
+
+**우선순위: P2.** 이 서비스는 관측조건(구름·안개·에어로졸) 맥락 레이어이고 headline claim에
+쓰지 않는다. 닫히지 않아도 논문은 진행된다.
 
 ### 보안 — 인증키 재발급 권고
 
