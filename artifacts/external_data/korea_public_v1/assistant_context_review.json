@@ -1,0 +1,38 @@
+{
+  "schema": "jeju-public-context-assistant-review-v1",
+  "source_context_sha256": "ba6cfb3648c35f358acf5cd9a42292d40c911b178789a065fe1ff61b07b8782b",
+  "summary": {
+    "sites": 4,
+    "rgb_persistent_change_overturned": 0,
+    "development_or_infrastructure_interpretation_strengthened": 2,
+    "context_added_without_causal_resolution": 2,
+    "highest_priority_followup": "oreum_v6_r11"
+  },
+  "reviews": {
+    "dev_control_v3_r02": {
+      "effect": "strengthens",
+      "confidence": "medium",
+      "notes": "현재 삼양동 도시 가장자리 문맥에서 반경 500 m에 건물 26개·도로 객체 32개가 있어 개발 개연성은 강화된다. 다만 국토부 공개 스냅샷에는 이 행정동의 최근 허가 연결이 없어서 시점·원인은 미검증이다."
+    },
+    "oreum_v6_r08": {
+      "effect": "context_only",
+      "confidence": "medium",
+      "notes": "수망리의 현재 OSM wood 폴리곤 안이며 공식 마은이 오름점은 1.64 km, 더클래식컨트리클럽 경계는 289 m 떨어져 있다. 관리형 레저 토지 인접성은 생겼지만 후보가 골프장 경계 안은 아니므로 원인 판정은 보류한다."
+    },
+    "oreum_v6_r10": {
+      "effect": "context_only",
+      "confidence": "medium",
+      "notes": "가시리이며 가장 가까운 공식 오름명 일치점 마은이옆은 1.24 km, 골프장 경계는 997 m 떨어져 있다. 특정 오름 정상부 훼손이라는 해석은 약해지지만 새 회색 표면의 원인은 설명되지 않는다."
+    },
+    "oreum_v6_r11": {
+      "effect": "strengthens",
+      "confidence": "medium",
+      "notes": "위미리 후보는 공식 고이악(현재 OSM 고이오름) peak에서 416 m이며, 현재 태양광 발전소 폴리곤 6개가 419~951 m에 있다. 에너지 인프라 연관 토지전환 가설은 강화되지만 후보와 발전소 경계가 겹친다는 증거와 조성 시점은 아직 없다."
+    }
+  },
+  "limitations": [
+    "OSM은 현재 시점의 커뮤니티 지도이며 객체 등록일이 실제 조성일은 아니다.",
+    "공식 오름현황은 주소·속성만 있고 경계가 없어 OSM peak 점과 이름으로만 연결했다.",
+    "국토부 허가 CSV의 제주 2023·2024 행이 없어 불일치를 무허가 또는 허가 없음으로 볼 수 없다."
+  ]
+}

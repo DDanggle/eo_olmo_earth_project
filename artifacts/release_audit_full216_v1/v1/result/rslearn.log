@@ -1,0 +1,26 @@
+format=2026-08-23 05:44:27,905 loglevel=INFO   logger=rslearn.main main() L1112 Using multiprocessing context: <multiprocessing.context.ForkServerContext object at 0x1410d01eefd0>
+/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/lightning/pytorch/cli.py:553: LightningCLI's args parameter is intended to run from within Python like if it were from the command line. To prevent mistakes it is not recommended to provide both args and command line arguments, got: sys.argv[1:]=['model', 'predict', '--config', '/home/work/data/olmoearth/release_audit_full216_v1/v1_b008w04_strict1/resolved_config.yaml'], args=['predict', '--config', '/home/work/data/olmoearth/release_audit_full216_v1/v1_b008w04_strict1/resolved_config.yaml'].
+/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/lightning/fabric/utilities/seed.py:44: No seed found, seed set to 0
+Seed set to 0
+/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/models/olmoearth_pretrain/model.py:146: FutureWarning: For new projects, don't use legacy timesteps. Support will be removed after 2026-04-01.
+  warnings.warn(
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/lightning/pytorch/trainer/connectors/logger_connector/logger_connector.py:76: Starting from v1.9.0, `tensorboardX` has been removed as a dependency of the `lightning.pytorch` package, due to potential conflicts with other packages in the ML ecosystem. For this reason, `logger=True` will use `CSVLogger` as the default logger, unless the `tensorboard` or `tensorboardX` packages are found. Please `pip install lightning[extra]` or one of them to enable TensorBoard support by default
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+Loading windows:   0%|          | 0/216 [00:00<?, ?it/s]Loading windows: 100%|██████████| 216/216 [00:00<00:00, 2912.55it/s]
+Checking available layers in windows:   0%|          | 0/216 [00:00<?, ?it/s]Checking available layers in windows:  24%|██▍       | 52/216 [00:00<00:00, 477.03it/s]Checking available layers in windows:  51%|█████▏    | 111/216 [00:00<00:00, 490.84it/s]Checking available layers in windows:  81%|████████  | 174/216 [00:00<00:00, 500.66it/s]Checking available layers in windows: 100%|██████████| 216/216 [00:00<00:00, 552.30it/s]
+format=2026-08-23 05:44:54,316 loglevel=INFO   logger=rslearn.train.dataset __init__() L1014 Writing 216 dataset examples to /tmp/rslearn_dataset_examples/1300959_fce84d90-a11a-49b4-829c-e5606be3ef63.json
+format=2026-08-23 05:44:54,353 loglevel=INFO   logger=rslearn.train.data_module setup() L175  got 216 examples in split predict
+format=2026-08-23 05:44:54,353 loglevel=INFO   logger=rslearn.train.data_module setup() L178  using AllCropsDataset (in_memory=False, map=False)
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [GPU-58459350-e802-b3ee-03be-fd3451eda731]
+/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/lightning/pytorch/loops/prediction_loop.py:307: Couldn't infer the batch indices fetched from your dataloader: `DataLoader`
+Predicting ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25948/-- 1:02:02 • -:--:-- 4.68it/s 

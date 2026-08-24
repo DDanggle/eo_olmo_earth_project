@@ -3,18 +3,25 @@
 > 이 파일이 이 프로젝트의 단일 진실 공급원(SSOT)입니다.
 > 에이전트든 사람이든, 작업 시작 전에 읽고 / 끝나면 Worklog와 상태를 갱신합니다.
 
-## 미션
+## 미션 — Decision-Continuous Earth Intelligence
 
-**"컴퓨트가 부족한 아시아 조직도 최신 OlmoEarth 릴리스를 쓸 수 있게 만드는 도구"**
-(가칭 `olmoearth-migrate` — 아시아 파트너 온보딩 킷)
+**"세계와 기반모델이 동시에 바뀌어도, 컴퓨트와 라벨이 부족한 환경 조직이
+지도 기반 의사결정을 과학적으로 유효하고 연속되게 유지하게 한다."**
+
+연구 질문은 “새 모델이 더 정확한가?”가 아니라 **세계 변화, 입력 변화, 모델 릴리스 변화가
+최종 검색·집계·보전 결정에 각각 얼마나 기여하는가**다. 제주는 첫 검증장이고,
+`olmoearth-migrate`/`olmoearth-release-audit`는 이 연구의 공개 시스템 산출물이다.
+전체 연구 설계는 `RESEARCH_STRATEGY.md`, 후속 관측·계산·근거 라우팅과 사업 gate는
+`EARTHROUTE_PROGRAM_NOTE.md`, 문헌 검증 장부는 `PAPER_READING_LIST.md`, 파트너 공동설계 초안은
+`PARTNER_BRIEF_MARC.md`가 맡는다.
 
 최종 산출물 세 개:
 
 | # | 산출물 | 핵심 수치 | 증명하는 것 |
 |---|---|---|---|
-| A | 릴리스 벤치마크 | v1/v1.1/v1.2 × Nano~Large: 정확도 × GPU-초/km² × 비용 | 서빙 최적화 |
-| B | 부분 갱신 실행기 | 25% 호출로 지역 집계 유지 (신뢰구간 포함) | FoldRefresh |
-| C | 한국 산불 LFMC + 도시 열 헤드 | 실제 AOI GeoTIFF + 뷰어 + 변화 귀인 화면 | 도메인 + 태스크 이식성 |
+| A | WorldShift × ModelShift 벤치마크 | v1/v1.2 × 입력 레시피 × 4개년: 이웃·Top-k·집계·비용 | 세계/입력/모델 변화 분해 |
+| B | 유효한 선택적 갱신기 | PPI 신뢰구간 + 25% 이하 재계산으로 결정 지표 유지 | 통계적 유효성 + FoldRefresh |
+| C | 파트너 Evidence Pack | 제주 연안 압력 후보 + 현장 검수 + 두 번째 태스크 전이 | 의사결정·생태·일반화 |
 
 원칙: **파악하면서 개선한다.** 매 루프 = 돌린다 → 마찰을 만난다 → 개선(PR/스크립트/문서)으로
 남긴다 → 그것이 A/B/C의 부품이 된다. PR은 찾아다니지 않고 부딪힌 것만 올린다.
@@ -49,10 +56,13 @@
   - [x] 소규모 AOI 엔드투엔드 추론 1회 완주 (forest_loss_driver 100건)
   - [x] lfmc 설정으로 학습 재현 1회 (ep33 test MSE 558.8)
   - [x] 마찰 기록 → 문서/코드 PR 후보 정리
-- [ ] **루프 2 (주 3–6): A 벤치마크** ← 지금 여기 — 릴리스 × 모델 크기 매트릭스,
-      프로파일링하며 코드 해부
-- [ ] **루프 3 (주 7–9): B 부분 갱신** — RslearnWriter 출력에 FoldRefresh 물리기, 4-튜플 버전 태깅
-- [ ] **루프 4 (주 10–12): C 케이스** — 한국 AOI LFMC + 도시 열 헤드 + 변화 귀인 뷰어
+- [ ] **루프 2 (주 3–6): A 벤치마크** ← 지금 여기 — v1/v1.2 × 실제 장면선택
+      (`legacy` vs `coverage×3 + SCL BestClear`) × 동일계절 4개년을 짝지어 입력·릴리스·세계 변화를
+      분해하고, 단계별 I/O·GPU·검수 비용까지 프로파일링
+- [ ] **루프 3 (주 7–9): B 부분 갱신** — 별도 `decision-ready-earth-ai`에서 검증된 FoldRefresh
+      방법을 RslearnWriter 출력·K-Earth 결정지표에 이식하고 4-튜플 버전 태깅
+- [ ] **루프 4 (주 10–12): C Evidence Pack** — 제주 연안/오름의 공식근거·사람검수 dossier와
+      LFMC 또는 양식장 두 번째 태스크 전이; 실제 파트너 결정·검수시간으로 닫기
 
 ## 환경 요약 (자세한 건 h100-setup/CLAUDE.md)
 
@@ -153,7 +163,9 @@ Base 추론 MACs를 v1 대비 2.9배 절감한 drop-in 릴리스다. 동시에 G
 - 동일 원시 입력을 v1/v1.2에 넣는 paired 실행을 고정한다. manifest 최소 필드:
   `model_id + weight hash + code commit + input modalities/bands/timesteps + AOI/time +
   CRS/GSD + normalization/centering + cloud/nodata mask + output schema`.
-- 베이스라인은 raw cosine, 공통 mean-centering, 연도별 mean-centering, Orthogonal Procrustes.
+- cache 호환성 베이스라인은 sealed gallery가 생긴 뒤 raw cross-version cosine, train-only 공통
+  mean-centering, Orthogonal Procrustes를 비교한다. 연도별 mean-centering은 미래/평가연도 통계를
+  쓰지 않는 경우에만 둔다. 현재 8건 smoke에는 이 alignment baseline을 fit하지 않는다.
 - 지표는 embedding CKA/분포 거리뿐 아니라 **neighbor overlap, Top-k Jaccard, Kendall τ,
   행정구역 집계 오차, 공간 자기상관, bootstrap CI, 재계산 비율-품질 곡선**을 포함한다.
 - 기존 Major TOM 249k를 전지구 참조/상호운용성 테스트로 재사용하고 불필요한 재계산을 피한다.
@@ -190,7 +202,7 @@ Base 추론 MACs를 v1 대비 2.9배 절감한 drop-in 릴리스다. 동시에 G
 2. 최소 1곳이 데이터·검수 시간·LOI 또는 파일럿 비용 중 하나를 약속한다.
 3. 동일 방법이 제주 연안 외 두 번째 태스크(LFMC 또는 양식장)에서도 재현된다.
 
-### 제주 변화탐지 — v1~v4 실패 계보와 v5 설계 (2026-08-21)
+### 제주 변화탐지 — v1~v7 증거 계보 (2026-08-21~22)
 
 각 단계가 다음 단계의 근거가 된 실패 사슬. 전 과정이 논문 §"왜 순진한 임베딩
 변화탐지가 아시아에서 실패하는가"의 재료.
@@ -201,25 +213,36 @@ Base 추론 MACs를 v1 대비 2.9배 절감한 drop-in 릴리스다. 동시에 G
 | v2 | 계단형(그룹간−그룹내) + WorldCover 층화 z | ⚠️ 육지화 성공, 그러나 26/30이 2023→2024에 집중 → **육안 검증 5/5 구름** | 층화·계단형은 요동은 잡지만 오염은 못 잡음 |
 | v3 | 구름비율 **평균** ≤0.20 마스킹 | ⚠️ 시점/공간 분산, 실제 변화 1건(33.5087N 126.5747E 벌채·개발 진행) 발견, 그러나 5곳 중 3곳 구름 잔존 | 평균은 1/12 오염을 희석해 못 걸름 |
 | v4 | **최악 모자이크** ≤0.35 마스킹 | ❌ 생존 픽셀 1.2%, 전부 바다 → 육지 후보 0 | 제주 최악-모자이크 평균 0.53~0.84 → **사후 마스킹 원리적 불가** |
-| v5 | 입력 수정 시도: `PER_PERIOD_MOSAIC` 재수집 | ❌ **가설 기각** — 재수집 데이터가 v1과 **바이트 단위로 동일**(md5 일치, 기간당 장면 1개) | `space_mode`는 *공간* 모자이크일 뿐. 윈도우(10km)가 S2 타일(110km)에 들어가면 두 모드가 같다 |
-| **v6** | **타임스텝 수 교정: 4 → 12** | 🔄 2026-08-22 착수 (재다운로드 불필요, GPU 1h) | **진짜 원인**: 우리 설정이 12개 모자이크 중 앞 4개만 사용 → 구름 1장이 입력의 **25%**. 구름 마스크 기준(12장 평균)이 엉뚱한 것을 재고 있었다 |
+| **v5** | 입력 수정 시도: `PER_PERIOD_MOSAIC` 재수집 | ❌ **가설 기각 · 의미적 중복**: 216/216 계산은 완료했으나 결과 래스터가 v1과 **md5까지 동일**. v1↔v5 cloud/zero 지표와 blind RGB 5/5, 2,592 source-group hash, 고정 픽셀/임베딩 표본 전부 일치 | 설정 문자열이 아니라 실행 handler·item hash·픽셀을 먼저 비교해야 한다 |
+| **v6** | 모델 입력 타임스텝 4 ↔ 12 민감도 | ⚠️ Top-30 교집합 5, **Jaccard 0.091**. 단 실제 첫 4기간은 역시간순·계절 불일치 | timestep 수가 후보 지도를 크게 바꾸므로 계절 정렬 전에는 변화 정답으로 해석 금지 |
+| **v7 smoke** | 기간당 최대 3 coverage + SCL BestClear | ✅ **golden window 사전 기준 전부 통과**: 첫 4기간 bad proxy 95.64% 감소, 결측 −0.0082%p, 고정 target 1.00→0.00, RGB 구름 제거 확인 | 실제 장면 선택 개입이 입력 품질을 바꾼 첫 증거. 아직 1윈도우이므로 제주 전체 주장 금지 |
 
-v5 실패 기록 (2026-08-22): `PER_PERIOD_MOSAIC`로 216윈도우를 2시간에 걸쳐 재수집했으나
-**결과 래스터가 v1과 md5까지 동일**. `items.json` 확인 결과 두 모드 모두 기간당 장면 1개.
-원인: `space_mode`는 윈도우를 *공간적으로* 덮는 데 필요한 장면을 모자이크하는 옵션이고,
-같은 기간의 여러 장면을 겹쳐 구름을 메우는 *시간적* 합성이 아니다. 우리 윈도우(1024px=10km)는
-S2 타일(110km) 하나에 완전히 들어가므로 두 모드가 같아진다. Ai2의 lfmc 설정도 동일 구조 →
-**Ai2 자신의 프로덕션 설정도 구름 노출은 같다**(지도학습 회귀는 모델 강건성에 의존).
-부수 소득: 같은 입력 → 같은 임베딩이 바이트 단위로 재현됨 = **파이프라인 결정성 확인**
-(향후 v1 vs v1.2 차이를 모델 효과로 귀속할 수 있는 근거).
+v5 실패 기록과 후속 감사 (2026-08-22):
 
-v6 설계 (2026-08-22, 진짜 원인 교정):
+`PER_PERIOD_MOSAIC`로 216윈도우를 2시간에 걸쳐 재수집했으나 **결과 래스터가 v1과 md5까지 동일**했다.
+`items.json` 확인 결과 두 모드 모두 기간당 장면이 1개다. 원인은 `space_mode`가 윈도우를 *공간적으로*
+덮는 데 필요한 장면을 모자이크하는 옵션이고, 같은 기간의 여러 장면을 겹쳐 구름을 메우는 *시간적*
+합성이 아니기 때문이다. 우리 윈도우(1024px=10km)는 S2 타일(110km) 하나에 완전히 들어가므로 두
+모드가 같아진다. Ai2의 lfmc 설정도 동일 구조이므로 **Ai2 자신의 프로덕션 설정도 구름 노출은 같다**
+(지도학습 회귀는 모델 강건성에 의존).
+
+후속 감사에서 더 정확한 원인이 확인됐다. rslearn 0.1.13(commit `bbbc18b`)에서 두 SpaceMode는 같은
+`match_with_space_mode_mosaic` handler를 쓴다. 정규화 설정, 2,592개 ordered item group, B02 전수
+품질 지표, 원본 24쌍 전체 밴드, 임베딩 24쌍 공간표본이 모두 같았다. 따라서 v5는 새 합성 레시피
+실험이 아니라 **설정 별칭으로 만든 중복 실행**이다.
+
+부수 소득: 같은 입력 → 같은 임베딩이 바이트 단위로 재현됐다 = **파이프라인 결정성 확인**.
+이것이 이후 v1 vs v1.2 차이를 모델 효과로 귀속할 수 있는 근거가 됐고, 2026-08-24 dose-response
+실험의 `dose 0 byte-identical 8/8` 타당성 검사도 같은 성질에 기댄다.
+
+v6 설계 (2026-08-22, 타임스텝 교정):
 1. **타임스텝 수 교정** — 우리 `model_s2.yaml`이 `layers: [sentinel2_l2a, .1, .2, .3]`으로
-   **12개 중 앞 4개(1~4월)만** 사용. 구름 낀 모자이크 1장이 입력의 25%를 차지하고,
-   계절 신호도 반년치가 누락. rslearn 임베딩 가이드 예제(4개 레이어)를 그대로 따른 결과.
-   → `model_s2_t12.yaml`(12타임스텝, 출력 레이어 `embeddings_t12`)로 재추출.
-   4타임스텝 결과와 나란히 두어 **"입력 타임스텝 수가 변화탐지 결론을 얼마나 바꾸는가"**
-   통제 실험으로 사용 (입력 스키마 = 4-튜플의 일부라는 주장의 직접 증거).
+   **12개 중 앞 4개만** 사용했다. 구름 낀 모자이크 1장이 입력의 25%를 차지하고 계절 신호도
+   반년치가 누락된다. rslearn 임베딩 가이드 예제(4개 레이어)를 그대로 따른 결과다.
+   → `model_s2_t12.yaml`(12타임스텝, 출력 레이어 `embeddings_t12`)로 재추출하고, 4타임스텝 결과와
+   나란히 두어 **"입력 타임스텝 수가 변화탐지 결론을 얼마나 바꾸는가"** 통제 실험으로 사용한다
+   (입력 스키마 = 4-튜플의 일부라는 주장의 직접 증거). 실제 결과는 Jaccard 0.091이었다.
+   단 첫 4기간이 역시간순·계절 불일치이므로 이 경로는 이후 `REFUSED` 가드로 차단했다.
 2. **검증 프로토콜 (Wang et al., RSE 2025 / arXiv:2407.13659)** — 변화 점수로 층화
    무작위 표본 → 시계열 RGB 칩 육안 판정 → **Prediction-Powered Inference**로 변화 면적과
    신뢰구간 추정. Top-k는 "조사 우선순위", 면적은 "PPI+CI"로 분리 보고.
@@ -227,16 +250,25 @@ v6 설계 (2026-08-22, 진짜 원인 교정):
 3. **품질 산출물** — `cloud_stats.npz`(제주 4개년 픽셀별 구름 평균·최댓값)를 공개 자산으로
    유지. Earth Embeddings 서베이가 지적한 "임베딩 제품에 없는 품질 마스크"의 실체.
 
+v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, 범주형 SCL은 nearest,
+반사도는 bilinear로 읽는 대표-window smoke test를 통과했다. 다음 단계는 이 한 건을 일반화하지
+않고, 연도·기존 bad proxy 층화로 사전 선택한 다중 window에서 효과 크기와 실패율을 추정하는
+것이다. 그 검증을 통과하기 전에는 전체 216윈도우 재계산과 파트너 데모를 시작하지 않는다.
+
 ### 병행 트랙 — 제주 연안 서식지 감시 (MARC 연계 후보, 2026-08-21 착수)
 
-- 목적: 남방큰돌고래 서식지(대정~모슬포) 연안의 이용 압력 변화 감시 —
-  카카오임팩트/테크포임팩트·MARC 접점 활용, Ai2식 "파트너 케이스"의 한국판.
+- 목적: 남방큰돌고래를 위성으로 탐지하는 것이 아니라, 대정~모슬포 연안의 양식장·해안
+  인프라·토지/수면 변화 같은 **서식지 압력의 공간적 맥락 후보**를 장기 현장조사와 함께
+  검토할 수 있게 한다. MARC 협력·데이터 접근은 아직 성립하지 않은 후보 단계다.
 - 상태: 제주 54윈도우 × 4개년 materialize와 v1 S2-only 임베딩 추출 완료.
   `change_4yr.py` 후처리는 4개년 각 54윈도우 로딩 후 CPU 계산 단계까지 확인.
 - 다음: ① cloud/nodata mask ② 공통 중심화 vs 연도별 중심화 ablation
   ③ v1.2 paired 추출 ④ 변화 Top-k의 사람이 확인 가능한 근거 칩 생성
-  ⑤ 어장정보도·인허가 오버레이 후 파트너 리포트.
-- 수요 확인 원칙: 검증된 데모 1장과 "이 지도가 바꿀 결정" 질문을 먼저 보여주고 확장 결정.
+  ⑤ 어장정보도·인허가 오버레이 ⑥ 층화 확률표본+PPI 후 파트너 Evidence Pack.
+- 수요 확인 원칙: 지도부터 피칭하지 않는다. 조사 우선순위/정책 의견/장기 모니터링 중
+  **어떤 결정을 얼마나 자주 내리는지**, FP/FN 비용과 민감 위치 공개 범위를 먼저 묻는다.
+- 금지 주장: 돌고래 개체·행동 직접 탐지, 관찰자료만으로 양식장/개발의 인과효과 주장,
+  파트너 동의 전 기관명·데이터를 공개 산출물에 사용.
 
 ## 확장 백로그 (SDG/ODA 프레임, 2026-08-14 브레인스토밍)
 
@@ -295,8 +327,1715 @@ v6 설계 (2026-08-22, 진짜 원인 교정):
 8. **runner가 상대 project_path에서 깨진 심링크 생성** — `_setup_project_env`가
    심링크 타깃을 resolve하지 않아 상대경로 입력 시 "file not found". 한 줄 수정감
    (`target.resolve()`), olmoearth_run 레포. 로컬 재현 확인 (2026-08-14).
+9. **rslearn SCL compositor의 숨은 보조-band/보간 계약** — `Sentinel2SCLBestClear`를
+   반사도 레이어에 설정해도 `SCL`이 `band_sets`에 없으면 Planetary Computer 데이터소스가
+   SCL 자산을 타일 저장소에 등록하지 않아 `missing scoring bands ['SCL']`로 실패한다.
+   등록 후에도 compositor가 레이어의 bilinear resampling을 범주형 SCL 점수에 그대로 넘겨
+   class ID equality를 왜곡할 수 있다. v7에서 SCL 보조 band set + nearest 점수 adapter로
+   재현·해결. compositor가 SCL 의존성을 선언하고 categorical nearest를 강제하거나 문서화할
+   공개 PR 후보 (`code/scl_compositor.py`, 세 실패 로그와 성공 로그 보존).
 
 ## Worklog
+
+### 2026-08-24 (7차) — **사전 등록 gate 실패. W2 일반 주장 철회**
+
+야간 체인 완료. `replicates_across_releases = **False**`.
+**어젯밤 강해 보였던 `진단 눈멂` 주장은 두 번째 릴리스에서 재현되지 않았다.**
+
+| dose | 이동칸 | v1 CKA / R@1 | v1.2 CKA / R@1 |
+|---|---:|---:|---:|
+| 1 | 2 | 0.9923 / 0.9818 | **0.7928** / 0.7556 |
+| 2 | 4 | 0.9873 / 0.9246 | **0.5274** / 0.1487 |
+| 3 | 6 | 0.9797 / 0.6019 | **0.5193** / 0.0898 |
+| 6 | 12 | **0.9720** / 0.2456 | **0.4172** / 0.0216 |
+| reverse | 12 | **0.9595** / 0.1613 | **0.2749** / 0.0020 |
+
+`blind_doses_by_release = {"v1": ["6", "reverse"], "v1_2": []}`
+
+**v1.2에서는 CKA가 손상을 정확히 따라간다.** dose가 커질수록 CKA도 0.79 → 0.53 → 0.52 → 0.42 →
+0.27로 같이 무너진다. 즉 눈멀지 않았다.
+
+**타당성은 확인했다** — v1.2 dose 0도 frozen `embeddings_audit_v1_2_legacy`와
+**byte-identical 8/8**이다. 데이터 문제가 아니라 실제 차이다.
+
+#### 사전 규칙대로 처리한다
+
+`analyze_contract_dose_response.py`에 미리 적어둔 규칙:
+> 모든 dose에서 CKA와 R@1이 같이 무너지면 값싼 진단으로 충분하다는 뜻이므로 **W2 주장을 철회한다.**
+
+이 규칙이 v1.2에 적용된다. 따라서:
+
+- **철회**: `CKA는 계약 불일치에 눈멀었다` / `CKA의 순서가 운영 결과에 대해 역전된다`를
+  **일반 주장으로 쓰지 않는다.** v1 한 릴리스에서 관측된 현상이다.
+- **유지**: v1에서 관측된 역전 자체는 사실이고 재현 가능하다(무작위 잡음 30%: CKA 0.9505 / R@1
+  1.0000 vs band-order dose 6: CKA 0.9720 / R@1 0.2456). 다만 **모델 의존적 현상**으로 기술한다.
+- **유지**: 용량–반응 단조성은 두 릴리스 모두에서 성립한다. 계측기는 작동한다.
+- **유지**: 취약성 기각(잡음 30%에서 오검색 0건)도 그대로다.
+
+#### 대신 나온 것 — 다만 사전 등록하지 않은 탐색적 관측
+
+**같은 계약 불일치에 대해 v1.2가 훨씬 취약하다.**
+
+| dose | v1 R@1 | v1.2 R@1 | 배율 |
+|---|---:|---:|---:|
+| 2 (4칸) | 0.9246 | 0.1487 | **6.2×** |
+| 3 (6칸) | 0.6019 | 0.0898 | 6.7× |
+| 6 (12칸) | 0.2456 | 0.0216 | 11× |
+| reverse | 0.1613 | 0.0020 | 80× |
+
+운영적으로 읽으면: **파이프라인에 잠복한 밴드 순서 버그가 있을 때, v1→v1.2로 올리면 그 버그의
+피해가 6~80배 커진다.** 이건 계약 축의 원래 이야기(릴리스 전환의 숨은 비용)와 오히려 더 잘 맞는다.
+
+**그러나 이것을 오늘의 결과로 승격하지 않는다.**
+- 릴리스 2개뿐이다. `비교`이지 `법칙`이 아니다.
+- 사전 등록하지 않은 탐색적 관측이다. 별도 축·별도 릴리스에서 사전 등록 후 확인해야 한다.
+- 원인 가설(예: v1.2 표현이 밴드에 더 특화돼 순열이 전역 구조까지 흔든다)은 아직 가설이다.
+  effective rank·밴드별 ablation 민감도로 시험할 수 있다.
+
+#### 남은 위협
+
+1. downstream task 미측정(어제와 동일).
+2. 제주 8 site-years·축 1개. 모집단 추정이 아니다.
+3. 새 관측(v1.2 취약성)은 사전 등록되지 않았다.
+
+**교훈**: 어젯밤 `사전 등록한 주장이 통과했다`고 보고했는데, 하루 만에 그 주장의 일반성이
+자기 규칙에 의해 기각됐다. 사전 등록과 복제 gate를 걸어두지 않았으면 v1 결과만 들고
+논문을 썼을 것이다. **L4·L6이 실제로 작동한 사례로 남긴다.**
+
+### 2026-08-24 (6차) — v1 dose-response 결과 + 반증 대조군 착수
+
+**사전 등록한 W2 주장이 v1에서 통과했다.** 단, 아직 해석을 확정하면 안 되는 이유가 있어
+반증 대조군을 바로 걸었다.
+
+| dose | 이동칸 | same-token cos | linear CKA | dist Spearman | **R@1** |
+|---|---:|---:|---:|---:|---:|
+| 1 | 2 | +0.9643 | 0.9923 | +0.9617 | 0.9818 |
+| 2 | 4 | +0.9584 | 0.9873 | +0.9275 | 0.9246 |
+| 3 | 6 | +0.9430 | 0.9797 | +0.8925 | 0.6019 |
+| 6 | 12 | +0.9145 | **0.9720** | +0.8318 | **0.2456** ← BLIND |
+| reverse | 12 | +0.8628 | **0.9595** | +0.7743 | **0.1613** ← BLIND |
+
+- **용량–반응 단조성 확인.** R@1 0.98 → 0.92 → 0.60 → 0.25 → 0.16. 계측기가 작동한다.
+- **감도 비대칭.** 전 구간에서 CKA는 0.9923→0.9595로 **3.3%p**만 움직이는데 R@1은
+  0.9818→0.1613으로 **82%p** 무너진다. 약 **25배** 차이다. 코사인도 눈멀었다 —
+  reverse에서 same-token cosine 0.8628인데 R@1은 0.1613이다.
+- **대조군 작동.** dose 6과 reverse는 이동 칸수가 **똑같이 12**인데 reverse가 더 파괴적이다
+  (R@1 0.2456 vs 0.1613, CKA 0.9720 vs 0.9595). **이동 개수가 아니라 이동 거리가 중요하다.**
+  즉 displaced_positions 하나로 손상을 예측할 수 없다.
+- **기존 릴리스 발견과 같은 서명.** v1→v1.2는 CKA 0.978 / R@1 0.000이었고, 지금 통제된
+  band-order dose 6은 CKA 0.972 / R@1 0.246이다. **높은 CKA + 무너진 검색**이라는 같은 패턴을
+  이제 원하는 심각도로 생성할 수 있다.
+
+#### 아직 유의미하다고 말하면 안 되는 이유 셋 (사용자 질문에 대한 정직한 답)
+
+1. **task가 없다.** 여기 R@1은 `이 토큰이 자기 자신을 찾는가`이며 표현 프록시다. 자기검색이
+   75% 깨질 때 실제 downstream task가 망가지는지는 **측정하지 않았다.**
+2. **R@1이 구조적으로 취약한 지표일 수 있다.** 한 window의 토큰은 공간적으로 인접해 서로 거의
+   같다. 작은 섭동만으로 최근접이 옆 토큰으로 넘어가면, R@1 붕괴는 `표현이 깨졌다`가 아니라
+   `지표가 원래 잘 깨진다`가 된다. **이것이 이 발견의 가장 큰 위협이다.**
+3. **CKA의 둔감성은 부분적으로 알려진 성질이다.** CKA는 구조 유사도, R@1은 좌표 identity라
+   원래 다르게 움직인다. `당연한 것 아니냐`는 반론이 가능하다.
+
+#### 위 2번을 정면으로 시험하는 반증 대조군 — **완료. 위협 2 기각됨**
+
+`code/dose_brittleness_control.py` — **GPU를 쓰지 않는다.** dose 0 임베딩에만 작업한다.
+
+- dose 0에 크기를 아는 Gaussian 잡음(0 / 0.1 / 0.3 / 1 / 3 / 10 / 30%)을 넣고 같은 곡선을 그린다.
+- **사전 판정 규칙**: dose 6의 R@1(0.2456)과 같은 수준을 만드는 최소 잡음이 **1% 이하**이면
+  R@1은 구조적으로 취약한 지표이며, dose 실험의 R@1 붕괴를 `표현이 깨졌다`로 해석하면 안 된다.
+- 추가로 **틀린 이웃의 공간 거리**를 잰다. `fraction_misses_adjacent`가 높으면(>0.5) 틀린 이웃이
+  대부분 바로 옆 토큰이라는 뜻이므로 좌표계 붕괴가 아니라 **국소 혼동**이다.
+
+**결과 (`artifacts/results/dose_brittleness_control.json`)**
+
+| 잡음 | same-token cos | linear CKA | **R@1** | 틀린 이웃 거리 |
+|---:|---:|---:|---:|---:|
+| 0.0 | +1.0000 | 1.0000 | 1.0000 | (오검색 0건) |
+| 0.01 | +0.9999 | 1.0000 | 1.0000 | (오검색 0건) |
+| 0.03 | +0.9995 | 0.9997 | 1.0000 | (오검색 0건) |
+| 0.1 | +0.9950 | 0.9967 | 1.0000 | (오검색 0건) |
+| **0.3** | **+0.9577** | **0.9505** | **1.0000** | **(오검색 0건)** |
+
+`smallest_noise_matching_dose6 = None` — **시험한 어떤 잡음도 dose 6의 R@1(0.2456)을 재현하지
+못했다.** 30% 잡음에서도 자기검색이 4,096 토큰 전부 정확했다(오검색 0건이라 거리 통계는 nan).
+
+**위협 2는 기각됐다.** 그리고 부수적으로 `토큰이 공간적으로 인접해 거의 같다`는 내 우려도
+틀렸음이 확인됐다 — 30% 잡음에도 오검색이 한 건도 없다는 것은 토큰이 임베딩 공간에서
+충분히 분리돼 있다는 뜻이다.
+
+#### 그런데 이 대조군이 발견을 **훨씬 강하게** 만들었다
+
+| | cos | **CKA** | **R@1** |
+|---|---:|---:|---:|
+| 무작위 잡음 0.3 | +0.9577 | **0.9505** | **1.0000** |
+| band-order dose 6 | +0.9145 | **0.9720** | **0.2456** |
+
+**CKA는 순서를 거꾸로 매긴다.** 검색이 완벽한 무작위 잡음(R@1 1.000)을 CKA 0.9505로,
+검색의 75%가 깨진 계약 불일치(R@1 0.2456)를 CKA 0.9720으로 평가한다.
+즉 CKA 기준으로는 **무해한 잡음이 치명적 불일치보다 더 달라 보인다.**
+
+따라서 주장이 `CKA는 덜 민감하다`(이건 알려진 성질이라 약했다)에서
+**`CKA의 순서가 운영 결과에 대해 역전돼 있다`**로 바뀐다. 이건 알려진 성질이 아니다.
+위협 3(“CKA 둔감성은 당연하다”)도 함께 약해졌다.
+
+**남은 위협은 1번 하나다 — downstream task를 아직 측정하지 않았다.**
+
+#### 사용자 질문: 스위스·네팔 데이터를 썼는가 — **아니다**
+
+이번 실험 입력은 **제주 8 site-years Sentinel-2 영상뿐**이다.
+GLAMOS·swissALTI3D **0건**, ICIMOD/HKH **0건**, 한국 공공데이터(BuildingHUB·EIA·PNU·GK2A) **0건**.
+MountainShift는 Phase 0 다운로드·라이선스 확인조차 시작하지 않았다(우선순위 3번, 미착수).
+이 실험은 **계약 축**이라 지역 데이터가 필요하지 않았다. 두 축을 혼동하지 않는다.
+
+### 2026-08-24 (5차) — 첫 측정 착지: Major TOM 계약 감사 완료
+
+**나흘간의 계획 끝에 처음으로 실제 수치가 나왔다.**
+
+- 실행: `code/audit_majortom_contract.py`를 서버 CPU에서 실행(GPU 미사용).
+  `.venv-master`(재현성 계약)를 건드리지 않으려고 별도 `.venv-data`를 uv로 만들고
+  pyarrow 25.0.1 + huggingface_hub 1.28.0만 설치했다.
+- **Q1 판정: PAIRED — 단, 조인 키가 `unique_id`가 아니다.**
+
+  | 조인 키 | 1:1 | 교집합 |
+  |---|---|---:|
+  | `unique_id` | **False** | **0** |
+  | `grid_cell + product_id` | True | **248,719** |
+  | `grid_cell` | True | 248,719 |
+
+  두 데이터셋 모두 248,719행, **동일 스키마 15개 컬럼**, 첫 3행의 `grid_cell`·`product_id`가
+  정확히 일치하며 행 순서까지 정렬돼 있다. 그런데 **`unique_id`는 교집합이 0**이다.
+  값을 보면 데이터셋별 64자 content hash다(예: olmo `ba84ab36…` vs clay `91c8ee89…`,
+  같은 `grid=921D_252L`·같은 `prod=S2B_MSIL2A_20221115T161819_N0400_R111_T01CDJ`).
+- **이것 자체가 우리 논문의 명제다.** `unique_id`라는 이름과 동일한 스키마 위치를 가진 컬럼이
+  두 제품에 다 있는데 공유 식별자가 아니다. 조인 키로 쓰면 조용히 빈 결과가 나온다.
+  스크립트에 `unique_id_is_a_trap` 필드로 박아뒀다.
+- **Q2 판정: 8개 계약 필드가 전부 기계가 읽을 수 있는 스키마에 없다.**
+  `model_weights_hash`, `acquisition_dates`, `temporal_recipe`, `band_order`,
+  `normalization`, `pooling`, `input_content_hash`, `output_content_hash` — **8/8 부재.**
+  실제로는 두 제품이 차원(768 vs 1024), pooling(unmasked token 평균 vs CLS),
+  밴드(12 vs 10), 정규화(OlmoEarth normalizer vs Clay mean/std)에서 다른데,
+  그 차이는 데이터셋 카드의 **산문에만** 있다.
+  → `geo-embeddings/embeddings-stac-specification` v0.0.1 gap 분석(W9)의 **1차 증거**가 확보됐다.
+- 산출물: `artifacts/results/majortom_contract_audit.json` (로컬·서버 양쪽),
+  원본 parquet 캐시는 서버 `artifacts/external_data/majortom_cache`.
+- **파생 결론**: paired 전제가 살아났으므로 gallery-size 곡선을 `10³–10⁵` 구간에서 **실측**으로
+  그릴 수 있다(지금까지 216 site-years에서 외삽하던 구간). 단 앞서 적은 불가능 4가지
+  (release pair 아님·모델 우열 비교 불가·token 수준 분석 불가·라벨 없음)는 그대로다.
+- 약점: 249k 두 개만 확인했다. SatCLIP·SigLIP·DINOv2·FarSLIP·MMEarth·AlphaEarth·UniverSat은
+  미확인이다. 또한 `grid_cell` 단독 조인이 이 subset에서 우연히 1:1이지만, Major TOM Core 전체에서는
+  한 grid cell에 여러 product가 있을 수 있으므로 **`grid_cell` 단독을 일반 조인 키로 쓰면 안 된다.**
+
+### 2026-08-24 (5차, 병행) — GPU1 dose-response 착수
+
+- GPU0은 다른 프로젝트가 점유(62 GiB, 99%) → 사용자 지시대로 **GPU1**에서 실행.
+- `code/contract_dose_response.py` 신규. 축은 **밴드 순서**다. `olmo_release_v1_legacy.yaml`이
+  밴드 순서를 **두 곳**에 선언한다는 점을 이용한다 — `data.inputs.sentinel2_l2a.bands`와
+  정규화기 `OlmoEarthNormalize.band_names`. **입력 쪽만 k쌍 치환하고 정규화기는 그대로 둔다.**
+  그러면 정규화 통계가 다른 밴드에 붙는다. 파일도 정상, 실행도 성공, 차원도 동일 — **조용히 틀린다.**
+- dose: 0(0개 이동) / 1(2개) / 2(4개) / 3(6개) / 6(12개) / reverse(12개).
+  **dose 6과 reverse는 이동 수가 같고 치환이 다르므로 좋은 대조군**이다.
+- 대상은 이미 공개된 disclosed-audit smoke 8 site-years다. sealed 64는 건드리지 않는다.
+  원본 raster를 재사용하므로 재다운로드·재materialize가 없다.
+- 마찰: rslearn은 dataset `config.json`에 선언되지 않은 `output_layer`에 쓰지 않는다
+  (`KeyError: Output layer 'embeddings_dose_0' not found`). 스크립트에 `register_layers()`를 추가해
+  기존 `embeddings_audit_v1_legacy` 스펙을 템플릿으로 dose 레이어 6개만 추가하고,
+  변경 전 config를 백업·해시 기록했다. 기존 레이어와 frozen 입력은 수정하지 않았다.
+- 분석기 `code/analyze_contract_dose_response.py`도 작성했다. dose 0 대비
+  same-token cosine·linear CKA·pairwise-distance Spearman·**R@1(dose→base)**을 낸다.
+  **핵심 판정 지표는 `cka_stays_high_while_recall_collapses`** — CKA ≥ 0.90인데 R@1 ≤ 0.50인
+  dose가 있으면, 표현 유사도 지표가 계약 불일치에 눈멀었다는 직접 증거다.
+  모든 dose에서 CKA와 R@1이 같이 무너지면 **W2 주장을 철회한다**(사전 기록).
+- **타당성 검사 통과 (중요)**: dose 0은 기존 frozen `embeddings_audit_v1_legacy`와 설정이
+  출력 레이어 이름만 다르므로 동일해야 한다. 8 site-years 전부 **byte-identical 8/8**
+  (244,294,379 / 244,565,065 / 244,442,973 / 244,824,942 / 244,771,762 / 244,719,531 /
+  244,426,449 / 244,326,009 bytes). 두 가지가 확인됐다 — ① **하네스가 교란을 넣지 않으므로
+  dose ≥1의 차이는 전부 밴드 순서 불일치에 귀속된다** ② 이 설정의 추론은 결정론적이다.
+  이 검사를 안 했으면 dose 곡선의 원인을 특정할 수 없었다.
+- 실행 시간: dose당 약 191초(0=191.562s, 1=194.351s, 2=190.604s, 3=190.99s, 6=191.876s).
+
+### 2026-08-24 (5차, 야간) — 무인 체인 가동
+
+사용자가 취침하므로 판단이 필요 없는 작업만 순차 실행하도록 `code/overnight_contract_chain.sh`를
+만들어 GPU1에서 백그라운드로 걸었다.
+
+| 단계 | 내용 |
+|---|---|
+| 1 | v1 dose run 완료 대기 (최대 60분) |
+| 2 | v1 분석 → `artifacts/results/contract_dose_v1_analysis.json` |
+| 3 | **v1.2 dose run** — 같은 8 site-years·같은 밴드 순서 축 |
+| 4 | v1.2 분석 → `artifacts/results/contract_dose_v12_analysis.json` |
+| 5 | `OVERNIGHT_COMPLETE.json` — 두 릴리스 요약과 `replicates_across_releases` 판정 |
+
+**3단계를 넣은 이유**: 진단 눈멂이 v1 한 릴리스에서만 나타나면 그 릴리스의 특성일 수 있어
+일반 주장을 할 수 없다. **두 번째 릴리스에서 재현되어야 계약 축 주장이 선다.**
+`replicates_across_releases` 필드로 사전 판정하도록 marker 생성기에 박아뒀다.
+
+안전장치: 단계별 `set -euo pipefail`, 실패 시 즉시 중단 + `FAILED.json` marker,
+dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거부. GPU0의 타 프로젝트 작업은
+건드리지 않는다. 분석기 의존성(numpy 2.4.6 / rasterio 1.4.4)은 사전 확인했다.
+`--model-env`를 파라미터화해 v1.2의 `OLMO_V1_2_MODEL_PATH`를 쓸 수 있게 스크립트를 수정했다.
+
+### 2026-08-24 (4차) — MountainShift 검토 + 다섯 방향 통합 우선순위
+
+- 판정: **좋은 방향이다. 다만 아직 세지 않은 비용이 하나 있고, 범위가 지금까지 중 가장 크다.**
+- 좋은 점 셋: ① **ETH 정합성** — GLAMOS는 ETH 공동운영이고, 다섯 방향 중 지원 목표와 자산이
+  겹치는 유일한 방향이다. 경력 논거이지 과학 논거가 아니지만 **진짜 논거이므로 그렇게 부르고 쓴다.**
+  ② **Phase 0이 라벨 병목을 통과한다** — Glacial-Lake-Bench(19,115 pairs, leave-one-region-out 내장)와
+  Landslide4Sense(3,799 patches)는 다운로드로 끝난다. 한국 트랙은 라벨 1,200 + NGII 승인이 필요했다.
+  **실제 transfer 수치에 가장 빨리 닿는 경로다.** ③ dual-speed(`z_global/z_region/r_t`)가 K-ALIGN의
+  stable/residual 분리와 같은 구조라 새로 만드는 게 아니다.
+- **아무도 안 센 비용 — MountainShift는 우리의 가장 희소한 자산을 버린다.**
+  한국의 희소 자산은 산악이 아니라 **필지에 결속된 시점 있는 행정기록**(BuildingHUB 8,794 event행 ×
+  PNU × 허가·착공·사용승인 일자)이다. **산사태·산불에는 건축 인허가가 없다.** MountainShift에서
+  한국은 "또 하나의 산사태 지역"이 되고 cell D·coverage 편향·`published_time` 계측기가 대부분
+  적용되지 않는다. 즉 **희소 자산을 흔한 도메인 전이 연구와 맞바꾸는 것**이며, 그 교환 사실이
+  문서 어디에도 없었다.
+  **완화책**: Track B/C에서 한국을 "산사태 지역"이 아니라 **"행정근거가 있는 유일한 지역"**으로 둔다.
+  알프스·HKH에는 GLAMOS/ARPA/ICIMOD inventory가 있지만 **필지 단위 인허가 시각은 없다.**
+- 비용 2 — 범위: GLAMOS·swissALTI3D·ARPA SIFraP(약 36,000건)·눈사태 portal·ICIMOD RDS·산림청
+  3종이 새로 붙고 각각 라이선스·다운로드·시간정렬 확인이 필요하다. 오늘 **GPU 0장**, 마감 10주.
+- 비용 3 — "다지역이 낫다"는 부분적으로 이미 알려진 답이다(PANGAEA 저라벨 GFM 우세, AnySat 다센서
+  전이). headline을 거기 두면 약하다. 새로운 것은 **worst-region 비악화·API 누락 시 보류·location
+  shortcut 배제**이며 문서의 사전 성공 기준은 이미 그렇게 적혀 있다. **제목만 그쪽으로 옮기면 된다.**
+- **반대로 하나는 MountainShift에서 더 강해진다**: 제주에서 6개월 창 offset은 구름·식생 차이였지만
+  **알프스에서는 적설 유무를 통째로 뒤집는다.** W1 dose–response를 산악에서 돌리면 인공물이 제주보다
+  훨씬 크고 육안으로 명백하다. **계약 축은 버려지는 게 아니라 증폭된다.** 두 방향의 합류점이다.
+- **통합 우선순위 확정** (원칙: 결정력×저렴함 ÷ 새 의존성. 하드룰: **측정 하나가 착지하기 전에는
+  새 방향을 열지 않는다**). 각 작업이 몇 방향에 동시에 쓰이는지 세어보면 **W1 dose–response만이
+  다섯 칸(compat·계약·한국·VLM·Mountain) 전부에 들어간다.**
+  1. **Major TOM 계약 감사** — GPU 0장인 오늘 가능한 유일한 결정적 측정. `code/audit_majortom_contract.py` 작성 완료
+  2. **W1 dose–response 최소판**(밴드 순서·정규화) — GPU 나면 즉시
+  3. **Phase 0 다운로드·라이선스 확인** — MountainShift 전체의 gate. 하루. GPU 불필요
+  4. **NGII 신청 + 한국 event universe** — 승인 대기가 길어 지금 안 넣으면 다음 주기도 못 엶
+  5. frozen probe(제주 임베딩에서 water/snow/debris) 6. ADC baseline 7. 14일 방법 P0
+  8. MountainShift Phase 1(3 통과 시). **보류**: VLM 트랙(하루 5-way 사전검사만), 5-cell 다지역 격자
+- **순서 검증**: 1·2·3이 전부 음성이면? Major TOM이 paired가 아니면 규모 축을 잃되 제주 216 token
+  축은 남고, dose–response 무반응이면 **계약 축 전체가 죽고 MountainShift가 주 방향이 되며**,
+  Phase 0이 막히면 MountainShift가 죽고 계약·한국 축이 남는다. **셋이 동시에 죽을 확률은 낮고 어느
+  하나가 죽어도 나머지가 산다.** 반대로 5-cell 격자부터 시작하면 GPU를 다 쓰고도 세 축 중 어느
+  것도 판정하지 못한다.
+- 서버 상태(확인): `h200-dev` RUNNING이나 **GPU 0·1 둘 다 사용 중**(각 68 GiB, util 54%/53%,
+  다른 프로젝트 PID 2개). 규약상 GPU0 전용 실행 불가 → 오늘은 CPU 작업만.
+- 약점: 위 판정은 전부 설계 검토이고 측정이 아니다. Glacial-Lake-Bench는 2026 ESSD **preprint**이며
+  실제 다운로드·라이선스를 확인하지 않았다. GLAMOS/ARPA/ICIMOD도 마찬가지다.
+- 다음: 1번(Major TOM 감사) 실행 → 2·3·4 병행.
+
+### 2026-08-24 (4차) — 지역 embedding + 실시간 API + 다지역 공동학습
+
+- 계획: 산악 자연보존 문제에서 `천천히 바뀌는 지역 표현`과 `빠르게 바뀌는 API evidence`를
+  분리하고, 단일지역 모델·naive pooled 모델·공유 backbone+지역 adapter·동적 residual 모델을 같은
+  split/label/compute에서 비교하는 최소 계약을 만든다. 기존 K-ALIGN dual-speed 설계와 중복되는
+  부분은 새 시스템으로 만들지 않고 산악 use case로 구체화한다.
+- 사전 판정 기준: API의 미래/사후 record를 과거 예측 입력에 넣지 않는다. pooled 평균이 좋아도
+  worst-region 또는 unseen-region이 나빠지면 `여러 데이터가 더 좋다`고 선언하지 않는다. 지역 ID나
+  위경도 shortcut만으로 이득이 재현되면 물리적 지역특성 전이로 세지 않는다.
+- 설계 결론: `z_global`(S1/S2) + `z_region`(DEM·slope·지질·기후평년 adapter) +
+  `r_t`(관측시각·freshness·missingness가 있는 실시간 API residual)의 dual-speed 구조로 닫는다.
+  공공 API 갱신은 residual만 refresh하고 stable gallery는 유지한다. 사후 확정자료는 label/evidence이며
+  과거 inference input에 넣지 않는다.
+- 비교 계약: local-only / naive pooled / shared backbone+local head / shared+local adapter /
+  adapter+timestamped residual 5칸. label 1/5/10/50/100%, unseen-region, future-year,
+  API missing/stale에서 macro와 worst-region을 함께 본다. `E_repr`과 `E_fusion`은 분리한다.
+- 문헌 경계: AnySat(CVPR 2025)은 이종 5 datasets·11 sensors 공동학습 가능성을 보였지만,
+  PANGAEA는 GeoFM이 supervised baseline을 항상 이기지 않음을 보였다. 따라서 naive pooling이 아니라
+  조건부 공유/지역 보존과 negative-transfer 감사가 기여다.
+- 반영: `MOUNTAIN_EVIDENCE_TRANSFER.md`에 dual-speed 수식, 데이터 속도표, 5-model matrix,
+  promotion/kill gate를 추가했다. GPU/데이터 실행은 하지 않았고 실제 개선은 미검증이다.
+
+### 2026-08-24 (3차) — VLM 방향 판정: 구조는 맞고 과녁이 틀렸다
+
+- 질문: `계약 gate + VLM + 한국 공공근거 → REUSE/ADAPT/RECOMPUTE/ABSTAIN` 구조와
+  "Earth VLM은 두 EO 임베딩을 비교하면 안 되는 순간을 알 수 있는가?"라는 논문 질문에 대한 평가.
+- **판정 1 — 제목 질문은 "아니오, 그리고 알 필요도 없다"로 답해질 것이다.**
+  계약 불일치는 시각적 사실이 아니라 **메타데이터 사실**이다. mean pooling vs CLS, 밴드 12 vs 10,
+  가중치 v1 vs v1.2 — **어느 것도 픽셀에 없어서 VLM이 원리적으로 볼 수 없다.** 반대로 메타데이터가
+  있으면 10줄 결정론적 검사가 100%로 답한다. 따라서 5-way ablation에서 `계약 gate만`이
+  `gate+VLM`을 이길 가능성이 높고, 논문이 자기 제목에 "아니오"라고 답하게 된다.
+  (예외: 계약 필드가 없는 아카이브에서 *결과*를 보고 역추정하는 것은 가능하나, 그건 계약 탐지가
+  아니라 결과 이상 탐지이고 통계 검정이 더 잘한다.)
+- **판정 2 — 제안 안에 강한 논문이 이미 있다: 역할 2번.** "영상 변화는 있지만 공식 근거는 없음"
+  으로 구조화하고 근거 없으면 원인을 지어내지 않고 보류 — 이름을 붙이면
+  **행정근거 결손 아래의 원인 환각(fabricated cause attribution)**이다.
+- **선행 조사(신규)**: 인접 영역은 붐빈다 — GeoChat(CVPR 2024)·EarthDial(CVPR 2025)이 EO 대화·
+  grounding을, GEOBench-VLM(ICCV 2025, 최고 MCQ 41.7%)이 벤치마크를, **RSHallu·DDFAV/RSPOPE·
+  UHR-Micro·VLRS-Bench·CHOICE가 RS VLM 환각 벤치마크**를, ChangeVLM·VLM-BCD·ViLaCD-R1·
+  Decoding the Delta가 VLM 변화탐지를, "Knowing When Not to Answer"가 다중모달 abstention을 점유.
+  **그러나 기존 RS 환각 벤치마크는 전부 객체 존재(POPE 계열)를 검사하고, 변화의 원인 주장을
+  외부 기록으로 검증하는 것은 검색에 나오지 않았다.** 이유는 명확하다 — 시점이 찍힌 행정기록을
+  가진 팀이 거의 없다. 한국은 있다.
+- **바꿔야 할 것은 구조가 아니라 과녁.** 아키텍처(규칙 먼저 → VLM → 공공근거)는 옳다.
+  역할만 정확히 나눈다: 계약 gate = 이 비교가 **유효한가**(메타데이터, 100%) /
+  VLM = 유효한 비교에서 **진짜 변화인가**(지각, 불안정) /
+  **한국 공공근거 = VLM의 원인 설명이 사실인가(여기가 기여).**
+  새 제목 질문: **"시점이 찍힌 행정근거는 Earth VLM의 허위 원인 설명을 줄이는가? 그리고 근거
+  coverage가 비어 있는 곳에서 환각은 누구에게 집중되는가?"**
+  장점: ① 계약 gate가 버려지지 않고 **상류 필터**가 된다(184일 중첩 5건·4기간 5건이 그 실증)
+  ② **cell D와 직결** — 변화는 있는데 기록이 없는 칸이 VLM이 원인을 지어낼 바로 그 칸이고 정답은
+  보류다 ③ **coverage 편향이 결과가 된다** — 개발행위허가 제주 2023·2024 0행을 이용해 "근거가
+  없는 해·지역에서 환각이 증가하는가"를 측정 ④ 41.7%짜리 teacher로 증류하지 않는다(역할 3 계속 보류).
+- **하루짜리 사전 검사를 먼저 한다.** 새 데이터 없이 이미 있는 약 20~29건(14 candidates +
+  v5 blind pair 5쌍 + 184일 중첩 노출 5건 + 4기간 source 5건)으로 5-way를 돌린다.
+  **사전 판정 규칙: `계약 gate만`이 `gate+VLM`과 잘못된 REUSE 비율에서 같으면 "VLM이 계약
+  불일치를 안다"는 주장을 버리고 원인 환각 축으로만 간다.** 이 표본은 사람 판독·구조 결함 분류가
+  끝나 있어 정답이 있고, GPU도 새 라벨도 필요 없다.
+- **정직한 지적**: 이건 4일 만의 네 번째 방향이다(compat/method → 한국 event-first → wide-angle
+  계측기 → VLM). 아이디어는 매번 좋아지고 있으나 마감 10주·1인·14일 P0는 이미 방법 트랙에 배정됐다.
+  위 하루 검사는 GPU가 필요 없어 P0와 경쟁하지 않으므로 **그것만 먼저 하고, 어느 쪽 결과든
+  D1–14는 건드리지 않는다.**
+- 다음: ① 하루 5-way 사전 검사 ② 결과에 따라 VLM 범위 확정(원인 환각 축으로 축소 또는 승격)
+  ③ 기존 14일 P0와 한국 데이터 병행 P0는 예정대로.
+
+### 2026-08-24 (3차) — 알프스·Monviso·HKH·한국 산악 전이 연구 검토
+
+- 계획: ETH권 알프스, Ostana/Monviso, ICIMOD의 Hindu Kush Himalaya(HKH), 한국 산악
+  공공데이터에서 실제 확보 가능한 공식 산출물을 확인하고, 직접 전이하면 안 되는 현상과 공통으로
+  전이 가능한 산악 변화 primitive를 분리한다. 기존 Earth embedding의 보정 가능 범위도
+  `adapter로 가능한 것 / 원영상 재임베딩이 필요한 것`으로 나눠 최소 실험을 설계한다.
+- 사전 판정 기준: 한국에 없는 빙하 현상을 한국 target label로 포장하지 않는다. 지역별 공간해상도·
+  관측주기·발행시점이 다른 자료는 같은 정답표에 직접 합치지 않는다. 최소 3개 지역의 source→target
+  전이와 scratch/frozen/adapter 대조군, negative transfer, 근거 부족 시 보류를 측정할 수 있을 때만
+  연구 트랙으로 남긴다.
+- 공식 자산 확인: ETH 공동운영 GLAMOS는 glacier inventory·길이·질량·부피 자료를 다운로드하고,
+  swisstopo는 0.5/2 m DEM을 제공한다. ARPA Piemonte는 약 36,000 산사태 SIFraP, Monviso 빙하
+  현장조사·눈사태·암벽붕괴 사진측량을 제공한다. ICIMOD RDS는 1990–2020 빙하 변화, 1533–2025
+  GLOF 766건, 2000–2022 토지피복을 노출한다. 한국은 10 m 산사태 위험지도·발령, 산불 이력·위험,
+  기존 기상/토지피복/항공/행정근거를 연결할 수 있다. 개별 license·다운로드는 아직 미감사다.
+- 설계 판정: 빙하 track은 HKH↔Swiss Alps↔Monviso, 전 지역 공통 track은 water/snow-ice/
+  bare-debris/vegetation-loss/slope-failure로 분리한다. 원인은 local evidence head가 맡고, 한국을
+  빙하 target으로 만들지 않는다.
+- 보정 사다리: frozen embedding probe → DEM/공공근거 residual adapter → train-time privileged
+  distillation → 정보가 없으면 S1/S2/DEM 재임베딩. adapter가 fused embedding에서 소실된 월·공간
+  정보를 복원한다는 주장은 금지한다.
+- 문서화: `MOUNTAIN_EVIDENCE_TRANSFER.md` 신규, `RESEARCH_STRATEGY.md` RQ9,
+  `PAPER_READING_LIST.md` 산악·cryosphere 4편을 추가했다. 실제 성능은 미검증이다.
+
+### 2026-08-24 (2차) — "한국식은 포기한 건가"에 대한 판정 + event-first 설계 보정
+
+- 질문: 축적된 결정들(CVPR main에서 한국 트랙 분리, 필지 경계 제외, 한국판 FLAIR-HUB 포기,
+  label-free core 선행, B1 임계경로 제외)이 사실상 한국 트랙 포기가 아닌가.
+- **판정: 포기 아님. 그러나 지금 상태로 두면 포기가 된다.**
+  - 빠진 셋(필지 경계·한국판 FLAIR-HUB·정확도 headline)은 전부 **이미 남이 차지했거나
+    순환논증**이라 빠졌다. 한국 고유 기여는 하나도 반증되지 않았다.
+  - 남은 것: CVPR 논문의 Figure 1 failure atlas(184일 중첩 → z=10.6 인공물)·stress case,
+    그리고 `E_repr`/`E_fusion`과 event-first 재설계는 **연기**된 상태다.
+  - **진짜 위험은 연기의 누적이다.** 3일 동안 네 번 밀렸고(derivability 도입 → 문헌 감사 →
+    B1 비용 실측 → CVPR 단일 마감), **네 번 다 근거는 옳았으나 네 번 다 날짜를 붙이지 않았다.**
+    근거 있는 연기가 날짜 없이 쌓이는 것이 조용한 포기다. L4를 일정에도 적용해야 한다.
+- **고침: 14일 P0에 한국 데이터 P0(§3.3)를 병행으로 넣는다.** 감사 문서 스스로 "이 단계는
+  GPU보다 데이터 정의가 병목"이라고 적었으므로 GPU-bound인 D1–14와 경쟁하지 않는다.
+  D1–5 event universe 재구성 / D6–8 unique event·`published_time` 필드 실재 확인 /
+  D9–11 200 event 층화추출 가용성 측정 / D12–14 NGII lead time 회수.
+  1인 분량이 안 되면 오른쪽 열을 절반으로 줄이되 **NGII 신청만은 D1에 넣는다**(승인 대기가 길어
+  지금 안 넣으면 다음 주기도 못 연다). **14일 안에 착수 못 하면 그때는 문서에 "포기"라고 적는다.**
+- **W11 — event-first 설계에 빠진 칸: cell D.** BuildingHUB에서 표집을 시작하면 행정기록 존재가
+  표본틀의 정의가 되어, 행정기록을 보는 모델이 자동으로 이긴다. 2×2가 필요하다.
+
+  | | 기록 있음 | 기록 없음 |
+  |---|---|---|
+  | 변화 O | A 허가+착공 (공짜) | **D 무허가·미기록 변화** |
+  | 변화 X | B 허가 후 미착공 (공짜) | C 배경 (무작위, 공짜) |
+
+  **A·B·C만 있으면 만든 것은 허가기록 검증기이지 연구가 아니다. D가 요점 전부다.**
+  D가 비어 있지 않다는 증거는 이미 있다 — **개발행위허가 제주 2023·2024가 0행**이므로 그 두 해의
+  모든 실제 변화가 정의상 cell D다. 즉 D는 잔여가 아니라 구조적으로 큰 모집단이다.
+  표집은 모델로 D를 고르면 편향되므로 **행정 coverage 상태 × 연도로 층화 후 층 내 무작위 →
+  블라인드 판독**한다. 이 층화 자체가 Paper B(행정근거 coverage가 누가 감시받는지를 결정한다)의 주 결과다.
+  **부수 효과: B1이 싸진다** — old 설계는 사람이 변화를 *발견*해야 했으나(368 분모, 희소 positive),
+  새 설계에서 A·B·C는 *확인*이다. 비용은 D에 집중되며 그건 줄일 게 아니라 의도적으로 쓸 예산이다.
+- **W12 — `R/V/T` 분해의 경고등.** 단일 derivability를 `R_source`/`V_source`/`T_source`로 나눈 것은
+  기존 hard exclusion보다 명백히 낫다. 여기에 정보이론적 제약을 명시했다:
+  **공공정보가 EO에서 정말로 회복 불가능하면(`R≈0`) EO-only student는 추론 때 그것을 운반할 수
+  없으므로 `T≈0`이어야 한다.** 따라서 `R≈0`인데 `T>0`이면 셋 중 하나이며 전부 조사 대상이다 —
+  ① 누수 ② `R` 측정 실패(probe가 약함) ③ context가 정보원이 아니라 **정규화·커리큘럼**으로 작동.
+  ③도 실제 발견이지만 **다른 주장**이므로("공공 context가 학습 정규화로 작동했다") 같은 표에
+  섞지 않는다. 역으로 `R`이 매우 높은 source는 `T>0`이어도 기여가 약하다.
+  **사용자가 정한 "R 중간 + V·T 양수" 창이 옳고, 창이 좁은 이유가 바로 이것이다** —
+  이유를 문서에 남겨야 나중에 스스로 창을 넓히지 않는다.
+- 동의: 14일 P0 구성(D1–5/D6–8/D9–11/D12–14)과 4개 즉시중단 조건, 4.9 TB → pooled + 16×16 FP16
+  token lattice 저장 설계, 병목이 VRAM이 아니라 I/O·teacher feature 추출이라는 판정.
+- 약점: W10–W12는 설계 제안이고 실행 결과가 아니다. cell D의 실제 크기(층별 유병률)는 측정 전이며,
+  층화 표집이 몇 건을 요구하는지도 아직 계산하지 않았다.
+- 다음: ① NGII 신청 D1 착수 ② BuildingHUB event universe 재구성 ③ `published_time` 필드 실재
+  확인(없으면 prospective 포기·retrospective residual로 격하) ④ cell D 유병률 파일럿 20건.
+
+### 2026-08-24 — Earth 모델 × VLM 아이디어 경계 확인
+
+- 계획: 기존 `EarthEmbedContract` 문제에 Vision-Language Model(VLM)을 붙일 때의 역할을
+  ① 계약·근거 감사 ② 후보 설명·분류 ③ EO 표현 증류로 나누고, 최신 원 논문 기준으로 이미 해결된
+  범위와 남는 연구 질문을 확인한다. 아이디어 검토이므로 새 GPU 실행은 하지 않는다.
+- 사전 판정 기준: VLM이 결정론적 시간창·밴드·GSD·가중치 hash 검사를 대신하면 기각한다.
+  VLM은 복구 불가능한 입력을 복구했다고 주장할 수 없고, 생성 문장은 공식 근거로 세지 않는다.
+  현재 프로젝트에 가장 작은 실험으로 연결되고 명확한 대조군이 있을 때만 후속 후보로 남긴다.
+- 결과: **가능하지만, 일반 EO 대화형 VLM은 이미 붐빈다.** GeoChat(CVPR 2024)은 영역 대화·시각
+  grounding을, EarthDial(CVPR 2025)은 다중분광·다중시점·다중해상도 입력과 변화탐지까지 다룬다.
+  GEOBench-VLM(ICCV 2025)에서는 최고 모델도 MCQ 41.7%라, VLM 단독 판정기를 신뢰하기도 어렵다.
+- 남는 가장 자연스러운 역할은 `contract-grounded auditor`: 원본/전후 thumbnail, 기계 판독 가능한
+  임베딩 계약, 한국 공공자료의 시점·공간 근거를 함께 받아 `REUSE / ADAPT / RECOMPUTE / ABSTAIN`을
+  구조화 출력한다. 시간창 중첩·밴드 순서·weight hash는 결정론적 코드 gate가 먼저 막고, VLM은
+  구름·계절·해무 같은 시각적 모호성과 근거 설명을 보조한다. 생성 설명은 evidence가 아니다.
+- 최소 실험 후보: 같은 패널에 대해 `EO-only`, `VLM-only`, `hard contract gate`,
+  `gate+VLM`, `gate+VLM+한국 공공근거`를 비교한다. 시간창 중첩·계절 불일치·release 불일치·정상
+  대조군에서 **unsafe reuse율, artifact 분류, 근거 일치율, risk–coverage/AURC**를 본다.
+- 논문성 판단: 단순 projector/대화 데모는 약하다. 여러 EO backbone·release·시간 recipe에서
+  contract-aware hybrid가 조용한 오판을 일관되게 줄이는 benchmark+method이면 CVPR형으로 커질 수 있다.
+  VLM을 EO embedding teacher로 쓰는 증류는 가능하지만 독립 task label이 필요하므로 두 번째 단계다.
+
+### 2026-08-24 — Major TOM 249k 정밀 확인 + 마감 단일화(CVPR)
+
+- 계획: 전날 "동일 chip 위에 여러 모델 임베딩이 공개돼 있다"고 쓴 근거가 조직 페이지 요약뿐이라,
+  실제 데이터셋 카드 두 개를 직접 열어 **정말 paired인지** 확인한다. 동시에 AAAI 마감 종료를 반영한다.
+- 사전 판정 기준: `unique_id`/`grid_cell`로 조인 가능하고 chip 수·원본이 같아야 paired로 인정한다.
+  전처리 계약이 다르면 그 차이를 표로 먼저 적고, 대조 없이 한 표에 올리지 않는다.
+- **결과 — paired 확인됨.** `249k-OlmoEarth-Base`와 `249k-Clay-v1_5` 모두 **248,719 chip,
+  384×384**, 동일 스키마(`unique_id, embedding, timestamp, product_id, grid_cell, grid_row_u,
+  grid_col_r, geometry, centre_lat/lon, utm_footprint, utm_crs, pixel_bbox, parquet_row, parquet_url`),
+  둘 다 **CC-BY-SA-4.0**. Clay 카드가 "동일한 249k grid cell과 동일 원본 영상을 다른 Major TOM
+  249k 임베딩 데이터셋과 공유한다"고 명시한다. 용량은 824 MB / 1.08 GB로 노트북 규모다.
+- **그런데 계약이 서로 다르다 — 그리고 그게 우리 증거다.**
+
+  | | OlmoEarth-Base | Clay v1.5 |
+  |---|---|---|
+  | 차원 | 768 | 1024 |
+  | pooling | unmasked spatial token **평균** | **CLS** token |
+  | 밴드 | **12개 전부**(재정렬) | **10개**(B01·B09 없음) |
+  | 정규화 | OlmoEarth 사전학습 normalizer | Clay S2 mean/std |
+  | L2 정규화 | 미적용 명시 | 미기재 |
+
+  같은 chip 위의 두 공개 제품이 pooling·밴드 수·정규화에서 다른데, 이 차이는 데이터셋 카드의
+  **산문**에만 있고 기계가 읽을 수 있는 필드에는 없다. 모델 가중치 hash는 아예 없다.
+  → `embeddings-stac-specification` v0.0.1 gap 분석(W9)의 직접 증거로 들어간다.
+- **가능/불가능 경계를 문서에 명시했다.** 가능: cross-model paired 집합, gallery-size 곡선을
+  `10³–10⁵` **실측**으로(지금까지 216에서 외삽하던 구간), 진단 눈멂 행렬을 실제 공개 제품에서 실행.
+  **불가능 4가지**: ① release pair가 아님(Major TOM의 OlmoEarth 릴리스는 **하나뿐**이라
+  `S1→S0` 질문에 직접 답하지 않음) ② 밴드·pooling·정규화가 달라 모델 우열 비교 불가
+  ③ **chip당 벡터 하나뿐이라 token/공간 수준 분석 불가** — 우리 실패(R@1 0.0000, 동일 token
+  cosine −0.00860, spatial CKA 0.427)는 token 수준이므로 여전히 로컬 216 raster에서만 가능
+  ④ 라벨 없음. **두 자산은 대체재가 아니라 보완재다** — Major TOM은 넓고 얕게, 제주 216은 좁고 깊게.
+- **사전 예측 기록(실행 전).** 우리 216 파이프라인은 768×256×256 dense token raster를 만들고
+  Major TOM은 unmasked token 평균 1개를 만든다. → **동일하게 mean-pool하지 않으면 일치하지 않고,
+  동일하게 pool해도 밴드 재정렬·normalizer가 정확히 같아야 일치한다.** 맞으면 "같은 모델·같은
+  영상인데 계약이 달라 값이 다르다"의 공개 제품 사례가 되고, 그냥 일치하면 계약 재현 절차가
+  산출물이 된다. 어느 쪽이든 손해가 없다.
+- **마감 단일화**: 사용자 확인으로 **AAAI 마감은 이미 종료**. 이 주기의 목표는 **CVPR 하나**
+  (통상 11월 초 → 10-31 완료). 한국 트랙 venue 결정은 보류하고 CVPR 결과·B1 진척을 보고 정한다.
+  부수 효과로 "두 트랙 동시 제출" 압력이 사라졌으므로, 한국 데이터는 이번 주기에 CVPR 논문의
+  **failure atlas·stress case**로만 기여하면 된다. FoldRefresh의 AAAI-27 제출 건은 심사 중이며
+  K-ALIGN에서는 인용 선행 자산으로만 다룬다(중복 제출 아님).
+- 약점: 두 카드만 열었다. SatCLIP·SigLIP·DINOv2·FarSLIP·MMEarth·AlphaEarth·UniverSat의 계약은
+  아직 확인하지 않았다. 조인이 실제로 1:1로 떨어지는지도 파일을 받아 확인해야 한다(카드 기재와
+  실제 행 정렬은 다를 수 있다).
+- 다음: ① 두 parquet를 실제로 받아 `unique_id` 조인이 1:1인지 확인 ② 계약 대조표를 나머지
+  249k 데이터셋으로 확장 ③ 그 표를 embeddings-stac gap 분석 초안에 그대로 사용
+  ④ W1 dose–response 최소판(밴드 순서·정규화 축) ⑤ ADC baseline.
+
+### 2026-08-23 (4차) — 광각 보정 + 미확인 항목 4건 실제 검증
+
+- 계획: 사용자 피드백(시간창 184일 중첩, 4기간 계절편향, Jaccard 0.091, FEATURES=768 제약)과
+  새 문서 두 개(`K_ALIGN_BIG_PICTURE.md`, `K_ALIGN_CVPR_READINESS_AUDIT.md`)를 읽고, **그 두
+  문서 바깥**에 있는 프로그램 수준 보정만 더한다. 그 뒤 "확인하지 않았다"고 적은 항목을 실제로 확인한다.
+- 사전 판정 기준: 기존 문서와 중복되면 쓰지 않는다. 각 보정은 ① 방법 성패와 무관하게 쓰이거나
+  ② 답할 수 없는 질문을 답할 수 있게 만들거나 ③ 리뷰어의 결정적 반론을 미리 막아야 한다.
+- 근거 재확인(직접): `setup_jeju_v2.sh:55-58`의 jeju25↔jeju26r **184일 중첩** 실재,
+  `change_v6_t12.py`에 이미 `REFUSED` 가드가 적용돼 있음(고칠 순서 1·3이 부분 반영됨),
+  `olmo_release_raster_contract.py:19 FEATURES=768`, `jeju_change_v6_top.json` control
+  intersection=5 / jaccard=0.091.
+- 결과 — `K_ALIGN_WIDE_ANGLE.md` 신규(326행) W1–W9. 핵심 셋:
+  - **W1 중첩은 버그가 아니라 계측기다.** 184일은 우연히 만들어진 "50% 용량 1회 투여"다.
+    중첩 0/25/50/75/100%, 계절 offset, 밴드 순서, 정규화, pooling을 조절하면 **dose–response
+    곡선**이 된다. Figure 1이 일화에서 곡선이 되고, ground truth가 알려진 합성 release pair를
+    무제한 생산하므로 **W5의 pair 부족 문제까지 푼다**. raster 재사용이라 가장 싸다.
+  - **W2 기여는 계약 명세가 아니라 "기존 진단이 전부 눈멀었다"는 것.** CKA 0.97857·거리
+    Spearman 0.95251·z=10.6 셋 다 통과시켰는데 실제는 R@1 0.0000·cosine −0.00860·100% 인공물이었다.
+    진단 K개 × 불일치 유형 M개 행렬에서 **대부분이 "탐지 못함"인 표 자체가 결과**다.
+    이 프레이밍이면 remote sensing 논문이 아니라 표현 평가 논문이 된다.
+  - **W7 바닥을 다시 매긴다.** 전처리 불일치가 R@1=0을 전부 설명해도 남는 것은 "위로상"이
+    아니라 감사 논문이다. 따라서 W1·W2를 방법보다 **먼저** 한다.
+- **미확인 4건 검증 결과 — 둘은 결론이 바뀌었다:**
+  - **W9 ✅ 결론 변경.** "STAC 확장을 새로 쓰자"고 제안했으나 자리는 이미 있었다.
+    [`stac-extensions/mlm`](https://github.com/stac-extensions/mlm)(활성),
+    [`stac-extensions/ml-model`](https://github.com/stac-extensions/ml-model)(deprecated),
+    [`geo-embeddings/embeddings-stac-specification`](https://github.com/geo-embeddings/embeddings-stac-specification)
+    (**Proposal, v0.0.1**). 그런데 **그 v0.0.1이 빠뜨린 필드가 정확히 우리가 증명한 두 실패다** —
+    모델 가중치 hash(v1→v1.2 R@1 0), 실제 acquisition 날짜·temporal recipe(184일 중첩),
+    밴드 순서, input/output content hash. 있는 것은 `emb:temporal_resolution`, `gsd`,
+    `emb:preprocessing/postprocessing`, `processing:version`뿐이다.
+    → 새 확장 작성이 아니라 **기존 Proposal에 gap 분석 + 실패 증거를 붙인 이슈/PR**로 바뀐다.
+    더 싸고 채택 가능성이 높으며 지금이 열려 있는 시점이다.
+  - **W4 ✅ 규모 확대.** `Core-S2L2A-249k-OlmoEarth-Base`는 실재한다(2026-08-21 기록이 맞았다).
+    게다가 **동일한 249k chip 위에 Clay-v1_5·SatCLIP·SigLIP·DINOv2·FarSLIP 임베딩이 이미
+    공개돼 있다**(조직 전체 25개 데이터셋, 그 밖에 MMEarth·AlphaEarth·UniverSat·SSL4EO·DeCUR).
+    즉 **paired-input cross-model 실험대가 이미 공짜로 존재**하고, gallery-size 곡선을
+    216 site-years가 아니라 248,719 chip 실측으로 그릴 수 있다. 단 이들은 cross-family이지
+    release pair가 아니며, 각 데이터셋의 전처리 계약이 다르므로 **대조 없이 한 표에 올리면
+    우리가 경고하는 오류를 우리가 저지르는 것**이다.
+  - **W5 ✅ 부분 해결.** Clay v1.0(2024-06-06) / v1.5(가중치 2024-11-19)가 둘 다 공개된 실재
+    release pair이고 Major TOM에 v1.5 임베딩도 있다. 확실한 release pair는 Olmo·Prithvi·Clay
+    **3개**. 예측기 fit + held-out에는 여전히 부족 → W1 합성 pair 필요성이 재확인됐다.
+  - **W6 ✅ 출처 확인.** ADC는 Jégou·Douze·Schmid, TPAMI 33(1):117–128, 2011.
+    "computes the approximate distance between a vector and a code" — **query를 양자화하지 않는
+    것이 PQ의 원래 권장 사용법**이다. 15년 된 표준이므로 quantizer-aware 방법을 제안하기 전에
+    `새 query → 선형 map → old float 공간 → old codebook에 ADC` baseline을 반드시 먼저 돌린다.
+- 동의하고 넘어간 것: `R@1=0 → affine 61–70%`를 비선형 잔차 증거로 쓰지 않음, 37.5분/216건을
+  재임베딩 비용으로 외삽하지 않음(49.1 GiB GeoTIFF 쓰기 포함), "오름 보전지역이라 행정사건 0"을
+  미증명으로 둠, 한국 트랙을 CVPR main에서 분리.
+- 약점: W1–W3·W7·W8은 여전히 **제안**이고 실행 결과가 아니다. W8(AAAI AISI에 FoldRefresh와
+  같은 회차 두 편 제출 가능 여부)은 확인하지 못했다. `mlm`과 `embeddings-stac`의 역할 경계도
+  미확인이라 PR 전에 두 저장소 이슈를 읽어야 한다.
+- 다음: ① Major TOM 249k 데이터셋들의 **전처리 계약 대조표**부터 (재계산 검증의 전제)
+  ② W1 dose–response 최소판(밴드 순서·정규화 축은 창 재정의도 불필요) ③ embeddings-stac
+  gap 분석 초안 ④ ADC baseline ⑤ 기존 Day 0 compact 재임베딩 비용곡선은 그대로 병렬 유지.
+
+### 2026-08-23 (6차) — 시간계약 오류를 먼저 고치는 단순한 EO 연구축
+
+- 계획: 제주 변화탐지의 ① 2025/rolling-2026 6개월 중첩 ② 4기간 계절 불일치 ③ 4/12기간 후보
+  불안정성 ④ 14후보 오염률을 원 코드·manifest·산출물에서 재검증한다. 검증되면 후보 생성에서
+  잘못된 전이를 fail-closed로 차단하고 12기간 단일 경로를 canonical로 지정하며, 시간축 감사 실패를
+  사전 gate로 승격한다. 연구 큰 그림은 “임베딩은 release×time-window×band×GSD×pooling 계약
+  안에서만 의미가 있고, 계약이 어긋난 재사용은 조용한 고확신 오류를 만든다”로 단순화한다.
+- 사전 성공 기준: ① 중첩 기간·계절 불일치·Top-30 Jaccard를 파일에서 재현 ② 잘못된 2025→2026
+  및 4기간 후보 경로가 기본 실행에서 거부됨 ③ 실패 이유가 후보 JSON/문서에 전파됨 ④ 기존
+  release-audit 테스트는 유지 ⑤ 재실행이 필요한 범위와 금지 주장을 명확히 기록.
+- 무효/중단 조건: 실제 날짜가 사용자 요약과 다름, 4기간이 후보 생성에 쓰이지 않음, 오염 9/14가
+  candidate lineage로 재현되지 않음, 또는 기존 216 임베딩만으로 월별 재구성이 가능하다고 확인되는
+  경우. 이때는 가설을 수정하고 코드를 억지로 막지 않는다.
+- 결과: 원파일에서 네 발견을 재현했다. `jeju25`/`jeju26r` overlap은 184일,
+  `model_first4_season_aligned_across_years=false`, `all12_cover_same_calendar_month_set=false`,
+  4/12 Top-30 intersection 5·Jaccard 0.091이다. 14후보는 overlap 전이 5, v3 4기간 source 5,
+  합집합 9, 두 검사 비노출 5로 재집계됐다.
+- 해석 보정: 9/14는 모두 false positive라는 뜻이 아니라 **annual-change claim lineage 부적격**이다.
+  실제 May RGB에서 지속 변화가 보인 record도 포함돼 있다. 또한 “오름은 보전지역이라 행정사건이
+  구조적으로 0”은 미검증이다. 공식 오름 polygon 부재·OSM point/필지 geometry mismatch와 제도별
+  coverage를 먼저 분리한다. 개발행위허가 제주 2023/24 0행은 확인된 source hole이다.
+- 코드: `audit_jeju_candidate_time_contract.py`와 hash-linked audit JSON을 추가했다. 역사적
+  `change_v2_step.py`, `change_v5.py`, `change_v6_t12.py`, `build_jeju_human_review.py`,
+  `score_oreum_existing_embeddings.py`는 명시적 failure-reproduction override 없이는 실행을 거부한다.
+  새 후보는 non-overlap·season alignment·actual acquisition hash가 통과한 manifest 뒤에만 허용한다.
+- 큰 그림: `K_ALIGN_BIG_PICTURE.md`를 **contract-bound Earth embedding** 중심으로 단순화했다.
+  모델 릴리스 mismatch와 시간창 mismatch를 같은 silent high-confidence reuse error로 묶고,
+  비교 전 `REUSE / ADAPT / RECOMPUTE·ABSTAIN` 판정을 연구한다. quantizer·비용·공공 context는
+  해결수단/검증층으로 내렸다.
+
+### 2026-08-23 (5차) — 숲 재정렬: cost-first characterization × quantized compatibility
+
+- 계획: K-ALIGN을 조건을 많이 붙인 adapter 논문이 아니라 ① 재임베딩이 실제로 비싼/불가능한
+  운영 구간을 먼저 측정하고 ② release 간 사후 정렬 가능성을 예측하며 ③ 고정 quantizer가 있는
+  구간에서만 새 방법을 제시하는 프로그램으로 재정렬한다. 현재 216 full-raster 실행시간은 compact
+  production re-embedding 비용을 과대평가할 수 있으므로 근거로 바로 외삽하지 않는다.
+- 사전 성공 기준: ① 방법 구현 전 re-embed/adapter/dual-index의 `N×Q` 비용 경계 ② gallery size별
+  retrieval degradation ③ band order·normalization·pooling·timestamp 등 사소한 mismatch 재감사
+  ④ layer CKA/probe 등 alignment feasibility predictor의 held-out 검정 ⑤ quantized old gallery에서
+  최신 compatibility baseline보다 task–retrieval–cost Pareto 우위.
+- 무효/중단 조건: compact re-embedding이 현실적 archive에서 더 싸고 raw imagery도 항상 접근 가능,
+  alignment predictor가 새 family/release에서 일반화하지 않음, quantizer-aware 방법이 기존 post-hoc
+  adapter/PQ 재구축/dual-index와 같음, 216개 작은 gallery 결과만 보고 scale compatibility 주장,
+  또는 한국 public-context/published-time 문제가 해결되지 않았는데 CVPR main에 합치는 경우.
+- 결과: `K_ALIGN_BIG_PICTURE.md`를 만들어 프로그램을 **Necessity → Predictability → Intervention**으로
+  재정렬했다. 현재 1순위는 cost-first characterization이며 public-context는 조건부 후속이다.
+- P0 순서를 뒤집었다. D1에 compact re-embed/dual-index/adapter `N×Q` 비용곡선, D2–4에
+  preprocessing mismatch 재감사와 gallery-size protocol, D5–8에 held-out alignment predictor,
+  D9–11에 fixed-quantizer 방법, D12–14에는 public task 1개의 frozen probe만 둔다.
+- 문헌 추가 감사: UniBCT(IJCAI 2022), BiCT, Darwinian Model Upgrades(AAAI 2023), WACV 2025 online
+  backfill이 open-set/raw-image 부재/gallery evolution을 이미 다룬다. 따라서 raw raster 부재나
+  부분 gallery 갱신만으로 novelty를 주장하지 않는다. fixed old PQ code와 frozen EO release의
+  결합은 아직 유망한 경계지만 systematic search·재현 전에는 “최초”라고 쓰지 않는다.
+- 비용 해석 보정: v1.2 216건 2,250초는 49.1 GiB full token GeoTIFF 쓰기를 포함하므로 compact
+  production re-embedding 비용의 상한성 관측일 뿐이다. compact writer를 별도 계측하기 전에는
+  adapter가 경제적이라는 주장을 열지 않는다.
+
+### 2026-08-23 (4차) — 첨부 embedding 아이디어 26편 근거감사·CVPR 실험/엔지니어링 판정
+
+- 계획: 사용자 첨부 노트의 26편·아이디어를 끝까지 읽고, 초록/본문 확인 수준과 검색 snippet 수준을
+  분리한다. CVPR main 후보마다 선행연구가 이미 점유한 부분, 정확한 새 연구질문, 필요한 데이터·
+  라벨·모델·compute, matched baseline, leakage 없는 split, primary metric, promotion/kill gate,
+  구현 모듈과 예상 엔지니어링 병목을 정리한다. K-ALIGN의 stable cache·multi-teacher distillation·
+  한국 public residual 계약과 겹치거나 충돌하는지도 대조한다.
+- 사전 성공 기준: ① 첨부의 모든 아이디어를 evidence tier로 재분류 ② main 후보 1–2개와 버릴/후속
+  후보를 명확히 순위화 ③ 공식 proceedings/paper/repo로 핵심 선행 8편 이상 재검증 ④ 데이터가 없는
+  주장을 실험 가능으로 포장하지 않음 ⑤ P0/P1/full main matrix와 GPU/스토리지/라벨 예상치를 분리
+  ⑥ engineering contribution과 단순 plumbing을 구분하고 CVPR·다른 venue fit을 조건부 판정.
+- 무효/중단 조건: snippet을 재현된 사실로 사용, `binary token`·`causal`·`federated` 같은 용어만
+  붙여 novelty를 주장, 기존 sealed 제주 split을 새 방법 test로 재사용, 한국 public record를 feature와
+  label에 중복 사용, 서로 다른 모델 native input을 paired 우월성으로 해석, 로봇/시뮬레이션을 데이터
+  없이 주기여로 추가, 모델 수·API 수·코드량만으로 main-track 기여를 주장하는 경우.
+- 결과: `K_ALIGN_CVPR_READINESS_AUDIT.md`에 근거감사·두 논문 track·14일 P0·6–8주 full matrix·
+  엔지니어링 모듈·GPU/스토리지 추정·promotion/kill gate를 작성했다.
+- **현재 main 판정은 낮음.** 216쌍 release audit은 재현·누출방지·provenance 측면에서 강하지만
+  label 0, 제주 54 cluster 한 격자, downstream task 0, multi-model trainer 0이다. 시스템 감사만으로
+  CVPR vision method 기여가 되지는 않는다.
+- **이번 주기 1순위**를 frozen third-party EO model upgrade로 좁혔다. Olmo v1/v1.2와
+  Prithvi 1.0/2.0, 공개 task 3개, compressed gallery에서 새 모델 task utility와 old-gallery
+  compatibility를 동시에 보존하는 post-hoc adapter/student를 검증한다. BCT/FCT/LCE/AdvBCT/BT²,
+  hyperbolic BCRL과 강한 post-hoc bridge를 이기지 못하면 main 주장을 중단한다.
+- **한국 public-context track은 event-first data gate 뒤로 이동.** 현재 candidate-first join은
+  14후보 중 time-aligned exact support 0건이고 오름 전체 causal evidence 0/368이다. BuildingHUB
+  8,794행/EIA 13 polygon에서 event universe를 먼저 만들고, EO before/after와 matched control,
+  source와 독립인 label을 붙인다. `published_time`은 현재 BuildingHUB snapshot에 실제 필드가 없어
+  `created_date`/`retrieved_at`으로 대체하지 않는다.
+- **기전 수정:** 단일 derivability 제외 규칙을 폐기하고 `R_source`(EO 회복가능성),
+  `V_source`(독립 task 추가가치), `T_source`(EO-only student 전이효과)를 분리했다. 완전히 EO에서
+  회복 불가능한 행정정보는 distillation보다 inference residual/abstention 역할이 맞다.
+- **E-07 정정:** ICLR 2026 공식 OpenReview 본문을 확인했다. 약 598–690 B는 주로 downlink JSON
+  telemetry이고 hint/gallery upload는 별도다. 따라서 온보드 link는 운영 동기일 뿐 1 KB gallery
+  backfill 불가능의 증거가 아니다. 3차 worklog의 당시 해석은 실패 계보로 남기되 본 계약에서는 폐기했다.
+- 공식 1차 소스로 PANGAEA, GeoLink, MMEarth, OmniSat, SatMIP, Galileo, WildSAT, Auxiliary
+  Modality Learning, AM-RADIO, BCT/FCT/LCE/AdvBCT/BT², ICML 2025 BCRL, XBT, NeuCo-Bench,
+  E-07을 재확인했다. `M`은 저자 주장 확인이지 우리 환경 재현 완료가 아니다.
+- 14일 P0 gate: 새 untouched anchor 2,048개, Olmo/Prithvi 공통 adapter, identity/Procrustes/ridge/
+  MLP/compatibility baseline, 공개 task 1개의 old/new/cross 4-cell, PCA64+int8/PQ 비용표까지 닫는다.
+  MLP가 affine를 못 이기거나 cross-task utility가 무너지거나 dual-index가 Pareto 우위면 확장하지 않는다.
+
+### 2026-08-23 (3차) — 네 축 문헌 감사: 무엇이 좋아지는가를 네 주장으로 분해
+
+- 계획: 사용자가 제기한 큰 그림(`OlmoEarth × 한국 공공데이터 → 정확도 / 임베딩 / 속도 /
+  위성 유도`)을 문헌으로 검증한다. `earth_paper` 코퍼스 185편을 훑고 웹 검색으로 2025–2026
+  최신을 보강한다. 마감(CVPR 통상 11월 초 → 10월 말 완료)과 FoldRefresh AAAI 제출 상태를 반영한다.
+- 사전 판정 기준: 각 축은 ① 기전 ② 이미 점유한 선행연구 ③ 남은 빈칸 ④ 현재 자산 실현가능성이
+  모두 적혀야 한다. 하나라도 못 채우면 그 축은 "가능성"으로 세지 않는다.
+- 무효 조건: 검색 스니펫의 수치를 원문 확인 없이 논문 근거로 승격하는 경우, 네 축을 한 논문에
+  합치는 경우.
+- 결과 — 네 축 판정 (`K_GAIN_AXES.md` 신규 275행):
+  - **A 정확도 = 조건부.** PANGAEA는 full-label에서 UNet 등 supervised baseline이 대부분의 GFM을
+    이기고 10% label에서만 GFM이 이긴다고 보고한다. → `E_repr`의 primary를 **라벨 절감**으로
+    바꾸고 정확도 +2%p를 secondary로 내렸다.
+  - **B 임베딩 = 본편이되 빈칸이 좁다.** GeoLink·CLIP4Geo·WildSAT이 "비-EO 기록으로 EO 표현
+    강화"를 이미 점유했다. WildSAT은 야생동물 관찰기록으로 위성 표현을 학습한다. 남은 빈칸은
+    **`published_time`이 관리되는 기록** 하나뿐이다.
+  - **C 속도 = 직접 기전 없음.** 한국 데이터는 추론을 빠르게 하지 않는다. 게다가 압축은 이미
+    binary quantization 32×(float32 NN의 약 65% 회복), PCA(64)+int8이 sweet spot이다.
+    → `E_refresh`의 bytes 기준선을 float32에서 **PCA(64)+int8**로 교체했다. 이걸 안 바꿨으면
+    이미 알려진 압축을 우리 성과로 셀 뻔했다.
+  - **D 위성 유도 = EarthRoute로 이월.** tip-and-cue·EO 스케줄링·온보드 RSFM 배포가 각각 점유됨.
+- 기여에서 **뺀 것 두 개**:
+  - **필지 경계** — 전지구 10 m 필지 경계 지도가 241개국 **31.7억 polygon**으로 공개됐다.
+    FarmMap 289,379 polygon은 이제 기여가 아니라 anchor다.
+  - **한국판 FLAIR-HUB** — IGN이 항공·S1/S2·SPOT·지형·과거항공 6모달, **630억 수동 주석 픽셀**,
+    OA 78.2/mIoU 65.8로 이미 만들었다. 주석 예산에서 이길 수 없다.
+- 당시 기여로 **끌어온 것 하나**(4차 감사에서 해석 폐기): 우리 코퍼스의 `E-07` [Embedding-Only Uplink for Onboard Retrieval
+  Under Shift](https://arxiv.org/abs/2604.03301) (초록 확인). 지상국이 임베딩만 업링크하고
+  궤도상에서 벡터 검색을 하며 **질의당 1 KB 미만**이다. 궤도상 gallery는 backfill이 물리적으로
+  불가능하므로, backward compatibility의 가장 극단적인 운영 근거가 된다. `E_refresh` 동기
+  문단에 넣되 **시뮬레이션된 대역폭 예산으로만** 다룬다.
+- GK2A 판정: 2 km·고빈도는 한국의 진짜 물리 자산이지만 정지궤도×극궤도 NDVI gap filling은 이미
+  연구 중이고, 과거 GK2A는 현재 endpoint로 소급 조회가 안 된다(최근 2일 제한, 6관측일 실패 실측).
+  → 용도를 **구름 상태의 센서 독립 감사**로 한정하고 융합·초해상으로 확장하지 않는다.
+- 마감 반영: **2026-10-31 완료 기준, 오늘부터 약 10주, 슬랙 1주**. 주차별 표를 프로그램 노트
+  6절에 넣었다. **10-04 체크포인트**에 A4가 안 닫히면 순위 0으로 전환한다. B1(한국 라벨)은 이
+  일정 안에 `E_repr`/`E_fusion`을 닫을 수 없으므로, **CVPR 제출본은 label-free core + 공개
+  dense task로 대체한 축소 `E_repr`로 간다**고 지금 결정했다. 한국 라벨은 다음 마감용이다.
+- FoldRefresh 상태 보정: **AAAI-27 AISI에 제출·갱신됨**. 따라서 K-ALIGN에서 FoldRefresh는 새
+  기여가 아니라 인용하는 선행 자산이고 같은 내용을 두 번 제출하지 않는다. R4는 "만든다"가
+  아니라 "refresh 경로에 **적용**해 보증을 붙인다"로 다시 썼다.
+- 계약 수정 5건 반영: `E_repr` primary 교체, `E_refresh` bytes 기준선 교체, 필지 경계 제외,
+  baseline 확장(CLIP4Geo·WildSAT·Beyond-Pixels·JDCNet·InfraNet·binary quantization·NeuCo-Bench),
+  온보드 업링크 동기 추가. `PAPER_READING_LIST.md`에 결정 9건 표를 추가했다.
+- **정정 (같은 날 확인)**: FLAIR-HUB를 "주석 예산에서 이길 수 없다"고 쓴 근거가 틀렸다.
+  초록을 열어보니 면적은 프랑스 전토가 아니라 **2,528 km²**(제주 약 1,850 km²의 1.4배)이고,
+  "630억 픽셀"은 그 면적을 20 cm로 나눈 dense raster 화소 수이지 사람의 판정 횟수가 아니다.
+  하지 않을 진짜 이유는 ⓐ 장르를 IGN이 이미 정의했고 ⓑ 한국판 dense 주석은 환경부
+  토지피복지도의 재포장이라 독립 정답이 아니며 ⓒ 비동기 provenance와 무관하다는 것이다.
+  다만 **asset 형식(모달 정렬·CC BY-SA 4.0·벤치마크 동봉)은 템플릿으로 차용**한다.
+- **B1 라벨 비용 실측** (프로그램 노트 5절에 추가): 총 판독 1,720회(1,200 + 이중판독 520),
+  회당 5–10분 → 143–287시간, 파트타임 10 h/주면 판독만 14–29주. 10주 마감에 못 들어간다.
+  그러나 더 큰 것은 구조적 막힘 7개다 — ① **두 번째 독립 판독자 부재**(1인 프로젝트인데 계약이
+  independent double review를 요구하고 assistant pre-annotation은 leak으로 금지) ② 10 m S2로
+  판정 불가한 사건 ③ NGII 항공사진 수동 신청·승인(배치 API 없음, 최대 2,400회) ④ 항공 촬영
+  주기가 라벨의 시간 해상도를 1년으로 고정 ⑤ 오름 368개 공식 polygon 0개 — 라벨 단위 geometry
+  미정 ⑥ positive 희소(368 중 후보 14) → 층화 → PPI 필요 ⑦ 행정기록 대체 불가(실증: exact PNU
+  1건, 시간정렬 0건, EIA 중첩 0건). 자체 증거로 v5 blind pair 5/5 `no_improvement` gate 실패,
+  누적 사람 판독 실적 약 23건(RGB 9 + 후보 14) vs 목표 1,200건, 코퍼스의 `W-20`
+  *Humans are Poor Few-Shot Classifiers for Sentinel-2 Land Cover* 경고.
+  → **해법은 규모 축소가 아니라 막힘 1·3 해소**다: sealed 400건만 이중판독하면 약 47시간이라
+  파트너 또는 유료 판독자 1명에게 발주 가능하고, NGII 승인 lead time은 10–20건 파일럿으로
+  먼저 측정해야 한다(**이 수치 없이는 B1 일정 계산 자체가 불가능**).
+- 약점: **초록까지 확인한 것은 `E-07`과 FLAIR-HUB 둘**이다. 나머지 25편은 제목·URL·검색 스니펫 수준(`W`)이며
+  수치를 논문에 인용하기 전에 원문을 열어야 한다. 특히 binary 32×/65% 회복과 PCA64+int8 sweet
+  spot은 실무 블로그 보고이므로 학술 인용으로 쓰면 안 된다. PANGAEA·FLAIR-HUB·압축 3편은
+  gate 수치를 직접 바꾸므로 **정독이 A0의 일부**다.
+- 다음: ① `E-07` 정독(PDF 보유) ② Beyond-Pixels(raster×vector, arXiv 2606.02374) — 우리
+  아이디어와 가장 가까움 ③ PANGAEA로 `E_repr` 주장 형태 확정 ④ FLAIR-HUB로 "만들지 않을 것"
+  확정 ⑤ 압축 3편으로 `E_refresh` gate 수치 확정 ⑥ 그 다음 A0 계약 freeze.
+
+### 2026-08-23 (2차) — K-ALIGN 승률 보정: 프로그램 노트 신설 + 중심 계약 개정
+
+- 계획: 8월 EarthRoute 핸드오프 노트와 같은 층위의 프로그램 문서를 K-ALIGN에도 만들고,
+  "설계는 맞지만 승률이 낮은" 지점을 진단해 중심 계약(`KOREA_ALIGNED_EARTH_BUS_EXPERIMENT.md`)을
+  실제로 고친다. 새 실험은 돌리지 않는다.
+- 사전 판정 기준: 보정은 ① 심사자가 던질 반론을 실험 설계로 미리 막거나 ② 실패 시 남는 산출물의
+  바닥을 올리거나 ③ 임계경로를 줄여야 한다. 셋 중 하나도 아니면 넣지 않는다.
+- 무효 조건: 새 수치를 만들지 않고 문서만 늘리는 경우, 이미 결과를 본 sealed 64를 다시 test로
+  끌어오는 경우, 마감 압박으로 gate 수치를 낮추는 경우.
+- 진단한 구조적 취약점 3개:
+  - **V1 순환논증** — 토지피복·FarmMap·DEM은 EO 파생물이다. 이것을 privileged teacher로 쓰면
+    `E_repr`은 "EO 정보를 EO 모델에 되돌려 넣었다"는 한 줄로 소멸한다.
+  - **V2 BCT 재탕** — `S1`에 compat loss를 걸었으니 `S1→S0` R@1 95%는 통과할 확률이 높다.
+    그것만으로는 BCT의 재현이고 novelty 문단을 쓸 수 없다.
+  - **V3 라벨이 임계경로** — 기존 A5(라벨 1,200 + 이중판독 400)가 A6 앞을 막아 파트타임
+    10 h/주에서 단일 실패점이었다.
+- 결과 — 여덟 보정(R1–R8)을 `K_ALIGN_PROGRAM_NOTE.md`(신규 402행)에 기록하고 계약에 반영:
+  - **R1 derivability screen** — 모든 public source에 EO-only probe `D(source)`를 사전 측정해
+    `D >= tau`면 privileged teacher에서 제외한다. `tau` 제안값 R² 0.60 / AUPRC lift 2.0 /
+    ±30일. 통과 source의 시간정렬 coverage가 대상 site-event의 5% 미만이면 `E_repr`을 열지 않는다.
+    이 표 자체가 독립 산출물이다.
+  - **R2 black-box 불가능성 baseline 필수화** — `BCT-surrogate`, `FCT-posthoc`,
+    `contract-mismatch` 세 개를 §7에 의무로 넣었다. 주장 형태는 "BCT가 나쁘다"가 아니라
+    "BCT/FCT의 가정이 공개 release에서 성립하지 않는다"이다.
+  - **R3 label-free core 선행** — `E_compat`·`E_refresh`·derivability는 라벨 0개로 평가된다.
+    실행순서를 A0–A7(임계경로) / B1–B2(라벨 병렬)로 재편했다.
+  - **R4 FoldRefresh 인증** — `E_refresh`를 비용 숫자에서 "부분 갱신된 cache 위 통계의 유효한
+    유한모집단 보증"으로 승격. BCT·FCT·AM-RADIO·Matryoshka 어디에도 없는 유일한 차별점이고
+    형제 저장소에 이미 검증된 자산이다. 계약 §12의 금지 주장에도 재현 전 사용 금지로 못박았다.
+  - **R5 합성 비동기 harness** — 심사자에게 VWorld/BuildingHUB/GK2A 접근권이 없다. 공개
+    데이터만으로 publication lag·coverage hole·conflict를 합성하는 A6을 신설하고, **A6 없이는
+    두 축이 통과해도 main으로 올리지 않는다**는 규칙을 넣었다.
+  - **R6 asset 축** — 216×2 paired 출력, 5,616파일 exact-input freeze, 5,184행 시간축 manifest,
+    463 request provenance snapshot, failure atlas를 공개 benchmark로 묶는 A7 신설.
+  - **R7 바닥 논문 고정** — CKA 0.97857 / 거리 Spearman 0.95251 vs 동일 token cosine −0.00860,
+    cross-release R@1 0.0000, 사전등록 8 gate 전부 실패. "CKA는 호환성이 아니다"를 최악의
+    경우에도 남는 산출물로 선언했다.
+  - **R8 family×release 격자** — 현재 구성은 release 축이 Olmo 한 family에만 있다. 두 번째
+    family의 두 릴리스(Prithvi-EO 1.0/2.0)를 후보로 넣되 6-band·30 m HLS 계약이 S2 10 m와
+    paired input을 만들 수 있는지 A2에서 먼저 판정한다.
+- 계약 변경 실물: §0에 위험 3개, §2에 라벨 의존성 분리, §4에 derivability screen 절,
+  §7에 black-box baseline과 FoldRefresh 인증, §9에 gate 4행 추가, §10 figure 3개 추가,
+  §11 실행순서·family 격자·제출 사다리 전면 교체, §12 금지 주장 3개 추가, §13 프로그램 수준
+  중단 조건 6개 신설. 문서는 290 → 417행.
+- 약점: 이번 세션은 계획 보정이고 실험 결과가 아니다. R1의 예상 derivability 표는 아직 예상일
+  뿐이며, 저-derivability source의 coverage가 이미 나쁜 신호를 보인다(14후보 exact PNU 1건,
+  시간정렬 0건, EIA 직접중첩 0건). 마감일도 확인하지 않아 사다리에 날짜가 없다.
+- 다음: ① A0 계약에 `tau`와 합성 harness 기반 데이터셋 확정 ② R7 바닥 그림을 `artifacts/`에
+  고정 ③ **공공데이터 재배포 라이선스 검토** — 여기서 막히면 asset 축이 통째로 사라지므로
+  가장 먼저 확인한다 ④ A1 3지역 split hash-freeze ⑤ A2 teacher-contract smoke
+  ⑥ NGII 전후 항공사진 신청은 임계경로가 아니어도 승인 대기가 길어 즉시 착수.
+
+### 2026-08-23 — 한국 공공데이터 정렬형 compatible Earth bus로 초점 수렴
+
+- 계획: 사용자가 `한국을 살리는 transfer`, `좌표계를 맞춘 cache 재사용`, `다른 backbone의 teacher
+  signal 증류`, `한국 공공데이터 alignment 극대화`를 중심으로 좁혀 달라고 요청했다. 직전의 다섯
+  광범위 트랙을 그대로 병합하지 않고, stable EO bus와 timestamped Korea-context residual의
+  이중속도 표현 하나로 재정식화한다. 기존 K-Context의 provenance/natural-missingness 계약과
+  EarthBus의 multi-teacher compatibility 계약을 같은 평가 단위에서 연결한다.
+- 사전 성공 기준: ① stable cache와 dynamic context residual의 역할·갱신주기를 분리 ② Olmo
+  v1/v1.2·TerraMind teacher, EO-only student, public-context teacher의 train/test 입력 계약 명시
+  ③ `E_repr / E_compat / E_fusion / E_refresh`를 별도 estimand로 정의 ④ 한국 public source별
+  event/observed/published/retrieved time·coverage·conflict를 보존 ⑤ identity/Procrustes/ridge,
+  single/multi-teacher, GeoLink-style fusion, MRL/PQ, full backfill을 포함한 baseline·gate 고정
+  ⑥ 기존 full-216 sealed 재사용 금지와 새 3지역 untouched test 명시.
+- 무효/중단 조건: 행정 record를 feature와 label에 동시에 사용, 미래 published/retrieved record 누출,
+  cache 호환성 없이 CKA만 개선, context residual이 없을 때 task가 붕괴, simple late fusion이나 affine
+  bridge가 동일 결과, 모델마다 다른 acquisition으로 teacher 우월성을 주장, 제주 한 지역 결과를
+  한국 전체로 일반화하는 경우.
+- 결과 — 중심 질문: 광범위 후보를 **K-ALIGN: Provenance-Aware Compatible Distillation for Earth
+  Models under Asynchronous Public Context** 하나로 수렴했다. Olmo v1로 `S0` stable bus를 만들고,
+  Olmo v1.2+TerraMind teacher로 `S1`을 갱신하되 frozen `S0` gallery/head와 직접 호환되도록 한다.
+  cutoff-valid 한국 공공 context는 train-time privileged signal과 별도 `r_context` residual로 사용해
+  model release·새 EO 관측·record publication의 갱신 시계를 분리한다.
+- 결과 — 네 estimand: `E_repr`(public teacher가 EO-only student를 강화), `E_compat`(S1 query→S0
+  gallery/head 유지), `E_fusion`(추론 시 residual 정보 이득), `E_refresh`(full backfill 대비 residual/
+  query-only 비용)를 별도 표로 고정했다. `E_repr+E_compat`가 모두 gate를 통과해야 통합 main paper로,
+  한 축만 통과하면 Context Under Coverage 또는 Compatible Earth Bus로 다시 분리한다.
+- 결과 — public alignment: VWorld PNU/geometry는 공간 anchor, SCL·GK2A/KMA는 관측품질,
+  토지피복·FarmMap·DEM은 상태 auxiliary, BuildingHUB/EIA는 target과 독립인 auxiliary 또는 post-
+  evidence, NGII/블라인드 EO 판독만 task label로 역할을 고정했다. 모든 token에 event/observed/
+  published/retrieved time·prediction cutoff·coverage·raw SHA를 보존하고 duplicate-role/future sentinel을
+  100% 차단한다.
+- 결과 — 실행계약: `KOREA_ALIGNED_EARTH_BUS_EXPERIMENT.md`를 새 authoritative 문서로 만들고,
+  S0/S0·S1/S1·S1/S0·S0/S1 네 query/gallery, 3지역 10k unlabeled·1,200 labels·외부 task 1개,
+  baseline/loss/반증 control/7개 Figure·Table·A0–A6 queue를 고정했다. K-Context·EarthBus 문서는
+  구성요소/넓은 후속 탐색으로 낮추고 `RESEARCH_STRATEGY.md`, `RESEARCH_EXECUTION_PLAN.md`,
+  `PAPER_READING_LIST.md`, `README.md`, `STUDY.md` 카드 #43을 같은 우선순위로 정렬했다.
+- 검증: 새 계약 section 0–12와 모든 문서의 authoritative link, STUDY #43을 구조 검사했다. 전체
+  124테스트는 122통과·선택적 rasterio/geospatial 2개 skip, `compileall`, `git diff --check` 통과.
+  이번 갱신은 실험 사전계약이며 한국 public alignment나 다른 backbone transfer 개선 수치는 아직 없다.
+
+### 2026-08-23 — EO embedding transfer·robotics/simulation CVPR 트랙 확장 감사
+
+- 계획: 사용자가 `earth_paper/dashboard.html`과 paper corpus를 함께 보고 OlmoEarth embedding을
+  다른 backbone·policy·simulator로 전이하는 가능성, 로봇/시뮬레이션까지 연결한 CVPR main-track
+  후보를 광범위하게 조사해 달라고 요청했다. earth_paper의 실제 연구 지도·아이디어·paper note를
+  먼저 감사하고, 최신 primary-source의 representation translation/distillation, geospatial world
+  model, embodied navigation, sim-to-real/domain adaptation, aerial/ground cross-view learning과 대조한다.
+- 사전 성공 기준: ① `cache 좌표 정렬 / teacher→student 표현 증류 / downstream policy state`를
+  분리 ② 기존 full-216 sealed 결과를 새 방법 선택에 재사용하지 않는 untouched-test 계약 ③ 각
+  트랙마다 novelty, 최소 데이터, 강한 baseline, primary metric, promotion/kill gate, 현재 자산으로
+  가능한 P0를 명시 ④ Earth paper corpus에서 연결되는 연구 계보를 paper ID/노트로 추적 ⑤ CVPR
+  main 가능성과 robotics/remote-sensing venue 적합도를 과장 없이 순위화 ⑥ paper list와 실행 문서에
+  실제 결정을 바꾸는 문헌·트랙만 반영.
+- 무효/중단 조건: 높은 CKA를 transfer 성공으로 간주, 동일 sealed split을 본 뒤 고른 bridge를 같은
+  test에서 평가, EO embedding을 로봇 state로 넣었다는 사실만으로 embodied contribution 주장,
+  실제 paired aerial-ground/trajectory가 없는 synthetic-only demo, 서로 다른 입력·compute의 모델을
+  한 표에서 우월 비교, robotics·simulation·public context·FL을 한 논문에 모두 주기여로 넣는 경우.
+- 결과 — `earth_paper` 감사: 실제 파일은 `../earth_paper/dashboard.html`이고 `.hmtl`은 오타다.
+  2026-08-10 생성 dashboard/INDEX는 185편·PDF 110편·완독 0·읽는 중 1·아이디어 3개다. robotics/
+  simulation 전용 collection은 없고 연결 가능한 `G-08` Decision Transformer, `W-13` street-view,
+  `K-05` dashcam flood, `O-02` onboard satellite, `O-09` climate simulation, `M-07` Spatial-Agent,
+  `E-03/E-06` pooling/AlphaEarth note도 대부분 stub였다. 기존 corpus를 근거로 embodied claim을
+  확장하지 않고 별도 문헌축이 필요하다고 판정했다.
+- 결과 — 전이 가능성: AM-RADIO와 Theia는 서로 다른 frozen VFM의 지식을 한 compact/robot student로
+  증류할 수 있음을 보여주므로 가능성은 있다. 다만 BCT/FCT/LCE가 compatibility를, MRL이 nested
+  dimension을 이미 점유하므로 `feature 회귀 / cross-model cache / task utility / efficiency`를 분리했다.
+  현재 full-216 sealed는 raw R@1=0·ridge 0.6973/0.6089라는 동기만 제공하며 새 bridge/student의 test는
+  새로운 geographic-future split을 방법 선택 전에 hash-freeze한다.
+- 결과 — CVPR 트랙 순위: ① 현재 exact-input·release audit와 직접 이어지는 `Compatible Multi-Teacher
+  Earth Representation Bus`를 1순위 ② paired satellite–drone/ground와 field-side no-retrain을 묻는
+  `Earth-to-Embodied`를 2순위 ③ Matryoshka edge/cloud 효율을 1의 보조축 ④ action trajectory가 생긴
+  뒤 EO-conditioned latent world model ⑤ real policy fidelity가 생긴 뒤 satellite-to-ground simulation
+  순으로 고정했다. GeoBridge·UniGeoRS·PAUL은 generic cross-view 질문을, DINO-WM·Navigation World
+  Models·Vid2Sim은 latent planning/simulation 경계를 이미 점유하므로 단순 결합을 novelty에서 제거했다.
+- 결과 — 실행 경계: Track 1의 4주 P0는 Olmo v1/v1.2+TerraMind Base, 공통 S2 view, 새 untouched
+  region, linear/MLP/relational bridge, student 1개·256/768d로 제한한다. best-teacher task −1%p 이내,
+  worst-group −2%p 이내, bus-native 대비 cross-family R@1/mAP 95%, latency/FLOPs 5× 또는 bytes 8×,
+  backfill bytes 10×를 모두 통과해야 full paper matrix로 승격한다. paired image만 있으면 localization,
+  action trajectory와 Success/SPL·collision이 있을 때만 navigation/world-model로 부른다.
+- 산출물: `EMBEDDING_TRANSFER_CVPR_TRACKS.md`를 canonical 트랙 문서로 만들고,
+  `PAPER_READING_LIST.md`를 먼저 읽을 26편과 새 section 9로 확장했다. `RESEARCH_STRATEGY.md` RQ8·
+  EarthBus/Paper C·D, `RESEARCH_EXECUTION_PLAN.md`의 논문 경계, `README.md` index, `STUDY.md`
+  카드 #40–#42를 같은 claim/gate로 정렬했다.
+- 마찰/검증: in-app Browser의 URL 보안 정책이 로컬 `file://` navigation을 차단해 우회하지 않고
+  dashboard/INDEX/IDEAS와 paper note 원문을 filesystem에서 감사했다. `PAPER_READING_LIST.md`의 우선
+  독서표 26행·section 1–9·STUDY 카드 #40–#42를 구조 확인했고, 전체 124테스트는 122통과·선택적
+  rasterio/geospatial 2개 skip, `compileall`, `git diff --check`까지 모두 통과했다. 이번 작업은
+  연구 설계·문헌 감사이며 새 GPU/model 성능 실험은 실행하지 않았다.
+
+### 2026-08-23 — 한국 공공데이터 조건부 EO 표현 강화 메인 논문 재설계
+
+- 계획: full-216 감사가 단순 cross-release cache identity를 기각했으므로, 임베딩 보정 자체를
+  목적화하지 않고 한국 공공데이터가 영상-only 모델의 관측 모호성을 실제로 줄이는 조건을 최신
+  주류 학회·공식 코드와 대조한다. 기존 `PAPER_READING_LIST.md`, `K_EVIDENCE_SHIFT_BENCHMARK.md`,
+  `RESEARCH_STRATEGY.md`, `RESEARCH_EXECUTION_PLAN.md`의 범위 중복을 감사하고, workshop이 아닌
+  main-track 수준의 한 중심 질문·최소 모델/ablation·라벨/split·통계·kill gate로 다시 고정한다.
+- 사전 성공 기준: ① 최신 primary source에서 EO 다중모달 fusion·metadata/context conditioning·
+  missing-modality·전이/강건성 baseline을 확인 ② 공공데이터를 입력·약한 라벨·근거·coverage로
+  분리하고 source leakage를 차단 ③ 영상-only 대비 정보 이득을 EO embedding·task prediction·
+  selective decision으로 분해 ④ 현재 보유 데이터로 가능한 P0와 새 라벨/자료가 필요한 P1을 분리
+  ⑤ 평균 정확도뿐 아니라 high-cloud·missing-evidence·지역/시간 OOD·calibration·AURC와
+  paired spatial bootstrap을 사전 고정 ⑥ 기존 paper list에 실제 실험 결정을 바꾸는 문헌만 추가.
+- 무효/중단 조건: 행정 사건을 입력과 정답에 동시 사용, 같은 API의 no-match를 음성 라벨로 사용,
+  label 0 release geometry를 downstream 정확도로 포장, 모델마다 다른 입력을 주고 pretraining
+  우월성으로 해석, 제주 단일 split의 작은 평균 개선만으로 한국형 Earth Intelligence를 주장,
+  실제 사일로 없이 FL을 주기여로 추가하는 경우.
+- 결과 — 경쟁 경계: NeurIPS 2025 GeoLink가 127만 EO–OSM pair의 region/object alignment와
+  object-patch fusion을, ECCV 2024 MMEarth·SatMIP와 ICML 2025 Galileo가 multimodal·time/location
+  supervision을 이미 점유함을 공식 proceedings에서 확인했다. 따라서 단순 `EO+지도/날씨`를
+  novelty에서 제거하고 동적 공식 record의 시점·자연 누락·지연·충돌을 핵심 빈칸으로 고정했다.
+- 결과 — 중심 질문: `E_repr`(train context→EO-only student), `E_fusion`(test EO+context),
+  `E_decision`(예측 후 evidence/abstention)을 분리한 `K_CONTEXT_FUSION_EXPERIMENT.md`를 만들었다.
+  제안 방법은 동결 Olmo v1.2의 provenance-aware 경량 adapter와 privileged distillation이며,
+  location/year-only, context-only, STACK/TOKEN-FUSE, GeoLink-style fusion, native multimodal ceiling을
+  같은 split에서 비교한다.
+- 결과 — 실행 계약: 3지역 최소 10,000 unlabeled parcel/site-years의 P0와 권장 1,200 독립 label의
+  P1을 분리했다. shuffle/time-shift/missingness-only/future-leak sentinel, 지역·미래연도·cloud·
+  자연 coverage, site/event clustered bootstrap과 promotion/kill gate를 실험 전에 고정했다.
+  P0에서 EO-only student +2%p 또는 label 20% 절감이 없거나 simple fusion을 이기지 못하면 대규모
+  GPU/라벨 실험을 중단한다.
+- 결과 — 문서 통합: `PAPER_READING_LIST.md`의 우선 독서를 18편으로 갱신하고 GeoLink, MMEarth,
+  Galileo, SatMIP, MMEarth-Bench, Rao–Rolf를 역할별로 추가했다. `K_EVIDENCE_SHIFT_BENCHMARK.md`,
+  `RESEARCH_EXECUTION_PLAN.md`, `RESEARCH_STRATEGY.md`, `README.md`를 새 Paper A와 full-216 실측
+  상태에 맞췄고 `STUDY.md` 카드 #38–#39에 estimand 분리와 자연 누락 교훈을 남겼다.
+- 보류 — 실행: 현재 독립 supervised label이 0이고 source별 publication/observed time 계약이 먼저라
+  GPU를 추가로 돌리지 않았다. 다음 실제 작업은 C0 source-role/cutoff manifest와 C1 3지역 frame이며,
+  이것이 통과한 뒤에만 C2 P0 adapter headroom을 GPU0에서 실행한다.
+
+### 2026-08-23 — GPU0 full-216 릴리스·캐시 호환성 감사
+
+- 계획: 사용자가 GPU0를 강하게 사용해 실제 연구 산출물을 만들라고 요청했다. 독립 GT 없이도
+  엄밀히 닫을 수 있는 가장 큰 현재 자산인 제주 54 spatial windows×4 site-years 전체에서
+  OlmoEarth v1/v1.2 release drift와 old/new cache compatibility를 측정한다. 먼저 216 입력 전체
+  content hash와 batch-throughput 동등성 gate를 통과하고, 그 뒤에만 GPU0에서 두 release를
+  순차 실행한다. GPU1의 다른 프로젝트는 건드리지 않는다.
+- 사전 성공 기준: ① 216 site-years×12 periods의 tensor/metadata/items/window file을 SHA-256으로
+  고정하고 COMPLETE marker 생성 ② 새 full audit view 216/216·2,592 input symlink, 원본 수정 0
+  ③ GPU0 selected-UUID idle gate·출력 경로 비존재·예상 저장공간 확인 ④ batch1 대비 후보
+  batch size의 output grid/mask/identity 100%와 pooled numeric drift 허용오차를 사전 고정하고 smoke
+  통과 ⑤ full output 216×2=432, mtime/SHA/config/checkpoint/log/COMPLETE 100% ⑥ 54 spatial
+  cluster 단위 통계와 공간 calibration/test split을 사용한 no-bridge·orthogonal bridge·linear/ridge
+  cache baseline ⑦ 새 분석을 재실행해 결정성 확인 ⑧ label-free이므로 accuracy·한국 일반화·
+  구름 강건성 주장은 금지.
+- 무효/중단 조건: 전체 입력 hash 1건이라도 불일치, GPU0 active process, 기존 output/stale file,
+  batch smoke 수치 drift가 사전 허용오차 초과, output completion <100%, spatial split leakage,
+  calibration과 evaluation을 같은 공간창에서 수행, GPU 사용 자체를 성과로 해석하는 경우.
+- 실행 완료: 54위치×4년의 216 site-years를 v1/v1.2 각각 GPU0에서 순차 실행했다. 입력
+  5,616파일·56,684,540,847 bytes와 출력 432파일·105,591,415,295 bytes를 전수 hash로 닫았고,
+  두 릴리스 모두 216/216, 768×256×256 float32, EPSG:32652, finite·usable·nonzero 100%였다.
+  실행 계약과 선택 장치는 GPU0 UUID에 고정됐고 GPU1은 이 추론의 선택 GPU가 아니었다.
+- 자원 실측: 사전 batch gate가 선택한 batch 8/workers 4에서 v1은 3,756.12초·55.26 crops/s
+  (GPU0 util p50/p90 88/89%, peak 4,291 MiB), v1.2는 2,250.12초·92.25 crops/s
+  (72/77%, 2,719 MiB)였다. 이 exact workload의 end-to-end 처리량에서 v1.2가 약 1.67배 빨랐다.
+- 봉인 분석: calibration 30위치/120건에서만 bridge와 ridge alpha를 맞추고, smoke에 노출되지 않은
+  sealed 16위치/64건에서만 headline을 계산했다. same-release native R@1은 양방향 1.0이지만
+  no-bridge cross-version R@1은 0.0이었다. Procrustes는 v1.2→v1 0.4910·반대 0.4360,
+  최선 affine ridge도 0.6973·0.6089에 그쳐 사전 0.95 gate를 8/8 실패했다.
+- 해석: sealed pooled CKA 0.9786·거리 Spearman 0.9525와 동일 token raw cosine 평균 −0.0086이
+  동시에 관찰됐다. 216개 패널의 관계 구조는 남지만 좌표 identity가 깨진 구조적 release
+  shift이며, `full_cache_compatibility_promoted=false`다. 사전 등록한 네 bridge 모두
+  representation proxy를 승격하지 못했으므로 downstream task 평가 전에는 운영 cache 정책을
+  결정하지 않는다.
+- 약점과 다음 gate: 라벨 0·제주 단일 grid·legacy 입력만 있으므로 정확도, negative transfer,
+  구름/공공데이터 효과, 변화탐지, 한국 일반화는 미검증이다. 이번 sealed 결과를 이미 보았으므로
+  nonlinear bridge/distillation은 새 untouched geographic split을 먼저 동결한 뒤에만 평가한다.
+  상세 증거와 금지 주장은 `artifacts/release_audit_full216_v1/README.md`에 고정했다.
+- 사전 기준 보정: full headline analyzer는 output raster를 읽기 전에 one-time
+  `PREANALYSIS_LOCK`을 쓰고 sealed 결과를 한 번만 여는 계약으로 강화했으므로, 사전 기준 ⑦의
+  두 번째 sealed 재실행은 하지 않았다. 대신 분석 코드·NumPy/BLAS/rasterio/GDAL runtime을
+  시작/종료에 재검증하고 metric 회귀 테스트를 통과시켰다. 같은 sealed 결과의 반복 실행을 새
+  독립 증거로 세지 않는다.
+- 증거: paired evidence SHA `9931cddf…e2f1`, analysis summary SHA `56030ea0…185d`.
+  로컬 compact evidence의 marker·상호 SHA·216 pair·432 output closure·CSV 행 수 핵심 검사를
+  18/18 통과했다. 서버의 약 98 GiB raw GeoTIFF는 삭제하지 않고 유지한다.
+- 종료 상태: 모든 inference·finalizer·analyzer가 완료 marker를 쓴 뒤 종료된 것을 확인했다. 최종
+  재접속 시 `nx tunnel up`은 `h200-dev` 세션이 더 이상 실행 중이 아니라고 보고했다. 작업을
+  재시작하지 않았으며 raw는 영구 저장소 경로에 남긴 상태다.
+
+### 2026-08-23 — 검증 가능한 단계만 진행하는 verified-only gate
+
+- 계획: 사용자의 요청에 따라 연구 아이디어를 넓히거나 대규모 GPU 작업을 먼저 시작하지 않는다.
+  현재 산출물과 다음 후보인 BestClear 대표 8-window gate를 독립적으로 재감사하고, 입력·코드·
+  성공 기준이 모두 고정된 최소 단계만 실행한다. 통과하지 못하면 실패 원인과 필요한 선행조건만
+  남기고 멈춘다.
+- 사전 성공 기준: ① 기존 release 결과의 COMPLETE/SHA를 재검증 ② GPU/서버 작업과 무관한
+  deterministic test를 로컬에서 통과 ③ BestClear 검증 표본은 기존 score/사람 판독을 보지 않고
+  고정되었음을 증명 ④ 96기간을 `changed`/`valid no-op`로 전부 설명하고 contaminated 4건은 각각
+  최소 1기간의 array hash 변화 ⑤ cloud proxy 개선과 zero/nodata 악화가 함께 보고됨
+  ⑥ RGB와 SCL 원자료 육안 확인
+  ⑦ 어느 하나라도 불충분하면 216×2 full run·정확도·구름 강건성 주장을 시작하지 않음.
+- 무효 조건: golden window 한 건을 8건 일반화로 재사용, 기존 후보 순위로 검증 표본을 선택,
+  설정명 차이를 입력 차이로 간주, output metric만 보고 source item/pixel hash를 생략, GPU를 채우기
+  위해 검증되지 않은 대규모 실행을 추가하는 경우.
+- 감사 결과 — 기존 증거: 로컬 `preflight.json`이 과거 `ready=false` 보류본인데 문서는 실행본으로
+  설명하는 불일치를 발견했다. 서버 실행본과 launcher 첫 JSON의 SHA
+  `b63c8c60e7314fb77be579657a5a0a5c5e49bcb277c4ee69676fea249f1a2a2b`가 같은 것을 확인하고
+  로컬 파일을 실제 `ready=true`, `selected_gpu=0` 실행본으로 교체했다.
+- 구현: `verify_olmo_release_bundle.py`를 추가해 preflight→checkpoint/exact input→두 config/log→
+  2×8 output inventory→COMPLETE→analysis marker를 fail-closed로 결속했다. 로컬 raw가 없을 때는
+  `PARTIAL_VERIFIED`, `--require-raw`에서 하나라도 없거나 다르면 `FAILED`이며 기존 결과를
+  overwrite하지 않는다.
+- 검증 결과: 서버에서 exact input 208 + checkpoint 4 + output GeoTIFF 16 = 228 raw files,
+  7,851,565,383 bytes를 전부 재해시했다. 758/758 checks, failure/missing 0으로
+  `FULL_EVIDENCE_VERIFIED`; verification SHA는
+  `b543f1b4b43750d510ff36a51e0a2f80ac9b258dc7a29fe8411a9bdd5dc0d34f`다.
+- 결정성: 기존 analyzer를 새 디렉터리에서 다시 실행해 `analysis_summary.json` SHA
+  `7bfeac8d…`와 `per_window_metrics.csv` SHA `8a25a7cf…`가 기존 파일과 byte-identical임을 확인했다.
+- BestClear 중단 판정: 현재 코드는 1-window×4-period에 하드코딩됐고 `max_matches=4`, stale-output
+  거부·선택 item sidecar·SCL/reflectance 96쌍 SHA·grid/time/mask·replay 결정성 테스트가 없다.
+  따라서 이번에는 materialize/GPU 실행을 시작하지 않았다. 기존 golden window는 positive
+  regression control일 뿐 새 stress 분모에 넣지 않는다.
+- 다음 승격 계약: 사람/공공근거를 보지 않고 legacy bad-proxy 양끝에서 이미 동결한 8 site-year
+  (2023/2026, clear 4/contaminated 4, 7 spatial clusters)를 대표 표본이 아닌 label-free stress set으로
+  쓴다. 8×12=96기간 완료, 선택 trace·SCL/reflectance SHA, 96/96 grid/time/mask, contaminated 각
+  ≥1 changed period, median bad-proxy ≥10% 감소, zero/mask 악화 ≤1%p, 고정 RGB, 2건 replay
+  hash 100%를 모두 구현·통과할 때만 다음 계산으로 간다.
+- 최종 검증: 로컬 `unittest` 68개 중 66 pass·2 optional dependency skip, 서버 신규 verifier
+  3/3 pass, `compileall`, `git diff --check`, secret-like value scan 0건, 로컬 verification marker SHA,
+  preflight 실행본 SHA, 재분석 JSON/CSV byte identity를 모두 재확인했다.
+
+### 2026-08-23 — GPU0 전용 P0 실측·연구 실행표 구체화
+
+- 계획: 사용자가 GPU0 전체 사용을 허용했으므로 아이디어 확장보다 이미 고정한 exact-input
+  OlmoEarth v1/v1.2 release smoke를 GPU0에서 실측하고, 그 결과와 무관하게 1주·2주·6주 단위의
+  데이터·모델·지표·표본·중단 기준을 실행 명령 수준으로 구체화한다.
+- 사전 성공 기준: ① GPU0의 기존 프로세스를 확인하고 사용자 작업을 임의 종료하지 않음
+  ② exact input/checkpoint SHA가 기존 manifest와 100% 일치 ③ 8 sample×2 release=16 output과
+  COMPLETE marker 생성 ④ output SHA/mtime·sample/input/grid/mask gate 통과 ⑤ 7 spatial cluster를
+  표본 단위로 둔 CKA·shift-null·neighbor/rank 진단 생성 ⑥ accuracy·negative transfer 주장은
+  독립 라벨 전까지 금지 ⑦ 다음 6주의 표/figure·owner input·promotion/kill gate를 문서로 고정.
+- 무효 조건: GPU0의 다른 프로젝트 프로세스를 강제 종료, active output을 재사용해 stale 결과를
+  새 실행으로 오인, 8 label-free smoke를 정확도나 한국 일반화로 해석, 픽셀을 독립 표본으로 CI를
+  계산, BestClear 미완료 상태에서 input effect와 release effect를 비교하는 경우.
+- 결과 — 자원: H200 세션과 영구 저장소는 정상. GPU0은 0 MiB로 비어 있었고 GPU1은
+  `knee-proj`가 약 62.6 GiB·70%를 사용 중이었다. 실행기의 전역 active-process gate가 GPU1 때문에
+  GPU0까지 막는 결함을 찾아 index→UUID 기반 selected-device gate로 고쳤고 GPU1은 건드리지 않았다.
+- 결과 — 실측: exact input/checkpoint SHA preflight `ready=true`, 8 sample×2 release=16 output과
+  COMPLETE marker 생성. v1 202.633초, v1.2 196.830초. output SHA·mtime·sample/input/grid/mask
+  검증을 모두 통과했다.
+- 결과 — 표현 감사: pooled linear CKA 0.981, pairwise distance Spearman 0.889, top-1/2 neighbor
+  overlap 0.75/1.00. 반면 per-window spatial CKA는 평균 0.427(0.133–0.828), shift-null 초과분
+  평균 0.247이었다. 전역 이웃 구조 보존과 국소 공간 표현 이동이 동시에 나타났지만 8 label-free·7
+  cluster 기술통계이므로 정확도·구름 강건성·한국 일반화·cache 호환성은 여전히 미검증이다.
+- 결과 — 실행계획: `RESEARCH_EXECUTION_PLAN.md`에 Paper A/B, sealed probability test 300,
+  train/active pool 300, double-review 120, 3개 matched-input subtrack, 5-seed/label-fraction 계약,
+  1·2·6주 표·figure·promotion/kill gate와 GPU0 운용 원칙을 고정했다. J0/J1은 완료, J2 full
+  432-output은 사용자가 연구를 재개할 때까지 보류했다.
+- 검증: 로컬 `unittest` 65개 중 63 pass·2 optional dependency skip, `compileall`,
+  `git diff --check` 통과. 서버 release/raster 계약 16/16 pass. 서버 전체 discover는 pilot 입력
+  artifact를 서버에 복사하지 않아 50개 중 1 setUp error·1 optional skip이었으며 코드 실패로
+  세지 않았다.
+- 다음: 연구 재개 시 full legacy 432개부터 무작정 돌리지 않고, 먼저 BestClear 대표 8 window의
+  pixel-hash gate와 sealed 3지역 표본·이중판독 protocol을 닫는다. 그 뒤에만 216×2와 다중모델
+  frozen probe를 GPU0 queue에 올린다.
+
+### 2026-08-23 — K-EvidenceShift 실행화 0주차: Jeju pilot manifest·누수 gate
+
+- 계획: 사용자가 CVPR형 transfer/active-label/evidence 연구를 실제로 함께 진행해 달라고 했으므로,
+  기존 설계 문서를 첫 실행 가능한 benchmark 자산으로 내린다. 현재 14후보·공공 API v3·사람
+  pre-review·OlmoEarth 관측 provenance를 결합하되, 성능표를 꾸미거나 368개를 라벨된 표본으로
+  세지 않는다. 동시에 H200의 현재 모델/데이터 자산을 read-only 감사해 첫 paired model run을
+  고른다.
+- 사전 성공 기준: ① 기본 단위를 `(site, t0, t1, input revision, evidence snapshot)`으로 고정
+  ② `visual_change / official_event_supported / evidence_available / cause`와 label provenance를 분리
+  ③ t1 뒤 행정사건·사람검수·evidence snapshot을 prospective feature로 쓰지 못하게 role/time gate
+  ④ 같은 site·parcel·event가 split을 넘지 않는 group/buffer audit ⑤ cloud/evidence/PNU-conflict
+  strata와 현재 coverage를 실제 수치로 출력 ⑥ model/adaptation/input matrix는 실행 전 빈 결과와
+  promotion gate를 명시 ⑦ 결정적 JSON/CSV·SHA·CLI·단위테스트·문서 갱신.
+- 무효 조건: API no-match를 `visual_change=0`으로 변환, assistant pre-review를 독립 ground truth로
+  승격, 제주 14건 결과를 한국 성능으로 일반화, 픽셀/중복 후보를 독립 표본으로 집계, post-t1
+  evidence leakage, 서로 다른 native modality를 paired-input 성능으로 비교, 실제 silo 없이 FL을
+  핵심기여로 구현하는 경우.
+- pilot 결과: build `0c9968ef33d47027`로 14 records를 13개 500 m spatial group·8개 source-window
+  group·1개 scene component로 고정했다. 독립 human GT 0, transition-aligned 공식사건 0/14, cause
+  0/14, PNU conflict 1, 보류 14/14다. assistant 판독은 pre-annotation으로만, t1 뒤 EO frame은
+  `future_after_t1_review_only`로, 사후 API snapshot은 prospective input 불가로 고정했다. 동일
+  scene graph 때문에 현재 pool로 scene-disjoint cloud test를 만들 수 없고 sealed test도 없다.
+- 누수/승격 보강: upstream 전체기간 BuildingHUB 정렬을 신뢰하지 않고 각 후보 t0→t1 exact PNU
+  event를 재계산한다. EIA는 transition date가 없으면 spatial context에만 둔다. API v3 COMPLETE·raw
+  SHA, assistant manifest protocol hash, 좌표·관측일, 2023/24/25 토지피복 semantic success를 모두
+  검증한다. 성능표 gate에는 3지역·독립 label 300·이중판독 120·sealed probability test·동결 common
+  input contract·4 paired baselines·4 immutable checkpoints를 명시했다.
+- release P0: 제주 54 windows×4년=216 site-years와 인접연도 162 events를 metadata manifest로
+  만들고, label/evidence-free smoke 8건의 96 S2 layer·208 tensor/metadata 파일을 exact SHA로
+  고정했다. 원본은 수정하지 않고 symlink audit view를 만들었다. v1/v1.2는 양쪽 모두 12 S2 bands,
+  patch 4, legacy timestamps, 같은 crop/head로 고정했으며 smoke 예정 output은 16개다.
+- checkpoint 증거: v1 commit `93589e2d…`, weights SHA `551c1cc5…`; v1.2 commit `581aa9ba…`,
+  weights SHA `57f7b66f…`. exact-input manifest SHA는 `bc149353…`, checkpoint manifest SHA는
+  `f325e3f6…`이며 2026-08-23 서버 preflight에서도 다시 일치했다.
+- 분석 계약: smoke 8건은 7개 spatial cluster다. output 16개를 `sample_id`·input bundle·cluster로
+  exact-pair하고 SHA/mtime·expected grid·nodata mask가 하나라도 다르면 실패한다. raw cross-version
+  cosine과 smoke-fit Procrustes는 금지하고, raw/row-normalized spatial CKA·toroidal-shift null,
+  pooled Euclidean-distance Spearman, k=1/2 chance-corrected neighbor overlap과 7-cluster LOO만
+  descriptive metric으로 사전 고정했다.
+- 서버 판정: `./bin/nx`의 실제 `~/DongDong/ai_projects/h100-setup` 탐색을 고쳐 status/doctor/원격
+  shell/영구저장소는 정상이다. 마지막 preflight에서 두 H200에 다른 `knee-proj` python PID
+  1230427(68,990 MiB), 1248837(62,562 MiB)가 있어 `ready=false`; 실행기는 GPU 선점을 거부했고
+  실제 v1/v1.2 output은 시작하지 않았다.
+- 마찰: 첫 HF resolver가 `Path.resolve()`로 snapshot symlink를 blob까지 풀어 commit provenance를
+  잃었다. raw snapshot path에서 revision을 읽고 blob SHA는 별도 검증하도록 고쳤으며 회귀 테스트를
+  추가했다. local→server tar의 macOS provenance xattr 경고는 파일 업로드를 막지 않았다.
+- 최종 QA: 로컬 전체 64 tests 중 62 pass·선택적 geospatial/raster dependency 2 skip. 서버에서는
+  rasterio 1.4.4로 exact sample/input/grid/mask와 synthetic 16-GeoTIFF 분석을 포함한 release 계약
+  15/15가 통과했다. `compileall`,
+  `git diff --check`, pilot output 8파일 SHA/COMPLETE, 신규 benchmark/release artifact secret-like
+  pattern 0건을 통과했다. 실행 계약은 `OLMO_RELEASE_AUDIT_P0.md`에 고정했다.
+- 다음: GPU가 빌 때만 8×2 paired release smoke 실행 → output SHA·embedding drift·neighbor overlap
+  계산 → 216 site-years full hash/audit → SCL BestClear 216 materialize로 input×release 2×2 완성.
+  정확도·negative transfer는 sealed 300 + 별도 active/train 300, 그중 double review 120과 공통 입력
+  계약이 생길 때까지 보류한다. FL은 실제 비반출 기관 silo 3곳 전에는 구현하지 않는다.
+
+### 2026-08-22 — VWorld 재승인 후 257점 지적 snapshot·공식근거 재결합
+
+- 계획: 사용자가 VWorld API key 허용설정을 갱신했으므로 기존 `INCORRECT_KEY`를 그대로 덮어쓰지
+  않고 새 snapshot에서 대표점 1건을 먼저 probe한다. 본문 `status=OK`와 feature/PNU를 확인한
+  경우에만 위치화 오름 243점과 기존 변화후보 14점을 확장한다. 성공 후 기존 BuildingHUB·EIA·
+  토지피복·GK2A snapshot과 결정적으로 재결합하고 dashboard의 고정 실패 문구를 실제 상태 기반으로
+  바꾼다.
+- 사전 성공 기준: ① credential/domain을 artifact·로그에 노출하지 않음 ② HTTP 200과 VWorld
+  `OK/NOT_FOUND/API error`를 분리 ③ 257 요청의 target별 PNU·주소·response hash 보존 ④ 기존
+  8,794 BuildingHUB event와 exact PNU/time join 재계산 ⑤ 대표 지적 필지를 오름 경계나 변화원인으로
+  승격하지 않음 ⑥ 원본 v1 실패 snapshot 보존, 새 combined snapshot과 테스트·secret scan 통과.
+- 무효 조건: 대표점 실패인데 전수 요청, `NOT_FOUND`를 key 오류나 비개발 음성으로 해석, 같은
+  PNU를 공유한 여러 오름점을 서로 독립 필지로 집계, 변화 관측 뒤의 건축사건을 원인 B급으로 승격,
+  dashboard에 과거 `VWorld 실패` 또는 고정 `0/14`를 남겨 실제 JSON과 불일치시키는 경우.
+- 실행 결과: `.env`의 실제 key 값은 읽거나 출력하지 않고 등록 domain `http://localhost`만 고정했다.
+  대표 후보 1점이 HTTP 200·본문 `status=OK`·feature 1을 반환한 뒤에만 257점으로 확장했다.
+  VWorld는 HTTP 257/257, `api_success` 256·`api_no_features` 1·API 오류 0이며 후보 14/14,
+  위치화 오름 242/243의 대표 PNU를 확보했다. `JJ-OREUM-190`의 `NOT_FOUND`는 비개발 음성이
+  아니라 point coverage 누락으로 남겼다.
+- 결합 결과: v7.6의 비-VWorld 206응답과 새 VWorld 257응답을 네트워크 호출 없이 v3로 결합해
+  전체 HTTP 463/463, semantic 성공 456·유효 무항목 1·과거 GK2A 오류 6을 보존했다. VWorld
+  feature 256개는 고유 PNU 235개이며, 14개 PNU를 35점이 공유한다. 따라서 256개 독립 필지로
+  집계하지 않는다.
+- 공식근거 판정: 후보 exact PNU BuildingHUB 사건은 `oreum_v6_r04` 1건이지만 허가 2026-07-06·
+  착공 2026-07-22로 마지막 EO 관측 2026-05-06 뒤라 시간정렬은 0건이다. `oreum_v6_r08`은
+  dated FarmMap PNU `5013025324202000000`과 current VWorld PNU `5013025324201990000`이 달라
+  어느 한쪽도 덮어쓰지 않고 출처 충돌로 보존했다. 결과적으로 A/B급 원인 근거는 **0/14·0/368**,
+  후보 14/14 보류를 유지한다.
+- 구현/검증: `OK/NOT_FOUND/error`와 feature count를 함께 검증하고, VWorld target 257개 완전성·
+  단일 feature 계약·dual-anchor 보존·입력 snapshot SHA/시각·request identity와 raw response
+  lineage·완주 marker를 v3에 추가했다. 원본 실패 v1, 성공 VWorld-only, 결함이 발견된 v2를 모두
+  보존하고 메인 보드 링크만 v3로 승격했다.
+- 최종 QA: `python3 -m unittest discover -s tests -v` 34개 중 33 통과·선택적 geospatial 의존성
+  1개 skip, `compileall`, `git diff --check`, artifact secret scan 0건을 통과했다. `COMPLETE.json`의
+  requests/run-summary SHA와 실제 파일 hash, merge script SHA도 일치한다. localhost 8766의 메인·
+  API 보드를 새로고침해 463/463, VWorld 256/1/0, PNU 충돌 1, 14/14 보류 문구를 DOM에서 확인했다.
+
+### 2026-08-22 — Korea Temporal Evidence Benchmark × GeoFM 전이·연합학습 논문 설계
+
+- 계획: 현재 WorldShift×ModelShift·K-Earth selective evidence 프로그램과 사용자의
+  `OlmoEarth + 한국 실시간/시계열 공공데이터` 아이디어를 하나의 제출 가능한 논문 설계로
+  합친다. 최신 GeoFM benchmark·한국/비한국 시계열 데이터·구름/입력 shift·모델 릴리스
+  호환성·transfer/domain adaptation·federated learning 문헌을 공식 원문으로 다시 감사한다.
+- 사전 성공 기준: ① “공공데이터를 붙이면 정확도 상승”을 입력·표현·예측·결정 단계의 서로 다른
+  개선으로 분리 ② 공개 benchmark 재사용/새 benchmark 필요성을 증거로 판정 ③ OlmoEarth 외
+  최소 3 model family와 supervised/non-FM baseline 포함 ④ spatial/temporal/region/model-release
+  leakage 없는 split·지표·ablation·통계 검정 고정 ⑤ federated learning은 실제 기관 분산·privacy
+  조건과 중앙학습 상한을 갖출 때만 핵심기여로 승격 ⑥ CVPR형 최소 논문과 박사 프로그램 확장을
+  분리하고 8–12주 실행·중단 gate를 제시.
+- 무효 조건: 한국 공공데이터가 존재한다는 사실만 novelty로 주장, API 상태지도/행정기록을
+  ground truth로 오인, 서로 다른 센서·해상도·시점·라벨 budget을 불공정 비교, 제주 한 지역의
+  개선을 한국 전체/실시간으로 일반화, 모델명만 늘리고 paired input 통제를 잃거나, 실제 다기관
+  silo 없이 simulated federated learning을 개인정보·현장협업 기여로 과장하는 경우.
+- 산출물: canonical 논문 설계·benchmark data card, `RESEARCH_STRATEGY.md`와
+  `PAPER_READING_LIST.md`의 최신 문헌/모델 비교 갱신, 실행 우선순위와 CVPR readiness 판정.
+- 결과 — 질문 수렴: CVPR형 중심 질문을 **“글로벌 GeoFM은 한국의 어떤 지역·시기·센서·구름
+  shift에서 matched scratch보다 negative transfer를 만들며, 제한된 target label을 어디에 추가해야
+  worst-group 실패를 가장 빨리 줄이는가?”**로 고정했다. 공공근거 누락·선택적 보류·release
+  continuity는 같은 자산을 쓰는 Paper B/박사 프로그램으로 분리했다.
+- 결과 — canonical 설계: `K_EVIDENCE_SHIFT_BENCHMARK.md`를 만들고 site-event 단위 schema,
+  `visual_change / official_event_supported / evidence_available / cause` 분리, source 역할과 temporal
+  leakage 금지, spatial/temporal/cloud/evidence/release split, matched-input/native-ceiling model track,
+  transfer effect CI와 active-label acquisition baseline·negative controls·promotion gate를 고정했다.
+- 결과 — 비교군: 최소 publishable set은 task-specific U-Net/ViT scratch + generic vision +
+  OlmoEarth v1/v1.2 + Prithvi-EO-2.0 + CROMA 또는 TerraMind로 잡고, AnySat은 확장축으로 뒀다.
+  GEO-Bench-2/PANGAEA harness, EarthShift OOD protocol, AllClear/CloudSEN12 cloud strata를 재사용한다.
+- 결과 — active acquisition: random/층화/uncertainty/release·cross-family disagreement/k-center/
+  log-det/CLUE/cost-aware spatial baseline과 동일 pool·oracle·budget·5-seed 계약을 뒀다. 제주 8/8 cloud
+  공통오류 때문에 quality gate와 spatial dedup을 query 전에 강제하며, adaptive set과 모집단 추론용
+  확률표본을 분리했다. PDE의 beta·advection–diffusion·모호성선·D-opt 해석은 Earth에 직접 이식하지
+  않고 그룹별 transfer effect·경험적 disagreement·diversity baseline으로 새로 정의했다.
+- 결과 — FL/CVPR 판정: 공개 API를 시도별로 나눈 것은 실제 silo가 아니므로 FL은 독립 기관 3곳,
+  반출불가 데이터, 실제 분산실행과 중앙화 불가 근거가 모두 생길 때만 승격한다. CVPR 2027 공식
+  논문마감은 2026-08-22 현재 미발표이므로 내부 10월 31일 초록 동결·11월 6일 제출 가능본을 쓴다.
+  현재 상태 그대로는 main 가능성이 낮고, 6주차까지 3지역·multi-model baseline·300-label audit·
+  재생성 계약을 못 만들면 IGARSS/TMLR/EarthVision 경로로 전환한다.
+- 검증/문헌: `PAPER_READING_LIST.md`에 Copernicus-Bench, REOBench, AllClear/CloudSEN12, CLUE,
+  RIPU, Active Learning under Label Shift, Active-DDC, FedRS-Bench/FedSense/FedAG를 추가했고,
+  `RESEARCH_STRATEGY.md`, `EARTHROUTE_PROGRAM_NOTE.md`, `README.md`, `STUDY.md`의 질문·로드맵·개념
+  카드를 같은 경계로 정렬했다. 문헌 수치는 primary paper/proceedings·공식 repo의 저자 주장이고,
+  우리 환경 재현 전에는 실험 사실로 승격하지 않는다.
+
+### 2026-08-22 — 제주 공공 API 실제 수집·시공간 결합 v1
+
+- 계획: 확보된 credential로 전국 dump가 아닌 제주 bounded snapshot을 만든다. 코드에 source별
+  adapter와 secret-safe request manifest를 먼저 쓰고, VWorld 연속지적도는 등록된 VM에서,
+  BuildingHUB·GK2A·EIA는 승인/응답이 허용되는 범위에서, 환경부 토지피복은 공개 WMS로 probe한다.
+  원본 응답을 보존한 뒤 PNU·geometry·captured/event time으로 기존 오름 368·OlmoEarth 시계열과
+  결합하고, 접근 실패도 삭제하지 않고 source coverage 결과로 남긴다.
+- 사전 성공 기준: ① secret/전체 query string이 로그·manifest에 없음 ② source별 1건 이상 실제
+  응답 또는 구조화된 실패 증거 ③ request hash·retrieved_at·HTTP/content type·schema/CRS·row/tile
+  수 보존 ④ VWorld PNU/geometry, BuildingHUB 사건일, GK2A 관측시각, EIA 사업 polygon, 토지피복
+  연도 중 실제 제공 필드만 공통 event model로 정규화 ⑤ 기존 368 denominator와 원인 10% gate 유지
+  ⑥ adapter 단위테스트·재실행 결정성·dashboard 결과 확인.
+- 무효 조건: 전국 무제한 수집, 페이지네이션/시간범위를 모른 채 no-match를 음성으로 해석,
+  key/서비스 URL query 노출, 서로 다른 좌표계의 직접 교차, 승인된 API를 데이터 확보 완료로 표현,
+  상태지도·기상자료만으로 개발 원인을 확정하는 경우.
+- 실행 순서: 공식 API 계약/endpoint 확인 → adapter·fixture test → 최소 probe → 제주 범위 snapshot →
+  공통 schema·coverage audit → 기존 registry 결합 → dashboard/문서/Worklog 갱신.
+- 결과: secret-safe adapter와 bounded collector를 구현하고 **207개 HTTP 응답**을 원본·SHA-256·
+  secret 없는 request hash로 보존했다. 의미상 성공은 200건이다. BuildingHUB는 기존 PNU에서 나온
+  제주 45 법정동의 2023–2026 기본개요를 **111페이지·8,794행** 전부 받았고, 철거·멸실 endpoint는
+  같은 범위 45요청 성공·0행이었다. EIA WFS는 제주 bbox **13 polygon**, 환경부 토지피복은
+  OlmoEarth 14후보×2023–2025 **42 PNG**, 최신 GK2A는 2 km **127,040 grid값**을 반환했다.
+- 결합 결과: 기존 PNU 58개 중 BuildingHUB exact PNU가 있는 것은 **9개**였다. `oreum_v6_r08`은
+  기존 FarmMap PNU로 같은 법정동 건축사건 77건까지 좁혀졌지만 exact PNU는 0건, EIA와 직접 겹친
+  14후보도 0건이었다. 따라서 새 A/B급 원인 corroboration은 **0/14**, 14/14 보류를 유지한다.
+  데이터량 증가는 원인 판정을 늘리기보다 “왜 보류하는가”를 출처별로 구체화했다.
+- 실패/coverage: VWorld 대표점은 로컬과 H100 VM 양쪽 모두 HTTP 200 본문
+  `INCORRECT_KEY`로 실패해 257점 반복요청을 중단했다. GK2A는 OlmoEarth 과거 6관측일을 최근
+  2일 제한으로 거부해 역사 cloud audit에 사용할 수 없고 최신 grid만 보존했다. NGII 항공사진은
+  수동 신청 채널이라 자동 수집 범위 밖이다. 이 셋 때문에 no-match는 계속 U다.
+- 구현/검증: `api_snapshot.py`, collector·derivation·dashboard renderer와 테스트를 추가했다.
+  API 실패를 HTTP 성공과 분리하고 BuildingHUB 응답 page size 100을 따라 pagination을 소진했다.
+  전체 27테스트 중 26 통과·선택 geospatial dependency 1 skip, compileall/JSON/diff check 통과.
+  브라우저에서 8766 메인→API 보드 링크와 `r08` 토지피복 2023/24/25 전환을 직접 확인했다.
+- 다음: VWorld 개발키와 등록 URL/domain을 함께 재발급·설정한 뒤 대표 1점이 `status=OK`일 때만
+  243점으로 확장한다. 그 다음 사전 고정 10–20후보의 NGII 전후 항공 TIFF를 받아 14후보 중
+  실제 변화 시기와 parcel footprint를 독립 검수한다. 기존 0/368 gate는 이 두 단계 전까지 유지.
+
+### 2026-08-22 — 사용자 제공 공공 API 승인상태 반영·ECVAM 제거 판정
+
+- 계획: 사용자가 확인한 VWorld 연속지적도·건축HUB·기상청·VWorld 접근상태와 NGII 항공사진
+  안내를 공식 페이지 및 로컬 secret 존재 여부와 대조한다. secret 값은 읽거나 출력하지 않고
+  변수명별 설정 여부만 확인한다. 환경부용으로 임시 기재된 `ECVAM_API_KEY`의 실제 사용처를
+  코드·공식 서비스에서 찾지 못하면 필수키 목록에서 제거하고, 환경영향평가 WFS 승인상태는
+  사용자의 명시가 없으므로 `확인 필요`로 유지한다.
+- 사전 성공 기준: ① 사용자 확인/로컬 key 존재/API 실제 호출 성공을 서로 다른 상태로 표시
+  ② 연속지적도 경로를 data.go.kr과 VWorld 중 실제 사용할 경로로 수정 ③ 항공사진의 신청·다운로드
+  절차를 공식 안내와 연결 ④ 환경부 토지피복/생태자연도는 키가 확인되기 전 수동 자료로 유지
+  ⑤ 대시보드·canonical 현황·환경변수 템플릿·테스트가 같은 상태를 말한다.
+- 무효 조건: key가 있다는 이유로 API schema/coverage 검증까지 완료됐다고 쓰거나, EIA WFS를
+  승인 완료로 추정하거나, secret 값을 로그·문서·Git에 노출하거나, 출처가 불명확한 환경부 key를
+  필수요건으로 남기는 경우.
+- 확인 결과: 로컬 `.env`에는 `DATA_GO_KR_SERVICE_KEY`와 `VWORLD_API_KEY`가 설정돼 있고
+  `ECVAM_API_KEY`는 비어 있었다. 값은 읽거나 출력하지 않았고 `.env`의 gitignore도 확인했다.
+  사용자 확인은 BuildingHUB·GK2A 승인, VWorld key 확보·VM 실행이며 EIA는 완료 표시가 없어
+  미확인으로 유지했다. 이 셋과 `실제 API 응답 성공`은 아직 별도다.
+- 공식 페이지 감사: VWorld 연속지적도 2.0은 별도 dataset 신청 대신 `domain+key`와
+  `geomFilter/attrFilter`를 받아 PNU·polygon·주소·기준년월을 반환한다. 사용자 제공 NGII 공지
+  1347은 항공사진 자료가 아니라 `지리OneView` 설치도구 공지였다. 실제 항공 TIFF는 국토정보맵
+  로그인→주소/지명→항공사진→연도→신청 후 승인·문자 알림 경로다.
+- 환경부/ECVAM 판정: 환경공간정보서비스는 2021–2025 등의 연도별 토지피복 WMS를 공개하며
+  별도 인증키가 필요하지 않다. 반면 `ECVAM_API_KEY`는 토지피복 키가 아니라 국토환경성평가지도의
+  법제·환경생태 등 WMS 71종용 선택 P2 key다. 이름·이메일·사용 URL 신청과 이메일 본인인증 후
+  발급되지만 현재 PNU/EIA/건축/GK2A gate에는 필요하지 않으므로 신청을 보류했다.
+- 구현: secret 없는 `config/kearth_public_access.json`을 접근상태 SSOT로 만들고 사용자 확인·
+  credential 존재·실제 probe 상태를 분리했다. dashboard renderer가 이 manifest를 검증·읽도록
+  수정했으며 `.env.example`, `K_EARTH_PROGRAM_STATUS.md`, `KOREA_PUBLIC_DATA_CATALOG.md`,
+  `README.md`와 포트 8766 대시보드를 같은 상태로 갱신했다. secret 필드가 status manifest에
+  들어오면 실패하는 검증도 추가했다.
+- 검증: dashboard/public-data 테스트 20개 중 19 통과·선택 geospatial dependency 1개 skip,
+  JSON/compileall/`git diff --check` 통과. 브라우저에서 `접근 3종 확인 · EIA 미확인`, VWorld VM,
+  BuildingHUB·GK2A 승인, 토지피복 무키, ECVAM 선택 P2 표기를 직접 확인했고 기존 368행을 보존했다.
+- 약점/다음: 키가 준비됐어도 실제 제주 request/response, pagination, 날짜 null, CRS, coverage는
+  아직 검증되지 않았다. 다음 실행은 VM의 VWorld 점 1개·소형 bbox → BuildingHUB/GK2A 최소
+  1페이지 → EIA 승인 확인/소형 WFS → 공개 토지피복 WMS 2023–2025 → NGII 사전고정 10–20후보
+  순이다. raw response와 request hash를 보존하기 전에는 `데이터 확보`로 승격하지 않는다.
+
+### 2026-08-22 — 데이터 소유·공공/시계열 결합 중심 5축 대시보드 재정렬
+
+- 계획: 현재 K-Earth 대시보드와 문서를 ① 공공데이터 신청/필요자료 ② 현재 확보·실험 상태
+  ③ 비즈니스 가능성 ④ 한국형 연구 질문 ⑤ 8월 EarthRoute 노트의 독립 확장으로 나눈다.
+  사용자가 직접 보유할 원본·snapshot·시계열 label이 무엇인지와, 단순 API 연결이 아니라
+  재현 가능한 데이터 자산이 되기 위한 provenance·시간축·권리 조건을 명시한다.
+- 사전 성공 기준: ① 각 축에 `현재/다음/판정 gate`가 보임 ② 신청처·키·원본 파일·시간 필드·
+  공간 join을 혼동하지 않음 ③ 확보/미확보/접근키 필요/파트너 필요를 분리 ④ 공공+시계열이
+  연구·사업에 주는 추가가치를 반증 가능한 지표로 연결 ⑤ 기존 368 오름·FarmMap·선택적 보류
+  수치를 보존 ⑥ 현재 로컬 대시보드에서 다섯 섹션과 모바일/콘솔 오류를 직접 확인.
+- 무효 조건: 데이터셋 개수만 늘리거나, 신청 가능을 확보 완료로 표현하거나, 시계열 원본의
+  snapshot/date/version을 잃거나, 전국 확장·원인 규명·사업성을 현재 증거보다 앞서 주장하는 경우.
+- 실행 순서: 포트 8766의 실제 문서/서빙 경로 확인 → 기존 catalog·ingest·dashboard 상태 감사 →
+  5축 정보구조와 데이터 소유 체크리스트 구현 → 문서·README/GOAL 연결 → 브라우저 visual/DOM/console
+  검증 → 수치·미검증·다음 신청 항목 기록.
+- 결과: `K_EARTH_PROGRAM_STATUS.md`를 5축 canonical 현황판으로 만들고, 현재 대시보드를
+  `K-Earth Program Board v2`로 재구성했다. 새 상단은 신청 상태·보유 경계·사업 gate·논문 질문·
+  EarthRoute 분리를 보여주며, 기존 368건 지도/필터/개별 검수와 `367 보류·1 조사` 판정은 그대로
+  보존했다. 신청 가능과 실제 승인을 구분해 대시보드 상태를 `활용신청 상태 미확인`으로 고정했다.
+- 데이터 감사 수치: 공식 목록 368/368, OSM 위치·OlmoEarth screen 243/368, RGB 검수 9건
+  (오염/기각 8·불확실 1), 원인 A/B급 0/368이다. 로컬 공공 원본은 약 112 MB이며 FarmMap
+  289,379 polygon, 개발행위 240행·223 PNU, 산지이용 2008–2026 19행을 보존한다. 위성 쪽은
+  5,184행 time-axis manifest를 보유하지만 materialized tensor/원영상은 서버 중심이고 v1/v5도
+  동일 입력이므로, `시계열 provenance 보유·장기 raw custody 불완전`으로 판정했다.
+- 신청/수집 판정: 공공데이터포털의 연속지적도·환경영향평가 WFS·건축HUB·GK2A와 VWorld를
+  우선 schema probe 대상으로 고정했다. 국토지리정보원 항공사진과 환경부 토지피복지도는
+  key API가 아니라 사전 고정 10–20후보의 연도별 수동 원본 확보 대상으로 분리했다. 실제 계정의
+  활용신청 승인 목록은 로컬에서 확인할 수 없고 key adapter도 아직 없으므로 확보 완료로 세지 않는다.
+- 사업/연구 판정: 사업은 `Post-EIA Evidence Pack / GeoFM Release Audit / Local Adaptation
+  Sprint`의 세 가설만 유지하며 인터뷰·유료 고객은 0이다. 논문 플래그십은 지도를 많이 붙이는
+  것이 아니라 **불완전한 행정근거 아래의 선택적 변화탐지와 누락 편향 측정**이다. EarthRoute는
+  이 gate를 통과한 뒤 `reuse / cheap_refresh / escalate`를 고르는 별도 후속으로 남겼다.
+- 검증: dashboard 단위 테스트 2/2 통과, 공공 ingest 테스트 17개 중 16 통과·선택 geospatial
+  dependency 1개 skip, 전체 compile과 `git diff --check` 통과. 브라우저에서 프로그램 카드 5개,
+  오름 행 368개, `위치 미해결` 125개 필터와 전체 복귀, console warning/error 0개를 확인했다.
+  661 px에서 카드가 가로로 잘리는 반응형 결함을 발견해 1열로 보정했고 1,440 px 5열도 확인했다.
+- 약점/마찰: 실제 API 승인상태·지적/EIA/건축/항공 원본·장기 EO 원본 custody·확률표본 100건·
+  파트너 검수와 유료 반복은 아직 없다. 선택 geospatial 테스트 1개는 의존성 부재로 skip했고
+  로컬에 Ruff가 없어 lint는 실행하지 못했다. 이번 작업은 정보구조와 보유상태 감사였으므로
+  실험에서 새로 부딪힌 연구 개념이 없어 `STUDY.md` 카드는 추가하지 않았다.
+- 다음 단계: 사용자가 secret을 공유하지 않고 승인된 서비스명만 확인 → `.env`에 key를 보관한
+  뒤 제주 bbox 소량 schema probe 구현 → 항공/토지피복 10–20후보 수동 확보 → 100개 층화 표본의
+  coverage·보류율·검수시간을 먼저 측정한다. 이 gate 전에는 전국 수집이나 원인 분류로 확장하지 않는다.
+
+### 2026-08-22 — EarthRoute 노트 복원·문헌 지도·사업 가능성 감사
+
+- 계획: 2026-08-04 작성한 `EarthRoute` handoff 노트를 현재 Jeju K-Earth·OlmoEarth 실험과
+  연결해 독립 문서로 복원한다. 노트의 선행연구·수치·최초성 주장을 최신 1차 출처로 다시
+  확인하고, transfer learning을 모델 점수 개선이 아니라 `릴리스 이전 안정성·선택적 재계산·
+  지역 근거 검증`의 연구/사업 질문으로 좁힌다. 별도 논문 검색 리스트에는 읽기 순서·가설·
+  우리 실험에 미치는 결정을 함께 기록한다.
+- 사전 성공 기준: ① 첨부 노트의 아이디어를 현재 프로젝트와 중복 없이 하나의 프로그램으로 정리
+  ② 최소 20편의 실제 논문/공식 프로젝트를 핵심·인접·반증 문헌으로 분류하고 DOI/arXiv/공식 URL
+  확인 ③ `고객 문제→유료 wedge→검증 산출물→반복 제품`과 6–12주 proof gate 제시
+  ④ transfer가 두 태스크/두 지역에서 재현되지 않으면 표현을 낮추는 kill rule 유지
+  ⑤ 근거가 불확실한 award·최초성·시장 수치는 사실처럼 남기지 않는다.
+- 무효 조건: 논문 제목만 나열하거나, `fine-tuning 성능 상승`을 곧바로 사업 수요로 간주하거나,
+  MARC 같은 연구 파트너를 지불 고객으로 가정하거나, 제주 단일 사례로 전국/글로벌 transfer를
+  주장하거나, 기존 Earth platform·embedding API와 정면 경쟁하는 범용 SaaS를 설계하는 경우.
+- 실행 순서: 첨부·현재 문서 대조 → 최신 1차 문헌/공식 제품 조사 → 문헌 검색 지도와 확장 노트 작성
+  → README/연구전략 링크·Worklog 결과 갱신 → 링크·중복·주장 경계 검수.
+- 결과: Slack UI와 중복 본문을 제거한 canonical `EARTHROUTE_PROGRAM_NOTE.md`를 만들고,
+  K-Earth(말할 수 있는 근거) → FoldRefresh(릴리스 결과 재사용) → EarthRoute(다음 관측·모델·
+  행정근거·사람검증 선택)의 세 층으로 통합했다. 첫 action space는 9축에서
+  `reuse / cheap_refresh / escalate` 세 개로 줄였고, 예측 risk·모집단 CI·evidence coverage를
+  서로 다른 보증으로 분리했다.
+- 문헌 결과: `PAPER_READING_LIST.md`에 50개가 넘는 primary-source-linked 문헌/시스템 레코드를
+  모델·전이/shift·유효 추론·adaptive execution·compatibility·impact asset으로 분류했다.
+  EarthShift/PANGAEA는 GeoFM transfer가 자동 이득이 아님을, THOR/EO-Gym/OlmoEarth Platform은
+  범용 routing이 이미 혼잡함을, PPI/RSE 2025/CRC는 결정·통계 보증을 분리해야 함을 보여준다.
+- 사업 판정: `transfer learning` 판매는 기각하고, 첫 wedge를 환경영향평가/GIS 파트너 대상
+  `Decision Continuity Audit`·`K-Earth Evidence Pack`으로 좁혔다. 현재는 기술 중, 제품·시장 하이며
+  유료 수요 0건이다. 90일 gate는 9개 문제 인터뷰, 최소 100후보 workflow, 검수시간 30% 절감,
+  잘못된 원인 단정 0, 같은 고객의 두 번째 유료 refresh다.
+- FoldRefresh 감사: 별도 `../decision-ready-earth-ai/`에서 재현 가이드·preregistration·결과 JSON·
+  claim verifier·AAAI build chain을 확인했다. 다만 공개 OpenReview receipt/ID를 확인하지 않았고
+  로컬 checklist의 수동 항목이 남아 있어 `local artifact verified / venue status externally
+  unverified`로 낮췄다. 이 저장소의 미완료 항목은 방법 발명이 아니라 rslearn/K-Earth 이식이다.
+- 마찰·약점: 2026 preprint가 많아 출판상태가 바뀔 수 있고, `최초 joint router` 부재 주장은 아직
+  검색 가설이다. EIA workflow는 법령상 반복되지만 지불의사와 Evidence Pack의 시간절감은 미검증,
+  OlmoEarth local artifact와 hosted Platform은 상업화 조건이 다르다. 모델 릴리스별 parameter
+  수치를 섞지 않도록 `PAPER_NOTES_v1.md`에 v1 전용 경고를 추가했다.
+- 검수: 읽기 장부는 59개 상태행·54개 고유 링크이며 task 문서의 로컬 Markdown 참조와 표 열 수,
+  `git diff --check`를 통과했다. 별도 Markdown linter는 설치돼 있지 않아 실행하지 못했다.
+  v5에서 동일 handler로 확인된 `MOSAIC↔PER_PERIOD`는 요인 축에서 제거하고, 실제 item/pixel이
+  바뀐 `legacy↔coverage×3+SCL BestClear`만 입력 개입으로 고쳤다. 이번 작업은 문헌 종합이므로
+  실제 실험 마찰에서만 만드는 `STUDY.md` 개념 카드는 추가하지 않았다.
+- 다음: 먼저 EarthShift·PANGAEA·Backward-Compatible Prediction Updates·RSE PPI를 정독해
+  v1↔v1.2 paired audit/확률표본 표를 잠근다. 병행해 EIA 3곳, EO/GIS 2곳, 공공 2곳, 보전 2곳에
+  문제 인터뷰를 하고, 유료/LOI/실제 검수시간 중 하나가 나오기 전에는 SaaS를 만들지 않는다.
+
+### 2026-08-22 — K-Earth 공식데이터 ingestion core와 첫 실제 연결
+
+- 계획: `KOREA_PUBLIC_DATA_CATALOG.md`의 설계를 실행 가능한 코드로 내린다. 원본 파일과 API를
+  동일한 provenance 계약으로 다루는 작은 ingestion core를 만들고, 우선 키 없이 받을 수 있는
+  공식 CSV/SHP 또는 이미 보유한 개발행위허가를 실제로 정규화한다. PNU 형식·날짜·coverage·
+  snapshot을 검증하고, 368 오름 registry와의 연결은 exact PNU/polygon/time이 없으면 D/U에서
+  승격하지 않는다. 핵심 로직은 import 가능한 모듈과 단위 테스트로 분리한다.
+- 사전 성공 기준: ① `source_manifest`와 `evidence_edge`를 JSON Schema 또는 검증 가능한 Python
+  model로 구현 ② SHA-256·schema hash·row count·시공간 coverage를 결정적으로 생성 ③ PNU 19자리
+  검증과 날짜구간 overlap/no-match eligibility를 경계값 테스트 ④ 실제 공식 데이터 최소 1개를
+  end-to-end ingest해 반복 실행 hash가 같음 ⑤ 실패 시 partial 결과를 정답처럼 남기지 않고
+  actionable error와 U 상태를 출력 ⑥ formatter/lint에 준하는 정적 검사와 전체 테스트 통과.
+- 무효 조건: notebook/SSH 즉석 코드만 남기거나, 데이터별 column명을 핵심 알고리즘에 하드코딩해
+  재사용이 불가능하거나, float/row 순서 때문에 manifest가 흔들리거나, 대표지번을 오름 경계로
+  간주하거나, 시간필드가 없는 record를 causal match로 승격하거나, 원본 라이선스·URL·기준일을
+  잃는 경우.
+- 실행 순서: 기존 스크립트·로컬 Python 의존성 점검 → core/model/adapter/CLI와 fixture test 작성 →
+  키 없는 공식 원본 획득 또는 보유 snapshot ingest → 결정성·coverage·오류경로 검증 → 368 ledger
+  연결 결과와 한계 기록 → README/Worklog/Study 갱신.
+- 구현 결과: `code/kearth_public/`에 결정적 JSON/SHA, 검증 model, PNU, 날짜구간·coverage,
+  CP949 CSV, 안전한 ZIP 해제, FarmMap offline join을 분리하고 `ingest_kearth_public_data.py` CLI와
+  고정 의존성 파일을 추가했다. B급 edge는 공간방법과 시간방법이 모두 없으면 생성되지 않으며,
+  no-match는 네 coverage 조건이 모두 참일 때만 해석 가능하다.
+- 실제 원본 결과: 제주 FarmMap 2개 SHP 289,379건(제주시 156,122·서귀포 133,257), 유효 PNU
+  289,367건·placeholder 12건을 읽었다. 분류는 밭 146,482·과수 74,446·비경지 34,799·시설
+  33,539·논 113건이다. 제주시 산지이용은 2008–2026 19행이며 2023 714건/230.6 ha,
+  2024 542건/74.2 ha로 기존 개발행위 snapshot의 0건을 음성으로 쓰지 못한다는 경보를 유지했다.
+- 연결 결과: 변화 후보 4좌표 중 `oreum_v6_r08`만 FarmMap 밭 polygon과 point-in-polygon으로
+  연결됐다. PNU `5013025324202000000`, 항공 2022-12-30, 갱신 2023-12-08이며 변화 구간
+  2024-05-16→2025-05-13보다 503일 앞선 **B급 변화 전 상태**다. 원인·허가 증거는 아니다.
+  OSM 오름점 243개 중 7건은 C급 FarmMap point 상태다. 개발행위와 exact PNU는 206행·50 PNU·
+  144 FarmMap polygon이지만 사건시간·변화 footprint가 없어 교차출처 문맥으로만 저장했다.
+- 레지스트리/결정: 368 고정 분모의 FarmMap 상태 C가 7건으로 늘었지만 A/B급 원인 근거는
+  0/368이고 `abstain 367 / investigate 1`과 선택적 변화탐지 모드는 변하지 않았다. 4사이트
+  dashboard에는 `r08`의 변화 전 상태·503일 gap과 다른 3건의 해석 불가능한 point miss를 표시했다.
+- 품질 검증: 단위·통합 테스트 17/17, Ruff check/format, `compileall`, 대시보드 정적 QA를 통과했다.
+  같은 원본·고정 retrieval time으로 새 디렉터리에 재실행한 8개 산출물이 모두 byte-identical했다.
+  raw SHA-256은 FarmMap `977f840e...ac637bf`, 산지이용 `ce50643a...bcfc4e`로 manifest에 보존했다.
+- 약점/미검증: FarmMap은 법적 경계가 아니며 point 결합은 변화 footprint 면적중첩보다 약하다.
+  항공 관측연도가 오래된 polygon이 많고, 항공사진 blind review·GK2A 구름·공식 지적·EIA·
+  BuildingHUB·사유림 사건을 아직 연결하지 않았다. 98 MB raw ZIP은 Git 반영 전 LFS/객체저장소
+  정책도 필요하다. 따라서 `cause_supported`는 0건이며 데이터 증가를 성능 향상으로 주장하지 않는다.
+- 다음 게이트: 연속지적도에서 368 대표 PNU와 실제 변화 footprint geometry를 만들고,
+  EIA/BuildingHUB/사유림 사건을 30/90/180일 민감도로 결합한다. 그 다음 NGII 전후 항공사진을
+  모델 score blind로 판독해 `상태 B + 사건 B + 사람검수`가 처음 닫히는지 확인한다.
+
+### 2026-08-22 — 한국 공공데이터 연결 가능성 전수 탐색
+
+- 계획: 제주 오름 368 evidence ledger를 기준으로 한국의 공식 공공데이터를 `필지·인허가·사업구역 /
+  환경·보전 상태 / 재난·기상 관측 / 현장·행정 검증`으로 나눠 검색한다. 각 데이터는 공식
+  제공기관·기준시점·공간단위·시간필드·접근방식·인증키·라이선스·결합키를 확인하고, 현재
+  레지스트리의 어느 단계에 어떤 근거등급(A/B/D/U)으로 연결되는지 데이터 계약으로 남긴다.
+- 사전 성공 기준: ① 최소 12개 공식 데이터 후보와 직접 공식 URL ② PNU·공간중첩·시간중첩 등
+  재현 가능한 join 경로 ③ 즉시 사용/키 필요/협의 필요의 접근성 분류 ④ `no match`를 음성
+  증거로 사용할 수 있는 조건과 누락 편향 명시 ⑤ 우선순위 3개와 실제 ingestion 스키마 제안.
+- 무효 조건: 포털 검색 결과나 블로그만 근거로 삼거나, 데이터 이름만 나열하거나, 현행 레이어를
+  과거 원인으로 해석하거나, 주소·행정동 근접을 필지 일치로 승격하거나, API 키 부재를 데이터
+  부재로 기록하는 경우. 공식 문서에서 공간·시간·접근 계약을 확인하지 못하면 `탐색 후보`로
+  낮춰 기록한다.
+- 실행 순서: 기존 결합 공백 확인 → 공식 제공처·API 문서 검색 → 데이터별 evidence-role 및
+  join contract 작성 → 368 레지스트리용 우선순위/누락편향 표 작성 → 연구전략·아티팩트 색인과
+  Worklog에 결과·마찰·다음 게이트 기록.
+- 결과: 중앙·지방정부 공식 페이지에서 **23개 연결 후보**를 확인해
+  `KOREA_PUBLIC_DATA_CATALOG.md`에 제공기관·직접 URL·접근방식·공간/시간키·evidence 역할·한계를
+  기록했다. 연결 구조는 `연속지적도 PNU → 환경영향평가/BuildingHUB/개발행위/사유림 행정사건 →
+  팜맵/토지피복/임상도/항공사진 독립 상태관측 → 생태·보호·국가유산 영향 문맥 → GK2A/SCL·기상
+  입력품질`이다. 최소 12개 기준을 넘었지만 목록 수 자체는 성과로 세지 않는다.
+- 핵심 발견: 현재 개발행위허가 snapshot의 제주 2023·2024행은 0이지만, 행정 개념이 다른
+  제주시 산지이용지정현황에는 **2023년 714건·230.6 ha / 2024년 542건·74.2 ha**가 있다. 이는
+  두 데이터의 직접 모순이 아니라 행위유형·모집단이 다른 행정 시스템의 0건을 “활동 없음”으로
+  일반화할 수 없다는 coverage 경보다. no-match는 공간·기간·행위 모집단·pagination/이력·join
+  필드가 모두 완전할 때만 음성 근거로 허용한다.
+- join contract: 공식 오름 주소의 지번은 대표필지일 수 있으므로 PNU를 오름 경계로 간주하지
+  않는다. exact PNU, polygon intersection, 행정리/최근접을 별도 저장하고, 변화 전후 구간에
+  30/90/180일 사전 민감도 창을 적용한다. `source_manifest`와 `evidence_edge` 스키마를 정의해
+  snapshot·유효기간·CRS·라이선스·schema hash·겹침면적·day gap·no-match 해석 가능성을 보존한다.
+- 연구 전환: `모델+OSM → +공식 PNU → +상태지도 → +행정사건 → +항공/현장` ablation을 고정하고
+  단계별 time-aligned coverage, decide/abstain, selective risk, 지역·토지피복별 침묵률을 368
+  분모에서 측정한다. 이는 공공데이터 개수를 늘리는 데모가 아니라 **자료 누락이 Earth model의
+  안전한 발언 가능성을 어떻게 편향시키는지**를 측정하는 논문 실험이다.
+- 마찰·약점: 일부 서비스는 키·Digital OnePass·도엽 신청·과거판 기관 협의가 필요하고, 산불 API는
+  좌표정밀도, BuildingHUB·산림사업은 실제 실행일 필드를 아직 원본 schema로 확인하지 못했다.
+  이들은 A/B로 선반영하지 않고 `탐색 후보` 또는 U로 유지했다. 임상도는 변경금지 조건을 포함한
+  라이선스 검토가 필요하며, 현행 용도지역·보호지도는 과거 원인으로 쓰지 않는다.
+- 다음 게이트: ① 연속지적도 키로 368 주소의 PNU exact/review/unresolved coverage 산출
+  ② 2025 제주 팜맵 SHP를 내려받아 현재 변화 footprint와 교차 ③ EIA WFS·BuildingHUB·사유림사업
+  schema의 날짜/geometry coverage 감사 ④ 항공사진 blind review 표본 설계. 이 네 단계 전까지
+  A/B급 원인근거는 계속 0/368이며 선택적 보류 모드를 유지한다.
+
+### 2026-08-22 — K-Earth Evidence: 제주 368개 오름 전수 레지스트리와 선택적 판정
+
+- 계획: 제주 공식 오름 368건을 분모로 고정하고, 사용자가 제공한 오름 속성 표를 재현 가능하게
+  정규화·대조한다. 각 오름에 대해 `목록 등재 → 위치 해석 → 위성 관측 가능 → 변화점수 산출 →
+  공식 근거 결합 → 사람 검수`의 단계를 별도 상태로 저장하며, 기존 4개 변화 후보의 근접 근거는
+  이 전수 레지스트리에 연결한다. 아직 수행하지 않은 위성 판정을 “조사 완료”로 표시하지 않는다.
+- 사전 성공 기준: ① 공식 368건 모두에 고유 ID와 출처·기준일·주소·속성을 보존 ② 첨부 표와의
+  일치/불일치를 수치화 ③ 전수 분모에서 공식 근거 가용률과 상태별 누락률 계산 ④ 근거 가용률이
+  10% 미만이면 원인 규명 대신 `조사 우선 / 보류 / 판정 가능` 선택적 변화탐지 모드로 자동 전환
+  ⑤ 대시보드에서 368건 검색·필터·근거 등급·보류 이유·연구 게이트를 확인할 수 있음.
+- 무효 조건: 주소만 있는 오름에 임의 좌표를 부여하거나, 현재 OSM peak 근접을 공식 경계·과거
+  상태·인과 근거로 간주하거나, 미조회/키 부재/시차를 “개발 없음”으로 코딩하거나, 기존 4개
+  후보의 근거 가용률을 368개 전체 가용률로 일반화하는 경우. 전수 목록 커버리지와 전수 위성
+  판정 완료율을 반드시 분리한다.
+- 실행 순서: 첨부 HTML 표 parser와 provenance manifest 작성 → 공식 CSV record linkage →
+  offline OSM의 오름 위치 후보 연결 → evidence coverage/abstention 정책 산출 → 368개 레지스트리
+  및 연구 대시보드 생성 → 브라우저 육안·상호작용 검증 → 서버에서 전체 위성 실행의 비용·입력
+  준비 상태를 점검하고, 장기 실행은 다중-window v7 게이트를 통과한 뒤에만 시작한다.
+- 결과 — 고정 분모와 연결: 공식 오름 **368/368**을 상태화했다. 첨부 제주시 210행은
+  **209행 연결 / 188행 핵심 필드 대조 / 21행 주소 등 충돌 / 1행(`빈내오름`) 미연결**이다.
+  첨부 `번호`가 공식 `연번`과 같은 키라는 초기 가정을 폐기하고 이름·주소·면적 복합키로
+  교체했다. offline OSM peak는 **243/368**, 같은 리 단위 허가 문맥은 **183/368**이며
+  각각 C/D급 탐색 근거일 뿐 공식 경계·필지 원인으로 승격하지 않았다.
+- 결과 — 모델과 육안 검수: H200에 이미 생성된 v6 embedding만 재사용해 위치가 연결된
+  **243/243**을 점별 screen했다. `high_stable 8 / high_unstable 34 / moderate_stable 4 /
+  low_or_unstable 197`이었다. 모델 안정 후보 8개와 기존 후보 인접 1개, 총 9개를 2023–2026
+  동일 월·고정 stretch·두 공간 축척 RGB로 검수한 결과 **지속 변화 확정 0 / 구름·연무로
+  기각 8 / 불확실 1(성산일출봉)**이었다. 최종 출력은 `조사 우선 1 / 보류 367`이다.
+- 핵심 발견: 4기간 점수와 12기간 점수가 모두 높은 8건은 독립된 두 증거가 아니었다. 두
+  계산이 공유한 오염된 2023 입력 때문에 **8/8이 같은 구름 오차를 안정적으로 재현**했다.
+  따라서 모델 합의는 입력·오류가 독립적일 때만 강화 증거이며, v7 SCL(Scene Classification
+  Layer) 품질 게이트와 사람 검수 전에는 오름 변화 주장으로 사용할 수 없다.
+- 정책 판정: 필지·환경영향평가 경계와 시점이 맞는 A/B급 공식 원인 근거는 **0/368(0%)**로
+  사전 10% 문턱보다 낮다. 시스템은 자동으로 `selective_change_detection` 모드가 되었으며,
+  현재 허용 주장은 전수 증거 상태·누락률·조사 우선순위뿐이다. “368개 원인 규명”과
+  “오름 훼손 전수 확인”은 금지한다.
+- 마찰·개선: ① 부분집합 내부 순번을 공식 연번으로 붙인 첫 결합은 206개 가짜 충돌을 만들어
+  linkage audit와 복합키로 교정했다. ② 섬 전체 embedding center를 매번 읽는 첫 score 방식은
+  NFS I/O 병목으로 중단하고, `code/`의 point-only grouped read로 바꿔 243건을 완주했다.
+  ③ 첫 RGB figure의 한글 glyph 경고는 영문 ID 제목으로 교정해 경고 없이 재생성했다.
+- 브라우저 검증: 메인 화면 **368행**, 위치 미해결 필터 **125행**, `빈내오름` 검색 **0행**,
+  판정 변경의 localStorage 저장·reload 지속을 확인했다. RGB 검수 화면은 article/image
+  **9/9**, 모든 이미지 `naturalWidth > 0`, 콘솔 오류 0이다.
+- 종료 시 서버 상태: `h200-dev`와 영구 data volume은 RUNNING/ready다. 오름 score·RGB render
+  프로세스는 남아 있지 않다. H200 GPU0은 메모리 0 MiB로 비어 있고, GPU1은 다른 작업이
+  38%·68,501/143,771 MiB를 사용 중이다. 오름 산출물은 `/home/work/data/olmoearth/` 아래에
+  보존했다. 접속 시 실제 대문자 경로의 `H100_SETUP_DIR` 명시가 계속 필요하다.
+- 약점·다음 게이트: **125개는 공식 좌표/경계가 없어 모델 screen도 미완료**이고, 243개도
+  현행 OSM point다. v6는 계절·시간축 교란이 남고, 허가 스냅샷은 2023·2024 제주 행이 없어
+  `no match`가 음성 증거가 아니다. 다음은 ① 브이월드 PNU·환경영향평가 공식 polygon 확보
+  ② 대표 window에서 v7 SCL 다중시점 게이트 통과 ③ top-k가 아닌 비후보 포함 층화 확률표본과
+  PPI(Prediction-Powered Inference) 신뢰구간 ④ 현장 파트너의 독립 판정 순으로 진행한다.
+
+### 2026-08-22 — 한국 공공데이터 결합 전후 증거력 비교
+
+- 계획: `human_review_v1`의 후보·순위·사람 판정을 고정한 채, 한국 공식 지도/공공데이터와
+  개방형 지도 레이어를 후보 주변에 결합한다. 먼저 4개 고유 고확신 변화지를 대상으로
+  오름/지명, 도로·건물, 토지피복·용도지역, 개발 관련 공개 기록의 실제 접근성과 기준 연도를
+  조사하고, 키 없이 재현 가능한 레이어부터 evidence pack과 검수 UI에 붙인다.
+- 사전 성공 기준: ① 원래 RGB-only 판정을 덮어쓰지 않고 결합 전/후 판정을 분리 ② 레이어마다
+  제공기관·기준일·라이선스·공간해상도/축척·조회 시각 보존 ③ 4개 사이트 모두에 “추가 증거 있음
+  / 없음 / 조회 불가”를 기록 ④ 최소 1건에서 외부 레이어가 원래 해석을 강화·약화·변경하거나,
+  전부 무정보라는 결론을 재현 가능하게 남김 ⑤ 브라우저에서 사용자가 근거를 보고 수정·내보냄.
+- 무효 조건: 현재 지도 객체를 과거에도 존재한 것으로 간주하거나, 지목·용도지역을 실제 이용과
+  동일시하거나, 점/선 객체의 근접만으로 개발 원인·허가·위법·생태 영향을 확정하는 경우.
+  API 키 부재/시간 불일치는 음성 증거가 아니며 명시적인 `unavailable`로 남긴다.
+- 데이터 결합: 제주특별자치도 오름현황 **368건**(기준일 2024-03-31, 주소·속성만 있고
+  좌표/경계 없음)과 국토부 토지이음 개발행위허가 최신 전국 ZIP(2026-08-19)에서 제주
+  **240건**을 UTF-8로 정규화했다. 허가 행은 2023·2024가 0, 2025가 4뿐이어서 네 후보의
+  행정경계명 일치 0건을 “허가 없음”으로 사용할 수 없다. 브이월드 지적/PNU WFS와 환경부
+  토지피복·환경영향평가 API는 인증키가 필요한 다음 레이어로 기록했다.
+- privacy-preserving spatial join: 후보 정밀좌표를 Nominatim/Overpass에 보내는 호출은 보안
+  검토에서 중단했다. 대신 Geofabrik 대한민국 전체 OSM 스냅샷(MD5 검증,
+  2026-08-21T20:21:11Z)을 받고 제주를 추출해 **113,547 feature를 전부 로컬 결합**했다.
+  후보 좌표의 제3자 전송은 0건이다.
+- 결과: RGB 지속 변화 판정이 뒤집힌 site는 0/4지만 문맥은 4/4에 추가됐다. 개발 대조는
+  삼양동 도시 가장자리(500 m 건물 26·도로 객체 32)라 개발 해석이 강화됐다. `r08`은 수망리
+  현행 wood·더클래식컨트리클럽 경계 289 m·공식 마은이 1.64 km, `r10`은 가시리·동 골프장
+  997 m·공식 마은이옆 1.24 km여서 특정 오름 정상부 훼손 주장은 약해지고 관리형 중산간
+  문맥이 생겼다. `r11`은 공식 고이악/OSM 고이오름 416 m와 현행 태양광 발전소 폴리곤
+  6개(419–951 m)가 있어 인프라 연관 가설이 강화되어 후속 1순위가 됐다. 최종 판정은
+  **강화 2 / 문맥만 추가 2 / 변화 판정 번복 0**이다.
+- UI·검증: `artifacts/external_data/korea_public_v1/evidence_dashboard.html`에 4개년 RGB와
+  3 km offline vector map을 병치하고 OSM ODbL 출처, 공식 오름명·거리, 건물/도로, 허가
+  한계를 표시했다. 브라우저에서 4/4 이미지·SVG·초기 판정, 선택 변경→reload 지속→복원을
+  확인했고 좁은 self-contained 폴더만 localhost로 제공했다.
+- 실패·개선: 공식 허가 CSV의 null `지자체코드`로 첫 정규화가 실패해 null-safe parser로
+  고쳤다. 근접 지명 화북이동을 포함 경계 삼양동 대신 허가 연결한 초기 규칙은 false join으로
+  폐기하고 포함 행정경계만 허용했다. 날짜 고정 Geofabrik URL 404는 `latest`+MD5로 교체했고,
+  오름 별칭 set 순서 때문에 출력 hash가 두 값 사이에서 흔들린 문제는 정렬을 강제해 2회 연속
+  동일 SHA-256으로 닫았다.
+- 약점·다음: OSM은 현재 커뮤니티 지도이며 시설 등록일이 실제 조성일이 아니다. 공식 오름
+  파일에는 경계가 없고 peak 점만 연결했으며, 허가는 필지 PNU와 후보 좌표가 아직 연결되지
+  않았다. 다음 승격 조건은 브이월드 지적/PNU 또는 동등한 공식 cadastral layer, 환경부
+  토지피복/환경영향평가, 과거 항공사진 중 하나로 **거리 근접을 경계 중첩+시점 일치**로 바꾸는 것이다.
+
+### 2026-08-22 — 제주 변화 후보 human-in-the-loop 육안 감사
+
+- 계획: 기존 v3/v6 변화 후보를 결과를 본 뒤 재선택하지 않고 입력 목록으로 고정한다. 확인된
+  개발 후보(33.5087N, 126.5747E)를 양성 대조로 포함하고, 오름·초지/산림권과 해안·도시권을
+  공간적으로 층화해 2023~2026 동일 stretch RGB 시계열 아틀라스를 만든다. 각 후보를
+  `개발·벌채 / 오름·초지 계절성 / 구름·해무 / 바다·반사 / 불명확`으로 판정하며 사용자가
+  JSON에서 판정을 수정할 수 있게 provenance와 좌표를 함께 남긴다.
+- 사전 성공 기준: ① 후보 선택 근거·source ranking을 보존 ② 모든 후보에 4개년 동일 위치 RGB
+  제공 ③ 자동 점수와 사람 판정을 분리 ④ 최소 1건의 지속적 지표 변화 또는 “유효 후보 없음”을
+  증거와 함께 판정 ⑤ 구름·계절성 후보를 개발로 오인하지 않음.
+- 무효 조건: RGB를 본 뒤 성공 사례만 골라 분모를 바꾸거나, 오름의 식생 계절성·그림자·화산
+  지형 차이를 개발로 부르거나, 현장·고해상도 자료 없이 원인을 확정하는 경우. 산출물은
+  조사 우선순위 후보이며 생태 영향·인과효과 주장이 아니다.
+- 결과: RGB를 보기 전 규칙으로 **14개**를 고정했다(개발 대조 4, 동부 중산간 tree/grass
+  후보 6, v3 공간 대조 4). 각 연도 5월 15일에 가장 가까운 관측, 동일 0–3000 DN stretch,
+  1.28 km 맥락+400 m 상세로 전부 육안 판정했다. 고확신 지속 변화 record는 5개지만
+  `dev_control_v3_r02`와 `built_v6_r16`이 약 60 m 간격의 같은 변화지라 **고유 사이트는 4개**다.
+  추가 중간/불확실 변화 3개, 구름·농경 계절성·안정/불명확 6개로 판정했다.
+- 핵심 관찰: 동부 중산간 집단을 “오름 변화” 하나로 묶을 수 없었다. `oreum_v6_r08/r10/r11`은
+  2024~2026에 갈색 절개→회색 대면적 표면 또는 확대된 나지가 지속되는 고확신 토지전환
+  형태였지만, `r04`는 2023 구름 뒤 안정된 경작/피복지였다. v3 공간 대조 4개는 2개 구름,
+  2개 농경·식생 변화로 닫혀 기존 false-positive 계보를 재확인했다.
+- 사용자 검수 산출물: `artifacts/human_review_v1/dashboard.html`에 Codex 1차 판정을 채우고
+  select/메모를 직접 수정한 뒤 JSON으로 내보낼 수 있게 했다. 브라우저에서 14/14 초기값,
+  선택 변경·복원, 상대 이미지 로딩을 확인했다. 알고리즘 manifest와 사람 판정은 별도 JSON으로
+  유지한다.
+- 약점·다음: 10 m RGB는 개발 종류·허가 여부·생태 영향·특정 오름 경계를 확정하지 못한다.
+  외부 역지오코딩은 정밀 후보 좌표를 제3자 서비스로 전송하는 문제가 있어 수행하지 않았다.
+  사용자 판정과 동의된 공공 인허가/고해상도 레이어를 받은 뒤 4개 고유 고확신 지점을
+  evidence pack 후보로 승격하고, 그 전에는 좌표 기반 조사 우선순위로만 유지한다.
+- 종료 검증: manifest·사람 판정·PNG가 각각 14개로 일치하고 manifest SHA-256 고정값과
+  Python AST, `git diff --check`가 모두 통과했다. 서버의 검수 생성 프로세스는 0개다.
+  H200 2장의 현재 점유(약 81/73 GiB)는 무릎 학습 2개와 별도 `p1_world` 적응 실험 2개이며,
+  제주 검수 작업이 아니다. 영구 볼륨은 9.1 TiB 중 8.2 TiB가 남아 있다.
+
+### 2026-08-22 — v7 SCL-aware 합성 golden-window smoke test
+
+- 계획: 전체 제주 재계산을 금지하고, v1 blind audit에서 구름 100%였던 2025년
+  `30720_-372736` 한 window만 사용한다. 기간당 3개 spatial coverage를 후보로 넣고,
+  rslearn의 `Sentinel2SCLBestClear`를 SCL nearest-neighbor 점수로 보정해 window 내부 clear
+  cover가 가장 높은 장면을 선택한다. 기존 v1과 같은 최근 4기간만 비교한다.
+- 사전 성공 기준: ① v1과 다른 ordered item group/출력 픽셀 확인 ② 첫 4기간 전체-window
+  bad proxy 상대 10% 이상 감소 ③ 사전 선택 target block(2025 period index 3)의 bad proxy
+  1.0→0.5 이하 ④ zero/mask proxy 악화 1%p 이하 ⑤ 고정 stretch RGB에서 target cloud 감소.
+- 무효 조건: SCL을 bilinear로 보간해 class 점수를 왜곡하거나, v7 결과를 보고 target을 다시
+  고르거나, 한 window 성공을 제주 전체/생태 결과로 일반화하는 경우. 수치·RGB가 실패하면
+  overlaps/합성기를 수정하되 같은 target과 기준을 유지한다.
+- 실행 마찰(실패도 보존): attempt 1은 enum 대소문자(`BILINEAR`) 검증 실패, attempt 2는
+  console entrypoint의 `sys.path`에서 로컬 compositor import 실패, attempt 3은 SCL 자산 URL이
+  items에 있어도 `band_sets`에 없어서 tile store 등록이 안 되어 실패했다. 각각 설정을 고친 뒤
+  같은 window·target·판정 기준으로 재실행했으며 로그는 `artifacts/results/jeju-v7-smoke*.log`에
+  보존했다.
+- 결과: materialize **1/1, 4기간 완료, 실패 0**. 네 기간 모두 ordered source group이 v1과
+  달랐고 3/4기간의 반사도 픽셀이 달라졌다. 첫 4기간 mean bad proxy 상대 감소는 **95.64%**,
+  zero/mask proxy 변화는 **−0.0082%p**, 사전 고정 target(period 3)은 **1.00→0.00**이었다.
+  고정 stretch RGB에서도 period 3의 큰 밝은 구름과 period 0의 구름 패치가 제거되어 수치·육안
+  게이트가 모두 통과했다.
+- 약점·다음: 이는 사전 선택한 1개 golden window의 장면선택 성공이지 제주 전체 성능이나
+  변화탐지 정밀도가 아니다. 어두운 clear scene이 임베딩 분포를 바꿀 가능성도 남는다. 다음은
+  v5 전수 감사에서 연도×bad-proxy로 **사전 층화한 다중 window**에 같은 기준을 적용하고,
+  효과 분포·실패율·embedding/Top-k 안정성을 본 뒤에만 216윈도우로 확장한다.
+- 종료 상태(11:00 KST): `h200-dev` RUNNING, 영구 data ready. v7 디렉터리는 60 MiB이고
+  완료 marker 4개, 잔여 v7 프로세스 0이다. attempt 1이 남긴 독립 process group 1074688은
+  소유·PGID를 확인한 뒤 종료했다. `/home/work/data`는 9.1 TiB 중 1.0 TiB 사용(11%, 8.2 TiB
+  여유). H200 사용률 69%/41%, 메모리 80.9/72.7 GiB는 다른 사용자 작업이 계속 점유 중이다.
+
+### 2026-08-22 — 제주 v5 입력 품질 감사 착수
+
+- 계획: `code/audit_jeju_v5_quality.py`를 먼저 작성해 v1(MOSAIC)과 v5
+  (PER_PERIOD_MOSAIC)의 동일 4개년·동일 격자를 비교한다. 구조 완전성, B02 기반 구름 proxy,
+  0/mask 기반 nodata proxy, 최악 기간 품질, 엄격 clean coverage를 수치화하고 동일 위치 RGB
+  쌍을 생성한다. 서버에는 파일로 전송한 코드만 실행한다.
+- 사전 성공 기준: ① 4년×54 = 216 matched windows와 각 12기간 확보 ② v5 평균 cloud/bad
+  proxy가 v1보다 상대 **25% 이상 감소** ③ v4의 strict clean coverage 1.2% 대비 **5배 이상**
+  증가(≥6%) ④ zero/nodata proxy가 **1%p 넘게 악화되지 않음** ⑤ RGB 5쌍 중 4쌍 이상에서
+  구름/결측 감소를 사람이 확인. 수치가 좋아도 RGB 판정 전에는 통과로 닫지 않는다.
+- 무효 조건: B02>1800 휴리스틱을 실제 cloud mask로 오인하거나, 개선이 큰 위치만 골라 전체
+  품질을 주장하거나, FIRST_VALID의 0을 자동으로 nodata라고 단정하는 경우. 결과에는 proxy
+  한계와 전수/표본 범위를 함께 남긴다.
+- 전수 결과: 구조는 216윈도우×12기간으로 완전했지만 v1↔v5의 cloud/zero/bad proxy와
+  strict clean coverage가 **소수점 이하까지 동일**했다. cloud/bad 감소 0%, all-12 strict clean
+  1.235%→1.235%(×1), blind RGB 수치 개선 0/5이며 육안으로도 5/5가 같은 구름 형태였다.
+  따라서 사전 성공 기준 ②·③·⑤를 실패했고, v5를 품질 개선으로 판정하지 않는다.
+- 후속 진단 사전 기준: `code/diagnose_jeju_v5_equivalence.py`로 ① 2,592개 period source-item
+  순서 hash 전수 비교 ② 현재 rslearn에서 두 SpaceMode가 동일 handler인지 확인 ③ 고정 seed의
+  원본 24쌍 전체 밴드와 임베딩 공간표본 비교를 한다. 모두 같으면 “v5는 새 입력이 아니라
+  설정 별칭으로 만든 중복 실행”으로 닫고, 하나라도 다르면 그 단계부터 차이를 추적한다.
+- 새 시간축 마찰: 실제 item 순서는 역시간순이다. 첫 4기간은 2023~2025가 대체로 12→9월,
+  rolling-2026이 6→3월이라 계절 정렬에 실패한다. 기존 12기간 실험은 4기간과 Top-30 교집합
+  5곳(Jaccard 0.091)이지만, 이 값은 민감도 증거이지 변화 정답이 아니다.
+- 등가성 진단 결과: rslearn 0.1.13(commit `bbbc18b`)에서 두 설정은 동일
+  `match_with_space_mode_mosaic` handler로 정규화된다. ordered item hash **2,592/2,592**,
+  원본 전체 12밴드 표본 **24/24**, 임베딩 32×32 표본 **24/24**가 정확히 같았다.
+  v5를 의미적 중복으로 닫고 SCL/cloud mask가 실제 pixel validity를 바꾸는 v7 smoke test로 간다.
+
+### 2026-08-22 — 제주 v5 완료 확인·서버 상태 재점검 (10:12 KST)
+
+- 계획: Nexus 세션·GPU·v5 프로세스·임베딩 완료 표식·오류 로그·영구 저장소를 원격에서
+  교차 확인한다. PID가 없더라도 `PIPELINE_DONE`, 216개 완료 표식, traceback 0이 함께
+  확인될 때만 계산 완료로 판정한다.
+- 결과: `h200-dev`와 영구 데이터 폴더는 정상이다. v5는 00:41 KST에 `PIPELINE_DONE`을 남겼고,
+  materialize **216/216(실패 0)**, 임베딩 TIFF/완료 표식 **216/216**, 0-byte 임베딩 0,
+  traceback 0으로 계산을 마쳤다. 산출물 디렉터리는 **152 GiB**다. 기존 부모·추론 PID는
+  종료돼 좀비/잔여 작업도 없다.
+- 서버 여유: `/home/work/data`는 9.1 TiB 중 약 1.0 TiB 사용, **8.2 TiB 여유(11%)**다.
+  H200은 51%/28%, 메모리 74.0/72.6 GiB 사용 중이나 현재 점유자는 `knee-proj` 학습과
+  `p1_world` 적응 실험이며 제주 v5가 아니다.
+- 약점: `FIRST_VALID` nodata 기본값, 폐기 예정 `PER_PERIOD_MOSAIC`, 시간순서/legacy timestep
+  경고는 계산 완료로 해소되지 않았다. 따라서 v5를 “구름 강건 입력 검증 완료”라고 부르지 않는다.
+- 다음: 재현 가능한 품질 감사 코드를 `code/`에 먼저 작성해 ① 0/nodata·유효관측률
+  ② v1↔v5 구름 감소 ③ 대표/상위 후보 RGB 육안 검증을 닫은 뒤 paired release audit로 간다.
+
+### 2026-08-22 — OlmoEarth 프로젝트를 박사 연구 프로그램으로 재정렬
+
+- 계획: `earth_paper/dashboard.html`의 세 계보(EO 측정·GeoFM 표현·의사결정)를 현재 실험과
+  연결해, 제주를 목적이 아닌 검증장으로 재정의한다. Sherrie Wang식 통계적 추론,
+  Ai2 OlmoEarth식 공개 인프라, MARC식 현장 결정을 하나의 연구 질문·산출물·게이트로 묶는다.
+- 만들 것: ① 연구 프로그램 문서 `RESEARCH_STRATEGY.md` ② README/GOAL의 미션·로드맵 연결
+  ③ 지원·논문·파트너 증거가 어떻게 한 실험에서 나오는지 보여주는 연구 포트폴리오 시각화.
+- 사전 판정 기준: 새 방향은 (a) 한 문장 연구 질문 (b) 반증 가능한 가설과 강한 베이스라인
+  (c) 제주 외 두 번째 태스크 전이 (d) 공개 코드/표 (e) 파트너가 바꾸는 결정까지 포함해야 한다.
+- 무효 조건: 교수 이름을 붙인 독서 목록, 제주 사례의 과장, 범용 플랫폼/SaaS 확장, 또는
+  v1↔v1.2 paired 결과 없이 “릴리스 안정성”을 주장하는 경우.
+- 결과: 연구 질문을 **Decision-Continuous Earth Intelligence**로 고정하고, 제주를 목적이 아닌
+  첫 검증장으로 재정의했다. `RESEARCH_STRATEGY.md`에 5개 가설·강한 베이스라인·기술/파트너
+  성공 기준·12주 실행·중단 게이트를, `PARTNER_BRIEF_MARC.md`에 실제 MARC 연구 의제와 맞춘
+  첫 미팅 질문·6주 파일럿·금지 주장을 기록했다. 지원·논문·파트너 증거가 한 실험에서 나오는
+  상호작용형 연구 지도를 함께 만들고 모바일/다크모드까지 렌더 검증했다.
+- 실행 증거(00:21 KST): v5 materialize는 **216/216, 실패 0**으로 끝나 임베딩 단계에 진입했고,
+  부모 PID 984897과 `rslearn model predict` 자식 PID 1002472가 살아 있다. 임베딩 GeoTIFF가
+  계속 생성되며 완료 표식 **68/216**을 확인했으나 `PIPELINE_DONE`은 아직 없어 전체 완료
+  판정은 보류한다.
+- 새 마찰: 현재 rslearn은 `PER_PERIOD_MOSAIC`를 폐기 예정으로 표시하고
+  `MOSAIC + period_duration`을 권고한다. 장면 시간순서 기본값과 legacy timestep도 변경 예정
+  경고가 있어, 같은 YAML 이름만으로 실행 의미가 고정되지 않는다. 실행 중인 통제군은 건드리지
+  않고 버전·정규화 설정·장면순서 해시를 manifest에 포함하는 후속 검증으로 넘긴다.
+- 다음: v5 완주 확인 → nodata/구름/RGB 육안 검증 → 동일 원시 입력으로 v1↔v1.2 paired audit
+  → 층화 표본·PPI 추정. MARC에는 이 세 단계가 통과되기 전 협력·성능·생태효과를 주장하지 않는다.
+
+### 2026-08-21 — 제주 v5 진척 재점검·프로젝트 유의미성 판정
+
+- 계획: 제주 v5의 PID·로그·단계·산출물·GPU 경합을 다시 확인하고, 프로젝트의 현재 증거를
+  취업(공개 이슈/PR), 연구(일반화·통제·불확실성), 사업(실제 의사결정자) 세 축으로 판정한다.
+- 사전 판정 기준: v5는 로그와 산출물이 전진하고 오류 없이 임베딩 단계/완료 표식에 도달해야
+  실행 성공으로 본다. 프로젝트는 제주 데모 단독이 아니라 ① v1↔v1.2 paired 결과표
+  ② 구름/nodata 육안·정량 검증 ③ 외부 공개 증거 또는 파트너 결정 중 최소 둘을 남겨야
+  “충분히 유의미”하다고 판정한다.
+- 무효 조건: 살아 있는 PID만으로 성공을 선언하거나, 단일 Top-k 사례·자체 정답·최초성 주장만으로
+  연구/사업 가치를 과대평가하는 경우.
+- 실행 결과(23:58 KST): v5 materialize가 195→212/216(90→98%)로 계속 전진했고,
+  PID·자식 프로세스·로그 갱신 모두 정상이며 오류/트레이스백은 없다. 산출물은 53 GiB.
+  아직 임베딩 파일 0개, `=== embeddings`/`PIPELINE_DONE` 없음이므로 성공 판정은 보류한다.
+- 외부 대조: Ai2 Studio는 이미 임베딩 export·유사도 검색·변화탐지를 제공하고 Major TOM도
+  OlmoEarth 249k 임베딩을 공개했으므로, “한국 임베딩 검색/제주 변화 데모” 자체는 기여가 약하다.
+  반면 최신 Earth Embeddings 문헌은 제품 간 재현성·불확실성·벤치마킹을 열린 문제로 두고,
+  EarthShift와 GFM 재현성 감사는 시간/지역 shift와 평가 불일치가 실제 문제임을 정량화한다.
+- 판정: 현재도 재현성 디버깅·실패 계보·아시아 입력 품질 감사라는 **취업 포트폴리오 가치는 높음**.
+  그러나 핵심 차별점인 v1↔v1.2 paired 실행 코드/결과표가 아직 없고, 공개 이슈/PR 및 파트너
+  결정도 닫히지 않아 **논문 기여는 유망하지만 미완성, 사업 가치는 미검증**이다.
+- 다음 게이트: ① v5 완주 뒤 nodata/구름/RGB 육안 검증 ② 같은 원시 입력의 v1↔v1.2 paired
+  결과와 이웃·Top-k·집계 안정성 표 ③ LFMC 이슈/스키마 PR 공개 ④ 파트너 1곳의 실제 결정
+  질문 검증. 이 네 개 중 앞의 세 개가 닫히면 “충분히 유의미한 공개 프로젝트”로 판정한다.
+
+### 2026-08-21 — H100 접속·실행 상태 점검
+
+- 계획: 실제 접속 저장소가 `~/DongDong/ai_projects/h100-setup`에 있으므로
+  `H100_SETUP_DIR`을 명시하고, 프로젝트 규약대로 `./bin/nx`를 통해서만 점검한다.
+- 사전 판정 기준: ① Nexus 세션 조회 성공 ② 터널을 통한 원격 셸 응답 ③ H200 2장과
+  사용률·메모리 확인 ④ 실행 중 프로세스/PID·최근 로그 확인 ⑤ 영구 저장소 용량 확인.
+- 무효 조건: 로컬 `.state`만 읽고 원격 명령이 통하지 않거나, 오래된 PID/로그만으로 작업이
+  살아 있다고 판단하는 경우. 원격 프로세스와 로그 갱신 시각을 함께 대조한다.
+- 결과(23:48 KST): `doctor` 전 항목 통과, `h200-dev` RUNNING, 원격 셸 응답 확인.
+  H200 2장(각 143,771 MiB)은 59%/38%, 메모리 80,957/62,587 MiB 사용 중이었다.
+  `/home/work` 47 GiB, 영구 저장소 8.3 TiB 여유(사용률 10%).
+- 제주 v5: PID 984897과 materialize 자식 프로세스가 살아 있고, 로그가 195/216(90%)까지
+  계속 갱신됨. 오류·트레이스백 없음. 로컬/서버 스크립트 SHA-256 일치, 현재 산출물 50 GiB.
+  아직 materialize 단계라 embedding 파일과 `PIPELINE_DONE`은 없음.
+- 마찰·약점: `bin/nx` 기본 경로가 실제 대문자 경로와 달라 `H100_SETUP_DIR`이 없으면 실패.
+  두 GPU는 다른 학습 작업도 각각 약 80.9/66.8 GiB 점유하므로 v5가 GPU0 임베딩 단계로
+  넘어갈 때 메모리 경합을 관찰해야 한다. 또한 `FIRST_VALID` 합성에서 nodata 메타데이터가
+  없어 0을 쓰는 경고가 반복됨 — 결과 해석 전 0값/마스크 의미 검증 필요(STUDY #16).
+- 다음: 실행은 그대로 둔다. materialize 완료 후 `=== embeddings` 진입과 최종
+  `PIPELINE_DONE`을 확인하고, 그 뒤 구름 감소율·nodata 비율·육안 RGB 칩을 v1과 비교한다.
 
 ### 2026-08-21 — 취업 × 박사 × 비즈니스 전략 보정
 

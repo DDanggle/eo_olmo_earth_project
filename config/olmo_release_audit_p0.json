@@ -1,0 +1,81 @@
+{
+  "schema": "olmoearth-release-audit-config-v1",
+  "audit_id": "jeju_olmo_release_audit_p0",
+  "source_dataset_root": "/home/work/data/olmoearth/embed_search/dataset",
+  "year_prefixes": {
+    "2023": "jeju23",
+    "2024": "jeju",
+    "2025": "jeju25",
+    "2026": "jeju26r"
+  },
+  "period_count": 12,
+  "models": [
+    {
+      "release_id": "olmoearth_v1_base",
+      "hf_repo": "allenai/OlmoEarth-v1-Base",
+      "rslearn_model_id": "OLMOEARTH_V1_BASE",
+      "legacy_config": "config/olmo_release_v1_legacy.yaml"
+    },
+    {
+      "release_id": "olmoearth_v1_2_base",
+      "hf_repo": "allenai/OlmoEarth-v1_2-Base",
+      "rslearn_model_id": "OLMOEARTH_V1_2_BASE",
+      "legacy_config": "config/olmo_release_v1_2_legacy.yaml"
+    }
+  ],
+  "input_recipes": [
+    {
+      "recipe_id": "legacy_mosaic_12_period",
+      "status": "materialized_216_site_years",
+      "role": "release_pairing_and_input_factor_control"
+    },
+    {
+      "recipe_id": "scl_bestclear_12_period",
+      "status": "blocked_full_jeju_only_one_golden_window_validated",
+      "role": "planned_cloud_input_factor"
+    }
+  ],
+  "timestamp_tracks": [
+    {
+      "track_id": "legacy_timestamps",
+      "use_legacy_timestamps": true,
+      "role": "primary_release_only_contrast"
+    },
+    {
+      "track_id": "actual_timestamps",
+      "use_legacy_timestamps": false,
+      "role": "secondary_timestamp_interaction_diagnostic"
+    }
+  ],
+  "smoke_selection": {
+    "years": [2023, 2026],
+    "clear_per_year": 2,
+    "contaminated_per_year": 2,
+    "quality_field": "bad_proxy_mean",
+    "quality_scope": "model_used_4",
+    "selection_uses_no_human_or_public_evidence_labels": true
+  },
+  "primary_estimand": {
+    "unit": "54_spatial_windows_clustered",
+    "events": "54_windows_x_3_adjacent_year_pairs",
+    "candidate_fraction": 0.01,
+    "input_effect": "1_minus_top1pct_jaccard_between_recipes_within_release",
+    "release_effect": "1_minus_top1pct_jaccard_between_releases_within_recipe",
+    "contrast": "input_effect_minus_release_effect",
+    "confidence_interval": "spatial_window_cluster_bootstrap_95pct"
+  },
+  "gates": {
+    "minimum_output_completion_fraction": 0.95,
+    "release_pair_tensor_hash_match_fraction": 1.0,
+    "minimum_blind_review_records": 120,
+    "minimum_double_review_agreement": 0.6,
+    "required_primary_outputs_when_both_recipes_exist": 864
+  },
+  "claims_forbidden_at_p0": [
+    "accuracy_improved",
+    "negative_transfer_reduced",
+    "cause_identified",
+    "korea_generalization",
+    "privacy_preserving_federated_learning"
+  ]
+}

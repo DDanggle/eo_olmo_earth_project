@@ -1,15 +1,29 @@
-"""v5: 구름 강건 합성(PER_PERIOD_MOSAIC) 데이터로 변화탐지 + v1 데이터와의 통제 실험.
+"""Historical v5 analysis — retained as a failed equivalence experiment.
+
+2026-08-22 audit: under rslearn 0.1.13, MOSAIC+period_duration and deprecated
+PER_PERIOD_MOSAIC+period_duration use the same handler. The 2,592 ordered source
+groups, exhaustive B02 quality metrics, and deterministic pixel samples matched.
+Do not interpret this script's output as a cloud-compositing improvement.
 
 배경 (GOAL.md 실패 계보):
   v1 연도간 거리 → 바다 독식 / v2 계단형+층화 → 육안검증 5/5 구름
   v3 구름 평균 마스킹 → 3/5 구름 잔존 / v4 최악모자이크 마스킹 → 생존 1.2%(사후 마스킹 불가)
-  ⇒ 원인은 합성 레시피. space_mode를 MOSAIC(기간당 1장면) → PER_PERIOD_MOSAIC(다장면 합성)로 교체.
+  ⇒ 당시에는 합성 레시피 차이라고 가정했으나, 후속 감사에서 설정 별칭으로 기각됨.
 
 이 스크립트가 하는 일:
   1) v2 데이터셋(embed_jeju_v2)으로 계단형 변화 점수 + WorldCover 층화 z점수 → Top-30
   2) 같은 좌표의 구름 통계를 v1/v2 두 데이터셋에서 계산해 비교 (합성 레시피 효과 정량화)
   3) v1 데이터의 Top-30과 v2의 Top-30이 얼마나 겹치는지 (Jaccard) → "입력 스키마가 결론을 바꾼다"의 증거
 """
+
+import os
+
+if __name__ == "__main__" and os.environ.get("ALLOW_HISTORICAL_INVALID_JEJU_4TS") != "1":
+    raise SystemExit(
+        "REFUSED: this historical four-period path is season-confounded and the "
+        "2025/rolling-2026 windows overlap. It is retained only for failure reproduction. "
+        "Set ALLOW_HISTORICAL_INVALID_JEJU_4TS=1 to run it explicitly."
+    )
 
 import glob
 import json

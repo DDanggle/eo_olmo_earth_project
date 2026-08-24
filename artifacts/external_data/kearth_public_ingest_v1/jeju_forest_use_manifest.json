@@ -1,0 +1,41 @@
+{
+  "access_method": "public_portal_file_download",
+  "catalog_url": "https://www.data.go.kr/data/15056266/fileData.do",
+  "columns": [
+    "year",
+    "approval_count",
+    "approved_area_ha",
+    "snapshot_date"
+  ],
+  "crs": null,
+  "data_format": "CSV",
+  "download_url": "https://www.data.go.kr/cmm/cmm/fileDownload.do?atchFileId=FILE_000000003680509&fileDetailSn=1&insertDataPrcus=N",
+  "geometry_type": null,
+  "license": "이용허락범위 제한 없음",
+  "provider": "제주특별자치도 제주시",
+  "quality": {
+    "contiguous_years": true,
+    "no_match_audit": {
+      "failed_checks": [
+        "geography_complete",
+        "event_population_complete",
+        "join_fields_complete"
+      ],
+      "no_match_interpretable": false,
+      "reason": "city aggregate is a denominator, not parcel-level evidence"
+    },
+    "parcel_joinable": false,
+    "source_encoding": "cp949"
+  },
+  "raw_bytes": 537,
+  "raw_file_name": "jeju_forest_use_20260630.csv",
+  "raw_sha256": "ce50643a8f6a3537a0c35edc3190ea875d99acc4ad7cc86b334de9fb0ebcfc4e",
+  "retrieved_at": "2026-08-22T07:22:00Z",
+  "row_count": 19,
+  "schema": "kearth-source-manifest-v1",
+  "schema_sha256": "5792f54387d055012952a6363299cf22cb8546796a14aee070caafea786b735a",
+  "snapshot_date": "2026-06-30",
+  "source_id": "jeju_forest_use_aggregate",
+  "spatial_coverage": "제주시 aggregate; no parcel geometry",
+  "temporal_coverage": "2008-2026 annual"
+}

@@ -1,0 +1,19 @@
+format=2026-08-22 10:57:22,108 loglevel=INFO   logger=rslearn.main main() L1112 Using multiprocessing context: <multiprocessing.context.ForkServerContext object at 0x102ae15e9f90>
+Loading windows:   0%|          | 0/1 [00:00<?, ?it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.54it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.54it/s]
+format=2026-08-22 10:57:22,858 loglevel=INFO   logger=rslearn.main apply_on_windows() L462  found 1 windows
+format=2026-08-22 10:57:22,858 loglevel=INFO   logger=rslearn.main __call__() L557  Running prepare on 1 windows
+format=2026-08-22 10:57:22,860 loglevel=INFO   logger=rslearn.dataset.manage prepare_dataset_windows() L150  Preparing 0 windows for layer sentinel2_l2a
+0it [00:00, ?it/s]0it [00:00, ?it/s]
+format=2026-08-22 10:57:22,867 loglevel=INFO   logger=rslearn.main dataset_prepare() L630  === Prepare Summary ===
+format=2026-08-22 10:57:22,868 loglevel=INFO   logger=rslearn.main dataset_prepare() L631  Total windows requested: 1, duration: 0.0s
+format=2026-08-22 10:57:22,868 loglevel=INFO   logger=rslearn.main dataset_prepare() L644    Layer sentinel2_l2a: prepared=0, skipped=1, rejected=0, failed=0
+format=2026-08-22 10:57:23,757 loglevel=INFO   logger=rslearn.main main() L1112 Using multiprocessing context: <multiprocessing.context.ForkServerContext object at 0x1340d8cea150>
+Loading windows:   0%|          | 0/1 [00:00<?, ?it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.48it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.47it/s]
+format=2026-08-22 10:57:24,520 loglevel=INFO   logger=rslearn.main apply_on_windows() L462  found 1 windows
+  0%|          | 0/1 [00:00<?, ?it/s]format=2026-08-22 10:57:25,337 loglevel=INFO   logger=rslearn.main __call__() L975  Running Materialize with 1 windows
+format=2026-08-22 10:57:27,059 loglevel=INFO   logger=rslearn.dataset.manage materialize_window() L455  Materializing 4 item groups in layer sentinel2_l2a via data source
+100%|██████████| 1/1 [02:27<00:00, 147.54s/it]100%|██████████| 1/1 [02:27<00:00, 147.54s/it]
+format=2026-08-22 10:59:52,088 loglevel=INFO   logger=rslearn.main dataset_materialize() L1041 === Materialize Summary ===
+format=2026-08-22 10:59:52,088 loglevel=INFO   logger=rslearn.main dataset_materialize() L1042 Total windows requested: 1, duration: 146.7s
+format=2026-08-22 10:59:52,088 loglevel=INFO   logger=rslearn.main dataset_materialize() L1053   Layer sentinel2_l2a: materialized=1, failed=0
+V7_SMOKE_MATERIALIZE_DONE

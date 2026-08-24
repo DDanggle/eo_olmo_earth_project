@@ -1,0 +1,163 @@
+{
+  "schema": "jeju-candidate-time-contract-audit-v1",
+  "status": "historical_candidates_invalid_for_annual_change_claim",
+  "window_contract": {
+    "2023": {
+      "start": "2023-01-01",
+      "end": "2024-01-01"
+    },
+    "2024": {
+      "start": "2024-01-01",
+      "end": "2025-01-01"
+    },
+    "2025": {
+      "start": "2025-01-01",
+      "end": "2026-01-01"
+    },
+    "2026": {
+      "start": "2025-07-01",
+      "end": "2026-07-01"
+    }
+  },
+  "overlap_2025_rolling_2026_days": 184,
+  "time_axis_gates": {
+    "model_first4_season_aligned_across_years": false,
+    "all12_cover_same_calendar_month_set": false
+  },
+  "candidate_summary": {
+    "records": 14,
+    "overlap_transition_records": 5,
+    "legacy_four_period_source_records": 5,
+    "union_contract_exposed_records": 9,
+    "not_exposed_by_these_two_checks": 5
+  },
+  "candidate_records": [
+    {
+      "candidate_id": "dev_control_v3_r02",
+      "source": "v3_top",
+      "transition": "2025->2026",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "overlapping_2025_rolling_2026_windows",
+        "season_confounded_four_period_source"
+      ]
+    },
+    {
+      "candidate_id": "built_v6_r12",
+      "source": "v6_top_12ts",
+      "transition": "2025->2026",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "overlapping_2025_rolling_2026_windows"
+      ]
+    },
+    {
+      "candidate_id": "built_v6_r13",
+      "source": "v6_top_12ts",
+      "transition": "2025->2026",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "overlapping_2025_rolling_2026_windows"
+      ]
+    },
+    {
+      "candidate_id": "built_v6_r16",
+      "source": "v6_top_12ts",
+      "transition": "2025->2026",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "overlapping_2025_rolling_2026_windows"
+      ]
+    },
+    {
+      "candidate_id": "oreum_v6_r04",
+      "source": "v6_top_12ts",
+      "transition": "2024->2025",
+      "eligible_for_annual_change_claim": true,
+      "contract_failure_reasons": []
+    },
+    {
+      "candidate_id": "oreum_v6_r07",
+      "source": "v6_top_12ts",
+      "transition": "2025->2026",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "overlapping_2025_rolling_2026_windows"
+      ]
+    },
+    {
+      "candidate_id": "oreum_v6_r08",
+      "source": "v6_top_12ts",
+      "transition": "2024->2025",
+      "eligible_for_annual_change_claim": true,
+      "contract_failure_reasons": []
+    },
+    {
+      "candidate_id": "oreum_v6_r10",
+      "source": "v6_top_12ts",
+      "transition": "2023->2024",
+      "eligible_for_annual_change_claim": true,
+      "contract_failure_reasons": []
+    },
+    {
+      "candidate_id": "oreum_v6_r11",
+      "source": "v6_top_12ts",
+      "transition": "2024->2025",
+      "eligible_for_annual_change_claim": true,
+      "contract_failure_reasons": []
+    },
+    {
+      "candidate_id": "oreum_v6_r17",
+      "source": "v6_top_12ts",
+      "transition": "2024->2025",
+      "eligible_for_annual_change_claim": true,
+      "contract_failure_reasons": []
+    },
+    {
+      "candidate_id": "context_v3_r01",
+      "source": "v3_top",
+      "transition": "2024->2025",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "season_confounded_four_period_source"
+      ]
+    },
+    {
+      "candidate_id": "context_v3_r03",
+      "source": "v3_top",
+      "transition": "2024->2025",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "season_confounded_four_period_source"
+      ]
+    },
+    {
+      "candidate_id": "context_v3_r05",
+      "source": "v3_top",
+      "transition": "2024->2025",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "season_confounded_four_period_source"
+      ]
+    },
+    {
+      "candidate_id": "context_v3_r06",
+      "source": "v3_top",
+      "transition": "2023->2024",
+      "eligible_for_annual_change_claim": false,
+      "contract_failure_reasons": [
+        "season_confounded_four_period_source"
+      ]
+    }
+  ],
+  "interpretation": {
+    "allowed": "Nine records have invalid lineage for an annual-change claim.",
+    "forbidden": "Do not infer that all nine are visual false positives; this audit is not ground truth.",
+    "embedding_constraint": "The 768 output bands are fused feature dimensions, not a recoverable month axis. Correcting the time window requires encoder inference on a new valid input contract.",
+    "next_gate": "No new candidate ranking until a non-overlapping, season-aligned input manifest passes before inference."
+  },
+  "evidence": {
+    "time_axis_summary_sha256": "bc1e691dcf530b3de7bc761dc169a63d2969a11d8bfd82aeec27c49304ec3ba8",
+    "candidate_manifest_sha256": "0646ffadbbd04e315060f1dee54efcca746792ef8e699d5bcbf2b5ea267b599b"
+  }
+}

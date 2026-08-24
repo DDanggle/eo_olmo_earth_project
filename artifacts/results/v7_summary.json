@@ -1,0 +1,114 @@
+{
+  "status": "numeric_complete_manual_rgb_pending",
+  "provenance": {
+    "script_sha256": "a764bd6a5e4d617776852ef60c399c282f533a4c4b2469d9808b89608dc1b240",
+    "v1_window": "/home/work/data/olmoearth/embed_search/dataset/windows/default/jeju25_30720_-372736",
+    "v7_window": "/home/work/data/olmoearth/embed_jeju_v7_smoke/dataset/windows/default/smoke25_30720_-372736",
+    "target_block": [
+      237,
+      27
+    ],
+    "target_period": 3,
+    "cloud_proxy": "B02 > 1800"
+  },
+  "periods": [
+    {
+      "period_index": 0,
+      "v1_source_items": 2,
+      "v7_source_items": 6,
+      "ordered_group_hash_equal": false,
+      "all_band_array_equal": false,
+      "all_band_max_abs_difference": 27786,
+      "v1": {
+        "cloud_proxy": 0.27457141876220703,
+        "zero_proxy": 0.0003261566162109375,
+        "bad_proxy": 0.27489757537841797
+      },
+      "v7": {
+        "cloud_proxy": 0.0,
+        "zero_proxy": 0.0,
+        "bad_proxy": 0.0
+      },
+      "target_v1_bad": 0.0,
+      "target_v7_bad": 0.0
+    },
+    {
+      "period_index": 1,
+      "v1_source_items": 1,
+      "v7_source_items": 4,
+      "ordered_group_hash_equal": false,
+      "all_band_array_equal": false,
+      "all_band_max_abs_difference": 4943,
+      "v1": {
+        "cloud_proxy": 0.0010118484497070312,
+        "zero_proxy": 0.0,
+        "bad_proxy": 0.0010118484497070312
+      },
+      "v7": {
+        "cloud_proxy": 0.0,
+        "zero_proxy": 0.0,
+        "bad_proxy": 0.0
+      },
+      "target_v1_bad": 0.0,
+      "target_v7_bad": 0.0
+    },
+    {
+      "period_index": 2,
+      "v1_source_items": 1,
+      "v7_source_items": 5,
+      "ordered_group_hash_equal": false,
+      "all_band_array_equal": true,
+      "all_band_max_abs_difference": 0,
+      "v1": {
+        "cloud_proxy": 0.007190704345703125,
+        "zero_proxy": 9.5367431640625e-07,
+        "bad_proxy": 0.007191658020019531
+      },
+      "v7": {
+        "cloud_proxy": 0.007190704345703125,
+        "zero_proxy": 9.5367431640625e-07,
+        "bad_proxy": 0.007191658020019531
+      },
+      "target_v1_bad": 0.0,
+      "target_v7_bad": 0.0
+    },
+    {
+      "period_index": 3,
+      "v1_source_items": 2,
+      "v7_source_items": 6,
+      "ordered_group_hash_equal": false,
+      "all_band_array_equal": false,
+      "all_band_max_abs_difference": 14035,
+      "v1": {
+        "cloud_proxy": 0.0830373764038086,
+        "zero_proxy": 0.0,
+        "bad_proxy": 0.0830373764038086
+      },
+      "v7": {
+        "cloud_proxy": 0.008762359619140625,
+        "zero_proxy": 0.0,
+        "bad_proxy": 0.008762359619140625
+      },
+      "target_v1_bad": 1.0,
+      "target_v7_bad": 0.0
+    }
+  ],
+  "comparisons": {
+    "first4_bad_relative_reduction": 0.9564262718663069,
+    "first4_zero_delta_percentage_points": -0.008153915405273438,
+    "target_period_v1_bad": 1.0,
+    "target_period_v7_bad": 0.0
+  },
+  "gates": {
+    "source_groups_and_output_pixels_changed": true,
+    "first4_bad_reduction_at_least_10pct": true,
+    "target_period_bad_at_most_0_5": true,
+    "zero_proxy_not_worse_by_more_than_1pp": true,
+    "manual_rgb_target_cloud_reduced": null
+  },
+  "limitations": [
+    "This is one pre-registered golden window, not a Jeju-wide result.",
+    "SCL BestClear selects one scene per period; it is not pixel-wise cloud gap filling.",
+    "B02 brightness is a proxy and still requires RGB inspection."
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "status": "numeric_complete_manual_rgb_pending",
+  "provenance": {
+    "script_sha256": "f7b9c0e0e637fc2d72b4763e277dc9ee7da3b391eb4b60a62545c9223e7a8ed8",
+    "v1_root": "/home/work/data/olmoearth/embed_search/dataset/windows/default",
+    "v5_root": "/home/work/data/olmoearth/embed_jeju_v2/dataset/windows/default",
+    "numpy": "2.4.6",
+    "rasterio": "1.4.4",
+    "cloud_proxy": "B02 > 1800",
+    "zero_proxy": "B02 == 0 or raster mask invalid",
+    "block": "4x4 10m pixels -> 40m",
+    "strict_bad_max": 0.35,
+    "model_used_periods": 4,
+    "all_available_periods": 12,
+    "rgb_selection_seed": 20260822
+  },
+  "structural": {
+    "v1": {
+      "2023": {
+        "windows": 54,
+        "period_counts": [
+          12
+        ]
+      },
+      "2024": {
+        "windows": 54,
+        "period_counts": [
+          12
+        ]
+      },
+      "2025": {
+        "windows": 54,
+        "period_counts": [
+          12
+        ]
+      },
+      "2026": {
+        "windows": 54,
+        "period_counts": [
+          12
+        ]
+      }
+    },
+    "v5": {
+      "2023": {
+        "windows": 54,
+        "period_counts": [
+          12
+        ]
+      },
+      "2024": {
+        "windows": 54,
+        "period_counts": [
+          12
+        ]
+      },
+      "2025": {
+        "windows": 54,
+        "period_counts": [
+          12
+        ]
+      },
+      "2026": {
+        "windows": 54,
+        "period_counts": [
+          12
+        ]
+      }
+    }
+  },
+  "matched_windows_by_year": {
+    "2023": 54,
+    "2024": 54,
+    "2025": 54,
+    "2026": 54
+  },
+  "common_spatial_keys": 54,
+  "summaries": {
+    "v1": {
+      "model_used_4": {
+        "cloud_proxy_mean": 0.062771694527732,
+        "zero_proxy_mean": 9.155935711330838e-05,
+        "bad_proxy_mean": 0.06286325388484532,
+        "worst_period_bad_mean": 0.20442265934414333,
+        "strict_clean_ratio": 0.44453684488932294,
+        "year": {
+          "2023": {
+            "cloud_proxy_mean": 0.08222944648177535,
+            "zero_proxy_mean": 0.00018746764571578415,
+            "bad_proxy_mean": 0.08241691412749114,
+            "worst_period_bad_mean": 0.2718324661254883
+          },
+          "2024": {
+            "cloud_proxy_mean": 0.04702565846619783,
+            "zero_proxy_mean": 7.201124120641637e-06,
+            "bad_proxy_mean": 0.04703285959031847,
+            "worst_period_bad_mean": 0.15737349898726852
+          },
+          "2025": {
+            "cloud_proxy_mean": 0.09845172034369574,
+            "zero_proxy_mean": 0.00010634351659704137,
+            "bad_proxy_mean": 0.09855806386029278,
+            "worst_period_bad_mean": 0.303698045236093
+          },
+          "2026": {
+            "cloud_proxy_mean": 0.02337995281925908,
+            "zero_proxy_mean": 6.522514201976635e-05,
+            "bad_proxy_mean": 0.023445177961278846,
+            "worst_period_bad_mean": 0.08478662702772352
+          }
+        }
+      },
+      "all_12": {
+        "cloud_proxy_mean": 0.11122579649276708,
+        "zero_proxy_mean": 7.731311086629418e-05,
+        "bad_proxy_mean": 0.1113031089865857,
+        "worst_period_bad_mean": 0.7016728807378698,
+        "strict_clean_ratio": 0.012351424605758101,
+        "year": {
+          "2023": {
+            "cloud_proxy_mean": 0.14048365213804775,
+            "zero_proxy_mean": 9.933518603128173e-05,
+            "bad_proxy_mean": 0.14058298714182996,
+            "worst_period_bad_mean": 0.8364887237548828
+          },
+          "2024": {
+            "cloud_proxy_mean": 0.12228601450462723,
+            "zero_proxy_mean": 4.341425727663709e-05,
+            "bad_proxy_mean": 0.1223294281107546,
+            "worst_period_bad_mean": 0.753167399653682
+          },
+          "2025": {
+            "cloud_proxy_mean": 0.09988238829774437,
+            "zero_proxy_mean": 9.430337813701276e-05,
+            "bad_proxy_mean": 0.09997669055506035,
+            "worst_period_bad_mean": 0.6864369886892813
+          },
+          "2026": {
+            "cloud_proxy_mean": 0.08225113103064897,
+            "zero_proxy_mean": 7.219962202024514e-05,
+            "bad_proxy_mean": 0.08232333013869787,
+            "worst_period_bad_mean": 0.5305984108536331
+          }
+        }
+      }
+    },
+    "v5": {
+      "model_used_4": {
+        "cloud_proxy_mean": 0.062771694527732,
+        "zero_proxy_mean": 9.155935711330838e-05,
+        "bad_proxy_mean": 0.06286325388484532,
+        "worst_period_bad_mean": 0.20442265934414333,
+        "strict_clean_ratio": 0.44453684488932294,
+        "year": {
+          "2023": {
+            "cloud_proxy_mean": 0.08222944648177535,
+            "zero_proxy_mean": 0.00018746764571578415,
+            "bad_proxy_mean": 0.08241691412749114,
+            "worst_period_bad_mean": 0.2718324661254883
+          },
+          "2024": {
+            "cloud_proxy_mean": 0.04702565846619783,
+            "zero_proxy_mean": 7.201124120641637e-06,
+            "bad_proxy_mean": 0.04703285959031847,
+            "worst_period_bad_mean": 0.15737349898726852
+          },
+          "2025": {
+            "cloud_proxy_mean": 0.09845172034369574,
+            "zero_proxy_mean": 0.00010634351659704137,
+            "bad_proxy_mean": 0.09855806386029278,
+            "worst_period_bad_mean": 0.303698045236093
+          },
+          "2026": {
+            "cloud_proxy_mean": 0.02337995281925908,
+            "zero_proxy_mean": 6.522514201976635e-05,
+            "bad_proxy_mean": 0.023445177961278846,
+            "worst_period_bad_mean": 0.08478662702772352
+          }
+        }
+      },
+      "all_12": {
+        "cloud_proxy_mean": 0.11122579649276708,
+        "zero_proxy_mean": 7.731311086629418e-05,
+        "bad_proxy_mean": 0.1113031089865857,
+        "worst_period_bad_mean": 0.7016728807378698,
+        "strict_clean_ratio": 0.012351424605758101,
+        "year": {
+          "2023": {
+            "cloud_proxy_mean": 0.14048365213804775,
+            "zero_proxy_mean": 9.933518603128173e-05,
+            "bad_proxy_mean": 0.14058298714182996,
+            "worst_period_bad_mean": 0.8364887237548828
+          },
+          "2024": {
+            "cloud_proxy_mean": 0.12228601450462723,
+            "zero_proxy_mean": 4.341425727663709e-05,
+            "bad_proxy_mean": 0.1223294281107546,
+            "worst_period_bad_mean": 0.753167399653682
+          },
+          "2025": {
+            "cloud_proxy_mean": 0.09988238829774437,
+            "zero_proxy_mean": 9.430337813701276e-05,
+            "bad_proxy_mean": 0.09997669055506035,
+            "worst_period_bad_mean": 0.6864369886892813
+          },
+          "2026": {
+            "cloud_proxy_mean": 0.08225113103064897,
+            "zero_proxy_mean": 7.219962202024514e-05,
+            "bad_proxy_mean": 0.08232333013869787,
+            "worst_period_bad_mean": 0.5305984108536331
+          }
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "model_scope_cloud_relative_reduction": 0.0,
+    "model_scope_bad_relative_reduction": 0.0,
+    "model_scope_zero_delta_percentage_points": 0.0,
+    "all12_strict_clean_multiplier": 1.0,
+    "rgb_proxy_improved_count": 0
+  },
+  "gates": {
+    "structural_216_windows_12_periods": true,
+    "cloud_and_bad_reduction_at_least_25pct": false,
+    "all12_strict_clean_at_least_6pct_and_5x": false,
+    "zero_proxy_not_worse_by_more_than_1pp": true,
+    "rgb_numeric_proxy_improved_4_of_5": false,
+    "rgb_manual_review": null
+  },
+  "limitations": [
+    "B02 brightness is a cloud/haze proxy, not a validated cloud mask.",
+    "Zero/mask is a nodata proxy; valid dark pixels may need band-wise review.",
+    "The model configuration consumes only the first 4 of 12 materialized periods.",
+    "RGB pairs were selected using v1 contamination only; manual review remains required."
+  ]
+}

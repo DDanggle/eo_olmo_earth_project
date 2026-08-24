@@ -1,0 +1,124 @@
+{
+  "schema": "kearth-public-access-status-v1",
+  "updated_at": "2026-08-22",
+  "provenance": {
+    "account_status": "user-confirmed",
+    "credential_presence": "local env variable names checked; secret values not read or stored",
+    "api_response": "bounded_jeju_combined_snapshot_v3_2026_08_22"
+  },
+  "dashboard": {
+    "badge": "API 463응답 · VWorld 지적 256/257",
+    "summary": "VWorld 대표점 게이트 통과 뒤 후보 14/14·위치화 오름 242/243의 대표 PNU를 확보했습니다. BuildingHUB 8,794행·EIA 13 polygon·토지피복 42장·최신 GK2A grid도 같은 snapshot에서 재결합했습니다.",
+    "next": "VWorld PNU와 변화 footprint 관계 검수 → NGII 후보 항공 전후영상 수동 확보"
+  },
+  "snapshot": {
+    "version": "v3",
+    "request_count": 463,
+    "http_success": 463,
+    "semantic_success": 456,
+    "semantic_no_features": 1,
+    "semantic_errors": 6,
+    "building_event_rows": 8794,
+    "eia_feature_rows": 13,
+    "landcover_tile_rows": 42,
+    "gk2a_current_grid_values": 127040,
+    "vworld_target_points": 257,
+    "vworld_parcel_features": 256,
+    "vworld_unique_pnu": 235,
+    "vworld_candidate_anchors": 14,
+    "vworld_oreum_anchors": 242,
+    "vworld_not_found": 1,
+    "candidate_exact_pnu_event": 1,
+    "candidate_time_aligned_exact_pnu_event": 0,
+    "candidate_pnu_conflicts": 1,
+    "candidate_official_cause_ab": 0
+  },
+  "services": [
+    {
+      "id": "vworld_cadastral",
+      "name": "VWorld 연속지적도 2.0",
+      "source_url": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s003.do?svcIde=cadastral",
+      "application_state": "no_separate_dataset_application",
+      "credential_state": "user_confirmed_and_local_env_present",
+      "credential_env": "VWORLD_API_KEY",
+      "execution_scope": "local_or_VM",
+      "integration_state": "bounded_snapshot_success_256_features_1_not_found",
+      "display_status": "대표점 OK 후 257점 확장 · 후보 14/14 · 오름 242/243 PNU · NOT_FOUND 1"
+    },
+    {
+      "id": "eia_area",
+      "name": "환경영향평가 사업구역 WFS",
+      "source_url": "https://www.data.go.kr/data/15142907/openapi.do",
+      "application_state": "user_confirmation_missing",
+      "credential_state": "shared_portal_key_present_but_service_approval_unknown",
+      "credential_env": "DATA_GO_KR_SERVICE_KEY",
+      "execution_scope": "local_or_VM",
+      "integration_state": "bounded_snapshot_success_13_features",
+      "display_status": "제주 bbox WFS 성공 · 13 polygon · 14후보 중첩 0"
+    },
+    {
+      "id": "building_hub",
+      "name": "건축HUB 건축인허가",
+      "source_url": "https://www.data.go.kr/data/15136267/openapi.do",
+      "application_state": "user_confirmed_approved",
+      "credential_state": "local_env_present",
+      "credential_env": "DATA_GO_KR_SERVICE_KEY",
+      "execution_scope": "local_or_VM",
+      "integration_state": "bounded_snapshot_success_8794_rows",
+      "display_status": "45 법정동·2023–2026·8,794행·페이지 소진"
+    },
+    {
+      "id": "gk2a",
+      "name": "기상청 GK2A 기상산출물",
+      "source_url": "https://www.data.go.kr/data/15077314/openapi.do",
+      "application_state": "user_confirmed_approved",
+      "credential_state": "local_env_present",
+      "credential_env": "DATA_GO_KR_SERVICE_KEY",
+      "execution_scope": "local_or_VM",
+      "integration_state": "current_grid_success_historical_alignment_unavailable",
+      "display_status": "최신 grid 성공 · OlmoEarth 과거일은 최근 2일 제한으로 실패"
+    },
+    {
+      "id": "vworld_context",
+      "name": "VWorld 용도지역·도시계획",
+      "source_url": "https://www.vworld.kr/dev/v4dv_2ddataguide2_s001.do",
+      "application_state": "no_separate_dataset_application",
+      "credential_state": "user_confirmed_and_local_env_present",
+      "credential_env": "VWORLD_API_KEY",
+      "execution_scope": "VM",
+      "integration_state": "cadastral_key_valid_context_probe_pending",
+      "display_status": "연속지적 key 검증 완료 · 용도지역/도시계획은 별도 P1 probe 대기"
+    },
+    {
+      "id": "ngii_aerial",
+      "name": "국토지리정보원 항공사진",
+      "source_url": "https://www.data.go.kr/data/15059918/fileData.do",
+      "application_state": "manual_login_search_and_approval",
+      "credential_state": "not_an_api_key",
+      "execution_scope": "manual_download",
+      "integration_state": "candidate_download_pending",
+      "display_status": "로그인·연도 선택·승인 후 TIFF 다운로드"
+    },
+    {
+      "id": "mcee_landcover",
+      "name": "환경공간정보 토지피복지도 WMS",
+      "source_url": "https://aid.mcee.go.kr/api/land.do",
+      "application_state": "public_wms_no_separate_key_confirmed",
+      "credential_state": "no_project_key_required",
+      "execution_scope": "local_or_VM",
+      "integration_state": "bounded_snapshot_success_42_tiles",
+      "display_status": "공개 WMS 성공 · 14후보 × 2023–2025 = 42장"
+    },
+    {
+      "id": "ecvam_context",
+      "name": "국토환경성평가지도",
+      "source_url": "https://ecvam.neins.go.kr/api/apiGuide.do",
+      "application_state": "optional_not_applied",
+      "credential_state": "email_verified_key_available_if_needed",
+      "credential_env": "ECVAM_API_KEY",
+      "execution_scope": "registered_URL",
+      "integration_state": "deferred_P2_context",
+      "display_status": "선택 P2·현재 불필요, 이메일 인증 발급"
+    }
+  ]
+}

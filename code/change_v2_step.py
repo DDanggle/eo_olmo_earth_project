@@ -14,6 +14,15 @@ v2의 세 가지 강화:
 출력: 계단 점수 지도, 클래스별 z점수 지도, Top 후보 목록(JSON, 분할 시점 포함).
 """
 
+import os
+
+if __name__ == "__main__" and os.environ.get("ALLOW_HISTORICAL_INVALID_JEJU_4TS") != "1":
+    raise SystemExit(
+        "REFUSED: this historical four-period path is season-confounded and the "
+        "2025/rolling-2026 windows overlap. It cannot emit annual-change candidates. "
+        "Set ALLOW_HISTORICAL_INVALID_JEJU_4TS=1 only to reproduce the preserved failure."
+    )
+
 import glob
 import json
 

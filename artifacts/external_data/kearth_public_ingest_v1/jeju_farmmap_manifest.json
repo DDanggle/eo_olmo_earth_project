@@ -1,0 +1,186 @@
+{
+  "access_method": "public_portal_file_download",
+  "catalog_url": "https://www.data.go.kr/data/15104491/fileData.do",
+  "columns": [
+    "ID",
+    "UID",
+    "CLSF_NM",
+    "CLSF_CD",
+    "STDG_CD",
+    "STDG_ADDR",
+    "PNU",
+    "LDCG_CD",
+    "SB_PNU",
+    "SB_LDCG_CD",
+    "AREA",
+    "CAD_CON_RA",
+    "SOURCE_NM",
+    "SOURCE_CD",
+    "FLIGHT_YMD",
+    "UPDT_YMD",
+    "UPDT_TP_NM",
+    "UPDT_TP_CD",
+    "CHG_RSN_NM",
+    "CHG_RSN_CD",
+    "FL_ARMT_YN",
+    "O_UID",
+    "O_CLSF_NM"
+  ],
+  "crs": "EPSG:5179",
+  "data_format": "ESRI Shapefile in ZIP",
+  "download_url": "https://www.data.go.kr/cmm/cmm/fileDownload.do?atchFileId=FILE_000000003642465&fileDetailSn=1&insertDataPrcus=N",
+  "geometry_type": "Polygon",
+  "license": "이용허락범위 제한 없음",
+  "provider": "농림수산식품교육문화정보원",
+  "quality": {
+    "change_reason_counts": {
+      "unknown": 154375,
+      "개간": 14709,
+      "개선": 72233,
+      "건물": 2064,
+      "기타": 20691,
+      "도로": 1885,
+      "분필": 16003,
+      "산림": 36,
+      "시설": 2385,
+      "태양광": 63,
+      "합필": 4935
+    },
+    "class_counts": {
+      "과수": 74446,
+      "논": 113,
+      "밭": 146482,
+      "비경지": 34799,
+      "시설": 33539
+    },
+    "exact_permit_pnu_links": 206,
+    "exact_permit_unique_farm_polygon": 144,
+    "exact_permit_unique_pnu": 50,
+    "flight_dates": {
+      "2019-01-01": 154375,
+      "2021-03-01": 5396,
+      "2021-04-01": 17959,
+      "2022-12-30": 35596,
+      "2023-12-30": 23401,
+      "2024-12-31": 52652
+    },
+    "invalid_pnu_count": 12,
+    "invalid_pnu_examples": [
+      {
+        "address": "제주특별자치도 서귀포시 표선면 성읍리",
+        "farm_id": "501303202302788",
+        "pnu": "5013032023000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5013032023000000000'"
+      },
+      {
+        "address": "제주특별자치도 서귀포시 안덕면 사계리",
+        "farm_id": "501303102501359",
+        "pnu": "5013031025000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5013031025000000000'"
+      },
+      {
+        "address": "제주특별자치도 서귀포시 남원읍 태흥리",
+        "farm_id": "501302532201471",
+        "pnu": "5013025322000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5013025322000000000'"
+      },
+      {
+        "address": "제주특별자치도 서귀포시 대정읍 구억리",
+        "farm_id": "501302503000556",
+        "pnu": "5013025030000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5013025030000000000'"
+      },
+      {
+        "address": "제주특별자치도 서귀포시 대정읍 상모리",
+        "farm_id": "501302502103113",
+        "pnu": "5013025021000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5013025021000000000'"
+      },
+      {
+        "address": "제주특별자치도 제주시 애월읍 어음리",
+        "farm_id": "501102533601704",
+        "pnu": "5011025336000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5011025336000000000'"
+      },
+      {
+        "address": "제주특별자치도 제주시 한경면 판포리",
+        "farm_id": "501103102400009",
+        "pnu": "5011031024000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5011031024000000000'"
+      },
+      {
+        "address": "제주특별자치도 제주시 회천동",
+        "farm_id": "501101330002073",
+        "pnu": "5011013300000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5011013300000000000'"
+      },
+      {
+        "address": "제주특별자치도 제주시 조천읍 신촌리",
+        "farm_id": "501102592100510",
+        "pnu": "5011025921000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5011025921000000000'"
+      },
+      {
+        "address": "제주특별자치도 제주시 조천읍 함덕리",
+        "farm_id": "501102592401824",
+        "pnu": "5011025924000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5011025924000000000'"
+      },
+      {
+        "address": "제주특별자치도 제주시 애월읍 유수암리",
+        "farm_id": "501102534201380",
+        "pnu": "5011025342000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5011025342000000000'"
+      },
+      {
+        "address": "제주특별자치도 제주시 조천읍 함덕리",
+        "farm_id": "501102592402339",
+        "pnu": "5011025924000000000",
+        "reason": "PNU land/mountain code must be 1 or 2 at index 10: '5011025924000000000'"
+      }
+    ],
+    "municipality_rows": {
+      "2025_제주특별자치도_서귀포시": 133257,
+      "2025_제주특별자치도_제주시": 156122
+    },
+    "no_match_interpretable": false,
+    "no_match_reason": "FarmMap covers agricultural polygons only; a point miss does not mean no land change or no administrative event",
+    "pnu_present_count": 289379,
+    "point_polygon_edges": 8,
+    "point_polygon_edges_by_grade": {
+      "B": 1,
+      "C": 7
+    },
+    "point_targets_queried": 247,
+    "point_targets_with_hits": 8,
+    "source_counts": {
+      "항공정사영상": 289379
+    },
+    "update_dates": {
+      "2021-12-30": 3265,
+      "2022-12-30": 23355,
+      "2023-12-08": 22658,
+      "2023-12-28": 12938,
+      "2024-12-31": 23401,
+      "2025-12-31": 52652,
+      "unknown": 151110
+    },
+    "update_type_counts": {
+      "unknown": 154375,
+      "변경": 114551,
+      "신규": 20453
+    },
+    "valid_pnu_count": 289367
+  },
+  "raw_bytes": 102333467,
+  "raw_file_name": "jeju_farmmap_20251231.zip",
+  "raw_sha256": "977f840e7a9ceb289aaba6674de59111360e873c3c4c8a7d3b4403f11ac637bf",
+  "retrieved_at": "2026-08-22T07:22:00Z",
+  "row_count": 289379,
+  "schema": "kearth-source-manifest-v1",
+  "schema_sha256": "ad41e2c57180fd7f2d2e9673fcaacef0a82664f108ecdb322f3b04a50d304f2a",
+  "snapshot_date": "2025-12-31",
+  "source_id": "mafra_farmmap_jeju",
+  "spatial_coverage": "Jeju-si and Seogwipo-si farm polygons",
+  "temporal_coverage": "source-specific FLIGHT_YMD; updated 2025-12-31"
+}

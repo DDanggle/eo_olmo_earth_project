@@ -1,0 +1,27 @@
+{
+  "status": "manual_complete",
+  "artifact": "artifacts/figures/v7_rgb_pairs.png",
+  "reviewed_at_kst": "2026-08-22",
+  "review_scope": "one pre-registered golden window, four recent periods",
+  "fixed_target": {
+    "block_row": 237,
+    "block_col": 27,
+    "period_index": 3,
+    "selected_before_v7": true
+  },
+  "observations": [
+    "Period 3 changes from a visually dominant bright cloud field in v1 to a cloud-free dark surface in v7.",
+    "Period 0 also removes the bright cloud patch visible in v1.",
+    "Periods 1 and 2 do not show a new obvious cloud or nodata artifact in v7.",
+    "The fixed target's visual change agrees with the numeric bad-proxy change from 1.0 to 0.0."
+  ],
+  "gates": {
+    "manual_rgb_target_cloud_reduced": true,
+    "all_pre_registered_numeric_and_manual_gates_pass": true
+  },
+  "limitations": [
+    "This review does not establish Jeju-wide performance.",
+    "The selected output is one scene per 30-day period, not pixel-wise cloud gap filling.",
+    "Dark clear surfaces require downstream embedding checks to rule out distribution-shift side effects."
+  ]
+}

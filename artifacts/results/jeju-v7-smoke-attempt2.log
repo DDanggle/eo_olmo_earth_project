@@ -1,0 +1,22 @@
+format=2026-08-22 10:52:49,834 loglevel=INFO   logger=rslearn.main main() L1112 Using multiprocessing context: <multiprocessing.context.ForkServerContext object at 0x1140076ef290>
+Loading windows:   0%|          | 0/1 [00:00<?, ?it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.33it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.33it/s]
+format=2026-08-22 10:52:50,737 loglevel=INFO   logger=rslearn.main apply_on_windows() L462  found 1 windows
+format=2026-08-22 10:52:50,737 loglevel=INFO   logger=rslearn.main __call__() L557  Running prepare on 1 windows
+format=2026-08-22 10:52:50,737 loglevel=INFO   logger=rslearn.dataset.manage prepare_dataset_windows() L150  Preparing 1 windows for layer sentinel2_l2a
+/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/manage.py:183: FutureWarning: QueryConfig.per_period_mosaic_reverse_time_order defaults to True, which returns item groups in reverse temporal order (most recent first) when period_duration is set. This default will change to False (chronological order) after 2026-04-01. To silence this warning, explicitly set per_period_mosaic_reverse_time_order=False.
+  fn=lambda: data_source.get_items(geometries, query_config),
+format=2026-08-22 10:52:54,648 loglevel=INFO   logger=rslearn.dataset.storage.file save_layer_datas() L210  Saving window items to /home/work/data/olmoearth/embed_jeju_v7_smoke/dataset/windows/default/smoke25_30720_-372736/items.json
+0it [00:00, ?it/s]0it [00:00, ?it/s]
+format=2026-08-22 10:52:54,660 loglevel=INFO   logger=rslearn.main dataset_prepare() L630  === Prepare Summary ===
+format=2026-08-22 10:52:54,660 loglevel=INFO   logger=rslearn.main dataset_prepare() L631  Total windows requested: 1, duration: 3.9s
+format=2026-08-22 10:52:54,660 loglevel=INFO   logger=rslearn.main dataset_prepare() L644    Layer sentinel2_l2a: prepared=1, skipped=0, rejected=0, failed=0
+format=2026-08-22 10:52:55,650 loglevel=INFO   logger=rslearn.main main() L1112 Using multiprocessing context: <multiprocessing.context.ForkServerContext object at 0xc24f2db7390>
+Loading windows:   0%|          | 0/1 [00:00<?, ?it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.29it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.29it/s]
+format=2026-08-22 10:52:56,576 loglevel=INFO   logger=rslearn.main apply_on_windows() L462  found 1 windows
+  0%|          | 0/1 [00:00<?, ?it/s]format=2026-08-22 10:52:57,389 loglevel=INFO   logger=rslearn.main __call__() L975  Running Materialize with 1 windows
+format=2026-08-22 10:52:58,300 loglevel=INFO   logger=rslearn.dataset.manage materialize_window() L455  Materializing 4 item groups in layer sentinel2_l2a via data source
+usage: rslearn [--compositor COMPOSITOR]
+tip: For details of accepted options run: rslearn --help
+error: Parser key "compositor":
+  Problem with given class_path 'scl_compositor.Sentinel2SCLBestClearNearest':
+    No module named 'scl_compositor'

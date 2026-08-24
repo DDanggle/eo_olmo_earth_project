@@ -46,6 +46,11 @@ rslearn은 원격 데이터를 (a) `ingest: true` — 타일스토어로 복사 
 어떤 공식 조합으로도 재현 불가. 5차 디버깅 끝에 runner 0.1.14 + rslearn 0.0.27 +
 설정 패치 2건으로 정착. 아티팩트에 (백본, 헤드, 전처리, 설정) 버전 4-튜플이 기록돼야
 하는 이유의 실증이자 olmoearth-migrate의 존재 근거.
+
+2026-08-22의 제주 v5에서도 같은 문제가 재현됐다. rslearn master는
+`PER_PERIOD_MOSAIC`를 폐기 예정으로 두고 `MOSAIC + period_duration`을 권고했으며,
+기간 안 장면을 최신순으로 반환하는 기본값도 시간순으로 바뀔 예정이라고 경고했다. 즉 YAML
+문자열이 같아도 코드 버전에 따라 합성 후보의 순서와 결과 픽셀이 바뀔 수 있다.
 **확인 질문**: 이 문제를 팀 입장에서 재발 방지하려면 CI/배포 어디에 무엇을 넣어야 하는가?
 
 ### #4 태스크 헤드 교체 패턴 (2026-08-13)
@@ -172,7 +177,522 @@ Earth Embeddings 서베이가 지적한 *"단일 결정론적 벡터가 구름 �
 **확인 질문**: 왜 Top-k 리스트의 정밀도(precision)만 보고하면 면적 추정에 부적절한가?
 (힌트: 선택 편향 — 고득점 표본만 검증하면 저득점 구간의 누락을 모른다)
 
+### #16 FIRST_VALID 합성과 nodata sentinel (2026-08-21, 제주 v5 실행 경고)
+
+`PER_PERIOD_MOSAIC` materialize 중 rslearn이 `FIRST_VALID` 합성에 쓸 nodata 메타데이터를
+찾지 못해 0을 기본값으로 쓴다는 경고가 반복됐다. FIRST_VALID는 장면 순서대로 "유효한"
+첫 픽셀을 고르므로, 어떤 값이 nodata인지 잘못 정의하면 실제 결측을 관측값으로 채택하거나
+반대로 유효한 0을 건너뛸 수 있다. 따라서 파이프라인이 완주했다는 사실만으로 구름 강건 입력이
+만들어졌다고 결론 내릴 수 없다. 원본 밴드의 0값 의미, 래스터 마스크, 합성 결과의 0/nodata
+비율과 RGB 칩을 함께 확인해야 한다.
+
+**확인 질문**: FIRST_VALID 합성에서 nodata sentinel을 잘못 지정하면 최종 모자이크와
+임베딩 변화 점수에 각각 어떤 방향의 편향이 생길 수 있는가?
+
+### #17 관측 가능한 proxy와 생태 target 분리 (2026-08-22, MARC 적용 설계)
+
+40m Sentinel-2/OlmoEarth 임베딩이 관측하는 것은 돌고래가 아니라 토지·수면 피복,
+해안 인프라, 양식장, 광학적 수색 같은 **서식지 압력의 proxy(대리변수)**다. MARC의 target은
+개체 출현·행동·서식지 이용·인간 영향이다. proxy와 target을 같은 것으로 취급하면 생태학적
+오류와 과장된 인과 주장이 생긴다. 위성 레이어는 현장조사의 대체물이 아니라 조사 후보와
+환경 맥락을 제공하고, target과의 관계는 현장자료·표본설계·별도 인과 가정으로 검증해야 한다.
+
+**확인 질문**: 연안 양식장 변화와 돌고래 먹이행동이 같은 시기에 관측됐을 때, 왜 위성
+상관만으로 인간 활동의 인과효과를 주장할 수 없으며 어떤 추가 설계가 필요한가?
+
+### #18 설정 표면과 실행 의미의 분리 (2026-08-22, 제주 v5 폐기 경고)
+
+설정 파일의 필드 이름은 실험의 의미가 아니다. 제주 v5 로그에서 rslearn은
+`PER_PERIOD_MOSAIC` → `MOSAIC + period_duration`, 최신순 → 시간순 기본값, legacy timestep
+지원 종료를 각각 예고했다. 같은 YAML을 나중에 다시 돌렸을 때 장면 그룹·순서·모델 입력이
+달라질 수 있다는 뜻이다. 재현 manifest에는 패키지 버전/commit뿐 아니라 **정규화된 최종 설정,
+선택된 STAC item ID와 순서의 hash, 대표 window의 합성 결과 checksum**이 필요하다.
+
+**확인 질문**: 설정 파일 diff가 0인데 결과가 바뀌었을 때, golden-window 통합 테스트는
+어느 단계의 hash를 비교해야 원격 카탈로그 변화와 라이브러리 의미 변화를 구분할 수 있는가?
+
+### #19 materialize한 시간축과 모델이 실제 소비한 시간축 (2026-08-22, v5 감사)
+
+제주 데이터셋은 한 해를 30일 간격 **12개 레이어**로 materialize했지만,
+`model_s2.yaml`의 입력은 `sentinel2_l2a`부터 `.3`까지 **앞 4개 레이어만** 명시한다.
+따라서 152 GiB를 만들고 12기간 품질을 검사해도 임베딩의 실제 관측 범위는 별개다.
+더 심각하게 2023~2025 윈도우는 1월 시작, rolling-2026은 7월 시작이므로, 첫 4기간만 쓰면
+연도 변화와 계절 변화가 섞일 수 있다. 감사는 `all_12`와 `model_used_4`를 분리하고,
+변화탐지 재실행 전 실제 레이어 날짜·순서와 계절 정렬을 고정해야 한다.
+
+**확인 질문**: 같은 “4개년 임베딩”이라도 각 연도의 시작월과 선택 timestep이 다르면
+왜 world shift 추정이 무효가 되며, 어떤 시간축 manifest와 통제군이 필요한가?
+
+### #20 설정 개입의 의미적 등가성 (2026-08-22, v1↔v5 전수 감사)
+
+실험에서 바꾼 문자열이 실제 개입(intervention)이라는 보장은 없다. v1의
+`MOSAIC + period_duration`과 v5의 `PER_PERIOD_MOSAIC + period_duration`은 이름이 다르지만,
+rslearn 0.1.13에서는 같은 `match_with_space_mode_mosaic` handler를 쓴다. 그 결과 ordered
+source group 2,592개가 전부 같고, cloud/zero 전수 지표와 원본·임베딩 표본도 같았다.
+실험 요인을 선언하기 전 **정규화 설정 → 실행 함수 → 선택 item hash → 출력 pixel** 순으로
+개입이 실제 데이터를 바꿨는지 확인해야 한다. 이 검사는 대규모 계산 전 golden window에서 한다.
+
+**확인 질문**: 두 설정 파일의 diff가 있는데 결과가 같을 때, 어느 네 단계의 증거를 확인해야
+“모델이 강건했다”가 아니라 “실험 개입이 존재하지 않았다”고 판정할 수 있는가?
+
+### #21 보조 품질 밴드의 의존성·보간 분리 (2026-08-22, v7 SCL smoke)
+
+SCL(Scene Classification Layer)처럼 **장면 선택에는 필요하지만 모델 입력에는 필요하지 않은
+보조 밴드**도 데이터소스가 읽을 수 있게 명시적으로 등록해야 한다. rslearn의 Planetary
+Computer Sentinel-2 구현은 layer `band_sets`와 교차하는 자산만 tile store에 등록한다.
+따라서 item metadata에 SCL URL이 있어도 반사도 12밴드만 설정하면
+`Sentinel2SCLBestClear`는 `missing scoring bands ['SCL']`로 실패한다.
+
+또 반사도는 연속값이라 bilinear resampling이 자연스럽지만 SCL class ID는 범주형이다.
+SCL=4/5/6 같은 equality로 clear pixel을 세면서 bilinear 보간을 쓰면 존재하지 않는 중간 class가
+생겨 점수가 왜곡된다. v7은 SCL을 별도 band set으로 등록하고, **점수 read만 nearest**, 선택된
+장면의 반사도 materialize는 bilinear로 유지했다. 이 분리는 golden window에서 실제 source
+group·pixel을 바꾸고 bad proxy를 95.64% 줄인 첫 유효 입력 개입이 됐다.
+
+**확인 질문**: 모델에 넣지 않는 SCL이 왜 `band_sets`에 필요하며, 같은 레이어에서 SCL 점수와
+반사도 출력에 서로 다른 resampling을 써야 하는가?
+
+### #22 사람 검수에서 계절·stretch·중복을 통제하는 법 (2026-08-22, 제주 14후보 감사)
+
+변화 후보 RGB를 나란히 놓는 것만으로는 검증이 되지 않는다. 기존 `verify_candidates.py`는
+연도별로 서로 다른 계절을 보여주고 각 칩의 2–98 percentile을 따로 stretch해, 농경지
+phenology와 실제 밝기 차이를 숨길 수 있었다. 이번 감사는 후보를 먼저 고정한 뒤 각 연도의
+5월 15일에 가장 가까운 관측을 골라, 모든 칩에 같은 0–3000 DN stretch를 적용하고 1.28 km
+context와 400 m detail을 함께 보였다.
+
+또 record 수와 고유 사건 수를 분리해야 한다. v3 rank 2와 v6 rank 16은 약 60 m 떨어진 같은
+대면적 절개지를 잡아 고확신 record는 5개지만 고유 site는 4개였다. 알고리즘끼리 같은 사건을
+반복 검출하면 consensus 증거가 될 수는 있어도 precision 분모에서 두 건으로 세면 안 된다.
+동부 중산간 좌표 집단도 실제로는 지속 토지전환, 경작/피복지, 구름이 섞여 있었으므로
+“오름 군집 변화”라는 지역 라벨을 개별 원인 판정으로 전파해서도 안 된다.
+
+**확인 질문**: 변화 후보의 사람 검수에서 계절 정렬, 고정 stretch, 두 공간 scale, 고유-site
+deduplication을 각각 빼면 어떤 종류의 false positive나 과대 계수가 생기는가?
+
+### #23 공간 결합에서 현재 지도와 행정 데이터의 음성 증거 (2026-08-22, 제주 공공데이터 결합)
+
+좌표를 지도에 얹는 것과 변화의 원인을 검증하는 것은 다르다. OSM 현재 스냅샷에서 `r11`
+주변 419–951 m에 태양광 발전소 6개가 보여도, 후보 폴리곤과 겹치거나 2024~2025에 조성됐다는
+증거가 없으면 “태양광 개발”로 확정할 수 없다. 제주 공식 오름현황도 이름·주소·면적은 있지만
+좌표와 경계가 없어서 OSM peak 이름을 통해 위치를 보조했을 뿐, 후보가 오름 경계 안이라는
+판정은 아니다.
+
+행정 데이터의 0건은 더 위험하다. 국토부 최신 개발행위허가 파일의 제주 240행에는 2023·2024
+허가가 하나도 없었다. 따라서 후보 지역과 일치하는 행이 0이어도 “허가 없음”이나 “무허가”의
+음성 증거가 아니다. 실제로 초기 규칙은 포함 경계 `삼양동`에 행이 없자 근처 `화북이동` 3건을
+연결하는 false join을 만들었다. 공간 결합은 `exact parcel / containing boundary / nearest
+feature`의 증거 수준을 분리하고, 누락 가능한 데이터의 `no match`는 `unknown`으로 닫아야 한다.
+
+**확인 질문**: 현재 OSM 시설이 후보에서 400 m 떨어져 있고 허가 CSV 일치가 0건일 때,
+어떤 추가 자료가 있어야 “시설이 변화 원인이다” 또는 “허가가 없다”는 주장으로 승격할 수 있는가?
+
+### #24 고정 분모·record linkage·선택적 보류 (2026-08-22, 오름 368 전수 레지스트리)
+
+“전수 조사”는 대상 목록을 전부 데이터베이스에 넣는 것, 위성 점수를 전부 계산하는 것,
+원인을 전부 검증하는 것이 서로 다르다. 제주 공식 오름 368건을 분모로 고정한 뒤
+`목록/위치/모델/행정근거/사람검수` 상태를 분리하니 첫 단계는 368/368이지만 offline OSM
+peak 위치는 243/368뿐이고, 필지·사업구역 경계와 시점이 맞는 공식 원인 근거는 0/368이었다.
+따라서 후자를 숨긴 채 “오름 368개 조사 완료”라고 쓰면 coverage inflation이다.
+
+record linkage도 같은 문제를 만든다. 사용자가 준 제주시 표의 번호 1–210을 공식 368개 파일의
+연번으로 간주하자 첫 4건 뒤 206건이 가짜 충돌이 됐다. 첨부 번호는 제주시 부분집합의 내부
+순번이었다. 연번 결합을 폐기하고 이름·주소·면적 복합키로 바꾸자 209건이 연결됐고, 188건은
+핵심 필드 일치, 21건은 주로 주소 변경/차이, `빈내오름` 1건은 최신 공식 목록에서 미연결로
+남았다. 키 이름이 같아 보이는 것보다 **키의 모집단과 생성 규칙**을 먼저 확인해야 한다.
+
+공식 원인 근거가 10% 미만이면 시스템은 억지 분류 대신 선택적 변화탐지로 전환한다. 모델이
+높은 점수를 내도 A/B급 경계·시점 근거가 없으면 `조사 우선` 또는 `보류`이며, 침묵률 자체를
+evidence coverage–risk 곡선으로 평가한다. 이때 abstention은 실패가 아니라 불완전 기록 아래의
+정직한 출력이다.
+
+**확인 질문**: 공식 목록 368/368, OSM 위치 243/368, 모델 screen 243/368, A/B급 원인 근거
+0/368일 때 “전수조사 완료율”을 하나의 숫자로 보고하면 왜 잘못이며, 어떤 상태별 분모와
+보류 규칙을 따로 보고해야 하는가?
+
+### #25 모델 합의의 공통오류 — common-mode failure (2026-08-22, 오름 RGB 감사)
+
+서로 다른 점수 두 개가 같은 후보를 높게 평가해도 두 증거가 독립적이라는 뜻은 아니다.
+오름 점별 screen에서 4기간·12기간 percentile이 모두 90 이상이고 변화 split도 같은
+`high_stable` 8건을 만들었지만, 동일 월·고정 stretch RGB로 확인하자 **8/8이 2023년의
+구름·연무를 공유한 거짓 양성**이었다. 두 계산이 같은 원시 장면과 전처리를 소비했기 때문에
+합의가 오류를 상쇄하지 않고 오히려 같은 오염을 반복한 것이다.
+
+따라서 ensemble agreement를 강화 증거로 쓰려면 장면·센서·품질마스크·전처리·모델 등
+오류 경로의 독립성을 먼저 설명해야 한다. 현재 방법은 SCL 품질 게이트, 같은 계절의 복수
+장면, 두 공간 축척 RGB, 독립 사람 판정이 통과될 때까지 M급 모델 합의를 `조사 우선`으로만
+사용한다. 높은 일치율이 높은 진실성보다 먼저 보고되어서는 안 된다.
+
+**확인 질문**: 4기간 모델과 12기간 모델이 같은 2023년 구름 장면을 포함할 때 두 점수의
+합의를 독립 반복실험으로 간주할 수 없는 이유는 무엇이며, 어떤 입력·평가 설계가 공통오류를
+줄이는가?
+
+### #26 PNU는 상호운용 spine이지 경계·인과 정답이 아니다 (2026-08-22, 공공데이터 카탈로그)
+
+한국 공공데이터를 연결할 때 필지고유번호(PNU)는 연속지적도, 건축인허가, 개발행위허가,
+사유림사업, 팜맵을 잇는 가장 강한 공통키다. 그러나 키가 같다는 사실은 변화 원인이 같다는 뜻이
+아니다. 공식 오름현황의 지번은 대표 필지일 수 있고, 오름은 여러 필지에 걸칠 수 있으며, 허가일과
+실제 착공·관측 변화일도 다르다. 따라서 `주소→PNU`는 후보 생성이고, `변화 footprint∩공식 polygon`
+과 사전 고정한 시간창의 부합을 통과해야 B급 근거가 된다.
+
+이번 검색에서는 행정 시스템의 모집단 차이도 실제로 부딪혔다. 보유 개발행위허가 snapshot은
+제주 2023·2024행이 0이지만, 별도 개념인 제주시 산지이용지정현황은 2023년 714건·230.6 ha,
+2024년 542건·74.2 ha를 보고한다. 두 수치를 직접 같은 허가로 비교할 수는 없지만, 한 시스템의
+0건을 “행정활동 없음”으로 일반화해서는 안 된다는 경보다. no-match를 음성 증거로 쓰려면 위치·
+기간·행위유형 모집단·수집완전성·join 필드를 모두 감사해야 한다.
+
+**확인 질문**: 오름 공식 주소에서 만든 PNU와 건축인허가 PNU가 같을 때도 원인 판정을 바로
+내릴 수 없는 이유는 무엇이며, 어떤 geometry·시간·coverage 조건을 추가로 충족해야 하는가?
+
+### #27 데이터셋 기준일·갱신일·관측일은 서로 다르다 (2026-08-22, FarmMap 실제 ingest)
+
+“2025 팜맵”이라는 제품명이나 파일 기준일은 polygon 속 지표를 2025년에 관측했다는 뜻이 아니다.
+실제 제주 FarmMap에는 항공 촬영일(`FLIGHT_YMD`)과 행정 갱신일(`UPDT_YMD`)이 따로 있고,
+`oreum_v6_r08`은 촬영 2022-12-30·갱신 2023-12-08이었다. 변화 후보의 전후 Sentinel 관측은
+2024-05-16→2025-05-13이므로 이 polygon은 변화 전 영상을 기준으로 한 상태다. 초기 구현이
+갱신일을 우선하자 통합 테스트가 날짜 의미의 모호성을 드러냈고, 실제 지표 관측에 가까운 촬영일을
+우선하며 `state_date_basis`와 503일 gap을 edge에 저장하도록 고쳤다.
+
+공식 polygon과 좌표가 정확히 맞아도 이 결과는 “당시 밭이었다”는 B급 상태근거일 뿐, 이후 변화의
+원인이나 허가를 증명하지 않는다. evidence chain의 최종 주장은 가장 약한 고리로 제한된다.
+`공간 B + 시간 B + 상태 B`가 있어도 사건 레코드가 없으면 `cause_supported`로 승격하지 않는다.
+반대로 OSM 오름 point가 FarmMap polygon에 든 7건은 입력 위치 자체가 C이므로 결과도 C다.
+
+**확인 질문**: 제품명이 2025이고 polygon·PNU가 정확히 일치해도 `r08`을 2024–2025 변화의
+원인근거로 쓸 수 없는 이유는 무엇이며, `FLIGHT_YMD`, `UPDT_YMD`, 변화 관측구간 중 어떤 값을
+어떤 주장에 사용해야 하는가?
+
+### #28 HTTP 성공과 데이터 성공은 다르다 (2026-08-22, 공공 API 실수집)
+
+공공 API는 HTTP 200을 반환해도 본문 안의 업무 오류코드로 실패할 수 있다. 이번 bounded
+snapshot은 207개 요청이 전부 HTTP 성공이었지만 의미상 성공은 200개였다. VWorld는 로컬과
+H100 VM에서 모두 `INCORRECT_KEY`, GK2A는 OlmoEarth의 과거 6관측일에 대해 최근 2일 조회 제한을
+반환했다. 이를 HTTP 성공 207/207로만 보고하면 필지와 역사 구름자료를 확보한 것처럼 보이는
+coverage inflation이 생긴다. transport/HTTP/API-semantic/schema/item-count를 별도 상태로 저장해야 한다.
+
+pagination도 응답이 말하는 계약을 따라야 한다. BuildingHUB 요청에는 1,000행을 넣었지만 서버는
+page size 100을 반환했고 첫 법정동은 182행이었다. 첫 페이지만 보존했다면 45%를 조용히 잃었다.
+실제 `numOfRows`와 `totalCount`로 후속 page를 생성해 45개 법정동 111페이지·8,794행을 소진했다.
+반대로 철거·멸실 0행은 pagination이 완전해도, 이 endpoint와 날짜 필터의 모집단 밖 사건까지
+없다는 뜻은 아니다.
+
+**확인 질문**: HTTP 207/207 성공, API-semantic 200/207 성공, BuildingHUB 111페이지 완료라는
+세 수치를 하나로 합치면 왜 안 되며, VWorld/GK2A/철거 0행 각각의 no-match를 어떤 상태로 닫아야 하는가?
+
+### #29 전이 효과는 평균 점수가 아니라 matched counterfactual이다 (2026-08-22, K-EvidenceShift 설계)
+
+“OlmoEarth가 한국에서 좋다”는 말은 pretrained 모델의 점수만으로 성립하지 않는다. 같은 입력
+밴드·시간축, 같은 decoder, 같은 라벨 예산, 같은 augmentation·search budget과 compute를 쓴 scratch
+및 일반 vision/EO baseline이 반사실 비교군이어야 한다. 지역 `g`와 라벨 예산 `b`별 전이효과를
+`score(pretrained+adapted)-score(matched scratch)`로 두면 전체 평균이 양수여도 제주 high-cloud,
+미래 연도, 희귀 class에서는 음수일 수 있다. 이 subgroup 손해를 숨기면 label efficiency가 아니라
+평균으로 negative transfer를 상쇄한 것이다.
+
+픽셀을 독립 표본으로 간주하면 신뢰구간도 과도하게 좁아진다. 같은 사건·필지·인접 tile을 묶고
+site/event 단위 paired spatial bootstrap CI가 0 아래일 때만 confirmed negative transfer로 부른다.
+모델의 native modality를 더 준 실험은 operational ceiling으로 유용하지만, 공통 S2 paired-input
+track과 같은 표에서 representation 효과로 해석하면 안 된다.
+
+**확인 질문**: OlmoEarth가 전국 평균 AUPRC는 scratch보다 3%p 높지만 제주 high-cloud에서는 4%p
+낮을 때, 어떤 입력·decoder·compute 통제와 표본단위 CI가 있어야 이를 전이 이득과 negative
+transfer로 각각 말할 수 있는가?
+
+### #30 능동 라벨과 확률표본은 목적이 다르다 (2026-08-22, active transfer 설계)
+
+active learning은 현재 모델을 가장 빨리 개선할 표본을 의도적으로 편향되게 고른다. 반면 한국
+전체 변화율·오류율과 유효한 신뢰구간을 추정하려면 target population에서 알려진 포함확률을 가진
+표본이 필요하다. uncertainty나 model disagreement가 큰 곳만 판독하면 학습에는 유용할 수 있지만,
+그 비율을 전국 prevalence로 해석할 수 없다. 따라서 active query pool, 봉인 spatial-temporal test,
+층화 확률표본을 세 자산으로 분리한다.
+
+이번 오름 감사에서 두 모델 입력의 high-stable 후보 8/8이 구름 false positive였던 것은 disagreement/
+agreement도 품질 게이트 없이 정보량이 아니라 공통오염을 선택할 수 있음을 보여준다. PDE의 `beta`,
+advection–diffusion, 모호성선, D-opt도 자동으로 옮기지 않는다. Earth에서는 그룹별 전이효과,
+경험적 disagreement region, embedding-diversity baseline으로 새로 정의하며, D-opt/log-det는 deep
+shift 아래 식별성 보장이 아니라 비교 방법 하나일 뿐이다.
+
+**확인 질문**: cross-model disagreement가 큰 high-cloud 필지 100개를 능동 판독해 성능이 올랐을 때,
+왜 그 100개로 한국 전체 변화율을 추정할 수 없으며, 별도 확률표본과 어떤 cloud·공통오류 gate가
+필요한가?
+
+### #31 요청 hash는 응답 snapshot의 정체성이 아니다 (2026-08-22, VWorld 재승인 결합)
+
+VWorld key 설정 전후의 대표점 요청은 endpoint·공개 parameter가 같아 동일한 request hash를
+가졌지만, 첫 응답은 `INCORRECT_KEY`, 두 번째 응답은 `status=OK`였다. request hash는 “무엇을
+물었는가”를 식별할 뿐 “언제 어떤 답을 받았는가”를 식별하지 않는다. 응답 lineage에는 반드시
+`snapshot/retrieved_at/raw_sha256`이 함께 있어야 하고, 새 성공 응답으로 과거 실패 raw를
+덮어쓰면 key·coverage 변화 자체를 잃는다.
+
+같은 점의 필지도 단일한 영구 정답으로 가정할 수 없었다. `oreum_v6_r08`은 과거 항공 기반
+FarmMap polygon의 PNU와 현재 VWorld point parcel PNU가 달랐다. 이는 즉시 어느 source가 틀렸다는
+뜻이 아니라 source 기준일·경계 버전·점의 경계 위치를 다시 봐야 한다는 신호다. 따라서 현재
+VWorld 필지와 dated FarmMap 필지를 둘 다 저장하고 `parcel_pnu_relation=conflict`로 보류했다.
+
+**확인 질문**: 공개 parameter가 같은 두 API 호출의 request hash가 같아도 왜 하나의 응답으로
+deduplicate하면 안 되며, FarmMap과 VWorld PNU가 다를 때 어떤 시점·geometry·source-version
+정보가 있어야 충돌을 해소할 수 있는가?
+
+### #32 Hugging Face snapshot 경로와 blob 심링크는 다른 정체성이다 (2026-08-23)
+
+OlmoEarth 체크포인트를 immutable commit으로 고정하는 첫 구현에서 `Path.resolve()`를 파일까지
+적용하자, `snapshots/<commit>/weights.pth` 심링크가 실제 `blobs/<sha>`로 풀리며 경로에서 commit을
+읽을 수 없게 됐다. blob hash는 파일 내용의 정체성이고 snapshot commit은 repo revision의
+정체성이므로 둘 중 하나로 다른 하나를 대신할 수 없다. 고친 resolver는 snapshot 경로의 raw
+parts에서 commit을 보존하고, config·weights 각각의 byte 수와 SHA-256을 별도로 검증한다.
+
+**확인 질문**: 같은 weight blob을 두 commit이 공유할 수 있을 때, 왜 weight SHA만으로 재현 가능한
+모델 릴리스를 고정했다고 할 수 없으며 manifest에 repo·commit·config SHA·weight SHA를 모두
+넣어야 하는가?
+
+### #33 retrospective audit pool은 prospective benchmark가 아니다 (2026-08-23)
+
+현재 14후보는 과거 모델 순위로 선택됐고, assistant 판독에는 일부 후보의 `t1` 뒤 EO frame이
+포함되며, 한국 공공 API snapshot도 마지막 관측 뒤 수집됐다. 이 자료는 실패 원인을 찾는 audit에는
+유용하지만 미래 시점에서 사용할 수 있었던 입력도, 알려진 포함확률의 모집단 표본도 아니다.
+따라서 모든 레코드를 `pilot_audit_pool`로 묶고 후시점 EO는
+`future_after_t1_review_only`, 공공근거는 prospective input 불가로 표시했다. 성능표는 별도의 sealed
+확률표본과 frozen input/evidence cutoff가 생긴 뒤에만 연다.
+
+**확인 질문**: 후보의 실제 변화가 사후 RGB와 행정사건으로 명확해 보여도, 그것을 그대로 test
+label/feature로 쓰면 어떤 selection·temporal leakage가 생기며 prospective 평가에서는 어떤 cutoff와
+split을 먼저 고정해야 하는가?
+
+### #34 릴리스 표현 연속성과 task 성능은 다른 estimand다 (2026-08-23)
+
+v1/v1.2의 embedding 차원이 둘 다 768이어도 각 축이 같은 의미라는 보장은 없다. 따라서 대응
+벡터끼리 raw cosine을 계산하거나 8개 smoke 전부로 Procrustes를 맞춘 뒤 같은 8개에 평가하면
+coordinate assumption 또는 rank≤7 과적합을 결과로 오인한다. P0에서는 같은 공간 token의
+linear CKA, 각 릴리스 내부의 pooled distance rank와 이웃 보존을 본다. 공간 자기상관만으로 CKA가
+높아지는지 toroidal block shift를 null로 두고, 8 site-years가 7 spatial clusters임을 LOO 범위에
+반영한다. 이 지표들도 표현 구조 감사이지 정확도·negative transfer 증거는 아니다.
+실측에서는 pooled site-year CKA 0.981·거리 순위상관 0.889와 달리, 창 내부 spatial CKA가
+평균 0.427(0.133–0.828)이었다. 전역 이웃 구조의 보존과 국소 token geometry의 이동은 동시에
+성립할 수 있으므로 두 값을 하나의 “호환성 점수”로 합치지 않는다.
+
+**확인 질문**: 두 릴리스의 동일 위치 embedding raw cosine이 낮지만 CKA와 within-release neighbor
+overlap이 높다면 무엇을 말할 수 있고, downstream head 성능·cache backward compatibility를
+말하려면 어떤 sealed gallery와 spatial calibration/test split이 추가로 필요한가?
+
+### #35 다중 GPU 안전 gate는 선택 장치에만 걸어야 한다 (2026-08-23)
+
+GPU0이 비어 있고 GPU1에서 다른 프로젝트가 실행 중인 상태에서, 최초 실행기는 `nvidia-smi`의
+모든 compute process를 하나로 모아 GPU0 실행까지 거부했다. 전역 process 존재 여부는 서버가
+바쁜지는 말하지만 선택 장치를 선점해도 되는지는 말하지 않는다. index→GPU UUID를 먼저 고정하고
+그 UUID의 process만 gate하도록 고친 뒤 GPU1을 건드리지 않고 GPU0 smoke를 완주했다. 반대로
+메모리 사용량 0만 확인하는 것도 초기화 중인 process를 놓칠 수 있으므로 process UUID와 output
+staleness를 함께 검사한다.
+
+**확인 질문**: GPU1에 다른 학습이 있을 때 GPU0 작업을 안전하게 시작하려면 왜 전체 process 수나
+메모리 0 하나만으로 부족하며, device UUID·PID·output mtime 중 무엇을 실행 전후에 고정해야 하는가?
+
+### #36 결과 hash와 실행 전 gate도 하나의 증거 사슬이어야 한다 (2026-08-23)
+
+release 결과·COMPLETE·분석 marker는 모두 맞았지만 로컬 `preflight.json`만 과거
+`ready=false` 보류본으로 남아 있었다. 결과 hash가 맞는 것과 어떤 GPU·입력·checkpoint 조건을
+통과해 그 결과가 시작됐는지는 다른 증거다. launcher 첫 JSON과 실제 실행 preflight를 동일 SHA로
+묶고, exact input 208·checkpoint 4·output 16을 다시 해시한 뒤에야 758/758 check가 닫혔다.
+로컬처럼 raw가 없는 곳에서는 같은 verifier가 `PARTIAL_VERIFIED`만 내고, 서버 raw를 요구하면
+누락 하나도 `FAILED`로 만든다. 분석 재실행의 byte identity는 실행 무결성을 강화하지만 새 task
+성능 근거를 만들지는 않는다.
+
+**확인 질문**: run summary와 COMPLETE hash가 맞아도 stale preflight가 남아 있으면 왜 실행 조건을
+재현했다고 할 수 없으며, `PARTIAL_VERIFIED`와 `FULL_EVIDENCE_VERIFIED`를 나누는 raw evidence는
+정확히 무엇인가?
+
+### #37 높은 CKA는 cache backward compatibility가 아니다 (2026-08-23)
+
+full 216 audit의 sealed 64 site-years에서 두 릴리스의 pooled embedding geometry는 linear CKA
+0.9786, pairwise-distance Spearman 0.9525로 높았다. 그러나 동일 공간 token의 raw cosine 평균은
+−0.0086이고, v1.2 query를 v1 cache에서 찾거나 그 반대로 찾은 R@1은 양방향 0.0이었다.
+calibration-only Procrustes는 0.491/0.436, affine ridge도 0.697/0.609까지만 회복해 사전 0.95
+gate를 실패했다. CKA는 두 표현 집합의 관계적 구조를 보지만 동일 좌표계와 개별 identity 보존을
+요구하지 않는다. 따라서 “패널 내부의 pooled geometry가 비슷하다”와 “old gallery를 new query가 그대로
+사용할 수 있다”는 서로 다른 estimand다.
+
+**확인 질문**: pooled CKA와 거리 순위상관이 0.95 이상인데 exact-token R@1이 0인 결과가 왜
+모순이 아니며, 운영 cache 호환성을 주장하려면 representation proxy 외에 어떤 downstream task
+gate와 migration 조건이 필요한가?
+
+### #38 privileged supervision과 inference fusion은 다른 estimand다 (2026-08-23)
+
+GeoLink·MMEarth·Galileo·SatMIP를 비교하면서 “공공데이터를 결합해 좋아졌다”는 문장이 서로 다른
+효과를 섞는다는 마찰을 만났다. 추론 때 EO와 context를 같이 넣어 좋아지는 `E_fusion`은 추가 입력의
+정보 이득이다. 반면 train 때 context를 auxiliary/teacher signal로만 쓰고 test에서는 EO만 넣는
+student가 좋아지는 `E_repr`만 EO embedding 강화의 직접 증거다. 영상 예측 뒤 행정근거로 보류가
+좋아지는 것은 다시 `E_decision`이다. 세 track은 같은 split과 target으로 비교하되 표와 claim을
+분리해야 한다.
+
+**확인 질문**: EO+행정 context teacher의 성능이 영상-only보다 높아도 왜 EO embedding이 강화됐다고
+말할 수 없으며, 그 주장을 하려면 train/test 입력을 어떻게 구성한 student 실험이 필요한가?
+
+### #39 공공데이터 누락은 modality dropout과 같지 않다 (2026-08-23)
+
+GeoLink의 무작위 OSM 객체 삭제와 한국 API snapshot을 대조하면서 자연 누락은 무작위 결측이
+아님을 다시 확인했다. 행정자료의 존재 여부는 지역, 사건 종류, 규모, 신고·공개 지연, API 모집단과
+연관된다. 따라서 random source dropout에서 강건하다는 결과는 실제 `missing/error/out-of-window/
+conflict`에 강하다는 증거가 아니다. context token과 평가 strata에 event/observed/published/retrieved
+time과 coverage 상태를 보존하고, 자연 누락과 synthetic dropout을 별도 곡선으로 보고해야 한다.
+
+**확인 질문**: public-record no-match가 missing not at random일 때 이를 0 또는 무작위 modality
+dropout으로 처리하면 어떤 shortcut·selection bias가 생기며, 어떤 provenance 필드와 control이 이를
+드러내는가?
+
+### #40 feature distillation과 embedding compatibility는 다른 목표다 (2026-08-23)
+
+AM-RADIO와 Theia를 현재 full-216 실패와 대조하면서, 다른 teacher의 feature를 student가 잘
+회귀하는 것과 old/new query–gallery가 같은 좌표계에서 작동하는 것은 다른 estimand임을 만났다.
+teacher별 projector가 낮은 MSE를 내도 projector를 거치지 않은 stable bus의 cross-model retrieval이
+0일 수 있고, 반대로 retrieval 호환성을 강제하면서 downstream task 정보가 줄 수 있다. 따라서
+student task utility, teacher reconstruction/relational loss, old/new/family compatibility, 효율을
+각각 별도 표로 둔다.
+
+**확인 질문**: multi-teacher student의 feature MSE가 낮다는 결과가 왜 기존 EO gallery 재사용을
+보장하지 않으며, compatible representation을 주장하려면 어떤 네 query/gallery 조합과 task
+upper/lower bound가 필요한가?
+
+### #41 paired cross-view data와 embodied trajectory는 같은 자산이 아니다 (2026-08-23)
+
+GeoBridge·UniGeoRS·PAUL과 DINO-WM을 함께 보니 satellite–drone/ground pair는 위치 검색·pose를
+평가할 수 있지만 action에 따른 다음 관측과 성공/충돌을 평가할 수 없다. 이미지 pair에 EO
+embedding을 넣은 결과는 cross-view localization이고, robot navigation/world model로 승격하려면
+pose·action·시간순서가 있는 trajectory와 predict→plan→act 평가가 필요하다. synthetic trajectory만
+쓸 경우에는 real 또는 별도 simulator family의 OOD test가 없으면 sim-to-real 주장을 하지 않는다.
+
+**확인 질문**: satellite–drone Recall@1이 올랐어도 왜 로봇 navigation이 좋아졌다고 말할 수 없으며,
+navigation claim에 필요한 observation/action/pose split과 primary metric은 무엇인가?
+
+### #42 simulation fidelity는 pixel realism이 아니라 task fidelity다 (2026-08-23)
+
+Sat2GroundScape·Vid2Sim·Sky2Ground를 비교하면서 위성 조건 ground image가 사실적으로 보이는 것과
+그 장면의 도로·높이·장애물·통행가능성이 맞는 것은 다름을 확인했다. FID/LPIPS·사람 선호만 좋고
+geometry나 semantics가 틀리면 그 simulator에서 학습한 policy가 real 환경에서 실패할 수 있다.
+따라서 생성 지표는 보조로 두고, geometry/semantic consistency와 held-out/real Success·SPL·collision을
+promotion gate로 둔다.
+
+**확인 질문**: satellite-to-ground 생성 모델의 FID가 좋아졌는데 real navigation success가
+떨어질 수 있는 이유는 무엇이며, task-faithful simulation을 검증할 최소 real control은 무엇인가?
+
+### #43 stable cache와 dynamic context는 다른 시계로 갱신된다 (2026-08-23)
+
+한국 public alignment와 model compatibility를 한 연구로 합치면서, EO model release·새 위성관측·
+행정 record publication이 서로 다른 시각에 발생한다는 설계 마찰을 만났다. 모든 정보를 하나의
+embedding에 섞으면 건축 record 한 건이 추가될 때 전국 EO gallery를 backfill해야 하고, 무엇이
+성능을 바꿨는지도 분리할 수 없다. 따라서 EO-only `z_stable`은 compatible bus에 오래 보존하고,
+cutoff-valid public context는 provenance gate가 있는 `r_context`로 따로 갱신한다. 이 분해는
+`E_repr / E_compat / E_fusion / E_refresh`를 각각 평가할 때만 의미가 있다.
+
+**확인 질문**: 새 BuildingHUB record가 공개됐을 때 왜 EO stable cache까지 전부 다시 계산할 필요가
+없으며, residual-only refresh가 안전하다고 주장하려면 어떤 task·compatibility·staleness gate가
+필요한가?
+
+### #44 embedding의 시간계약은 파일 차원으로 복구할 수 없다 (2026-08-23)
+
+제주 변화 후보를 다시 추적하니 2025 연간창과 rolling-2026 창이 184일 겹쳤고, 4기간 입력은
+2023–2025의 9–12월과 rolling-2026의 3–6월을 비교했다. 두 경로의 출력은 모두 768채널이지만
+이 채널은 월이 아니라 인코더가 시간축을 융합한 feature다. 따라서 저장된 embedding에서 겹친
+월이나 특정 계절만 사후 제거할 수 없다. candidate score 전에 실제 acquisition dates·window overlap·
+month coverage가 통과해야 하며 실패하면 입력을 다시 구성해 encoder를 재실행해야 한다. 기존
+14후보 중 9건이 이 두 계약결함에 노출됐지만, 이는 9건 모두 시각적 false positive라는 뜻이 아니라
+annual-change claim의 lineage가 무효라는 뜻이다.
+
+**확인 질문**: 출력 shape가 두 실행 모두 `768×H×W`로 같아도 왜 시간축 호환성을 의미하지 않으며,
+월별 재슬라이싱 대신 재추론이 필요한 이유와 후보 생성 전 반드시 검사할 세 시간 필드는 무엇인가?
+
 ## 스터디 로그
+
+### 2026-08-23 — audit-only pilot·immutable release smoke
+
+- 배운 것: 카드 #32. checkpoint 파일의 blob 경로를 resolve하면 repo commit provenance가 사라져,
+  파일 내용 hash와 release revision을 서로 다른 축으로 보존해야 한다.
+- 배운 것: 카드 #33. 기존 14후보와 사후 공공근거는 실패 감사 자산이지 prevalence·정확도 test가
+  아니며, t1 이후 관측과 assistant pre-annotation을 명시적으로 차단해야 한다.
+- 배운 것: 카드 #34. 8 smoke는 7 spatial cluster이며 raw cross-version cosine이나 같은 표본에
+  맞춘 Procrustes는 task utility가 아니다. CKA도 spatial-shift null과 cluster LOO 없이 픽셀을
+  독립 반복으로 세면 과신하게 된다.
+- 배운 것: 카드 #35. 전역 GPU process gate가 비어 있는 GPU0까지 막았고, selected UUID process
+  gate로 고친 뒤 GPU1 학습과 충돌 없이 16개 출력을 완주했다.
+- 배운 것: 카드 #36. stale preflight 한 파일 때문에 결과 체인이 완전히 닫히지 않았고, raw
+  228파일·7.85GB 재해시와 분석 byte-identical 재실행을 한 뒤에야 실행 무결성을 확정했다.
+- 다음 학습: BestClear는 대표 8개가 아니라 label-free stratified stress 8개로 부르고, 12기간
+  선택 trace·SCL/reflectance hash·`changed/valid no-op`·2건 replay 계약을 코드로 만든 뒤에만
+  materialize한다. cache 호환성은 별도의 held-out gallery가 생길 때까지 주장하지 않는다.
+- full audit에서 추가로 배운 것: 카드 #37. sealed pooled CKA 0.9786과 거리 Spearman 0.9525가
+  높아도 raw cross-version R@1은 0이고 선형 ridge도 0.697/0.609에 그쳤다. 패널 관계 구조와
+  cache identity를 분리해 측정해야 하며, 이번 sealed 결과를 본 뒤의 새 bridge는 새 untouched
+  split 없이는 검증이 아니다.
+- public-context 문헌 재설계에서 추가로 배운 것: 카드 #38. inference-time fusion의 이득과
+  privileged supervision으로 EO-only student가 좋아지는 표현 이득은 다른 estimand다.
+- 자연 누락 설계에서 추가로 배운 것: 카드 #39. 한국 행정 record의 no-match·지연·오류는
+  random modality dropout으로 대체할 수 없고 provenance와 coverage strata를 따로 보존해야 한다.
+- embedding transfer 문헌 감사에서 추가로 배운 것: 카드 #40. multi-teacher feature 회귀와
+  cross-model query/gallery compatibility는 별도 목표이며 task utility·비용과 함께 측정해야 한다.
+- robotics/simulation 확장에서 추가로 배운 것: 카드 #41–#42. paired cross-view image는
+  localization 자산이지 trajectory가 아니고, simulation은 pixel realism보다 real/held-out policy
+  fidelity로 승격해야 한다.
+- K-ALIGN 수렴에서 추가로 배운 것: 카드 #43. model release·새 EO 관측·public-record publication은
+  갱신 시계가 달라 stable EO cache와 provenance-aware context residual을 분리해야 한다.
+- 시간계약 재감사에서 추가로 배운 것: 카드 #44. 같은 768채널 출력도 시간창이 다르면 비교 자격이
+  없고, 융합된 embedding에서 월별 축을 복구할 수 없으므로 overlap·month coverage·actual
+  acquisition을 후보 생성 전에 fail-closed로 검사해야 한다.
+
+### 2026-08-22 — 연구 프로그램·MARC 적용 재설계
+
+- 배운 것: 카드 #17. 파트너 적용은 모델 능력에서 시작하지 않고, 파트너 target과 위성이
+  실제 관측하는 proxy를 분리한 뒤 의사결정·표본설계·금지 주장을 먼저 고정해야 한다.
+- 방향 수정: 제주를 돌고래 탐지 데모가 아니라 WorldShift × ModelShift 방법론의 생태 검증장과
+  현장조사 우선순위 보조로 제한. PPI·릴리스 감사·선택적 갱신을 하나의 박사 연구축으로 연결.
+- 다음 학습: MARC와 접촉 전 서식지 이용/인간 영향 연구의 관측 단위와 sampling effort를
+  확인하고, PPI에서 nonuniform sampling을 다루는 가정을 정리한다.
+- 실행에서 추가로 배운 것: 카드 #18. v5가 materialize 216/216을 통과한 뒤에도 폐기 예정
+  설정·시간순서 기본값 경고가 나타났다. 다음 paired audit부터 item-order hash와 정규화 설정을
+  남기지 않으면 “같은 입력”이라는 통제가 성립하지 않는다.
+- 품질 감사에서 추가로 배운 것: 카드 #19. 12기간을 저장했지만 현재 모델 설정은 앞 4기간만
+  소비한다. 2026 rolling 윈도우의 시작월도 달라 연도 변화와 계절 변화가 섞일 수 있으므로,
+  품질 지표를 실제 모델 입력 범위와 전체 저장 범위로 분리하고 시간축부터 다시 검증한다.
+- 등가성 진단에서 추가로 배운 것: 카드 #20. 설정 이름을 바꾼 것과 실행 의미를 바꾼 것은
+  다르다. v5의 152 GiB 재계산은 실제 개입이 없는 중복 실행이었으며, 다음 실험부터 대표
+  window에서 handler·item hash·pixel 차이를 확인하지 못하면 전체 materialize를 금지한다.
+- v7 실행에서 추가로 배운 것: 카드 #21. compositor가 참조하는 보조 품질 밴드는 item URL의
+  존재만으로 사용 가능하지 않고 data-source/tile-store 의존성에 등록돼야 한다. 범주형 SCL의
+  nearest 점수와 연속 반사도의 bilinear 출력을 분리한 뒤에야 1-window 사전 게이트를 통과했다.
+- 14후보 육안 감사에서 추가로 배운 것: 카드 #22. 같은 달·고정 stretch로 다시 보니 기존
+  v3 대조는 구름/농경 계절성으로 닫혔고 동부 중산간 후보 일부는 다년 지속 토지전환으로
+  분리됐다. 알고리즘 record 2개가 같은 site를 가리키는 중복도 발견해 사건 수를 따로 셌다.
+- 한국 공공데이터 결합에서 추가로 배운 것: 카드 #23. 현재 지도 객체의 근접은 원인·시점
+  증거가 아니고, 누락된 행정 데이터의 0건은 음성 증거가 아니다. 정밀좌표는 외부 API로
+  보내지 않고 대한민국 전체 스냅샷을 받은 뒤 로컬 join했으며, parcel/boundary/nearest의
+  증거 수준을 UI와 JSON에서 분리했다.
+- 오름 368 전수 레지스트리에서 추가로 배운 것: 카드 #24. 부분집합 내부 순번을 공식 연번으로
+  잘못 결합하면 대규모 가짜 충돌이 생긴다. 고정 분모 안에서 목록·위치·모델·원인근거 coverage를
+  분리하고, A/B급 원인 근거가 10% 미만일 때 선택적 보류로 전환하도록 만들었다.
+- 오름 RGB 감사에서 추가로 배운 것: 카드 #25. 4기간·12기간 합의 후보 8건이 공유 입력의
+  구름 때문에 8/8 거짓 양성이었다. 모델 합의는 독립 증거가 아니며, 공통 입력 품질 게이트와
+  사람 검수가 통과되기 전에는 조사 우선순위 이상의 의미를 주지 않는다.
+- 공식 데이터 전수 탐색에서 추가로 배운 것: 카드 #26. PNU는 여러 행정표를 잇는 핵심 spine이지만
+  대표 지번을 오름 경계로, 같은 필지를 동일 원인으로 바꾸지는 않는다. 공간 footprint·사건시점·
+  출처 모집단이 모두 맞아야 하며, 이 조건을 `KOREA_PUBLIC_DATA_CATALOG.md`의 join contract와
+  no-match 규칙으로 고정했다.
+- FarmMap 실제 ingest에서 추가로 배운 것: 카드 #27. 제품 기준일·행정 갱신일·실제 항공 관측일은
+  다르며, 관측일을 변화구간과 직접 비교해야 한다. 정확한 polygon hit도 상태근거일 뿐 사건·인과가
+  아니고, upstream 위치가 OSM C급이면 downstream FarmMap 결합도 C급을 넘지 않는다.
+- 공공 API 실수집에서 추가로 배운 것: 카드 #28. HTTP 200과 업무 성공을 분리하니 207요청 중
+  의미상 성공은 200이었다. 서버가 강제한 100행 page를 111페이지 끝까지 소진했고, 로컬/VM
+  VWorld key 실패와 GK2A 과거 조회 제한을 데이터 0건이 아니라 coverage 실패로 보존했다.
+- K-EvidenceShift 논문 설계에서 추가로 배운 것: 카드 #29. GeoFM 전이 이득은 pretrained 점수
+  자체가 아니라 input/decoder/label/compute가 맞은 scratch와의 그룹별 paired 차이며, 평균 양수와
+  subgroup negative transfer가 동시에 존재할 수 있다.
+- 제한 예산 라벨 획득 설계에서 추가로 배운 것: 카드 #30. disagreement 표본은 학습 개선용으로
+  편향되어 있고 모집단 추론용 확률표본을 대신하지 못한다. PDE의 물리 parameter·모호성선·D-opt
+  해석은 Earth estimand로 새로 정의하지 않으면 가져오지 않는다.
+- VWorld 재승인 결합에서 추가로 배운 것: 카드 #31. 동일 request hash도 인증·시점에 따라 응답이
+  달라지므로 raw SHA와 retrieved_at을 별도 lineage로 남겼다. FarmMap/VWorld PNU 충돌도 최신값으로
+  덮어쓰지 않고 두 source anchor와 보류 사유를 candidate record에 보존했다.
+
+### 2026-08-21 — 제주 v5 실행 상태 점검
+
+- 배운 것: 카드 #16. `PER_PERIOD_MOSAIC`이 선택됐다는 사실과 실제 픽셀 유효성은 별개이며,
+  FIRST_VALID의 nodata sentinel까지 입력 manifest·품질 검증 범위에 포함해야 한다.
+- 다음 학습: materialize 완료 후 원본/합성 래스터의 0값·마스크 분포와 RGB 칩을 대조해
+  이 경고가 무해한 기본값인지 실제 편향원인지 판정한다.
 
 ### 2026-08-21 — 릴리스 인지형 Earth Embedding 포지셔닝
 

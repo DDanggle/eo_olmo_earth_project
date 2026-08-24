@@ -1,0 +1,35 @@
+{
+  "schema": "kearth-oreum-evidence-coverage-v1",
+  "generated_at": "2026-08-22T07:43:31.711603+00:00",
+  "summary": {
+    "official_inventory": 368,
+    "inventory_coverage": 368,
+    "attachment_scope": 209,
+    "attachment_corroborated": 188,
+    "attachment_link_conflicts": 21,
+    "attachment_unmatched": 1,
+    "osm_peak_resolved": 243,
+    "locality_permit_context": 183,
+    "farmmap_point_state_c": 7,
+    "model_screened": 243,
+    "model_high_stable": 8,
+    "rgb_reviewed": 9,
+    "rgb_persistent_confirmed": 0,
+    "rgb_uncertain": 1,
+    "rgb_rejected": 8,
+    "human_candidate_within_500m": 1,
+    "official_causal_evidence_ab": 0,
+    "official_causal_evidence_rate": 0.0,
+    "mode_threshold": 0.1,
+    "research_mode": "selective_change_detection",
+    "decision_counts": {
+      "abstain": 367,
+      "investigate": 1
+    },
+    "claim_boundary": {
+      "complete": "all 368 official inventory records are represented and evidence-statused",
+      "incomplete": "all 368 have not received a valid OlmoEarth screen or causal attribution"
+    }
+  },
+  "source_registry": "oreum_evidence_registry.json"
+}

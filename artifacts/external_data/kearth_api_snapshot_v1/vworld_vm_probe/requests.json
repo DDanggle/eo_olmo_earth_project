@@ -1,0 +1,44 @@
+{
+  "requests": [
+    {
+      "api_error": {
+        "code": "INCORRECT_KEY",
+        "level": "2",
+        "text": "인증키 정보가 올바르지 않습니다."
+      },
+      "content_type": "application/json;charset=UTF-8",
+      "credential_env_names": [
+        "VWORLD_API_KEY"
+      ],
+      "endpoint": "https://api.vworld.kr/req/data",
+      "http_status": 200,
+      "outcome": "http_success",
+      "public_params": {
+        "attribute": "true",
+        "crs": "EPSG:4326",
+        "data": "LP_PA_CBND_BUBUN",
+        "domain": "http://localhost",
+        "errorFormat": "json",
+        "format": "json",
+        "geomFilter": "POINT(126.4787000 33.5086000)",
+        "geometry": "true",
+        "page": "1",
+        "request": "GetFeature",
+        "service": "data",
+        "size": "10",
+        "version": "2.0"
+      },
+      "raw_bytes": 243,
+      "raw_file": "raw/vworld_cadastral__5913060820ea6e7420da.json",
+      "raw_sha256": "aa99b21d6225f3c229c2dbb22dd957bcdaa44736f3f561a90f8a6e38d7354e3f",
+      "request_hash": "5913060820ea6e7420da4e4246da0c86dbe23e7a639016f5bf60ec0131a0724f",
+      "retrieved_at": "2026-08-22T10:15:28.343148+00:00",
+      "schema": "kearth-api-request-v1",
+      "semantic_item_count": 0,
+      "semantic_status": "api_error",
+      "source_id": "vworld_cadastral",
+      "target_id": "built_v6_r12"
+    }
+  ],
+  "schema": "kearth-api-requests-v1"
+}

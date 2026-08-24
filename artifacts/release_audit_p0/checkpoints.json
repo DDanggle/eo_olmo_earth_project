@@ -1,0 +1,46 @@
+{
+  "environment": {
+    "huggingface_hub": "1.27.0",
+    "olmoearth_pretrain": "0.0.6",
+    "python": "3.11.15",
+    "rslearn": "0.1.13"
+  },
+  "models": [
+    {
+      "files": [
+        {
+          "bytes": 13379,
+          "name": "config.json",
+          "sha256": "bd7759b9185f3d51607ca8d554c9be6ca87d932bc46fbc0f75524b0c3d5512bf"
+        },
+        {
+          "bytes": 830040971,
+          "name": "weights.pth",
+          "sha256": "551c1cc53337c6faaddead88071d7ebd2bd53ec271600fa6f0ee0a518c8b6e11"
+        }
+      ],
+      "repo_id": "allenai/OlmoEarth-v1-Base",
+      "revision": "93589e2dee5b5c95a660d1e9365bc017ea7f35d6",
+      "snapshot_path": "/home/work/data/.cache/huggingface/hub/models--allenai--OlmoEarth-v1-Base/snapshots/93589e2dee5b5c95a660d1e9365bc017ea7f35d6"
+    },
+    {
+      "files": [
+        {
+          "bytes": 19973,
+          "name": "config.json",
+          "sha256": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a"
+        },
+        {
+          "bytes": 1030354339,
+          "name": "weights.pth",
+          "sha256": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+        }
+      ],
+      "repo_id": "allenai/OlmoEarth-v1_2-Base",
+      "revision": "581aa9baaa7aed4348c0903617eb92ee9f89e2ec",
+      "snapshot_path": "/home/work/data/.cache/huggingface/hub/models--allenai--OlmoEarth-v1_2-Base/snapshots/581aa9baaa7aed4348c0903617eb92ee9f89e2ec"
+    }
+  ],
+  "resolved_at": "2026-08-22T16:17:24.178989+00:00",
+  "schema": "olmoearth-checkpoint-resolution-v1"
+}

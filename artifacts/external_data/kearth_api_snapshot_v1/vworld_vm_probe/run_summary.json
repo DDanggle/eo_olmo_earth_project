@@ -1,0 +1,41 @@
+{
+  "building_event_rows": 0,
+  "candidate_official_corroboration_b": 0,
+  "candidate_records": 14,
+  "eia_feature_rows": 0,
+  "limits": [
+    "VWorld parcels are representative point parcels, not official oreum boundaries.",
+    "BuildingHub v1 is bounded to legal-dong codes already observed in existing PNU evidence; pages are exhausted unless an explicit page cap is set.",
+    "GK2A and land-cover layers describe observation context/state, not a change cause.",
+    "NGII aerial imagery is a manual application/download channel and is outside API collection.",
+    "No-match remains unknown until source pagination, temporal coverage, and geometry coverage are complete."
+  ],
+  "outcomes": {
+    "http_success": 1
+  },
+  "parcel_anchor_features": 0,
+  "request_count": 1,
+  "retrieved_at": "2026-08-22T10:15:28.343148+00:00",
+  "schema": "kearth-api-snapshot-summary-v1",
+  "scope": {
+    "building_legal_dong_codes_requested": 0,
+    "jeju_bbox_4326": [
+      126.1,
+      33.1,
+      126.98,
+      33.62
+    ],
+    "official_oreum_denominator": 368,
+    "olmoearth_candidates_available": 14,
+    "resolved_oreum_points_available": 243,
+    "vworld_target_points_requested": 1
+  },
+  "semantic_statuses": {
+    "api_error": 1
+  },
+  "source_outcomes": {
+    "vworld_cadastral": {
+      "http_success": 1
+    }
+  }
+}

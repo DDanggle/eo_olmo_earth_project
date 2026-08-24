@@ -2,8 +2,24 @@
 # nexus 래퍼 — h100-setup(접속 전용 저장소)의 nexus CLI를 어디서든 호출한다.
 #   nx up / nx status / nx ssh / nx run "..." / nx push <로컬경로> <원격상대경로>
 # 서버 직접 SSH (긴 작업 실행용):  nx sh '명령'
-H100="${H100_SETUP_DIR:-$HOME/dong/ai_projects/h100-setup}"
-[ -x "$H100/nexus" ] || { echo "nexus를 찾을 수 없음: $H100 (H100_SETUP_DIR 로 지정)"; exit 1; }
+if [ -n "${H100_SETUP_DIR:-}" ]; then
+    H100="$H100_SETUP_DIR"
+else
+    H100=""
+    for candidate in \
+        "$HOME/DongDong/ai_projects/h100-setup" \
+        "$HOME/dong/ai_projects/h100-setup"
+    do
+        if [ -x "$candidate/nexus" ]; then
+            H100="$candidate"
+            break
+        fi
+    done
+fi
+[ -n "$H100" ] && [ -x "$H100/nexus" ] || {
+    echo "nexus를 찾을 수 없음: ~/DongDong 또는 ~/dong 아래를 확인했음 (H100_SETUP_DIR 로 지정 가능)"
+    exit 1
+}
 if [ "${1:-}" = "sh" ]; then
     shift
     exec ssh -i "$H100/.state/id_container" -p 9922 -o StrictHostKeyChecking=no work@127.0.0.1 \

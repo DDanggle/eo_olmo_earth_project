@@ -1,0 +1,115 @@
+{
+  "schema": "jeju-human-review-v1",
+  "status": "assistant_visual_review_complete_user_override_pending",
+  "manifest_sha256": "47e44e48db2bc9ed77c289b6d4d80703271fae7aa798cdf1a8e863406d1a642f",
+  "reviewed_at_kst": "2026-08-22",
+  "review_protocol": {
+    "candidate_list_changed_after_rgb_review": false,
+    "season_alignment": "closest acquisition to 15 May for each year",
+    "rgb_stretch": "fixed 0-3000 DN, gamma 0.8",
+    "views": ["1.28 km context", "400 m detail"],
+    "external_reverse_geocoding_used": false,
+    "causal_or_facility_type_claims_allowed": false
+  },
+  "summary": {
+    "candidate_records": 14,
+    "high_confidence_persistent_change_records": 5,
+    "high_confidence_unique_persistent_change_sites": 4,
+    "additional_medium_or_uncertain_change_records": 3,
+    "cloud_seasonality_stable_or_unclear_records": 6,
+    "duplicate_detection_pairs": 1,
+    "duplicate_pair": ["dev_control_v3_r02", "built_v6_r16"]
+  },
+  "reviews": {
+    "dev_control_v3_r02": {
+      "label": "persistent_development_or_clearing",
+      "is_persistent_change": "yes",
+      "confidence": "high",
+      "notes": "2023-2025의 녹지 중심부가 2026에 넓은 갈색 절개면과 내부 접근로 형태로 바뀐다. built_v6_r16과 약 60 m 간격의 동일 변화지 중복 검출로 보인다. 개발 종류·원인은 미확정."
+    },
+    "built_v6_r12": {
+      "label": "stable_or_unclear",
+      "is_persistent_change": "uncertain",
+      "confidence": "low",
+      "notes": "해안 인접 대형 지붕·포장면의 밝기와 형태가 일부 달라지지만 2023부터 주요 구조가 존재한다. 구조 신설인지 표면 반사·공사 단계 차이인지 10 m RGB만으로 불명확."
+    },
+    "built_v6_r13": {
+      "label": "persistent_development_or_clearing",
+      "is_persistent_change": "uncertain",
+      "confidence": "medium",
+      "notes": "도시 조직 안의 후보 중심이 2026에 큰 갈색 공터로 바뀐다. 2023은 구름으로 무효이고 2026 이후 관측이 한 장뿐이어서 지속성은 아직 미확정."
+    },
+    "built_v6_r16": {
+      "label": "persistent_development_or_clearing",
+      "is_persistent_change": "yes",
+      "confidence": "high",
+      "notes": "dev_control_v3_r02와 같은 변화지를 다른 랭킹이 중복 검출했다. 2026의 대면적 갈색 절개와 길 형태가 분명하며 별도 고유 사이트로 세지 않는다."
+    },
+    "oreum_v6_r04": {
+      "label": "cloud_haze_shadow",
+      "is_persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023은 bad proxy 0.846의 구름으로 비교 불가. 2024-2026에는 후보 중심의 장방형 경작·피복 시설 형태가 대체로 유지되어 지속 변화 증거가 없다."
+    },
+    "oreum_v6_r07": {
+      "label": "persistent_development_or_clearing",
+      "is_persistent_change": "uncertain",
+      "confidence": "medium",
+      "notes": "2024-2025의 녹지·소규모 나지에서 2026에 큰 회갈색 면과 밝은 구조가 생긴다. 후속 연도가 없어 지속성은 미확정이며 특정 오름 또는 시설 종류로 부르지 않는다."
+    },
+    "oreum_v6_r08": {
+      "label": "persistent_development_or_clearing",
+      "is_persistent_change": "yes",
+      "confidence": "high",
+      "notes": "2024의 녹지/소규모 나지가 2025에 넓게 갈색화되고 2026에는 큰 회색 표면으로 바뀐다. 두 단계 변화가 이어져 지속적 토지 전환 형태는 강하지만 시설 종류는 미확정."
+    },
+    "oreum_v6_r10": {
+      "label": "persistent_development_or_clearing",
+      "is_persistent_change": "yes",
+      "confidence": "high",
+      "notes": "2023의 녹지·소규모 절개가 2024에 넓은 갈색 공사면으로 확대되고 2025-2026에 격자형 회색 표면으로 유지된다. 이번 표본 중 가장 명확한 다단계 지속 변화 하나."
+    },
+    "oreum_v6_r11": {
+      "label": "persistent_development_or_clearing",
+      "is_persistent_change": "yes",
+      "confidence": "high",
+      "notes": "2024 녹지였던 후보 중심과 남동부가 2025에 갈색 절개지로 바뀌고 2026에도 확대·유지된다. 2023은 구름이지만 2024 기준 이후 변화는 명확하다."
+    },
+    "oreum_v6_r17": {
+      "label": "persistent_development_or_clearing",
+      "is_persistent_change": "yes",
+      "confidence": "medium",
+      "notes": "2024 녹지에서 2025-2026 같은 모양의 갈색 필지로 바뀌어 지속성은 보인다. 다만 농지 조성·경작 관리일 가능성과 개발을 10 m RGB만으로 구분할 수 없다."
+    },
+    "context_v3_r01": {
+      "label": "oreum_or_vegetation_seasonality",
+      "is_persistent_change": "no",
+      "confidence": "high",
+      "notes": "후보 필지가 2025에 갈색이지만 2026 같은 5월에는 다시 녹색이다. 주변 농경지와 함께 변하는 비지속적 경작·식생 상태로 보인다."
+    },
+    "context_v3_r03": {
+      "label": "cloud_haze_shadow",
+      "is_persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023은 bad proxy 1.0으로 완전히 구름에 가려졌다. 2024-2026의 온실·도로·녹지 형태는 안정적이라 원래 랭킹은 구름 오염으로 판단한다."
+    },
+    "context_v3_r05": {
+      "label": "oreum_or_vegetation_seasonality",
+      "is_persistent_change": "no",
+      "confidence": "medium",
+      "notes": "2023은 얇은 구름·연무가 있고 2024-2026은 농경 필지의 녹색/갈색 비율 차이가 주로 보인다. 구조적이고 지속적인 신규 개발 형태는 확인되지 않는다."
+    },
+    "context_v3_r06": {
+      "label": "cloud_haze_shadow",
+      "is_persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023은 bad proxy 1.0의 구름이다. 2024-2026의 도로와 산림 경계가 안정적으로 유지되어 원래 2023→2024 점수는 구름 차이로 판단한다."
+    }
+  },
+  "limitations": [
+    "고확신 지속 변화는 위성 RGB 형태 판정이며 허가된 개발, 불법 훼손, 태양광, 농지 조성 등 원인을 구분하지 않는다.",
+    "동부 중산간 후보군은 좌표 규칙으로 만든 감사 집단이지 특정 오름 경계와 일치한다고 검증되지 않았다.",
+    "2026에 처음 보이는 변화는 이후 연도가 없어 지속성 판단을 uncertain으로 유지했다.",
+    "사용자 현장지식과 고해상도·인허가 레이어로 모든 판정을 덮어쓸 수 있어야 한다."
+  ]
+}

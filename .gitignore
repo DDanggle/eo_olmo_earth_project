@@ -8,3 +8,12 @@
 !artifacts/**
 __pycache__/
 .DS_Store
+
+# Local credentials. Commit only the empty key template.
+.env
+.env.*
+!.env.example
+
+# 재다운로드 가능한 대용량 원본은 저장소에 넣지 않는다.
+# provenance는 같은 디렉터리의 manifest(raw_sha256 / download_url / retrieved_at)로 보존된다.
+artifacts/external_data/**/raw/*.zip

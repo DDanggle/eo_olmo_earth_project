@@ -1,0 +1,163 @@
+{
+  "claims_allowed": [
+    "paired exact-input full-release representation analysis may proceed"
+  ],
+  "claims_forbidden": [
+    "task_accuracy",
+    "negative_transfer_reduction",
+    "cloud_robustness",
+    "korean_population_generalization",
+    "model_native_backward_compatibility_before_held_out_analysis"
+  ],
+  "exact_complete_sha256": "c893544d1883eb357655be868664089863ebe6c48d869356e9ae84b50e0a9240",
+  "exact_inputs_sha256": "ccdbe228d6e57f9004ce1c78081f33af5e4ef585642854118c6b4f2cbbbe917a",
+  "finalizer_code_contract": {
+    "direct_local_helpers": [
+      {
+        "bytes": 10426,
+        "content": "python_source_utf8",
+        "module": "hash_olmo_release_inputs",
+        "path": "/home/work/data/olmoearth/code/hash_olmo_release_inputs.py",
+        "role": "direct_local_helper",
+        "sha256": "da3b59728dd9b57bef51ee67c60349e11841b890a8388d672e48890991086c2a"
+      },
+      {
+        "bytes": 6810,
+        "content": "python_source_utf8",
+        "module": "olmo_release_raster_contract",
+        "path": "/home/work/data/olmoearth/code/olmo_release_raster_contract.py",
+        "role": "direct_local_helper",
+        "sha256": "4ecac14d9fbed0fc403d10ded6dd818b683a74e774a20bbcb76ab3e9e6ede9b9"
+      },
+      {
+        "bytes": 36009,
+        "content": "python_source_utf8",
+        "module": "run_olmo_release_batch_gate",
+        "path": "/home/work/data/olmoearth/code/run_olmo_release_batch_gate.py",
+        "role": "direct_local_helper",
+        "sha256": "f36a7b674b185088f30490af74c9e2ff9332afd887595b5ec7b9d0b866cfb454"
+      },
+      {
+        "bytes": 48238,
+        "content": "python_source_utf8",
+        "module": "run_olmo_release_full",
+        "path": "/home/work/data/olmoearth/code/run_olmo_release_full.py",
+        "role": "direct_local_helper",
+        "sha256": "828e014f37373a6491de73d2bee1ab0f99f9a909e00d9bcd75b184fcd58079d1"
+      },
+      {
+        "bytes": 12832,
+        "content": "python_source_utf8",
+        "module": "run_olmo_release_smoke",
+        "path": "/home/work/data/olmoearth/code/run_olmo_release_smoke.py",
+        "role": "direct_local_helper",
+        "sha256": "803c8add46dbb2f5e8aa07e658e4a624818a5a425de1a97f29cad2089c821490"
+      }
+    ],
+    "inventory_sha256": "e98b602f8d9b6d2bf0779250cbeab2c05c6dd1d61fbc9c4019d7582c59b2ab96",
+    "owner": {
+      "bytes": 24828,
+      "content": "python_source_utf8",
+      "module": "finalize_olmo_release_full",
+      "path": "/home/work/data/olmoearth/code/finalize_olmo_release_full.py",
+      "role": "owner",
+      "sha256": "2985bdb4d6081abf3cf5976bb5dcacda29d81067af0ede2f32c5a739c030e8ce"
+    },
+    "owner_role": "paired_release_finalizer",
+    "schema": "olmoearth-release-full-finalizer-code-contract-v1"
+  },
+  "finalizer_code_sha256": "2985bdb4d6081abf3cf5976bb5dcacda29d81067af0ede2f32c5a739c030e8ce",
+  "full_runner_code_contract": {
+    "direct_local_helpers": [
+      {
+        "bytes": 10426,
+        "content": "python_source_utf8",
+        "module": "hash_olmo_release_inputs",
+        "path": "/home/work/data/olmoearth/code/hash_olmo_release_inputs.py",
+        "role": "direct_local_helper",
+        "sha256": "da3b59728dd9b57bef51ee67c60349e11841b890a8388d672e48890991086c2a"
+      },
+      {
+        "bytes": 6810,
+        "content": "python_source_utf8",
+        "module": "olmo_release_raster_contract",
+        "path": "/home/work/data/olmoearth/code/olmo_release_raster_contract.py",
+        "role": "direct_local_helper",
+        "sha256": "4ecac14d9fbed0fc403d10ded6dd818b683a74e774a20bbcb76ab3e9e6ede9b9"
+      },
+      {
+        "bytes": 29561,
+        "content": "python_source_utf8",
+        "module": "olmo_release_semantic_contract",
+        "path": "/home/work/data/olmoearth/code/olmo_release_semantic_contract.py",
+        "role": "direct_local_helper",
+        "sha256": "1880e6cdb7d511eb7860780778c6066e99705d97bcff0ec3134b03342e9927d7"
+      },
+      {
+        "bytes": 5050,
+        "content": "python_source_utf8",
+        "module": "prepare_olmo_release_audit_view",
+        "path": "/home/work/data/olmoearth/code/prepare_olmo_release_audit_view.py",
+        "role": "direct_local_helper",
+        "sha256": "0af85ca1e2b10c71f01cf0d54846c5f5a36e48fc51322fd4741e1eb4e084a09f"
+      },
+      {
+        "bytes": 36009,
+        "content": "python_source_utf8",
+        "module": "run_olmo_release_batch_gate",
+        "path": "/home/work/data/olmoearth/code/run_olmo_release_batch_gate.py",
+        "role": "direct_local_helper",
+        "sha256": "f36a7b674b185088f30490af74c9e2ff9332afd887595b5ec7b9d0b866cfb454"
+      },
+      {
+        "bytes": 12832,
+        "content": "python_source_utf8",
+        "module": "run_olmo_release_smoke",
+        "path": "/home/work/data/olmoearth/code/run_olmo_release_smoke.py",
+        "role": "direct_local_helper",
+        "sha256": "803c8add46dbb2f5e8aa07e658e4a624818a5a425de1a97f29cad2089c821490"
+      }
+    ],
+    "inventory_sha256": "63a94d052bd2047dec6cc5ff029ca967f53f01b4f6e16f9e5a2a4e025c398a3f",
+    "owner": {
+      "bytes": 48238,
+      "content": "python_source_utf8",
+      "module": "run_olmo_release_full",
+      "path": "/home/work/data/olmoearth/code/run_olmo_release_full.py",
+      "role": "owner",
+      "sha256": "828e014f37373a6491de73d2bee1ab0f99f9a909e00d9bcd75b184fcd58079d1"
+    },
+    "owner_role": "full_release_runner",
+    "schema": "olmoearth-release-full-runner-code-contract-v1"
+  },
+  "input_post_run_closure": {
+    "all_sha256_match_frozen_manifest": true,
+    "bytes": 56684540847,
+    "files": 5616
+  },
+  "output_post_run_closure": {
+    "all_sha256_match_release_manifests": true,
+    "bytes": 105591415295,
+    "files": 432
+  },
+  "paired_outputs": 216,
+  "paired_outputs_jsonl_sha256": "33b2e8c743f113610476c42d1a897b973bdefe3c620a6106809be2a03d25d8ba",
+  "post_run_finalizer_code_verification": {
+    "path": "/home/work/data/olmoearth/release_audit_full216_v1/paired_evidence_strict1/POST_RUN_FINALIZER_CODE_VERIFICATION.json",
+    "sha256": "4bd1df6623f8d12740a7e37555ed9ee836b85994349207ba7964de50168e7eca"
+  },
+  "post_run_finalizer_code_verified": true,
+  "raster_contracts_exact": true,
+  "same_exact_inputs_both_releases": true,
+  "schema": "olmoearth-release-full-paired-evidence-v1",
+  "selected_gpu_uuid": "GPU-58459350-e802-b3ee-03be-fd3451eda731",
+  "split_complete_sha256": "39cadcd2096173e9b24ddda3dde6a29d207dfb9e0ec6b0b00d84dda10ef693ac",
+  "split_manifest_sha256": "73f49845567f97651b1cfd1c4dfabf52c2cf0056a4c52be5325e6e70930f5981",
+  "status": "complete",
+  "v1_2_complete_sha256": "629e1c65b895603509bf68c382a5b6ad08a41e041b79e6366d0be94d2bd0296c",
+  "v1_2_run_summary_sha256": "56a819e7e2aa66648996c5081adf3523b259ffbcfdb756d77bc707ba0746741b",
+  "v1_complete_sha256": "6d72b4b5d6045155a45ab13a30e45db29249fe87a026ea104f9de8ed896d56e0",
+  "v1_run_summary_sha256": "d0cab74b47f2475719f45e4626e6aa50b1624ed0e2328903d6ecfcf1c8845a51",
+  "validity_masks_exact": true,
+  "value_health_passed_all_432_outputs": true
+}

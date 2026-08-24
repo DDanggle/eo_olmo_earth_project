@@ -1,0 +1,1022 @@
+{
+  "schema": "kearth-oreum-rgb-review-manifest-v1",
+  "generated_at": "2026-08-22T06:36:02.291018+00:00",
+  "status": "nine_investigate_records_fixed_before_rgb_review",
+  "provenance": {
+    "source_registry": "/home/work/data/olmoearth/kearth_oreum_v1/oreum_evidence_registry.json",
+    "source_registry_sha256": "f5fa706fb37cb3999662296b12407c2ab77d9fce5d9eed7344e550c8413ab0c1",
+    "selection_rule": "high_stable 4/12 screen OR existing high-confidence human candidate within 500m",
+    "season_rule": "closest acquisition to 15 May per year",
+    "rgb_stretch": "fixed 0-3000 DN, gamma 0.8",
+    "coordinate_warning": "offline OSM point, not official oreum boundary"
+  },
+  "candidates": [
+    {
+      "oreum_id": "JJ-OREUM-009",
+      "official_record_no": "9",
+      "name": "각시바위",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 호근동 2112",
+      "lat": 33.27678,
+      "lon": 126.52611,
+      "model_screen": {
+        "official_record_no": "9",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "high_stable",
+        "percentile_4": 99.6,
+        "percentile_12": 95.5,
+        "score_4": 0.553857,
+        "score_12": 0.124952,
+        "split_4": "2023->2024",
+        "split_12": "2023->2024",
+        "spatial_window": "26624_-368640",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [],
+      "image": "candidates/JJ-OREUM-009.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_26624_-368640",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2B_MSIL2A_20230517T021539_R003_T52SBB_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 1.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 1.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 1.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 1.0
+          }
+        },
+        "2024": {
+          "window": "jeju24_26624_-368640",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0001220703125,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0001220703125
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_26624_-368640",
+          "period_index": 7,
+          "acquisition_date": "2025-05-13",
+          "source_items": [
+            "S2A_MSIL2A_20250513T022131_R003_T52SBB_20250513T062411"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 6.103515625e-05,
+            "zero_proxy": 0.0,
+            "bad_proxy": 6.103515625e-05
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_26624_-368640",
+          "period_index": 1,
+          "acquisition_date": "2026-05-06",
+          "source_items": [
+            "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0018310546875,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0018310546875
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    },
+    {
+      "oreum_id": "JJ-OREUM-036",
+      "official_record_no": "36",
+      "name": "고이악",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 남원읍 한남리 산16",
+      "lat": 33.3190332,
+      "lon": 126.6605969,
+      "model_screen": {
+        "official_record_no": "36",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "low_or_unstable",
+        "percentile_4": 65.8,
+        "percentile_12": 65.0,
+        "score_4": 0.117607,
+        "score_12": 0.055817,
+        "split_4": "2025->2026",
+        "split_12": "2024->2025",
+        "spatial_window": "27648_-369664",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [
+        {
+          "candidate_id": "oreum_v6_r11",
+          "distance_m": 416,
+          "rgb_effect": "strengthens",
+          "rgb_context_confidence": "medium",
+          "status": "nearby_within_500m",
+          "warning": "point proximity does not establish boundary overlap or cause"
+        }
+      ],
+      "image": "candidates/JJ-OREUM-036.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_27648_-369664",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2B_MSIL2A_20230517T021539_R003_T52SBC_20230517T074144",
+            "S2B_MSIL2A_20230517T021539_R003_T52SBB_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.9769287109375,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.9769287109375
+          },
+          "detail_metrics": {
+            "cloud_proxy": 1.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 1.0
+          }
+        },
+        "2024": {
+          "window": "jeju24_27648_-369664",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0008544921875,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0008544921875
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_27648_-369664",
+          "period_index": 7,
+          "acquisition_date": "2025-05-13",
+          "source_items": [
+            "S2B_MSIL2A_20250526T021539_R003_T52SBC_20250526T041515",
+            "S2A_MSIL2A_20250513T022131_R003_T52SBB_20250513T062411"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0003662109375,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0003662109375
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_27648_-369664",
+          "period_index": 1,
+          "acquisition_date": "2026-05-06",
+          "source_items": [
+            "S2C_MSIL2A_20260506T021601_R003_T52SBC_20260506T055524",
+            "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.00042724609375,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.00042724609375
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    },
+    {
+      "oreum_id": "JJ-OREUM-073",
+      "official_record_no": "73",
+      "name": "녹하지악",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 중문동 산5",
+      "lat": 33.3046417,
+      "lon": 126.4308806,
+      "model_screen": {
+        "official_record_no": "73",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "high_stable",
+        "percentile_4": 98.8,
+        "percentile_12": 100.0,
+        "score_4": 0.35759,
+        "score_12": 0.195205,
+        "split_4": "2023->2024",
+        "split_12": "2023->2024",
+        "spatial_window": "25600_-369664",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [],
+      "image": "candidates/JJ-OREUM-073.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_25600_-369664",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2B_MSIL2A_20230517T021539_R003_T52SBC_20230517T074144",
+            "S2B_MSIL2A_20230517T021539_R003_T52SBB_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.9813232421875,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.9813232421875
+          },
+          "detail_metrics": {
+            "cloud_proxy": 1.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 1.0
+          }
+        },
+        "2024": {
+          "window": "jeju24_25600_-369664",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.00238037109375,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.00238037109375
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_25600_-369664",
+          "period_index": 7,
+          "acquisition_date": "2025-05-13",
+          "source_items": [
+            "S2B_MSIL2A_20250526T021539_R003_T52SBC_20250526T041515",
+            "S2A_MSIL2A_20250513T022131_R003_T52SBB_20250513T062411"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.00042724609375,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.00042724609375
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_25600_-369664",
+          "period_index": 1,
+          "acquisition_date": "2026-05-06",
+          "source_items": [
+            "S2C_MSIL2A_20260506T021601_R003_T52SBC_20260506T055524",
+            "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.00140380859375,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.00140380859375
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    },
+    {
+      "oreum_id": "JJ-OREUM-107",
+      "official_record_no": "107",
+      "name": "독자봉",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 성산읍 신산리 1785",
+      "lat": 33.3880033,
+      "lon": 126.8535524,
+      "model_screen": {
+        "official_record_no": "107",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "high_stable",
+        "percentile_4": 90.9,
+        "percentile_12": 97.5,
+        "score_4": 0.205747,
+        "score_12": 0.135771,
+        "split_4": "2023->2024",
+        "split_12": "2023->2024",
+        "spatial_window": "29696_-369664",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [],
+      "image": "candidates/JJ-OREUM-107.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_29696_-369664",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2B_MSIL2A_20230517T021539_R003_T52SBC_20230517T074144",
+            "S2B_MSIL2A_20230517T021539_R003_T52SCB_20230517T074130",
+            "S2B_MSIL2A_20230517T021539_R003_T52SBB_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.37345467032967034,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.37345467032967034
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.246875,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.246875
+          }
+        },
+        "2024": {
+          "window": "jeju24_29696_-369664",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T52SCB_20240516T100925",
+            "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.00034340659340659343,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.00034340659340659343
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_29696_-369664",
+          "period_index": 7,
+          "acquisition_date": "2025-05-13",
+          "source_items": [
+            "S2B_MSIL2A_20250526T021539_R003_T52SBC_20250526T041515",
+            "S2A_MSIL2A_20250513T022131_R003_T52SBB_20250513T062411"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.06636332417582418,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.06636332417582418
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_29696_-369664",
+          "period_index": 1,
+          "acquisition_date": "2026-05-06",
+          "source_items": [
+            "S2C_MSIL2A_20260506T021601_R003_T52SBC_20260506T055524",
+            "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    },
+    {
+      "oreum_id": "JJ-OREUM-230",
+      "official_record_no": "230",
+      "name": "성산일출봉",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 성산읍 성산리 1",
+      "lat": 33.4588891,
+      "lon": 126.9408178,
+      "model_screen": {
+        "official_record_no": "230",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "high_stable",
+        "percentile_4": 96.3,
+        "percentile_12": 99.2,
+        "score_4": 0.25603,
+        "score_12": 0.18135,
+        "split_4": "2024->2025",
+        "split_12": "2024->2025",
+        "spatial_window": "30720_-370688",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [],
+      "image": "candidates/JJ-OREUM-230.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_30720_-370688",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2A_MSIL2A_20230509T020651_R103_T52SCC_20230509T064139",
+            "S2B_MSIL2A_20230524T020659_R103_T52SCC_20230524T064140",
+            "S2B_MSIL2A_20230517T021539_R003_T52SBC_20230517T074144",
+            "S2B_MSIL2A_20230517T021539_R003_T52SCB_20230517T074130",
+            "S2B_MSIL2A_20230517T021539_R003_T52SCC_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 1.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 1.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 1.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 1.0
+          }
+        },
+        "2024": {
+          "window": "jeju24_30720_-370688",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T52SCB_20240516T100925",
+            "S2A_MSIL2A_20240516T021611_R003_T52SCC_20240516T100930"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.00286865234375,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.00286865234375
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_30720_-370688",
+          "period_index": 7,
+          "acquisition_date": "2025-05-08",
+          "source_items": [
+            "S2C_MSIL2A_20250508T020711_R103_T52SCC_20250508T055213",
+            "S2B_MSIL2A_20250526T021539_R003_T52SBC_20250526T041515",
+            "S2B_MSIL2A_20250526T021539_R003_T52SCC_20250526T041515"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.19244384765625,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.19244384765625
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_30720_-370688",
+          "period_index": 1,
+          "acquisition_date": "2026-05-18",
+          "source_items": [
+            "S2B_MSIL2A_20260518T020649_R103_T52SCC_20260518T043158",
+            "S2C_MSIL2A_20260506T021601_R003_T52SBC_20260506T055524",
+            "S2B_MSIL2A_20260511T021529_R003_T52SCB_20260511T043132",
+            "S2C_MSIL2A_20260506T021601_R003_T52SCC_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0020751953125,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0020751953125
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    },
+    {
+      "oreum_id": "JJ-OREUM-236",
+      "official_record_no": "236",
+      "name": "소병악",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 안덕면 상창리 산2-1",
+      "lat": 33.3083508,
+      "lon": 126.3743066,
+      "model_screen": {
+        "official_record_no": "236",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "high_stable",
+        "percentile_4": 97.1,
+        "percentile_12": 97.1,
+        "score_4": 0.275364,
+        "score_12": 0.13015,
+        "split_4": "2023->2024",
+        "split_12": "2023->2024",
+        "spatial_window": "24576_-369664",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [],
+      "image": "candidates/JJ-OREUM-236.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_24576_-369664",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2B_MSIL2A_20230517T021539_R003_T52SBC_20230517T074144",
+            "S2B_MSIL2A_20230517T021539_R003_T51SYT_20230517T074141",
+            "S2B_MSIL2A_20230517T021539_R003_T52SBB_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.9905539772727273,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.9905539772727273
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.979375,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.979375
+          }
+        },
+        "2024": {
+          "window": "jeju24_24576_-369664",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T51SYT_20240516T100936",
+            "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0009232954545454545,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0009232954545454545
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_24576_-369664",
+          "period_index": 7,
+          "acquisition_date": "2025-05-13",
+          "source_items": [
+            "S2B_MSIL2A_20250526T021539_R003_T51SYT_20250526T041515",
+            "S2B_MSIL2A_20250526T021539_R003_T52SBC_20250526T041515",
+            "S2A_MSIL2A_20250513T022131_R003_T51SYS_20250513T062411",
+            "S2A_MSIL2A_20250513T022131_R003_T52SBB_20250513T062411"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 7.102272727272727e-05,
+            "zero_proxy": 0.0,
+            "bad_proxy": 7.102272727272727e-05
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_24576_-369664",
+          "period_index": 1,
+          "acquisition_date": "2026-05-18",
+          "source_items": [
+            "S2B_MSIL2A_20260531T021529_R003_T51SYT_20260531T051432",
+            "S2A_MSIL2A_20260518T022131_R003_T51SYS_20260518T060958",
+            "S2C_MSIL2A_20260506T021601_R003_T52SBC_20260506T055524",
+            "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0007102272727272727,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0007102272727272727
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    },
+    {
+      "oreum_id": "JJ-OREUM-273",
+      "official_record_no": "273",
+      "name": "어점이악",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 도순동 산1",
+      "lat": 33.3108083,
+      "lon": 126.4990389,
+      "model_screen": {
+        "official_record_no": "273",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "high_stable",
+        "percentile_4": 97.9,
+        "percentile_12": 91.4,
+        "score_4": 0.279693,
+        "score_12": 0.10429,
+        "split_4": "2023->2024",
+        "split_12": "2023->2024",
+        "spatial_window": "26624_-369664",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [],
+      "image": "candidates/JJ-OREUM-273.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_26624_-369664",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2B_MSIL2A_20230517T021539_R003_T52SBC_20230517T074144",
+            "S2B_MSIL2A_20230517T021539_R003_T52SBB_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.343994140625,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.343994140625
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.66125,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.66125
+          }
+        },
+        "2024": {
+          "window": "jeju24_26624_-369664",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_26624_-369664",
+          "period_index": 7,
+          "acquisition_date": "2025-05-13",
+          "source_items": [
+            "S2B_MSIL2A_20250526T021539_R003_T52SBC_20250526T041515",
+            "S2A_MSIL2A_20250513T022131_R003_T52SBB_20250513T062411"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_26624_-369664",
+          "period_index": 1,
+          "acquisition_date": "2026-05-06",
+          "source_items": [
+            "S2C_MSIL2A_20260506T021601_R003_T52SBC_20260506T055524",
+            "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    },
+    {
+      "oreum_id": "JJ-OREUM-275",
+      "official_record_no": "275",
+      "name": "여문영아리",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 표선면 가시리 산145",
+      "lat": 33.3826903,
+      "lon": 126.6940924,
+      "model_screen": {
+        "official_record_no": "275",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "high_stable",
+        "percentile_4": 90.1,
+        "percentile_12": 90.5,
+        "score_4": 0.197204,
+        "score_12": 0.099839,
+        "split_4": "2024->2025",
+        "split_12": "2024->2025",
+        "spatial_window": "27648_-369664",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [
+        {
+          "candidate_id": "oreum_v6_r10",
+          "distance_m": 1672,
+          "rgb_effect": "context_only",
+          "rgb_context_confidence": "medium",
+          "status": "context_only_over_500m",
+          "warning": "point proximity does not establish boundary overlap or cause"
+        },
+        {
+          "candidate_id": "oreum_v6_r08",
+          "distance_m": 1907,
+          "rgb_effect": "context_only",
+          "rgb_context_confidence": "medium",
+          "status": "context_only_over_500m",
+          "warning": "point proximity does not establish boundary overlap or cause"
+        }
+      ],
+      "image": "candidates/JJ-OREUM-275.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_27648_-369664",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2B_MSIL2A_20230517T021539_R003_T52SBC_20230517T074144",
+            "S2B_MSIL2A_20230517T021539_R003_T52SBB_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.5443146008403361,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.5443146008403361
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.5875,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.5875
+          }
+        },
+        "2024": {
+          "window": "jeju24_27648_-369664",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_27648_-369664",
+          "period_index": 7,
+          "acquisition_date": "2025-05-13",
+          "source_items": [
+            "S2B_MSIL2A_20250526T021539_R003_T52SBC_20250526T041515",
+            "S2A_MSIL2A_20250513T022131_R003_T52SBB_20250513T062411"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_27648_-369664",
+          "period_index": 1,
+          "acquisition_date": "2026-05-06",
+          "source_items": [
+            "S2C_MSIL2A_20260506T021601_R003_T52SBC_20260506T055524",
+            "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    },
+    {
+      "oreum_id": "JJ-OREUM-351",
+      "official_record_no": "351",
+      "name": "칡오름",
+      "city": "서귀포시",
+      "address": "제주특별자치도 서귀포시 상효동 2308-1",
+      "lat": 33.2840136,
+      "lon": 126.6028985,
+      "model_screen": {
+        "official_record_no": "351",
+        "status": "screen_complete_existing_v6",
+        "grade": "M",
+        "screen_class": "high_stable",
+        "percentile_4": 99.2,
+        "percentile_12": 95.1,
+        "score_4": 0.425072,
+        "score_12": 0.123742,
+        "split_4": "2023->2024",
+        "split_12": "2023->2024",
+        "spatial_window": "27648_-368640",
+        "warning": "model screening only; existing v6 is season/time-axis confounded and predates island-wide SCL validation"
+      },
+      "candidate_links": [],
+      "image": "candidates/JJ-OREUM-351.png",
+      "season_aligned_rgb": {
+        "2023": {
+          "window": "jeju23_27648_-368640",
+          "period_index": 7,
+          "acquisition_date": "2023-05-17",
+          "source_items": [
+            "S2B_MSIL2A_20230517T021539_R003_T52SBB_20230517T074135"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.9936311141304348,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.9936311141304348
+          },
+          "detail_metrics": {
+            "cloud_proxy": 1.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 1.0
+          }
+        },
+        "2024": {
+          "window": "jeju24_27648_-368640",
+          "period_index": 7,
+          "acquisition_date": "2024-05-16",
+          "source_items": [
+            "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.014690896739130434,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.014690896739130434
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2025": {
+          "window": "jeju25_27648_-368640",
+          "period_index": 7,
+          "acquisition_date": "2025-05-13",
+          "source_items": [
+            "S2A_MSIL2A_20250513T022131_R003_T52SBB_20250513T062411"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.00993546195652174,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.00993546195652174
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        },
+        "2026": {
+          "window": "jeju26r_27648_-368640",
+          "period_index": 1,
+          "acquisition_date": "2026-05-06",
+          "source_items": [
+            "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524"
+          ],
+          "context_metrics": {
+            "cloud_proxy": 0.018087635869565216,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.018087635869565216
+          },
+          "detail_metrics": {
+            "cloud_proxy": 0.0,
+            "zero_proxy": 0.0,
+            "bad_proxy": 0.0
+          }
+        }
+      },
+      "human_review": {
+        "label": "pending",
+        "persistent_change": "pending",
+        "confidence": "pending",
+        "notes": ""
+      }
+    }
+  ]
+}

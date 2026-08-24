@@ -1,0 +1,97 @@
+{
+  "schema": "k-evidence-shift-build-config-v1",
+  "benchmark_id": "k_evidence_shift_jeju_pilot_v0",
+  "region_id": "KR-49-jeju",
+  "region_name": "제주특별자치도",
+  "spatial_group_buffer_m": 500.0,
+  "cloud_proxy": {
+    "name": "sentinel2_b02_dn_gt_1800_fraction",
+    "clear_max": 0.05,
+    "mixed_max": 0.2,
+    "warning": "RGB triage proxy, not a GK2A measurement or validated cloud mask"
+  },
+  "promotion_gates": {
+    "minimum_independent_regions": 3,
+    "minimum_independent_human_labels": 300,
+    "minimum_double_reviewed_labels": 120,
+    "minimum_independent_spatial_groups": 5,
+    "minimum_completed_paired_baselines": 4,
+    "minimum_pinned_model_checkpoints": 4,
+    "minimum_observation_years": 2,
+    "require_sealed_probability_test": true,
+    "require_frozen_paired_input_contract": true
+  },
+  "paired_input_contract": {
+    "contract_id": "common_sentinel2_v0",
+    "status": "unset_blocking",
+    "frozen": false,
+    "required_before_model_comparison": [
+      "canonical_acquisition_ids_and_timestamps",
+      "common_band_intersection_and_order",
+      "common_ground_sample_distance",
+      "common_aoi_support",
+      "train_only_normalization_and_calibration",
+      "raw_tensor_sha256_and_model_view_sha256",
+      "site_event_group_split"
+    ],
+    "p0_exception": "The OlmoEarth v1/v1.2 release audit has a separate exact-input contract and cannot be interpreted as a multi-model transfer benchmark."
+  },
+  "model_matrix": [
+    {
+      "track": "paired_input",
+      "model_id": "scratch_unet",
+      "family": "supervised_from_scratch",
+      "adaptation": "full_training",
+      "input_contract": "common_sentinel2",
+      "role": "non_foundation_baseline"
+    },
+    {
+      "track": "paired_input",
+      "model_id": "generic_vit",
+      "family": "generic_vision_pretraining",
+      "adaptation": "linear_then_full",
+      "input_contract": "common_sentinel2",
+      "role": "generic_pretraining_control"
+    },
+    {
+      "track": "paired_input",
+      "model_id": "olmoearth_v1",
+      "family": "earth_foundation_model",
+      "adaptation": "frozen_then_peft",
+      "input_contract": "common_sentinel2",
+      "role": "primary_transfer_model"
+    },
+    {
+      "track": "paired_input",
+      "model_id": "olmoearth_v1_2",
+      "family": "earth_foundation_model",
+      "adaptation": "frozen_then_peft",
+      "input_contract": "common_sentinel2",
+      "role": "release_drift_control"
+    },
+    {
+      "track": "paired_input",
+      "model_id": "prithvi_eo_2",
+      "family": "earth_foundation_model",
+      "adaptation": "frozen_then_peft",
+      "input_contract": "common_sentinel2",
+      "role": "temporal_transfer_comparator"
+    },
+    {
+      "track": "native_ceiling",
+      "model_id": "croma",
+      "family": "radar_optical_foundation_model",
+      "adaptation": "native_input_finetuning",
+      "input_contract": "sentinel1_plus_sentinel2",
+      "role": "cloud_sensor_fusion_ceiling"
+    },
+    {
+      "track": "native_ceiling",
+      "model_id": "terramind",
+      "family": "multimodal_foundation_model",
+      "adaptation": "native_input_finetuning",
+      "input_contract": "native_multimodal",
+      "role": "public_context_fusion_ceiling"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "jeju-korean-public-data-v1",
+  "generated_at": "2026-08-22T03:45:36.263170+00:00",
+  "privacy": {
+    "candidate_coordinates_sent_to_external_services": false,
+    "spatial_join_status": "pending_explicit_coordinate-transmission_consent"
+  },
+  "sources": {
+    "jeju_oreum_inventory": {
+      "provider": "제주특별자치도",
+      "catalog_url": "https://www.data.go.kr/data/15043497/fileData.do",
+      "snapshot_date": "2024-03-31",
+      "downloaded_file_sha256": "fdb9057ebb5aa1773f881a13edf6e617df0ea6d64cfb3d0dd121d02b687be02a",
+      "license": "이용허락범위 제한 없음",
+      "rows": 368,
+      "spatial_limit": "주소만 제공하며 좌표·경계는 없음"
+    },
+    "development_permits": {
+      "provider": "국토교통부",
+      "catalog_url": "https://www.data.go.kr/data/15021109/fileData.do",
+      "download_page": "https://eum.go.kr/web/op/sv/svItemDet.jsp?dataCd=001&dataTypeCd=CSV&currentPageNo=1&selectType=subject",
+      "snapshot_date": "2026-08-19",
+      "downloaded_file_sha256": "879837c79432b0388265338fee129dd2c00acc791d93b37077ae038add811466",
+      "archive_member": "개발행위허가정보_20260819_전국.csv",
+      "license": "공공저작물 출처표시 제1유형",
+      "jeju_rows": 240,
+      "spatial_limit": "PNU·위치명은 있으나 위경도는 없어 지적도 연결이 필요"
+    },
+    "vworld_wfs": {
+      "provider": "국토교통부 국가공간정보센터",
+      "catalog_url": "https://www.data.go.kr/data/15058805/openapi.do",
+      "status": "unavailable_without_api_key",
+      "intended_role": "후보 좌표를 PNU·지적·건물·용도지역 객체에 공간 연결"
+    }
+  },
+  "permit_summary": {
+    "by_year": {
+      "2014": 1,
+      "2015": 71,
+      "2016": 60,
+      "2017": 1,
+      "2018": 1,
+      "2020": 4,
+      "2021": 1,
+      "2022": 1,
+      "2025": 4,
+      "2026": 94,
+      "unknown": 2
+    },
+    "by_municipality": {
+      "제주특별자치도 제주시": 238,
+      "제주특별자치도 서귀포시": 2
+    },
+    "top_representative_actions": {
+      "토지형질변경": 217,
+      "공작물설치": 19,
+      "물건적치": 3,
+      "토석채취": 1
+    }
+  },
+  "outputs": {
+    "oreum_csv": "jeju_oreum_official_20240331.csv",
+    "development_permits_csv": "jeju_development_permits_20260819.csv"
+  }
+}

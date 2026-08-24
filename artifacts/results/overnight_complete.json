@@ -1,0 +1,166 @@
+{
+  "finished_at_utc": "2026-08-23T17:34:08.344355+00:00",
+  "releases": {
+    "v1": {
+      "summary_by_dose": {
+        "1": {
+          "windows": 8,
+          "displaced_positions": 2,
+          "median_same_token_cosine": 0.9643391165568869,
+          "median_linear_cka": 0.9923440804860058,
+          "median_distance_spearman": 0.9616673433753153,
+          "median_recall_at_1": 0.9818115234375,
+          "min_recall_at_1": 0.81884765625
+        },
+        "2": {
+          "windows": 8,
+          "displaced_positions": 4,
+          "median_same_token_cosine": 0.9584370795273716,
+          "median_linear_cka": 0.9873397118283755,
+          "median_distance_spearman": 0.9274534765630262,
+          "median_recall_at_1": 0.924560546875,
+          "min_recall_at_1": 0.75537109375
+        },
+        "3": {
+          "windows": 8,
+          "displaced_positions": 6,
+          "median_same_token_cosine": 0.9429706117701889,
+          "median_linear_cka": 0.979682562093793,
+          "median_distance_spearman": 0.8925378738641632,
+          "median_recall_at_1": 0.6019287109375,
+          "min_recall_at_1": 0.21337890625
+        },
+        "6": {
+          "windows": 8,
+          "displaced_positions": 12,
+          "median_same_token_cosine": 0.914463394186549,
+          "median_linear_cka": 0.9720129678211975,
+          "median_distance_spearman": 0.8318451195090899,
+          "median_recall_at_1": 0.24560546875,
+          "min_recall_at_1": 0.048828125
+        },
+        "reverse": {
+          "windows": 8,
+          "displaced_positions": 12,
+          "median_same_token_cosine": 0.8628034689302564,
+          "median_linear_cka": 0.9595194596637466,
+          "median_distance_spearman": 0.7743153643728885,
+          "median_recall_at_1": 0.1612548828125,
+          "min_recall_at_1": 0.028076171875
+        }
+      },
+      "diagnostic_blindness": {
+        "1": {
+          "cka_stays_high_while_recall_collapses": false,
+          "median_linear_cka": 0.9923440804860058,
+          "median_recall_at_1": 0.9818115234375
+        },
+        "2": {
+          "cka_stays_high_while_recall_collapses": false,
+          "median_linear_cka": 0.9873397118283755,
+          "median_recall_at_1": 0.924560546875
+        },
+        "3": {
+          "cka_stays_high_while_recall_collapses": false,
+          "median_linear_cka": 0.979682562093793,
+          "median_recall_at_1": 0.6019287109375
+        },
+        "6": {
+          "cka_stays_high_while_recall_collapses": true,
+          "median_linear_cka": 0.9720129678211975,
+          "median_recall_at_1": 0.24560546875
+        },
+        "reverse": {
+          "cka_stays_high_while_recall_collapses": true,
+          "median_linear_cka": 0.9595194596637466,
+          "median_recall_at_1": 0.1612548828125
+        }
+      }
+    },
+    "v1_2": {
+      "summary_by_dose": {
+        "1": {
+          "windows": 8,
+          "displaced_positions": 2,
+          "median_same_token_cosine": 0.9800120912220395,
+          "median_linear_cka": 0.7928372527487813,
+          "median_distance_spearman": 0.8587453353103368,
+          "median_recall_at_1": 0.755615234375,
+          "min_recall_at_1": 0.32080078125
+        },
+        "2": {
+          "windows": 8,
+          "displaced_positions": 4,
+          "median_same_token_cosine": 0.9761168930193809,
+          "median_linear_cka": 0.5273551615443786,
+          "median_distance_spearman": 0.6315263567392528,
+          "median_recall_at_1": 0.148681640625,
+          "min_recall_at_1": 0.044677734375
+        },
+        "3": {
+          "windows": 8,
+          "displaced_positions": 6,
+          "median_same_token_cosine": 0.9723959463076175,
+          "median_linear_cka": 0.5192672175931382,
+          "median_distance_spearman": 0.6166724312138877,
+          "median_recall_at_1": 0.08984375,
+          "min_recall_at_1": 0.0419921875
+        },
+        "6": {
+          "windows": 8,
+          "displaced_positions": 12,
+          "median_same_token_cosine": 0.9509313714078766,
+          "median_linear_cka": 0.4172497989493118,
+          "median_distance_spearman": 0.5023485027950015,
+          "median_recall_at_1": 0.0216064453125,
+          "min_recall_at_1": 0.003173828125
+        },
+        "reverse": {
+          "windows": 8,
+          "displaced_positions": 12,
+          "median_same_token_cosine": 0.8960486219529125,
+          "median_linear_cka": 0.27494999471075987,
+          "median_distance_spearman": 0.27985335638865866,
+          "median_recall_at_1": 0.001953125,
+          "min_recall_at_1": 0.000244140625
+        }
+      },
+      "diagnostic_blindness": {
+        "1": {
+          "cka_stays_high_while_recall_collapses": false,
+          "median_linear_cka": 0.7928372527487813,
+          "median_recall_at_1": 0.755615234375
+        },
+        "2": {
+          "cka_stays_high_while_recall_collapses": false,
+          "median_linear_cka": 0.5273551615443786,
+          "median_recall_at_1": 0.148681640625
+        },
+        "3": {
+          "cka_stays_high_while_recall_collapses": false,
+          "median_linear_cka": 0.5192672175931382,
+          "median_recall_at_1": 0.08984375
+        },
+        "6": {
+          "cka_stays_high_while_recall_collapses": false,
+          "median_linear_cka": 0.4172497989493118,
+          "median_recall_at_1": 0.0216064453125
+        },
+        "reverse": {
+          "cka_stays_high_while_recall_collapses": false,
+          "median_linear_cka": 0.27494999471075987,
+          "median_recall_at_1": 0.001953125
+        }
+      }
+    }
+  },
+  "blind_doses_by_release": {
+    "v1": [
+      "6",
+      "reverse"
+    ],
+    "v1_2": []
+  },
+  "replicates_across_releases": false,
+  "reading": "replicates_across_releases=true 이면 밴드 순서 계약 불일치에 대한 진단 눈멂이 두 릴리스에서 모두 나타난 것이다. false 이면 한 릴리스 특성일 수 있으므로 일반 주장을 하지 않는다."
+}

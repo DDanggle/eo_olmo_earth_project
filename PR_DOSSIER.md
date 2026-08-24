@@ -135,24 +135,60 @@ BestLastCheckpoint`를 사용하나 **어떤 PyPI 릴리스에도 없음**(0.0.2
 macOS에서 Pool 생성이 돌아오지 않음. 러너 직접 호출로 우회 가능.
 재현: README의 `prepare_labeled_windows` 명령을 맥에서 실행.
 
-## 9. 임베딩 가이드 기본값이 구름 지역에서 부적합 (신규, 2026-08-21)
+## 9. 임베딩 가이드의 시간축·합성 의미가 모호함 (보정, 2026-08-22)
 
 **대상**: rslearn `docs/examples/OlmoEarthEmbeddings.md`
 
-**증상**: 가이드 예제의 `query_config`는 `space_mode: MOSAIC`(기간당 장면 1개).
-구름이 많은 지역에서는 그 기간의 최선 장면이 흐리면 그대로 오염되고, 하류 변화탐지가
-전부 구름을 검출한다. Ai2 자신의 실전 설정(`olmoearth_run_data/lfmc`)은
-`PER_PERIOD_MOSAIC`(기간당 다장면 합성)을 쓴다.
+**증상**: 가이드 예제는 12기간을 materialize하지만 모델 입력은 앞 4개 레이어만 명시한다.
+또 현재 rslearn 0.1.13에서 `MOSAIC + period_duration`과 폐기 예정
+`PER_PERIOD_MOSAIC + period_duration`은 동일 handler다. 기본 시간순서는 역순이며 변경 예정이라,
+설정 이름만 보면 실제 사용 기간·합성 의미를 오해하기 쉽다.
 
-**근거 (제주 4개년 실측)**: 연도별 "최악 모자이크" 구름 비율 평균 0.53~0.84 →
-거의 모든 픽셀이 매년 최소 1장은 절반 이상 구름. 사후 마스킹 시 생존 픽셀 1.2%(전부 바다).
-변화탐지 Top-30 육안 검증에서 5/5(v2), 3/5(v3)가 구름으로 판명.
+**근거 (제주 4개년 실측)**: 두 설정으로 216윈도우를 각각 계산했지만 cloud/zero 지표와
+blind RGB가 동일했다. ordered source group 2,592/2,592, 원본 12밴드 표본 24/24,
+임베딩 표본 24/24가 동일했다. 4기간↔12기간 Top-30 Jaccard는 0.091이고, 실제 첫 4기간은
+2023~2025와 rolling-2026 사이 계절이 정렬되지 않았다.
 
-**제안**: 가이드에 구름 많은 지역용 권장 설정과 함께, 임베딩 산출물에 품질 마스크를
-동반하라는 주의를 추가. (Earth Embeddings 서베이 arXiv:2608.03410도 같은 공백을 지적)
+**제안**: 예제에 실제 소비 timestep, 시간순서, `PER_PERIOD_MOSAIC` alias/deprecation을
+명시하고 item-order manifest를 남긴다. 구름 개선은 SpaceMode 이름 변경이 아니라 SCL/cloud
+mask를 pixel validity에 연결하는 합성 예제와 품질 마스크로 안내한다.
 
 **부가**: `load_all_crops` + workers 16 기본값이 1024px 윈도우에서 **트레이스백 없이**
 OOM 사망(28/82에서 중단). workers 6 / batch 4로 해결. 문서 주의사항 후보.
+
+**비용**: 이 오해로 **재다운로드 2시간 + GPU 1시간**을 소모했다.
+
+**기각된 초기 진단 (기록 보존)**: 처음에는 원인을 `space_mode`의 기하로 설명했다 —
+`PER_PERIOD_MOSAIC`은 윈도우를 *공간적으로* 덮는 데 필요한 장면만 모자이크하므로,
+윈도우(1024px=10km)가 S2 타일(110km) 하나에 들어가면 `MOSAIC`과 같아진다는 것이다.
+후속 감사에서 더 단순한 사실이 확인됐다 — rslearn 0.1.13에서 두 SpaceMode는 **같은
+`match_with_space_mode_mosaic` handler를 호출한다.** 따라서 이 절의 진단은 기하가 아니라
+handler alias다. 초기 가설도 실패 계보로 남긴다(L3).
+
+---
+
+## 10. rslearn — SCL compositor의 숨은 자산 의존성과 categorical resampling
+
+**대상**: `allenai/rslearn` / `rslearn/dataset/sentinel2_scl.py`,
+`rslearn/data_sources/planetary_computer.py`
+
+**재현 증상**: 반사도 12밴드 layer에 `Sentinel2SCLBestClear`를 지정하면 STAC item의
+`asset_urls`에 `SCL`이 있어도 `missing scoring bands ['SCL']`로 materialize가 실패한다.
+Sentinel-2 데이터소스가 layer `band_sets`와 교차하는 자산만 tile store에 등록하므로,
+compositor의 보조-band 의존성이 자동 전달되지 않기 때문이다.
+
+**두 번째 문제**: SCL을 band set에 추가하면 실행은 되지만, compositor `_score_item`은
+반사도 layer의 `resampling_method`를 범주형 SCL read에 그대로 전달한다. 반사도에 일반적인
+bilinear를 쓰면 class ID가 보간되어 `SCL in {4,5,6}` 점수가 왜곡될 수 있다.
+
+**로컬 검증**: `code/scl_compositor.py` adapter로 SCL score만 nearest, 선택된 반사도 출력은
+bilinear로 유지했다. 사전 고정 제주 golden window에서 source group과 pixel이 실제로 바뀌고,
+첫 4기간 bad proxy 95.64% 감소·target 1.00→0.00·RGB 구름 제거를 확인했다. 실패 3회와 성공
+로그를 `artifacts/results/jeju-v7-smoke*.log`에 보존했다.
+
+**제안**: compositor가 보조-band 의존성을 data source context에 선언할 수 있게 하거나 SCL
+band-set 요구를 config error로 명시하고, categorical SCL scoring은 nearest를 기본/강제로
+분리한다. 최소 회귀 테스트는 bilinear reflectance + SCL BestClear 조합이다.
 
 ---
 
@@ -170,40 +206,6 @@ OOM 사망(28/82에서 중단). workers 6 / batch 4로 해결. 문서 주의사�
 1. **#1** — 무해하고 명확, 첫 기여로 최적
 2. **#4** — 재현 스크립트가 명확한 진짜 버그 (rslearn은 공개 레포)
 3. **#2** — 가장 무겁다. 완결된 매트릭스로 정중하게, maintainer 경로 확인 후
-4. #3, #9 — 문서·설정 개선 (#2와 함께 묶어도 좋다)
-5. 나머지는 이슈로 축약
-
----
-
-## 10. rslearn — `space_mode` 의미가 오해를 유발 (2026-08-22 실측)
-
-**대상**: `allenai/rslearn` 문서 + `docs/examples/OlmoEarthEmbeddings.md`
-
-**증상**: `space_mode: MOSAIC`과 `PER_PERIOD_MOSAIC`이 **서브타일 윈도우에서 완전히 동일한
-결과**를 낸다. 제주 216윈도우를 두 설정으로 각각 materialize한 결과 래스터가
-**md5까지 일치**(`items.json`의 기간별 장면 수도 양쪽 모두 1). 사용자는
-"PER_PERIOD_MOSAIC = 같은 기간의 여러 장면을 겹쳐 구름을 메운다"로 읽기 쉽지만,
-실제로는 윈도우를 *공간적으로* 덮는 데 필요한 장면만 모자이크한다. 윈도우(1024px=10km)가
-S2 타일(110km) 하나에 들어가면 두 모드가 같아진다.
-
-**비용**: 이 오해로 2시간 재다운로드 + 1시간 GPU를 소모했다.
-
-**제안**: 두 모드의 차이를 문서에 명시하고, "구름을 줄이려면 무엇을 해야 하는가"
-(타임스텝 수 늘리기 / 구름 마스크 밴드 / 짧은 기간 + 다수 후보에서 선택)를 안내.
-
-## 11. 임베딩 가이드 예제가 12개 모자이크 중 4개만 사용 (2026-08-22 실측)
-
-**대상**: `allenai/rslearn` / `docs/examples/OlmoEarthEmbeddings.md`
-
-**증상**: 가이드의 `model.yaml` 예제는 `query_config.max_matches: 12`로 12개 기간의
-모자이크를 받도록 데이터셋을 정의하면서, 모델 입력은
-`layers: ["sentinel2_l2a", "sentinel2_l2a.1", "sentinel2_l2a.2", "sentinel2_l2a.3"]`로
-**앞 4개만** 사용한다. 사용자는 12개를 다 쓰는 것으로 오해하기 쉽고, 그 결과:
-- 구름 낀 모자이크 1장이 모델 입력의 **25%**를 차지 (12개를 쓰면 8%)
-- 연중 계절 신호의 2/3가 누락
-- 임베딩 기반 변화탐지가 사실상 "1~4월 구름 상태"를 측정
-
-**근거**: 제주 4개년 변화탐지 Top-30이 특정 연도의 첫 모자이크 구름에 지배됨
-(육안 검증 v2 5/5, v3 3/5). 12타임스텝으로 재추출해 비교 중.
-
-**제안**: 예제를 12개 레이어로 맞추거나, 왜 4개만 쓰는지(비용?) 주석으로 명시.
+4. **#10** — golden-window 재현과 회귀 테스트가 있는 rslearn categorical-resampling 개선
+5. #3, #9 — 문서·설정 개선 (#2와 함께 묶어도 좋다)
+6. 나머지는 이슈로 축약

@@ -1,0 +1,1859 @@
+{
+  "schema": "jeju-public-context-evidence-v2",
+  "selection": {
+    "rule": "high-confidence persistent RGB records, duplicate pair reduced to first record",
+    "candidate_ids": [
+      "dev_control_v3_r02",
+      "oreum_v6_r08",
+      "oreum_v6_r10",
+      "oreum_v6_r11"
+    ],
+    "frozen_rgb_review_sha256": "a470ebc6505a01218669c14610968c30810cb589e1c84526009a305099a749dd"
+  },
+  "privacy": {
+    "candidate_coordinates_sent_to_external_services": false,
+    "method": "download full South Korea OSM snapshot, then spatially join locally"
+  },
+  "sources": {
+    "osm": {
+      "provider": "OpenStreetMap contributors via Geofabrik",
+      "source_url": "https://download.geofabrik.de/asia/south-korea.html",
+      "license": "ODbL 1.0",
+      "snapshot_timestamp": null,
+      "south_korea_source_md5": null,
+      "local_jeju_extract_sha256": "2daae5e88d61b2d0b01bfeb25279f97a20a3fee391cf6a9f06815b58f8b01cee"
+    },
+    "official_oreum": {
+      "provider": "제주특별자치도",
+      "snapshot": "2024-03-31",
+      "rows": 368,
+      "join_limit": "official file has address but no coordinates; OSM peak supplies location"
+    },
+    "development_permits": {
+      "provider": "국토교통부",
+      "snapshot": "2026-08-19",
+      "jeju_rows": 240,
+      "join_limit": "same named locality only until an authorized cadastral PNU layer is available"
+    },
+    "farmmap": {
+      "provider": "농림수산식품교육문화정보원",
+      "catalog_url": "https://www.data.go.kr/data/15104491/fileData.do",
+      "snapshot": "2025-12-31",
+      "rows": 289379,
+      "raw_sha256": "977f840e7a9ceb289aaba6674de59111360e873c3c4c8a7d3b4403f11ac637bf",
+      "crs": "EPSG:5179",
+      "join_limit": "official dated farm-state polygon covering the candidate point; not a change footprint or causal event"
+    }
+  },
+  "sites": [
+    {
+      "candidate_id": "dev_control_v3_r02",
+      "lat": 33.5087,
+      "lon": 126.5747,
+      "rgb_image": "candidates/dev_control_v3_r02.png",
+      "containing_administrative_areas": [
+        {
+          "osm_id": null,
+          "name": "삼양동",
+          "distance_m": 67,
+          "center": {
+            "lat": 33.51275664431819,
+            "lon": 126.59401044862012
+          },
+          "tags": {
+            "admin_level": "8",
+            "boundary": "administrative"
+          }
+        }
+      ],
+      "containing_current_landcover": [],
+      "nearby_named_peaks_5km": [
+        {
+          "osm_id": null,
+          "name": "봉개오름",
+          "distance_m": 2302,
+          "center": {
+            "lat": 33.4935648,
+            "lon": 126.5916335
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "별도봉",
+          "distance_m": 2331,
+          "center": {
+            "lat": 33.5194463,
+            "lon": 126.5531095
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "알오름",
+          "distance_m": 2608,
+          "center": {
+            "lat": 33.5191278,
+            "lon": 126.5495056
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "원당봉",
+          "distance_m": 2927,
+          "center": {
+            "lat": 33.5251329,
+            "lon": 126.5993679
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "사라봉",
+          "distance_m": 2963,
+          "center": {
+            "lat": 33.5181076,
+            "lon": 126.5448002
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "열안지오름",
+          "distance_m": 4877,
+          "center": {
+            "lat": 33.4730719,
+            "lon": 126.6053687
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        }
+      ],
+      "official_oreum_name_matches_5km": [
+        {
+          "official_record_no": "175",
+          "distance_m": 2331,
+          "osm_peak_name": "별도봉",
+          "official_name": "별도봉",
+          "official_address": "제주특별자치도 제주시 화북일동 4472",
+          "altitude_m": "136",
+          "area_m2": "242535",
+          "shape": "원추형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "265",
+          "distance_m": 2608,
+          "osm_peak_name": "알오름",
+          "official_name": "알오름",
+          "official_address": "제주특별자치도 서귀포시 성산읍 시흥리 2665",
+          "altitude_m": "145.9",
+          "area_m2": "142515",
+          "shape": "원추형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "266",
+          "distance_m": 2608,
+          "osm_peak_name": "알오름",
+          "official_name": "알오름",
+          "official_address": "제주특별자치도 제주시 건입동 387-1",
+          "altitude_m": "96.2",
+          "area_m2": "35659",
+          "shape": "원추형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "267",
+          "distance_m": 2608,
+          "osm_peak_name": "알오름",
+          "official_name": "알오름",
+          "official_address": "제주특별자치도 제주시 애월읍 유수암리 산114",
+          "altitude_m": "446.2",
+          "area_m2": "87253",
+          "shape": "원추형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "298",
+          "distance_m": 2927,
+          "osm_peak_name": "원당봉",
+          "official_name": "원당봉",
+          "official_address": "제주특별자치도 제주시 삼양일동 산1-1",
+          "altitude_m": "170.7",
+          "area_m2": "663286",
+          "shape": "말굽형(북향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "196",
+          "distance_m": 2963,
+          "osm_peak_name": "사라봉",
+          "official_name": "사라봉",
+          "official_address": "제주특별자치도 제주시 건입동 387-1",
+          "altitude_m": "148.2",
+          "area_m2": "233471",
+          "shape": "말굽형(북서향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "197",
+          "distance_m": 2963,
+          "osm_peak_name": "사라봉",
+          "official_name": "사라오름",
+          "official_address": "제주특별자치도 서귀포시 남원읍 신례리 산2-1",
+          "altitude_m": "1324.7",
+          "area_m2": "440686",
+          "shape": "원형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "277",
+          "distance_m": 4877,
+          "osm_peak_name": "열안지오름",
+          "official_name": "열안지",
+          "official_address": "제주특별자치도 제주시 오라이동 산97",
+          "altitude_m": "583.2",
+          "area_m2": "368262",
+          "shape": "말굽형(남동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "278",
+          "distance_m": 4877,
+          "osm_peak_name": "열안지오름",
+          "official_name": "열안지오름",
+          "official_address": "제주특별자치도 제주시 봉개동 산78-1",
+          "altitude_m": "328.7",
+          "area_m2": "55701",
+          "shape": "말굽형(북향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        }
+      ],
+      "nearby_named_places_5km": [
+        {
+          "osm_id": null,
+          "name": "화북이동",
+          "distance_m": 1020,
+          "center": {
+            "lat": 33.50469,
+            "lon": 126.5648
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "도련일동",
+          "distance_m": 1173,
+          "center": {
+            "lat": 33.5059,
+            "lon": 126.5869
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "화북일동",
+          "distance_m": 1547,
+          "center": {
+            "lat": 33.52032,
+            "lon": 126.56553
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "삼양이동",
+          "distance_m": 1711,
+          "center": {
+            "lat": 33.52195,
+            "lon": 126.58409
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "삼양삼동",
+          "distance_m": 1792,
+          "center": {
+            "lat": 33.52474,
+            "lon": 126.57653
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "제주도",
+          "distance_m": 1828,
+          "center": {
+            "lat": 33.39484820846598,
+            "lon": 126.5526749774383
+          },
+          "tags": {
+            "place": "island"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "도련이동",
+          "distance_m": 2030,
+          "center": {
+            "lat": 33.51279,
+            "lon": 126.59604
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "벌랑포구",
+          "distance_m": 2075,
+          "center": {
+            "lat": 33.5271854,
+            "lon": 126.5777309
+          },
+          "tags": {
+            "place": "locality"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "화북포구",
+          "distance_m": 2165,
+          "center": {
+            "lat": 33.5264139,
+            "lon": 126.5650019
+          },
+          "tags": {
+            "place": "locality"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "영평동",
+          "distance_m": 2527,
+          "center": {
+            "lat": 33.4862111,
+            "lon": 126.5708025
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "삼양일동",
+          "distance_m": 2787,
+          "center": {
+            "lat": 33.52345,
+            "lon": 126.599
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "건입동",
+          "distance_m": 3345,
+          "center": {
+            "lat": 33.51474,
+            "lon": 126.53935
+          },
+          "tags": {
+            "place": "quarter"
+          }
+        }
+      ],
+      "current_building_count_500m": 26,
+      "current_road_features_500m": 32,
+      "nearest_roads": [
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 66,
+          "center": {
+            "lat": 33.51011749230769,
+            "lon": 126.57217375128205
+          },
+          "tags": {
+            "highway": "residential"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "연북로",
+          "distance_m": 127,
+          "center": {
+            "lat": 33.50647875714286,
+            "lon": 126.57285151428572
+          },
+          "tags": {
+            "highway": "secondary"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 127,
+          "center": {
+            "lat": 33.5075826,
+            "lon": 126.5757593
+          },
+          "tags": {
+            "highway": "residential"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 190,
+          "center": {
+            "lat": 33.50699726,
+            "lon": 126.57546368000001
+          },
+          "tags": {
+            "highway": "service"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 209,
+          "center": {
+            "lat": 33.506774875000005,
+            "lon": 126.57516088
+          },
+          "tags": {
+            "highway": "service"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 211,
+          "center": {
+            "lat": 33.50841103333333,
+            "lon": 126.57725556666666
+          },
+          "tags": {
+            "highway": "residential"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 231,
+          "center": {
+            "lat": 33.508797099999995,
+            "lon": 126.577576
+          },
+          "tags": {
+            "highway": "secondary"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 257,
+          "center": {
+            "lat": 33.5084025,
+            "lon": 126.57755689999999
+          },
+          "tags": {
+            "highway": "residential"
+          }
+        }
+      ],
+      "noteworthy_mapped_features_1km": [],
+      "permit_context": {
+        "match_scope": "same named locality; not parcel-level",
+        "locality_token": "삼양동",
+        "record_count": 0,
+        "by_year": {},
+        "top_actions": {},
+        "sample_records": [],
+        "negative_evidence_warning": "The 2026-08-19 national snapshot has no 2023/2024 Jeju permit rows; no match cannot be interpreted as no permit."
+      },
+      "initial_after_context_judgment": {
+        "effect": "context_only",
+        "confidence": "low",
+        "notes": "Current OSM context and locality-level permits cannot date or cause the RGB change."
+      },
+      "farmmap_evidence": []
+    },
+    {
+      "candidate_id": "oreum_v6_r08",
+      "lat": 33.3754,
+      "lon": 126.6755,
+      "rgb_image": "candidates/oreum_v6_r08.png",
+      "containing_administrative_areas": [
+        {
+          "osm_id": null,
+          "name": "수망리",
+          "distance_m": 358,
+          "center": {
+            "lat": 33.35115854330484,
+            "lon": 126.69560847863248
+          },
+          "tags": {
+            "admin_level": "10",
+            "boundary": "administrative"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "남원읍",
+          "distance_m": 358,
+          "center": {
+            "lat": 33.335046803818365,
+            "lon": 126.65049725356037
+          },
+          "tags": {
+            "admin_level": "8",
+            "boundary": "administrative"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "서귀포시",
+          "distance_m": 2827,
+          "center": {
+            "lat": 33.379315460332194,
+            "lon": 126.5715936420127
+          },
+          "tags": {
+            "admin_level": "6",
+            "boundary": "administrative"
+          }
+        }
+      ],
+      "containing_current_landcover": [
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 114,
+          "center": {
+            "lat": 33.36104594908493,
+            "lon": 126.65823160112623
+          },
+          "tags": {
+            "natural": "wood"
+          }
+        }
+      ],
+      "nearby_named_peaks_5km": [
+        {
+          "osm_id": null,
+          "name": "마은이",
+          "distance_m": 1639,
+          "center": {
+            "lat": 33.3796639,
+            "lon": 126.6586028
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "물영아리",
+          "distance_m": 1725,
+          "center": {
+            "lat": 33.3684065,
+            "lon": 126.6920759
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "여문영아리",
+          "distance_m": 1907,
+          "center": {
+            "lat": 33.3826903,
+            "lon": 126.6940924
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "마은이옆",
+          "distance_m": 2023,
+          "center": {
+            "lat": 33.391909,
+            "lon": 126.6663492
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "가친오름",
+          "distance_m": 2088,
+          "center": {
+            "lat": 33.3918636,
+            "lon": 126.6646932
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "쳇망오름",
+          "distance_m": 2561,
+          "center": {
+            "lat": 33.394679,
+            "lon": 126.690582
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "챗망오름",
+          "distance_m": 2710,
+          "center": {
+            "lat": 33.3955013,
+            "lon": 126.6920073
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "붉은오름",
+          "distance_m": 2736,
+          "center": {
+            "lat": 33.399732,
+            "lon": 126.6798823
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "민오름",
+          "distance_m": 2791,
+          "center": {
+            "lat": 33.3503259,
+            "lon": 126.676908
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "거인악",
+          "distance_m": 2929,
+          "center": {
+            "lat": 33.3534751,
+            "lon": 126.6580272
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "물찻오름",
+          "distance_m": 3016,
+          "center": {
+            "lat": 33.3948485,
+            "lon": 126.6528629
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "가문이오름",
+          "distance_m": 3146,
+          "center": {
+            "lat": 33.4016666,
+            "lon": 126.6881031
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        }
+      ],
+      "official_oreum_name_matches_5km": [
+        {
+          "official_record_no": "125",
+          "distance_m": 1639,
+          "osm_peak_name": "마은이",
+          "official_name": "마은이",
+          "official_address": "제주특별자치도 서귀포시 남원읍 수망리 산203",
+          "altitude_m": "552",
+          "area_m2": "115182",
+          "shape": "말굽형(북향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "146",
+          "distance_m": 1725,
+          "osm_peak_name": "물영아리",
+          "official_name": "물영아리",
+          "official_address": "제주특별자치도 서귀포시 남원읍 수망리 산189",
+          "altitude_m": "508",
+          "area_m2": "717013",
+          "shape": "원형(화구호)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "275",
+          "distance_m": 1907,
+          "osm_peak_name": "여문영아리",
+          "official_name": "여문영아리",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산145",
+          "altitude_m": "514",
+          "area_m2": "600325",
+          "shape": "말굽형(북향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "126",
+          "distance_m": 2023,
+          "osm_peak_name": "마은이옆",
+          "official_name": "마은이옆",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산158",
+          "altitude_m": "548.5",
+          "area_m2": "119062",
+          "shape": "말굽형(북동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "347",
+          "distance_m": 2561,
+          "osm_peak_name": "쳇망오름",
+          "official_name": "쳇망오름",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산158-2",
+          "altitude_m": "444.6",
+          "area_m2": "140916",
+          "shape": "원형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "348",
+          "distance_m": 2561,
+          "osm_peak_name": "쳇망오름",
+          "official_name": "쳇망오름",
+          "official_address": "제주특별자치도 제주시 애월읍 광령리 산183-6",
+          "altitude_m": "1354.9",
+          "area_m2": "238510",
+          "shape": "말굽형(북서향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "190",
+          "distance_m": 2736,
+          "osm_peak_name": "붉은오름",
+          "official_name": "붉은오름",
+          "official_address": "제주특별자치도 서귀포시 성산읍 고성리 62-4",
+          "altitude_m": "33",
+          "area_m2": "5343",
+          "shape": "원추형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "191",
+          "distance_m": 2736,
+          "osm_peak_name": "붉은오름",
+          "official_name": "붉은오름",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산158",
+          "altitude_m": "569",
+          "area_m2": "585044",
+          "shape": "원형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "192",
+          "distance_m": 2736,
+          "osm_peak_name": "붉은오름",
+          "official_name": "붉은오름",
+          "official_address": "제주특별자치도 제주시 애월읍 광령리 산183-2",
+          "altitude_m": "1061",
+          "area_m2": "411978",
+          "shape": "말굽형(북서향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "153",
+          "distance_m": 2791,
+          "osm_peak_name": "민오름",
+          "official_name": "민오름",
+          "official_address": "제주특별자치도 서귀포시 남원읍 수망리 158",
+          "altitude_m": "446.8",
+          "area_m2": "371170",
+          "shape": "말굽형(동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "154",
+          "distance_m": 2791,
+          "osm_peak_name": "민오름",
+          "official_name": "민오름",
+          "official_address": "제주특별자치도 제주시 구좌읍 송당리 산156",
+          "altitude_m": "362",
+          "area_m2": "412245",
+          "shape": "말굽형(북동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "155",
+          "distance_m": 2791,
+          "osm_peak_name": "민오름",
+          "official_name": "민오름",
+          "official_address": "제주특별자치도 제주시 오라이동 산28",
+          "altitude_m": "251.7",
+          "area_m2": "474001",
+          "shape": "말굽형(북동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        }
+      ],
+      "nearby_named_places_5km": [],
+      "current_building_count_500m": 0,
+      "current_road_features_500m": 0,
+      "nearest_roads": [],
+      "noteworthy_mapped_features_1km": [
+        {
+          "osm_id": null,
+          "name": "더클래식컨트리클럽",
+          "distance_m": 289,
+          "center": {
+            "lat": 33.36762264827586,
+            "lon": 126.68405742586206
+          },
+          "tags": {
+            "leisure": "golf_course"
+          }
+        }
+      ],
+      "permit_context": {
+        "match_scope": "same named locality; not parcel-level",
+        "locality_token": "수망리",
+        "record_count": 0,
+        "by_year": {},
+        "top_actions": {},
+        "sample_records": [],
+        "negative_evidence_warning": "The 2026-08-19 national snapshot has no 2023/2024 Jeju permit rows; no match cannot be interpreted as no permit."
+      },
+      "initial_after_context_judgment": {
+        "effect": "context_only",
+        "confidence": "low",
+        "notes": "Current OSM context and locality-level permits cannot date or cause the RGB change."
+      },
+      "farmmap_evidence": [
+        {
+          "attributes": {
+            "change_reason": "개선",
+            "farm_address": "제주특별자치도 서귀포시 남원읍 수망리",
+            "farm_area_m2": 11858.5533787,
+            "farm_class": "밭",
+            "farm_source": "항공정사영상",
+            "flight_date": "2022-12-30",
+            "state_date_basis": "flight_date",
+            "state_date_used": "2022-12-30",
+            "t_after": "2025-05-13",
+            "t_before": "2024-05-16",
+            "target_kind": "change_candidate",
+            "update_date": "2023-12-08",
+            "update_type": "변경",
+            "warning": "dated official land-state evidence; the target is a point and this does not establish change cause"
+          },
+          "change_id": "oreum_v6_r08",
+          "day_gap": 503,
+          "distance_m": null,
+          "edge_id": "farmmap:ad8e122199d6e9ec8849",
+          "evidence_grade": "B",
+          "intersection_area_m2": null,
+          "no_match_interpretable": false,
+          "oreum_id": null,
+          "pnu": "5013025324202000000",
+          "relation": "official_pre_change_state_at_point",
+          "schema": "kearth-evidence-edge-v1",
+          "source_id": "mafra_farmmap_jeju",
+          "source_record_id": "501302532400007",
+          "spatial_method": "official_polygon_covers_offline_point",
+          "target_id": "oreum_v6_r08",
+          "temporal_method": "state_date_on_or_before_t_before"
+        }
+      ]
+    },
+    {
+      "candidate_id": "oreum_v6_r10",
+      "lat": 33.3844,
+      "lon": 126.6762,
+      "rgb_image": "candidates/oreum_v6_r10.png",
+      "containing_administrative_areas": [
+        {
+          "osm_id": null,
+          "name": "가시리",
+          "distance_m": 272,
+          "center": {
+            "lat": 33.370843557007575,
+            "lon": 126.75160780511364
+          },
+          "tags": {
+            "admin_level": "10",
+            "boundary": "administrative"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "표선면",
+          "distance_m": 272,
+          "center": {
+            "lat": 33.38953419616756,
+            "lon": 126.76758209269161
+          },
+          "tags": {
+            "admin_level": "8",
+            "boundary": "administrative"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "서귀포시",
+          "distance_m": 1883,
+          "center": {
+            "lat": 33.379315460332194,
+            "lon": 126.5715936420127
+          },
+          "tags": {
+            "admin_level": "6",
+            "boundary": "administrative"
+          }
+        }
+      ],
+      "containing_current_landcover": [],
+      "nearby_named_peaks_5km": [
+        {
+          "osm_id": null,
+          "name": "마은이옆",
+          "distance_m": 1238,
+          "center": {
+            "lat": 33.391909,
+            "lon": 126.6663492
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "가친오름",
+          "distance_m": 1353,
+          "center": {
+            "lat": 33.3918636,
+            "lon": 126.6646932
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "여문영아리",
+          "distance_m": 1672,
+          "center": {
+            "lat": 33.3826903,
+            "lon": 126.6940924
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "마은이",
+          "distance_m": 1717,
+          "center": {
+            "lat": 33.3796639,
+            "lon": 126.6586028
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "붉은오름",
+          "distance_m": 1739,
+          "center": {
+            "lat": 33.399732,
+            "lon": 126.6798823
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "쳇망오름",
+          "distance_m": 1758,
+          "center": {
+            "lat": 33.394679,
+            "lon": 126.690582
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "챗망오름",
+          "distance_m": 1918,
+          "center": {
+            "lat": 33.3955013,
+            "lon": 126.6920073
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "가문이오름",
+          "distance_m": 2215,
+          "center": {
+            "lat": 33.4016666,
+            "lon": 126.6881031
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "물영아리",
+          "distance_m": 2310,
+          "center": {
+            "lat": 33.3684065,
+            "lon": 126.6920759
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "물찻오름",
+          "distance_m": 2459,
+          "center": {
+            "lat": 33.3948485,
+            "lon": 126.6528629
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "말찻오름",
+          "distance_m": 2714,
+          "center": {
+            "lat": 33.4005161,
+            "lon": 126.6542524
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "구두리오름",
+          "distance_m": 3041,
+          "center": {
+            "lat": 33.4099502,
+            "lon": 126.6878956
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        }
+      ],
+      "official_oreum_name_matches_5km": [
+        {
+          "official_record_no": "126",
+          "distance_m": 1238,
+          "osm_peak_name": "마은이옆",
+          "official_name": "마은이옆",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산158",
+          "altitude_m": "548.5",
+          "area_m2": "119062",
+          "shape": "말굽형(북동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "275",
+          "distance_m": 1672,
+          "osm_peak_name": "여문영아리",
+          "official_name": "여문영아리",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산145",
+          "altitude_m": "514",
+          "area_m2": "600325",
+          "shape": "말굽형(북향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "125",
+          "distance_m": 1717,
+          "osm_peak_name": "마은이",
+          "official_name": "마은이",
+          "official_address": "제주특별자치도 서귀포시 남원읍 수망리 산203",
+          "altitude_m": "552",
+          "area_m2": "115182",
+          "shape": "말굽형(북향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "190",
+          "distance_m": 1739,
+          "osm_peak_name": "붉은오름",
+          "official_name": "붉은오름",
+          "official_address": "제주특별자치도 서귀포시 성산읍 고성리 62-4",
+          "altitude_m": "33",
+          "area_m2": "5343",
+          "shape": "원추형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "191",
+          "distance_m": 1739,
+          "osm_peak_name": "붉은오름",
+          "official_name": "붉은오름",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산158",
+          "altitude_m": "569",
+          "area_m2": "585044",
+          "shape": "원형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "192",
+          "distance_m": 1739,
+          "osm_peak_name": "붉은오름",
+          "official_name": "붉은오름",
+          "official_address": "제주특별자치도 제주시 애월읍 광령리 산183-2",
+          "altitude_m": "1061",
+          "area_m2": "411978",
+          "shape": "말굽형(북서향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "347",
+          "distance_m": 1758,
+          "osm_peak_name": "쳇망오름",
+          "official_name": "쳇망오름",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산158-2",
+          "altitude_m": "444.6",
+          "area_m2": "140916",
+          "shape": "원형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "348",
+          "distance_m": 1758,
+          "osm_peak_name": "쳇망오름",
+          "official_name": "쳇망오름",
+          "official_address": "제주특별자치도 제주시 애월읍 광령리 산183-6",
+          "altitude_m": "1354.9",
+          "area_m2": "238510",
+          "shape": "말굽형(북서향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "5",
+          "distance_m": 2215,
+          "osm_peak_name": "가문이오름",
+          "official_name": "가문이오름",
+          "official_address": "제주특별자치도 서귀포시 표선면 가시리 산158-2",
+          "altitude_m": "496.2",
+          "area_m2": "116176",
+          "shape": "말굽형(남서향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "146",
+          "distance_m": 2310,
+          "osm_peak_name": "물영아리",
+          "official_name": "물영아리",
+          "official_address": "제주특별자치도 서귀포시 남원읍 수망리 산189",
+          "altitude_m": "508",
+          "area_m2": "717013",
+          "shape": "원형(화구호)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "149",
+          "distance_m": 2459,
+          "osm_peak_name": "물찻오름",
+          "official_name": "물찻",
+          "official_address": "제주특별자치도 제주시 조천읍 교래리 산137-1",
+          "altitude_m": "717.2",
+          "area_m2": "744401",
+          "shape": "복합형(화구호)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "130",
+          "distance_m": 2714,
+          "osm_peak_name": "말찻오름",
+          "official_name": "말찻",
+          "official_address": "제주특별자치도 제주시 조천읍 교래리 산137-1",
+          "altitude_m": "653.3",
+          "area_m2": "403935",
+          "shape": "말굽형(동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        }
+      ],
+      "nearby_named_places_5km": [],
+      "current_building_count_500m": 0,
+      "current_road_features_500m": 0,
+      "nearest_roads": [],
+      "noteworthy_mapped_features_1km": [
+        {
+          "osm_id": null,
+          "name": "더클래식컨트리클럽",
+          "distance_m": 997,
+          "center": {
+            "lat": 33.36762264827586,
+            "lon": 126.68405742586206
+          },
+          "tags": {
+            "leisure": "golf_course"
+          }
+        }
+      ],
+      "permit_context": {
+        "match_scope": "same named locality; not parcel-level",
+        "locality_token": "가시리",
+        "record_count": 0,
+        "by_year": {},
+        "top_actions": {},
+        "sample_records": [],
+        "negative_evidence_warning": "The 2026-08-19 national snapshot has no 2023/2024 Jeju permit rows; no match cannot be interpreted as no permit."
+      },
+      "initial_after_context_judgment": {
+        "effect": "context_only",
+        "confidence": "low",
+        "notes": "Current OSM context and locality-level permits cannot date or cause the RGB change."
+      },
+      "farmmap_evidence": []
+    },
+    {
+      "candidate_id": "oreum_v6_r11",
+      "lat": 33.3153,
+      "lon": 126.6604,
+      "rgb_image": "candidates/oreum_v6_r11.png",
+      "containing_administrative_areas": [
+        {
+          "osm_id": null,
+          "name": "위미리",
+          "distance_m": 142,
+          "center": {
+            "lat": 33.304907301330374,
+            "lon": 126.66018077815964
+          },
+          "tags": {
+            "admin_level": "10",
+            "boundary": "administrative"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "남원읍",
+          "distance_m": 5417,
+          "center": {
+            "lat": 33.335046803818365,
+            "lon": 126.65049725356037
+          },
+          "tags": {
+            "admin_level": "8",
+            "boundary": "administrative"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "서귀포시",
+          "distance_m": 8401,
+          "center": {
+            "lat": 33.379315460332194,
+            "lon": 126.5715936420127
+          },
+          "tags": {
+            "admin_level": "6",
+            "boundary": "administrative"
+          }
+        }
+      ],
+      "containing_current_landcover": [],
+      "nearby_named_peaks_5km": [
+        {
+          "osm_id": null,
+          "name": "고이오름",
+          "distance_m": 416,
+          "center": {
+            "lat": 33.3190332,
+            "lon": 126.6605969
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "생길이오름",
+          "distance_m": 1978,
+          "center": {
+            "lat": 33.3056483,
+            "lon": 126.6425213
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "큰동산",
+          "distance_m": 2031,
+          "center": {
+            "lat": 33.30898,
+            "lon": 126.68091
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "자배봉",
+          "distance_m": 2210,
+          "center": {
+            "lat": 33.301008,
+            "lon": 126.6769333
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "넙거리",
+          "distance_m": 2356,
+          "center": {
+            "lat": 33.3357241,
+            "lon": 126.6536338
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "머체오름",
+          "distance_m": 2805,
+          "center": {
+            "lat": 33.3405187,
+            "lon": 126.6596897
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "사려니",
+          "distance_m": 3094,
+          "center": {
+            "lat": 33.3403985,
+            "lon": 126.646022
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "사려니남서쪽",
+          "distance_m": 3421,
+          "center": {
+            "lat": 33.3406167,
+            "lon": 126.6394806
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "너터리머루",
+          "distance_m": 3458,
+          "center": {
+            "lat": 33.30785,
+            "lon": 126.69653
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "거린족은오름",
+          "distance_m": 3809,
+          "center": {
+            "lat": 33.3495446,
+            "lon": 126.6613702
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "민오름",
+          "distance_m": 4186,
+          "center": {
+            "lat": 33.3503259,
+            "lon": 126.676908
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "거인악",
+          "distance_m": 4251,
+          "center": {
+            "lat": 33.3534751,
+            "lon": 126.6580272
+          },
+          "tags": {
+            "natural": "peak"
+          }
+        }
+      ],
+      "official_oreum_name_matches_5km": [
+        {
+          "official_record_no": "36",
+          "distance_m": 416,
+          "osm_peak_name": "고이오름",
+          "official_name": "고이악",
+          "official_address": "제주특별자치도 서귀포시 남원읍 한남리 산16",
+          "altitude_m": "302",
+          "area_m2": "90743",
+          "shape": "말굽형(북서향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "316",
+          "distance_m": 2210,
+          "osm_peak_name": "자배봉",
+          "official_name": "자배봉",
+          "official_address": "제주특별자치도 서귀포시 남원읍 위미리 산143",
+          "altitude_m": "211.3",
+          "area_m2": "440293",
+          "shape": "원형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "65",
+          "distance_m": 2356,
+          "osm_peak_name": "넙거리",
+          "official_name": "넙거리",
+          "official_address": "제주특별자치도 서귀포시 남원읍 한남리 산2-1",
+          "altitude_m": "436.6",
+          "area_m2": "269857",
+          "shape": "원형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "66",
+          "distance_m": 2356,
+          "osm_peak_name": "넙거리",
+          "official_name": "넙거리",
+          "official_address": "제주특별자치도 제주시 조천읍 교래리 산137-1",
+          "altitude_m": "810",
+          "area_m2": "488263",
+          "shape": "말굽형(서향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "134",
+          "distance_m": 2805,
+          "osm_peak_name": "머체오름",
+          "official_name": "머체오름",
+          "official_address": "제주특별자치도 서귀포시 남원읍 한남리 산2-1",
+          "altitude_m": "425.8",
+          "area_m2": "125020",
+          "shape": "원추형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "198",
+          "distance_m": 3094,
+          "osm_peak_name": "사려니",
+          "official_name": "사려니",
+          "official_address": "제주특별자치도 서귀포시 남원읍 한남리 산2-1",
+          "altitude_m": "523",
+          "area_m2": "260107",
+          "shape": "말굽형(북동)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "199",
+          "distance_m": 3421,
+          "osm_peak_name": "사려니남서쪽",
+          "official_name": "사려니 남서쪽",
+          "official_address": "제주특별자치도 서귀포시 남원읍 한남리 산2-1",
+          "altitude_m": "473",
+          "area_m2": "77637",
+          "shape": "원추형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "153",
+          "distance_m": 4186,
+          "osm_peak_name": "민오름",
+          "official_name": "민오름",
+          "official_address": "제주특별자치도 서귀포시 남원읍 수망리 158",
+          "altitude_m": "446.8",
+          "area_m2": "371170",
+          "shape": "말굽형(동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "154",
+          "distance_m": 4186,
+          "osm_peak_name": "민오름",
+          "official_name": "민오름",
+          "official_address": "제주특별자치도 제주시 구좌읍 송당리 산156",
+          "altitude_m": "362",
+          "area_m2": "412245",
+          "shape": "말굽형(북동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "155",
+          "distance_m": 4186,
+          "osm_peak_name": "민오름",
+          "official_name": "민오름",
+          "official_address": "제주특별자치도 제주시 오라이동 산28",
+          "altitude_m": "251.7",
+          "area_m2": "474001",
+          "shape": "말굽형(북동향)",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "156",
+          "distance_m": 4186,
+          "osm_peak_name": "민오름",
+          "official_name": "민오름",
+          "official_address": "제주특별자치도 제주시 조천읍 선흘리 산141",
+          "altitude_m": "518.3",
+          "area_m2": "400724",
+          "shape": "복합형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        },
+        {
+          "official_record_no": "157",
+          "distance_m": 4186,
+          "osm_peak_name": "민오름",
+          "official_name": "민오름(무녜오름)",
+          "official_address": "제주특별자치도 제주시 봉개동 산64",
+          "altitude_m": "651",
+          "area_m2": "518910",
+          "shape": "복합형",
+          "identity_evidence": "OSM peak name matched to 제주특별자치도 official inventory"
+        }
+      ],
+      "nearby_named_places_5km": [
+        {
+          "osm_id": null,
+          "name": "한남리",
+          "distance_m": 2625,
+          "center": {
+            "lat": 33.31344,
+            "lon": 126.68856
+          },
+          "tags": {
+            "place": "village"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "남원읍",
+          "distance_m": 2945,
+          "center": {
+            "lat": 33.3076683,
+            "lon": 126.6907475
+          },
+          "tags": {
+            "place": "town"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "위미리",
+          "distance_m": 3430,
+          "center": {
+            "lat": 33.28495,
+            "lon": 126.65378
+          },
+          "tags": {
+            "place": "village"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "제주도",
+          "distance_m": 4576,
+          "center": {
+            "lat": 33.39484820846598,
+            "lon": 126.5526749774383
+          },
+          "tags": {
+            "place": "island"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "신례리",
+          "distance_m": 4614,
+          "center": {
+            "lat": 33.33966,
+            "lon": 126.6202
+          },
+          "tags": {
+            "place": "village"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "위미항",
+          "distance_m": 4745,
+          "center": {
+            "lat": 33.2726234,
+            "lon": 126.6603361
+          },
+          "tags": {
+            "place": "locality"
+          }
+        }
+      ],
+      "current_building_count_500m": 2,
+      "current_road_features_500m": 6,
+      "nearest_roads": [
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 143,
+          "center": {
+            "lat": 33.319755853658535,
+            "lon": 126.6573588097561
+          },
+          "tags": {
+            "highway": "residential"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 143,
+          "center": {
+            "lat": 33.314917566666665,
+            "lon": 126.66338299333333
+          },
+          "tags": {
+            "highway": "track"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "자배오름로",
+          "distance_m": 162,
+          "center": {
+            "lat": 33.30736100487805,
+            "lon": 126.65945887804878
+          },
+          "tags": {
+            "highway": "unclassified"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "자배오름로",
+          "distance_m": 325,
+          "center": {
+            "lat": 33.30322276875,
+            "lon": 126.667652378125
+          },
+          "tags": {
+            "highway": "unclassified"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 416,
+          "center": {
+            "lat": 33.321170527397264,
+            "lon": 126.66486726575343
+          },
+          "tags": {
+            "highway": "path"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": "자배오름로",
+          "distance_m": 449,
+          "center": {
+            "lat": 33.311179107142856,
+            "lon": 126.65936900714287
+          },
+          "tags": {
+            "highway": "unclassified"
+          }
+        }
+      ],
+      "noteworthy_mapped_features_1km": [
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 419,
+          "center": {
+            "lat": 33.316361557142855,
+            "lon": 126.65549955714286
+          },
+          "tags": {
+            "power": "plant",
+            "plant:source": "solar"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 434,
+          "center": {
+            "lat": 33.3144168,
+            "lon": 126.65514251428571
+          },
+          "tags": {
+            "power": "plant",
+            "plant:source": "solar"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 534,
+          "center": {
+            "lat": 33.31867139,
+            "lon": 126.65480910000001
+          },
+          "tags": {
+            "power": "plant",
+            "plant:source": "solar"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 748,
+          "center": {
+            "lat": 33.31603172727273,
+            "lon": 126.65049385454545
+          },
+          "tags": {
+            "power": "plant",
+            "plant:source": "solar"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 775,
+          "center": {
+            "lat": 33.30719513571429,
+            "lon": 126.65750349285715
+          },
+          "tags": {
+            "power": "plant",
+            "plant:source": "solar"
+          }
+        },
+        {
+          "osm_id": null,
+          "name": null,
+          "distance_m": 951,
+          "center": {
+            "lat": 33.3151925,
+            "lon": 126.64973106
+          },
+          "tags": {
+            "power": "plant",
+            "plant:source": "solar"
+          }
+        }
+      ],
+      "permit_context": {
+        "match_scope": "same named locality; not parcel-level",
+        "locality_token": "위미리",
+        "record_count": 0,
+        "by_year": {},
+        "top_actions": {},
+        "sample_records": [],
+        "negative_evidence_warning": "The 2026-08-19 national snapshot has no 2023/2024 Jeju permit rows; no match cannot be interpreted as no permit."
+      },
+      "initial_after_context_judgment": {
+        "effect": "context_only",
+        "confidence": "low",
+        "notes": "Current OSM context and locality-level permits cannot date or cause the RGB change."
+      },
+      "farmmap_evidence": []
+    }
+  ],
+  "limitations": [
+    "OSM is a current community map, not a historical ground-truth layer.",
+    "An official oreum name match locates an OSM peak point, not an official oreum boundary.",
+    "Permit context is locality-level and must not be described as a candidate parcel match.",
+    "The permit snapshot has no 2023/2024 Jeju records, so absence is not negative evidence.",
+    "FarmMap covers agricultural polygons only; a point miss is unknown, not negative evidence."
+  ]
+}

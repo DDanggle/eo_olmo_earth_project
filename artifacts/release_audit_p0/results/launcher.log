@@ -1,0 +1,292 @@
+{
+  "checkpoint_manifest_sha256": "f325e3f6d306fc26be98ec765eff23ad4b3bffa729ad4f7d0abfd7c9bf0f7ce7",
+  "dataset_root": "release_audit_p0/smoke_dataset",
+  "exact_inputs_sha256": "bc149353a2fe0f1e9e0dd3b48a1445bba4c08ec4d08461c8ce9246f156039218",
+  "execute_requested": true,
+  "gpu_processes": [],
+  "ready": true,
+  "records": 8,
+  "release_runs": 2,
+  "schema": "olmoearth-release-smoke-preflight-v1",
+  "selected_gpu": "0"
+}
+{
+  "claims_allowed": [
+    "paired_release_representation_audit"
+  ],
+  "claims_forbidden": [
+    "accuracy_improvement",
+    "negative_transfer_reduction"
+  ],
+  "input_pairing": {
+    "exact_inputs_sha256": "bc149353a2fe0f1e9e0dd3b48a1445bba4c08ec4d08461c8ce9246f156039218",
+    "records": 8,
+    "same_manifest_for_both_releases": true,
+    "samples": [
+      {
+        "input_bundle_identity": "80f1903f4c76aa020d9036d33803dbafae6ca5e71f297204f66f2542c9de648f",
+        "sample_id": "legacy_mosaic_12_period__2023__22528_-368640",
+        "spatial_cluster_id": "jeju-window-22528_-368640",
+        "window_name": "jeju23_22528_-368640"
+      },
+      {
+        "input_bundle_identity": "d4751bb24a125f7ec396ec204f573988e6008686d36e071122347c3d81dec41e",
+        "sample_id": "legacy_mosaic_12_period__2023__25600_-369664",
+        "spatial_cluster_id": "jeju-window-25600_-369664",
+        "window_name": "jeju23_25600_-369664"
+      },
+      {
+        "input_bundle_identity": "972f72e5baaaa02971a58cabb0248a0bb8599335666cc4fca3e28b7ddbda10ea",
+        "sample_id": "legacy_mosaic_12_period__2023__26624_-369664",
+        "spatial_cluster_id": "jeju-window-26624_-369664",
+        "window_name": "jeju23_26624_-369664"
+      },
+      {
+        "input_bundle_identity": "50a3f9901bc2d8d6fed3b451cfc5f2bc97a33a847aacd02a57f9d25ce2c1698f",
+        "sample_id": "legacy_mosaic_12_period__2023__28672_-372736",
+        "spatial_cluster_id": "jeju-window-28672_-372736",
+        "window_name": "jeju23_28672_-372736"
+      },
+      {
+        "input_bundle_identity": "088b4df8b6d6d020cf1883f6991b5a05514a2f2c1d56385cc456a871f13a1744",
+        "sample_id": "legacy_mosaic_12_period__2026__22528_-371712",
+        "spatial_cluster_id": "jeju-window-22528_-371712",
+        "window_name": "jeju26r_22528_-371712"
+      },
+      {
+        "input_bundle_identity": "a9c0e15f1a458dbd8f2648ecb4f5aa9f20a86ac12f7bc211ba0b71b5351c606d",
+        "sample_id": "legacy_mosaic_12_period__2026__22528_-372736",
+        "spatial_cluster_id": "jeju-window-22528_-372736",
+        "window_name": "jeju26r_22528_-372736"
+      },
+      {
+        "input_bundle_identity": "102d4efd5bd30c9ad8937ac541de8ce6bca0058d694c506911d8034ecf16ca82",
+        "sample_id": "legacy_mosaic_12_period__2026__26624_-369664",
+        "spatial_cluster_id": "jeju-window-26624_-369664",
+        "window_name": "jeju26r_26624_-369664"
+      },
+      {
+        "input_bundle_identity": "9ca7fb9046d255275c7a9b447bc315f15c24b9fcc8347de9c8ebb4638965818d",
+        "sample_id": "legacy_mosaic_12_period__2026__29696_-367616",
+        "spatial_cluster_id": "jeju-window-29696_-367616",
+        "window_name": "jeju26r_29696_-367616"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "checkpoint_files": [
+        {
+          "bytes": 13379,
+          "name": "config.json",
+          "sha256": "bd7759b9185f3d51607ca8d554c9be6ca87d932bc46fbc0f75524b0c3d5512bf"
+        },
+        {
+          "bytes": 830040971,
+          "name": "weights.pth",
+          "sha256": "551c1cc53337c6faaddead88071d7ebd2bd53ec271600fa6f0ee0a518c8b6e11"
+        }
+      ],
+      "config_path": "config/olmo_release_v1_legacy.yaml",
+      "config_sha256": "03a383c752d904e2c8ca845737aa238072e4c6bb3b234b1e9dcf70995eb9af3f",
+      "log_path": "release_audit_p0/results/olmoearth_v1_base.log",
+      "log_sha256": "b64a44bdbd83d4b7ed1e0db84bca06c2d163d5a6f2f248309974a70902243596",
+      "outputs": [
+        {
+          "bytes": 244294379,
+          "input_bundle_identity": "80f1903f4c76aa020d9036d33803dbafae6ca5e71f297204f66f2542c9de648f",
+          "mtime_ns": 1787418488318250000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju23_22528_-368640/layers/embeddings_audit_v1_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2023__22528_-368640",
+          "sha256": "66f0d72866d02deb5cea1dc55c5f399c921394bac40280e680cdfbb0901e84bb",
+          "spatial_cluster_id": "jeju-window-22528_-368640",
+          "window": "jeju23_22528_-368640"
+        },
+        {
+          "bytes": 244565065,
+          "input_bundle_identity": "d4751bb24a125f7ec396ec204f573988e6008686d36e071122347c3d81dec41e",
+          "mtime_ns": 1787418368361462000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju23_25600_-369664/layers/embeddings_audit_v1_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2023__25600_-369664",
+          "sha256": "5cb3ce355d8046841ed5d65cb877e23353c1a73bc97b5940b41874ea2fa450a3",
+          "spatial_cluster_id": "jeju-window-25600_-369664",
+          "window": "jeju23_25600_-369664"
+        },
+        {
+          "bytes": 244442973,
+          "input_bundle_identity": "972f72e5baaaa02971a58cabb0248a0bb8599335666cc4fca3e28b7ddbda10ea",
+          "mtime_ns": 1787418408358438000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju23_26624_-369664/layers/embeddings_audit_v1_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2023__26624_-369664",
+          "sha256": "9598e05902d17ff4951df4b253f3c4948b98ee8e76b8de590a91c006917100e3",
+          "spatial_cluster_id": "jeju-window-26624_-369664",
+          "window": "jeju23_26624_-369664"
+        },
+        {
+          "bytes": 244824942,
+          "input_bundle_identity": "50a3f9901bc2d8d6fed3b451cfc5f2bc97a33a847aacd02a57f9d25ce2c1698f",
+          "mtime_ns": 1787418444359332000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju23_28672_-372736/layers/embeddings_audit_v1_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2023__28672_-372736",
+          "sha256": "53d3f759cdae8062e1525a77c0531d62d0c4f1bcc256b4caa024a5e520119e9a",
+          "spatial_cluster_id": "jeju-window-28672_-372736",
+          "window": "jeju23_28672_-372736"
+        },
+        {
+          "bytes": 244771762,
+          "input_bundle_identity": "088b4df8b6d6d020cf1883f6991b5a05514a2f2c1d56385cc456a871f13a1744",
+          "mtime_ns": 1787418484439279000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju26r_22528_-371712/layers/embeddings_audit_v1_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2026__22528_-371712",
+          "sha256": "90063691b5f675a391243644452175385dd2c72ff633d62d43d4f1770005fe95",
+          "spatial_cluster_id": "jeju-window-22528_-371712",
+          "window": "jeju26r_22528_-371712"
+        },
+        {
+          "bytes": 244719531,
+          "input_bundle_identity": "a9c0e15f1a458dbd8f2648ecb4f5aa9f20a86ac12f7bc211ba0b71b5351c606d",
+          "mtime_ns": 1787418364203564000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju26r_22528_-372736/layers/embeddings_audit_v1_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2026__22528_-372736",
+          "sha256": "b331e11526708b4f55b9984d07d907c294b0f3b2264cd03a7947ef2ae4226cfc",
+          "spatial_cluster_id": "jeju-window-22528_-372736",
+          "window": "jeju26r_22528_-372736"
+        },
+        {
+          "bytes": 244426449,
+          "input_bundle_identity": "102d4efd5bd30c9ad8937ac541de8ce6bca0058d694c506911d8034ecf16ca82",
+          "mtime_ns": 1787418448303351000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju26r_26624_-369664/layers/embeddings_audit_v1_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2026__26624_-369664",
+          "sha256": "29643de2aa8f9a10540ea4c02e38a5c6b8478e4546753dde1083c7ee71628d5c",
+          "spatial_cluster_id": "jeju-window-26624_-369664",
+          "window": "jeju26r_26624_-369664"
+        },
+        {
+          "bytes": 244326009,
+          "input_bundle_identity": "9ca7fb9046d255275c7a9b447bc315f15c24b9fcc8347de9c8ebb4638965818d",
+          "mtime_ns": 1787418404661491000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju26r_29696_-367616/layers/embeddings_audit_v1_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2026__29696_-367616",
+          "sha256": "772536874a3d2e5f6d314242263c7bab07ddd20415b035c600eafe06d782cf24",
+          "spatial_cluster_id": "jeju-window-29696_-367616",
+          "window": "jeju26r_29696_-367616"
+        }
+      ],
+      "release_id": "olmoearth_v1_base",
+      "repo_id": "allenai/OlmoEarth-v1-Base",
+      "revision": "93589e2dee5b5c95a660d1e9365bc017ea7f35d6",
+      "started_at": "2026-08-22T17:05:47.813395+00:00",
+      "timestamp_track": "legacy_timestamps",
+      "wall_seconds": 202.633
+    },
+    {
+      "checkpoint_files": [
+        {
+          "bytes": 19973,
+          "name": "config.json",
+          "sha256": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a"
+        },
+        {
+          "bytes": 1030354339,
+          "name": "weights.pth",
+          "sha256": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+        }
+      ],
+      "config_path": "config/olmo_release_v1_2_legacy.yaml",
+      "config_sha256": "7cfd5d03ab8ac9d271584c5df744081a15aec2f000be6e4cd7dd945b63303ad2",
+      "log_path": "release_audit_p0/results/olmoearth_v1_2_base.log",
+      "log_sha256": "d86ab042d8c35a940919d15dbd9693845aa9a82671a0f0893b1a4f6aabee6311",
+      "outputs": [
+        {
+          "bytes": 244183727,
+          "input_bundle_identity": "80f1903f4c76aa020d9036d33803dbafae6ca5e71f297204f66f2542c9de648f",
+          "mtime_ns": 1787418684915278000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju23_22528_-368640/layers/embeddings_audit_v1_2_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2023__22528_-368640",
+          "sha256": "c25b7dbaf7bfdd18ab7abb44b597603dd89486e72c4cfc8e0e83c3f048acaada",
+          "spatial_cluster_id": "jeju-window-22528_-368640",
+          "window": "jeju23_22528_-368640"
+        },
+        {
+          "bytes": 244149598,
+          "input_bundle_identity": "d4751bb24a125f7ec396ec204f573988e6008686d36e071122347c3d81dec41e",
+          "mtime_ns": 1787418567447570000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju23_25600_-369664/layers/embeddings_audit_v1_2_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2023__25600_-369664",
+          "sha256": "6f2ee62c821afdb3ab1e03bb6f6ddb29c62a115a56038881d068d62cc5d408c2",
+          "spatial_cluster_id": "jeju-window-25600_-369664",
+          "window": "jeju23_25600_-369664"
+        },
+        {
+          "bytes": 244126850,
+          "input_bundle_identity": "972f72e5baaaa02971a58cabb0248a0bb8599335666cc4fca3e28b7ddbda10ea",
+          "mtime_ns": 1787418606580434000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju23_26624_-369664/layers/embeddings_audit_v1_2_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2023__26624_-369664",
+          "sha256": "d9fd3a4d77204b051c03a72b3129ff19e1133da4e5c98a9ba4d7ec2a0256de0c",
+          "spatial_cluster_id": "jeju-window-26624_-369664",
+          "window": "jeju23_26624_-369664"
+        },
+        {
+          "bytes": 243920251,
+          "input_bundle_identity": "50a3f9901bc2d8d6fed3b451cfc5f2bc97a33a847aacd02a57f9d25ce2c1698f",
+          "mtime_ns": 1787418642121323000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju23_28672_-372736/layers/embeddings_audit_v1_2_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2023__28672_-372736",
+          "sha256": "f9bbaa6ebf3fac08c94a3ce0aa6a2c548f37495845af2c8e48caa7ba639be084",
+          "spatial_cluster_id": "jeju-window-28672_-372736",
+          "window": "jeju23_28672_-372736"
+        },
+        {
+          "bytes": 244141994,
+          "input_bundle_identity": "088b4df8b6d6d020cf1883f6991b5a05514a2f2c1d56385cc456a871f13a1744",
+          "mtime_ns": 1787418681099266000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju26r_22528_-371712/layers/embeddings_audit_v1_2_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2026__22528_-371712",
+          "sha256": "6b8bb95ed36feaa55c4727f34e07fe736a6e965ee549be57be9a9891c0a01ea0",
+          "spatial_cluster_id": "jeju-window-22528_-371712",
+          "window": "jeju26r_22528_-371712"
+        },
+        {
+          "bytes": 244017742,
+          "input_bundle_identity": "a9c0e15f1a458dbd8f2648ecb4f5aa9f20a86ac12f7bc211ba0b71b5351c606d",
+          "mtime_ns": 1787418563325706000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju26r_22528_-372736/layers/embeddings_audit_v1_2_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2026__22528_-372736",
+          "sha256": "85468b42d081b0fbb136c65d0612e860a9238624f60abc74899112d31143fd26",
+          "spatial_cluster_id": "jeju-window-22528_-372736",
+          "window": "jeju26r_22528_-372736"
+        },
+        {
+          "bytes": 244275329,
+          "input_bundle_identity": "102d4efd5bd30c9ad8937ac541de8ce6bca0058d694c506911d8034ecf16ca82",
+          "mtime_ns": 1787418646010421000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju26r_26624_-369664/layers/embeddings_audit_v1_2_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2026__26624_-369664",
+          "sha256": "52dfb5ed8246e507f19bcb58db53e3726c50da718be5d4e023648e7e20c08be4",
+          "spatial_cluster_id": "jeju-window-26624_-369664",
+          "window": "jeju26r_26624_-369664"
+        },
+        {
+          "bytes": 244189545,
+          "input_bundle_identity": "9ca7fb9046d255275c7a9b447bc315f15c24b9fcc8347de9c8ebb4638965818d",
+          "mtime_ns": 1787418602900542000,
+          "path": "release_audit_p0/smoke_dataset/windows/default/jeju26r_29696_-367616/layers/embeddings_audit_v1_2_legacy/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+          "sample_id": "legacy_mosaic_12_period__2026__29696_-367616",
+          "sha256": "700763e79e81ead934ce673f80c8caf64e8d2f065bb2fca4dae9b1f35a290dba",
+          "spatial_cluster_id": "jeju-window-29696_-367616",
+          "window": "jeju26r_29696_-367616"
+        }
+      ],
+      "release_id": "olmoearth_v1_2_base",
+      "repo_id": "allenai/OlmoEarth-v1_2-Base",
+      "revision": "581aa9baaa7aed4348c0903617eb92ee9f89e2ec",
+      "started_at": "2026-08-22T17:09:10.446840+00:00",
+      "timestamp_track": "legacy_timestamps",
+      "wall_seconds": 196.83
+    }
+  ],
+  "schema": "olmoearth-release-smoke-result-v1",
+  "status": "complete"
+}

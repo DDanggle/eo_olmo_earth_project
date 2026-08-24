@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# 제주 임베딩 데이터셋 v2 — 구름에 강한 합성 방식으로 재수집.
+# 제주 임베딩 데이터셋 v5 — 실패 재현용. 구름 개선 경로로 사용하지 말 것.
 #
-# v1의 결함(2026-08-21 실측): rslearn 임베딩 가이드의 기본 설정은
-#   space_mode: MOSAIC       → 한 달에 장면 1개만 사용
-# 이라서, 그 달의 최선 장면이 흐리면 그대로 오염된다. 제주는 거의 모든 픽셀이
-# 매년 12장 중 최소 1장이 절반 이상 구름에 덮여(최악-모자이크 평균 0.53~0.84)
-# 사후 마스킹으로는 1.2%만 남는다 → 원리적으로 사후 처리가 불가능.
-#
-# v2: Ai2가 실전 모델(lfmc)에서 쓰는 방식으로 교체
-#   space_mode: PER_PERIOD_MOSAIC  → 한 기간의 여러 장면을 겹쳐 합성해 구름 구멍을 메움
-#
-# v1 데이터셋은 지우지 않는다 → "합성 방식이 임베딩을 얼마나 바꾸는가" 통제 실험용.
+# 2026-08-22 전수 감사 결과, rslearn 0.1.13에서 MOSAIC+period_duration과
+# PER_PERIOD_MOSAIC+period_duration은 같은 handler를 사용한다. v1/v5의 2,592 source group,
+# B02 품질 지표, 고정 원본/임베딩 표본이 모두 동일했다. 이 스크립트는 실패 계보 재현용이며,
+# 실제 구름 개선은 SCL/cloud mask를 pixel validity에 연결한 별도 합성기가 필요하다.
 set -euo pipefail
+
+if [ "${ALLOW_HISTORICAL_INVALID_JEJU_TIME_WINDOWS:-0}" != "1" ]; then
+  echo "REFUSED: jeju25 and rolling-jeju26 overlap by 184 days; this setup is historical-failure reproduction only." >&2
+  echo "Set ALLOW_HISTORICAL_INVALID_JEJU_TIME_WINDOWS=1 only for an explicit replay." >&2
+  exit 2
+fi
 
 E=/home/work/data/olmoearth/embed_jeju_v2
 export PATH=/home/work/data/olmoearth/.venv-master/bin:$PATH
@@ -43,6 +43,10 @@ cat > "$DATASET_PATH/config.json" <<'JSON'
     "embeddings": {
       "band_sets": [{"dtype": "float32", "num_bands": 768}],
       "type": "raster"
+    },
+    "embeddings_t12": {
+      "band_sets": [{"dtype": "float32", "num_bands": 768}],
+      "type": "raster"
     }
   }
 }
@@ -64,7 +68,7 @@ echo "=== prepare ==="
 rslearn dataset prepare --root "$DATASET_PATH" --workers 16 \
   --enabled-layers sentinel2_l2a --retry-max-attempts 5 --retry-backoff-seconds 5
 
-echo "=== materialize (PER_PERIOD_MOSAIC — 장면 수가 많아 오래 걸림) ==="
+echo "=== materialize (historical v5 alias experiment; not cloud-aware) ==="
 rslearn dataset materialize --root "$DATASET_PATH" --workers 16 --no-use-initial-job \
   --enabled-layers sentinel2_l2a --retry-max-attempts 5 --retry-backoff-seconds 5
 

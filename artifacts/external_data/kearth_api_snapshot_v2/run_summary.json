@@ -1,0 +1,80 @@
+{
+  "building_event_rows": 8794,
+  "candidate_exact_parcel_with_building_event": 1,
+  "candidate_official_corroboration_b": 0,
+  "candidate_records": 14,
+  "candidate_time_aligned_exact_parcel": 0,
+  "cross_source_pnu_population": 288,
+  "cross_source_pnu_with_building_event": 14,
+  "eia_feature_rows": 13,
+  "gk2a_current_grid_values": 127040,
+  "landcover_tile_rows": 42,
+  "limits": [
+    "VWorld point parcels are representative parcels, not official oreum boundaries.",
+    "Several oreum points can share one large forest parcel and are not independent parcel observations.",
+    "An exact PNU match is not time-aligned causal evidence unless an event date falls inside the EO observation interval.",
+    "VWorld NOT_FOUND is missing point coverage, not evidence that no development occurred.",
+    "Historical GK2A dates remain unavailable from the recent-two-day endpoint."
+  ],
+  "oreum_parcel_with_building_event": 5,
+  "outcomes": {
+    "http_success": 463
+  },
+  "parcel_anchor_features": 256,
+  "provenance": {
+    "base_snapshot": "artifacts/external_data/kearth_api_snapshot_v1",
+    "merge_network_requests": 0,
+    "vworld_snapshot": "artifacts/external_data/kearth_vworld_snapshot_v1"
+  },
+  "request_count": 463,
+  "retrieved_at": "2026-08-22T12:57:46.923462+00:00",
+  "schema": "kearth-api-snapshot-summary-v2",
+  "scope": {
+    "official_oreum_denominator": 368,
+    "olmoearth_candidates_available": 14,
+    "resolved_oreum_points_available": 243,
+    "vworld_target_points_requested": 257
+  },
+  "semantic_statuses": {
+    "api_error": 6,
+    "api_no_features": 1,
+    "api_success": 456
+  },
+  "source_outcomes": {
+    "building_hub_basis": {
+      "http_success": 111
+    },
+    "building_hub_demolition": {
+      "http_success": 45
+    },
+    "eia_business_area": {
+      "http_success": 1
+    },
+    "gk2a_cloud": {
+      "http_success": 6
+    },
+    "gk2a_cloud_current": {
+      "http_success": 1
+    },
+    "mcee_landcover": {
+      "http_success": 42
+    },
+    "vworld_cadastral": {
+      "http_success": 257
+    }
+  },
+  "vworld": {
+    "candidate_parcel_anchors": 14,
+    "multi_point_parcels": 14,
+    "not_found_targets": [
+      "JJ-OREUM-190"
+    ],
+    "oreum_parcel_anchors": 242,
+    "parcel_anchor_features": 256,
+    "semantic_statuses": {
+      "api_no_features": 1,
+      "api_success": 256
+    },
+    "unique_pnu": 235
+  }
+}

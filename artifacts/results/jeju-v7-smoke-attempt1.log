@@ -1,0 +1,22 @@
+format=2026-08-22 10:49:30,398 loglevel=INFO   logger=rslearn.main main() L1112 Using multiprocessing context: <multiprocessing.context.ForkServerContext object at 0x10e8431ef250>
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/.venv-master/bin/rslearn", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/main.py", line 1125, in main
+    handler()
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/main.py", line 623, in dataset_prepare
+    for summary in apply_on_windows_args(fn, args):
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/main.py", line 506, in apply_on_windows_args
+    dataset = Dataset(UPath(args.root), **dataset_kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/dataset.py", line 72, in __init__
+    dataset_config = DatasetConfig.model_validate(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/pydantic/main.py", line 732, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for DatasetConfig
+layers.sentinel2_l2a.resampling_method
+  Input should be 'nearest', 'bilinear', 'cubic' or 'cubic_spline' [type=enum, input_value='BILINEAR', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum

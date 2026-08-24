@@ -1,0 +1,174 @@
+{
+  "schema": "majortom-contract-audit-v1",
+  "question_1_paired": {
+    "verdict": "PAIRED",
+    "working_join_key": "grid_cell+product_id",
+    "all_join_attempts": {
+      "unique_id": {
+        "key": [
+          "unique_id"
+        ],
+        "rows_a": 248719,
+        "rows_b": 248719,
+        "unique_a": 248719,
+        "unique_b": 248719,
+        "duplicates_a": 0,
+        "duplicates_b": 0,
+        "intersection": 0,
+        "only_a": 248719,
+        "only_b": 248719,
+        "is_one_to_one": false
+      },
+      "grid_cell+product_id": {
+        "key": [
+          "grid_cell",
+          "product_id"
+        ],
+        "rows_a": 248719,
+        "rows_b": 248719,
+        "unique_a": 248719,
+        "unique_b": 248719,
+        "duplicates_a": 0,
+        "duplicates_b": 0,
+        "intersection": 248719,
+        "only_a": 0,
+        "only_b": 0,
+        "is_one_to_one": true
+      },
+      "grid_cell": {
+        "key": [
+          "grid_cell"
+        ],
+        "rows_a": 248719,
+        "rows_b": 248719,
+        "unique_a": 248719,
+        "unique_b": 248719,
+        "duplicates_a": 0,
+        "duplicates_b": 0,
+        "intersection": 248719,
+        "only_a": 0,
+        "only_b": 0,
+        "is_one_to_one": true
+      }
+    },
+    "unique_id_is_a_trap": true,
+    "note": "NOT_PAIRED이면 cross-model paired 실험대 전제가 죽는다. unique_id_is_a_trap=true는 두 데이터셋이 같은 이름·같은 스키마의 unique_id 컬럼을 갖고 행수도 같지만 교집합이 0이라는 뜻이다. 즉 unique_id는 공유 chip 식별자가 아니라 데이터셋별 content hash이며, 이를 조인 키로 쓰면 조용히 빈 결과가 나온다."
+  },
+  "question_2_contract_fields": {
+    "shared_columns": [
+      "centre_lat",
+      "centre_lon",
+      "embedding",
+      "geometry",
+      "grid_cell",
+      "grid_col_r",
+      "grid_row_u",
+      "parquet_row",
+      "parquet_url",
+      "pixel_bbox",
+      "product_id",
+      "timestamp",
+      "unique_id",
+      "utm_crs",
+      "utm_footprint"
+    ],
+    "contract_fields": {
+      "model_weights_hash": {
+        "present_in_schema": false,
+        "our_failure_evidence": "v1->v1.2 cross-release R@1 0.0000"
+      },
+      "acquisition_dates": {
+        "present_in_schema": false,
+        "our_failure_evidence": "jeju25<->jeju26r 184-day overlap"
+      },
+      "temporal_recipe": {
+        "present_in_schema": false,
+        "our_failure_evidence": "four-period season-confounded path"
+      },
+      "band_order": {
+        "present_in_schema": false,
+        "our_failure_evidence": "12-band vs 10-band contract"
+      },
+      "normalization": {
+        "present_in_schema": false,
+        "our_failure_evidence": "OlmoEarth normalizer vs Clay mean/std"
+      },
+      "pooling": {
+        "present_in_schema": false,
+        "our_failure_evidence": "unmasked-token mean vs CLS"
+      },
+      "input_content_hash": {
+        "present_in_schema": false,
+        "our_failure_evidence": "reproducibility check"
+      },
+      "output_content_hash": {
+        "present_in_schema": false,
+        "our_failure_evidence": "reproducibility check"
+      }
+    },
+    "note": "present_in_schema=false는 그 계약이 데이터셋 카드 산문에만 있다는 뜻이다. embeddings-stac-specification v0.0.1 gap 분석의 증거로 사용한다."
+  },
+  "datasets": {
+    "olmoearth_base": {
+      "label": "olmoearth_base",
+      "parquet_files": [
+        "OlmoEarth_Base_crop_384x384.parquet"
+      ],
+      "file_sha256": {
+        "OlmoEarth_Base_crop_384x384.parquet": "bad19b7e47ac4956d1d69f2e6b52d7b65b079f60e50f85eccd42591dd4646ce3"
+      },
+      "rows": 248719,
+      "embedding_dim": 768,
+      "columns": [
+        "unique_id",
+        "embedding",
+        "timestamp",
+        "product_id",
+        "grid_cell",
+        "grid_row_u",
+        "grid_col_r",
+        "geometry",
+        "centre_lat",
+        "centre_lon",
+        "utm_footprint",
+        "utm_crs",
+        "pixel_bbox",
+        "parquet_url",
+        "parquet_row"
+      ]
+    },
+    "clay_v1_5": {
+      "label": "clay_v1_5",
+      "parquet_files": [
+        "Clay_crop_384x384.parquet"
+      ],
+      "file_sha256": {
+        "Clay_crop_384x384.parquet": "4c766b101e9ef1a23498cb59d6c0b7b9f2535f12579352ea8e49e232407f997f"
+      },
+      "rows": 248719,
+      "embedding_dim": 1024,
+      "columns": [
+        "unique_id",
+        "embedding",
+        "timestamp",
+        "product_id",
+        "grid_cell",
+        "grid_row_u",
+        "grid_col_r",
+        "geometry",
+        "centre_lat",
+        "centre_lon",
+        "utm_footprint",
+        "utm_crs",
+        "pixel_bbox",
+        "parquet_row",
+        "parquet_url"
+      ]
+    }
+  },
+  "forbidden_claims": [
+    "이 표로 모델 우열을 비교하지 않는다 (밴드 12 vs 10, pooling mean vs CLS, 정규화가 다름).",
+    "이것은 cross-family이지 release pair가 아니므로 S1->S0 호환성에 답하지 않는다.",
+    "chip당 벡터 하나뿐이므로 token/공간 수준 분석에 사용하지 않는다."
+  ]
+}

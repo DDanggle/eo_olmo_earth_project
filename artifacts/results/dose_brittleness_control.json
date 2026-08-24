@@ -1,0 +1,584 @@
+{
+  "schema": "dose-brittleness-control-v1",
+  "base_layer": "embeddings_dose_0",
+  "noise_levels": [
+    0.0,
+    0.001,
+    0.003,
+    0.01,
+    0.03,
+    0.1,
+    0.3
+  ],
+  "per_window": [
+    {
+      "window": "jeju23_22528_-368640",
+      "noise_level": 0.0,
+      "same_token_mean_cosine": 1.0,
+      "linear_cka": 1.0,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_22528_-368640",
+      "noise_level": 0.001,
+      "same_token_mean_cosine": 0.9999994993397953,
+      "linear_cka": 0.9999996373286764,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_22528_-368640",
+      "noise_level": 0.003,
+      "same_token_mean_cosine": 0.9999954966489208,
+      "linear_cka": 0.9999967537518547,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_22528_-368640",
+      "noise_level": 0.01,
+      "same_token_mean_cosine": 0.9999499165020295,
+      "linear_cka": 0.9999634714919293,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_22528_-368640",
+      "noise_level": 0.03,
+      "same_token_mean_cosine": 0.9995496815951681,
+      "linear_cka": 0.9996713876554465,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_22528_-368640",
+      "noise_level": 0.1,
+      "same_token_mean_cosine": 0.9950328791112335,
+      "linear_cka": 0.9959846984375509,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_22528_-368640",
+      "noise_level": 0.3,
+      "same_token_mean_cosine": 0.957836327053804,
+      "linear_cka": 0.9392863554569979,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_25600_-369664",
+      "noise_level": 0.0,
+      "same_token_mean_cosine": 1.0,
+      "linear_cka": 1.0,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_25600_-369664",
+      "noise_level": 0.001,
+      "same_token_mean_cosine": 0.9999994982022861,
+      "linear_cka": 0.999999817992351,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_25600_-369664",
+      "noise_level": 0.003,
+      "same_token_mean_cosine": 0.9999954862131504,
+      "linear_cka": 0.9999983758036549,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_25600_-369664",
+      "noise_level": 0.01,
+      "same_token_mean_cosine": 0.9999497747869786,
+      "linear_cka": 0.9999819065945817,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_25600_-369664",
+      "noise_level": 0.03,
+      "same_token_mean_cosine": 0.9995485402351052,
+      "linear_cka": 0.9998368279918428,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_25600_-369664",
+      "noise_level": 0.1,
+      "same_token_mean_cosine": 0.9950173220536531,
+      "linear_cka": 0.9981484214309176,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_25600_-369664",
+      "noise_level": 0.3,
+      "same_token_mean_cosine": 0.9576911963219163,
+      "linear_cka": 0.9805631394817953,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_26624_-369664",
+      "noise_level": 0.0,
+      "same_token_mean_cosine": 1.0,
+      "linear_cka": 1.0,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_26624_-369664",
+      "noise_level": 0.001,
+      "same_token_mean_cosine": 0.999999495294152,
+      "linear_cka": 0.9999997935886881,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_26624_-369664",
+      "noise_level": 0.003,
+      "same_token_mean_cosine": 0.9999954673035075,
+      "linear_cka": 0.9999981310078212,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_26624_-369664",
+      "noise_level": 0.01,
+      "same_token_mean_cosine": 0.9999495012758224,
+      "linear_cka": 0.9999794679441699,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_26624_-369664",
+      "noise_level": 0.03,
+      "same_token_mean_cosine": 0.9995463234174011,
+      "linear_cka": 0.999814819845513,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_26624_-369664",
+      "noise_level": 0.1,
+      "same_token_mean_cosine": 0.9949859360473774,
+      "linear_cka": 0.997880994497515,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_26624_-369664",
+      "noise_level": 0.3,
+      "same_token_mean_cosine": 0.9574819018833038,
+      "linear_cka": 0.9774732724103549,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_28672_-372736",
+      "noise_level": 0.0,
+      "same_token_mean_cosine": 1.0,
+      "linear_cka": 1.0,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_28672_-372736",
+      "noise_level": 0.001,
+      "same_token_mean_cosine": 0.9999994993386015,
+      "linear_cka": 0.9999996645089109,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_28672_-372736",
+      "noise_level": 0.003,
+      "same_token_mean_cosine": 0.999995498680258,
+      "linear_cka": 0.9999969764838497,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_28672_-372736",
+      "noise_level": 0.01,
+      "same_token_mean_cosine": 0.9999499562344338,
+      "linear_cka": 0.999966059201327,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_28672_-372736",
+      "noise_level": 0.03,
+      "same_token_mean_cosine": 0.9995495109941659,
+      "linear_cka": 0.9996931313031694,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_28672_-372736",
+      "noise_level": 0.1,
+      "same_token_mean_cosine": 0.9950354540102551,
+      "linear_cka": 0.9963020421160023,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju23_28672_-372736",
+      "noise_level": 0.3,
+      "same_token_mean_cosine": 0.9576979547459749,
+      "linear_cka": 0.9455840223568843,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-371712",
+      "noise_level": 0.0,
+      "same_token_mean_cosine": 1.0,
+      "linear_cka": 1.0,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-371712",
+      "noise_level": 0.001,
+      "same_token_mean_cosine": 0.9999994987410952,
+      "linear_cka": 0.9999996156948929,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-371712",
+      "noise_level": 0.003,
+      "same_token_mean_cosine": 0.9999954901697452,
+      "linear_cka": 0.9999965867699884,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-371712",
+      "noise_level": 0.01,
+      "same_token_mean_cosine": 0.9999498772476156,
+      "linear_cka": 0.9999616845041712,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-371712",
+      "noise_level": 0.03,
+      "same_token_mean_cosine": 0.9995492408448562,
+      "linear_cka": 0.9996525631790047,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-371712",
+      "noise_level": 0.1,
+      "same_token_mean_cosine": 0.9950207878679533,
+      "linear_cka": 0.9956674028691929,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-371712",
+      "noise_level": 0.3,
+      "same_token_mean_cosine": 0.9577590793622921,
+      "linear_cka": 0.9306913484499331,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-372736",
+      "noise_level": 0.0,
+      "same_token_mean_cosine": 1.0,
+      "linear_cka": 1.0,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-372736",
+      "noise_level": 0.001,
+      "same_token_mean_cosine": 0.999999499774108,
+      "linear_cka": 0.9999997313561995,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-372736",
+      "noise_level": 0.003,
+      "same_token_mean_cosine": 0.9999954930679021,
+      "linear_cka": 0.9999975779778875,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-372736",
+      "noise_level": 0.01,
+      "same_token_mean_cosine": 0.999949942701802,
+      "linear_cka": 0.9999726262747222,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-372736",
+      "noise_level": 0.03,
+      "same_token_mean_cosine": 0.9995498624436869,
+      "linear_cka": 0.999756966188475,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-372736",
+      "noise_level": 0.1,
+      "same_token_mean_cosine": 0.9950379616163751,
+      "linear_cka": 0.9970247417351994,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_22528_-372736",
+      "noise_level": 0.3,
+      "same_token_mean_cosine": 0.9578124590081001,
+      "linear_cka": 0.9554919667670628,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_26624_-369664",
+      "noise_level": 0.0,
+      "same_token_mean_cosine": 1.0,
+      "linear_cka": 1.0,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_26624_-369664",
+      "noise_level": 0.001,
+      "same_token_mean_cosine": 0.9999994962397216,
+      "linear_cka": 0.9999997952176674,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_26624_-369664",
+      "noise_level": 0.003,
+      "same_token_mean_cosine": 0.9999954712097164,
+      "linear_cka": 0.9999981629180521,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_26624_-369664",
+      "noise_level": 0.01,
+      "same_token_mean_cosine": 0.9999495928699105,
+      "linear_cka": 0.9999796555965237,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_26624_-369664",
+      "noise_level": 0.03,
+      "same_token_mean_cosine": 0.9995475206714614,
+      "linear_cka": 0.9998150583660665,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_26624_-369664",
+      "noise_level": 0.1,
+      "same_token_mean_cosine": 0.9950038540120898,
+      "linear_cka": 0.9979052898944807,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_26624_-369664",
+      "noise_level": 0.3,
+      "same_token_mean_cosine": 0.957544642414529,
+      "linear_cka": 0.9780802814776275,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_29696_-367616",
+      "noise_level": 0.0,
+      "same_token_mean_cosine": 1.0,
+      "linear_cka": 1.0,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_29696_-367616",
+      "noise_level": 0.001,
+      "same_token_mean_cosine": 0.9999994995898702,
+      "linear_cka": 0.9999996447041632,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_29696_-367616",
+      "noise_level": 0.003,
+      "same_token_mean_cosine": 0.9999954947941546,
+      "linear_cka": 0.9999968366152523,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_29696_-367616",
+      "noise_level": 0.01,
+      "same_token_mean_cosine": 0.999949941039841,
+      "linear_cka": 0.9999646188909621,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_29696_-367616",
+      "noise_level": 0.03,
+      "same_token_mean_cosine": 0.9995497747471553,
+      "linear_cka": 0.9996809180053774,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_29696_-367616",
+      "noise_level": 0.1,
+      "same_token_mean_cosine": 0.9950261679580648,
+      "linear_cka": 0.9961183671734865,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    },
+    {
+      "window": "jeju26r_29696_-367616",
+      "noise_level": 0.3,
+      "same_token_mean_cosine": 0.9577669895914578,
+      "linear_cka": 0.9427641094235506,
+      "recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "fraction_misses_adjacent": NaN
+    }
+  ],
+  "summary_by_noise": {
+    "0.0": {
+      "windows": 8,
+      "median_same_token_cosine": 1.0,
+      "median_linear_cka": 1.0,
+      "median_recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "median_fraction_misses_adjacent": NaN
+    },
+    "0.001": {
+      "windows": 8,
+      "median_same_token_cosine": 0.9999994990398484,
+      "median_linear_cka": 0.9999996979325552,
+      "median_recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "median_fraction_misses_adjacent": NaN
+    },
+    "0.003": {
+      "windows": 8,
+      "median_same_token_cosine": 0.9999954916188236,
+      "median_linear_cka": 0.9999972772308685,
+      "median_recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "median_fraction_misses_adjacent": NaN
+    },
+    "0.01": {
+      "windows": 8,
+      "median_same_token_cosine": 0.9999498968748226,
+      "median_linear_cka": 0.9999693427380245,
+      "median_recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "median_fraction_misses_adjacent": NaN
+    },
+    "0.03": {
+      "windows": 8,
+      "median_same_token_cosine": 0.9995493759195111,
+      "median_linear_cka": 0.9997250487458222,
+      "median_recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "median_fraction_misses_adjacent": NaN
+    },
+    "0.1": {
+      "windows": 8,
+      "median_same_token_cosine": 0.995023477913009,
+      "median_linear_cka": 0.9966633919256008,
+      "median_recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "median_fraction_misses_adjacent": NaN
+    },
+    "0.3": {
+      "windows": 8,
+      "median_same_token_cosine": 0.9577285170541334,
+      "median_linear_cka": 0.9505379945619736,
+      "median_recall_at_1": 1.0,
+      "median_miss_spatial_distance_tokens": NaN,
+      "median_fraction_misses_adjacent": NaN
+    }
+  },
+  "dose6_reference_recall_at_1": 0.2456,
+  "smallest_noise_matching_dose6": null,
+  "verdict_rule": "smallest_noise_matching_dose6가 0.01(1%) 이하이면 R@1은 구조적으로 취약한 지표이며 dose 실험의 R@1 붕괴를 '표현이 깨졌다'로 해석하면 안 된다. 또한 median_fraction_misses_adjacent가 높으면(예: >0.5) 틀린 이웃이 대부분 바로 옆 토큰이라는 뜻이므로 좌표계 붕괴가 아니라 국소 혼동이다.",
+  "forbidden_claims": [
+    "이 대조군은 task 정확도를 측정하지 않는다.",
+    "제주 8 site-years 표본이며 모집단 추정이 아니다."
+  ]
+}

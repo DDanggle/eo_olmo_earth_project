@@ -1,0 +1,79 @@
+{
+  "schema": "kearth-oreum-rgb-assistant-review-v1",
+  "source_manifest": "manifest.json",
+  "source_manifest_sha256": "7de831f800ac75abd4484b038fe969a01ed9357aaa4a3f33430c6ca814168b38",
+  "review_protocol": {
+    "season": "각 연도 5월 15일 최근접 관측",
+    "stretch": "모든 패널 고정 0–3000 DN, gamma 0.8",
+    "scales": [
+      "1.28 km context",
+      "400 m detail"
+    ],
+    "coordinate_scope": "현재 offline OSM peak point이며 공식 오름 경계가 아님"
+  },
+  "summary": {
+    "reviewed": 9,
+    "high_confidence_persistent_surface_change": 0,
+    "cloud_haze_or_shared_input_contamination": 8,
+    "uncertain_requires_better_input": 1,
+    "model_high_stable_reviewed": 8,
+    "model_high_stable_confirmed": 0,
+    "key_finding": "4기간·12기간 합의는 동일한 2023 구름 오염을 공유해 false positive를 안정적으로 재현했다"
+  },
+  "reviews": {
+    "JJ-OREUM-009": {
+      "label": "cloud_haze_shadow",
+      "persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023 패널이 거의 전부 구름이며 2024–2026 peak 주변 산림은 안정적으로 보인다. 2025는 해무/연무가 있으나 지속 지표 변화 증거는 없다."
+    },
+    "JJ-OREUM-036": {
+      "label": "cloud_haze_shadow",
+      "persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023은 구름으로 가려지고 2025는 연무가 강하다. 2024와 2026 peak 주변 산림 형태가 유사하며, 기존 r11 지속 변화지는 이 peak에서 416 m 떨어진 별도 지점이다."
+    },
+    "JJ-OREUM-073": {
+      "label": "cloud_haze_shadow",
+      "persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023 bad proxy 0.981의 구름 오염이 2023→2024 고점수를 설명한다. 2024–2026 peak 내부는 안정적으로 보인다."
+    },
+    "JJ-OREUM-107": {
+      "label": "cloud_haze_shadow",
+      "persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023 구름과 2025 연무가 있으며, 맑은 2024·2026에서 peak 주변 식생과 도로 형태가 유사하다. 지속 지표 변화로 보지 않는다."
+    },
+    "JJ-OREUM-230": {
+      "label": "stable_or_unclear",
+      "persistent_change": "uncertain",
+      "confidence": "low",
+      "notes": "성산일출봉은 2023이 전부 구름이고 2025는 해무·해상 반사 오염이 강하다. 2026 detail에 작은 갈색 패치가 보이지만 2024에도 일부 밝은 지표가 있어 현재 입력으로 지속 변화를 확정할 수 없다. SCL 합성과 고해상도 과거영상이 필요하다."
+    },
+    "JJ-OREUM-236": {
+      "label": "cloud_haze_shadow",
+      "persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023 bad proxy 0.991의 구름이 고점수를 만들었다. 2024–2026 peak 주변 식생은 안정적으로 보이며 2025 차이는 연무다."
+    },
+    "JJ-OREUM-273": {
+      "label": "cloud_haze_shadow",
+      "persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023 peak를 가로지르는 구름 띠가 있고 2024–2026은 안정적인 산림으로 보인다. 모델의 2023→2024 합의는 입력 오염 합의다."
+    },
+    "JJ-OREUM-275": {
+      "label": "cloud_haze_shadow",
+      "persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023 구름, 2025 연무가 있으나 2024와 2026의 원형 산림 peak는 유사하다. 기존 r08/r10 후보는 각각 1.9 km/1.7 km 떨어진 문맥일 뿐 이 오름점 변화가 아니다."
+    },
+    "JJ-OREUM-351": {
+      "label": "cloud_haze_shadow",
+      "persistent_change": "no",
+      "confidence": "high",
+      "notes": "2023 bad proxy 0.994로 거의 전부 가려졌고 2024–2026 도시 내 녹지 peak 형태는 안정적으로 보인다. 2023→2024 변화점수는 구름 오염이다."
+    }
+  }
+}

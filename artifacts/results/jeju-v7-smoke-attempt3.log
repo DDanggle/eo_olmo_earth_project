@@ -1,0 +1,59 @@
+format=2026-08-22 10:54:30,261 loglevel=INFO   logger=rslearn.main main() L1112 Using multiprocessing context: <multiprocessing.context.ForkServerContext object at 0x9e9627ea3d0>
+Loading windows:   0%|          | 0/1 [00:00<?, ?it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.41it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.41it/s]
+format=2026-08-22 10:54:31,071 loglevel=INFO   logger=rslearn.main apply_on_windows() L462  found 1 windows
+format=2026-08-22 10:54:31,071 loglevel=INFO   logger=rslearn.main __call__() L557  Running prepare on 1 windows
+format=2026-08-22 10:54:31,072 loglevel=INFO   logger=rslearn.dataset.manage prepare_dataset_windows() L150  Preparing 0 windows for layer sentinel2_l2a
+0it [00:00, ?it/s]0it [00:00, ?it/s]
+format=2026-08-22 10:54:31,078 loglevel=INFO   logger=rslearn.main dataset_prepare() L630  === Prepare Summary ===
+format=2026-08-22 10:54:31,078 loglevel=INFO   logger=rslearn.main dataset_prepare() L631  Total windows requested: 1, duration: 0.0s
+format=2026-08-22 10:54:31,078 loglevel=INFO   logger=rslearn.main dataset_prepare() L644    Layer sentinel2_l2a: prepared=0, skipped=1, rejected=0, failed=0
+format=2026-08-22 10:54:31,898 loglevel=INFO   logger=rslearn.main main() L1112 Using multiprocessing context: <multiprocessing.context.ForkServerContext object at 0x8a3423ea1d0>
+Loading windows:   0%|          | 0/1 [00:00<?, ?it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.36it/s]Loading windows: 100%|██████████| 1/1 [00:00<00:00,  1.36it/s]
+format=2026-08-22 10:54:32,719 loglevel=INFO   logger=rslearn.main apply_on_windows() L462  found 1 windows
+  0%|          | 0/1 [00:00<?, ?it/s]format=2026-08-22 10:54:33,465 loglevel=INFO   logger=rslearn.main __call__() L975  Running Materialize with 1 windows
+format=2026-08-22 10:54:34,806 loglevel=INFO   logger=rslearn.dataset.manage materialize_window() L455  Materializing 4 item groups in layer sentinel2_l2a via data source
+format=2026-08-22 10:54:34,821 loglevel=WARNING logger=rslearn.dataset.manage retry() L83   Retrying after catching error in retry loop: missing scoring bands ['SCL'] for item S2C_MSIL2A_20251207T022111_R003_T52SBC_20251207T045910
+format=2026-08-22 10:54:41,032 loglevel=WARNING logger=rslearn.dataset.manage retry() L83   Retrying after catching error in retry loop: missing scoring bands ['SCL'] for item S2C_MSIL2A_20251207T022111_R003_T52SBC_20251207T045910
+format=2026-08-22 10:54:52,422 loglevel=WARNING logger=rslearn.dataset.manage retry() L83   Retrying after catching error in retry loop: missing scoring bands ['SCL'] for item S2C_MSIL2A_20251207T022111_R003_T52SBC_20251207T045910
+format=2026-08-22 10:55:15,018 loglevel=WARNING logger=rslearn.dataset.manage retry() L83   Retrying after catching error in retry loop: missing scoring bands ['SCL'] for item S2C_MSIL2A_20251207T022111_R003_T52SBC_20251207T045910
+format=2026-08-22 10:55:41,944 loglevel=WARNING logger=rslearn.dataset.manage retry() L83   Retrying after catching error in retry loop: missing scoring bands ['SCL'] for item S2C_MSIL2A_20251207T022111_R003_T52SBC_20251207T045910
+format=2026-08-22 10:56:22,989 loglevel=ERROR  logger=rslearn.dataset.manage materialize_dataset_windows() L540  Error materializing window smoke25_30720_-372736 layer sentinel2_l2a
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/manage.py", line 524, in materialize_dataset_windows
+    window_summary = materialize_window(
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/manage.py", line 459, in materialize_window
+    retry(
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/manage.py", line 90, in retry
+    return fn()
+           ^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/manage.py", line 460, in <lambda>
+    fn=lambda: data_source.materialize(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/data_sources/direct_materialize_data_source.py", line 280, in materialize
+    RasterMaterializer().materialize(
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/materialize.py", line 225, in materialize
+    for (band_cfg, projection, bounds, _, raster_format), raster in zip(
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/compositing.py", line 79, in build_composites
+    yield self.build_composite(
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/sentinel2_scl.py", line 377, in build_composite
+    best_item = self._select_best_item(
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/sentinel2_scl.py", line 322, in _select_best_item
+    score = self._score_item(
+            ^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/embed_jeju_v7_smoke/scl_compositor.py", line 18, in _score_item
+    return super()._score_item(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/rslearn/dataset/sentinel2_scl.py", line 267, in _score_item
+    raise ValueError(
+ValueError: missing scoring bands ['SCL'] for item S2C_MSIL2A_20251207T022111_R003_T52SBC_20251207T045910
+100%|██████████| 1/1 [01:50<00:00, 110.27s/it]100%|██████████| 1/1 [01:50<00:00, 110.27s/it]
+format=2026-08-22 10:56:23,015 loglevel=INFO   logger=rslearn.main dataset_materialize() L1041 === Materialize Summary ===
+format=2026-08-22 10:56:23,015 loglevel=INFO   logger=rslearn.main dataset_materialize() L1042 Total windows requested: 1, duration: 109.5s
+format=2026-08-22 10:56:23,016 loglevel=INFO   logger=rslearn.main dataset_materialize() L1053   Layer sentinel2_l2a: materialized=0, failed=1
+format=2026-08-22 10:56:23,016 loglevel=INFO   logger=rslearn.main dataset_materialize() L1055     Error (x1): missing scoring bands ['SCL'] for item S2C_MSIL2A_20251207T022111_R003_T52SBC_20251207T045910
+format=2026-08-22 10:56:23,016 loglevel=INFO   logger=rslearn.main dataset_materialize() L1059 Some windows failed to materialize. Consider enabling retries with: --retry-max-attempts 5 --retry-backoff-seconds 5
+format=2026-08-22 10:56:23,016 loglevel=INFO   logger=rslearn.main dataset_materialize() L1063 Or use --no-ignore-errors to quit after the first error.
+find: ‘/home/work/data/olmoearth/embed_jeju_v7_smoke/dataset/windows/default/smoke25_30720_-372736/layers’: No such file or directory

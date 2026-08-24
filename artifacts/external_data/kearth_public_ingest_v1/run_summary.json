@@ -1,0 +1,120 @@
+{
+  "claim_policy": {
+    "development_permit_no_match": "unknown; source coverage audit failed",
+    "exact_permit_farmmap_pnu": "cross-source parcel context; not cause",
+    "farmmap_point_hit": "dated official state evidence; not cause",
+    "farmmap_point_miss": "unknown; FarmMap covers agricultural polygons only"
+  },
+  "development_permits": {
+    "by_year": {
+      "2014": 1,
+      "2015": 71,
+      "2016": 60,
+      "2017": 1,
+      "2018": 1,
+      "2020": 4,
+      "2021": 1,
+      "2022": 1,
+      "2025": 4,
+      "2026": 94,
+      "unknown": 2
+    },
+    "failed_coverage_checks": [
+      "geography_complete",
+      "time_complete",
+      "event_population_complete",
+      "collection_complete"
+    ],
+    "invalid_pnus": [],
+    "missing_or_invalid_permit_dates": 2,
+    "no_match_interpretable": false,
+    "row_count": 240,
+    "source_encoding": "utf-8-sig",
+    "unique_pnu_count": 223,
+    "valid_pnu_count": 240
+  },
+  "farmmap": {
+    "evidence_edge_count": 8,
+    "exact_permit_pnu_links": 206,
+    "exact_permit_unique_farm_polygon": 144,
+    "exact_permit_unique_pnu": 50,
+    "rows": 289379,
+    "target_summary": {
+      "by_kind": {
+        "change_candidate": {
+          "edges": 1,
+          "queried": 4,
+          "with_hit": 1
+        },
+        "oreum_osm_point": {
+          "edges": 7,
+          "queried": 243,
+          "with_hit": 7
+        }
+      },
+      "interpretation": "a change-coordinate hit is B-grade dated state evidence; an oreum OSM-point hit remains C-grade because the input location is not an official boundary; neither is a causal attribution",
+      "targets_with_hits": {
+        "JJ-OREUM-027": 1,
+        "JJ-OREUM-050": 1,
+        "JJ-OREUM-169": 1,
+        "JJ-OREUM-251": 1,
+        "JJ-OREUM-261": 1,
+        "JJ-OREUM-269": 1,
+        "JJ-OREUM-282": 1,
+        "oreum_v6_r08": 1
+      }
+    }
+  },
+  "forest_use": {
+    "2023": {
+      "approval_count": 714,
+      "approved_area_ha": "230.6",
+      "snapshot_date": "2026-06-30",
+      "year": 2023
+    },
+    "2024": {
+      "approval_count": 542,
+      "approved_area_ha": "74.2",
+      "snapshot_date": "2026-06-30",
+      "year": 2024
+    },
+    "parcel_joinable": false,
+    "row_count": 19,
+    "years": [
+      2008,
+      2026
+    ]
+  },
+  "outputs": {
+    "development_permit_coverage_audit.json": {
+      "bytes": 828,
+      "sha256": "f85d45d6e1df4002c85364f60a56005d3532253fb332719fcf27b0b666faa8d0"
+    },
+    "farmmap_evidence_edges.json": {
+      "bytes": 10312,
+      "sha256": "3ab76ca330b40e1e65be8587c45b68642e17f5c20730e3260a7fce4597a3ef3d"
+    },
+    "farmmap_permit_pnu_links.csv": {
+      "bytes": 40674,
+      "sha256": "deefa587b32f48a9d7608c0ea45bb643c9652829655e13949df92fb93b2e5cf0"
+    },
+    "farmmap_target_summary.json": {
+      "bytes": 625,
+      "sha256": "7d4164c873f18e7fcbb113bb52fb2f2e0f82773480a01baadec6be8dbb8fb2cf"
+    },
+    "jeju_farmmap_manifest.json": {
+      "bytes": 6268,
+      "sha256": "2dadded9a5a2fdac16ace983ac9efe6d9d7998335477f6d8d1aadfaa888ce781"
+    },
+    "jeju_forest_use_2008_2026.csv": {
+      "bytes": 550,
+      "sha256": "94169a24918831ccdb56580bbefe0ab83353b89d66f874bfa208b00b6c89d003"
+    },
+    "jeju_forest_use_manifest.json": {
+      "bytes": 1434,
+      "sha256": "c9d029f31873329e3ede3c197c22bd754ac23c39f5444fa6fc86924e01c375b1"
+    }
+  },
+  "retrieved_at": "2026-08-22T07:22:00Z",
+  "schema": "kearth-public-ingestion-run-v1"
+}

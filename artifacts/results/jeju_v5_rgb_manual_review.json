@@ -1,0 +1,41 @@
+{
+  "reviewed_at": "2026-08-22T10:39:00+09:00",
+  "source_figure": "artifacts/figures/jeju_v5_rgb_blind_pairs.png",
+  "selection_rule": "five deterministic locations selected from v1 contamination only",
+  "display_rule": "paired fixed RGB stretch, 0-0.30 reflectance",
+  "criterion": "at least 4 of 5 pairs visibly reduce cloud or nodata in v5",
+  "pairs": [
+    {
+      "pair": 1,
+      "judgment": "no_improvement",
+      "note": "same cloud boundary and texture"
+    },
+    {
+      "pair": 2,
+      "judgment": "no_improvement",
+      "note": "same land-water boundary, haze, and cloud patches"
+    },
+    {
+      "pair": 3,
+      "judgment": "no_improvement",
+      "note": "same saturated cloud mass"
+    },
+    {
+      "pair": 4,
+      "judgment": "no_improvement",
+      "note": "same saturated cloud field"
+    },
+    {
+      "pair": 5,
+      "judgment": "no_improvement",
+      "note": "same cloud geometry and color-fringe pattern"
+    }
+  ],
+  "visible_improvement_count": 0,
+  "gate_passed": false,
+  "interpretation": "Manual inspection agrees with the numeric audit: v5 did not create a different cloud-robust composite under this runtime.",
+  "limitations": [
+    "This is a five-pair visual audit, not a cloud-label benchmark.",
+    "Pixel equality is supported separately by jeju_v5_equivalence.json."
+  ]
+}

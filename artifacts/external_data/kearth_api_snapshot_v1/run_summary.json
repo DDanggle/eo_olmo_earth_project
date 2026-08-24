@@ -1,0 +1,70 @@
+{
+  "building_event_rows": 8794,
+  "candidate_existing_parcel_anchors": 1,
+  "candidate_official_corroboration_b": 0,
+  "candidate_records": 14,
+  "cross_source_pnu_population": 58,
+  "cross_source_pnu_with_building_event": 9,
+  "eia_feature_rows": 13,
+  "gk2a_current_grid_values": 127040,
+  "landcover_tile_rows": 42,
+  "limits": [
+    "VWorld parcels are representative point parcels, not official oreum boundaries.",
+    "BuildingHub v1 is bounded to legal-dong codes already observed in existing PNU evidence; pages are exhausted unless an explicit page cap is set.",
+    "GK2A and land-cover layers describe observation context/state, not a change cause.",
+    "NGII aerial imagery is a manual application/download channel and is outside API collection.",
+    "No-match remains unknown until source pagination, temporal coverage, and geometry coverage are complete."
+  ],
+  "outcomes": {
+    "http_success": 207
+  },
+  "parcel_anchor_features": 0,
+  "request_count": 207,
+  "retrieved_at": "2026-08-22T10:03:46.649919+00:00",
+  "schema": "kearth-api-snapshot-summary-v1",
+  "scope": {
+    "building_legal_dong_codes_requested": 45,
+    "jeju_bbox_4326": [
+      126.1,
+      33.1,
+      126.98,
+      33.62
+    ],
+    "official_oreum_denominator": 368,
+    "olmoearth_candidates_available": 14,
+    "resolved_oreum_points_available": 243,
+    "vworld_target_points_requested": 1
+  },
+  "semantic_statuses": {
+    "api_error": 7,
+    "api_success": 200
+  },
+  "source_outcomes": {
+    "building_hub_basis": {
+      "http_success": 111
+    },
+    "building_hub_demolition": {
+      "http_success": 45
+    },
+    "eia_business_area": {
+      "http_success": 1
+    },
+    "gk2a_cloud": {
+      "http_success": 6
+    },
+    "gk2a_cloud_current": {
+      "http_success": 1
+    },
+    "mcee_landcover": {
+      "http_success": 42
+    },
+    "vworld_cadastral": {
+      "http_success": 1
+    }
+  },
+  "vworld_vm_probe": {
+    "api_error_code": "INCORRECT_KEY",
+    "semantic_status": "api_error",
+    "target_id": "built_v6_r12"
+  }
+}
