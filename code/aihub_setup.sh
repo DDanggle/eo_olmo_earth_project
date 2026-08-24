@@ -8,8 +8,9 @@
 #   filekey   -filekey 로 부분 선택. 기본값은 "all" 이므로 생략하면 전체를 받는다
 #   동작      CWD에 download.tar를 받아 풀고 .part 파일을 자동 병합한다
 #
-# 키는 명령행 인자로 받지 않는다. AIHUB_APIKEY를 export해서만 전달한다
-# (셸 히스토리·프로세스 목록 노출 방지).
+# 키는 명령행 인자로 받지 않는다. AIHUB_APIKEY를 export해서만 전달한다.
+# aihubshell 자신에게도 -aihubapikey를 넘기지 않는다 — 넘기면 ps 목록에 키가 노출된다.
+# aihubshell은 AIHUB_APIKEY 환경변수를 직접 읽는다 (스크립트 line 94의 fallback).
 #
 # 사용:
 #   set -a; . /home/work/data/olmoearth/.env.aihub; set +a
@@ -38,7 +39,7 @@ echo "▸ aihubshell $(grep -m1 -oE "version [0-9.]+ v[0-9.]+" "$BIN" || echo "(
 case "${1:-check}" in
 check)
     # 인증만 확인한다. 키는 출력하지 않는다.
-    if "$BIN" -mode l -aihubapikey "$AIHUB_APIKEY" >"$ROOT/logs/auth_check.log" 2>&1; then
+    if "$BIN" -mode l >"$ROOT/logs/auth_check.log" 2>&1; then
         echo "▸ 인증 OK. 목록 $(wc -l <"$ROOT/logs/auth_check.log") 행 수신 → $ROOT/logs/auth_check.log"
     else
         echo "▸ 인증 실패. $ROOT/logs/auth_check.log 확인" >&2
@@ -47,7 +48,7 @@ check)
     ;;
 list)
     KEY="${2:?datasetkey가 필요하다}"
-    "$BIN" -mode l -datasetkey "$KEY" -aihubapikey "$AIHUB_APIKEY" \
+    "$BIN" -mode l -datasetkey "$KEY" \
         | tee "$ROOT/logs/dataset_${KEY}_filetree.txt"
     echo "▸ filekey 목록 → $ROOT/logs/dataset_${KEY}_filetree.txt"
     echo "▸ 다음: 10m Sentinel-2에 해당하는 filekey만 골라 get에 넘긴다. 전체를 받지 않는다."
@@ -59,7 +60,7 @@ get)
     mkdir -p "$DEST"
     echo "▸ 다운로드 datasetkey=$KEY filekey=$FILEKEYS → $DEST"
     ( cd "$DEST" && "$BIN" -mode d -datasetkey "$KEY" -filekey "$FILEKEYS" \
-        -aihubapikey "$AIHUB_APIKEY" ) 2>&1 | tee "$ROOT/logs/download_${KEY}.log"
+        ) 2>&1 | tee "$ROOT/logs/download_${KEY}.log"
     # 논문 재현성용 manifest. 원본을 공개하지 않고 이것만 공개한다 (AIHUB_INQUIRY.md 질문 2).
     ( cd "$DEST" && find . -type f ! -name "download*.tar" -print0 \
         | sort -z | xargs -0 sha256sum ) > "$ROOT/manifest_${KEY}.sha256"
