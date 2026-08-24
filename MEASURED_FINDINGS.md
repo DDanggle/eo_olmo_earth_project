@@ -20,6 +20,7 @@
 | M5 | dose–response 릴리스 복제 (v1.2) | **복제 실패 → 일반 주장 철회** | 완료 |
 | M6 | LFMC 인코더 교체(v1→v1.2) frozen-head 실험 | **설계 결함 발견 → 실험 재설계** | 진단 완료 |
 | M7 | v1/v1.2 토큰화 계약과 로딩 환경 (C1) | **M1 자작 아님 확인 + 비대칭 발견** | 완료 |
+| M8 | v1.2 mask 소비 경로 실측 (C2-A) | **게이트 6/6 통과 — M1 방어 완결** | 완료 |
 
 **아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 표현 기여,
 스위스·네팔 산악 데이터, 압축(PQ/int8) 하에서의 거동, ADC baseline.
@@ -251,13 +252,55 @@ checkpoint `[1,192]` vs model `[3,192]`, `rope_mixed_freqs`·`pixel_proj`가 une
 - **말할 수 있는 것**: M1은 로딩·계약 오류의 산물이 아니다. 밴드 순서도 v1.2 선언 순서와 일치했고
   (2026-08-24 확인), 구조 차이는 pooling으로 흡수된다. **재현에는 rslearn ≥0.1.x가 필요하며
   레포의 lockfile 환경으로는 v1.2 arm을 돌릴 수 없다.**
-- **말할 수 없는 것**: mask 3-set과 v1.2의 1-group이 forward 내부에서 정확히 어떻게 만나는지는
-  아직 추적하지 않았다. pooling 이전 단계의 토큰 수 비교는 미측정이다.
+- **말할 수 없는 것**: (M8에서 해소됨 — forward 내부 mask 경로를 실측했다.)
 - **파생 제약 (PhilEO P0 설계에 직접 영향)**: PhilEO S2는 10밴드로 `band_set 0+1`과 정확히 일치하고
   없는 B01·B09는 `band_set 2` 전체다. v1에서는 band_set 하나의 부재로 표현 가능하지만,
   **v1.2는 12밴드가 단일 그룹이라 같은 방식으로 표현할 수 없다.** 즉 10밴드 입력을 두 릴리스에
   **대칭적으로** 줄 방법이 없고, 어떤 처리를 하든 릴리스 의존적 차이가 주입된다.
   이것을 통제하지 못하면 P0의 task-risk 비교가 오염된다.
+
+## M8. v1.2는 mask slice 0만 읽는다. band_set 2를 MISSING으로 표시해도 조용히 무시된다
+
+**근거**: `mask_path_c2a/mask_path_c2a.json`, `code/probe_mask_path_c2a.py`
+**환경**: rslearn 0.1.13 + olmoearth_pretrain_minimal 0.0.6 (M1을 만든 그 환경)
+**설계**: 결정적 합성 입력 1개(32×32, T=2, 12채널, seed 20260824). 공간 위쪽 절반만 MISSING으로
+표시해 "모든 토큰 masking" assertion을 회피했다. 사전 등록 게이트 6개.
+
+| 게이트 | 내용 | 결과 |
+|---|---|---|
+| G1 | encoder 출력 S축: v1=3, v1.2=1 | PASS |
+| G2 | rslearn 입력 mask S축 = 3 (릴리스 무관) | PASS |
+| G3 | v1.2에서 slice 1·2를 MISSING → 출력 byte-identical | PASS |
+| G4 | v1.2에서 slice 0을 MISSING → 출력 변화 | PASS |
+| G5 | v1에서 slice 2를 MISSING → 출력 변화 | PASS |
+| G6 | v1.2에서 slice 2 MISSING이 fast_pass만 끄고 출력은 동일 | PASS |
+
+측정값:
+
+| 릴리스 | num_bandsets | token shape | slice 0 MISSING | slice 1·2 MISSING | slice 2 MISSING |
+|---|---|---|---|---|---|
+| v1 | 3 | `[1,8,8,2,3,768]` | max\|Δ\| 5.38228 | 5.49309 | 4.79137 |
+| v1.2 | 1 | `[1,8,8,2,1,768]` | max\|Δ\| 5.34337 | **0.0 (byte-identical)** | **0.0 (byte-identical)** |
+
+**메커니즘 (설치된 소스에서 확인)**:
+`flexi_vit.py` per-modality embedding 루프가 `for idx in range(num_band_sets)`이고
+`num_band_sets = self.tokenization_config.get_num_bandsets(modality)` — 즉 **모델 쪽** 값이다.
+v1.2는 1이므로 `modality_mask[..., 0]`만 읽히고 slice 1·2는 접근되지 않는다.
+
+- **말할 수 있는 것**:
+  1. M1의 same-token 비교는 유효하다. 두 릴리스 모두 pooling 후 공간 patch당 768-d 하나를 낸다.
+     `R@1=0`은 토큰 개수를 임의로 대응시킨 결과가 아니다.
+  2. **v1.2에서는 partial-group missingness를 표현할 수단이 없다.** band_set 2(B01·B09)를
+     MISSING으로 표시하는 것이 v1에서는 실제 효과가 있고 v1.2에서는 완전히 무시된다.
+  3. **G6 — 이 무시가 조용하다.** rslearn의 `fast_pass`는 입력 mask 3 slice 전체를 보고 결정되므로
+     slice 2를 MISSING으로 두면 `fast_pass=False`로 바뀌어 pooling이 masked-average 경로로 간다.
+     그런데 출력 mask는 S=1이고 MISSING이 없으므로 결과는 baseline과 byte-identical이다.
+     사용자는 "밴드 부재를 선언했다"고 믿지만 아무 일도 일어나지 않았고, 경고도 없다.
+- **말할 수 없는 것**: 이 측정은 합성 입력 1개다. 실제 PhilEO 타일에서 downstream 지표가
+  어떻게 갈리는지는 별개(C2-B)다. `use_register_bottleneck_output` 경로는 시험하지 않았다.
+- **논문 문구**: "R@1=0은 서로 다른 token 개수를 임의로 대응시킨 결과가 아니다. 두 릴리스 모두
+  동일한 공간 patch마다 768차원 출력을 생성한다." 이것은 representation compatibility failure이며
+  downstream task failure를 직접 의미하지는 않는다(그것이 C2-B의 질문이다).
 
 ## 이 장부에 없는 것 (혼동 방지)
 

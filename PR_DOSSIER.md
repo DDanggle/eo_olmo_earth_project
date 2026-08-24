@@ -210,20 +210,35 @@ band-set 요구를 config error로 명시하고, categorical SCL scoring은 near
 5. #3, #9 — 문서·설정 개선 (#2와 함께 묶어도 좋다)
 6. 나머지는 이슈로 축약
 
-## 12. rslearn이 band_set 부재를 표현할 수 없다 (2026-08-24 실측)
+## 12. band_set 부재 선언이 릴리스에 따라 조용히 무시된다 (2026-08-24 실측, M8)
 
-**대상**: `allenai/rslearn` / `rslearn/models/olmoearth_pretrain/model.py:_prepare_modality_inputs`
+**대상**: `allenai/rslearn` — `rslearn/models/olmoearth_pretrain/model.py:_prepare_modality_inputs`
+와 그것이 만드는 mask를 소비하는 `olmoearth_pretrain` 토큰화 경로
 
-**증상**: modality mask는 `(b,h,w,timesteps,num_band_sets)`이고 `MaskValue.MISSING`을
-**padded timestep에만** 넣는다. 특정 band_set이 데이터에 아예 없는 경우를 표현하지 못한다.
-그런데 OlmoEarth는 밴드셋 단위 마스킹으로 사전학습됐다(논문 §2.3) — 모델은 지원하나 API가 막는다.
+**증상**: rslearn은 modality mask를 `(b,h,w,t,S)`로 만들고 `S`를 **정적** 정의
+`len(Modality.get(modality).band_sets)` = sentinel2_l2a면 항상 3으로 잡는다. 그런데 소비 측은
+**로드된 모델의** `tokenization_config.get_num_bandsets(modality)`만큼만 순회한다.
 
-**영향**: 10밴드 S2 제품 사용자 전체. 예: PhilEO-downstream S2는
-`B02 B03 B04 B08 / B05 B06 B07 B8A B11 B12`로 `band_set 0+1`과 정확히 일치하고
-없는 `B01 B09`가 `band_set 2` 전체다. 현재는 zero-fill 외 선택지가 없고, zero-fill은
-계약 불일치를 주입한다(M3에서 손상이 단조 증가함을 측정).
+| 릴리스 | 모델 bandset 수 | 읽히는 mask slice | slice 2를 MISSING으로 표시하면 |
+|---|---|---|---|
+| OlmoEarth v1 | 3 | 0,1,2 | 출력 변화 (max\|Δ\| 4.79) |
+| OlmoEarth v1.2 | 1 (12밴드 단일 group) | **0만** | **출력 byte-identical — 무시됨** |
 
-**수정 방향**: 데이터에 존재하지 않는 band_set을 `MaskValue.MISSING`으로 표시할 경로를 제공.
+게다가 이 무시가 조용하다. `fast_pass`는 입력 mask 전체를 보고 꺼지므로 pooling이
+masked-average 경로로 전환되지만, 출력 mask에는 MISSING이 없어 결과가 baseline과 동일하다.
+사용자는 밴드 부재를 선언했다고 믿고, 경고는 없다.
+
+**영향**: 10밴드 S2 제품 사용자 전체. 예로 PhilEO-downstream S2는
+`B02 B03 B04 B08 / B05 B06 B07 B8A B11 B12`로 v1의 `band_set 0+1`과 정확히 일치하고
+없는 `B01 B09`가 `band_set 2` 전체다. v1에서는 그 set을 MISSING으로 표현할 수 있으나
+v1.2에서는 표현 수단 자체가 없다. 같은 입력을 두 릴리스에 대칭적으로 줄 수 없다.
+
+**제안**: 정적 3-band-set mask를 만드는 대신, 로드된 모델의 tokenization config와 실제 band
+availability를 함께 사용해 **release-aware input contract**를 구성한다. 모델의 bandset 분할이
+데이터의 결측 경계와 일치하지 않는 partial-group missingness에는 명시적 imputation policy를
+요구하고, 요구가 충족되지 않으면 조용히 통과시키지 않고 오류를 낸다.
+
+**재현**: `code/probe_mask_path_c2a.py` (합성 입력, seed 고정, 게이트 6개)
 
 ## 13. lockfile 환경으로는 OlmoEarth v1.2를 로드할 수 없고, 실패가 불투명하다 (2026-08-24 실측)
 

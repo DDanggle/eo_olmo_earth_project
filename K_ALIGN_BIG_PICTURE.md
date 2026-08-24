@@ -145,6 +145,55 @@ contract gate가 silent error를 줄이는지 측정한다. quantizer-aware adap
 `R@1=0`은 좌표 호환성 실패의 강한 증거지만 task failure 자체는 아니다. frozen-head 실험이 실패하면
 논문 headline을 `silent high-confidence error`에서 `representation compatibility audit`로 낮춘다.
 
+## 2026-08-24 확정 — P0 실험 경로 (C1·C2-A 종결 후)
+
+M7·M8로 두 사실이 확정됐다. (1) M1의 same-token 비교는 유효하다. (2) v1.2에서는
+partial-group missingness를 표현할 수단이 없고 그 무시가 조용하다.
+
+두 번째 사실이 PhilEO를 그대로 쓸 수 없게 만든다. PhilEO S2 10밴드의 결측(B01·B09)은
+v1에서는 band_set 부재로 선언 가능하지만 v1.2에서는 무시된다. 따라서 release×task를 한
+데이터에서 바로 교차하면 처리 방식 차이가 release effect로 오인된다.
+
+### 실행 순서 (확정)
+
+| 단계 | 내용 | 통과/중단 기준 |
+|---|---|---|
+| ~~C2-A~~ | v1.2 mask 경로 폐쇄 | **완료. 게이트 6/6** (M8) |
+| **C2-B (즉시)** | PhilEO **v1 단독** task-risk. land-cover seg / building-density reg / road-density reg 세 head를 frozen v1 embedding 위에 학습하고 perturbation(band-order dose, band_set 2 missing, embedding compression, spatial/token corruption)을 가한다 | 같은 손상에 세 task의 loss·calibration 순위가 **다르지 않으면** task-aware router 방향을 중단하거나 축소한다 |
+| **C2-C (바로 다음)** | PhilEO 12밴드 재물질화 feasibility. 지역·split별 **20 sample 사전 고정** | 아래 4조건 전부 충족해야 통과 |
+| C2-D | 통과 시 최종 P0: PhilEO full 12-band × v1/v1.2 × 3 task × old/new/mixed cache | — |
+
+C2-C 통과 조건 (사전 등록):
+1. 동일 acquisition product 식별 (CRS·transform·파일명·SCL에서 복구 → STAC 조회)
+2. spatial grid 일치
+3. 기존 10밴드가 재물질화 결과와 quantization/resampling 허용오차 내 일치
+4. B01·B09의 실제 관측 복구 (합성·상수 채움이 아님)
+
+실패 시: 실패 자체를 M-항목으로 기록하고, C2-B를 유지한 채 **다른 공개 12밴드 multi-task**를
+찾아 release 축을 검증한다. 상수 채움은 headline이 아니라 **보조 ablation**으로만 쓴다
+(두 릴리스가 상수를 다르게 해석하므로 순수 release effect가 아니다).
+
+### 데이터셋 역할 고정
+
+```
+PhilEO         → 통제된 shared-cache / multi-task 실험 (P0)
+EarthShift     → 센서·지역·시간 shift
+AI-Hub 제주·지리산 → 외부 stress test와 operational demonstration (P0 아님)
+```
+
+AI-Hub를 P0로 올리면 접근 제한·ontology·co-registration을 동시에 풀어야 해서 모델 릴리스
+연구보다 한국 데이터 정합 연구가 앞에 나온다. 공개 benchmark에서 방법을 고정한 뒤 AI-Hub에서
+검증하면 한국 데이터가 훨씬 강한 외부 증거가 된다. 사용자가 데이터 확보를 진행 중이다.
+
+### 갱신된 서사
+
+> OlmoEarth v1→v1.2의 same-input audit에서 cache identity 붕괴를 발견했다. 원인을 추적하자
+> 모델 크기뿐 아니라 Sentinel-2 tokenization contract도 3개 band set에서 단일 12-band group으로
+> 바뀌었다. 이를 공개 multi-task 데이터 PhilEO에 적용하려 하자, 동일한 10밴드 제품의 missingness를
+> 두 릴리스에 대칭적으로 표현할 수 없었다 — 게다가 그 실패는 조용하다. 따라서 EO cache upgrade는
+> 단순 embedding alignment가 아니라 release-aware input admissibility와 task-specific risk를
+> 함께 다뤄야 한다.
+
 ## 중단 기준
 
 - 시간창을 바로잡아도 후보가 동일하게 불안정하다.
