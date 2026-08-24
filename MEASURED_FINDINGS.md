@@ -21,6 +21,7 @@
 | M6 | LFMC 인코더 교체(v1→v1.2) frozen-head 실험 | **설계 결함 발견 → 실험 재설계** | 진단 완료 |
 | M7 | v1/v1.2 토큰화 계약과 로딩 환경 (C1) | **M1 자작 아님 확인 + 비대칭 발견** | 완료 |
 | M8 | v1.2 mask 소비 경로 실측 (C2-A) | **게이트 6/6 통과 — M1 방어 완결** | 완료 |
+| M9 | AI-Hub 71363 인벤토리·split 감사 | **공식 split 사용 불가 (valid 110/110 누수)** | 완료 |
 
 **아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 표현 기여,
 스위스·네팔 산악 데이터, 압축(PQ/int8) 하에서의 거동, ADC baseline.
@@ -301,6 +302,68 @@ v1.2는 1이므로 `modality_mask[..., 0]`만 읽히고 slice 1·2는 접근되�
 - **논문 문구**: "R@1=0은 서로 다른 token 개수를 임의로 대응시킨 결과가 아니다. 두 릴리스 모두
   동일한 공간 patch마다 768차원 출력을 생성한다." 이것은 representation compatibility failure이며
   downstream task failure를 직접 의미하지는 않는다(그것이 C2-B의 질문이다).
+
+## M9. AI-Hub 71363의 공식 split은 쓸 수 없다. valid 타일 110개 전부가 train과 겹친다
+
+**근거**: `inventory/inventory_audit.json`, `inventory/split_leakage_audit.json`,
+`code/build_aihub_inventory.py`, `code/audit_aihub_split_leakage.py`
+**환경**: 네트워크 미사용. 수신한 zip만으로 판정했다.
+
+### 먼저 — 내가 틀렸던 것
+
+"678 타일 × 63 날짜"라고 썼다. **관측된 조합이 아니다.** Cartesian product로 만들면
+42,714개의 인공 조합이 되고 원 분포와 다른 데이터셋이 된다. 실제는 다음이다.
+
+| | 값 |
+|---|---|
+| 실제 (타일, 날짜) 쌍 | **2,699** |
+| 고유 타일 | 594 (train 485 / valid 110) |
+| 고유 날짜 | 60 (train 56 / valid 13) |
+| 타일당 날짜 수 | 1 ~ 8 |
+| 플랫폼 | SENTINEL-2A 1,961 / 2B 738 |
+| WGS84 범위 | 125.14–129.59 E, 34.01–38.31 N |
+
+수집 단위는 `(sample geometry, img_time, platform, original grid)`이며 곱집합이 아니다.
+
+### A1 ID 조인 — 통과
+
+메타데이터 3,000 · 라벨 2,700 · **교집합 2,699** (label_only 1, metadata_only 301).
+`SA`/`SB` 접두는 두 쪽에 모두 있다(메타 SA 1,962 / SB 1,038). Major TOM식 교집합 0 함정은 없다.
+
+### A2 기하 해석 — 추측을 제거했다
+
+메타데이터 `coordinates`가 중심인지 좌상단인지 몰랐다. 라벨 폴리곤 범위와 대조해 판정했다.
+
+| 가설 | 중위거리 |
+|---|---|
+| **upper_left** | **4.2e-05 m** (400/400 투표) |
+| center | 7,240.77 m |
+| lower_left | 10,240.00 m |
+
+**좌상단이다.** 사실상 정확일치이므로 bbox는 `[x, y-10240, x+10240, y]`로 확정된다.
+
+### split 누수 — 공식 split 사용 불가
+
+| 게이트 | 결과 | 판정 |
+|---|---|---|
+| L1 tile_id 누수 | 공유 타일 1개 | FAIL |
+| L2 날짜 누수 | 공유 날짜 9개 | FAIL |
+| **L3 공간 중첩** | **642쌍, valid 타일 110/110 영향** | **FAIL** |
+| L4 근접(1타일 폭 이내) | 646쌍 | FAIL |
+| L5 AOI 군집 | 13군집 중 5개가 양쪽에 걸침 (최대 군집 180타일) | FAIL |
+
+**valid 타일의 100%가 train 타일과 실제로 겹친다.** A2가 정확일치였으므로 bbox 계산
+오류가 아니다. 타일이 설계상 중첩(sliding window)일 수 있으나, 그렇다면 결함은 타일링이
+아니라 **분할 방식**에 있다.
+
+- **말할 수 있는 것**: 이 데이터셋의 공식 train/valid split으로 낸 수치는 공간 누수로
+  부풀려진다. 우리는 제공된 split을 쓰지 않고 **13개 AOI 군집 단위로 spatial holdout을
+  직접 만든다.** 군집이 13개뿐이므로 leave-one-cluster-out이 자연스럽다.
+- **말할 수 없는 것**: 중첩이 데이터 구축 의도인지 실수인지는 모른다(문서 미확인).
+  누수가 실제 성능을 얼마나 부풀리는지는 아직 측정하지 않았다 — 누수 split과 우리 holdout을
+  같은 head로 비교해야 수치가 나온다.
+- **다음 조치**: 군집 단위 holdout을 먼저 만들고, test 군집을 **동결**한다.
+  이미 탐색에 쓴 valid 300은 test로 쓰지 않는다.
 
 ## 이 장부에 없는 것 (혼동 방지)
 

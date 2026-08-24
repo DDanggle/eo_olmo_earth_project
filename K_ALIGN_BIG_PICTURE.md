@@ -194,6 +194,94 @@ AI-Hub를 P0로 올리면 접근 제한·ontology·co-registration을 동시에 
 > 단순 embedding alignment가 아니라 release-aware input admissibility와 task-specific risk를
 > 함께 다뤄야 한다.
 
+## 2026-08-25 재확정 — AI-Hub 71363 기반 P0 (M9 반영)
+
+M9로 두 가지가 바뀌었다. (1) 실제 조합은 2,699쌍이고 곱집합 42,714가 아니다.
+(2) 공식 split은 valid 110/110이 train과 공간 중첩이라 쓸 수 없다.
+
+### 주장 범위를 좁힌다 (지금 단계에서 안전한 표현)
+
+세 task는 **하나의 GeoJSON ontology에서 클래스를 나눈 것**이다. 따라서 리뷰어가
+"multi-class segmentation 하나를 세 head로 쪼갠 것 아닌가"라고 물을 수 있다. 표현을 제한한다.
+
+| task | 정의 |
+|---|---|
+| Task-LC | 일반 토지피복 semantic segmentation (산림·하천·밭·건물·도로) |
+| Task-Logging | 벌목지 binary segmentation (665 타일) |
+| Task-Landslide | 산사태·토석류 binary segmentation (373 타일) |
+
+- **지금 주장하는 것**: shared-cache, heterogeneous-risk **three-head test**
+- **아직 주장하지 않는 것**: 폭넓은 multi-task generalization
+  → 공개 task(PhilEO·PANGAEA)를 추가한 뒤에 일반화를 주장한다
+
+### 센서 축은 후속 stress test로 미룬다 (직전 제안 철회)
+
+내가 SkySat을 고해상도 대리 센서 후보로 제안했다. **철회한다.**
+
+- SkySat은 Planet의 위성이고 **KOMPSAT/아리랑이 아니다.** 메타데이터 확인 전에 혼용하면 안 된다
+- 센서별 ontology 차이(드론 10 / SkySat 8 / S2 9 / Landsat 8)는 우선
+  **sensor contract heterogeneity의 증거**일 뿐이다
+- 센서 간 embedding cache 재사용 가능성의 증거는 아니다. 그것은
+  동일 위치 · 유사 시점 · 공통 클래스 · 정합 해상도가 확보돼야 성립한다
+
+### 실행 순서 (확정)
+
+| 단계 | 내용 | 통과/중단 기준 |
+|---|---|---|
+| ~~C2-A~~ | v1.2 mask 경로 폐쇄 | **완료. 6/6** (M8) |
+| ~~C2-P~~ | 71363 인벤토리·계약·split 감사 | **완료** (M9) |
+| **C2-S (즉시)** | **AOI 군집 단위 spatial holdout 구축.** 13개 군집으로 leave-one-cluster-out. test 군집 **동결** | 군집 간 최소 이격이 1 타일 폭(10.24 km) 이상이어야 통과. 공식 split·탐색에 쓴 valid 300은 test로 쓰지 않는다 |
+| **C2-C** | **AI-Hub exact-scene recovery gate.** 20~50 표본만 검사 | 아래 5조건 전부 |
+| C2-B | three-head risk 차이 측정 | 사전 등록 기준(별도 고정) |
+| C2-D | 통과 시 B01·B09 추가 + 2,699쌍으로 확장 | — |
+
+### C2-C 표본 층화 (20~50개)
+
+일반 토지피복 / 벌목 positive / 산사태 positive / task 동시등장 /
+서로 다른 공원(군집)·연도·S2A·S2B — 각 층에서 뽑고 **사전에 고정**한다.
+
+표본마다 보존할 값:
+
+```
+sample_id · geometry/CRS/affine transform · img_time · platform
+원본 10밴드 checksum · label checksum · 클래스별 픽셀 면적
+candidate STAC item ID
+```
+
+### C2-C 통과 조건 (사전 등록)
+
+1. 같은 날짜·platform의 후보 STAC item을 **자동으로** 찾을 수 있다 (수작업 cherry-pick 금지)
+2. 좌표계·grid·affine transform을 정확히 재현할 수 있다
+3. 공통 10밴드가 **사전에 정한 오차** 안에서 일치한다
+4. 후보 선택이 결정적이다 (같은 입력 → 같은 item)
+5. 표본의 **90% 이상**이 복구 가능하다
+
+**일치하지 않는데 B01·B09만 추가하면 12밴드 보강이 아니라 서로 다른 처리 파이프라인의
+영상을 섞는 것이다.** 같은 날짜·bbox라도 제품·processing baseline·mosaic·구름 처리가 다를 수 있다.
+
+**실패 시**: 데이터를 버리지 않는다. 실험 명칭을
+`exact observation enrichment` → **`source/reprocessing shift`**로 바꾼다.
+서로 다른 처리 파이프라인이 같은 캐시를 무효화하는지가 그 자체로 계약축이다.
+
+### 논문 골격
+
+```
+M1 / M8      릴리스가 바뀌면 embedding·mask contract가 실제로 깨진다
+   ↓
+AI-Hub S2    같은 cache 변화라도 task별 손실이 다르다 (three-head test)
+   ↓
+router/gate  어떤 spatial representation을 언제 갱신할지 결정한다
+   ↓
+공개 task    일반화 + 독립 지역 외부 stress test
+   ↓
+SkySat/드론/Landsat   후속 sensor-contract 확장 (지금은 미포함)
+```
+
+### 현재 상태의 정확한 표현
+
+"설계 가설이 증명됐다"가 아니다. **"P0를 실행할 수 있는 데이터 조건이 확인됐고,
+공식 split은 쓸 수 없음을 측정했다"**가 정확하다.
+
 ## 중단 기준
 
 - 시간창을 바로잡아도 후보가 동일하게 불안정하다.
