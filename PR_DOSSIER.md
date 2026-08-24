@@ -209,3 +209,41 @@ band-set 요구를 config error로 명시하고, categorical SCL scoring은 near
 4. **#10** — golden-window 재현과 회귀 테스트가 있는 rslearn categorical-resampling 개선
 5. #3, #9 — 문서·설정 개선 (#2와 함께 묶어도 좋다)
 6. 나머지는 이슈로 축약
+
+## 12. rslearn이 band_set 부재를 표현할 수 없다 (2026-08-24 실측)
+
+**대상**: `allenai/rslearn` / `rslearn/models/olmoearth_pretrain/model.py:_prepare_modality_inputs`
+
+**증상**: modality mask는 `(b,h,w,timesteps,num_band_sets)`이고 `MaskValue.MISSING`을
+**padded timestep에만** 넣는다. 특정 band_set이 데이터에 아예 없는 경우를 표현하지 못한다.
+그런데 OlmoEarth는 밴드셋 단위 마스킹으로 사전학습됐다(논문 §2.3) — 모델은 지원하나 API가 막는다.
+
+**영향**: 10밴드 S2 제품 사용자 전체. 예: PhilEO-downstream S2는
+`B02 B03 B04 B08 / B05 B06 B07 B8A B11 B12`로 `band_set 0+1`과 정확히 일치하고
+없는 `B01 B09`가 `band_set 2` 전체다. 현재는 zero-fill 외 선택지가 없고, zero-fill은
+계약 불일치를 주입한다(M3에서 손상이 단조 증가함을 측정).
+
+**수정 방향**: 데이터에 존재하지 않는 band_set을 `MaskValue.MISSING`으로 표시할 경로를 제공.
+
+## 13. lockfile 환경으로는 OlmoEarth v1.2를 로드할 수 없고, 실패가 불투명하다 (2026-08-24 실측)
+
+**대상**: `allenai/olmoearth_projects` (uv.lock) + `rslearn` 로딩 경로
+
+**증상**: 레포 lockfile이 고정하는 `rslearn 0.0.27 + olmoearth_pretrain 0.0.2` 환경에서
+`ModelID`에 v1.1·v1.2 엔트리가 없고, `OlmoEarth(model_path=<v1.2 snapshot>)`는
+원인 안내 없이 state_dict 오류로 죽는다.
+
+```
+size mismatch for encoder.composite_encodings.per_modality_channel_embeddings.sentinel2_l2a:
+  checkpoint [1,192] vs current model [3,192]
+Unexpected key(s): ...attn.rope_mixed_freqs, ...pixel_proj...
+Missing key(s): ...sentinel2_l2a__1..., ...sentinel2_l2a__2...
+```
+
+`load_model_from_path`는 snapshot의 `config.json`을 읽지만, 구버전 패키지가 v1.2 필드
+(`tokenization_config.overrides`, `use_linear_patch_embed`, `temporal_rope_dim_frac`)를
+조용히 무시하고 v1 아키텍처를 짓는다. `rslearn 0.1.x` + `olmoearth_pretrain_minimal`에서는
+정상 로드된다(v1.2 Base 113.99M).
+
+**제안**: 지원되지 않는 릴리스에 대해 "이 패키지 버전은 v1.2 config를 지원하지 않는다"는
+명시적 오류를 내거나, 문서에 릴리스별 최소 버전 표를 넣는다.

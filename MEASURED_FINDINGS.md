@@ -19,6 +19,7 @@
 | M4 | R@1 취약성 반증 대조군 | **위협 기각** | 완료 |
 | M5 | dose–response 릴리스 복제 (v1.2) | **복제 실패 → 일반 주장 철회** | 완료 |
 | M6 | LFMC 인코더 교체(v1→v1.2) frozen-head 실험 | **설계 결함 발견 → 실험 재설계** | 진단 완료 |
+| M7 | v1/v1.2 토큰화 계약과 로딩 환경 (C1) | **M1 자작 아님 확인 + 비대칭 발견** | 완료 |
 
 **아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 표현 기여,
 스위스·네팔 산악 데이터, 압축(PQ/int8) 하에서의 거동, ADC baseline.
@@ -211,6 +212,52 @@ effective rank·밴드별 ablation 민감도로 시험할 수 있다.
 - **재설계**: 논문 주제(아카이브 임베딩 재사용)에 맞는 설정은 **인코더 동결 + head 학습**이다.
   v1 동결 특징으로 디코더를 학습하고, 같은 디코더에 v1.2 동결 특징을 투입한다.
   두 arm 모두 "동결 인코더 + 같은 head"가 되어 바뀐 변수가 릴리스 하나로 통제된다.
+
+## M7. M1은 자작이 아니다. 그러나 두 릴리스는 밴드 구조가 비대칭이다
+
+**근거**: `release_tokenization_probe/release_tokenization_probe.json`,
+`release_audit_p0/checkpoints.json`의 environment 기록
+**질문 (C1)**: M1의 `R@1=0`이 v1.2를 잘못된 입력 계약으로 돌린 결과인가?
+
+### 로드된 모델에서 직접 확인한 구조
+
+| | v1 | v1.2 |
+|---|---|---|
+| 파라미터 | 88.96 M | **113.99 M** |
+| S2 band group | override 없음 → rslearn 기본 **3 band_set** | **12밴드 단일 그룹** |
+| `token_pooling` 기본값 | True | True |
+
+rslearn `_prepare_modality_inputs`는 `num_band_sets`를 `Modality.get(m).band_sets`=**3**으로
+계산한다. 릴리스와 무관하다. 즉 v1.2에는 mask 3-set과 model 1-group의 불일치가 존재한다.
+
+**그럼에도 M1은 유효하다.** `token_pooling=True`가 시간·모달리티 축을 patch 단위로 pooling해
+(model.py L373–377) 출력이 릴리스와 무관하게 공간 patch당 768-d 하나가 된다. 따라서
+`same-token` 비교의 단위는 band group이 아니라 공간 patch이고, 두 릴리스 간 정의가 같다.
+
+### 로딩 환경 — 재현에 필수인 사실
+
+감사가 기록한 환경은 `rslearn 0.1.13 + olmoearth_pretrain 0.0.6`이다.
+
+| 환경 | 패키지 | v1.2 로드 |
+|---|---|---|
+| `.venv` (uv.lock 고정) | rslearn 0.0.27 + `olmoearth_pretrain` 0.0.2 | **불가** |
+| `.venv-master` (감사 환경) | rslearn 0.1.13 + `olmoearth_pretrain_minimal` 0.0.6 | 가능 |
+
+`.venv`의 `ModelID`에는 v1 변종만 있고, `model_path`로 v1.2를 로드하면 원인 안내 없이
+`RuntimeError: Error(s) in loading state_dict` — `per_modality_channel_embeddings.sentinel2_l2a`가
+checkpoint `[1,192]` vs model `[3,192]`, `rope_mixed_freqs`·`pixel_proj`가 unexpected로 뜬다.
+`.venv-master`의 `ModelID`에는 v1.1·v1.2 엔트리가 있다.
+
+- **말할 수 있는 것**: M1은 로딩·계약 오류의 산물이 아니다. 밴드 순서도 v1.2 선언 순서와 일치했고
+  (2026-08-24 확인), 구조 차이는 pooling으로 흡수된다. **재현에는 rslearn ≥0.1.x가 필요하며
+  레포의 lockfile 환경으로는 v1.2 arm을 돌릴 수 없다.**
+- **말할 수 없는 것**: mask 3-set과 v1.2의 1-group이 forward 내부에서 정확히 어떻게 만나는지는
+  아직 추적하지 않았다. pooling 이전 단계의 토큰 수 비교는 미측정이다.
+- **파생 제약 (PhilEO P0 설계에 직접 영향)**: PhilEO S2는 10밴드로 `band_set 0+1`과 정확히 일치하고
+  없는 B01·B09는 `band_set 2` 전체다. v1에서는 band_set 하나의 부재로 표현 가능하지만,
+  **v1.2는 12밴드가 단일 그룹이라 같은 방식으로 표현할 수 없다.** 즉 10밴드 입력을 두 릴리스에
+  **대칭적으로** 줄 방법이 없고, 어떤 처리를 하든 릴리스 의존적 차이가 주입된다.
+  이것을 통제하지 못하면 P0의 task-risk 비교가 오염된다.
 
 ## 이 장부에 없는 것 (혼동 방지)
 

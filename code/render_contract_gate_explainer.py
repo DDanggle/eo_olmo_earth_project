@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+"""EarthEmbedContract 설명용 시각화 — 존재 증명(실측) + frontier(개념도).
+
+패널 1: v6 false-safe 실측. 같은 모델·같은 버전 태그, time recipe만 다름 → Top-30이 5개만 겹침.
+패널 2: M2 join trap 실측. unique_id 교집합 0, 계약 필드 8개 전부 스키마 부재.
+패널 3: risk-cost frontier. **미측정 개념도**임을 명시한다.
+
+입력: artifacts/results/jeju_change_v6_top.json, artifacts/results/majortom_contract_audit.json
+출력: artifacts/contract_gate_explainer.html (JSON이 source of truth, HTML은 생성물)
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+V6 = json.loads((ROOT / "artifacts/results/jeju_change_v6_top.json").read_text())
+MT = json.loads((ROOT / "artifacts/results/majortom_contract_audit.json").read_text())
+
+TOL = 0.01  # v6 원 스크립트와 동일한 좌표 일치 허용범위
+top4, top12 = V6["top_4ts"], V6["top_12ts"]
+
+
+def near(a: dict, b: dict) -> bool:
+    return abs(a["lat"] - b["lat"]) < TOL and abs(a["lon"] - b["lon"]) < TOL
+
+
+shared4 = [p for p in top4 if any(near(p, q) for q in top12)]
+shared12 = [p for p in top12 if any(near(p, q) for q in top4)]
+only4 = [p for p in top4 if p not in shared4]
+only12 = [p for p in top12 if p not in shared12]
+assert V6["control"]["intersection"] == len(shared4), "교집합 수가 기록과 불일치"
+
+# --- 패널 1: 제주 지도 (경위도 → SVG) ---
+LON0, LON1, LAT0, LAT1 = 126.10, 127.00, 33.15, 33.60
+W, H = 760, 380
+X = lambda lon: (lon - LON0) / (LON1 - LON0) * W
+Y = lambda lat: (LAT1 - lat) / (LAT1 - LAT0) * H
+
+def dots(points, cls, r=6):
+    return "".join(
+        f'<circle cx="{X(p["lon"]):.1f}" cy="{Y(p["lat"]):.1f}" r="{r}" class="{cls}">'
+        f'<title>{p["when"]} · {p["landcover"]} · z={p["z"]}</title></circle>'
+        for p in points
+    )
+
+grat = "".join(
+    f'<line x1="{X(lo):.0f}" y1="0" x2="{X(lo):.0f}" y2="{H}" class="gl"/>'
+    f'<text x="{X(lo)+4:.0f}" y="{H-6}" class="tick">{lo:.1f}°E</text>'
+    for lo in (126.2, 126.4, 126.6, 126.8)
+) + "".join(
+    f'<line x1="0" y1="{Y(la):.0f}" x2="{W}" y2="{Y(la):.0f}" class="gl"/>'
+    f'<text x="4" y="{Y(la)-4:.0f}" class="tick">{la:.1f}°N</text>'
+    for la in (33.2, 33.3, 33.4, 33.5)
+)
+
+# --- 패널 2: join 시도 결과 ---
+joins = MT["question_1_paired"]["all_join_attempts"]
+contract = MT["question_2_contract_fields"]["contract_fields"]
+absent = [k for k, v in contract.items() if not v.get("present_in_schema")]
+
+join_rows = "".join(
+    f'<tr><td class="mono">{k}</td><td class="n">{v["intersection"]:,}</td>'
+    f'<td class="{"bad" if v["intersection"]==0 else "ok"}">'
+    f'{"조인 불가 (조용히 빈 결과)" if v["intersection"]==0 else "1:1 정상"}</td></tr>'
+    for k, v in joins.items()
+)
+
+# --- 패널 3: frontier 개념도 ---
+FW, FH = 620, 360
+pts = [  # (cost 0~1, risk 0~1, label, cls)
+    (0.02, 0.92, "무검사 재사용", "p-bad"),
+    (0.10, 0.55, "version tag", "p-tag"),
+    (0.18, 0.62, "quality filter", "p-alt"),
+    (1.00, 0.06, "전면 재계산", "p-full"),
+]
+fx = lambda c: 60 + c * (FW - 110)
+fy = lambda r: 30 + r * (FH - 90)
+frontier_pts = "".join(
+    f'<circle cx="{fx(c):.0f}" cy="{fy(r):.0f}" r="7" class="{cls}"/>'
+    f'<text x="{fx(c)+12:.0f}" y="{fy(r)+4:.0f}" class="flab">{lab}</text>'
+    for c, r, lab, cls in pts
+)
+# contract gate 가설 곡선
+curve = " ".join(f"{fx(c):.0f},{fy(r):.0f}" for c, r in
+                 [(0.05, 0.72), (0.15, 0.38), (0.25, 0.22), (0.40, 0.13), (0.70, 0.08)])
+tagcurve = " ".join(f"{fx(c):.0f},{fy(r):.0f}" for c, r in
+                    [(0.05, 0.80), (0.15, 0.58), (0.30, 0.46), (0.55, 0.30), (0.80, 0.14)])
+
+html = f"""<title>Contract Gate — 왜 버전 태그로는 부족한가</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{{color-scheme:light;--bg:#f7f6f3;--surface:#fffefb;--ink:#16151a;--muted:#6b6875;--line:#e3e0d8;
+--a:#2a78d6;--b:#eb6834;--c:#1baf7a;--bad:#d03b3b;--chip:#eeebe3}}
+@media (prefers-color-scheme:dark){{:root:not([data-theme="light"]){{--bg:#111015;--surface:#1b1a21;--ink:#f0eee8;--muted:#9a95a6;--line:#302e39;
+--a:#3987e5;--b:#d95926;--c:#199e70;--bad:#e66767;--chip:#26242d}}}}
+:root[data-theme="dark"]{{--bg:#111015;--surface:#1b1a21;--ink:#f0eee8;--muted:#9a95a6;--line:#302e39;
+--a:#3987e5;--b:#d95926;--c:#199e70;--bad:#e66767;--chip:#26242d}}
+*{{box-sizing:border-box}}
+body{{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans KR",system-ui,sans-serif;margin:0;padding:44px 20px 72px;line-height:1.65}}
+.wrap{{max-width:860px;margin:0 auto}}
+.eyebrow{{font-family:"IBM Plex Mono",monospace;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--b)}}
+h1{{font-size:2rem;font-weight:700;letter-spacing:-.02em;margin:.2em 0 .1em;text-wrap:balance}}
+.sub{{color:var(--muted);margin:0 0 34px}}
+h2{{font-size:1.15rem;margin:2.2em 0 .3em}}
+h2 .no{{font-family:"IBM Plex Mono",monospace;color:var(--b);margin-right:.5em;font-size:.9rem}}
+.claim{{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--b);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0 18px;font-weight:500}}
+.card{{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;margin:14px 0;overflow-x:auto}}
+svg{{display:block;width:100%;height:auto}}
+.gl{{stroke:var(--line);stroke-width:1}} .tick{{fill:var(--muted);font-size:11px}}
+.d-only4{{fill:var(--a);opacity:.9}} .d-only12{{fill:var(--b);opacity:.9}}
+.d-shared{{fill:none;stroke:var(--c);stroke-width:3}}
+.leg{{display:flex;gap:20px;flex-wrap:wrap;font-size:.86rem;color:var(--muted);padding-top:10px}}
+.leg i{{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:-1px}}
+table{{border-collapse:collapse;width:100%;font-size:.9rem}}
+th,td{{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left}}
+th{{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}}
+td.n,.mono{{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}}
+.bad{{color:var(--bad);font-weight:600}} .ok{{color:var(--c)}}
+.chips{{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}}
+.chip{{background:var(--chip);border-radius:5px;padding:3px 9px;font-family:"IBM Plex Mono",monospace;font-size:.76rem}}
+.p-bad{{fill:var(--bad)}} .p-tag{{fill:var(--a)}} .p-alt{{fill:var(--muted)}} .p-full{{fill:var(--c)}}
+.flab{{fill:var(--ink);font-size:12px}}
+.axis{{stroke:var(--muted);stroke-width:1.5}} .axlab{{fill:var(--muted);font-size:12px}}
+.note{{color:var(--muted);font-size:.86rem}}
+.warn{{background:var(--chip);border-radius:10px;padding:12px 16px;font-size:.88rem;margin-top:12px}}
+</style>
+<div class="wrap">
+<div class="eyebrow">EarthEmbedContract · 2026-08-24</div>
+<h1>버전 태그로는 재사용 안전을 판정할 수 없다</h1>
+<p class="sub">가정: <b>버전이 같다 ≠ 재사용해도 안전하다.</b> 아래 1·2는 실측, 3은 아직 미측정 개념도다.</p>
+
+<h2><span class="no">01</span>false safe — 태그는 같은데 결론이 다르다</h2>
+<div class="claim">제주 54지점 × 4개년. OlmoEarth <b>v1, 같은 가중치, 같은 코드</b>. 버전 태그 전 필드 동일.
+다른 것은 입력 레시피 하나 — 월별 모자이크 <b>4장 vs 12장</b>.</div>
+<div class="card">
+<svg viewBox="0 0 {W} {H}" role="img" aria-label="Jeju top-30 change candidates, 4 vs 12 timesteps">
+{grat}{dots(only4,"d-only4")}{dots(only12,"d-only12")}{dots(shared4,"d-shared",9)}
+</svg>
+<div class="leg">
+<span><i style="background:var(--a)"></i>4장 설정만 선택 ({len(only4)})</span>
+<span><i style="background:var(--b)"></i>12장 설정만 선택 ({len(only12)})</span>
+<span><i style="border:3px solid var(--c);background:none"></i>양쪽 공통 ({len(shared4)})</span>
+</div>
+</div>
+<p class="note">Top-30 중 <b>{len(shared4)}개만 겹친다</b> (Jaccard {V6["control"]["jaccard"]}). 30곳 중 25곳이 다른 장소다.
+태그를 믿고 archive를 재사용하면 결론이 91% 다른 지도를 얻고, <b>경고는 받지 못한다.</b>
+그리고 이 4-vs-12 선택은 rslearn 공식 임베딩 가이드 예제를 그대로 따른 결과다.</p>
+<p class="note">주: 일치 판정은 좌표 허용범위 {TOL}°이므로 1:1 대응이 아니다 —
+4장 기준 {len(shared4)}개, 12장 기준 {len(shared12)}개가 상대편과 일치한다. 표기는 4장 기준이다.</p>
+
+<h2><span class="no">02</span>판정 자체가 불가능한 경우 — 공개 제품의 계약 필드</h2>
+<div class="claim">Major TOM은 같은 248,719 chip에 OlmoEarth·Clay 두 제품을 배포한다. 스키마 15컬럼이 동일하다.</div>
+<div class="card">
+<table><tr><th>조인 키</th><th>교집합</th><th>결과</th></tr>{join_rows}</table>
+<p class="note" style="margin-top:12px"><code class="mono">unique_id</code>는 양쪽에 있고 이름·위치도 같다. 그런데 content hash라서
+공유 식별자가 아니다 — <b>조인하면 조용히 빈 결과가 나온다.</b></p>
+<p class="note">기계 판독 스키마에 없는 계약 필드 <b>{len(absent)}개</b> (dataset card 산문에만 존재):</p>
+<div class="chips">{"".join(f'<span class="chip">{k}</span>' for k in absent)}</div>
+</div>
+
+<h2><span class="no">03</span>남은 것 — risk·cost frontier</h2>
+<div class="claim">증명할 것: contract gate 곡선이 version tag 곡선을 <b>지배</b>한다.
+같은 비용에서 risk가 낮거나, 같은 risk에서 비용이 낮아야 한다. 점 하나가 아니라 곡선 전체다.</div>
+<div class="card">
+<svg viewBox="0 0 {FW} {FH}" role="img" aria-label="risk-cost frontier concept">
+<line x1="55" y1="{FH-45}" x2="{FW-30}" y2="{FH-45}" class="axis"/>
+<line x1="55" y1="20" x2="55" y2="{FH-45}" class="axis"/>
+<text x="{FW-30}" y="{FH-24}" text-anchor="end" class="axlab">재계산 비용 (bytes · GPU-h) →</text>
+<text x="10" y="16" class="axlab">↑ unsafe reuse · task delta</text>
+<polyline points="{tagcurve}" fill="none" stroke="var(--a)" stroke-width="2.5" stroke-dasharray="6 4"/>
+<polyline points="{curve}" fill="none" stroke="var(--b)" stroke-width="3"/>
+{frontier_pts}
+<text x="{fx(0.62):.0f}" y="{fy(0.22):.0f}" class="flab" fill="var(--b)">contract gate (가설)</text>
+<text x="{fx(0.55):.0f}" y="{fy(0.38):.0f}" class="flab" fill="var(--a)">version tag</text>
+</svg>
+<div class="warn"><b>이 그림은 개념도다. 아직 측정하지 않았다.</b> 실측된 것은 두 끝점의 성질뿐이다 —
+무검사 재사용은 비용 0·risk 최대, 전면 재계산은 risk ~0·비용 최대.
+가운데 곡선의 실제 위치가 이 논문의 결과가 된다.</div>
+</div>
+<p class="note"><b>승리:</b> 재계산 예산 25%에서 tag gate가 남기는 unsafe reuse를 contract gate가 유의미하게 줄인다.<br>
+<b>패배:</b> 두 곡선이 겹친다 → 계약 필드가 태그 이상의 정보를 주지 않는다 → 논문 방법이 아니라 제품 체크리스트로 강등.</p>
+
+<p class="note" style="border-top:1px solid var(--line);margin-top:36px;padding-top:14px">
+근거파일: <code class="mono">artifacts/results/jeju_change_v6_top.json</code>,
+<code class="mono">artifacts/results/majortom_contract_audit.json</code>.
+이 HTML은 그 JSON에서 생성된다 — 숫자를 직접 써넣지 않는다.</p>
+</div>"""
+
+out = ROOT / "artifacts/contract_gate_explainer.html"
+out.write_text(html, encoding="utf-8")
+print(f"wrote {out} ({len(html):,} bytes)")
+print(f"shared={len(shared4)} only4={len(only4)} only12={len(only12)} jaccard={V6['control']['jaccard']}")
+print(f"absent contract fields={len(absent)}")
