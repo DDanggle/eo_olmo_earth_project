@@ -1,0 +1,166 @@
+{
+  "attempts": [
+    {
+      "code": "00",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2acldAll",
+      "resultType": "CLD"
+    },
+    {
+      "code": "00",
+      "dongCode": "1111051500",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2acldArea",
+      "resultType": "CLD"
+    },
+    {
+      "code": "00",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2aappsAll",
+      "resultType": "AOD"
+    },
+    {
+      "code": "00",
+      "dongCode": "1111051500",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2aappsArea",
+      "resultType": "AOD"
+    },
+    {
+      "code": "00",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2afogAll",
+      "resultType": "FOG"
+    },
+    {
+      "code": "00",
+      "dongCode": "1111051500",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2afogArea",
+      "resultType": "FOG"
+    },
+    {
+      "code": "11",
+      "msg": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR",
+      "op": "getGk2adcoewAll",
+      "resultType": "DCOEW"
+    },
+    {
+      "code": "00",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2adcoewAll",
+      "resultType": "COT"
+    },
+    {
+      "code": "00",
+      "dongCode": "1111051500",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2adcoewArea",
+      "resultType": "COT"
+    },
+    {
+      "code": "11",
+      "msg": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR",
+      "op": "getGk2aclaAll",
+      "resultType": "CLA"
+    },
+    {
+      "code": "11",
+      "msg": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR",
+      "op": "getGk2aclaAll",
+      "resultType": "CTT"
+    },
+    {
+      "code": "11",
+      "msg": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR",
+      "op": "getGk2aclaAll",
+      "resultType": "CTH"
+    },
+    {
+      "code": "11",
+      "msg": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR",
+      "op": "getGk2aclaAll",
+      "resultType": "CTP"
+    },
+    {
+      "code": "11",
+      "msg": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR",
+      "op": "getGk2aclaAll",
+      "resultType": "CLP"
+    },
+    {
+      "code": "11",
+      "msg": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR",
+      "op": "getGk2aclaAll",
+      "resultType": "CTYPE"
+    },
+    {
+      "code": "11",
+      "msg": "NO_MANDATORY_REQUEST_PARAMETERS_ERROR",
+      "op": "getGk2aclaAll",
+      "resultType": "CLDTYPE"
+    },
+    {
+      "code": "00",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2aclaAll",
+      "resultType": "CT"
+    },
+    {
+      "code": "00",
+      "dongCode": "1111051500",
+      "msg": "NORMAL_SERVICE",
+      "op": "getGk2aclaArea",
+      "resultType": "CT"
+    }
+  ],
+  "confirmed": {
+    "getGk2aappsAll": {
+      "resultType": "AOD",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"gridKm\":\"2.0\",\"xdim\":\"320\",\"ydim\":\"397\",\"x0\":\"63.0\",\"y0\":\"333.0\",\"unit\":\"\",\"value\":\"-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,"
+    },
+    "getGk2aappsArea": {
+      "dongCode": "1111051500",
+      "resultType": "AOD",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"lon\":\"126.97065\",\"lat\":\"37.58414\",\"unit\":\"\",\"value\":\"-9999\"}]},\"pageNo\":1,\"numOfRows\":1,\"totalCount\":1}}}"
+    },
+    "getGk2aclaAll": {
+      "resultType": "CT",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"gridKm\":\"2.0\",\"xdim\":\"320\",\"ydim\":\"397\",\"x0\":\"63.0\",\"y0\":\"333.0\",\"unit\":\"\",\"value\":\"-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,"
+    },
+    "getGk2aclaArea": {
+      "dongCode": "1111051500",
+      "resultType": "CT",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"lon\":\"126.97065\",\"lat\":\"37.58414\",\"unit\":\"\",\"value\":\"-9999\"}]},\"pageNo\":1,\"numOfRows\":1,\"totalCount\":1}}}"
+    },
+    "getGk2acldAll": {
+      "resultType": "CLD",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"gridKm\":\"2.0\",\"xdim\":\"320\",\"ydim\":\"397\",\"x0\":\"63.0\",\"y0\":\"333.0\",\"unit\":\"\",\"value\":\"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,"
+    },
+    "getGk2acldArea": {
+      "dongCode": "1111051500",
+      "resultType": "CLD",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"lon\":\"126.97065\",\"lat\":\"37.58414\",\"unit\":\"\",\"value\":\"1\"}]},\"pageNo\":1,\"numOfRows\":1,\"totalCount\":1}}}"
+    },
+    "getGk2adcoewAll": {
+      "resultType": "COT",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"gridKm\":\"2.0\",\"xdim\":\"320\",\"ydim\":\"397\",\"x0\":\"63.0\",\"y0\":\"333.0\",\"unit\":\"\",\"value\":\"-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,-9999,"
+    },
+    "getGk2adcoewArea": {
+      "dongCode": "1111051500",
+      "resultType": "COT",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"lon\":\"126.97065\",\"lat\":\"37.58414\",\"unit\":\"\",\"value\":\"-9999\"}]},\"pageNo\":1,\"numOfRows\":1,\"totalCount\":1}}}"
+    },
+    "getGk2afogAll": {
+      "resultType": "FOG",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"gridKm\":\"2.0\",\"xdim\":\"320\",\"ydim\":\"397\",\"x0\":\"63.0\",\"y0\":\"333.0\",\"unit\":\"\",\"value\":\"1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,5,5,5,5,5,1,1,1,5,5,5,"
+    },
+    "getGk2afogArea": {
+      "dongCode": "1111051500",
+      "resultType": "FOG",
+      "sample": "{\"response\":{\"header\":{\"resultCode\":\"00\",\"resultMsg\":\"NORMAL_SERVICE\"},\"body\":{\"dataType\":\"JSON\",\"items\":{\"item\":[{\"dateTime\":\"202608242210\",\"lon\":\"126.97065\",\"lat\":\"37.58414\",\"unit\":\"\",\"value\":\"1\"}]},\"pageNo\":1,\"numOfRows\":1,\"totalCount\":1}}}"
+    }
+  },
+  "dateTime_used": "202608242210",
+  "schema": "datagokr-gk2a-codes-v1"
+}

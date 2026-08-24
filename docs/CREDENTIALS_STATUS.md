@@ -81,23 +81,52 @@ bash /home/work/data/code/aihub_setup.sh get 71363 \
 요청변수: `ServiceKey`, `pageNo`, `numOfRows`, `dataType`(XML/JSON),
 `dateTime`(**참고 참조**), `resultType`(**참고 참조**).
 
-### 남은 것 — 참고문서의 코드표 2개
+### 10개 오퍼레이션 전부 통과 — 파라미터 규칙 확정 (2026-08-25)
 
-`dateTime`과 `resultType`은 명세가 "참고 참조"이고 값 목록이 참고문서에만 있다.
-형식 3종(`YYYYMMDDHHMM`/`YYYYMMDDHH`/`YYYYMMDD`) × `resultType` 7종을 시도했으나 전부
-`resultCode 11`이었다. 추측을 반복하지 않는다.
+`resultType`은 **출력 형식이 아니라 산출물 변수 코드**였다. 이것이 막혔던 이유다.
+`dateTime`은 `YYYYMMDDHHMM` 10분 슬롯. 키는 **Encoding 형태를 쿼리스트링에 그대로** 넣는다
+(재인코딩하면 실패). 행정구역 계열은 `dongCode`가 추가로 필수다.
 
-필요한 것: 활용신청 상세 페이지의 **참고문서(OpenAPI 활용가이드)** 안
-① `dateTime` 형식·유효범위 ② `resultType` 허용값 목록. 이 둘만 있으면 즉시 닫힌다.
+| 오퍼레이션 | resultType | 추가 |
+|---|---|---|
+| `getGk2acldAll` / `…Area` | `CLD` (구름탐지) | Area는 `dongCode` |
+| `getGk2aappsAll` / `…Area` | `AOD` (에어로졸) | 〃 |
+| `getGk2afogAll` / `…Area` | `FOG` (안개) | 〃 |
+| `getGk2adcoewAll` / `…Area` | `COT` (주간구름 광학두께) | 〃 |
+| `getGk2aclaAll` / `…Area` | `CT` (구름분석·구름형) | 〃 |
 
-**우선순위: P2.** 이 서비스는 관측조건(구름·안개·에어로졸) 맥락 레이어이고 headline claim에
-쓰지 않는다. 닫히지 않아도 논문은 진행된다.
+10/10 모두 `resultCode 00 NORMAL_SERVICE`. 검증한 `dongCode` 예: `1111051500`.
+재현: `code/probe_datagokr_gk2a.py` (규칙 발견) → `code/probe_datagokr_gk2a_codes.py` (코드표 확정).
+결과: `artifacts/datagokr_gk2a_codes.json`.
 
-### 보안 — 인증키 재발급 권고
+응답 형태:
 
-2026-08-25 대화 중 인증키 전문이 채팅에 입력됐다. 즉각적 위험은 낮으나 대화 기록에 남는다.
-포털 마이페이지에서 **일반 인증키 재발급** 후 `.env`를 갱신하는 것을 권한다.
-재발급하면 이 문서의 실측 결과는 유지되고 키만 교체된다.
+```
+한반도(All)    2 km 격자. gridKm=2.0, xdim=320, ydim=397, x0/y0 오프셋 + value 평탄배열
+행정구역(Area) lon/lat + value (야간 구름형은 -9999 = 결측)
+```
+
+### 치명적 제약 — 이 API는 71363에 결합할 수 없다
+
+```
+dateTime=202608240000  -> code 00 (정상)
+dateTime=202608170000  -> code 99 "최대 조회 기간은 오늘 기준으로 2일 전까지입니다."
+dateTime=202210290300  -> code 99 (같음)
+```
+
+**보존 기간이 2일이다.** AI-Hub 71363의 촬영일은 2019-01-03 ~ 2022-10-29이므로
+이 API로 그 시점의 구름·안개·에어로졸 조건을 **소급 조회할 수 없다.**
+
+따라서 역할이 바뀐다.
+
+| 원래 계획 | 실제 가능한 것 |
+|---|---|
+| 71363 타일의 관측조건 맥락 레이어 | **불가** (2일 보존) |
+| — | **전향적(prospective) 운영 데모**: 실시간 구름·안개 조건에 따른 캐시 갱신 판단 |
+
+71363의 관측조건은 다른 경로로 얻어야 한다 — Sentinel-2 자체의 SCL 밴드,
+또는 Planetary Computer STAC 아이템의 `eo:cloud_cover` 메타데이터.
+어느 쪽이든 12밴드 물질화(P0)에서 같이 나온다.
 
 ## 실험에서의 위치 — 이것들은 P0가 아니다
 
@@ -105,7 +134,8 @@ bash /home/work/data/code/aihub_setup.sh get 71363 \
 |---|---|
 | AI-Hub 71363 (10m S2) | 한국 외부 stress test. 승인 나면 즉시 받는다 |
 | VWorld | 행정경계·POI 보조. 검증용 |
-| data.go.kr 기상 | 관측조건(구름·시점) 맥락. **headline claim에 쓰지 않는다** |
+| data.go.kr GK2A | **소급 조회 불가(2일 보존).** 전향적 운영 데모 전용. headline claim에 쓰지 않는다 |
+| 71363 관측조건 | Sentinel-2 SCL 밴드 또는 STAC `eo:cloud_cover`로 대체 — P0에서 함께 확보 |
 | 건축HUB | 건물 라벨 교차확인 후보 |
 
 headline claim은 공개 benchmark(PhilEO·AvalCD·Sen12Landslides)에서 성립해야 한다.
