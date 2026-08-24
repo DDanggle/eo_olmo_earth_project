@@ -1,15 +1,48 @@
-# 큰 그림 — Earth embedding은 계약 안에서만 의미가 있다
+# 큰 그림 — EarthKV와 Earth embedding 생명주기
 
 작성: 2026-08-23  
-상태: 현재 프로젝트의 가장 단순한 연구 방향
+최종 보정: 2026-08-24
+상태: 장기 프로그램 spine. 첫 논문은 `EarthEmbedContract`로 더 좁게 유지
 
 ## 한 문장
 
 > **아카이브된 Earth embedding은 모델 릴리스·시간창·밴드·해상도·풀링 계약 안에서만 의미가
-> 있으며, 계약이 다른 embedding을 조용히 재사용하면 높은 점수의 잘못된 검색·변화 후보가 생긴다.**
+> 있으며, EarthKV는 이 page-level latent를 검증·재사용·수리·재계산·보류하는 생명주기다.**
 
 우리가 해결할 문제는 “더 복잡한 adapter를 만드는 것”이 아니라, **어떤 embedding을 안전하게
 비교·재사용할 수 있고 무엇을 다시 계산해야 하는지 자동으로 판정하는 것**이다.
+
+현재 실측은 계약이 바뀌어도 파일·차원·실행이 정상인 채 좌표 identity가 깨지고, 시간계약이
+무효인 변화 후보가 높은 점수를 받을 수 있음을 보였다. **실제 downstream task의 고확신 오답은
+아직 측정하지 않았다.** 이 구분을 지키지 않으면 representation proxy를 의사결정 오류로 과장하게 된다.
+
+## 이름들은 서로를 대체하지 않는다
+
+| 층위 | 이름 | 정확한 역할 | 현재 증거 |
+|---|---|---|---|
+| 장기 연구·시스템 프로그램 | **EarthKV** | `(space, time, release, contract)`로 주소화된 latent page의 admission·invalidation·repair·precision·eviction | contract audit와 repair 자산만 있음. 완성 시스템은 없음 |
+| 첫 논문 | **EarthEmbedContract** | 비교 전에 `REUSE / ADAPT / RECOMPUTE / ABSTAIN`을 판정하고 task risk를 줄이는가 | M1–M5 완료, downstream task 미측정 |
+| 수리 연산자 | **FoldRefresh** | 일부 page만 갱신해 통계량을 유지하는가 | 별도 프로젝트의 제출·실험 자산. 여기서는 재사용 |
+| 정책 층 | **EarthRoute** | 다음에 cheap refresh·재계산·새 관측·사람검수 중 무엇을 살 것인가 | 설계만 있음 |
+| 외부 평가 domain | **MountainShift** | 대륙·센서·근거밀도가 달라질 때 위 판정이 유지되는가 | 공개 benchmark 조사 단계 |
+
+따라서 첫 논문 제목에 paging·eviction·distributed cache를 넣지 않는다. 구현·측정하지 않은
+EarthKV 전체를 논문 기여처럼 쓰면 좋은 연구 프로그램이 약한 시스템 비유로 보인다.
+
+## 2026-08-24 경쟁 경계 보정
+
+`기존 embedding 제품에는 버전 의미가 없다`는 주장은 틀렸다.
+
+- AlphaEarth 공개 컬렉션은 `MODEL_VERSION`, `PROCESSING_SOFTWARE_VERSION`,
+  `DATASET_VERSION`을 제공한다.
+- TESSERA Zarr convention은 `dataset_version`, `model_version`, `build_version`을 정의하고,
+  서로 다른 model version의 store를 명시적 정렬·재임베딩 없이 섞지 말라고 경고한다.
+- Major TOM OlmoEarth/Clay 두 제품에서는 우리가 검사한 8개 생성계약 필드가 기계 판독 스키마에
+  없었고 `unique_id` 교집합도 0이었다. 이것은 **한 제품군의 실측 gap**이지 생태계 전체의 부재가 아니다.
+
+따라서 novelty는 metadata field를 새로 발명하는 데 있지 않다. 남은 질문은
+**버전 필드가 있어도 실제 task가 호환되는지 어떻게 검증하고, 불일치 때 어떤 action이 비용 대비
+안전한지**다. 표준에는 validation semantics를, 논문에는 task-risk 감소를 기여해야 한다.
 
 ## 이미 발견한 두 증거
 
@@ -97,11 +130,27 @@ Figure 1은 두 실패를 나란히 둔다.
 contract gate가 silent error를 줄이는지 측정한다. quantizer-aware adapter와 비용곡선은 필요할 때의
 해결수단이지 논문의 중심 문장이 아니다.
 
+### 논문을 살리는 결정적 실험
+
+1. **Frozen-head silent error** — old release로 학습한 head를 그대로 고정하고 new release 또는
+   계약 mutation을 넣어 정확도·calibration·고확신 오답을 측정한다. retrain upper bound도 함께 둔다.
+2. **현실적인 mutation** — band order뿐 아니라 reflectance scale, acquisition/time recipe,
+   pooling, GSD/resampling, nodata mask를 한 축씩 바꾼다. 단순 synthetic corruption과 분리한다.
+3. **두 번째 family/release** — Major TOM의 OlmoEarth↔Clay는 cross-family라 release 복제가 아니다.
+   Clay v1.0↔v1.5처럼 실제 release pair를 동일 입력에서 다시 계산하거나 다른 공개 release pair를 찾는다.
+4. **Gate baseline** — version tag exact match, quality filter, full re-embed, Procrustes/ridge,
+   query-side bridge, old/new dual index와 비교한다.
+5. **Risk–cost curve** — unsafe reuse율·AURC·task delta와 재계산 비율·GPU/I/O 비용을 같은 표에 둔다.
+
+`R@1=0`은 좌표 호환성 실패의 강한 증거지만 task failure 자체는 아니다. frozen-head 실험이 실패하면
+논문 headline을 `silent high-confidence error`에서 `representation compatibility audit`로 낮춘다.
+
 ## 중단 기준
 
 - 시간창을 바로잡아도 후보가 동일하게 불안정하다.
 - 모델 릴리스 오류가 preprocessing mismatch 하나로 완전히 설명된다.
 - 계약 gate가 단순 quality filter보다 false alarm·task risk를 줄이지 못한다.
 - 제주 한 사례에서만 나타나고 다른 model/task에서 반복되지 않는다.
+- version tag exact-match 또는 full re-embed baseline이 같은 위험을 더 싸게 막는다.
 
 이 경우 CVPR main을 주장하지 않고 제주 파이프라인 재현성·데이터 품질 보고서로 남긴다.

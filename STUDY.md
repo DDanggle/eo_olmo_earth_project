@@ -597,7 +597,31 @@ annual-change claim의 lineage가 무효라는 뜻이다.
 **확인 질문**: 출력 shape가 두 실행 모두 `768×H×W`로 같아도 왜 시간축 호환성을 의미하지 않으며,
 월별 재슬라이싱 대신 재추론이 필요한 이유와 후보 생성 전 반드시 검사할 세 시간 필드는 무엇인가?
 
+### #45 version metadata와 operational compatibility는 다른 계약이다 (2026-08-24)
+
+EarthKV 통합안을 최신 제품 문서와 대조하면서 `기존 Earth embedding 제품에는 버전 의미가 없다`는
+전제가 깨졌다. AlphaEarth는 model/process/data version을, TESSERA는 dataset/model/build version을
+제공하고 다른 model version의 store를 섞지 말라고 명시한다. 그러나 version tag가 있다고 old head,
+old query/gallery, 변화 집계가 새 release에서도 유지되는지는 알 수 없다. metadata contract는
+**무엇이 달라졌는지 식별**하고, compatibility experiment는 **그 차이가 task에 허용 가능한지 판정**한다.
+EarthKV는 이 판정 뒤의 reuse/repair/recompute lifecycle이고, EarthEmbedContract는 첫 논문의 좁은
+estimand다. 둘을 같은 기여로 쓰면 구현하지 않은 paging·eviction까지 주장하게 된다.
+
+**확인 질문**: 두 embedding store가 모두 `model_version`을 기록해도 왜 backward compatible하다고
+말할 수 없으며, old frozen head·dual index·full re-embed를 어떤 risk–cost 표에서 비교해야 하는가?
+
 ## 스터디 로그
+
+### 2026-08-24 — EarthKV 층위와 최신 공개 benchmark 보정
+
+- 배운 것: 카드 #45. version provenance가 존재하는 것과 downstream compatibility가 검증된 것은
+  다르다. novelty를 metadata 부재가 아니라 task-risk validation과 action cost에 둬야 한다.
+- 데이터 보정: AvalCD와 Sen12Landslides가 MountainShift의 더 싼 Phase 0을 제공한다. AI-Hub 4해상도는
+  ontology가 달라 동일 label ladder로 가정할 수 없다.
+- 실행 확인: parent venv에서 128 tests가 통과했고 optional geospatial 1건만 skip됐다. system Python의
+  PyYAML 부재 실패는 interpreter/runtime도 재현계약의 일부라는 기존 카드 #36을 다시 확인했다.
+- 다음 학습: frozen-head task error와 calibration을 측정해 R@1 proxy를 실제 decision risk로 승격하거나
+  실패하면 headline을 representation compatibility audit로 낮춘다.
 
 ### 2026-08-23 — audit-only pilot·immutable release smoke
 

@@ -23,6 +23,30 @@
 | B | 유효한 선택적 갱신기 | PPI 신뢰구간 + 25% 이하 재계산으로 결정 지표 유지 | 통계적 유효성 + FoldRefresh |
 | C | 파트너 Evidence Pack | 제주 연안 압력 후보 + 현장 검수 + 두 번째 태스크 전이 | 의사결정·생태·일반화 |
 
+### 2026-08-24 교수 판정 — 유의미하지만 아직 논문·제품으로 닫히지 않았다
+
+| 축 | 현재 판정 | 근거 | 다음 승격 조건 |
+|---|---|---|---|
+| 과학적 실행 | **강함** | 216 exact-input release audit, 248,719 paired product audit, 사전 gate로 M5 일반 주장 철회, 128 tests 통과 | public downstream task에서 silent error와 gate 이득 재현 |
+| 첫 논문 | **중간 이하** | 좌표 호환성 실패는 강하지만 task 정확도·calibration 0건 | frozen old head + realistic mismatch + 두 번째 release family |
+| Ai2 취업 | **높은 잠재력, 외부 신호 미완성** | rslearn/runner 마찰·재현성 감사·파트너형 문제와 공고 요구가 정합 | PR/이슈/기술글 중 최소 1건 외부 merge·응답 |
+| 박사 프로그램 | **유의미** | release-aware representation lifecycle이라는 일반 질문과 반증 가능한 단계가 있음 | 논문 1을 metadata audit가 아닌 task-risk science로 만들기 |
+| 비즈니스 | **가설 단계** | audit offer는 명확하지만 독립 고객 인터뷰·LOI·유료 검증 0 | 같은 손실을 말하는 파트너 2곳 + 1곳의 데이터/시간/비용 약속 |
+
+장기 프로그램 이름은 **EarthKV**로 사용한다. 단 층위를 섞지 않는다.
+
+```text
+EarthKV (program/system abstraction)
+├─ EarthEmbedContract (Paper 1: validity/invalidation gate)
+├─ FoldRefresh (repair operator; 별도 검증 자산 재사용)
+├─ EarthRoute (admission/escalation policy; 후속)
+└─ MountainShift (external evaluation domain; Paper 2 후보)
+```
+
+AlphaEarth와 TESSERA는 이미 version metadata를 제공하므로 `버전 필드가 없다`를 novelty로 쓰지 않는다.
+현재 novelty 후보는 **task-level compatibility 검증 + action별 risk–cost 곡선**이다. paging·eviction·
+distributed/federated EarthKV는 구현 전까지 문서의 장기 확장일 뿐 현재 기여가 아니다.
+
 원칙: **파악하면서 개선한다.** 매 루프 = 돌린다 → 마찰을 만난다 → 개선(PR/스크립트/문서)으로
 남긴다 → 그것이 A/B/C의 부품이 된다. PR은 찾아다니지 않고 부딪힌 것만 올린다.
 
@@ -56,9 +80,10 @@
   - [x] 소규모 AOI 엔드투엔드 추론 1회 완주 (forest_loss_driver 100건)
   - [x] lfmc 설정으로 학습 재현 1회 (ep33 test MSE 558.8)
   - [x] 마찰 기록 → 문서/코드 PR 후보 정리
-- [ ] **루프 2 (주 3–6): A 벤치마크** ← 지금 여기 — v1/v1.2 × 실제 장면선택
-      (`legacy` vs `coverage×3 + SCL BestClear`) × 동일계절 4개년을 짝지어 입력·릴리스·세계 변화를
-      분해하고, 단계별 I/O·GPU·검수 비용까지 프로파일링
+- [ ] **루프 2 (주 3–6): A 벤치마크** ← 지금 여기 — **downstream task gate가 임계경로**.
+      public segmentation/retrieval task의 old-release frozen head를 v1/v1.2와 realistic contract
+      mutation에 넣어 정확도·calibration·고확신 오답·재계산 비용을 측정한다. 제주 동일계절
+      BestClear는 보조 stress case로만 둔다.
 - [ ] **루프 3 (주 7–9): B 부분 갱신** — 별도 `decision-ready-earth-ai`에서 검증된 FoldRefresh
       방법을 RslearnWriter 출력·K-Earth 결정지표에 이식하고 4-튜플 버전 태깅
 - [ ] **루프 4 (주 10–12): C Evidence Pack** — 제주 연안/오름의 공식근거·사람검수 dossier와
@@ -337,6 +362,32 @@ v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, �
 
 ## Worklog
 
+### 2026-08-24 (8차) — EarthKV 통합 판정 + 최신 경쟁·데이터 보정
+
+- 계획: 첨부된 EarthKV 통합안을 현재 M1–M5, 최신 공개 embedding product, 산악 공개 benchmark,
+  Ai2 채용 요구와 대조하고 과장된 전제를 고친다. 새 전략 문서는 만들지 않고 기존 SSOT에 통합한다.
+- **판정**: EarthKV는 장기 프로그램 spine으로 유의미하다. 다만 첫 논문을 EarthKV 전체로 넓히지 않고
+  `EarthEmbedContract`의 task-risk gate로 고정한다. FoldRefresh는 repair operator, EarthRoute는 후속
+  policy, MountainShift는 Paper 2 평가 domain이다.
+- **경쟁 보정**: AlphaEarth는 model/process/data version을, TESSERA convention은 dataset/model/build
+  version과 cross-version 혼합 금지를 이미 제공한다. 따라서 `경쟁제품은 버전 의미가 없다`를 철회.
+  Major TOM의 8필드 부재와 `unique_id` trap은 해당 제품 두 개의 실측으로만 유지한다.
+- **논문 최대 위협**: M1의 identity R@1=0과 M3/M5의 dose curve는 representation proxy다.
+  downstream task·고확신 오답·calibration을 측정하지 않았으므로 `silent error 감소`는 아직 주장할
+  수 없다. 다음 임계 실험은 old-release frozen head + retrain upper bound + full re-embed/dual-index/
+  simple version gate baseline이다.
+- **MountainShift 보정**: 2026 AvalCD(4지역 bi-temporal avalanche)와 2025 Sen12Landslides(15지역,
+  refined 74,956 events)가 있어 기관별 원자료 결합 전 public region-holdout을 먼저 할 수 있다.
+  AI-Hub 50k의 네 해상도는 class ontology가 서로 다르고 Landsat에는 산사태 class가 없어,
+  co-registration 감사 전 `동일 라벨 resolution ladder` 주장을 금지했다.
+- **재현 확인**: parent `olmoearth_projects/.venv`로 전체 suite **128 tests OK, optional 1 skip**.
+  system Python은 PyYAML 부재로 5 import error였으므로 재현 명령에 interpreter 계약이 중요하다.
+- 세 목표 결론: 취업 신호는 강하지만 외부 PR/이슈가 아직 닫히지 않았고, 박사 질문은 살아 있으나
+  task-risk 표가 필요하며, 비즈니스는 파트너 2곳 반복 수요 전까지 `Release Readiness Audit` 서비스형
+  검증에 머문다.
+- 다음: ① public downstream frozen-head table ② sample schema PR 또는 LFMC report 외부 전달
+  ③ AvalCD/Sen12 20-sample transform/license gate. 그 전 VLM·federated·distributed EarthKV 금지.
+
 ### 2026-08-24 (7차) — **사전 등록 gate 실패. W2 일반 주장 철회**
 
 야간 체인 완료. `replicates_across_releases = **False**`.
@@ -576,6 +627,10 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 `--model-env`를 파라미터화해 v1.2의 `OLMO_V1_2_MODEL_PATH`를 쓸 수 있게 스크립트를 수정했다.
 
 ### 2026-08-24 (4차) — MountainShift 검토 + 다섯 방향 통합 우선순위
+
+> **후속 보정(8차):** 아래는 당시의 의사결정 기록이다. 공개 Phase 0의 현재 1순위는
+> Glacial-Lake-Bench/Landslide4Sense가 아니라 AvalCD/Sen12Landslides이며, 현재 실행 queue는
+> 이 파일 상단 `교수 판정`과 8차 Worklog를 따른다.
 
 - 판정: **좋은 방향이다. 다만 아직 세지 않은 비용이 하나 있고, 범위가 지금까지 중 가장 크다.**
 - 좋은 점 셋: ① **ETH 정합성** — GLAMOS는 ETH 공동운영이고, 다섯 방향 중 지원 목표와 자산이

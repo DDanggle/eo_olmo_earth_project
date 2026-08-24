@@ -178,8 +178,11 @@ temporal recipe가 더 붙는다.
 - Ai2 Studio embedding export
 - ESSD 초경량 Earth embedding DB (전지구 육지 1년 ≈ 2.4 TB)
 
-전부 **아카이브**다. 전부 v2가 나온다. **재사용 프로토콜을 가진 곳은 하나도 없다.**
-이것이 intro 두 번째 문단이고, 지금 어느 문서에도 없다.
+전부 **아카이브**이고 version transition이 실제 문제가 된다. 그러나 2026-08-24 재조사 결과
+**`재사용 프로토콜을 가진 곳은 하나도 없다`는 문장은 철회한다.** AlphaEarth는 model/process/data
+version을, TESSERA convention은 dataset/model/build version과 cross-version 혼합 금지를 명시한다.
+남은 빈칸은 version 필드의 존재가 아니라 **동일 task에서의 호환성 검증, 불일치 시 action,
+위험–재계산 비용 곡선**이다.
 
 ### ✅ 검증 결과 — 예상보다 훨씬 좋다
 
@@ -215,7 +218,8 @@ temporal recipe가 더 붙는다.
 geometry, centre_lat, centre_lon, utm_footprint, utm_crs, pixel_bbox, parquet_row, parquet_url`.
 
 **Clay 카드가 "동일한 249k grid cell과 동일 원본 영상을 다른 Major TOM 249k 임베딩 데이터셋과
-공유한다"고 명시한다.** 즉 `unique_id`/`grid_cell`로 조인 가능한 진짜 paired set이다.
+공유한다"고 명시한다.** 실제 parquet 감사 결과 진짜 paired set이지만, 조인 키는
+`grid_cell + product_id`다. **`unique_id` 교집합은 0**이므로 공유 chip ID로 쓰면 조용히 빈 조인이 난다.
 
 ### 이 표 자체가 우리 논문의 증거다
 
@@ -236,7 +240,7 @@ geometry, centre_lat, centre_lon, utm_footprint, utm_crs, pixel_bbox, parquet_ro
 
 **오늘 당장 가능하다** (GPU 불필요, 총 약 2 GB 내려받기, 노트북 규모):
 
-1. 248,719 chip을 `unique_id`로 조인한 **cross-model paired 임베딩 집합**.
+1. 248,719 chip을 `grid_cell + product_id`로 조인한 **cross-model paired 임베딩 집합**.
 2. **gallery-size 곡선을 실측으로** — `10³–10⁵` 구간을 외삽이 아니라 실제 임베딩으로 그린다.
    지금까지 216 site-years에서 외삽하던 구간이다.
 3. W2의 **진단 눈멂 행렬을 실제 공개 제품에서** 실행 (CKA·kNN overlap·subspace overlap 등).
@@ -361,7 +365,8 @@ W1·W2는 *문제가 실재하는가*를 묻는다. 둘 다 방법보다 앞이�
 처음에는 한국 트랙의 집으로 AAAI AISI를 제안했다. **사용자 확인 결과 AAAI 마감은 이미 지났다.**
 따라서 이 주기의 목표는 **CVPR 단일**이다.
 
-- **당장의 유일한 마감: CVPR (통상 11월 초 → 10-31 완료).** 여기에 자원을 집중한다.
+- **내부 완료 목표: 2026-10-31.** CVPR 2027 공식 paper deadline은 아직 확인되지 않았으므로
+  이것을 공식 마감이라고 쓰지 않는다.
 - 한국 트랙의 venue 결정은 **보류**한다. NeurIPS D&B·ISPRS JPRS·TGRS·다음 회차 AAAI AISI가
   모두 후보로 남아 있으나, 지금 고르는 것은 이득이 없다. CVPR 결과와 라벨 진척(B1)을 보고 정한다.
 - 실무적 함의 하나: **마감이 하나뿐이므로 "두 트랙 동시 제출"이라는 압력이 사라졌다.**
@@ -632,10 +637,11 @@ compat/method → 한국 event-first → wide-angle 계측기 → VLM. **아이�
 
 1. **ETH 정합성.** GLAMOS는 ETH가 공동운영한다. 다섯 방향 중 **지원 목표와 자산이 겹치는 유일한
    방향**이다. 이건 과학 논거가 아니라 경력 논거이고, 그렇게 부르고 쓰면 정당하다. 숨기면 안 된다.
-2. **Phase 0이 라벨 병목을 통과한다.** Glacial-Lake-Bench(19,115 pairs, S1+S2+DEM,
-   leave-one-region-out 내장)와 Landslide4Sense(3,799 patches, 4지역)는 **다운로드로 끝난다.**
-   한국 트랙은 라벨 1,200건 + NGII 승인이 필요했다. **지금까지 나온 것 중 실제 transfer 수치에
-   가장 빨리 닿는 경로다.**
+2. **Phase 0이 라벨 병목을 통과한다.** AvalCD(4지역 bi-temporal SAR)와
+   Sen12Landslides(15지역, refined 74,956 landslides)는 공개 benchmark로 시작할 수 있다.
+   한국 트랙은 라벨 1,200건 + NGII 승인이 필요했다. **지금까지 나온 것 중 실제 region-holdout
+   transfer 수치에 가장 빨리 닿는 경로다.** 단 annotation license와 OlmoEarth 입력 변환은
+   20 sample gate를 먼저 통과해야 한다.
 3. dual-speed 구조(`z_global / z_region / r_t`)가 K-ALIGN의 stable/residual 분리와 **같은 구조**다.
    새로 만드는 게 아니라 같은 설계를 다른 도메인에 놓은 것이다.
 
@@ -656,9 +662,10 @@ cell D·coverage 편향·`published_time` 같은 행정 provenance 계측기는 
 
 ### 비용 2 — 지금까지 중 가장 큰 범위 확장
 
-새로 붙는 것: GLAMOS, swissALTI3D, ARPA SIFraP(약 36,000건), ARPA 눈사태 portal, ICIMOD RDS,
-산림청 위험지도·발령이력·산불이력. 각각 라이선스·다운로드·시간정렬 확인이 필요하다.
-여기에 5-cell × 다지역 × label 1/5/10/50/100% 격자가 얹힌다.
+전체 프로그램으로 승격하면 GLAMOS, swissALTI3D, ARPA SIFraP, ARPA 눈사태 portal, ICIMOD RDS,
+산림청 위험지도·발령이력이 새로 붙고 각각 라이선스·다운로드·시간정렬 확인이 필요하다.
+그러나 **Phase 0에서는 이 기관별 결합을 열지 않는다.** AvalCD와 Sen12Landslides만으로 먼저
+transfer 신호를 죽이거나 살린 뒤, 통과했을 때만 5-cell × 다지역 × label 1/5/10/50/100% 격자를 연다.
 
 **오늘 GPU는 0장이고 마감은 10주다.** Phase 0(4 method × 2 benchmark × region holdout)만 해도
 이미 상당한 GPU 프로그램이다.
@@ -682,7 +689,7 @@ AnySat(다센서 공동학습 전이)이 이미 있으므로 **"다지역이 저
 
 ---
 
-### 다섯 방향 통합 우선순위
+### 다섯 방향 통합 우선순위 — 1·2는 완료, 현재 queue는 다시 좁혔다
 
 원칙: **(결정력 × 저렴함) ÷ (새 의존성)**. 그리고 하드룰 하나 —
 **측정 하나가 착지하기 전에는 새 방향을 열지 않는다.**
@@ -705,7 +712,7 @@ AnySat(다센서 공동학습 전이)이 이미 있으므로 **"다지역이 저
 |---:|---|---|---|
 | **1** | **Major TOM 계약 감사** (`code/audit_majortom_contract.py`) | **GPU 0장인 오늘 할 수 있는 유일한 결정적 측정.** paired 전제를 살리거나 죽인다. 결과표가 embeddings-stac gap에 바로 들어감 | 지금 |
 | **2** | **W1 dose–response 최소판** (밴드 순서·정규화) | 다섯 방향 전부에 쓰임. raster 재사용. **산악으로 확장하면 눈 때문에 더 강해짐** | GPU 나면 즉시 |
-| **3** | **Phase 0 다운로드·라이선스 확인** (Glacial-Lake-Bench, Landslide4Sense) | MountainShift 전체의 gate. 하루. GPU 불필요. **여기서 막히면 MountainShift는 없다** | 1과 병행 |
+| **3** | **Phase 0 다운로드·라이선스 확인** (AvalCD, Sen12Landslides) | MountainShift 전체의 gate. 하루. GPU 불필요. **여기서 막히면 MountainShift는 없다** | 1과 병행 |
 | **4** | **NGII 신청 + 한국 event universe** | 승인 대기가 길어 지금 안 넣으면 다음 주기도 못 엶 | 1과 병행 |
 | **5** | frozen probe (제주 임베딩에서 water/snow/debris) | MountainShift 1단계이자 compat 기계와 동일. 소량 GPU | 2 이후 |
 | **6** | ADC baseline | quantizer 방법을 **싸게 죽일 수 있음** | 2 이후 |
@@ -724,6 +731,11 @@ AnySat(다센서 공동학습 전이)이 이미 있으므로 **"다지역이 저
 
 **세 개가 동시에 죽을 확률은 낮고, 어느 하나가 죽어도 나머지가 산다.** 이게 이 순서를 고른 이유다.
 반대로 5-cell 격자부터 시작하면 GPU를 다 쓰고도 세 축 중 어느 것도 판정하지 못한다.
+
+**후속 실행 상태(2026-08-24).** 1은 M2, 2는 M3–M5로 완료됐고 M5가 일반 주장을 철회시켰다.
+따라서 위 표를 새 작업 순서로 반복하지 않는다. 현재 임계경로는
+① public downstream frozen-head task table, ② 외부 sample-schema PR 또는 재현 report,
+③ AvalCD/Sen12Landslides 20-sample transform·license gate다. 상세 상태는 `GOAL.md`가 SSOT다.
 
 ---
 

@@ -31,6 +31,28 @@
 `open`은 포털 전체가 아니라 **개별 자료의 이용조건과 실제 다운로드 가능성**을 다시 확인해야 한다.
 GLOF 사건 목록도 곧바로 pixel mask가 되는 것은 아니다.
 
+## 2026-08-24 최신 공개자산 보정
+
+기관별 원자료를 처음부터 꿰매기 전에 아래 공개 benchmark로 반증한다.
+
+| 자산 | 확인된 내용 | 이 프로젝트에서의 정확한 역할 |
+|---|---|---|
+| **AvalCD (2026)** | Sentinel-1 pre/post, LIA·DEM·slope·aspect·mask·polygon, Livigno·Nuuk·Pish·Tromsø 4지역, 1.1 GB | 눈사태 cross-region bi-temporal Phase 0. annotation license 표기는 별도 확인 |
+| **Sen12Landslides (2025)** | 15지역, refined 74,956 landslides, S2 13,628 patches와 S1 asc/desc·DEM·event date/confidence | 산사태 unseen-region·future-time Phase 0의 1순위 |
+| **GlaViTU benchmark (Nature Communications 2024)** | 약 400 GB, 전지구 빙하의 9%, 11지역, optical/SAR/DEM, 독립 시공간 test | cryosphere global/local/region-encoding strong baseline |
+| **HKH Glacier Mapping (LILA BC)** | Landsat-7+SRTM, 35 tiles, 14,190개 512×512 patches, clean/debris glacier mask | 작고 쉬운 HKH smoke. 2002–2008 inventory라 최신 변화 task로 쓰지 않음 |
+| **ICIMOD GLOF** | 1533–2025 766 events, 2025-12 갱신, CC BY 4.0 | event/date/impact inventory. 좌표·날짜 정밀도와 pre/post 영상 가능성 감사 뒤에만 pixel task 승격 |
+
+WSL/SLF의 공개 설명에서 스위스 2018+2019 눈사태 polygon은 **24,778개**다. Norway·Greenland를
+합쳐 이 숫자를 부풀리지 않는다. 2023 정리 논문은 Norway 약 6,300, Greenland 약 800을 보고하지만
+센서·지역·라벨 계약이 달라 단순 합산 표본수는 과학적 장점이 아니다.
+
+한국 AI-Hub 국립공원 데이터는 50,000장(0.1 m 20k / 0.5 m 25k / 10 m 3k / 30 m 2k)이 맞다.
+그러나 **네 해상도가 동일 장면·동일 polygon·동일 ontology라는 증거는 없다.** 실제 class는
+sensor마다 다르고 Landsat에는 산사태/토석류 class가 없다. 따라서 `같은 라벨의 4단 해상도 ladder`는
+다운로드 후 co-registration·scene ID·label mapping을 감사하기 전까지 금지한다. 원본·재가공 데이터는
+재배포하지 않고, 공개 논문은 재현 가능한 public benchmark를 반드시 함께 둔다.
+
 ## 하나로 합치되, 같은 현상인 척하지 않는다
 
 ### Track A — Cryosphere
@@ -111,12 +133,23 @@ h_t      = gated fusion(z_global, z_region, r_t)
 
 ### Phase 0 — 공개 benchmark로 먼저 확인
 
-- cryosphere: [Glacial-Lake-Bench](https://essd.copernicus.org/preprints/essd-2026-474/)
-  (2026 preprint, 19,115 pairs, S1+S2+DEM, leave-one-region-out protocol).
-- landslide: [Landslide4Sense](https://arxiv.org/abs/2206.00515)
-  (3,799 multisource patches, S2+DEM+slope, 4개 지역).
+- avalanche: [AvalCD](https://zenodo.org/records/15863589) 4지역 bi-temporal SAR.
+- landslide: [Sen12Landslides](https://www.nature.com/articles/s41597-025-06167-2)
+  15지역 S1/S2+DEM 시계열. Landslide4Sense는 보조 구형 baseline으로만 둔다.
+- cryosphere: [GlaViTU benchmark](https://www.nature.com/articles/s41467-024-54956-x)를
+  strong baseline으로, HKH LILA BC를 작은 smoke로 둔다. Glacial-Lake-Bench는 license·download를
+  확인한 뒤 추가한다.
 - 비교: task-specific U-Net/scratch, frozen OlmoEarth probe, Prithvi-EO-2.0, Olmo residual adapter.
 - 먼저 `region holdout`에서 frozen Olmo가 scratch보다 나은지 확인한다. 평균만 보지 않는다.
+
+**24시간 promotion gate**:
+
+1. AvalCD annotation license와 Sen12Landslides split/license를 확인한다.
+2. OlmoEarth 입력으로 변환 가능한 band/time/GSD mapping을 20 sample에서 검증한다.
+3. frozen Olmo linear probe가 scratch baseline의 95%에도 못 미치면 MountainShift를 Paper 2에서
+   응용 보고서로 내린다.
+4. ICIMOD 766건 중 `좌표 + 월 이하 날짜정밀도 + pre/post usable observation`이 100건 미만이면
+   GLOF pixel task를 열지 않는다.
 
 ### Phase 1 — 네 지역 evidence pilot
 

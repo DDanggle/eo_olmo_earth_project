@@ -1,6 +1,6 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-08-23
+최종 갱신: 2026-08-24
 
 이 파일이 **입구**입니다. 처음 보는 사람(또는 새 컴퓨터의 나)은 여기부터 읽습니다.
 
@@ -32,11 +32,10 @@
 | `K_CONTEXT_FUSION_EXPERIMENT.md` | 메인 논문 실험 계약 — 동적 공공 context, EO-only privileged distillation, simple/native baseline, 3지역 split·kill gate |
 | **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** M1 릴리스 identity 실패 / M2 Major TOM 계약 감사 / M3 dose–response / M4 취약성 반증 / M5 복제 실패 |
 | `MOUNTAIN_EVIDENCE_TRANSFER.md` | MountainShift — 알프스·HKH·한국 산악 전이 설계, TRANSFER/LOCAL-ADAPT/RE-EMBED/ABSTAIN, 중단 기준 |
-| `K_ALIGN_BIG_PICTURE.md` | 계약 안에서만 의미가 있다 — 한 장 요약과 REUSE/ADAPT/RECOMPUTE 판정 |
+| `K_ALIGN_BIG_PICTURE.md` | **EarthKV 프로그램 spine** — EarthEmbedContract·FoldRefresh·EarthRoute·MountainShift의 층위와 REUSE/ADAPT/RECOMPUTE 판정 |
 | `K_ALIGN_CVPR_READINESS_AUDIT.md` | CVPR 준비도 감사 — 필요성·예측가능성·fixed quantizer, 14일 P0 |
 | `K_ALIGN_WIDE_ANGLE.md` | **광각 보정** — 계약 불일치 계측기(dose–response), 진단 눈멂 행렬, Major TOM 실험대, ADC killer baseline, embeddings-STAC gap |
 | `K_GAIN_AXES.md` | **네 축 감사** — 정확도·임베딩·속도·위성유도 각각의 기전, 이미 점유된 선행연구, 남은 빈칸, 계약 수정 5건 |
-| `K_ALIGN_BIG_PICTURE.md` | **한 장 큰 그림** — embedding 계약 불일치가 만드는 고확신 오류, REUSE/ADAPT/RECOMPUTE·ABSTAIN, 한국의 역할 |
 | `K_ALIGN_PROGRAM_NOTE.md` | **K-ALIGN 프로그램 노트** — 은행에 든 자산, 승률을 올리는 8보정(R1–R8), 제출 사다리, 프로그램 중단 조건, 세 축 닫기 |
 | `KOREA_ALIGNED_EARTH_BUS_EXPERIMENT.md` | **K-ALIGN 중심 계약(authoritative)** — stable cache, multi-teacher compatible distillation, timestamped public residual, 4 estimand·gate, derivability screen, black-box baseline, A0–A7/B1–B2 실행순서 |
 | `EMBEDDING_TRANSFER_CVPR_TRACKS.md` | multi-teacher EO 호환 전이, edge/cloud 효율, cross-view robotics·world-model·simulation 후보와 kill gate |
@@ -70,6 +69,27 @@ kt cloud AI Nexus의 **H200 ×2**.
 - **검색 방법론**: 파운데이션 임베딩의 이방성을 mean-centering으로 교정하면 라벨 0개로
   최대 ×26 리프트의 유사지 검색이 가능함을 정량 검증. few-shot 프로토타입은 지역·유형을
   건너뛰어 전이됨(완도 해상 김양식 → 제주 육상 수조, 9/9가 상위 4% 내).
+
+### 2026-08-24 냉정한 현재판
+
+이 프로젝트는 **유의미한 연구 프로그램이지만 아직 논문 결론도 제품도 아니다.** 강점은 계획의
+크기가 아니라, 주장을 스스로 기각한 증거 사슬이다. v1/v1.2 exact-input 216건, Major TOM 248,719
+paired audit, band-order dose response, Gaussian 반증 대조군, v1.2 복제 실패까지 `MEASURED_FINDINGS.md`
+한 장으로 닫혀 있다. 로컬 전체 suite는 올바른 parent venv에서 **128 tests 통과, optional 1건 skip**이다.
+
+장기 이름은 **EarthKV**로 묶되 첫 논문은 `EarthEmbedContract`에 고정한다. EarthKV의 paging·eviction·
+admission·distributed cache는 아직 구현·측정하지 않았고 기여로 세지 않는다. 가장 큰 미완성은
+`R@1=0`이 실제 frozen downstream head의 정확도·calibration·고확신 오답으로 이어지는지다.
+
+최신 조사로 두 전제도 고쳤다. AlphaEarth와 TESSERA는 이미 model/data/build version을 명시하므로
+novelty는 `version metadata` 자체가 아니라 **task-level compatibility validation과 risk–cost action**이다.
+MountainShift는 기관별 원자료를 먼저 합치지 않고 2025–2026 공개 Sen12Landslides·AvalCD에서
+region holdout을 먼저 반증한다. AI-Hub 국립공원 4해상도는 sensor별 class가 달라, 동일 장면·동일
+polygon audit 전에는 resolution ladder라고 부르지 않는다.
+
+현재 우선순위는 둘뿐이다: ① public task의 frozen-head silent-error 표 ② Ai2에 보일 수 있는
+외부 증거(sample schema PR 또는 LFMC report) 한 건. 이 둘 전에는 새 VLM·federated·분산 EarthKV
+트랙을 열지 않는다.
 
 ### 2026-08-23 연구 프로그램 보정과 첫 실행
 
