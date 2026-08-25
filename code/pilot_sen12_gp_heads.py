@@ -275,6 +275,11 @@ def main() -> None:
             probs_sum = np.zeros(BINS); hits = np.zeros(BINS); cnts = np.zeros(BINS)
             ap_num = ap_den = 0.0
             pos_scores, neg_scores = [], []
+            # 원 논문 S12LS-LD와 비교하려면 **마스크 >= 50 픽셀** 부분집합이 필요하다
+            # (README: "only annotated patches (>50 annotated pixels per patch)").
+            # 같은 pass에서 전체(headline)와 LD 부분집합을 동시에 낸다.
+            ld_tp = ld_fp = ld_fn = 0.0
+            ld_n = 0
             for x, y in loaders[split]:
                 x, y = x.to(device), y.to(device)
                 with torch.amp.autocast("cuda", dtype=torch.bfloat16):
@@ -282,6 +287,11 @@ def main() -> None:
                 pred = (p > 0.5).float()
                 tp += float((pred * y).sum()); fp += float((pred * (1 - y)).sum())
                 fn += float(((1 - pred) * y).sum())
+                keep = (y.flatten(1).sum(1) >= 50)
+                if bool(keep.any()):
+                    pk, yk = pred[keep], y[keep]
+                    ld_tp += float((pk * yk).sum()); ld_fp += float((pk * (1 - yk)).sum())
+                    ld_fn += float(((1 - pk) * yk).sum()); ld_n += int(keep.sum())
                 pf, yf = p.flatten().cpu().numpy(), y.flatten().cpu().numpy()
                 b = np.clip((pf * BINS).astype(int), 0, BINS - 1)
                 np.add.at(probs_sum, b, pf); np.add.at(hits, b, yf); np.add.at(cnts, b, 1)
@@ -307,10 +317,15 @@ def main() -> None:
                     prec = tp_ / (tp_ + fp_); rec = tp_ / len(ps)
                     s += prec * max(prev_r - rec, 0.0); prev_r = rec
                 auprc = float(s)
+            ld_iou = ld_tp / max(ld_tp + ld_fp + ld_fn, 1e-9)
+            ld_f1 = 2 * ld_tp / max(2 * ld_tp + ld_fp + ld_fn, 1e-9)
             return {"iou": round(iou, 5), "f1": round(f1, 5),
                     "auprc": (round(auprc, 5) if auprc is not None else None),
                     "ece": round(ece, 5), "positive_pixel_frac":
-                        round(float(len(ps) / max(len(ps) + len(ns), 1)), 6)}
+                        round(float(len(ps) / max(len(ps) + len(ns), 1)), 6),
+                    # 원 논문 S12LS-LD 비교용 (마스크 >=50 픽셀 표본만)
+                    "ld_subset_n": ld_n, "ld_iou": round(ld_iou, 5),
+                    "ld_f1": round(ld_f1, 5)}
 
         results[arm] = {
             "desc": desc, "trainable_params": n_par, "pos_weight": round(pw, 3),
@@ -347,6 +362,20 @@ def main() -> None:
         "arms": results,
         "caveat": ("test는 held-out 지역 1개뿐이다. region-macro는 10-fold 전체에서만 나온다. "
                    "이 수치를 지역 일반화로 읽지 않는다."),
+        "published_baseline_S12LS_LD": {
+            "source": "PaulH97/Sen12Landslides README, S2+DEM, seeds 42/123/777 평균",
+            "U-TAE": {"AP": 67.75, "F1": 61.80, "IoU": 44.74},
+            "U-ConvLSTM": {"AP": 65.13, "F1": 61.95, "IoU": 44.88},
+            "Unet3d": {"AP": 62.08, "F1": 58.82, "IoU": 41.66},
+            "ConvGRU": {"AP": 60.00, "F1": 59.06, "IoU": 41.91},
+            "not_comparable_because": [
+                "task: 그들은 mask>=50 픽셀 표본만(양성 밀집). 우리 headline은 음성 포함",
+                "split: 그들은 random 80/20. 우리는 leave-one-region-out (훨씬 어렵다)",
+                "input: 그들은 11채널(밴드+SCL+DEM) 15 timestep. 우리는 10밴드 12 timestep, DEM 없음",
+                "epochs: 그들은 75, loss는 BCEDice(pos_weight 5, dice_w 0.5). 우리는 BCE(pos_weight 35)",
+            ],
+            "our_ld_subset_note": "ld_iou/ld_f1 은 task만 맞춘 값이며 split·input·epoch은 여전히 다르다",
+        },
     }
     (args.out / f"{args.fold}_pilot.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
