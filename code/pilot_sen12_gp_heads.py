@@ -12,9 +12,16 @@
           P2 raw 12시점 → 3D U-Net (시간축도 downsample)
           P4 frozen emb 768x32x32 → 1x1 conv → 32→64→128 upsample decoder
   손실    BCEWithLogits, pos_weight = train의 (neg/pos), 50으로 상한
-  최적화  AdamW lr 1e-3, wd 1e-4, cosine, epoch 8, batch 16, seed 1
+  최적화  AdamW lr 1e-3, wd 1e-4, cosine, batch 16, seed 1
+
+프로토콜 수정 (2026-08-25, 사유 공개)
+  1차 8 epoch 실행에서 **세 arm 모두 손실이 단조 하강 중**이었다 (P1 0.943→0.574,
+  P2 0.961→0.389, P4 0.406→0.186). 즉 전부 미수렴이며, 시작 손실이 낮은 P4에 유리한
+  비교였다. 따라서 예산을 **모든 arm에 동일하게** 늘리고 val IoU로 best epoch를 고른다.
+  1차 결과를 폐기하지 않고 둘 다 보고한다. best epoch 선택은 **val IoU만** 쓰고 test는 보지 않는다.
+
   지표    IoU@0.5 · F1@0.5 · AUPRC · ECE(15 bin). test 지역과 val 지역을 따로 보고
-  기록    학습가능 파라미터 수 · 학습시간 · peak GPU · 입력 캐시 바이트
+  기록    학습가능 파라미터 수 · 학습시간 · peak GPU · 입력 캐시 바이트 · epoch별 이력
 
 주의: test는 fold의 held-out 지역 하나뿐이다. **region-macro는 10-fold 전체에서만 나온다.**
 이 pilot의 수치를 region 일반화로 읽지 않는다.
@@ -27,7 +34,7 @@ import os
 import time
 from pathlib import Path
 
-EPOCHS, BATCH, SEED = 8, 16, 1
+EPOCHS, BATCH, SEED = 40, 16, 1
 LR, WD = 1e-3, 1e-4
 POS_WEIGHT_CAP = 50.0
 BINS = 15
@@ -224,6 +231,7 @@ def main() -> None:
 
         torch.cuda.reset_peak_memory_stats(device)
         t0 = time.perf_counter()
+        history, best = [], {"val_iou": -1.0, "epoch": 0, "state": None}
         for ep in range(args.epochs):
             model.train()
             tot, nb = 0.0, 0
@@ -235,9 +243,30 @@ def main() -> None:
                 loss.backward(); opt.step()
                 tot += float(loss); nb += 1
             sched.step()
-            print(f"  [{arm}] epoch {ep+1}/{args.epochs} loss {tot/max(nb,1):.4f} "
-                  f"({time.perf_counter()-t0:.0f}s)", flush=True)
+            # val IoU로 best epoch을 고른다. test는 절대 보지 않는다.
+            model.eval()
+            vtp = vfp = vfn = 0.0
+            with torch.no_grad():
+                for x, y in loaders["val"]:
+                    x, y = x.to(device), y.to(device)
+                    with torch.amp.autocast("cuda", dtype=torch.bfloat16):
+                        pr = (torch.sigmoid(model(x).float()) > 0.5).float()
+                    vtp += float((pr * y).sum()); vfp += float((pr * (1 - y)).sum())
+                    vfn += float(((1 - pr) * y).sum())
+            v_iou = vtp / max(vtp + vfp + vfn, 1e-9)
+            history.append({"epoch": ep + 1, "train_loss": round(tot / max(nb, 1), 5),
+                            "val_iou": round(v_iou, 5),
+                            "seconds": round(time.perf_counter() - t0, 1)})
+            if v_iou > best["val_iou"]:
+                best = {"val_iou": v_iou, "epoch": ep + 1,
+                        "state": {k: v.detach().clone() for k, v in model.state_dict().items()}}
+            if (ep + 1) % 5 == 0 or ep + 1 == args.epochs:
+                print(f"  [{arm}] epoch {ep+1}/{args.epochs} loss {tot/max(nb,1):.4f} "
+                      f"val_iou {v_iou:.4f} (best {best['val_iou']:.4f}@{best['epoch']}) "
+                      f"({time.perf_counter()-t0:.0f}s)", flush=True)
         train_s = time.perf_counter() - t0
+        if best["state"] is not None:
+            model.load_state_dict(best["state"])   # test는 best-val 가중치로만 평가한다
 
         @torch.no_grad()
         def evaluate(split):
@@ -286,6 +315,8 @@ def main() -> None:
         results[arm] = {
             "desc": desc, "trainable_params": n_par, "pos_weight": round(pw, 3),
             "train_seconds": round(train_s, 1),
+            "best_val_epoch": best["epoch"], "best_val_iou": round(best["val_iou"], 5),
+            "history": history,
             "peak_cuda_bytes": int(torch.cuda.max_memory_allocated(device)),
             "val": evaluate("val"), "test": evaluate("test"),
         }
@@ -301,7 +332,12 @@ def main() -> None:
         "fold": args.fold, "test_region": fold["test_region"],
         "val_region": fold["val_region"],
         "split_counts": {k: len(v) for k, v in splits.items()},
+        "protocol_amendment": (
+            "1차 8-epoch 실행에서 세 arm 모두 손실이 단조 하강 중(미수렴)이어서 예산을 모든 arm에 "
+            "동일하게 늘리고 val IoU로 best epoch을 골랐다. test는 선택에 쓰지 않았다. "
+            "1차 결과는 폐기하지 않고 M-기록에 함께 남긴다."),
         "preregistered": {"epochs": args.epochs, "batch": BATCH, "seed": SEED,
+                          "model_selection": "best val IoU; test never used for selection",
                           "lr": LR, "weight_decay": WD,
                           "pos_weight_cap": POS_WEIGHT_CAP,
                           "raw_norm": "uint16/10000, clamp[0,1.5]",
