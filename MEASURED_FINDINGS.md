@@ -26,6 +26,7 @@
 | M11 | Sen12Landslides 접근 감사 (G-0) | **통과 — CC BY 4.0, 지역 단위 선택 수신 가능** | 완료 |
 | M12 | annotation-process 감사 (G-A) | **16지역 중 13이 저자 교락, MMU 최대 1,916배** | 완료 |
 | M13 | 한국 폴리곤을 Sen12 16지역과 같은 자로 측정 | **한국은 Höhn군과 호환. Italy는 최대 이질 짝** | 완료 |
+| M14 | OlmoEarth modality 전수 조사 | **15개. 기상용 비공간 슬롯 `era5_10`이 이미 있음** | 완료 |
 
 **아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 **표현 기여**
 (접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 여전히 0),
@@ -581,6 +582,48 @@ Sen12Landslides inventory는 전역 shapefile이라 잘리지 않았고, AI-Hub�
 - **G-A 수정 사항 2개**:
   ① MMU 대리를 `p1` → **클리핑 정규화 후 p1**로 바꿈
   ② `MMU 비 ≥ 10×` 단독 판정 → **MMU 비와 median 비를 같이** 봄
+
+## M14. OlmoEarth에는 기상 전용 비공간 modality 슬롯이 이미 있음
+
+**근거**: `code/probe_modalities.py`, `.venv-master` (rslearn 0.1.13 + olmoearth_pretrain_minimal 0.0.6)
+**질문**: 한국 위성·기상 자료를 넣으려면 새 modality를 만들어야 하는가?
+
+### 등록된 modality 15개
+
+| modality | band_set | is_spatial | tile_factor | 밴드 |
+|---|---|---|---|---|
+| `sentinel2_l2a` | **3** | True | 1 | B02B03B04B08 / B05B06B07B8AB11B12 / B01B09 |
+| `sentinel1` | 1 | True | 1 | **vv, vh** |
+| `landsat` | 2 | True | 1 | B8 / B1–B7,B9–B11 |
+| `naip` / `naip_10` | 1 | True | 1 / **4** | R,G,B,IR |
+| **`era5_10`** | 1 | **False** | **−256** | **2m-temperature, 2m-dewpoint-temperature, surface-pressure, 10m-u-component-of-wind, 10m-v-component-of-wind, total-precipitation** |
+| `srtm` | 1 | True | 1 | srtm |
+| `latlon` | 1 | False | 1 | lat, lon |
+| `worldcover` / `worldpop` / `cdl` / `worldcereal` / `gse` / `openstreetmap_raster` / `wri_canopy_height_map` | 1 | True | 1 | (보조 레이어) |
+
+### 결론 — 새 modality를 만들 필요가 없음. 기존 슬롯에 넣는 문제임
+
+이것이 M8과 직결됨. 새 센서를 위해 아키텍처를 바꾸는 것이 아니라,
+**이미 사전학습된 슬롯에 다른 출처의 자료를 넣었을 때 계약이 지켜지는가**가 질문임.
+
+| 넣으려는 것 | 후보 슬롯 | 근거 |
+|---|---|---|
+| **아리랑 5호 (KOMPSAT-5)** | `sentinel1` (`vv`,`vh`) | 둘 다 C-band SAR. 편광이 맞으면 같은 슬롯 |
+| **KMA ASOS 지상관측** | **`era5_10`** | **변수 6종이 정확히 일치**(기온·이슬점·기압·풍속 u/v·강수). 승인 완료된 API임 |
+| GK2A 구름·에어로졸 | 대응 슬롯 없음 | CLD/AOD/FOG/COT/CT는 어느 슬롯에도 없음. `r_t`로 head 쪽에서 결합해야 함 |
+| 차세대중형위성 4호 (5 m) | 없음 | GSD·밴드가 어느 슬롯과도 안 맞음 |
+
+- **말할 수 있는 것**:
+  1. `era5_10`이 **비공간(is_spatial=False, tile_factor=−256)** 슬롯이므로, 타일당 스칼라
+     시계열을 받는 구조임. 즉 설계의 `r_t`(live residual)를 **모델 밖 head가 아니라
+     사전학습된 modality 경로로** 넣는 길이 존재함.
+  2. **KMA ASOS 일자료는 이미 승인됐고 과거 이력이 있음.** GK2A(2일 보존)와 달리
+     소급 실험이 가능함. 따라서 retrospective live-residual arm의 1순위는 ASOS임.
+  3. 아리랑 5호는 새 modality가 아니라 `sentinel1` 슬롯 재사용 문제로 좁혀짐.
+- **말할 수 없는 것**: ASOS 관측값을 `era5_10`이 기대하는 단위·정규화로 맞출 수 있는지는
+  **미확인**임. ERA5는 재분석 격자, ASOS는 지점 관측이므로 공간 보간이 필요하고 그 보간이
+  또 하나의 계약 변경임. 아리랑 5호의 편광·입사각·보정수준이 Sentinel-1과 호환되는지도 미확인.
+  이 슬롯들에 다른 출처를 넣었을 때 M8식 조용한 무시가 일어나는지도 아직 시험하지 않았음.
 
 ## 이 장부에 없는 것 (혼동 방지)
 
