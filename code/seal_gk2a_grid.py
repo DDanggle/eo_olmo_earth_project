@@ -47,6 +47,8 @@ GK2A_ROOT = Path(os.environ.get("GK2A_ROOT",
 OUT = GK2A_ROOT / "_grid"
 
 EXPECT_X, EXPECT_Y = 320, 397          # GK2A 응답의 xdim, ydim (실측)
+# 공식 KO/2km 전체 격자. 파일 첫 줄이 "900, 900,=" 이므로 900x900임 (실측).
+FULL_NX, FULL_NY = 900, 900
 LON_RANGE, LAT_RANGE = (120.0, 135.0), (30.0, 45.0)
 ANCHOR_MATCH_MIN = 0.90
 
@@ -61,17 +63,24 @@ def fetch(url: str) -> tuple[int, bytes]:
         return -1, f"EXC {type(exc).__name__}: {exc}".encode()
 
 
-def parse_ascii(body: bytes) -> list[float]:
-    """ASCII 응답을 실수 배열로 만듦. 주석·헤더 줄은 버림."""
+def parse_ascii(body: bytes) -> tuple[tuple[int, int], list[float]]:
+    """ASCII 응답을 (헤더 차원, 값 배열)로 만듦.
+
+    실측 형식: 첫 줄이 `   900,   900,=` 로 격자 차원을 주고, 그 뒤에 값이 콤마로 이어짐.
+    첫 줄을 값으로 세면 개수가 2 커진다 — 처음에 그렇게 틀렸음(810,002).
+    """
+    text = body.decode("utf-8", "replace")
+    lines = text.splitlines()
+    hdr = [t for t in lines[0].replace(",", " ").replace("=", " ").split() if t]
+    dims = (int(hdr[0]), int(hdr[1])) if len(hdr) >= 2 else (0, 0)
     vals: list[float] = []
-    for tok in body.decode("utf-8", "replace").replace(",", " ").split():
-        if tok.startswith("#"):
-            continue
-        try:
-            vals.append(float(tok))
-        except ValueError:
-            continue
-    return vals
+    for line in lines[1:]:
+        for tok in line.replace(",", " ").split():
+            try:
+                vals.append(float(tok))
+            except ValueError:
+                continue
+    return dims, vals
 
 
 def load_grid_values(day_dir: Path, hhmm: str) -> list[str] | None:
@@ -115,95 +124,126 @@ def main() -> None:
             print(json.dumps(result, ensure_ascii=False, indent=2))
             raise SystemExit(1)
         raw_path.write_bytes(body)
-        arrays[which] = parse_ascii(body)
-        result[which]["count"] = len(arrays[which])
+        dims, vals = parse_ascii(body)
+        arrays[which] = vals
+        result[which]["header_dims"] = list(dims)
+        result[which]["count"] = len(vals)
         result[which]["raw_file"] = str(raw_path)
 
-    lon, lat = arrays["lon"], arrays["lat"]
+    lon_full, lat_full = arrays["lon"], arrays["lat"]
+    full_n = FULL_NX * FULL_NY
     n = EXPECT_X * EXPECT_Y
 
-    # ---- V1 개수 ----
-    v1 = len(lon) == n and len(lat) == n
+    # ---- V1 개수: 전체 격자가 헤더가 말한 크기와 같은가 ----
+    v1 = (len(lon_full) == full_n and len(lat_full) == full_n
+          and result["lon"]["header_dims"] == [FULL_NX, FULL_NY])
+    result["full_grid"] = {"nx": FULL_NX, "ny": FULL_NY, "cells": full_n}
 
-    # ---- V2 순서 (row-major (ydim, xdim) 가정) ----
+    # ---- 부분집합 창 추출 ----
+    # GK2A 응답은 전체 격자의 (x0, y0)에서 시작하는 xdim x ydim 창임.
+    # y 방향 기준이 위/아래 어느 쪽인지 모르므로 두 변형을 만들어 V4로 가린다.
+    def window(full, x0, y0, flip_y):
+        out = []
+        for jj in range(EXPECT_Y):
+            j = (y0 + jj) if not flip_y else (y0 - jj)
+            if not (0 <= j < FULL_NY):
+                return None
+            base = j * FULL_NX
+            if x0 + EXPECT_X > FULL_NX:
+                return None
+            out.extend(full[base + x0: base + x0 + EXPECT_X])
+        return out
+
+    lon, lat = None, None   # V4에서 창별로 결정함
+
+    # ---- V2 순서: 전체 격자에서 row-major 단조성 ----
     v2 = False
-    row_mono = col_mono = None
     if v1:
         def row(j):
-            return lon[j * EXPECT_X:(j + 1) * EXPECT_X]
+            return lon_full[j * FULL_NX:(j + 1) * FULL_NX]
 
         def col(i):
-            return [lat[j * EXPECT_X + i] for j in range(EXPECT_Y)]
+            return [lat_full[j * FULL_NX + i] for j in range(FULL_NY)]
 
-        rows_ok = sum(1 for j in range(0, EXPECT_Y, 20)
-                      if all(b > a for a, b in zip(row(j), row(j)[1:])))
-        rows_tested = len(range(0, EXPECT_Y, 20))
-        cols_inc = sum(1 for i in range(0, EXPECT_X, 20)
-                       if all(b > a for a, b in zip(col(i), col(i)[1:])))
-        cols_dec = sum(1 for i in range(0, EXPECT_X, 20)
-                       if all(b < a for a, b in zip(col(i), col(i)[1:])))
-        cols_tested = len(range(0, EXPECT_X, 20))
-        row_mono = f"{rows_ok}/{rows_tested}"
-        col_mono = f"inc {cols_inc}/{cols_tested}, dec {cols_dec}/{cols_tested}"
-        v2 = rows_ok == rows_tested and max(cols_inc, cols_dec) == cols_tested
-        result["v2_detail"] = {"lon_row_monotonic": row_mono, "lat_col_monotonic": col_mono,
-                              "lat_direction": ("north_to_south" if cols_dec == cols_tested
-                                                else "south_to_north" if cols_inc == cols_tested
-                                                else "불규칙")}
+        js = range(0, FULL_NY, 50)
+        iss = range(0, FULL_NX, 50)
+        rows_ok = sum(1 for j in js if all(b > a for a, b in zip(row(j), row(j)[1:])))
+        cols_inc = sum(1 for i in iss if all(b > a for a, b in zip(col(i), col(i)[1:])))
+        cols_dec = sum(1 for i in iss if all(b < a for a, b in zip(col(i), col(i)[1:])))
+        v2 = rows_ok == len(list(js)) and max(cols_inc, cols_dec) == len(list(iss))
+        result["v2_detail"] = {
+            "lon_row_monotonic": f"{rows_ok}/{len(list(js))}",
+            "lat_col_monotonic": f"inc {cols_inc}/{len(list(iss))}, dec {cols_dec}/{len(list(iss))}",
+            "lat_direction": ("north_to_south" if cols_dec == len(list(iss))
+                              else "south_to_north" if cols_inc == len(list(iss)) else "불규칙")}
 
     # ---- V3 범위 ----
-    v3 = (v1 and LON_RANGE[0] <= min(lon) and max(lon) <= LON_RANGE[1]
-          and LAT_RANGE[0] <= min(lat) and max(lat) <= LAT_RANGE[1])
+    v3 = (v1 and LON_RANGE[0] <= min(lon_full) and max(lon_full) <= LON_RANGE[1]
+          and LAT_RANGE[0] <= min(lat_full) and max(lat_full) <= LAT_RANGE[1])
     if v1:
-        result["extent"] = {"lon": [round(min(lon), 5), round(max(lon), 5)],
-                            "lat": [round(min(lat), 5), round(max(lat), 5)]}
+        result["extent"] = {"lon": [round(min(lon_full), 5), round(max(lon_full), 5)],
+                            "lat": [round(min(lat_full), 5), round(max(lat_full), 5)]}
 
-    # ---- V4 앵커 (자유 매개변수 0개) ----
+    # ---- V4 앵커 (자유 매개변수 0개). 창의 y 방향만 두 가지를 가린다 ----
     anchors_p = GK2A_ROOT / "_crs" / "area_anchors.jsonl"
-    hits = Counter()
-    samples = []
-    if v1 and anchors_p.exists():
-        # resultType 을 키에 포함함 — M15의 결함(FOG가 CLD를 덮어씀)을 반복하지 않음
-        recs = []
+    recs = []
+    if anchors_p.exists():
         for line in anchors_p.read_text(encoding="utf-8").splitlines():
             if not line:
                 continue
             r = json.loads(line)
-            if r.get("resultType", "CLD") != "CLD":
+            # resultType 을 필터함 — M15의 결함(FOG가 CLD를 덮어씀)을 반복하지 않음
+            if r.get("resultType", "CLD") == "CLD":
+                recs.append(r)
+
+    variants = {}
+    if v1:
+        for name, flip in (("y_down", False), ("y_up", True)):
+            wl = window(lon_full, 63, 333, flip)
+            wa = window(lat_full, 63, 333, flip)
+            if wl is None or wa is None:
+                variants[name] = {"error": "창이 격자 밖"}
                 continue
-            recs.append(r)
-        for r in recs:
-            dt = r["dateTime"]
-            day = GK2A_ROOT / dt[0:4] / dt[4:6] / dt[6:8]
-            vals = load_grid_values(day, dt[8:12])
-            if vals is None or len(vals) != n:
-                continue
-            # 최근접 칸 (공식 lon/lat 배열에서 직접 찾음)
-            best_idx, best_d = None, float("inf")
-            for k in range(n):
-                d = (lon[k] - r["lon"]) ** 2 + (lat[k] - r["lat"]) ** 2
-                if d < best_d:
-                    best_d, best_idx = d, k
-            hits["compared"] += 1
-            match = vals[best_idx] == r["value"]
-            if match:
-                hits["match"] += 1
-            if len(samples) < 8:
-                samples.append({"dateTime": dt, "dong": r["dong"],
-                                "anchor_lonlat": [r["lon"], r["lat"]],
-                                "grid_index": best_idx,
-                                "grid_lonlat": [round(lon[best_idx], 5),
-                                                round(lat[best_idx], 5)],
-                                "dist_deg": round(math.sqrt(best_d), 5),
-                                "area_value": r["value"], "grid_value": vals[best_idx],
-                                "match": match})
-    rate = (hits["match"] / hits["compared"]) if hits["compared"] else None
-    v4 = rate is not None and rate >= ANCHOR_MATCH_MIN
-    result["v4_anchor"] = {"compared": hits["compared"], "match": hits["match"],
-                           "match_rate": (round(rate, 4) if rate is not None else None),
+            hits = Counter()
+            samples = []
+            for r in recs:
+                dt = r["dateTime"]
+                day = GK2A_ROOT / dt[0:4] / dt[4:6] / dt[6:8]
+                vals = load_grid_values(day, dt[8:12])
+                if vals is None or len(vals) != n:
+                    continue
+                best_idx, best_d = None, float("inf")
+                for k in range(n):
+                    d = (wl[k] - r["lon"]) ** 2 + (wa[k] - r["lat"]) ** 2
+                    if d < best_d:
+                        best_d, best_idx = d, k
+                hits["compared"] += 1
+                if vals[best_idx] == r["value"]:
+                    hits["match"] += 1
+                if len(samples) < 6:
+                    samples.append({"dateTime": dt, "dong": r["dong"],
+                                    "anchor": [r["lon"], r["lat"]],
+                                    "cell": [round(wl[best_idx], 5), round(wa[best_idx], 5)],
+                                    "dist_deg": round(math.sqrt(best_d), 5),
+                                    "area_value": r["value"], "grid_value": vals[best_idx]})
+            rate = (hits["match"] / hits["compared"]) if hits["compared"] else None
+            variants[name] = {"compared": hits["compared"], "match": hits["match"],
+                              "match_rate": (round(rate, 4) if rate is not None else None),
+                              "samples": samples}
+
+    best_name = None
+    best_rate = 0.0
+    for name, v in variants.items():
+        r_ = v.get("match_rate") or 0.0
+        if r_ > best_rate:
+            best_name, best_rate = name, r_
+    v4 = best_rate >= ANCHOR_MATCH_MIN
+    result["v4_anchor"] = {"variants": variants, "best": best_name,
+                           "best_match_rate": round(best_rate, 4),
                            "threshold": ANCHOR_MATCH_MIN,
-                           "unique_anchor_points": len({s["dong"] for s in samples}),
-                           "samples": samples,
+                           "unique_anchor_points": len({r["dong"] for r in recs}),
+                           "subset_origin": {"x0": 63, "y0": 333,
+                                             "xdim": EXPECT_X, "ydim": EXPECT_Y},
                            "note": "자유 매개변수 0개. 대응은 공식 격자에서 직접 옴"}
 
     result["gates"] = {"V1_cell_count": v1, "V2_storage_order": v2,
@@ -221,8 +261,13 @@ def main() -> None:
     (OUT / "grid_seal.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8")
-    slim = {k: v for k, v in result.items() if k != "v4_anchor"}
-    slim["v4_anchor"] = {k: v for k, v in result["v4_anchor"].items() if k != "samples"}
+    slim = {k: v for k, v in result.items() if k not in ("v4_anchor", "lon", "lat")}
+    slim["lon"] = {k: v for k, v in result["lon"].items() if k != "raw_file"}
+    slim["lat"] = {k: v for k, v in result["lat"].items() if k != "raw_file"}
+    slim["v4_anchor"] = {k: (v if k != "variants" else
+                             {vn: {kk: vv for kk, vv in vv2.items() if kk != "samples"}
+                              for vn, vv2 in v.items()})
+                         for k, v in result["v4_anchor"].items()}
     print(json.dumps(slim, ensure_ascii=False, indent=2, sort_keys=True))
     print("DONE")
 
