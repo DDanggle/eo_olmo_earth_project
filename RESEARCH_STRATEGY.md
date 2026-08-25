@@ -1,6 +1,6 @@
 # Decision-Continuous Earth Intelligence
 
-최종 갱신: 2026-08-24
+최종 갱신: 2026-08-25
 
 ## 한 문장 연구 프로그램
 
@@ -17,14 +17,16 @@
 
 | 층 | 맡는 질문 | 이 문서에서의 상태 |
 |---|---|---|
-| **K-Earth** | 위성 변화에 한국 필지·행정·환경 근거를 붙였을 때 무엇을 말하고 보류할 수 있는가 | 현재 제주 플래그십 |
-| **EarthEmbedContract** | 모델 릴리스·시간창·밴드·GSD·pooling 계약이 다른 embedding의 잘못된 재사용을 어떻게 탐지하고 막는가 | **첫 main-track 감사+방법 실험** |
-| **FoldRefresh** | 모델 릴리스가 바뀌어도 어떤 모집단 통계·결정을 부분 재계산으로 유지할 수 있는가 | 별도 로컬 방법 자산, rslearn 이식 예정 |
+| **MountainShift** | 지역 정적·live residual이 한국·네팔·스위스의 검색·segmentation과 저라벨 국가 전이를 개선하는가 | **현재 실행 임계경로** |
+| **K-Earth** | 위성 변화에 한국 필지·행정·환경 근거를 붙였을 때 무엇을 말하고 보류할 수 있는가 | 한국 operational/evidence arm |
+| **EarthEmbedContract** | 모델 릴리스·시간창·밴드·GSD·pooling 계약이 다른 embedding의 잘못된 재사용을 어떻게 탐지하고 막는가 | 호환성 guard·별도 task-risk 자산 |
+| **FoldRefresh** | 모델 릴리스가 바뀌어도 어떤 모집단 통계·결정을 부분 재계산으로 유지할 수 있는가 | 보유 repair operator; 마지막 continuity/cost arm |
 | **EarthRoute** | 다음에 어떤 관측·모델·행정근거·사람검증을 구매해야 하는가 | 위 방법의 headroom 확인 뒤 여는 후속 프로그램 |
 
-따라서 EarthRoute가 현재의 evidence-coverage 연구를 밀어내지 않는다. K-Earth가 안전한
-decision target을 만들고, FoldRefresh가 `reuse` action을 제공한 뒤, EarthRoute가 이를 비용–위험
-정책으로 일반화한다. 세부 action space·사업 가설·경쟁 경계는 `EARTHROUTE_PROGRAM_NOTE.md`,
+따라서 EarthRoute가 현재 transfer 연구를 밀어내지 않는다. MountainShift가 local/live adaptation의
+효과를 만들고, K-Earth가 한국의 안전한 decision target을 만들며, FoldRefresh가 release-change
+`reuse` action을 제공한 뒤 EarthRoute가 이를 비용–위험 정책으로 일반화한다. AI-Hub C2-C는
+한국 ingestion 지원 gate이고 이 순서를 막지 않는다. 세부 action space·사업 가설·경쟁 경계는 `EARTHROUTE_PROGRAM_NOTE.md`,
 문헌 검색 장부는 `PAPER_READING_LIST.md`에 둔다. 한국 전이 효과·공식근거 보류를 하나의 재현
 가능한 평가 자산으로 만드는 schema는 `K_EVIDENCE_SHIFT_BENCHMARK.md`, 공공 context의 역할별
 기본 계약은 `K_CONTEXT_FUSION_EXPERIMENT.md`, 이를 multi-teacher compatibility·cache refresh와
@@ -180,6 +182,13 @@ decision target을 만들고, FoldRefresh가 `reuse` action을 제공한 뒤, Ea
   한국은 산사태·산불·식생훼손·인간개입의 target/evidence 지역으로 둔다.
 - frozen probe가 실패하고 raw S1/S2/DEM baseline만 성공하면 embedding adapter 주장을 중단하고
   재임베딩으로 전환한다. 지역명/위경도 shortcut만으로 이득이 재현돼도 전이를 기각한다.
+- 현재 headline task는 세 나라 모두의 `slope-failure` segmentation·event retrieval이다. 한국 벌목,
+  네팔 GLOF, 스위스 눈사태는 local auxiliary이고 같은 task라고 부르지 않는다.
+- headline 평가는 `Korea+Nepal→sealed Switzerland`, `Nepal+Switzerland→sealed Korea`,
+  `Switzerland+Korea→sealed Nepal`의 3-way leave-one-country-out과 target label 0/1/5/10% 곡선이다.
+- `E_static`(지역 표현), `E_live`(cutoff-valid fusion), `E_transfer`(새 국가), `E_refresh`(FoldRefresh)를
+  별도 표로 닫는다. live source를 쓸 때만 좋아지면 embedding 개선이 아니라 inference fusion이다.
+- segmentation F1/mIoU뿐 아니라 event-prototype Recall@20·nDCG@20을 같은 sample에서 보고한다.
 - 데이터 자산, 두 task track, 단계별 실험과 kill gate는 `MOUNTAIN_EVIDENCE_TRANSFER.md`에 둔다.
 
 ### K-ALIGN main-paper 승격 규칙

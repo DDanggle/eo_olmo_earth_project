@@ -1,7 +1,73 @@
-# K-EvidenceShift 연구 실행계획
+# 연구 실행계획 — MountainShift 우선순위 교정
 
-갱신일: 2026-08-23  
+갱신일: 2026-08-25
 실행 자원: H200 GPU0 전용, GPU1의 다른 프로젝트와 격리
+
+## 2026-08-25 현재 임계경로
+
+> **글로벌 EO cache에 작은 region-static residual과 cutoff-valid live residual을 더하면
+> 한국·네팔·스위스의 산악 disturbance segmentation·검색이 좋아지고, 두 국가에서 배운 표현이
+> 봉인한 세 번째 국가로 0/1/5/10% 라벨만으로 전이되는가?**
+
+이 질문은 FoldRefresh의 반복이 아니다. FoldRefresh는 encoder release가 바뀐 `z_global` page의
+선택적 갱신을 맡고, 현재 실험은 새 지역의 의미 부족과 live context를 맡는다. AI-Hub C2-C는
+한국 입력을 보강하는 최대 1일의 지원 gate이며 전체 queue를 막지 않는다.
+
+### 2026-08-25 후속 보정 — headline spine을 공개 15지역으로 옮긴다
+
+아래 7일 queue는 유지하되 **headline의 무게중심을 바꾼다.** 이유는 세 가지이고
+근거·게이트는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`가 authoritative하다.
+
+1. 3-way leave-one-country-out은 **독립 표본이 3개**라 신뢰구간을 만들 수 없고,
+   그중 둘(네팔·스위스)은 snapshot join을 한 번도 하지 않았다. 하나만 막혀도 headline이 죽는다.
+2. Sen12Landslides는 **15지역** S1/S2+DEM·event date를 공개로 제공한다.
+   leave-one-region-out을 15폴드로 돌릴 수 있고 재배포 제약도 없다.
+3. 세 나라의 산사태 라벨은 **생성 과정이 다르다**(한국=S2 위 수동 폴리곤/촬영일,
+   네팔=refined inventory/event date, 스위스=행정 cadastre/신고일). 이걸 통제하지 않으면
+   국가 간 차이가 domain shift인지 annotation shift인지 분리되지 않는다.
+
+```
+P1  Sen12Landslides 15지역 LOCO        ← headline spine (공개, CI 가능)
+P2  G-A annotation-process 감사         ← 3국 주장의 전제
+P3  한국(봉인된 M10 holdout)을 16번째 지역으로
+P4  네팔·스위스 access 통과분만 추가
+P5  FoldRefresh continuity/cost (E_refresh)
+```
+
+**P1이 통과하지 못하면 P3~P5를 열지 않는다.** 공개 데이터에서 안 되는 방법을 제한
+데이터로 살리지 않는다. 아래 7일 queue의 D1·D2(3국 mapping/access)는 P2·P4로 옮기고,
+D0로 **Sen12Landslides 다운로드·라이선스·split 확인(G-0)** 을 앞에 둔다.
+
+### 7일 queue
+
+| 일자 | 산출물 | 통과 기준 |
+|---|---|---|
+| D1 | Sen12Landslides Nepal 20 + AI-Hub train/val 20의 canonical S2 10-band/time/GSD/label/DEM mapping | 동일 scale·missing-band 계약, 원본·파생 checksum과 manifest 봉인 |
+| D1 병렬 | C2-C train+val 40표본 | 하루 안에 90% exact recovery; 실패하면 v1/10밴드 또는 새 S1/S2/DEM arm |
+| D2 | Swiss Bern/SLF event 20건 access table | 15건 이상 geometry + cutoff time + pre/post EO 연결 |
+| D3 | OLMo frozen linear/MLP probe + prototype retrieval | scratch/U-TAE 95% 또는 raw-spectral retrieval보다 우수한 출력 하나 |
+| D4 | primary slope-failure의 local-only / naive pooled / shared+local-head baseline | country-cluster 단위 F1·AUPRC·Recall@20·nDCG@20 |
+| D5 | DEM/slope/climate region-static residual, 3 seeds | F1 또는 Recall@20 `+2%p`, worst-country `-1%p` 이내 |
+| D6 | historical live-source snapshot + cutoff replay | observed/published/retrieved 95% 이상; 미래정보 0건 |
+| D7 | 3-way leave-one-country-out 표와 go/kill memo | zero-shot·1/5/10% label, `E_static/E_live/E_transfer/E_refresh` 분리 |
+
+Backbone은 OLMoEarth가 중심이고, task-specific U-TAE/3D-UNet과 입력 계약이 맞는 Prithvi-EO-2.0
+또는 TerraMind 하나를 비교한다. 여러 GeoFM을 장식처럼 늘리지 않는다. 상세 source·architecture·
+promotion 기준은 `MOUNTAIN_EVIDENCE_TRANSFER.md`가 authoritative하다.
+
+3-way country transfer의 primary task는 세 나라 모두에 있는 `slope-failure` 하나다. 한국 벌목,
+네팔 GLOF, 스위스 눈사태는 local auxiliary head이며 공통 task로 합치지 않는다. 국가별 20건은
+access gate이지 최종 논문 표본수가 아니다.
+
+primary transfer는 한 OLMo release와 동일 input contract만 쓴다. 기본 후보는 v1 direct-model의
+canonical S2 10밴드 + B01/B09 band-group missing mask다. 이 경로가 재현되지 않으면 세 나라 모두
+12밴드 재물질화하거나 raw S1/S2/DEM baseline으로 전환한다. 국가마다 다른 상수 채움은 금지한다.
+v1↔v1.2는 transfer 결과가 닫힌 뒤 FoldRefresh arm에서만 다시 연다.
+
+## [LEGACY SUPPORT PLAN] 기존 K-EvidenceShift/K-ALIGN 계약
+
+아래 계획은 삭제하지 않는다. 한국 evidence/compatibility branch와 negative evidence로 보존하지만,
+2026-08-25 이후 현재 GPU queue나 논문 임계경로를 정의하지 않는다.
 
 ## 0. 지금 증명되지 않은 것
 

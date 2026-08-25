@@ -1,16 +1,21 @@
 # 큰 그림 — EarthKV와 Earth embedding 생명주기
 
+> 2026-08-25: 현재 실행 임계경로는 `MountainShift`다. arm·지표·사전등록 게이트·계산예산은
+> **`docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`** 가 authoritative하다.
+> 이미 측정된 M1·M8(계약) / M9(누수) / M10(holdout)의 자리도 그 문서 §7에 명시했다.
+
 작성: 2026-08-23  
-최종 보정: 2026-08-24
-상태: 장기 프로그램 spine. 첫 논문은 `EarthEmbedContract`로 더 좁게 유지
+최종 보정: 2026-08-25
+상태: 장기 프로그램 spine. 현재 실행 임계경로는 `MountainShift`; `EarthEmbedContract`는 호환성 guard
 
 ## 한 문장
 
 > **아카이브된 Earth embedding은 모델 릴리스·시간창·밴드·해상도·풀링 계약 안에서만 의미가
 > 있으며, EarthKV는 이 page-level latent를 검증·재사용·수리·재계산·보류하는 생명주기다.**
 
-우리가 해결할 문제는 “더 복잡한 adapter를 만드는 것”이 아니라, **어떤 embedding을 안전하게
-비교·재사용할 수 있고 무엇을 다시 계산해야 하는지 자동으로 판정하는 것**이다.
+장기 프로그램은 **어떤 embedding을 안전하게 비교·재사용할 수 있고 무엇을 다시 계산해야 하는지
+판정**한다. 현재 method track은 그 판정을 전제로, 지역·기후·근거체계가 달라질 때 작은
+region/live residual로 표현과 결정을 개선하고 새 국가에 전이할 수 있는지 묻는다.
 
 현재 실측은 계약이 바뀌어도 파일·차원·실행이 정상인 채 좌표 identity가 깨지고, 시간계약이
 무효인 변화 후보가 높은 점수를 받을 수 있음을 보였다. **실제 downstream task의 고확신 오답은
@@ -21,13 +26,34 @@
 | 층위 | 이름 | 정확한 역할 | 현재 증거 |
 |---|---|---|---|
 | 장기 연구·시스템 프로그램 | **EarthKV** | `(space, time, release, contract)`로 주소화된 latent page의 admission·invalidation·repair·precision·eviction | contract audit와 repair 자산만 있음. 완성 시스템은 없음 |
-| 첫 논문 | **EarthEmbedContract** | 비교 전에 `REUSE / ADAPT / RECOMPUTE / ABSTAIN`을 판정하고 task risk를 줄이는가 | M1–M5 완료, downstream task 미측정 |
+| 호환성 guard·논문 자산 | **EarthEmbedContract** | 비교 전에 `REUSE / ADAPT / RECOMPUTE / ABSTAIN`을 판정하고 task risk를 줄이는가 | M1–M5 완료, downstream task 미측정 |
 | 수리 연산자 | **FoldRefresh** | 일부 page만 갱신해 통계량을 유지하는가 | 별도 프로젝트의 제출·실험 자산. 여기서는 재사용 |
 | 정책 층 | **EarthRoute** | 다음에 cheap refresh·재계산·새 관측·사람검수 중 무엇을 살 것인가 | 설계만 있음 |
-| 외부 평가 domain | **MountainShift** | 대륙·센서·근거밀도가 달라질 때 위 판정이 유지되는가 | 공개 benchmark 조사 단계 |
+| 현재 method·외부평가 track | **MountainShift** | 지역 정적·live residual이 검색·segmentation을 개선하고 새 국가에 저라벨 전이되는가 | 한국 split 봉인, 네팔·스위스 공식 자산 확인, 학습 미실행 |
 
 따라서 첫 논문 제목에 paging·eviction·distributed cache를 넣지 않는다. 구현·측정하지 않은
 EarthKV 전체를 논문 기여처럼 쓰면 좋은 연구 프로그램이 약한 시스템 비유로 보인다.
+
+## 2026-08-25 실행 우선순위 교정
+
+직전에는 AI-Hub exact-scene recovery `C2-C`가 전체 논문의 다음 단계처럼 보였다. 이것은 잘못된
+우선순위다. C2-C는 한국 10밴드 archive에 B01·B09를 정확히 보강할 수 있는지 보는 **지원용
+ingestion gate**일 뿐이며 하루를 넘겨 네팔·스위스 public-transfer 실험을 막지 않는다.
+
+현재 실행 순서는 다음 하나다.
+
+```text
+Sen12Landslides public spine + 봉인된 Korea split + Swiss event/access audit
+  -> frozen Earth embedding의 공통 primitive probe·prototype retrieval
+  -> region-static residual (DEM/slope/climate normal)
+  -> cutoff-valid live residual (weather/alert/snow; prospective replay)
+  -> Korea+Nepal -> Switzerland 등 3-way leave-one-country-out
+  -> encoder release가 바뀔 때만 FoldRefresh continuity/cost 표
+```
+
+FoldRefresh는 이미 `release가 바뀐 cache를 얼마나 싸게 갱신하는가`를 맡는다. MountainShift가
+새로 증명할 것은 `새 지역에서 무엇이 전이되고 어떤 local/live residual이 정확도·검색·보류를
+개선하는가`다. 따라서 `E_static / E_live / E_transfer / E_refresh`를 별도 표로 보고한다.
 
 ## 2026-08-24 경쟁 경계 보정
 
@@ -200,7 +226,12 @@ AI-Hub를 P0로 올리면 접근 제한·ontology·co-registration을 동시에 
 > 단순 embedding alignment가 아니라 release-aware input admissibility와 task-specific risk를
 > 함께 다뤄야 한다.
 
-## 2026-08-25 재확정 — AI-Hub 71363 기반 P0 (M9 반영)
+## [SUPPORTING, NOT CRITICAL PATH] 2026-08-25 — AI-Hub 71363 입력 P0 (M9 반영)
+
+> 이 절은 한국 arm의 재현 가능한 입력·three-head risk를 만드는 지원 계획이다. 2026-08-25부터
+> cross-country transfer의 임계경로가 아니며, C2-C는 1일 timebox를 넘기지 않는다. 실패하면
+> v1/10밴드 probe 또는 새 S1/S2/DEM materialization으로 한국 arm을 계속하고, 네팔·스위스 실험은
+> 독립적으로 진행한다. 위 「실행 우선순위 교정」과 `MOUNTAIN_EVIDENCE_TRANSFER.md`가 현재 순서다.
 
 M9로 두 가지가 바뀌었다. (1) 실제 조합은 2,699쌍이고 곱집합 42,714가 아니다.
 (2) 공식 split은 valid 110/110이 train과 공간 중첩이라 쓸 수 없다.
@@ -230,14 +261,14 @@ M9로 두 가지가 바뀌었다. (1) 실제 조합은 2,699쌍이고 곱집합 
 - 센서 간 embedding cache 재사용 가능성의 증거는 아니다. 그것은
   동일 위치 · 유사 시점 · 공통 클래스 · 정합 해상도가 확보돼야 성립한다
 
-### 실행 순서 (확정)
+### 한국 지원 arm 내부 순서
 
 | 단계 | 내용 | 통과/중단 기준 |
 |---|---|---|
 | ~~C2-A~~ | v1.2 mask 경로 폐쇄 | **완료. 6/6** (M8) |
 | ~~C2-P~~ | 71363 인벤토리·계약·split 감사 | **완료** (M9) |
 | **C2-S (즉시)** | **AOI 군집 단위 spatial holdout 구축.** 13개 군집으로 leave-one-cluster-out. test 군집 **동결** | 군집 간 최소 이격이 1 타일 폭(10.24 km) 이상이어야 통과. 공식 split·탐색에 쓴 valid 300은 test로 쓰지 않는다 |
-| **C2-C** | **AI-Hub exact-scene recovery gate.** 20~50 표본만 검사 | 아래 5조건 전부 |
+| **C2-C** | **AI-Hub exact-scene recovery gate.** 20~50 표본, 최대 1일만 검사 | 아래 5조건 전부. 실패해도 전체 transfer는 계속 |
 | C2-B | three-head risk 차이 측정 | 사전 등록 기준(별도 고정) |
 | C2-D | 통과 시 B01·B09 추가 + 2,699쌍으로 확장 | — |
 

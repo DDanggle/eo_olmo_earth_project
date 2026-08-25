@@ -23,6 +23,23 @@
 | B | 유효한 선택적 갱신기 | PPI 신뢰구간 + 25% 이하 재계산으로 결정 지표 유지 | 통계적 유효성 + FoldRefresh |
 | C | 파트너 Evidence Pack | 제주 연안 압력 후보 + 현장 검수 + 두 번째 태스크 전이 | 의사결정·생태·일반화 |
 
+### 2026-08-25 현재 우선순위 — MountainShift가 실행 임계경로
+
+아래 2026-08-24 교수 판정의 **측정 결과와 약점은 유지**하되, 실행 우선순위는 보정한다.
+EarthEmbedContract와 FoldRefresh를 다시 발명하지 않는다. 현재 새 연구 기여는 한국·네팔·스위스에서
+`global EO cache + region-static residual + cutoff-valid live residual`이 segmentation·event retrieval과
+저라벨 국가 전이를 개선하는지 검증하는 `MountainShift`다.
+
+| 목표 | 이번 track이 남길 증거 |
+|---|---|
+| **Ai2/OlmoEarth 취업** | OLMo 중심 + 타 GeoFM 1개 재현 benchmark, rslearn/data-contract 마찰 PR, live regional deployment report |
+| **박사/CVPR** | 3-way leave-one-country-out, 0/1/5/10% label curve, `E_static/E_live/E_transfer/E_refresh` 분리, negative-transfer·kill 결과 |
+| **비즈니스** | 같은 event schema로 한국·네팔·스위스 live source를 ingest하고, 검색 우선순위·freshness·보류를 보여주는 prospective pilot |
+
+한국 C2-C는 최대 1일의 지원 gate다. 통과하지 않아도 v1/10밴드 probe 또는 새 S1/S2/DEM
+materialization으로 한국 arm을 계속하며 네팔·스위스를 막지 않는다. FoldRefresh는 encoder release가
+바뀔 때 `z_global` page를 갱신하는 continuity/cost arm이고, local/live 정확도 기여로 세지 않는다.
+
 ### 2026-08-24 교수 판정 — 유의미하지만 아직 논문·제품으로 닫히지 않았다
 
 | 축 | 현재 판정 | 근거 | 다음 승격 조건 |
@@ -37,10 +54,10 @@
 
 ```text
 EarthKV (program/system abstraction)
-├─ EarthEmbedContract (Paper 1: validity/invalidation gate)
+├─ EarthEmbedContract (compatibility guard; task-risk 자산)
 ├─ FoldRefresh (repair operator; 별도 검증 자산 재사용)
 ├─ EarthRoute (admission/escalation policy; 후속)
-└─ MountainShift (external evaluation domain; Paper 2 후보)
+└─ MountainShift (현재 method/transfer 실행 track)
 ```
 
 AlphaEarth와 TESSERA는 이미 version metadata를 제공하므로 `버전 필드가 없다`를 novelty로 쓰지 않는다.
@@ -80,10 +97,11 @@ distributed/federated EarthKV는 구현 전까지 문서의 장기 확장일 뿐
   - [x] 소규모 AOI 엔드투엔드 추론 1회 완주 (forest_loss_driver 100건)
   - [x] lfmc 설정으로 학습 재현 1회 (ep33 test MSE 558.8)
   - [x] 마찰 기록 → 문서/코드 PR 후보 정리
-- [ ] **루프 2 (주 3–6): A 벤치마크** ← 지금 여기 — **downstream task gate가 임계경로**.
-      public segmentation/retrieval task의 old-release frozen head를 v1/v1.2와 realistic contract
-      mutation에 넣어 정확도·calibration·고확신 오답·재계산 비용을 측정한다. 제주 동일계절
-      BestClear는 보조 stress case로만 둔다.
+- [ ] **루프 2 (주 3–6): MountainShift transfer benchmark** ← 지금 여기 — **한국·네팔·스위스
+      cross-region task gate가 임계경로**. public mountain task와 봉인한 한국 split에서 frozen
+      embedding probe·event retrieval·region-static/live residual을 비교하고, 3-way
+      leave-one-country-out과 target label 0/1/5/10% 곡선을 만든다. release silent-error 표는
+      EarthEmbedContract guard로 병렬 유지하되 C2-C 입력 복구가 전체 실행을 막지 않는다.
 - [ ] **루프 3 (주 7–9): B 부분 갱신** — 별도 `decision-ready-earth-ai`에서 검증된 FoldRefresh
       방법을 RslearnWriter 출력·K-Earth 결정지표에 이식하고 4-튜플 버전 태깅
 - [ ] **루프 4 (주 10–12): C Evidence Pack** — 제주 연안/오름의 공식근거·사람검수 dossier와
@@ -361,6 +379,38 @@ v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, �
    공개 PR 후보 (`code/scl_compositor.py`, 세 실패 로그와 성공 로그 보존).
 
 ## Worklog
+
+### 2026-08-25 — 큰 그림 복귀: 한국·네팔·스위스 Live Mountain Transfer를 임계경로로 승격
+
+- 계획: C2-C exact-scene 복구를 논문의 임계경로에서 지원용 한국 ingestion gate로 내린다.
+  FoldRefresh는 이미 확보한 릴리스/부분갱신 연산자로 두고, 새 중심 질문을 **글로벌 EO cache에
+  지역 정적 residual과 시점·freshness가 있는 live residual을 더하면 한국·네팔·스위스에서
+  산악 disturbance 검색·segmentation이 좋아지고, 봉인한 새 국가로 적은 라벨만으로 전이되는가**로
+  고정한다.
+- 이번에 고정할 것: ① FoldRefresh와 새 방법의 비중복 경계 ② 세 국가의 역사 label/static/live
+  source 역할 ③ `E_static/E_live/E_transfer/E_refresh` 네 estimand ④ retrieval+segmentation
+  leave-one-country-out 평가 ⑤ local-only/naive-pooled/GeoFM/adapter/live-residual baseline
+  ⑥ 7일 promotion/kill gate. “실시간”은 위성 초단위 추론이 아니라 느린 EO cache 위에
+  timestamped near-real-time residual을 갱신하는 것으로 제한한다.
+- 무효 조건: 서로 다른 산악 현상을 같은 class로 합치거나, 미래 alert/사후 inventory를 과거
+  예측 입력에 넣거나, 국가 ID/위경도 shortcut을 물리적 전이라고 부르거나, 한국 C2-C가 막혔다는
+  이유로 네팔·스위스 public/live probe까지 멈추는 경우.
+- 결과: `MOUNTAIN_EVIDENCE_TRANSFER.md`를 현재 authoritative track으로 승격하고 세 국가의
+  historical/static/live/evidence 역할, dual-speed architecture, 7개 baseline, 성공·kill 기준,
+  3-way leave-one-country-out을 고정했다. `README.md`, `RESEARCH_STRATEGY.md`,
+  `K_ALIGN_BIG_PICTURE.md`, 본 SSOT의 루프 2와 프로그램 층위를 같은 순서로 동기화했다.
+- task 경계: 세 나라 headline은 공통 `slope-failure` segmentation·retrieval만 사용한다. 한국 벌목,
+  네팔 GLOF, 스위스 눈사태는 local auxiliary head이며 cross-country 동일 task라고 부르지 않는다.
+- 입력 경계: primary transfer에는 한 OLMo release와 동일 canonical S2 10-band
+  scale/GSD/time/missing-band 계약만 쓴다. v1↔v1.2는 FoldRefresh arm에서만 다시 열고, 국가별로
+  다른 B01/B09 상수 채움은 금지한다.
+- 외부 실행가능성 확인: 네팔 BIPAD alert/event/geohazard/streamflow API와 ICIMOD NepalLandslide
+  OPeNDAP/WMS/HTTP catalog, 스위스 MeteoSwiss STAC와 SLF live measurement/bulletin/warning-region
+  API가 존재한다. 아직 sample join과 snapshot 시간필드 audit은 안 했으므로 실시간 성능 주장은 0이다.
+- 다음 7일: Sen12Landslides Nepal 20 + AI-Hub train/val 20 mapping 봉인 → Swiss 20 event 중 15건의
+  geometry/cutoff/pre-post EO 연결 → frozen OLMo segmentation·prototype retrieval → static residual
+  3-seed gate → cutoff-valid live replay. C2-C에는 최대 1일만 쓴다.
+- 검증: 로컬 전체 suite `137 passed, 1 skipped, 10 subtests passed`; 문서 diff whitespace 검사 통과.
 
 ### 2026-08-24 (8차) — EarthKV 통합 판정 + 최신 경쟁·데이터 보정
 
@@ -2118,9 +2168,10 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - SSH 터널이 9시간 뒤 죽어 push/실행이 조용히 실패했다. `nx tunnel up` 재시작으로 복구.
 
 **다음**
-- C2-C exact-scene recovery gate: **train+val에서만** 40표본, 물리 반사도 기준
-  Tier A/B/C 사전 고정. test 113타일에는 동결된 파이프라인을 **1회만** 적용.
-- 공식 split 누수가 성능을 얼마나 부풀리는지 C2-B에서 함께 측정.
+- **[2026-08-25 우선순위 보정]** C2-C exact-scene recovery는 train+val 40표본·최대 1일의
+  한국 지원 gate로만 실행한다. test 113타일에는 동결된 파이프라인을 1회만 적용한다.
+- 주 임계경로는 Sen12Landslides Nepal + AI-Hub Korea + Swiss event의 3-country probe·static/live
+  residual·leave-one-country-out이다. 공식 split 누수 성능 차이는 한국 arm의 보조 결과로 측정한다.
 
 ### 2026-08-21 — 취업 × 박사 × 비즈니스 전략 보정
 

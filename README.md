@@ -28,8 +28,8 @@
 | **README.md** (이 파일) | 전체 요약 + 실험 대장 + 새 컴퓨터 재현 절차 |
 | `GOAL.md` | 살아있는 계획서(SSOT) — 미션, 로드맵, Worklog, PR 후보, 확장 백로그 |
 | `RESEARCH_STRATEGY.md` | 박사 연구 프로그램 — WorldShift × ModelShift, 가설·베이스라인·12주 실행 |
-| `RESEARCH_EXECUTION_PLAN.md` | 1·2·6주 실행계획 — 표본 3종, 모델 subtrack, 지표, 표/figure, promotion/kill gate, GPU0 queue |
-| `K_CONTEXT_FUSION_EXPERIMENT.md` | 메인 논문 실험 계약 — 동적 공공 context, EO-only privileged distillation, simple/native baseline, 3지역 split·kill gate |
+| `RESEARCH_EXECUTION_PLAN.md` | **현재 7일 실행 queue** — MountainShift public spine·3국 access·probe/residual/transfer gate; 아래에는 과거 K-ALIGN 계획 보존 |
+| `K_CONTEXT_FUSION_EXPERIMENT.md` | K-ALIGN 보존 branch — 동적 공공 context, EO-only privileged distillation, simple/native baseline, 3지역 split·kill gate |
 | **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** M1 릴리스 identity 실패 / M2 Major TOM 계약 감사 / M3 dose–response / M4 취약성 반증 / M5 복제 실패 |
 | `MOUNTAIN_EVIDENCE_TRANSFER.md` | MountainShift — 알프스·HKH·한국 산악 전이 설계, TRANSFER/LOCAL-ADAPT/RE-EMBED/ABSTAIN, 중단 기준 |
 | `K_ALIGN_BIG_PICTURE.md` | **EarthKV 프로그램 spine** — EarthEmbedContract·FoldRefresh·EarthRoute·MountainShift의 층위와 REUSE/ADAPT/RECOMPUTE 판정 |
@@ -37,7 +37,7 @@
 | `K_ALIGN_WIDE_ANGLE.md` | **광각 보정** — 계약 불일치 계측기(dose–response), 진단 눈멂 행렬, Major TOM 실험대, ADC killer baseline, embeddings-STAC gap |
 | `K_GAIN_AXES.md` | **네 축 감사** — 정확도·임베딩·속도·위성유도 각각의 기전, 이미 점유된 선행연구, 남은 빈칸, 계약 수정 5건 |
 | `K_ALIGN_PROGRAM_NOTE.md` | **K-ALIGN 프로그램 노트** — 은행에 든 자산, 승률을 올리는 8보정(R1–R8), 제출 사다리, 프로그램 중단 조건, 세 축 닫기 |
-| `KOREA_ALIGNED_EARTH_BUS_EXPERIMENT.md` | **K-ALIGN 중심 계약(authoritative)** — stable cache, multi-teacher compatible distillation, timestamped public residual, 4 estimand·gate, derivability screen, black-box baseline, A0–A7/B1–B2 실행순서 |
+| `KOREA_ALIGNED_EARTH_BUS_EXPERIMENT.md` | K-ALIGN 보존 branch 계약 — stable cache, multi-teacher compatible distillation, timestamped public residual, 4 estimand·gate |
 | `EMBEDDING_TRANSFER_CVPR_TRACKS.md` | multi-teacher EO 호환 전이, edge/cloud 효율, cross-view robotics·world-model·simulation 후보와 kill gate |
 | `K_EARTH_PROGRAM_STATUS.md` | 5축 현재판 — 공공데이터 신청, 보유/시계열 상태, 사업, 한국 연구, EarthRoute 확장 |
 | `config/kearth_public_access.json` | secret 없는 접근상태 SSOT — 사용자 확인·키 존재·실제 API probe를 분리 |
@@ -85,16 +85,45 @@ split 규칙은 클래스 분포를 본 뒤 세 차례 수정됐고 그 사실�
 따라서 보고는 군집별 원자료 + cluster-macro 평균 + LOCO 13폴드 + 군집 bootstrap을 함께 둔다.
 "22개의 독립 산사태 사례" 같은 표현은 쓰지 않는다.
 
+### 2026-08-25 우선순위 교정 — 입력 복구가 아니라 세 국가 transfer가 임계경로
+
+사용자가 지적한 대로 `C2-C exact-scene recovery`를 다음 논문 단계로 둔 것은 큰 그림과 어긋났다.
+C2-C는 AI-Hub archive의 10밴드를 정확한 12밴드 관측으로 보강할 수 있는지 확인하는 한국 arm의
+지원 gate다. 최대 1일만 쓰며, 실패하면 v1/10밴드 probe 또는 새 S1/S2/DEM materialization으로
+한국을 계속한다. 네팔·스위스 실행을 기다리게 하지 않는다.
+
+현재 임계경로는 `MOUNTAIN_EVIDENCE_TRANSFER.md`의 `MountainShift`다. 느린 글로벌 Earth embedding
+cache 위에 DEM·slope 같은 지역 정적 residual과 강우·적설·경보 같은 timestamped live residual을
+더해 한국·네팔·스위스의 segmentation과 event retrieval을 개선하고, 두 국가에서 학습해 봉인한
+세 번째 국가에 zero-shot/1/5/10% label로 전이되는지 측정한다.
+headline task는 세 나라에 공통인 `slope-failure` 하나이며, 한국 벌목·네팔 GLOF·스위스 눈사태는
+국가별 auxiliary head로만 둔다.
+
+```text
+공통 public spine + 국가별 local label
+  -> frozen embedding probe + event retrieval
+  -> region-static residual
+  -> cutoff-valid live residual
+  -> 3-way leave-one-country-out
+  -> FoldRefresh release-continuity/cost (별도 효과)
+```
+
+`실시간`은 위성 자체를 초단위로 재임베딩한다는 뜻이 아니다. EO cache는 느리게 두고 live source만
+prospective snapshot으로 갱신한다. `E_static`, `E_live`, `E_transfer`, `E_refresh`를 섞지 않으며,
+FoldRefresh는 릴리스 갱신을 맡는 보유 연산자이지 새 전이 정확도의 원인이 아니다.
+
 ### 2026-08-24 냉정한 현재판
 
 이 프로젝트는 **유의미한 연구 프로그램이지만 아직 논문 결론도 제품도 아니다.** 강점은 계획의
 크기가 아니라, 주장을 스스로 기각한 증거 사슬이다. v1/v1.2 exact-input 216건, Major TOM 248,719
 paired audit, band-order dose response, Gaussian 반증 대조군, v1.2 복제 실패까지 `MEASURED_FINDINGS.md`
-한 장으로 닫혀 있다. 로컬 전체 suite는 올바른 parent venv에서 **128 tests 통과, optional 1건 skip**이다.
+한 장으로 닫혀 있다. 2026-08-25 현재 로컬 전체 suite는 올바른 parent venv에서
+**137 passed, 1 skipped, 10 subtests passed**다.
 
-장기 이름은 **EarthKV**로 묶되 첫 논문은 `EarthEmbedContract`에 고정한다. EarthKV의 paging·eviction·
-admission·distributed cache는 아직 구현·측정하지 않았고 기여로 세지 않는다. 가장 큰 미완성은
-`R@1=0`이 실제 frozen downstream head의 정확도·calibration·고확신 오답으로 이어지는지다.
+2026-08-24 판정 당시에는 첫 논문을 `EarthEmbedContract`에 고정했다. 그 측정 자산과 미완성
+downstream task-risk는 compatibility guard로 보존하되, 2026-08-25부터 새 실행 임계경로는 위의
+MountainShift다. EarthKV의 paging·eviction·admission·distributed cache는 아직 구현·측정하지 않았고
+기여로 세지 않는다.
 
 최신 조사로 두 전제도 고쳤다. AlphaEarth와 TESSERA는 이미 model/data/build version을 명시하므로
 novelty는 `version metadata` 자체가 아니라 **task-level compatibility validation과 risk–cost action**이다.
@@ -102,9 +131,10 @@ MountainShift는 기관별 원자료를 먼저 합치지 않고 2025–2026 공�
 region holdout을 먼저 반증한다. AI-Hub 국립공원 4해상도는 sensor별 class가 달라, 동일 장면·동일
 polygon audit 전에는 resolution ladder라고 부르지 않는다.
 
-현재 우선순위는 둘뿐이다: ① public task의 frozen-head silent-error 표 ② Ai2에 보일 수 있는
-외부 증거(sample schema PR 또는 LFMC report) 한 건. 이 둘 전에는 새 VLM·federated·분산 EarthKV
-트랙을 열지 않는다.
+현재 우선순위는 셋뿐이다: ① public mountain task의 frozen embedding segmentation·retrieval 표
+② 한국·네팔·스위스의 historical/static/live source를 같은 snapshot contract로 만드는 20건
+access gate ③ Ai2에 보일 수 있는 외부 증거(sample schema PR 또는 재현 리포트) 한 건. 이 셋 전에는
+새 VLM·federated·분산 EarthKV 트랙을 열지 않는다.
 
 ### 2026-08-23 연구 프로그램 보정과 첫 실행
 

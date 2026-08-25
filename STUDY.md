@@ -28,6 +28,18 @@
 
 ## 개념 카드
 
+### #46 느린 EO cache와 near-real-time residual은 다른 시계다 (2026-08-25)
+
+Sentinel-1/2 기반 Earth embedding을 `실시간`이라고 부르며 매 alert마다 전체 gallery를 다시
+임베딩하면 센서 재방문·구름·I/O 비용을 숨기게 된다. 느린 `z_global`은 새 유효 acquisition이나
+encoder release 때 갱신하고, 강우·적설·경보처럼 자주 바뀌는 `r_t`는
+`observed_at/published_at/retrieved_at/freshness`를 보존해 요청 시 갱신한다. 미래 inventory나 사후
+피해조사는 prospective input이 아니라 label/evidence다. `r_t`가 있을 때만 좋아지면 fusion 개선이고,
+EO-only student나 region-static representation이 좋아져야 embedding 개선이라고 말할 수 있다.
+
+**확인 질문**: MountainShift가 “근실시간 embedding 개선”을 주장하려면 어떤 cutoff 계약과
+ablation이 필요한가? FoldRefresh가 갱신하는 대상과 live residual이 갱신하는 대상은 어떻게 다른가?
+
 ### #1 재방문 주기와 모자이크 (2026-08-14)
 Sentinel-2는 쌍둥이 위성이 같은 지점을 ~5일마다 재촬영(한국 ~2-3일). 광학은 구름에 죽으므로
 `period_duration: 14d` + `PER_PERIOD_MOSAIC`으로 구간당 최선의 합성 1장을 만든다.

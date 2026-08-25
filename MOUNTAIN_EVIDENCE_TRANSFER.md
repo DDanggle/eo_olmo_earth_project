@@ -1,20 +1,59 @@
 # Mountain Evidence Transfer
 
-최종 갱신: 2026-08-24  
-상태: 아이디어 검토 완료, 데이터 다운로드·학습 미실행
+최종 갱신: 2026-08-25
+상태: **현재 cross-region 표현 개선 임계경로.** 데이터 다운로드·학습은 아직 미실행
 
 ## 약점부터
 
 - 한국에는 현재 빙하가 없으므로 `히말라야 빙하호 → 한국`을 같은 task의 직접 전이라고 부를 수 없다.
 - 기관별 inventory는 공간해상도·관측시점·발행시점이 다르다. polygon이 있다고 같은 정답은 아니다.
 - 기존 OlmoEarth embedding이 산악 변화를 실제로 담고 있는지는 아직 probe하지 않았다.
+- 한국 GK2A, 네팔 BIPAD/ICIMOD, 스위스 MeteoSwiss/SLF는 갱신되는 데이터지만 아직 동일한
+  snapshot/freshness 계약으로 실제 수집하지 않았다. 따라서 현재 `real-time` 성능 주장은 0이다.
 - 따라서 현재 말할 수 있는 것은 **실행 가능한 연구 설계**이지, 전이 성능이나 개선 결과가 아니다.
+
+## 2026-08-25 우선순위 교정 — C2-C가 아니라 이 실험이 큰 그림이다
+
+직전 실행은 AI-Hub 10밴드를 12밴드로 복구하는 C2-C를 임계경로처럼 두었다. 그것은 한국 arm의
+입력 충실도를 높이는 **지원용 ingestion gate**이지 연구 질문이 아니다. 하루 timebox 안에 통과하지
+않으면 한국은 v1/10밴드 probe 또는 새 Sentinel-1/2/DEM 재물질화 arm으로 계속 가고, 네팔·스위스
+실험을 멈추지 않는다.
+
+FoldRefresh도 대체하지 않는다. 두 방법은 서로 다른 고장을 맡는다.
+
+| 층 | 맡는 고장 | 출력 |
+|---|---|---|
+| **Live Mountain Transfer (현재 중심)** | 새 지역·기후·근거체계에서 의미와 성능이 부족함 | 지역 residual, live residual, 검색·segmentation 개선, 저라벨 국가 전이 |
+| **FoldRefresh (보유 연산자)** | encoder release가 바뀌어 cache/statistic이 오래됨 | 필요한 page만 갱신해 결정통계 유지 |
+| **EarthRoute (후속)** | 어떤 residual·관측·사람검수를 다음에 살지 모름 | 비용–위험 action policy |
+
+현재 논문 후보의 질문은 `낡은 cache를 어떻게 고치나`가 아니라 다음이다.
+
+> **전지구 EO cache에 작은 지역 정적 residual과 timestamped live residual을 더하면 한국·네팔·
+> 스위스의 산악 disturbance 검색과 segmentation이 좋아지고, 두 국가에서 배운 표현이 봉인한
+> 세 번째 국가에 적은 라벨만으로 전이되는가?**
+
+`실시간`은 위성 영상이 초단위로 들어온다는 뜻이 아니다. Sentinel-1/2 기반 EO embedding은 느린
+cache로 두고, 강우·적설·경보·새 event/evidence처럼 더 자주 바뀌는 입력만 near-real-time residual로
+갱신한다. prospective event replay에서 해당 시각까지 공개된 정보만 사용한다.
+
+### primary transfer에서는 release와 input contract를 고정한다
+
+3국 transfer 실험에 v1·v1.2를 섞지 않는다. 첫 baseline은 세 나라 모두 같은 canonical S2
+10밴드와 동일 scale/GSD/time recipe를 쓰고, OlmoEarth v1의 B01·B09 band group 전체 부재를
+명시적으로 마스킹하는 direct-model path를 promotion gate에서 검증한다. wrapper가 이 계약을
+표현하지 못하면 국가별 상수 채움을 하지 않고, ① 세 나라 모두 12밴드 재물질화 또는 ② raw
+S1/S2/DEM task model로 전환한다.
+
+v1↔v1.2 release axis는 primary transfer가 닫힌 뒤 FoldRefresh continuity/cost에서만 다시 연다.
+Prithvi-EO-2.0이나 TerraMind는 각자의 native input contract로 독립 baseline을 만들고, 같은 tensor를
+억지로 공유하지 않는다. 비교하는 것은 country-cluster 평가 지표와 compute이지 내부 token identity가
+아니다.
 
 ## 한 문장 질문
 
 > **알프스·히말라야·한국처럼 기후와 관측체계가 다른 산악지역에서, 글로벌 Earth embedding의
-> 어떤 변화 신호가 전이되고 어디서 실패하며, 지역 공공근거를 얼마나 넣어야 그 실패를 안전하게
-> 보정할 수 있는가?**
+> 어떤 변화 primitive가 전이되며 지역 정적·live residual이 정확도·검색·보류를 얼마나 개선하는가?**
 
 가칭은 `MountainShift`다. 핵심은 산악 데이터를 많이 모으는 것이 아니라
 `TRANSFER / LOCAL-ADAPT / RE-EMBED / ABSTAIN`을 구분하는 것이다.
@@ -30,6 +69,43 @@
 
 `open`은 포털 전체가 아니라 **개별 자료의 이용조건과 실제 다운로드 가능성**을 다시 확인해야 한다.
 GLOF 사건 목록도 곧바로 pixel mask가 되는 것은 아니다.
+
+### 세 국가의 같은 구조, 다른 자료
+
+지역 데이터는 억지로 한 tensor나 한 ontology로 합치지 않는다. 각 국가는
+`historical label / static context / live residual / independent evidence` 네 역할만 맞춘다.
+
+| 국가 | historical label·평가 | static regional residual | live residual 후보 | 현재 상태 |
+|---|---|---|---|---|
+| **한국** | AI-Hub 71363 산사태·벌목·토지피복, 13 AOI 군집 holdout | DEM·slope/aspect·장기 토지피복·보호구역 | GK2A·KMA 강우/구름·산림청 경보 | label/split 봉인 완료. GK2A 10/10 API 통과, 2일 보존이라 전향 snapshot 필요 |
+| **네팔** | Sen12Landslides Nepal inventory, ICIMOD glacier/lake/GLOF, BIPAD event | Copernicus DEM·slope·ICIMOD inventory | BIPAD alert/event/streamflow, ICIMOD NepalLandslide OPeNDAP | API·카탈로그 존재 확인, snapshot/license/시간필드 감사 미실행 |
+| **스위스** | canton Bern natural-event cadastre, SLF/EnviDat avalanche 자료 | swissALTI3D·slope·glacier/permafrost inventory | MeteoSwiss STAC, SLF IMIS/live measurement·bulletin·warning regions | 공식 live API·CC BY 4.0 확인, 실제 표본 join 미실행 |
+
+네팔 BIPAD는 alert/event/geohazard/streamflow endpoint를 공개하고, ICIMOD는 Nepal landslide
+NetCDF를 OPeNDAP/WMS/HTTP로 제공한다. 스위스 MeteoSwiss는 STAC에서 새 자료 확인을 지원하고,
+SLF는 live measurement·avalanche bulletin·warning-region API를 CC BY 4.0으로 제공한다.
+이들은 **라벨이 아니라 시점 있는 residual/evidence**다. 독립 사건 polygon·사람 판정과 섞지 않는다.
+
+- BIPAD API: https://bipadportal.gov.np/api/
+- ICIMOD NepalLandslide catalog: https://threddsdataserver.icimod.org/thredds/catalog/NepalLandslide/catalog.html
+- MeteoSwiss Open Data: https://opendatadocs.meteoswiss.ch/de/general/download
+- SLF data service: https://www.slf.ch/en/services-and-products/slf-data-service/
+- Bern natural-event cadastre light: https://opendata.swiss/en/dataset/naturereigniskataster-light
+
+### task 계약 — headline 하나, 국가별 auxiliary는 분리
+
+세 나라를 `mountain hazard`라는 이름만으로 합치지 않는다.
+
+| 층 | 한국 | 네팔 | 스위스 | 허용 주장 |
+|---|---|---|---|---|
+| **Primary cross-country task** | AI-Hub 산사태·토석류 | Sen12Landslides Nepal landslide | Bern cadastre의 landslide subset | `slope-failure` segmentation + event retrieval의 3-way country transfer |
+| **공통 representation primitive** | bare debris·scar·vegetation loss | bare debris·scar·water/snow confusion | bare debris·scar·snow confusion | frozen representation/prototype가 공통 시각 단서를 담는지 |
+| **Local auxiliary head** | 벌목·식생훼손 | GLOF·빙하호 변화 | 눈사태·적설 | local adaptation/evidence 결과. 세 나라 공통 task라고 부르지 않음 |
+
+headline leave-one-country-out은 primary `slope-failure`에만 적용한다. auxiliary head는 같은
+backbone/residual이 여러 현상에 도움을 주는지 보는 보조 결과이며, ontology를 억지로 합치지 않는다.
+Phase 0의 국가별 20건은 다운로드·join·cutoff 가능성을 판정하는 access sample이지 논문 최종
+유효표본수가 아니다. 승격 후 event 수와 독립 공간군집을 늘리고 cluster bootstrap을 붙인다.
 
 ## 2026-08-24 최신 공개자산 보정
 
@@ -75,6 +151,22 @@ sensor마다 다르고 Landsat에는 산사태/토석류 class가 없다. 따라
   각각 저장한다.
 - 한국 API, GLAMOS/ARPA/ICIMOD inventory는 teacher이자 감사 근거다. 근거가 없으면 보류한다.
 
+## 네 효과를 섞지 않는다
+
+“임베딩이 좋아졌다”를 한 숫자로 말하지 않는다. 다음 네 estimand를 별도 표로 닫는다.
+
+| 효과 | 비교 | 성공이면 말할 수 있는 것 |
+|---|---|---|
+| **E_static** | `z_global` vs `z_global + region-static residual` | DEM·slope·기후평년 등 지역 물리가 검색/segmentation 표현을 개선 |
+| **E_live** | static-only vs cutoff-valid live residual | 새 강우·적설·경보가 현재 event ranking·calibration·earliness를 개선 |
+| **E_transfer** | local-only/naive pooled vs shared+regional residual, leave-one-country-out | 두 국가에서 배운 primitive가 적은 현지 라벨로 새 국가에 전이 |
+| **E_refresh** | full re-embed vs FoldRefresh selective update | encoder release가 바뀌어도 같은 decision metric을 더 싸게 유지 |
+
+`E_live`만 좋아지면 inference-time evidence fusion 결과이지 EO embedding 자체 개선이 아니다.
+`E_static` 또는 privileged-distilled EO-only student가 좋아져야 representation 개선이라고 부른다.
+`E_transfer`는 target-country hyperparameter를 보지 않은 zero-shot과 1/5/10% local-label 곡선을
+분리한다. `E_refresh`는 FoldRefresh의 재사용 결과이고 새 transfer 방법의 novelty로 세지 않는다.
+
 ## 기존 embedding을 보정하는 네 단계
 
 1. **Probe** — frozen embedding에서 선형/작은 MLP로 water·snow·debris·vegetation loss를 읽을 수
@@ -91,10 +183,16 @@ sensor마다 다르고 Landsat에는 산사태/토석류 class가 없다. 따라
 모든 정보를 한 벡터에 영구히 섞지 않는다. 산악 자연보존 시스템은 두 속도로 나눈다.
 
 ```text
-z_global = Earth encoder(S1/S2, frozen input contract)
-z_region = local adapter(z_global, DEM, slope, geology, climate normal)
-r_t      = API encoder(weather/fire/landslide/snow/evidence, observed_at, freshness, missingness)
-h_t      = gated fusion(z_global, z_region, r_t)
+z_global        = Earth encoder(S1/S2, frozen input contract)          # 느린 공유 cache
+z_region        = local adapter(z_global, DEM, slope, geology, climate normal)
+r_t             = API encoder(weather/fire/landslide/snow/evidence,
+                              observed_at, published_at, freshness, missingness)
+z_live          = normalize(z_global + alpha*z_region + beta_t*r_t)
+prototype_bank  = country/task prototypes with source/time/quality lineage
+
+retrieval       = similarity(z_live, prototype_bank)
+segmentation    = task_head(z_live)
+release update  = FoldRefresh(z_global pages); z_region/r_t contracts remain explicit
 ```
 
 | 속도 | 데이터 예시 | 역할 |
@@ -104,8 +202,10 @@ h_t      = gated fusion(z_global, z_region, r_t)
 | 빠름 | 강우·적설·구름, 산불·산사태 경보, 센서 상태 | 매 요청 갱신하는 `r_t` |
 | 사후 | 확정 피해조사, 복구보고, 사후 인허가 | label/검증 근거; 과거 예측 input 금지 |
 
-공공 API가 바뀌면 `r_t`만 갱신한다. 전체 EO gallery를 재임베딩하지 않는다. API가 없거나 오래됐거나
-서로 충돌하면 missingness/freshness token이 residual을 0 또는 `ABSTAIN` 방향으로 gate한다.
+공공 API가 바뀌면 `r_t`와 관련 prototype만 갱신한다. 전체 EO gallery를 재임베딩하지 않는다.
+API가 없거나 오래됐거나 서로 충돌하면 missingness/freshness token이 residual을 0 또는 `ABSTAIN`
+방향으로 gate한다. encoder release가 바뀌었을 때만 FoldRefresh가 `z_global` page의 선택적 갱신을
+맡는다. 이것이 local/live transfer와 release refresh의 경계다.
 
 ## 단일지역 모델보다 다지역 모델이 좋은지 묻는 정확한 비교
 
@@ -115,7 +215,9 @@ h_t      = gated fusion(z_global, z_region, r_t)
 2. **Naive pooled** — 모든 지역을 그대로 합친 단일 모델. negative-transfer 기준점.
 3. **Shared backbone + local head** — 공통 시각 primitive만 공유.
 4. **Shared backbone + local adapter** — 지형·기후 차이를 작은 지역 adapter로 보존.
-5. **4 + timestamped API residual** — 실시간 관측을 gated fusion하고 근거 부족 시 보류.
+5. **4 + prototype memory** — 같은 표현에서 event/non-event 검색 이득을 분리.
+6. **5 + timestamped API residual** — live 관측을 gated fusion하고 근거 부족 시 보류.
+7. **6 + FoldRefresh** — 모델 릴리스 전환 비용표. 정확도 기여가 아니라 continuity/cost arm.
 
 평가는 `지역별 1/5/10/50/100% label`, `unseen-region`, `future-year`, `API missing/stale`로 나눈다.
 다지역 모델은 특히 저라벨·새 지역에서 local-only보다 빨리 올라가야 의미가 있다. full-label local model을
@@ -123,37 +225,47 @@ h_t      = gated fusion(z_global, z_region, r_t)
 
 ### 사전 성공 기준
 
-- local-only/naive pooled 대비 unseen-region 또는 저라벨 macro F1·AUPRC `+2%p`, spatial bootstrap CI>0.
+- local-only/naive pooled 대비 unseen-country 또는 저라벨 macro F1·AUPRC `+2%p`, cluster CI>0.
+- event retrieval에서 Recall@20 또는 nDCG@20 `+5%p`; query·gallery 어느 쪽을 새 국가로 두어도
+  방향이 같아야 한다.
+- live residual은 future-event replay에서 static-only보다 AUPRC `+2%p` 또는 median detection
+  lead-time을 1 snapshot 이상 개선하고, cutoff 이후 정보를 사용하지 않는다.
 - worst-region 저하 `≤1%p`, high-cloud/snow false positive 감소.
 - API time-shift·region-shuffle에서 이득이 사라져야 실제 시공간 context 이득으로 인정.
 - `region_id`/위경도만 넣은 baseline과 같으면 물리적 지역 embedding 주장을 중단.
-- `E_repr`(EO-only student 개선)와 `E_fusion`(API를 볼 때만 개선)을 반드시 별도 표로 보고한다.
+- `E_static/E_live/E_transfer/E_refresh`를 반드시 별도 표로 보고한다.
 
 ## 가장 작은 반증 가능한 실험
 
-### Phase 0 — 공개 benchmark로 먼저 확인
+### Phase 0 — 7일 cross-region promotion gate
 
-- avalanche: [AvalCD](https://zenodo.org/records/15863589) 4지역 bi-temporal SAR.
-- landslide: [Sen12Landslides](https://www.nature.com/articles/s41597-025-06167-2)
-  15지역 S1/S2+DEM 시계열. Landslide4Sense는 보조 구형 baseline으로만 둔다.
-- cryosphere: [GlaViTU benchmark](https://www.nature.com/articles/s41467-024-54956-x)를
-  strong baseline으로, HKH LILA BC를 작은 smoke로 둔다. Glacial-Lake-Bench는 license·download를
-  확인한 뒤 추가한다.
-- 비교: task-specific U-Net/scratch, frozen OlmoEarth probe, Prithvi-EO-2.0, Olmo residual adapter.
-- 먼저 `region holdout`에서 frozen Olmo가 scratch보다 나은지 확인한다. 평균만 보지 않는다.
+- **공통 public spine**: [Sen12Landslides](https://www.nature.com/articles/s41597-025-06167-2)의
+  15지역 S1/S2+DEM, 특히 Nepal inventory와 leave-one-region-out. 기존 논문도 unexplored-region
+  F1 0.52–0.70의 큰 틈을 보고하므로 지역 residual이 개선할 자리가 있다.
+- **한국 external arm**: 봉인한 AI-Hub 71363 spatial split. C2-C는 1일 timebox; 실패해도
+  v1/10밴드 probe 또는 새 S1/S2/DEM materialization으로 계속한다.
+- **스위스 access arm**: Bern natural-event cadastre 20 event와 SLF/MeteoSwiss historical-live
+  snapshot join 가능성을 먼저 확인한다. event geometry 또는 cutoff time이 없으면 live 성능표에
+  넣지 않고 access report로 내린다.
+- **backbone**: OlmoEarth를 중심으로 task-specific 3D-UNet/U-TAE, Prithvi-EO-2.0,
+  TerraMind 중 입력 계약이 맞는 최소 1개를 추가한다. 다른 모델을 장식용으로 넣지 않는다.
+- **두 출력**: 같은 sample에서 segmentation F1/mIoU와 event-prototype Recall@k/nDCG를 함께 잰다.
 
-**24시간 promotion gate**:
+**7일 promotion gate**:
 
-1. AvalCD annotation license와 Sen12Landslides split/license를 확인한다.
-2. OlmoEarth 입력으로 변환 가능한 band/time/GSD mapping을 20 sample에서 검증한다.
-3. frozen Olmo linear probe가 scratch baseline의 95%에도 못 미치면 MountainShift를 Paper 2에서
-   응용 보고서로 내린다.
-4. ICIMOD 766건 중 `좌표 + 월 이하 날짜정밀도 + pre/post usable observation`이 100건 미만이면
-   GLOF pixel task를 열지 않는다.
+1. Sen12Landslides Nepal 20 sample과 AI-Hub train/val 20 sample의 canonical 10-band
+   scale/GSD/time/missing-band 계약과 라벨·DEM mapping을 봉인한다.
+2. Swiss event 20건 중 최소 15건에 geometry + event/cutoff time + pre/post EO가 연결된다.
+3. frozen Olmo probe가 scratch/U-TAE baseline의 95%에도 못 미치고 prototype retrieval도 random·
+   raw-spectral baseline을 못 이기면 `embedding 개선`을 중단하고 raw S1/S2/DEM 재임베딩으로 간다.
+4. static residual이 3 seeds에서 F1 또는 Recall@20 중 하나도 `+2%p` 못 올리면 adapter를 중단한다.
+5. live source snapshot의 `observed/published/retrieved` 시간이 95% 미만이면 early-warning 주장을
+   금지하고 retrospective evidence ranking으로 낮춘다.
+6. 한국 C2-C 실패는 전체 프로그램 kill이 아니다. 한국 exact-enrichment arm만 source-shift로 바꾼다.
 
-### Phase 1 — 네 지역 evidence pilot
+### Phase 1 — 한국·네팔·스위스 evidence pilot
 
-- 지역별 event 20건만 먼저: 변화 전·후 acquisition, 좌표, DEM, 공식 evidence snapshot,
+- 국가별 event 20건만 먼저: 변화 전·후 acquisition, 좌표, DEM, 공식 evidence snapshot,
   published/observed time을 한 record로 고정한다.
 - 입력 비교:
   1. optical only
@@ -161,7 +273,19 @@ h_t      = gated fusion(z_global, z_region, r_t)
   3. EO embedding + local public evidence
   4. 3 + 선택적 보류
 - 지표: event/region별 F1·mIoU, source→target transfer delta, cloud/snow false positive,
-  worst-region, calibration, AURC(risk–coverage 면적).
+  Recall@20·nDCG@20, worst-region, calibration, AURC(risk–coverage 면적), detection lead-time.
+
+평가의 headline은 primary `slope-failure`의 3-way leave-one-country-out이다.
+
+```text
+train Korea + Nepal       -> sealed Switzerland
+train Nepal + Switzerland -> sealed Korea
+train Switzerland + Korea -> sealed Nepal
+```
+
+각 방향에서 zero-shot과 target label 1/5/10%를 별도 보고한다. 한 나라의 label ontology 전체를
+다른 나라에 강제로 매핑하지 않고, 공통 `slope-failure / bare-debris / vegetation-loss / snow-ice`
+primitive와 국가별 local head를 분리한다.
 
 ### Phase 2 — 성공했을 때만 방법 논문
 
