@@ -133,6 +133,24 @@ artifact verifier는 checkpoint/per-sample SHA와 threshold aggregate 전부 통
 40-epoch replay도 metric/checkpoint/tensor가 bitwise 일치했지만 wall time은 950.5초 vs 520.0초로
 갈렸으므로 G-C 비용은 isolated 반복 실험으로 다시 잰다.
 
+## 결정성 × 공식성 — M26으로 해소됨
+
+strict 모드에서 막히는 것은 **pooling backward 3개**(`max_pool3d`, `avg_pool3d`,
+`adaptive_avg_pool3d`)뿐이다. `conv3d` stride 2의 backward는 결정적이고, U-TAE의
+temporal attention과 SDPA도 결정적이다.
+
+따라서 **선택지 C**를 택한다 — 공식 구조를 유지하고 **pooling만 결정적 연산으로 치환**한다.
+
+| 선택지 | 공식성 | 결정성 | 판정 |
+|---|---|---|---|
+| A 경고 모드 후퇴 | O | X | 재현성 상실. 채택 안 함 |
+| B tiny 분해 유지 | X | O | M25의 `BLOCKED` 원인. 유지 안 함 |
+| **C deterministic-safe 재구현** | **O(치환 명시)** | **O** | **채택** |
+
+C의 의무사항: 채널·depth·파라미터 수를 공식 config와 맞추고, 바꾼 연산과 이유를 산출물에
+기록하며, **"공식과 동일"이라고 쓰지 않는다.** P3(U-TAE)까지 넣어야 게이트의
+`max(P2,P3)`가 성립한다.
+
 ## 판정 기준
 
 | gate | 통과 조건 | 실패 시 |

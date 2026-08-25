@@ -38,6 +38,7 @@
 | M23 | G-P pilot 1차 (8 epoch, 1 fold) | **개발 관측. AUPRC 표본추출 결함·test 노출로 확정표에서 제외** | 보존/제외 |
 | M24 | 공식 저장소 binary benchmark와의 비교 가능성 | **비교 불가 — task·split·입력·학습이 다름. 난이도 순서도 단정 금지** | 정정 완료 |
 | M25 | G-P strict 개발 pilot 독립 복구 | **P4 IoU는 P2-tiny 초과, AP는 78.7%. G-P는 strong baseline 부재로 BLOCKED** | 개발 측정 완료 |
+| M26 | 결정성 × 공식성 충돌 범위 실측 | **pooling backward 3개만 막힘. conv3d로 대체 가능** | 완료 |
 
 **아직 confirmatory하게 측정하지 않은 것**: frozen OLMo의 full region-macro downstream 자격,
 한국 공공데이터의 **표현 기여**(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 0),
@@ -1222,6 +1223,40 @@ background-dominated pixel-micro이므로 router calibration 근거로 쓰지 �
 - **비용 범위**: 표의 시간은 cached head fit+val이다. P4 cold extraction은 1,130.05초,
   embedding 10.75 GB, frozen encoder 88.96M 파라미터다. 같은 P4의 wall time도 full sequence
   950.5초 vs 단독 replay 520.0초로 갈려, isolated 반복 전에는 P4 end-to-end/cost 우위가 미측정이다.
+
+## M26. 결정성과 공식성의 충돌은 **pooling backward 3개**뿐이다
+
+**근거**: `code/probe_det_ops.py`, GPU1, strict 계약 하에서 forward/backward를 따로 시험
+**질문**: 공식 3D U-Net / U-TAE를 이식하려면 무엇을 포기해야 하는가?
+
+M25에서 P2-tiny를 쓴 이유는 strict 모드에서 `max_pool3d_with_indices_backward_cuda`가
+없었기 때문이다. 그런데 **어디까지 막히는지는 재보지 않았다.** 전수로 쟀다.
+
+| 연산 | forward | backward |
+|---|---|---|
+| `max_pool3d` | OK | **막힘** |
+| `avg_pool3d` | OK | **막힘** |
+| `adaptive_avg_pool3d` | OK | **막힘** |
+| **`conv3d` stride 2** | OK | **OK** |
+| `interpolate3d` nearest | OK | OK |
+| `interpolate3d` trilinear | OK | OK |
+| `x.mean(dim=T)` | OK | OK |
+| `x.max(dim=T)` | OK | OK |
+| `BatchNorm3d` · `GroupNorm` | OK | OK |
+| **U-TAE temporal attention** | OK | **OK** |
+| **`scaled_dot_product_attention`** | OK | **OK** |
+
+- **말할 수 있는 것**:
+  1. **막힌 것은 3개, 전부 pooling의 backward다.** 그 셋만 대체하면 된다.
+  2. **`conv3d` stride 2의 backward가 결정적이다** → downsampling을 learned stride conv로
+     바꾸면 구조를 유지하면서 결정성을 얻는다. 시간축 축약도 `mean`/`max` reduce로 가능하다.
+  3. **U-TAE의 핵심(temporal attention, SDPA)은 손댈 필요가 없다.** 즉 P3 이식의 장애물은
+     attention이 아니라 encoder의 pooling뿐이다.
+- **말할 수 없는 것**: 대체가 성능에 미치는 영향은 미측정이다. strided conv는 파라미터를
+  늘리므로 **파라미터 수를 공식 config와 맞춰 보고해야** 공정하다. 그리고 이렇게 만든 모델을
+  **"공식과 동일"이라고 쓰지 않는다** — 바꾼 연산과 이유를 산출물에 기록한다.
+- **결정**: 선택지 C(deterministic-safe 재구현)를 택한다. A(경고 모드 후퇴)는 재현성을 버리고
+  B(tiny 유지)는 공식성을 버린다. C의 비용은 pooling 치환 하나이며 M25가 우려한 것보다 작다.
 
 ## 이 장부에 없는 것 (혼동 방지)
 
