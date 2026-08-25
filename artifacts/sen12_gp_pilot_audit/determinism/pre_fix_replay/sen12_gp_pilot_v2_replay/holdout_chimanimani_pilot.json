@@ -1,0 +1,461 @@
+{
+  "arms": {
+    "P4": {
+      "best_val_epoch": 37,
+      "best_val_iou": 0.1104,
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/sen12_gp_pilot_v2_replay/checkpoints/holdout_chimanimani/P4_best.pt",
+        "sha256": "5343a1e745282cdc3a298732fdcda9ad476559381df24795446f924de715d218"
+      },
+      "desc": "frozen OlmoEarth v1 + spatial decoder",
+      "fit_plus_epoch_val_seconds": 314.7,
+      "history": [
+        {
+          "epoch": 1,
+          "seconds": 7.9,
+          "train_loss": 0.50508,
+          "val_iou": 0.05191
+        },
+        {
+          "epoch": 2,
+          "seconds": 14.8,
+          "train_loss": 0.35497,
+          "val_iou": 0.07073
+        },
+        {
+          "epoch": 3,
+          "seconds": 21.7,
+          "train_loss": 0.30998,
+          "val_iou": 0.04256
+        },
+        {
+          "epoch": 4,
+          "seconds": 29.1,
+          "train_loss": 0.29281,
+          "val_iou": 0.07667
+        },
+        {
+          "epoch": 5,
+          "seconds": 36.6,
+          "train_loss": 0.27032,
+          "val_iou": 0.09016
+        },
+        {
+          "epoch": 6,
+          "seconds": 44.2,
+          "train_loss": 0.26123,
+          "val_iou": 0.0981
+        },
+        {
+          "epoch": 7,
+          "seconds": 50.8,
+          "train_loss": 0.24485,
+          "val_iou": 0.08431
+        },
+        {
+          "epoch": 8,
+          "seconds": 59.1,
+          "train_loss": 0.23721,
+          "val_iou": 0.09098
+        },
+        {
+          "epoch": 9,
+          "seconds": 66.7,
+          "train_loss": 0.23147,
+          "val_iou": 0.07876
+        },
+        {
+          "epoch": 10,
+          "seconds": 74.3,
+          "train_loss": 0.21454,
+          "val_iou": 0.06888
+        },
+        {
+          "epoch": 11,
+          "seconds": 80.8,
+          "train_loss": 0.21452,
+          "val_iou": 0.06328
+        },
+        {
+          "epoch": 12,
+          "seconds": 88.4,
+          "train_loss": 0.2083,
+          "val_iou": 0.08157
+        },
+        {
+          "epoch": 13,
+          "seconds": 96.6,
+          "train_loss": 0.192,
+          "val_iou": 0.09233
+        },
+        {
+          "epoch": 14,
+          "seconds": 104.6,
+          "train_loss": 0.18386,
+          "val_iou": 0.08985
+        },
+        {
+          "epoch": 15,
+          "seconds": 112.4,
+          "train_loss": 0.18174,
+          "val_iou": 0.0619
+        },
+        {
+          "epoch": 16,
+          "seconds": 121.2,
+          "train_loss": 0.17946,
+          "val_iou": 0.07034
+        },
+        {
+          "epoch": 17,
+          "seconds": 130.1,
+          "train_loss": 0.17236,
+          "val_iou": 0.08647
+        },
+        {
+          "epoch": 18,
+          "seconds": 138.1,
+          "train_loss": 0.16669,
+          "val_iou": 0.08028
+        },
+        {
+          "epoch": 19,
+          "seconds": 145.7,
+          "train_loss": 0.16187,
+          "val_iou": 0.08322
+        },
+        {
+          "epoch": 20,
+          "seconds": 154.0,
+          "train_loss": 0.15794,
+          "val_iou": 0.08011
+        },
+        {
+          "epoch": 21,
+          "seconds": 162.9,
+          "train_loss": 0.14964,
+          "val_iou": 0.08369
+        },
+        {
+          "epoch": 22,
+          "seconds": 170.9,
+          "train_loss": 0.14669,
+          "val_iou": 0.09266
+        },
+        {
+          "epoch": 23,
+          "seconds": 179.6,
+          "train_loss": 0.14386,
+          "val_iou": 0.08704
+        },
+        {
+          "epoch": 24,
+          "seconds": 186.9,
+          "train_loss": 0.13955,
+          "val_iou": 0.09057
+        },
+        {
+          "epoch": 25,
+          "seconds": 193.6,
+          "train_loss": 0.13754,
+          "val_iou": 0.08996
+        },
+        {
+          "epoch": 26,
+          "seconds": 201.2,
+          "train_loss": 0.13212,
+          "val_iou": 0.08942
+        },
+        {
+          "epoch": 27,
+          "seconds": 209.0,
+          "train_loss": 0.12944,
+          "val_iou": 0.09543
+        },
+        {
+          "epoch": 28,
+          "seconds": 216.4,
+          "train_loss": 0.12574,
+          "val_iou": 0.08335
+        },
+        {
+          "epoch": 29,
+          "seconds": 224.3,
+          "train_loss": 0.12257,
+          "val_iou": 0.09751
+        },
+        {
+          "epoch": 30,
+          "seconds": 232.6,
+          "train_loss": 0.12046,
+          "val_iou": 0.09713
+        },
+        {
+          "epoch": 31,
+          "seconds": 240.8,
+          "train_loss": 0.11886,
+          "val_iou": 0.10165
+        },
+        {
+          "epoch": 32,
+          "seconds": 248.3,
+          "train_loss": 0.11781,
+          "val_iou": 0.10623
+        },
+        {
+          "epoch": 33,
+          "seconds": 256.2,
+          "train_loss": 0.11418,
+          "val_iou": 0.1017
+        },
+        {
+          "epoch": 34,
+          "seconds": 263.8,
+          "train_loss": 0.11259,
+          "val_iou": 0.10155
+        },
+        {
+          "epoch": 35,
+          "seconds": 272.4,
+          "train_loss": 0.11245,
+          "val_iou": 0.10731
+        },
+        {
+          "epoch": 36,
+          "seconds": 279.8,
+          "train_loss": 0.11085,
+          "val_iou": 0.10914
+        },
+        {
+          "epoch": 37,
+          "seconds": 288.1,
+          "train_loss": 0.10971,
+          "val_iou": 0.1104
+        },
+        {
+          "epoch": 38,
+          "seconds": 297.2,
+          "train_loss": 0.1087,
+          "val_iou": 0.10833
+        },
+        {
+          "epoch": 39,
+          "seconds": 306.5,
+          "train_loss": 0.10884,
+          "val_iou": 0.10544
+        },
+        {
+          "epoch": 40,
+          "seconds": 314.7,
+          "train_loss": 0.10923,
+          "val_iou": 0.10201
+        }
+      ],
+      "peak_cuda_bytes": 324170752,
+      "per_sample": {
+        "test": {
+          "path": "/home/work/data/olmoearth/sen12_gp_pilot_v2_replay/per_sample/holdout_chimanimani/P4_test.jsonl",
+          "rows": 1133,
+          "sha256": "be55924c8cb610e7e23c4106026ee6d12c8671a884b42ca06552e54806ef9a0f"
+        },
+        "val": {
+          "path": "/home/work/data/olmoearth/sen12_gp_pilot_v2_replay/per_sample/holdout_chimanimani/P4_val.jsonl",
+          "rows": 159,
+          "sha256": "dde69dde5287a101f0c15e4db419d54ce14ea462dfc99b001ff93c972b73d327"
+        }
+      },
+      "pos_weight": 46.53,
+      "test": {
+        "auprc_exact": 0.181718,
+        "brier_pixel_micro": 0.020726,
+        "confusion_pixels": {
+          "fn": 85590,
+          "fp": 403394,
+          "tn": 17992201,
+          "tp": 81887
+        },
+        "ece_15bin_pixel_micro": 0.023108,
+        "f1": 0.250895,
+        "iou": 0.143442,
+        "ld_f1": 0.36354,
+        "ld_iou": 0.22215,
+        "ld_subset_n": 347,
+        "nll_pixel_micro": 0.078563,
+        "positive_patch_macro_iou": 0.157109,
+        "positive_patch_n": 423,
+        "positive_pixel_frac": 0.00902205,
+        "precision": 0.168741,
+        "recall": 0.488945
+      },
+      "trainable_params": 237537,
+      "val": {
+        "auprc_exact": 0.201907,
+        "brier_pixel_micro": 0.020673,
+        "confusion_pixels": {
+          "fn": 7917,
+          "fp": 61427,
+          "tn": 2527106,
+          "tp": 8606
+        },
+        "ece_15bin_pixel_micro": 0.024687,
+        "f1": 0.198854,
+        "iou": 0.110404,
+        "ld_f1": 0.26005,
+        "ld_iou": 0.14946,
+        "ld_subset_n": 65,
+        "nll_pixel_micro": 0.077712,
+        "positive_patch_macro_iou": 0.142303,
+        "positive_patch_n": 81,
+        "positive_pixel_frac": 0.00634267,
+        "precision": 0.122885,
+        "recall": 0.52085
+      }
+    }
+  },
+  "cache_audit": {
+    "path": "/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani/cache_audit.json",
+    "sha256": "58fab487d112743d3f2e54f9c563c9d66a493f8339f8dcd8e1b2078c67f45457",
+    "summary": {
+      "all_gates_pass": true,
+      "content_sha256": {
+        "emb_fp16": "8d98e3ebae3bba2f33e1c6acae08edaa1442ac632f80636ce0e27e7edd2b752c",
+        "mask_u8": "bd36b1b2119356a1b1aebeaf552215b86cdbf0707ef86db467ff6b00dbf30289",
+        "raw_u16": "f0c3ea667125b1cea03819e670aa484d7d86d852508cda404d4ac2224b4857a6"
+      },
+      "failures": [],
+      "file_set_gates": {
+        "emb_fp16": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        },
+        "mask_u8": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        },
+        "raw_u16": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        }
+      },
+      "fold": "holdout_chimanimani",
+      "gates": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "manifest_sha256": "17a9674eb06b530a106aaeaecb476d793b69577ddfd94eed1c8b15879f88279d",
+      "sample_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+      "sample_counts": {
+        "test": 1133,
+        "train": 5542,
+        "val": 159
+      },
+      "samples_audited": 6834,
+      "schema": "sen12-fold-cache-audit-v1"
+    }
+  },
+  "cache_build_summary": {
+    "cache_bytes": {
+      "emb_fp16": 10749827328,
+      "mask_u8": 112843008,
+      "raw_u16": 26873256192
+    },
+    "cache_bytes_total": 37735926528,
+    "fold": "holdout_chimanimani",
+    "input_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+    "missing_contract": "B01/B09 zeros + band-set 2 MaskValue.MISSING",
+    "model_load_s": 2.819,
+    "peak_cuda_bytes": 739656192,
+    "raw_dtype": "uint16 (lossless for int16 reflectance)",
+    "samples_per_s": 6.0475,
+    "samples_total": 6834,
+    "samples_written": 6834,
+    "schema": "sen12-fold-cache-v1",
+    "split_counts": {
+      "test": 1133,
+      "train": 5542,
+      "val": 159
+    },
+    "split_sha256_verified": true,
+    "timestep_policy": "top-12 SCL clear fraction, then chronological; label-independent",
+    "total_s": 1130.05
+  },
+  "cache_bytes": {
+    "emb_fp16": 10749827328,
+    "mask_u8": 112843008,
+    "raw_u16": 26873256192
+  },
+  "caveat": "test는 held-out 지역 1개뿐이다. region-macro는 10-fold 전체에서만 나온다. 이미 열람한 개발 fold이므로 지역 일반화나 최종 test로 읽지 않는다. patch들은 같은 inventory/event와 중첩될 수 있어 1,133개 독립 사건이 아니다. pixel-micro ECE는 배경 픽셀이 지배하므로 router calibration 근거가 아니다.",
+  "code_sha256": "e9ae32adcc5f71bc162fb160e7b81d2796def289672384b01576a84760a74dee",
+  "cost_scope": {
+    "p4_warning": "P4의 frozen OlmoEarth encoder 파라미터·cache extraction 비용을 0으로 간주하지 않는다. end-to-end/cold 비용과 task 수에 따른 amortized 비용은 별도 표가 나오기 전까지 비교 불가.",
+    "reported_fit_time": "head fit + validation every epoch; excludes cache construction",
+    "reported_peak_cuda": "head training/evaluation only"
+  },
+  "development_protocol_v2": {
+    "auprc": "exact over all pixels; tied scores grouped",
+    "batch": 16,
+    "decision_threshold": 0.5,
+    "ece": "15 equal-width bins, pixel-micro",
+    "emb_norm": "fixed 400-sample train-only channel mean/std approximation",
+    "epochs": 40,
+    "lr": 0.001,
+    "model_selection": "best val IoU; test never used for selection",
+    "pos_weight_cap": 50.0,
+    "pos_weight_source": "all train masks, exact",
+    "raw_norm": "uint16/10000, clamp[0,1.5]",
+    "seed": 1,
+    "timestep_policy": "S12q (shared across arms)",
+    "weight_decay": 0.0001
+  },
+  "evidence_status": "development_only_not_confirmatory",
+  "fold": "holdout_chimanimani",
+  "official_repository_benchmark_S12LS_LD": {
+    "ConvGRU": {
+      "AP": 60.0,
+      "F1": 59.06,
+      "IoU": 41.91
+    },
+    "U-ConvLSTM": {
+      "AP": 65.13,
+      "F1": 61.95,
+      "IoU": 44.88
+    },
+    "U-TAE": {
+      "AP": 67.75,
+      "F1": 61.8,
+      "IoU": 44.74
+    },
+    "Unet3d": {
+      "AP": 62.08,
+      "F1": 58.82,
+      "IoU": 41.66
+    },
+    "corrections": [
+      "위 표는 Scientific Data 논문의 원 표가 아니라 공식 저장소가 추가한 binary benchmark다",
+      "Scientific Data 논문 자체는 50 epoch/cross-entropy 설정과 별도의 geographic cluster LOCO도 보고한다"
+    ],
+    "not_comparable_because": [
+      "task: 그들은 mask>50 픽셀 표본만(양성 밀집). 우리 headline은 음성 포함",
+      "split: 그들은 random 80/20. 우리는 leave-one-region-out",
+      "input: 그들은 11채널(밴드+SCL+DEM) 15 timestep. 우리는 10밴드 12 timestep, DEM 없음",
+      "optimization: 그들은 75 epoch BCEDice(pos_weight 5, dice_w 0.5). 우리는 40 epoch BCE(train exact pos_weight)"
+    ],
+    "our_ld_subset_note": "ld_iou/ld_f1 은 >50 필터만 맞춘 참고값이며 split·input·loss는 여전히 다르다",
+    "source": "PaulH97/Sen12Landslides README current benchmark, S2+DEM, seeds 42/123/777 평균"
+  },
+  "protocol_history": "1차 8-epoch 실행에서 세 arm 모두 손실이 단조 하강 중(미수렴)이어서 예산을 모든 arm에 동일하게 늘리고 val IoU로 best epoch을 골랐다. 이 변경은 test 열람 뒤 이뤄졌으므로 confirmatory 사전등록이 아니다. 1차 결과는 M23에 보존한다.",
+  "schema": "sen12-gp-pilot-v2",
+  "split_counts": {
+    "test": 1133,
+    "train": 5542,
+    "val": 159
+  },
+  "test_exposure": "chimanimani test는 M23 8-epoch 결과에서 이미 열람됐다. 이후 40-epoch와 v2는 개발 결과다. 최종 주장은 미열람 지역 fold를 사전등록 후 한 번만 평가해야 한다.",
+  "test_region": "chimanimani",
+  "val_region": "china"
+}

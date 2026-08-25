@@ -1,0 +1,24 @@
+split: {'train': 5542, 'val': 159, 'test': 1133}
+  [P1] epoch 5/40 loss 0.8237 val_iou 0.0177 (best 0.0266@1) (45s)
+  [P1] epoch 10/40 loss 0.7036 val_iou 0.0270 (best 0.0270@10) (89s)
+  [P1] epoch 15/40 loss 0.6595 val_iou 0.0249 (best 0.0317@14) (132s)
+  [P1] epoch 20/40 loss 0.5907 val_iou 0.0272 (best 0.0317@14) (176s)
+  [P1] epoch 25/40 loss 0.5352 val_iou 0.0360 (best 0.0360@25) (220s)
+  [P1] epoch 30/40 loss 0.4912 val_iou 0.0334 (best 0.0360@25) (264s)
+  [P1] epoch 35/40 loss 0.4708 val_iou 0.0369 (best 0.0369@35) (307s)
+  [P1] epoch 40/40 loss 0.4557 val_iou 0.0351 (best 0.0369@35) (348s)
+  [P1] params 474,849 · train 348s · test {'iou': 0.054055, 'f1': 0.102565, 'precision': 0.05615, 'recall': 0.591556, 'auprc_exact': 0.077737, 'ece_15bin_pixel_micro': 0.123126, 'brier_pixel_micro': 0.067197, 'nll_pixel_micro': 0.216388, 'positive_pixel_frac': 0.00902205, 'positive_patch_macro_iou': 0.115962, 'positive_patch_n': 423, 'confusion_pixels': {'tp': 99072, 'fp': 1665335, 'fn': 68405, 'tn': 16730260}, 'ld_subset_n': 347, 'ld_iou': 0.14488, 'ld_f1': 0.2531}
+Traceback (most recent call last):
+  File "/home/work/data/code/pilot_sen12_gp_heads.py", line 565, in <module>
+    main()
+  File "/home/work/data/code/pilot_sen12_gp_heads.py", line 331, in main
+    loss.backward(); opt.step()
+    ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/_tensor.py", line 648, in backward
+    torch.autograd.backward(
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/__init__.py", line 353, in backward
+    _engine_run_backward(
+  File "/usr/local/lib/python3.12/dist-packages/torch/autograd/graph.py", line 824, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: max_pool3d_with_indices_backward_cuda does not have a deterministic implementation, but you set 'torch.use_deterministic_algorithms(True)'. You can turn off determinism just for this operation, or you can use the 'warn_only=True' option, if that's acceptable for your application. You can also file an issue at https://github.com/pytorch/pytorch/issues to help us prioritize adding deterministic support for this operation.

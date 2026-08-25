@@ -1,4 +1,4 @@
-# 보유 자산 — 2026-08-25 실측
+# 보유 자산 — 2026-08-26 실측
 
 `docs/CRITICAL_PATH.md`의 측정 사슬 1~7에 매핑함. **"있다"가 아니라 "어느 단계에 쓰이는가"로 정리함.**
 
@@ -34,7 +34,7 @@
   12개를 label-independent하게 고른 **S12q**로 고정하고 모든 baseline 입력을 맞춘다.
 - **OLMo v1 smoke 6/6 통과**: 10지역·양/음성 32/32, 64표본/256crop, 15.44초(4.146 sample/s),
   peak CUDA 0.740 GB, fp16 cache 1,572,992 B/sample, `768×32×32`, deterministic replay diff 0.
-  headline 6,834개 단순 외삽은 약 27.5분 / 10.75 GB다.
+  full 6,834개 cache도 완료되어 **1,130.05초(18.8분), 6.0475 sample/s, 10.75 GB**로 실측됐다.
 - 전수 manifest SHA-256 `dcdfef9a…`, label anomaly 목록 SHA-256 `bf086042…`로 봉인했다.
 
 지역별 패치 수 (`region_index.jsonl`, 중복 제거 후):
@@ -102,12 +102,12 @@
 
 | | 수 |
 |---|---|
-| 측정 M-항목 | **22** |
-| 코드 파일 | 90 |
-| 테스트 파일 / 통과 | 18 / **153 passed, 1 skipped, 10 subtests** |
+| 측정 M-항목 | **25** |
+| 코드 파일 | 92 |
+| 테스트 파일 / 통과 | 19 / **159 passed, 1 skipped, 10 subtests** |
 | artifacts | 19 |
 | docs | 8 |
-| STUDY 카드 | 53 |
+| STUDY 카드 | 54 |
 | PR 후보 | 12 |
 | 커밋 | 43 |
 
@@ -120,8 +120,8 @@
 | 없는 것 | 막는 단계 | 비고 |
 |---|---|---|
 | **Sen12 전수 task contract** | **0 (C0)** | **통과** — 13,628 readable, retrospective 2건 fail-closed 제외, 10-region LOCO 봉인 |
-| **frozen OLMo probe 결과** | **1 (G-P)** | embedding smoke 통과. **성능 head/baseline은 아직 0** |
-| **matched head/baseline 1 run 시간** | **G-C** | embedding은 측정됨. P1/P2/P4 학습시간은 pilot 전 0 |
+| **full frozen OLMo probe 결과** | **1 (G-P)** | strict 개발 pilot은 측정. P4 IoU 0.1416/AP 0.2251. 공식 P2/P3·9 unseen region은 **BLOCKED** |
+| **matched head/baseline 1 run 시간** | **G-C** | cached fit+val: P1 387.3초 / P2-tiny 1,455.7초 / P4 950.5초. native strong baseline은 미측정 |
 | 71363의 12밴드 물질화 | 2·3의 대안 경로 | C2-C 미실행. v1 + B01·B09 missing mask로 우회 가능 |
 | Sen12 ↔ 71363 공통 입력 계약 | 2·3 | 양쪽 다 B02–B12 10밴드라 **같은 결측 구조**임 — 유리함 |
 | GK2A 격자 대응 | 6 | Area 경로로 우회 가능 |
@@ -130,5 +130,5 @@
 ## 7. 한 줄 판정
 
 > **사슬 1~4에 필요한 데이터는 전부 손에 있음** (Sen12 13,628패치 + 한국 2,699쌍 + 체크포인트
-> + 동결된 split). C0와 embedding smoke는 닫혔고, 현재 병목은 **matched P1/P2/P4 head pilot →
-> full frozen probe**다. GPU1은 현재 가용하지만 아직 성능 수치는 하나도 없다.
+> + 동결된 split). C0·cache audit·strict 개발 pilot은 닫혔다. 현재 병목은 **공식 3D U-Net/U-TAE와
+> timestamp parity → 미열람 9지역 full G-P**다. 개발 fold 수치는 존재하지만 confirmatory 성능은 0이다.

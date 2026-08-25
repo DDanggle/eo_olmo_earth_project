@@ -1,0 +1,93 @@
+{
+  "arms": {
+    "P1": {
+      "desc": "raw 시간평균 shallow U-Net",
+      "peak_cuda_bytes": 467062272,
+      "pos_weight": 35.002,
+      "test": {
+        "auprc": 0.05336,
+        "ece": 0.09488,
+        "f1": 0.13561,
+        "iou": 0.07274,
+        "positive_pixel_frac": 0.008976
+      },
+      "train_seconds": 67.4,
+      "trainable_params": 474849,
+      "val": {
+        "auprc": 0.0291,
+        "ece": 0.15642,
+        "f1": 0.05715,
+        "iou": 0.02941,
+        "positive_pixel_frac": 0.00647
+      }
+    },
+    "P2": {
+      "desc": "raw 12시점 3D U-Net",
+      "peak_cuda_bytes": 964907008,
+      "pos_weight": 35.002,
+      "test": {
+        "auprc": 0.47566,
+        "ece": 0.10098,
+        "f1": 0.18679,
+        "iou": 0.10302,
+        "positive_pixel_frac": 0.008976
+      },
+      "train_seconds": 138.0,
+      "trainable_params": 265649,
+      "val": {
+        "auprc": 0.0475,
+        "ece": 0.12152,
+        "f1": 0.08878,
+        "iou": 0.04645,
+        "positive_pixel_frac": 0.00647
+      }
+    },
+    "P4": {
+      "desc": "frozen OlmoEarth v1 + spatial decoder",
+      "peak_cuda_bytes": 323428352,
+      "pos_weight": 35.002,
+      "test": {
+        "auprc": 0.55014,
+        "ece": 0.07383,
+        "f1": 0.20668,
+        "iou": 0.11525,
+        "positive_pixel_frac": 0.008976
+      },
+      "train_seconds": 62.4,
+      "trainable_params": 237537,
+      "val": {
+        "auprc": 0.07541,
+        "ece": 0.058,
+        "f1": 0.16975,
+        "iou": 0.09274,
+        "positive_pixel_frac": 0.00647
+      }
+    }
+  },
+  "cache_bytes": {
+    "emb_fp16": 10749827328,
+    "mask_u8": 112843008,
+    "raw_u16": 26873256192
+  },
+  "caveat": "test는 held-out 지역 1개뿐이다. region-macro는 10-fold 전체에서만 나온다. 이 수치를 지역 일반화로 읽지 않는다.",
+  "fold": "holdout_chimanimani",
+  "preregistered": {
+    "batch": 16,
+    "emb_norm": "train-split channel mean/std (no leakage)",
+    "epochs": 8,
+    "lr": 0.001,
+    "pos_weight_cap": 50.0,
+    "raw_norm": "uint16/10000, clamp[0,1.5]",
+    "seed": 1,
+    "timestep_policy": "S12q (shared across arms)",
+    "weight_decay": 0.0001
+  },
+  "schema": "sen12-gp-pilot-v1",
+  "split_counts": {
+    "test": 1133,
+    "train": 5542,
+    "val": 159
+  },
+  "test_region": "chimanimani",
+  "val_region": "china"
+}

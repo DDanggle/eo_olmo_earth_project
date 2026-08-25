@@ -1,0 +1,497 @@
+split: {'train': 5542, 'val': 159, 'test': 1133}
+  [P4] epoch 5/40 loss 0.2686 val_iou 0.0739 (best 0.0784@4) (66s)
+  [P4] epoch 10/40 loss 0.2142 val_iou 0.0628 (best 0.0848@6) (131s)
+  [P4] epoch 15/40 loss 0.1820 val_iou 0.0588 (best 0.0885@13) (196s)
+  [P4] epoch 20/40 loss 0.1559 val_iou 0.0880 (best 0.0889@18) (259s)
+  [P4] epoch 25/40 loss 0.1357 val_iou 0.0830 (best 0.0889@18) (325s)
+  [P4] epoch 30/40 loss 0.1201 val_iou 0.1004 (best 0.1004@30) (391s)
+  [P4] epoch 35/40 loss 0.1127 val_iou 0.1082 (best 0.1082@35) (455s)
+  [P4] epoch 40/40 loss 0.1098 val_iou 0.1028 (best 0.1118@37) (520s)
+  [P4] params 237,537 · train 520s · test {'iou': 0.141643, 'f1': 0.248139, 'precision': 0.15207, 'recall': 0.673824, 'auprc_exact': 0.225115, 'ece_15bin_pixel_micro': 0.033493, 'brier_pixel_micro': 0.028695, 'nll_pixel_micro': 0.100449, 'positive_pixel_frac': 0.00902205, 'positive_patch_macro_iou': 0.183479, 'positive_patch_n': 423, 'confusion_pixels': {'tp': 112850, 'fp': 629243, 'fn': 54627, 'tn': 17766352}, 'ld_subset_n': 347, 'ld_iou': 0.23041, 'ld_f1': 0.37453}
+{
+  "arms": {
+    "P4": {
+      "best_val_epoch": 37,
+      "best_val_iou": 0.11181,
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/sen12_gp_p4_det_final_replay/checkpoints/holdout_chimanimani/P4_best.pt",
+        "sha256": "74c2c67d43c0f42cdec4735bfa2c8f030622c2055ebf6de9479bef30e6a7f08d"
+      },
+      "desc": "frozen OlmoEarth v1 + spatial decoder",
+      "fit_plus_epoch_val_seconds": 520.0,
+      "history": [
+        {
+          "epoch": 1,
+          "seconds": 13.6,
+          "train_loss": 0.50493,
+          "val_iou": 0.05391
+        },
+        {
+          "epoch": 2,
+          "seconds": 26.3,
+          "train_loss": 0.35476,
+          "val_iou": 0.0605
+        },
+        {
+          "epoch": 3,
+          "seconds": 39.5,
+          "train_loss": 0.31237,
+          "val_iou": 0.05017
+        },
+        {
+          "epoch": 4,
+          "seconds": 52.4,
+          "train_loss": 0.29186,
+          "val_iou": 0.07844
+        },
+        {
+          "epoch": 5,
+          "seconds": 65.5,
+          "train_loss": 0.26865,
+          "val_iou": 0.07394
+        },
+        {
+          "epoch": 6,
+          "seconds": 78.5,
+          "train_loss": 0.26358,
+          "val_iou": 0.0848
+        },
+        {
+          "epoch": 7,
+          "seconds": 91.6,
+          "train_loss": 0.24588,
+          "val_iou": 0.06369
+        },
+        {
+          "epoch": 8,
+          "seconds": 105.1,
+          "train_loss": 0.23784,
+          "val_iou": 0.07676
+        },
+        {
+          "epoch": 9,
+          "seconds": 118.4,
+          "train_loss": 0.23178,
+          "val_iou": 0.07106
+        },
+        {
+          "epoch": 10,
+          "seconds": 131.3,
+          "train_loss": 0.21422,
+          "val_iou": 0.0628
+        },
+        {
+          "epoch": 11,
+          "seconds": 144.4,
+          "train_loss": 0.21568,
+          "val_iou": 0.06103
+        },
+        {
+          "epoch": 12,
+          "seconds": 157.3,
+          "train_loss": 0.20418,
+          "val_iou": 0.0831
+        },
+        {
+          "epoch": 13,
+          "seconds": 170.3,
+          "train_loss": 0.19155,
+          "val_iou": 0.08847
+        },
+        {
+          "epoch": 14,
+          "seconds": 183.3,
+          "train_loss": 0.18464,
+          "val_iou": 0.07835
+        },
+        {
+          "epoch": 15,
+          "seconds": 196.3,
+          "train_loss": 0.18196,
+          "val_iou": 0.05881
+        },
+        {
+          "epoch": 16,
+          "seconds": 208.2,
+          "train_loss": 0.17934,
+          "val_iou": 0.06918
+        },
+        {
+          "epoch": 17,
+          "seconds": 221.2,
+          "train_loss": 0.17368,
+          "val_iou": 0.08797
+        },
+        {
+          "epoch": 18,
+          "seconds": 234.2,
+          "train_loss": 0.16777,
+          "val_iou": 0.08893
+        },
+        {
+          "epoch": 19,
+          "seconds": 246.9,
+          "train_loss": 0.16071,
+          "val_iou": 0.0866
+        },
+        {
+          "epoch": 20,
+          "seconds": 259.4,
+          "train_loss": 0.15593,
+          "val_iou": 0.088
+        },
+        {
+          "epoch": 21,
+          "seconds": 272.1,
+          "train_loss": 0.14997,
+          "val_iou": 0.08313
+        },
+        {
+          "epoch": 22,
+          "seconds": 285.4,
+          "train_loss": 0.1478,
+          "val_iou": 0.08797
+        },
+        {
+          "epoch": 23,
+          "seconds": 298.7,
+          "train_loss": 0.14686,
+          "val_iou": 0.08477
+        },
+        {
+          "epoch": 24,
+          "seconds": 312.2,
+          "train_loss": 0.14002,
+          "val_iou": 0.08426
+        },
+        {
+          "epoch": 25,
+          "seconds": 324.8,
+          "train_loss": 0.13574,
+          "val_iou": 0.08304
+        },
+        {
+          "epoch": 26,
+          "seconds": 338.0,
+          "train_loss": 0.13297,
+          "val_iou": 0.09211
+        },
+        {
+          "epoch": 27,
+          "seconds": 351.4,
+          "train_loss": 0.12923,
+          "val_iou": 0.08959
+        },
+        {
+          "epoch": 28,
+          "seconds": 364.7,
+          "train_loss": 0.12668,
+          "val_iou": 0.08905
+        },
+        {
+          "epoch": 29,
+          "seconds": 378.0,
+          "train_loss": 0.123,
+          "val_iou": 0.09797
+        },
+        {
+          "epoch": 30,
+          "seconds": 391.4,
+          "train_loss": 0.1201,
+          "val_iou": 0.10044
+        },
+        {
+          "epoch": 31,
+          "seconds": 403.9,
+          "train_loss": 0.11904,
+          "val_iou": 0.10248
+        },
+        {
+          "epoch": 32,
+          "seconds": 416.9,
+          "train_loss": 0.11866,
+          "val_iou": 0.10625
+        },
+        {
+          "epoch": 33,
+          "seconds": 429.7,
+          "train_loss": 0.11486,
+          "val_iou": 0.10263
+        },
+        {
+          "epoch": 34,
+          "seconds": 442.4,
+          "train_loss": 0.11295,
+          "val_iou": 0.10249
+        },
+        {
+          "epoch": 35,
+          "seconds": 455.0,
+          "train_loss": 0.11273,
+          "val_iou": 0.10817
+        },
+        {
+          "epoch": 36,
+          "seconds": 468.0,
+          "train_loss": 0.11146,
+          "val_iou": 0.10987
+        },
+        {
+          "epoch": 37,
+          "seconds": 480.9,
+          "train_loss": 0.11049,
+          "val_iou": 0.11181
+        },
+        {
+          "epoch": 38,
+          "seconds": 494.1,
+          "train_loss": 0.1093,
+          "val_iou": 0.10786
+        },
+        {
+          "epoch": 39,
+          "seconds": 507.0,
+          "train_loss": 0.10955,
+          "val_iou": 0.10844
+        },
+        {
+          "epoch": 40,
+          "seconds": 520.0,
+          "train_loss": 0.10984,
+          "val_iou": 0.10277
+        }
+      ],
+      "peak_cuda_bytes": 626093056,
+      "per_sample": {
+        "test": {
+          "path": "/home/work/data/olmoearth/sen12_gp_p4_det_final_replay/per_sample/holdout_chimanimani/P4_test.jsonl",
+          "rows": 1133,
+          "sha256": "36559f4f02d29ba0cab046fac502e4f9d0d158a326c64f0edf95a6b2b6394432"
+        },
+        "val": {
+          "path": "/home/work/data/olmoearth/sen12_gp_p4_det_final_replay/per_sample/holdout_chimanimani/P4_val.jsonl",
+          "rows": 159,
+          "sha256": "9cbab148b9e103929b3d36041e6969c1e2230149e827dbf57c22d1133906ef0a"
+        }
+      },
+      "pos_weight": 46.53,
+      "test": {
+        "auprc_exact": 0.225115,
+        "brier_pixel_micro": 0.028695,
+        "confusion_pixels": {
+          "fn": 54627,
+          "fp": 629243,
+          "tn": 17766352,
+          "tp": 112850
+        },
+        "ece_15bin_pixel_micro": 0.033493,
+        "f1": 0.248139,
+        "iou": 0.141643,
+        "ld_f1": 0.37453,
+        "ld_iou": 0.23041,
+        "ld_subset_n": 347,
+        "nll_pixel_micro": 0.100449,
+        "positive_patch_macro_iou": 0.183479,
+        "positive_patch_n": 423,
+        "positive_pixel_frac": 0.00902205,
+        "precision": 0.15207,
+        "recall": 0.673824
+      },
+      "trainable_params": 237537,
+      "val": {
+        "auprc_exact": 0.196137,
+        "brier_pixel_micro": 0.020458,
+        "confusion_pixels": {
+          "fn": 7867,
+          "fp": 60893,
+          "tn": 2527640,
+          "tp": 8656
+        },
+        "ece_15bin_pixel_micro": 0.024662,
+        "f1": 0.201134,
+        "iou": 0.111812,
+        "ld_f1": 0.26316,
+        "ld_iou": 0.15152,
+        "ld_subset_n": 65,
+        "nll_pixel_micro": 0.076456,
+        "positive_patch_macro_iou": 0.14927,
+        "positive_patch_n": 81,
+        "positive_pixel_frac": 0.00634267,
+        "precision": 0.124459,
+        "recall": 0.523876
+      }
+    }
+  },
+  "cache_audit": {
+    "path": "/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani/cache_audit.json",
+    "sha256": "58fab487d112743d3f2e54f9c563c9d66a493f8339f8dcd8e1b2078c67f45457",
+    "summary": {
+      "all_gates_pass": true,
+      "content_sha256": {
+        "emb_fp16": "8d98e3ebae3bba2f33e1c6acae08edaa1442ac632f80636ce0e27e7edd2b752c",
+        "mask_u8": "bd36b1b2119356a1b1aebeaf552215b86cdbf0707ef86db467ff6b00dbf30289",
+        "raw_u16": "f0c3ea667125b1cea03819e670aa484d7d86d852508cda404d4ac2224b4857a6"
+      },
+      "failures": [],
+      "file_set_gates": {
+        "emb_fp16": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        },
+        "mask_u8": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        },
+        "raw_u16": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        }
+      },
+      "fold": "holdout_chimanimani",
+      "gates": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "manifest_sha256": "17a9674eb06b530a106aaeaecb476d793b69577ddfd94eed1c8b15879f88279d",
+      "sample_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+      "sample_counts": {
+        "test": 1133,
+        "train": 5542,
+        "val": 159
+      },
+      "samples_audited": 6834,
+      "schema": "sen12-fold-cache-audit-v1"
+    }
+  },
+  "cache_build_summary": {
+    "cache_bytes": {
+      "emb_fp16": 10749827328,
+      "mask_u8": 112843008,
+      "raw_u16": 26873256192
+    },
+    "cache_bytes_total": 37735926528,
+    "fold": "holdout_chimanimani",
+    "input_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+    "missing_contract": "B01/B09 zeros + band-set 2 MaskValue.MISSING",
+    "model_load_s": 2.819,
+    "peak_cuda_bytes": 739656192,
+    "raw_dtype": "uint16 (lossless for int16 reflectance)",
+    "samples_per_s": 6.0475,
+    "samples_total": 6834,
+    "samples_written": 6834,
+    "schema": "sen12-fold-cache-v1",
+    "split_counts": {
+      "test": 1133,
+      "train": 5542,
+      "val": 159
+    },
+    "split_sha256_verified": true,
+    "timestep_policy": "top-12 SCL clear fraction, then chronological; label-independent",
+    "total_s": 1130.05
+  },
+  "cache_bytes": {
+    "emb_fp16": 10749827328,
+    "mask_u8": 112843008,
+    "raw_u16": 26873256192
+  },
+  "caveat": "test는 held-out 지역 1개뿐이다. region-macro는 10-fold 전체에서만 나온다. 이미 열람한 개발 fold이므로 지역 일반화나 최종 test로 읽지 않는다. patch들은 같은 inventory/event와 중첩될 수 있어 1,133개 독립 사건이 아니다. pixel-micro ECE는 배경 픽셀이 지배하므로 router calibration 근거가 아니다.",
+  "code_sha256": "478c6af5be81ac91edf74733d6ff8a2ed67feb37d73a713e14845da334b97d46",
+  "cost_scope": {
+    "p4_warning": "P4의 frozen OlmoEarth encoder 파라미터·cache extraction 비용을 0으로 간주하지 않는다. end-to-end/cold 비용과 task 수에 따른 amortized 비용은 별도 표가 나오기 전까지 비교 불가.",
+    "reported_fit_time": "head fit + validation every epoch; excludes cache construction",
+    "reported_peak_cuda": "head training/evaluation only"
+  },
+  "development_protocol_v2": {
+    "auprc": "exact over all pixels; tied scores grouped",
+    "batch": 16,
+    "decision_threshold": 0.5,
+    "determinism": {
+      "cublas_workspace_config": ":4096:8",
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "float32_matmul_precision": "highest",
+      "strict_algorithms": true,
+      "tf32": false
+    },
+    "ece": "15 equal-width bins, pixel-micro",
+    "emb_norm": "fixed 400-sample train-only channel mean/std approximation",
+    "epochs": 40,
+    "information_contract": {
+      "claim_status": "not timestamp-matched",
+      "known_mismatch": "P4 encoder received acquisition timestamps; P1/P2 only receive order",
+      "shared_timestep_indices": true
+    },
+    "lr": 0.001,
+    "model_selection": "best val IoU; test never used for selection",
+    "pos_weight_cap": 50.0,
+    "pos_weight_source": "all train masks, exact",
+    "raw_norm": "uint16/10000, clamp[0,1.5]",
+    "seed": 1,
+    "timestep_policy": "S12q (shared across arms)",
+    "weight_decay": 0.0001
+  },
+  "evidence_status": "development_only_not_confirmatory",
+  "fold": "holdout_chimanimani",
+  "official_repository_benchmark_S12LS_LD": {
+    "ConvGRU": {
+      "AP": 60.0,
+      "F1": 59.06,
+      "IoU": 41.91
+    },
+    "U-ConvLSTM": {
+      "AP": 65.13,
+      "F1": 61.95,
+      "IoU": 44.88
+    },
+    "U-TAE": {
+      "AP": 67.75,
+      "F1": 61.8,
+      "IoU": 44.74
+    },
+    "Unet3d": {
+      "AP": 62.08,
+      "F1": 58.82,
+      "IoU": 41.66
+    },
+    "corrections": [
+      "위 표는 Scientific Data 논문의 원 표가 아니라 공식 저장소가 추가한 binary benchmark다",
+      "Scientific Data 논문 자체는 50 epoch/cross-entropy 설정과 별도의 geographic cluster LOCO도 보고한다"
+    ],
+    "not_comparable_because": [
+      "task: 그들은 mask>50 픽셀 표본만(양성 밀집). 우리 headline은 음성 포함",
+      "split: 그들은 random 80/20. 우리는 leave-one-region-out",
+      "input: 그들은 11채널(밴드+SCL+DEM) 15 timestep. 우리는 10밴드 12 timestep, DEM 없음",
+      "optimization: 그들은 75 epoch BCEDice(pos_weight 5, dice_w 0.5). 우리는 40 epoch BCE(train exact pos_weight)"
+    ],
+    "our_ld_subset_note": "ld_iou/ld_f1 은 >50 필터만 맞춘 참고값이며 split·input·loss는 여전히 다르다",
+    "source": "PaulH97/Sen12Landslides README current benchmark, S2+DEM, seeds 42/123/777 평균"
+  },
+  "protocol_history": "1차 8-epoch 실행에서 세 arm 모두 손실이 단조 하강 중(미수렴)이어서 예산을 모든 arm에 동일하게 늘리고 val IoU로 best epoch을 골랐다. 이 변경은 test 열람 뒤 이뤄졌으므로 confirmatory 사전등록이 아니다. 1차 결과는 M23에 보존한다.",
+  "runtime": {
+    "cuda": "12.8",
+    "cudnn": 90800,
+    "device": "NVIDIA H200",
+    "device_capability": [
+      9,
+      0
+    ],
+    "numpy": "1.26.4",
+    "python": "3.12.3",
+    "torch": "2.7.0a0+7c8ec84dab.nv25.03"
+  },
+  "schema": "sen12-gp-pilot-v2",
+  "split_counts": {
+    "test": 1133,
+    "train": 5542,
+    "val": 159
+  },
+  "test_exposure": "chimanimani test는 M23 8-epoch 결과에서 이미 열람됐다. 이후 40-epoch와 v2는 개발 결과다. 최종 주장은 미열람 지역 fold를 사전등록 후 한 번만 평가해야 한다.",
+  "test_region": "chimanimani",
+  "val_region": "china"
+}
+DONE

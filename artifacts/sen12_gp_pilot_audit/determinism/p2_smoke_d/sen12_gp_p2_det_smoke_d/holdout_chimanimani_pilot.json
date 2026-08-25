@@ -1,0 +1,235 @@
+{
+  "arms": {
+    "P2": {
+      "best_val_epoch": 1,
+      "best_val_iou": 0.02481,
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/sen12_gp_p2_det_smoke_d/checkpoints/holdout_chimanimani/P2_best.pt",
+        "sha256": "e5b676260776ce63d88ef5ddff94c1bdbd741600b91e20eb5b22a4d543590d81"
+      },
+      "desc": "raw 12시점 P2-tiny (deterministic temporal-mean + spatial-max pool)",
+      "fit_plus_epoch_val_seconds": 18.1,
+      "history": [
+        {
+          "epoch": 1,
+          "seconds": 18.0,
+          "train_loss": 1.06842,
+          "val_iou": 0.02481
+        }
+      ],
+      "peak_cuda_bytes": 1025106944,
+      "per_sample": {
+        "test": {
+          "path": "/home/work/data/olmoearth/sen12_gp_p2_det_smoke_d/per_sample/holdout_chimanimani/P2_test.jsonl",
+          "rows": 1133,
+          "sha256": "093523dd31b59cea58feadb87985e85c8a204ba4be078149349b5dc28e21be19"
+        },
+        "val": {
+          "path": "/home/work/data/olmoearth/sen12_gp_p2_det_smoke_d/per_sample/holdout_chimanimani/P2_val.jsonl",
+          "rows": 159,
+          "sha256": "cbabfbffae66eac0b29aa1a7b5d8aaddcc96d902d0084eb820b7b9ded361b563"
+        }
+      },
+      "pos_weight": 46.53,
+      "test": {
+        "auprc_exact": 0.103868,
+        "brier_pixel_micro": 0.058498,
+        "confusion_pixels": {
+          "fn": 91055,
+          "fp": 585847,
+          "tn": 17809748,
+          "tp": 76422
+        },
+        "ece_15bin_pixel_micro": 0.199595,
+        "f1": 0.184206,
+        "iou": 0.101446,
+        "ld_f1": 0.2656,
+        "ld_iou": 0.15314,
+        "ld_subset_n": 347,
+        "nll_pixel_micro": 0.253888,
+        "positive_patch_macro_iou": 0.103355,
+        "positive_patch_n": 423,
+        "positive_pixel_frac": 0.00902205,
+        "precision": 0.115394,
+        "recall": 0.456313
+      },
+      "trainable_params": 265649,
+      "val": {
+        "auprc_exact": 0.033933,
+        "brier_pixel_micro": 0.11005,
+        "confusion_pixels": {
+          "fn": 7989,
+          "fp": 327440,
+          "tn": 2261093,
+          "tp": 8534
+        },
+        "ece_15bin_pixel_micro": 0.272116,
+        "f1": 0.04842,
+        "iou": 0.024811,
+        "ld_f1": 0.08952,
+        "ld_iou": 0.04686,
+        "ld_subset_n": 65,
+        "nll_pixel_micro": 0.378751,
+        "positive_patch_macro_iou": 0.037688,
+        "positive_patch_n": 81,
+        "positive_pixel_frac": 0.00634267,
+        "precision": 0.025401,
+        "recall": 0.516492
+      }
+    }
+  },
+  "cache_audit": {
+    "path": "/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani/cache_audit.json",
+    "sha256": "58fab487d112743d3f2e54f9c563c9d66a493f8339f8dcd8e1b2078c67f45457",
+    "summary": {
+      "all_gates_pass": true,
+      "content_sha256": {
+        "emb_fp16": "8d98e3ebae3bba2f33e1c6acae08edaa1442ac632f80636ce0e27e7edd2b752c",
+        "mask_u8": "bd36b1b2119356a1b1aebeaf552215b86cdbf0707ef86db467ff6b00dbf30289",
+        "raw_u16": "f0c3ea667125b1cea03819e670aa484d7d86d852508cda404d4ac2224b4857a6"
+      },
+      "failures": [],
+      "file_set_gates": {
+        "emb_fp16": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        },
+        "mask_u8": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        },
+        "raw_u16": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        }
+      },
+      "fold": "holdout_chimanimani",
+      "gates": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "manifest_sha256": "17a9674eb06b530a106aaeaecb476d793b69577ddfd94eed1c8b15879f88279d",
+      "sample_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+      "sample_counts": {
+        "test": 1133,
+        "train": 5542,
+        "val": 159
+      },
+      "samples_audited": 6834,
+      "schema": "sen12-fold-cache-audit-v1"
+    }
+  },
+  "cache_build_summary": {
+    "cache_bytes": {
+      "emb_fp16": 10749827328,
+      "mask_u8": 112843008,
+      "raw_u16": 26873256192
+    },
+    "cache_bytes_total": 37735926528,
+    "fold": "holdout_chimanimani",
+    "input_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+    "missing_contract": "B01/B09 zeros + band-set 2 MaskValue.MISSING",
+    "model_load_s": 2.819,
+    "peak_cuda_bytes": 739656192,
+    "raw_dtype": "uint16 (lossless for int16 reflectance)",
+    "samples_per_s": 6.0475,
+    "samples_total": 6834,
+    "samples_written": 6834,
+    "schema": "sen12-fold-cache-v1",
+    "split_counts": {
+      "test": 1133,
+      "train": 5542,
+      "val": 159
+    },
+    "split_sha256_verified": true,
+    "timestep_policy": "top-12 SCL clear fraction, then chronological; label-independent",
+    "total_s": 1130.05
+  },
+  "cache_bytes": {
+    "emb_fp16": 10749827328,
+    "mask_u8": 112843008,
+    "raw_u16": 26873256192
+  },
+  "caveat": "test는 held-out 지역 1개뿐이다. region-macro는 10-fold 전체에서만 나온다. 이미 열람한 개발 fold이므로 지역 일반화나 최종 test로 읽지 않는다. patch들은 같은 inventory/event와 중첩될 수 있어 1,133개 독립 사건이 아니다. pixel-micro ECE는 배경 픽셀이 지배하므로 router calibration 근거가 아니다.",
+  "code_sha256": "a1545d1314ff5aa55986559b2a72e6f94bf99911bea27858a5c3cead7adfb80a",
+  "cost_scope": {
+    "p4_warning": "P4의 frozen OlmoEarth encoder 파라미터·cache extraction 비용을 0으로 간주하지 않는다. end-to-end/cold 비용과 task 수에 따른 amortized 비용은 별도 표가 나오기 전까지 비교 불가.",
+    "reported_fit_time": "head fit + validation every epoch; excludes cache construction",
+    "reported_peak_cuda": "head training/evaluation only"
+  },
+  "development_protocol_v2": {
+    "auprc": "exact over all pixels; tied scores grouped",
+    "batch": 16,
+    "decision_threshold": 0.5,
+    "determinism": {
+      "cublas_workspace_config": ":4096:8",
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "float32_matmul_precision": "highest",
+      "strict_algorithms": true,
+      "tf32": false
+    },
+    "ece": "15 equal-width bins, pixel-micro",
+    "emb_norm": "fixed 400-sample train-only channel mean/std approximation",
+    "epochs": 1,
+    "lr": 0.001,
+    "model_selection": "best val IoU; test never used for selection",
+    "pos_weight_cap": 50.0,
+    "pos_weight_source": "all train masks, exact",
+    "raw_norm": "uint16/10000, clamp[0,1.5]",
+    "seed": 1,
+    "timestep_policy": "S12q (shared across arms)",
+    "weight_decay": 0.0001
+  },
+  "evidence_status": "development_only_not_confirmatory",
+  "fold": "holdout_chimanimani",
+  "official_repository_benchmark_S12LS_LD": {
+    "ConvGRU": {
+      "AP": 60.0,
+      "F1": 59.06,
+      "IoU": 41.91
+    },
+    "U-ConvLSTM": {
+      "AP": 65.13,
+      "F1": 61.95,
+      "IoU": 44.88
+    },
+    "U-TAE": {
+      "AP": 67.75,
+      "F1": 61.8,
+      "IoU": 44.74
+    },
+    "Unet3d": {
+      "AP": 62.08,
+      "F1": 58.82,
+      "IoU": 41.66
+    },
+    "corrections": [
+      "위 표는 Scientific Data 논문의 원 표가 아니라 공식 저장소가 추가한 binary benchmark다",
+      "Scientific Data 논문 자체는 50 epoch/cross-entropy 설정과 별도의 geographic cluster LOCO도 보고한다"
+    ],
+    "not_comparable_because": [
+      "task: 그들은 mask>50 픽셀 표본만(양성 밀집). 우리 headline은 음성 포함",
+      "split: 그들은 random 80/20. 우리는 leave-one-region-out",
+      "input: 그들은 11채널(밴드+SCL+DEM) 15 timestep. 우리는 10밴드 12 timestep, DEM 없음",
+      "optimization: 그들은 75 epoch BCEDice(pos_weight 5, dice_w 0.5). 우리는 40 epoch BCE(train exact pos_weight)"
+    ],
+    "our_ld_subset_note": "ld_iou/ld_f1 은 >50 필터만 맞춘 참고값이며 split·input·loss는 여전히 다르다",
+    "source": "PaulH97/Sen12Landslides README current benchmark, S2+DEM, seeds 42/123/777 평균"
+  },
+  "protocol_history": "1차 8-epoch 실행에서 세 arm 모두 손실이 단조 하강 중(미수렴)이어서 예산을 모든 arm에 동일하게 늘리고 val IoU로 best epoch을 골랐다. 이 변경은 test 열람 뒤 이뤄졌으므로 confirmatory 사전등록이 아니다. 1차 결과는 M23에 보존한다.",
+  "schema": "sen12-gp-pilot-v2",
+  "split_counts": {
+    "test": 1133,
+    "train": 5542,
+    "val": 159
+  },
+  "test_exposure": "chimanimani test는 M23 8-epoch 결과에서 이미 열람됐다. 이후 40-epoch와 v2는 개발 결과다. 최종 주장은 미열람 지역 fold를 사전등록 후 한 번만 평가해야 한다.",
+  "test_region": "chimanimani",
+  "val_region": "china"
+}

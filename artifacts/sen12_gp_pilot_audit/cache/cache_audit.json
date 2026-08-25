@@ -1,0 +1,42 @@
+{
+  "all_gates_pass": true,
+  "content_sha256": {
+    "emb_fp16": "8d98e3ebae3bba2f33e1c6acae08edaa1442ac632f80636ce0e27e7edd2b752c",
+    "mask_u8": "bd36b1b2119356a1b1aebeaf552215b86cdbf0707ef86db467ff6b00dbf30289",
+    "raw_u16": "f0c3ea667125b1cea03819e670aa484d7d86d852508cda404d4ac2224b4857a6"
+  },
+  "failures": [],
+  "file_set_gates": {
+    "emb_fp16": {
+      "exact": true,
+      "extra": [],
+      "missing": []
+    },
+    "mask_u8": {
+      "exact": true,
+      "extra": [],
+      "missing": []
+    },
+    "raw_u16": {
+      "exact": true,
+      "extra": [],
+      "missing": []
+    }
+  },
+  "fold": "holdout_chimanimani",
+  "gates": {
+    "all_array_contracts": true,
+    "all_expected_samples_audited": true,
+    "exact_file_sets": true,
+    "split_sha256_verified": true
+  },
+  "manifest_sha256": "17a9674eb06b530a106aaeaecb476d793b69577ddfd94eed1c8b15879f88279d",
+  "sample_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+  "sample_counts": {
+    "test": 1133,
+    "train": 5542,
+    "val": 159
+  },
+  "samples_audited": 6834,
+  "schema": "sen12-fold-cache-audit-v1"
+}

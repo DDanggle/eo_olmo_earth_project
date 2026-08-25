@@ -1,0 +1,54 @@
+{
+  "all_checks_pass": true,
+  "checked": {
+    "P1": {
+      "checkpoint_sha256": "pass",
+      "test": {
+        "per_sample_sha256": "pass",
+        "rows": 1133,
+        "thresholded_aggregates_recomputed": "pass"
+      },
+      "val": {
+        "per_sample_sha256": "pass",
+        "rows": 159,
+        "thresholded_aggregates_recomputed": "pass"
+      }
+    },
+    "P2": {
+      "checkpoint_sha256": "pass",
+      "test": {
+        "per_sample_sha256": "pass",
+        "rows": 1133,
+        "thresholded_aggregates_recomputed": "pass"
+      },
+      "val": {
+        "per_sample_sha256": "pass",
+        "rows": 159,
+        "thresholded_aggregates_recomputed": "pass"
+      }
+    },
+    "P4": {
+      "checkpoint_sha256": "pass",
+      "test": {
+        "per_sample_sha256": "pass",
+        "rows": 1133,
+        "thresholded_aggregates_recomputed": "pass"
+      },
+      "val": {
+        "per_sample_sha256": "pass",
+        "rows": 159,
+        "thresholded_aggregates_recomputed": "pass"
+      }
+    }
+  },
+  "failures": [],
+  "not_covered_without_pixel_scores": [
+    "auprc_exact",
+    "ece_15bin_pixel_micro",
+    "brier_pixel_micro",
+    "nll_pixel_micro"
+  ],
+  "schema": "sen12-gp-artifact-verification-v1",
+  "summary": "artifacts/sen12_gp_pilot_audit/determinism/final/sen12_gp_pilot_det_final/holdout_chimanimani_pilot.json",
+  "summary_sha256": "038b10f677e3559e60e6061672d4ba9bc402fd25bc0c9ceb3221175ce7946cb8"
+}

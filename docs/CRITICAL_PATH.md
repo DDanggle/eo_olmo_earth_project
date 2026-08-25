@@ -1,6 +1,6 @@
 # 임계경로 한 장 — transferable · refreshable Earth embedding
 
-갱신 2026-08-25. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
+갱신 2026-08-26. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
 `docs/ASSET_INVENTORY.md`, arm·통계의 상세는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`를 따른다.
 
 ## 북극성
@@ -52,13 +52,17 @@ pseudo-cutoff 정책을 사전에 동결하기 전까지 열지 않는다. OLMo 
 12개라 15개 입력에서 shape error가 났다. 사후 편의 선택을 막기 위해 SCL quality만으로 top-12를
 고르고 시간순으로 복원하는 S12q를 고정했으며 P1~P5 모두 같은 index를 쓴다.
 
+**공정성 정정(2026-08-25)**: 같은 timestep index만으로 정보 계약이 완전히 같지는 않다. P4 cache는
+OLMo에 실제 acquisition timestamp를 전달하지만 현재 P1/P2는 순서만 본다. matched G-P를 주장하려면
+raw temporal baseline에도 같은 날짜/간격 encoding을 주거나 P4 timestamp ablation을 함께 둔다.
+
 ## 측정 사슬 — promotion gate를 통과해야 다음으로 간다
 
 | # | 단계 | 무엇을 재는가 | 현재 |
 |---|---|---|---|
 | **0** | **C0 data contract** | 13,628파일 shape/band/time/static-mask/pre-post/SCL + LOCO 해시 | **통과** |
 | **1a** | **G-P smoke** | GPU1, 64표본에서 OLMo 입력·메모리·cache runtime | **통과** |
-| **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model의 95%에 닿는가 | 0% |
+| **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model의 95%에 닿는가 | 개발 pilot 측정 / **BLOCKED** |
 | **1c** | **R-event probe** | 같은 cache가 retrieval에도 raw spectral보다 나은가 | 0% |
 | **2** | **T-m** Höhn task-eligible 10지역 → Korea | annotation-matched zero/1/5/10% transfer | 0% |
 | **3** | **T-x** Italy → Korea | annotation-mismatched transfer | 0% |
@@ -98,14 +102,18 @@ C0 실측은 13,628/13,628 readable, 공통 schema gate 8/8 통과다. retrospec
 |---|---|---|
 | P0 | all-negative / prevalence predictor | 불균형 하한 |
 | P1 | raw spectral shallow U-Net | embedding 불필요 가능성 |
-| P2 | 3D-UNet | Sen12 논문의 효율적인 temporal baseline을 동일 12시점으로 재학습 |
-| P3 | U-TAE | 다른 temporal inductive bias |
+| P2 | **공식 Sen12 3D-UNet 구조** | 동일 12시점·날짜 encoding으로 재학습. tiny stand-in 금지 |
+| P3 | **공식 U-TAE 구조** | 다른 temporal inductive bias. acquisition date를 동일 계약으로 사용 |
 | P4 | **frozen OLMo v1 + 같은 용량의 spatial decoder** | G-P 대상 |
 | P5 | frozen Prithvi-EO-2.0 + 같은 decoder | OLMo 한정 여부와 최신 근접연구 대조 |
 
 OLMo v1.2는 12밴드 단일 group이고 Sen12는 B01·B09가 없는 10밴드라 v1과 대칭 입력이 안 된다.
 따라서 **첫 task 자격 시험은 v1만** 쓴다. v1.2는 band imputation 실험이 아니라 입력계약 연구
 (M8/FoldRefresh)에 남긴다. P4/P5의 decoder 깊이·parameter 수·학습 epoch·augmentation은 기록한다.
+
+비용은 ① cold encoder/cache extraction ② cached head fit+validation ③ deployment inference로
+분리한다. `trainable_params`를 쓸 때도 P4의 frozen encoder 총 파라미터와 10.75 GB cache를 함께
+보고한다. task 수 `K`에 따른 amortized 표 전에는 end-to-end 비용 우위를 주장하지 않는다.
 
 1 run 시간을 smoke에서 먼저 잰다. 그 값으로 전체 fold×seed 예산을 동결하며, 실행 중 성능을 보고
 seed나 fold를 줄이지 않는다.
@@ -115,6 +123,15 @@ seed나 fold를 줄이지 않는다.
 재실행 max-abs diff **0.0**, shape 64/64 `768×32×32`, finite 64/64로 6/6 gate를 통과했다.
 이 속도를 단순 외삽하면 headline 6,834개는 약 **27.5분 / 10.75 GB**다. 이는 embedding extraction
 예산이지 decoder 학습시간이 아니며 pilot에서 따로 잰다.
+
+**strict 개발 pilot 실측(M25)**: full cache extraction은 실제 1,130.05초(18.8분)였다. 이미 열람한
+Chimanimani 한 fold에서 P4는 P1을 넘었고, P2-tiny 대비 test IoU 0.14164 vs 0.13499였지만 exact
+AP는 0.22512 vs 0.28607(78.7%)였다. 따라서 viability 신호는 있으나 G-P의 IoU+AUPRC 95%를
+동시에 통과하지 못했다. P2가 공식 구조가 아니고 P3·timestamp parity·미열람 9지역이 없으므로
+최종 판정은 실패가 아니라 **BLOCKED**다. strict CUDA smoke는 checkpoint tensor max-abs diff 0,
+artifact verifier는 checkpoint/per-sample SHA와 threshold aggregate 전부 통과했다. final P4-only
+40-epoch replay도 metric/checkpoint/tensor가 bitwise 일치했지만 wall time은 950.5초 vs 520.0초로
+갈렸으므로 G-C 비용은 isolated 반복 실험으로 다시 잰다.
 
 ## 판정 기준
 
@@ -161,9 +178,9 @@ FoldRefresh는 `recompute_release`, MountainShift는 `add_static/refresh_live`, 
 
 ## 다음 세 행동
 
-1. 64개 smoke cache로 P1 raw spectral과 P4 frozen-feature decoder의 tensor/head 계약을 확인한다.
-2. 가장 작은 한 LOCO fold·seed에서 P1/P2/P4를 돌려 effect와 runtime을 보고 full G-P 예산을 확정한다.
-3. G-P와 G-R을 통과한 뒤에만 한국 T-m/T-x를 연다.
+1. 공식 Sen12 3D U-Net·U-TAE를 원 구현 tensor/parameter regression test와 함께 이식한다.
+2. raw baseline에 동일 acquisition date/gap encoding을 주고 Chimanimani에서 recipe를 동결한다.
+3. 미열람 9지역을 한 번씩 열어 region/event-macro G-P와 G-R을 닫은 뒤 한국 T-m/T-x를 연다.
 
 ## 이번 재설계에 직접 사용한 공개 근거
 

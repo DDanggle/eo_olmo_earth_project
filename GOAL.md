@@ -2365,3 +2365,41 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   https://claude.ai/code/artifact/b5a54835-93cd-4ebc-9905-c2a7813b977e
 - 다음(루프 2): 이 파이프라인을 하네스로 벤치마크 매트릭스(A) 설계 —
   v1 × Nano/Tiny/Base/Large × precision, GPU-초/km² 측정. + lfmc 학습 재현.
+
+### 2026-08-25~26 — G-P 첫 성능 결과 독립 검증·공정 비교 복구 (완료)
+
+- 계획: `holdout_chimanimani` P1/P2/P4 결과를 숫자표가 아니라 데이터→split→모델→학습→선택→평가
+  전체 경로로 감사한다. 첨부 보고서의 8/40 epoch 주장과 서버 산출물을 독립 재계산하고,
+  best-checkpoint test, 손실·불균형 처리, AUPRC/ECE 구현, LD 부분집합, 파라미터·시간·메모리·
+  사전계산 비용을 확인한다.
+- 사전 판정 기준: ① 세 arm의 sample ID·S12q 입력·mask·split이 동일 ② test는 모델/epoch/threshold
+  선택에 미사용 ③ 최종 test는 val로 고른 best checkpoint에서 단 한 번 산출 ④ exact 또는 충분히
+  정밀한 pixel AUPRC와 명시된 ECE ⑤ P4 비용은 cache extraction amortization을 포함해 보고
+  ⑥ 코드·산출물 해시와 독립 재실행 테스트가 남아야 유효한 pilot으로 인정한다.
+- 무효 조건: 마지막 epoch test를 best-epoch 성능으로 부르기, test를 매 epoch 조회하기, arm별 다른
+  표본/augmentation/threshold 사용, 사후 epoch 연장 결과를 최초 사전등록 게이트처럼 표현하기,
+  또는 frozen backbone 사전계산 비용을 0으로 보고하는 경우.
+- 실행 순서: 로컬 정적 감사와 단위 테스트 → GPU1 작업/로그 비침습 점검 → 필요한 코드 수정 →
+  작은 synthetic 회귀 테스트 → 기존 결과 재평가 또는 GPU1 재실행 → 약점부터 결과 기록.
+- 감사 결과: 최초 8-epoch “P4 전 지표 1위”는 확정표에서 제외했다. batch마다 같은 20k pixel
+  offset을 뽑는 AUPRC 편향, test 열람 뒤 epoch 변경, 265,649-param tiny P2를 공식 3D U-Net처럼
+  부른 문제, P4만 timestamp를 받은 정보 비대칭, encoder/cache를 뺀 비용 과장, `>=50` LD 경계,
+  300-mask pos_weight, arm 순서 의존 RNG, checkpoint/per-sample 부재를 확인했다.
+- cache 복구: 6,834/6,834의 file set·shape/dtype·finite/range·binary mask·원 계약 positive count와
+  content SHA를 전수 감사해 4/4 gate를 통과했다. cache seal 없이는 runner가 실행되지 않는다.
+- strict final(code SHA `478c6af5…`): P1 IoU/AP 0.05406/0.07774, P2-tiny-factorized
+  0.13499/0.28607, P4 frozen OLMo **0.14164/0.22512**. P4는 P1과 P2 IoU를 넘지만 AP는 P2의
+  **78.7%**라 사전 95% G-P를 통과하지 못했다. P2가 official strong baseline이 아니고 P3·
+  timestamp parity·미열람 9지역이 없으므로 상태는 실패가 아니라 **G-P BLOCKED**다.
+- 재현성: RNG reset만 한 v2 P4 replay는 IoU가 0.12283→0.14344(+16.8%)로 갈렸다. strict
+  algorithms/cuBLAS/cuDNN/TF32 계약과 factorized deterministic P2-tiny로 복구했다. final full P4와
+  P4-only 40-epoch는 history(시간 제외), 모든 지표, per-sample/checkpoint SHA, 모든 tensor가 bitwise
+  일치(max-abs diff 0). artifact verifier도 threshold aggregate를 독립 재계산해 통과했다.
+- 비용 정정: P4 cache extraction 1,130.05초·10.75 GB·frozen encoder 88.96M을 별도 기록했다.
+  같은 P4 cached fit도 full sequence 950.5초 vs 단독 520.0초라 wall-time 우위는 미측정이다.
+- 검증: 전용 metric/artifact 테스트 6개와 전체 **159 passed, 1 skipped, 10 subtests**, py_compile,
+  `git diff --check`를 통과한다. system Python은 PyYAML이 없어 collection 5건이 실패했으며,
+  프로젝트 환경 `../.venv` 결과만 유효하다.
+- 다음: Chimanimani 추가 튜닝을 멈춘다. 공식 Sen12 3D U-Net/U-TAE tensor regression → raw date/gap
+  encoding 또는 P4 timestamp ablation → recipe 동결 → 미열람 9지역 region/event-macro G-P 순서다.
+  그 뒤 같은 cache의 R-event를 닫아야 한국 T-m/T-x와 다중-task cache 주장을 연다.

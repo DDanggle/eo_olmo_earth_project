@@ -168,10 +168,21 @@ OLMo v1은 time embedding이 12개라 15개 입력에서 shape error가 났다. 
 상위 12개를 label-independent하게 고르고 시간순으로 복원하는 S12q를 고정한다. G-P의 모든 arm이
 같은 12개를 쓰며, S15-ref와 S≤t를 섞어 baseline 입력량을 다르게 만들지 않는다.
 
+단, 같은 index가 같은 정보량을 자동 보장하지는 않는다. OLMo cache는 실제 acquisition timestamp를
+받고 현재 raw pilot은 순서만 받았다. full G-P에서는 raw 3D-UNet/U-TAE에도 동일 날짜/간격 encoding을
+주거나 OLMo timestamp ablation을 둔다. 265,649-parameter tiny 3D U-Net은 실행 smoke일 뿐이며,
+공식 Sen12 3D-UNet/U-TAE 구조를 strong baseline으로 검증하기 전에는 G-P를 판정하지 않는다.
+
 **C0 결과**: 13,628/13,628 readable, shape/band/time/static-mask schema 통과. Hiroshima 2개는
 `annotated=True, MASK=0`이라 S12q/R-event에서 제외했다. LanaoDelNorte 71개는 양성 MASK가 0이라
 negative-only stress cohort로 내렸다. S12q headline은 10지역 6,834 eligible sample이다. 양성의
 단일 pre/post pair는 5,397/6,737(80.11%)이므로 S≤t는 별도 cohort/pseudo-cutoff 계약 전에는 막는다.
+
+**M25 개발 pilot 결과**: strict CUDA·exact AP·checkpoint/per-sample seal로 Chimanimani 한 fold를
+복구했다. P4 test IoU 0.14164는 P2-tiny 0.13499보다 높지만 AP 0.22512는 0.28607의 78.7%다.
+P2-tiny는 deterministic 실행을 위한 factorized-pool stand-in이고 official P2/P3가 아니며, P4만
+timestamp를 받는다. 따라서 이 수치는 backbone viability만 보이고 G-P는 **BLOCKED**다. 이 fold는
+M23에서 이미 열람됐으므로 full 결과의 confirmatory 평균에서도 제외한다.
 
 C2-C(한국 12밴드 복구)는 **P3의 지원 gate이며 최대 1일**이다. 실패하면 한국은
 v1/10밴드 + B01·B09 band-group missing mask로 간다. P1을 막지 않는다.

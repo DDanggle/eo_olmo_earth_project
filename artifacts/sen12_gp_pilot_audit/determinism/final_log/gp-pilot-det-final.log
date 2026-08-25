@@ -1,0 +1,1137 @@
+split: {'train': 5542, 'val': 159, 'test': 1133}
+  [P1] epoch 5/40 loss 0.8237 val_iou 0.0177 (best 0.0266@1) (45s)
+  [P1] epoch 10/40 loss 0.7036 val_iou 0.0270 (best 0.0270@10) (89s)
+  [P1] epoch 15/40 loss 0.6595 val_iou 0.0249 (best 0.0317@14) (134s)
+  [P1] epoch 20/40 loss 0.5907 val_iou 0.0272 (best 0.0317@14) (184s)
+  [P1] epoch 25/40 loss 0.5352 val_iou 0.0360 (best 0.0360@25) (234s)
+  [P1] epoch 30/40 loss 0.4912 val_iou 0.0334 (best 0.0360@25) (283s)
+  [P1] epoch 35/40 loss 0.4708 val_iou 0.0369 (best 0.0369@35) (332s)
+  [P1] epoch 40/40 loss 0.4557 val_iou 0.0351 (best 0.0369@35) (387s)
+  [P1] params 474,849 · train 387s · test {'iou': 0.054055, 'f1': 0.102565, 'precision': 0.05615, 'recall': 0.591556, 'auprc_exact': 0.077737, 'ece_15bin_pixel_micro': 0.123126, 'brier_pixel_micro': 0.067197, 'nll_pixel_micro': 0.216388, 'positive_pixel_frac': 0.00902205, 'positive_patch_macro_iou': 0.115962, 'positive_patch_n': 423, 'confusion_pixels': {'tp': 99072, 'fp': 1665335, 'fn': 68405, 'tn': 16730260}, 'ld_subset_n': 347, 'ld_iou': 0.14488, 'ld_f1': 0.2531}
+  [P2] epoch 5/40 loss 0.5636 val_iou 0.0222 (best 0.0558@4) (185s)
+  [P2] epoch 10/40 loss 0.4451 val_iou 0.0153 (best 0.0558@4) (368s)
+  [P2] epoch 15/40 loss 0.3719 val_iou 0.0496 (best 0.0607@14) (555s)
+  [P2] epoch 20/40 loss 0.3182 val_iou 0.0411 (best 0.0607@14) (737s)
+  [P2] epoch 25/40 loss 0.2750 val_iou 0.0620 (best 0.0620@25) (926s)
+  [P2] epoch 30/40 loss 0.2460 val_iou 0.0584 (best 0.0620@25) (1101s)
+  [P2] epoch 35/40 loss 0.2291 val_iou 0.0513 (best 0.0620@25) (1282s)
+  [P2] epoch 40/40 loss 0.2213 val_iou 0.0532 (best 0.0620@25) (1456s)
+  [P2] params 265,649 · train 1456s · test {'iou': 0.134989, 'f1': 0.237869, 'precision': 0.137104, 'recall': 0.897478, 'auprc_exact': 0.286074, 'ece_15bin_pixel_micro': 0.065924, 'brier_pixel_micro': 0.040753, 'nll_pixel_micro': 0.143208, 'positive_pixel_frac': 0.00902205, 'positive_patch_macro_iou': 0.195021, 'positive_patch_n': 423, 'confusion_pixels': {'tp': 150307, 'fp': 945996, 'fn': 17170, 'tn': 17449599}, 'ld_subset_n': 347, 'ld_iou': 0.21327, 'ld_f1': 0.35157}
+  [P4] epoch 5/40 loss 0.2686 val_iou 0.0739 (best 0.0784@4) (138s)
+  [P4] epoch 10/40 loss 0.2142 val_iou 0.0628 (best 0.0848@6) (276s)
+  [P4] epoch 15/40 loss 0.1820 val_iou 0.0588 (best 0.0885@13) (413s)
+  [P4] epoch 20/40 loss 0.1559 val_iou 0.0880 (best 0.0889@18) (550s)
+  [P4] epoch 25/40 loss 0.1357 val_iou 0.0830 (best 0.0889@18) (687s)
+  [P4] epoch 30/40 loss 0.1201 val_iou 0.1004 (best 0.1004@30) (789s)
+  [P4] epoch 35/40 loss 0.1127 val_iou 0.1082 (best 0.1082@35) (882s)
+  [P4] epoch 40/40 loss 0.1098 val_iou 0.1028 (best 0.1118@37) (950s)
+  [P4] params 237,537 · train 950s · test {'iou': 0.141643, 'f1': 0.248139, 'precision': 0.15207, 'recall': 0.673824, 'auprc_exact': 0.225115, 'ece_15bin_pixel_micro': 0.033493, 'brier_pixel_micro': 0.028695, 'nll_pixel_micro': 0.100449, 'positive_pixel_frac': 0.00902205, 'positive_patch_macro_iou': 0.183479, 'positive_patch_n': 423, 'confusion_pixels': {'tp': 112850, 'fp': 629243, 'fn': 54627, 'tn': 17766352}, 'ld_subset_n': 347, 'ld_iou': 0.23041, 'ld_f1': 0.37453}
+{
+  "arms": {
+    "P1": {
+      "best_val_epoch": 35,
+      "best_val_iou": 0.03685,
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/checkpoints/holdout_chimanimani/P1_best.pt",
+        "sha256": "507f8bff9cfc6a10f1e5f1d79b5131957aa750c6b38f1302b7b8b3850b9491bc"
+      },
+      "desc": "raw 시간평균 shallow U-Net",
+      "fit_plus_epoch_val_seconds": 387.3,
+      "history": [
+        {
+          "epoch": 1,
+          "seconds": 9.6,
+          "train_loss": 1.10275,
+          "val_iou": 0.02664
+        },
+        {
+          "epoch": 2,
+          "seconds": 18.9,
+          "train_loss": 1.00552,
+          "val_iou": 0.0179
+        },
+        {
+          "epoch": 3,
+          "seconds": 27.5,
+          "train_loss": 0.9306,
+          "val_iou": 0.01684
+        },
+        {
+          "epoch": 4,
+          "seconds": 36.2,
+          "train_loss": 0.84865,
+          "val_iou": 0.01682
+        },
+        {
+          "epoch": 5,
+          "seconds": 44.8,
+          "train_loss": 0.82375,
+          "val_iou": 0.01767
+        },
+        {
+          "epoch": 6,
+          "seconds": 53.3,
+          "train_loss": 0.7959,
+          "val_iou": 0.02419
+        },
+        {
+          "epoch": 7,
+          "seconds": 62.2,
+          "train_loss": 0.7755,
+          "val_iou": 0.02075
+        },
+        {
+          "epoch": 8,
+          "seconds": 71.2,
+          "train_loss": 0.74581,
+          "val_iou": 0.02157
+        },
+        {
+          "epoch": 9,
+          "seconds": 80.1,
+          "train_loss": 0.72645,
+          "val_iou": 0.02087
+        },
+        {
+          "epoch": 10,
+          "seconds": 88.4,
+          "train_loss": 0.70359,
+          "val_iou": 0.027
+        },
+        {
+          "epoch": 11,
+          "seconds": 95.9,
+          "train_loss": 0.68333,
+          "val_iou": 0.01995
+        },
+        {
+          "epoch": 12,
+          "seconds": 105.0,
+          "train_loss": 0.67594,
+          "val_iou": 0.02517
+        },
+        {
+          "epoch": 13,
+          "seconds": 115.1,
+          "train_loss": 0.66658,
+          "val_iou": 0.02392
+        },
+        {
+          "epoch": 14,
+          "seconds": 125.1,
+          "train_loss": 0.66504,
+          "val_iou": 0.03171
+        },
+        {
+          "epoch": 15,
+          "seconds": 134.4,
+          "train_loss": 0.65946,
+          "val_iou": 0.02495
+        },
+        {
+          "epoch": 16,
+          "seconds": 144.4,
+          "train_loss": 0.62844,
+          "val_iou": 0.02844
+        },
+        {
+          "epoch": 17,
+          "seconds": 154.3,
+          "train_loss": 0.62714,
+          "val_iou": 0.02879
+        },
+        {
+          "epoch": 18,
+          "seconds": 163.6,
+          "train_loss": 0.61999,
+          "val_iou": 0.02199
+        },
+        {
+          "epoch": 19,
+          "seconds": 173.7,
+          "train_loss": 0.60441,
+          "val_iou": 0.02812
+        },
+        {
+          "epoch": 20,
+          "seconds": 183.7,
+          "train_loss": 0.5907,
+          "val_iou": 0.02716
+        },
+        {
+          "epoch": 21,
+          "seconds": 193.3,
+          "train_loss": 0.57855,
+          "val_iou": 0.02943
+        },
+        {
+          "epoch": 22,
+          "seconds": 203.5,
+          "train_loss": 0.57002,
+          "val_iou": 0.02999
+        },
+        {
+          "epoch": 23,
+          "seconds": 213.7,
+          "train_loss": 0.56422,
+          "val_iou": 0.02632
+        },
+        {
+          "epoch": 24,
+          "seconds": 223.5,
+          "train_loss": 0.5584,
+          "val_iou": 0.03012
+        },
+        {
+          "epoch": 25,
+          "seconds": 233.4,
+          "train_loss": 0.53525,
+          "val_iou": 0.03604
+        },
+        {
+          "epoch": 26,
+          "seconds": 243.7,
+          "train_loss": 0.54171,
+          "val_iou": 0.02996
+        },
+        {
+          "epoch": 27,
+          "seconds": 253.7,
+          "train_loss": 0.52001,
+          "val_iou": 0.03319
+        },
+        {
+          "epoch": 28,
+          "seconds": 263.8,
+          "train_loss": 0.51557,
+          "val_iou": 0.03575
+        },
+        {
+          "epoch": 29,
+          "seconds": 273.6,
+          "train_loss": 0.50222,
+          "val_iou": 0.03353
+        },
+        {
+          "epoch": 30,
+          "seconds": 283.2,
+          "train_loss": 0.49122,
+          "val_iou": 0.03336
+        },
+        {
+          "epoch": 31,
+          "seconds": 291.0,
+          "train_loss": 0.48721,
+          "val_iou": 0.03277
+        },
+        {
+          "epoch": 32,
+          "seconds": 299.6,
+          "train_loss": 0.48284,
+          "val_iou": 0.03248
+        },
+        {
+          "epoch": 33,
+          "seconds": 309.5,
+          "train_loss": 0.47438,
+          "val_iou": 0.03399
+        },
+        {
+          "epoch": 34,
+          "seconds": 320.9,
+          "train_loss": 0.47236,
+          "val_iou": 0.03454
+        },
+        {
+          "epoch": 35,
+          "seconds": 331.7,
+          "train_loss": 0.4708,
+          "val_iou": 0.03685
+        },
+        {
+          "epoch": 36,
+          "seconds": 342.6,
+          "train_loss": 0.46857,
+          "val_iou": 0.03581
+        },
+        {
+          "epoch": 37,
+          "seconds": 354.2,
+          "train_loss": 0.45683,
+          "val_iou": 0.0343
+        },
+        {
+          "epoch": 38,
+          "seconds": 365.0,
+          "train_loss": 0.45816,
+          "val_iou": 0.03476
+        },
+        {
+          "epoch": 39,
+          "seconds": 375.7,
+          "train_loss": 0.45965,
+          "val_iou": 0.03559
+        },
+        {
+          "epoch": 40,
+          "seconds": 387.3,
+          "train_loss": 0.45573,
+          "val_iou": 0.03509
+        }
+      ],
+      "peak_cuda_bytes": 468045312,
+      "per_sample": {
+        "test": {
+          "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/per_sample/holdout_chimanimani/P1_test.jsonl",
+          "rows": 1133,
+          "sha256": "0333f51154780dc7746582f6a5be67fd84189cffbf6ee6d9db74c22c0fc0fb3c"
+        },
+        "val": {
+          "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/per_sample/holdout_chimanimani/P1_val.jsonl",
+          "rows": 159,
+          "sha256": "154ad0afcf60ff5585216b8bb4d0fc81dd1c6fef5297e7c63f88bbf9926e9a2b"
+        }
+      },
+      "pos_weight": 46.53,
+      "test": {
+        "auprc_exact": 0.077737,
+        "brier_pixel_micro": 0.067197,
+        "confusion_pixels": {
+          "fn": 68405,
+          "fp": 1665335,
+          "tn": 16730260,
+          "tp": 99072
+        },
+        "ece_15bin_pixel_micro": 0.123126,
+        "f1": 0.102565,
+        "iou": 0.054055,
+        "ld_f1": 0.2531,
+        "ld_iou": 0.14488,
+        "ld_subset_n": 347,
+        "nll_pixel_micro": 0.216388,
+        "positive_patch_macro_iou": 0.115962,
+        "positive_patch_n": 423,
+        "positive_pixel_frac": 0.00902205,
+        "precision": 0.05615,
+        "recall": 0.591556
+      },
+      "trainable_params": 474849,
+      "val": {
+        "auprc_exact": 0.044537,
+        "brier_pixel_micro": 0.056998,
+        "confusion_pixels": {
+          "fn": 8718,
+          "fp": 195272,
+          "tn": 2393261,
+          "tp": 7805
+        },
+        "ece_15bin_pixel_micro": 0.098131,
+        "f1": 0.071084,
+        "iou": 0.036852,
+        "ld_f1": 0.09992,
+        "ld_iou": 0.05259,
+        "ld_subset_n": 65,
+        "nll_pixel_micro": 0.186389,
+        "positive_patch_macro_iou": 0.053193,
+        "positive_patch_n": 81,
+        "positive_pixel_frac": 0.00634267,
+        "precision": 0.038434,
+        "recall": 0.472372
+      }
+    },
+    "P2": {
+      "best_val_epoch": 25,
+      "best_val_iou": 0.06197,
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/checkpoints/holdout_chimanimani/P2_best.pt",
+        "sha256": "8456a2dd20005e908b3aea7d7c5830267ba3393bccdd08f6b59b8c8c4566d909"
+      },
+      "desc": "raw 12시점 P2-tiny (deterministic temporal-mean + spatial-max pool)",
+      "fit_plus_epoch_val_seconds": 1455.7,
+      "history": [
+        {
+          "epoch": 1,
+          "seconds": 37.0,
+          "train_loss": 1.06842,
+          "val_iou": 0.02481
+        },
+        {
+          "epoch": 2,
+          "seconds": 73.6,
+          "train_loss": 0.7638,
+          "val_iou": 0.02003
+        },
+        {
+          "epoch": 3,
+          "seconds": 110.3,
+          "train_loss": 0.63574,
+          "val_iou": 0.03071
+        },
+        {
+          "epoch": 4,
+          "seconds": 147.2,
+          "train_loss": 0.59255,
+          "val_iou": 0.05575
+        },
+        {
+          "epoch": 5,
+          "seconds": 184.7,
+          "train_loss": 0.5636,
+          "val_iou": 0.02219
+        },
+        {
+          "epoch": 6,
+          "seconds": 221.2,
+          "train_loss": 0.52233,
+          "val_iou": 0.03242
+        },
+        {
+          "epoch": 7,
+          "seconds": 258.0,
+          "train_loss": 0.52743,
+          "val_iou": 0.04052
+        },
+        {
+          "epoch": 8,
+          "seconds": 294.8,
+          "train_loss": 0.47954,
+          "val_iou": 0.03286
+        },
+        {
+          "epoch": 9,
+          "seconds": 331.4,
+          "train_loss": 0.46023,
+          "val_iou": 0.03506
+        },
+        {
+          "epoch": 10,
+          "seconds": 368.1,
+          "train_loss": 0.4451,
+          "val_iou": 0.01532
+        },
+        {
+          "epoch": 11,
+          "seconds": 404.6,
+          "train_loss": 0.43081,
+          "val_iou": 0.03739
+        },
+        {
+          "epoch": 12,
+          "seconds": 441.6,
+          "train_loss": 0.40404,
+          "val_iou": 0.03232
+        },
+        {
+          "epoch": 13,
+          "seconds": 480.2,
+          "train_loss": 0.39156,
+          "val_iou": 0.03804
+        },
+        {
+          "epoch": 14,
+          "seconds": 517.4,
+          "train_loss": 0.39269,
+          "val_iou": 0.06071
+        },
+        {
+          "epoch": 15,
+          "seconds": 554.6,
+          "train_loss": 0.37188,
+          "val_iou": 0.0496
+        },
+        {
+          "epoch": 16,
+          "seconds": 591.0,
+          "train_loss": 0.3588,
+          "val_iou": 0.05205
+        },
+        {
+          "epoch": 17,
+          "seconds": 627.6,
+          "train_loss": 0.35171,
+          "val_iou": 0.03239
+        },
+        {
+          "epoch": 18,
+          "seconds": 664.1,
+          "train_loss": 0.34488,
+          "val_iou": 0.05083
+        },
+        {
+          "epoch": 19,
+          "seconds": 700.8,
+          "train_loss": 0.35314,
+          "val_iou": 0.04661
+        },
+        {
+          "epoch": 20,
+          "seconds": 737.4,
+          "train_loss": 0.31816,
+          "val_iou": 0.04107
+        },
+        {
+          "epoch": 21,
+          "seconds": 773.8,
+          "train_loss": 0.3086,
+          "val_iou": 0.04473
+        },
+        {
+          "epoch": 22,
+          "seconds": 812.4,
+          "train_loss": 0.29324,
+          "val_iou": 0.04133
+        },
+        {
+          "epoch": 23,
+          "seconds": 851.1,
+          "train_loss": 0.29341,
+          "val_iou": 0.03092
+        },
+        {
+          "epoch": 24,
+          "seconds": 889.2,
+          "train_loss": 0.28358,
+          "val_iou": 0.03991
+        },
+        {
+          "epoch": 25,
+          "seconds": 925.8,
+          "train_loss": 0.275,
+          "val_iou": 0.06197
+        },
+        {
+          "epoch": 26,
+          "seconds": 962.8,
+          "train_loss": 0.26606,
+          "val_iou": 0.05203
+        },
+        {
+          "epoch": 27,
+          "seconds": 999.5,
+          "train_loss": 0.26412,
+          "val_iou": 0.0559
+        },
+        {
+          "epoch": 28,
+          "seconds": 1036.5,
+          "train_loss": 0.25585,
+          "val_iou": 0.05907
+        },
+        {
+          "epoch": 29,
+          "seconds": 1073.2,
+          "train_loss": 0.25133,
+          "val_iou": 0.05157
+        },
+        {
+          "epoch": 30,
+          "seconds": 1101.1,
+          "train_loss": 0.24604,
+          "val_iou": 0.05842
+        },
+        {
+          "epoch": 31,
+          "seconds": 1135.3,
+          "train_loss": 0.24266,
+          "val_iou": 0.05503
+        },
+        {
+          "epoch": 32,
+          "seconds": 1171.7,
+          "train_loss": 0.24151,
+          "val_iou": 0.04017
+        },
+        {
+          "epoch": 33,
+          "seconds": 1208.1,
+          "train_loss": 0.23212,
+          "val_iou": 0.0565
+        },
+        {
+          "epoch": 34,
+          "seconds": 1245.0,
+          "train_loss": 0.23167,
+          "val_iou": 0.05075
+        },
+        {
+          "epoch": 35,
+          "seconds": 1281.7,
+          "train_loss": 0.22914,
+          "val_iou": 0.05127
+        },
+        {
+          "epoch": 36,
+          "seconds": 1318.2,
+          "train_loss": 0.22592,
+          "val_iou": 0.05533
+        },
+        {
+          "epoch": 37,
+          "seconds": 1352.5,
+          "train_loss": 0.2238,
+          "val_iou": 0.0582
+        },
+        {
+          "epoch": 38,
+          "seconds": 1382.5,
+          "train_loss": 0.22108,
+          "val_iou": 0.05298
+        },
+        {
+          "epoch": 39,
+          "seconds": 1419.6,
+          "train_loss": 0.22135,
+          "val_iou": 0.05808
+        },
+        {
+          "epoch": 40,
+          "seconds": 1455.7,
+          "train_loss": 0.22128,
+          "val_iou": 0.05323
+        }
+      ],
+      "peak_cuda_bytes": 1028804608,
+      "per_sample": {
+        "test": {
+          "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/per_sample/holdout_chimanimani/P2_test.jsonl",
+          "rows": 1133,
+          "sha256": "f7180ed72a75093b2d7816a0bb1b909e679ef81b59fa2048edb7819bfb6c25a3"
+        },
+        "val": {
+          "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/per_sample/holdout_chimanimani/P2_val.jsonl",
+          "rows": 159,
+          "sha256": "1ad13c15ecdf1f9408b55856b2a0a28bcefa2aea6eee0ad14741a0f2b093207f"
+        }
+      },
+      "pos_weight": 46.53,
+      "test": {
+        "auprc_exact": 0.286074,
+        "brier_pixel_micro": 0.040753,
+        "confusion_pixels": {
+          "fn": 17170,
+          "fp": 945996,
+          "tn": 17449599,
+          "tp": 150307
+        },
+        "ece_15bin_pixel_micro": 0.065924,
+        "f1": 0.237869,
+        "iou": 0.134989,
+        "ld_f1": 0.35157,
+        "ld_iou": 0.21327,
+        "ld_subset_n": 347,
+        "nll_pixel_micro": 0.143208,
+        "positive_patch_macro_iou": 0.195021,
+        "positive_patch_n": 423,
+        "positive_pixel_frac": 0.00902205,
+        "precision": 0.137104,
+        "recall": 0.897478
+      },
+      "trainable_params": 265649,
+      "val": {
+        "auprc_exact": 0.091043,
+        "brier_pixel_micro": 0.037474,
+        "confusion_pixels": {
+          "fn": 7791,
+          "fp": 124380,
+          "tn": 2464153,
+          "tp": 8732
+        },
+        "ece_15bin_pixel_micro": 0.063793,
+        "f1": 0.116711,
+        "iou": 0.061972,
+        "ld_f1": 0.16795,
+        "ld_iou": 0.09167,
+        "ld_subset_n": 65,
+        "nll_pixel_micro": 0.125079,
+        "positive_patch_macro_iou": 0.088451,
+        "positive_patch_n": 81,
+        "positive_pixel_frac": 0.00634267,
+        "precision": 0.065599,
+        "recall": 0.528475
+      }
+    },
+    "P4": {
+      "best_val_epoch": 37,
+      "best_val_iou": 0.11181,
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/checkpoints/holdout_chimanimani/P4_best.pt",
+        "sha256": "74c2c67d43c0f42cdec4735bfa2c8f030622c2055ebf6de9479bef30e6a7f08d"
+      },
+      "desc": "frozen OlmoEarth v1 + spatial decoder",
+      "fit_plus_epoch_val_seconds": 950.5,
+      "history": [
+        {
+          "epoch": 1,
+          "seconds": 27.9,
+          "train_loss": 0.50493,
+          "val_iou": 0.05391
+        },
+        {
+          "epoch": 2,
+          "seconds": 55.5,
+          "train_loss": 0.35476,
+          "val_iou": 0.0605
+        },
+        {
+          "epoch": 3,
+          "seconds": 83.2,
+          "train_loss": 0.31237,
+          "val_iou": 0.05017
+        },
+        {
+          "epoch": 4,
+          "seconds": 110.6,
+          "train_loss": 0.29186,
+          "val_iou": 0.07844
+        },
+        {
+          "epoch": 5,
+          "seconds": 138.1,
+          "train_loss": 0.26865,
+          "val_iou": 0.07394
+        },
+        {
+          "epoch": 6,
+          "seconds": 165.6,
+          "train_loss": 0.26358,
+          "val_iou": 0.0848
+        },
+        {
+          "epoch": 7,
+          "seconds": 193.0,
+          "train_loss": 0.24588,
+          "val_iou": 0.06369
+        },
+        {
+          "epoch": 8,
+          "seconds": 220.6,
+          "train_loss": 0.23784,
+          "val_iou": 0.07676
+        },
+        {
+          "epoch": 9,
+          "seconds": 248.2,
+          "train_loss": 0.23178,
+          "val_iou": 0.07106
+        },
+        {
+          "epoch": 10,
+          "seconds": 275.6,
+          "train_loss": 0.21422,
+          "val_iou": 0.0628
+        },
+        {
+          "epoch": 11,
+          "seconds": 303.3,
+          "train_loss": 0.21568,
+          "val_iou": 0.06103
+        },
+        {
+          "epoch": 12,
+          "seconds": 330.7,
+          "train_loss": 0.20418,
+          "val_iou": 0.0831
+        },
+        {
+          "epoch": 13,
+          "seconds": 358.5,
+          "train_loss": 0.19155,
+          "val_iou": 0.08847
+        },
+        {
+          "epoch": 14,
+          "seconds": 385.8,
+          "train_loss": 0.18464,
+          "val_iou": 0.07835
+        },
+        {
+          "epoch": 15,
+          "seconds": 413.2,
+          "train_loss": 0.18196,
+          "val_iou": 0.05881
+        },
+        {
+          "epoch": 16,
+          "seconds": 440.8,
+          "train_loss": 0.17934,
+          "val_iou": 0.06918
+        },
+        {
+          "epoch": 17,
+          "seconds": 468.2,
+          "train_loss": 0.17368,
+          "val_iou": 0.08797
+        },
+        {
+          "epoch": 18,
+          "seconds": 495.5,
+          "train_loss": 0.16777,
+          "val_iou": 0.08893
+        },
+        {
+          "epoch": 19,
+          "seconds": 522.9,
+          "train_loss": 0.16071,
+          "val_iou": 0.0866
+        },
+        {
+          "epoch": 20,
+          "seconds": 550.3,
+          "train_loss": 0.15593,
+          "val_iou": 0.088
+        },
+        {
+          "epoch": 21,
+          "seconds": 577.7,
+          "train_loss": 0.14997,
+          "val_iou": 0.08313
+        },
+        {
+          "epoch": 22,
+          "seconds": 605.2,
+          "train_loss": 0.1478,
+          "val_iou": 0.08797
+        },
+        {
+          "epoch": 23,
+          "seconds": 632.6,
+          "train_loss": 0.14686,
+          "val_iou": 0.08477
+        },
+        {
+          "epoch": 24,
+          "seconds": 659.9,
+          "train_loss": 0.14002,
+          "val_iou": 0.08426
+        },
+        {
+          "epoch": 25,
+          "seconds": 687.3,
+          "train_loss": 0.13574,
+          "val_iou": 0.08304
+        },
+        {
+          "epoch": 26,
+          "seconds": 714.1,
+          "train_loss": 0.13297,
+          "val_iou": 0.09211
+        },
+        {
+          "epoch": 27,
+          "seconds": 733.1,
+          "train_loss": 0.12923,
+          "val_iou": 0.08959
+        },
+        {
+          "epoch": 28,
+          "seconds": 751.5,
+          "train_loss": 0.12668,
+          "val_iou": 0.08905
+        },
+        {
+          "epoch": 29,
+          "seconds": 770.5,
+          "train_loss": 0.123,
+          "val_iou": 0.09797
+        },
+        {
+          "epoch": 30,
+          "seconds": 789.0,
+          "train_loss": 0.1201,
+          "val_iou": 0.10044
+        },
+        {
+          "epoch": 31,
+          "seconds": 807.5,
+          "train_loss": 0.11904,
+          "val_iou": 0.10248
+        },
+        {
+          "epoch": 32,
+          "seconds": 826.3,
+          "train_loss": 0.11866,
+          "val_iou": 0.10625
+        },
+        {
+          "epoch": 33,
+          "seconds": 845.0,
+          "train_loss": 0.11486,
+          "val_iou": 0.10263
+        },
+        {
+          "epoch": 34,
+          "seconds": 863.5,
+          "train_loss": 0.11295,
+          "val_iou": 0.10249
+        },
+        {
+          "epoch": 35,
+          "seconds": 882.0,
+          "train_loss": 0.11273,
+          "val_iou": 0.10817
+        },
+        {
+          "epoch": 36,
+          "seconds": 898.0,
+          "train_loss": 0.11146,
+          "val_iou": 0.10987
+        },
+        {
+          "epoch": 37,
+          "seconds": 911.1,
+          "train_loss": 0.11049,
+          "val_iou": 0.11181
+        },
+        {
+          "epoch": 38,
+          "seconds": 924.2,
+          "train_loss": 0.1093,
+          "val_iou": 0.10786
+        },
+        {
+          "epoch": 39,
+          "seconds": 937.3,
+          "train_loss": 0.10955,
+          "val_iou": 0.10844
+        },
+        {
+          "epoch": 40,
+          "seconds": 950.5,
+          "train_loss": 0.10984,
+          "val_iou": 0.10277
+        }
+      ],
+      "peak_cuda_bytes": 626333696,
+      "per_sample": {
+        "test": {
+          "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/per_sample/holdout_chimanimani/P4_test.jsonl",
+          "rows": 1133,
+          "sha256": "36559f4f02d29ba0cab046fac502e4f9d0d158a326c64f0edf95a6b2b6394432"
+        },
+        "val": {
+          "path": "/home/work/data/olmoearth/sen12_gp_pilot_det_final/per_sample/holdout_chimanimani/P4_val.jsonl",
+          "rows": 159,
+          "sha256": "9cbab148b9e103929b3d36041e6969c1e2230149e827dbf57c22d1133906ef0a"
+        }
+      },
+      "pos_weight": 46.53,
+      "test": {
+        "auprc_exact": 0.225115,
+        "brier_pixel_micro": 0.028695,
+        "confusion_pixels": {
+          "fn": 54627,
+          "fp": 629243,
+          "tn": 17766352,
+          "tp": 112850
+        },
+        "ece_15bin_pixel_micro": 0.033493,
+        "f1": 0.248139,
+        "iou": 0.141643,
+        "ld_f1": 0.37453,
+        "ld_iou": 0.23041,
+        "ld_subset_n": 347,
+        "nll_pixel_micro": 0.100449,
+        "positive_patch_macro_iou": 0.183479,
+        "positive_patch_n": 423,
+        "positive_pixel_frac": 0.00902205,
+        "precision": 0.15207,
+        "recall": 0.673824
+      },
+      "trainable_params": 237537,
+      "val": {
+        "auprc_exact": 0.196137,
+        "brier_pixel_micro": 0.020458,
+        "confusion_pixels": {
+          "fn": 7867,
+          "fp": 60893,
+          "tn": 2527640,
+          "tp": 8656
+        },
+        "ece_15bin_pixel_micro": 0.024662,
+        "f1": 0.201134,
+        "iou": 0.111812,
+        "ld_f1": 0.26316,
+        "ld_iou": 0.15152,
+        "ld_subset_n": 65,
+        "nll_pixel_micro": 0.076456,
+        "positive_patch_macro_iou": 0.14927,
+        "positive_patch_n": 81,
+        "positive_pixel_frac": 0.00634267,
+        "precision": 0.124459,
+        "recall": 0.523876
+      }
+    }
+  },
+  "cache_audit": {
+    "path": "/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani/cache_audit.json",
+    "sha256": "58fab487d112743d3f2e54f9c563c9d66a493f8339f8dcd8e1b2078c67f45457",
+    "summary": {
+      "all_gates_pass": true,
+      "content_sha256": {
+        "emb_fp16": "8d98e3ebae3bba2f33e1c6acae08edaa1442ac632f80636ce0e27e7edd2b752c",
+        "mask_u8": "bd36b1b2119356a1b1aebeaf552215b86cdbf0707ef86db467ff6b00dbf30289",
+        "raw_u16": "f0c3ea667125b1cea03819e670aa484d7d86d852508cda404d4ac2224b4857a6"
+      },
+      "failures": [],
+      "file_set_gates": {
+        "emb_fp16": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        },
+        "mask_u8": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        },
+        "raw_u16": {
+          "exact": true,
+          "extra": [],
+          "missing": []
+        }
+      },
+      "fold": "holdout_chimanimani",
+      "gates": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "manifest_sha256": "17a9674eb06b530a106aaeaecb476d793b69577ddfd94eed1c8b15879f88279d",
+      "sample_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+      "sample_counts": {
+        "test": 1133,
+        "train": 5542,
+        "val": 159
+      },
+      "samples_audited": 6834,
+      "schema": "sen12-fold-cache-audit-v1"
+    }
+  },
+  "cache_build_summary": {
+    "cache_bytes": {
+      "emb_fp16": 10749827328,
+      "mask_u8": 112843008,
+      "raw_u16": 26873256192
+    },
+    "cache_bytes_total": 37735926528,
+    "fold": "holdout_chimanimani",
+    "input_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+    "missing_contract": "B01/B09 zeros + band-set 2 MaskValue.MISSING",
+    "model_load_s": 2.819,
+    "peak_cuda_bytes": 739656192,
+    "raw_dtype": "uint16 (lossless for int16 reflectance)",
+    "samples_per_s": 6.0475,
+    "samples_total": 6834,
+    "samples_written": 6834,
+    "schema": "sen12-fold-cache-v1",
+    "split_counts": {
+      "test": 1133,
+      "train": 5542,
+      "val": 159
+    },
+    "split_sha256_verified": true,
+    "timestep_policy": "top-12 SCL clear fraction, then chronological; label-independent",
+    "total_s": 1130.05
+  },
+  "cache_bytes": {
+    "emb_fp16": 10749827328,
+    "mask_u8": 112843008,
+    "raw_u16": 26873256192
+  },
+  "caveat": "test는 held-out 지역 1개뿐이다. region-macro는 10-fold 전체에서만 나온다. 이미 열람한 개발 fold이므로 지역 일반화나 최종 test로 읽지 않는다. patch들은 같은 inventory/event와 중첩될 수 있어 1,133개 독립 사건이 아니다. pixel-micro ECE는 배경 픽셀이 지배하므로 router calibration 근거가 아니다.",
+  "code_sha256": "478c6af5be81ac91edf74733d6ff8a2ed67feb37d73a713e14845da334b97d46",
+  "cost_scope": {
+    "p4_warning": "P4의 frozen OlmoEarth encoder 파라미터·cache extraction 비용을 0으로 간주하지 않는다. end-to-end/cold 비용과 task 수에 따른 amortized 비용은 별도 표가 나오기 전까지 비교 불가.",
+    "reported_fit_time": "head fit + validation every epoch; excludes cache construction",
+    "reported_peak_cuda": "head training/evaluation only"
+  },
+  "development_protocol_v2": {
+    "auprc": "exact over all pixels; tied scores grouped",
+    "batch": 16,
+    "decision_threshold": 0.5,
+    "determinism": {
+      "cublas_workspace_config": ":4096:8",
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "float32_matmul_precision": "highest",
+      "strict_algorithms": true,
+      "tf32": false
+    },
+    "ece": "15 equal-width bins, pixel-micro",
+    "emb_norm": "fixed 400-sample train-only channel mean/std approximation",
+    "epochs": 40,
+    "information_contract": {
+      "claim_status": "not timestamp-matched",
+      "known_mismatch": "P4 encoder received acquisition timestamps; P1/P2 only receive order",
+      "shared_timestep_indices": true
+    },
+    "lr": 0.001,
+    "model_selection": "best val IoU; test never used for selection",
+    "pos_weight_cap": 50.0,
+    "pos_weight_source": "all train masks, exact",
+    "raw_norm": "uint16/10000, clamp[0,1.5]",
+    "seed": 1,
+    "timestep_policy": "S12q (shared across arms)",
+    "weight_decay": 0.0001
+  },
+  "evidence_status": "development_only_not_confirmatory",
+  "fold": "holdout_chimanimani",
+  "official_repository_benchmark_S12LS_LD": {
+    "ConvGRU": {
+      "AP": 60.0,
+      "F1": 59.06,
+      "IoU": 41.91
+    },
+    "U-ConvLSTM": {
+      "AP": 65.13,
+      "F1": 61.95,
+      "IoU": 44.88
+    },
+    "U-TAE": {
+      "AP": 67.75,
+      "F1": 61.8,
+      "IoU": 44.74
+    },
+    "Unet3d": {
+      "AP": 62.08,
+      "F1": 58.82,
+      "IoU": 41.66
+    },
+    "corrections": [
+      "위 표는 Scientific Data 논문의 원 표가 아니라 공식 저장소가 추가한 binary benchmark다",
+      "Scientific Data 논문 자체는 50 epoch/cross-entropy 설정과 별도의 geographic cluster LOCO도 보고한다"
+    ],
+    "not_comparable_because": [
+      "task: 그들은 mask>50 픽셀 표본만(양성 밀집). 우리 headline은 음성 포함",
+      "split: 그들은 random 80/20. 우리는 leave-one-region-out",
+      "input: 그들은 11채널(밴드+SCL+DEM) 15 timestep. 우리는 10밴드 12 timestep, DEM 없음",
+      "optimization: 그들은 75 epoch BCEDice(pos_weight 5, dice_w 0.5). 우리는 40 epoch BCE(train exact pos_weight)"
+    ],
+    "our_ld_subset_note": "ld_iou/ld_f1 은 >50 필터만 맞춘 참고값이며 split·input·loss는 여전히 다르다",
+    "source": "PaulH97/Sen12Landslides README current benchmark, S2+DEM, seeds 42/123/777 평균"
+  },
+  "protocol_history": "1차 8-epoch 실행에서 세 arm 모두 손실이 단조 하강 중(미수렴)이어서 예산을 모든 arm에 동일하게 늘리고 val IoU로 best epoch을 골랐다. 이 변경은 test 열람 뒤 이뤄졌으므로 confirmatory 사전등록이 아니다. 1차 결과는 M23에 보존한다.",
+  "runtime": {
+    "cuda": "12.8",
+    "cudnn": 90800,
+    "device": "NVIDIA H200",
+    "device_capability": [
+      9,
+      0
+    ],
+    "numpy": "1.26.4",
+    "python": "3.12.3",
+    "torch": "2.7.0a0+7c8ec84dab.nv25.03"
+  },
+  "schema": "sen12-gp-pilot-v2",
+  "split_counts": {
+    "test": 1133,
+    "train": 5542,
+    "val": 159
+  },
+  "test_exposure": "chimanimani test는 M23 8-epoch 결과에서 이미 열람됐다. 이후 40-epoch와 v2는 개발 결과다. 최종 주장은 미열람 지역 fold를 사전등록 후 한 번만 평가해야 한다.",
+  "test_region": "chimanimani",
+  "val_region": "china"
+}
+DONE

@@ -1,0 +1,28 @@
+{
+  "all_checks_pass": true,
+  "checked": {
+    "P4": {
+      "checkpoint_sha256": "pass",
+      "test": {
+        "per_sample_sha256": "pass",
+        "rows": 1133,
+        "thresholded_aggregates_recomputed": "pass"
+      },
+      "val": {
+        "per_sample_sha256": "pass",
+        "rows": 159,
+        "thresholded_aggregates_recomputed": "pass"
+      }
+    }
+  },
+  "failures": [],
+  "not_covered_without_pixel_scores": [
+    "auprc_exact",
+    "ece_15bin_pixel_micro",
+    "brier_pixel_micro",
+    "nll_pixel_micro"
+  ],
+  "schema": "sen12-gp-artifact-verification-v1",
+  "summary": "artifacts/sen12_gp_pilot_audit/determinism/final_replay/sen12_gp_p4_det_final_replay/holdout_chimanimani_pilot.json",
+  "summary_sha256": "33993964f693b2a85a1124dc68916c2a754adf3ef5adce4ce40365bfcfbab54c"
+}

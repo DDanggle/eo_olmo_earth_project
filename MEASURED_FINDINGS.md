@@ -1,6 +1,6 @@
 # 측정 장부 — 실제로 잰 것만
 
-최종 갱신: 2026-08-25
+최종 갱신: 2026-08-26
 
 이 파일에는 **실행해서 나온 수치만** 넣는다. 계획·설계·문헌 판단은 넣지 않는다
 (그건 `K_ALIGN_PROGRAM_NOTE.md`, `K_ALIGN_CVPR_READINESS_AUDIT.md`, `K_GAIN_AXES.md`가 맡는다).
@@ -35,11 +35,12 @@
 | M20 | 공식 KO 격자 확보 + 봉인 게이트 작동 | **V1·V2 통과, V4 실패 — `x0`가 해석 불가** | 진행 |
 | M21 | ASOS 지점 → AOI 군집 결합 | **게이트 4/4. 중위 17.7 km** | 완료 |
 | M22 | `era5_10` 6변수 60일 추출 | **5/6 커버리지 ~100%. 강수만 99.1% 공백** | 완료 |
-| M23 | G-P pilot 1차 (8 epoch, 1 fold) | **P4가 전 지표 최고. 단 세 arm 모두 미수렴** | 재실행 중 |
-| M24 | 원 논문 baseline과의 비교 가능성 | **비교 불가 — task·split·입력이 다름. 우리 쪽이 더 어렵다** | 완료 |
+| M23 | G-P pilot 1차 (8 epoch, 1 fold) | **개발 관측. AUPRC 표본추출 결함·test 노출로 확정표에서 제외** | 보존/제외 |
+| M24 | 공식 저장소 binary benchmark와의 비교 가능성 | **비교 불가 — task·split·입력·학습이 다름. 난이도 순서도 단정 금지** | 정정 완료 |
+| M25 | G-P strict 개발 pilot 독립 복구 | **P4 IoU는 P2-tiny 초과, AP는 78.7%. G-P는 strong baseline 부재로 BLOCKED** | 개발 측정 완료 |
 
-**아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 **표현 기여**
-(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 여전히 0),
+**아직 confirmatory하게 측정하지 않은 것**: frozen OLMo의 full region-macro downstream 자격,
+한국 공공데이터의 **표현 기여**(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 0),
 스위스·네팔 산악 데이터, 압축(PQ/int8) 하에서의 거동, ADC baseline.
 
 ---
@@ -1055,11 +1056,17 @@ C12 고창군(내장산권)**. 산사태가 있는 7개 군집은 전부 **23.5 
   누적을 `kma_sfcdd`/`kma_sfctm3`로 받아 계산하고, 누적 창 길이를 **사전 등록**함.
   창을 성능 보고 고르면 자기기만임.
 
-## M23. G-P pilot 1차 — frozen OLMo가 전 지표에서 앞섰다. 단 비교가 아직 공정하지 않다
+## M23. G-P pilot 1차 — “frozen OLMo 전 지표 우위”는 개발 신호였고 확정표에서 제외한다
 
 **근거**: `sen12_gp_pilot/holdout_chimanimani_pilot_8ep.json`, `logs/gp_pilot.log`,
 `code/extract_sen12_fold_cache.py`, `code/pilot_sen12_gp_heads.py`
 **환경**: GPU1 전용(`CUDA_VISIBLE_DEVICES=1`), GPU0은 다른 프로젝트 62.6 GB로 미사용.
+
+> **2026-08-25 독립 감사 정정**: 아래 표는 8-epoch 개발 관측으로 보존하지만 확정 성능표가 아니다.
+> AUPRC 구현이 매 batch의 동일한 pixel offset을 반복 표본추출해 공간 편향됐고, `positive_pixel_frac`도
+> 전체가 아닌 그 표본에서 계산됐다. 8-epoch test를 열람한 뒤 40-epoch로 수정했으므로 Chimanimani는
+> 이후 confirmatory test가 아니라 development holdout이다. v2는 exact AUPRC·전체 train pos_weight·
+> arm별 RNG reset·checkpoint/per-sample seal로 재실행한다.
 
 ### 준비 — fold 캐시
 
@@ -1084,7 +1091,8 @@ C12 고창군(내장산권)**. 산사태가 있는 7개 군집은 전부 **23.5 
 
 `pos_weight` 35.002 (세 arm 동일), test 양성 픽셀 비율 0.90%.
 
-P4가 **IoU·F1·AUPRC·ECE 전부에서 1위**이고 동시에 **학습 파라미터 최소·학습시간 최단·메모리 최소**다.
+이 8-epoch 실행 안에서는 P4가 **IoU·F1·근사 AUPRC·ECE 전부에서 1위**이고 동시에
+**학습 파라미터 최소·head 학습시간 최단·head 학습 메모리 최소**였다.
 P4/P2 비는 IoU 112% · F1 111% · AUPRC 116%. val에서는 IoU가 2.0배(0.0927 vs 0.0464)다.
 
 ### 그런데 이 비교는 아직 공정하지 않다
@@ -1101,9 +1109,11 @@ P4  0.4064 → 0.1857
 frozen feature가 이미 정보를 담고 있어서다. 즉 **짧은 예산은 P4에 유리하다.**
 사전 등록한 `8 epoch 고정`이 이 경우 편향을 만든다.
 
-- **말할 수 있는 것**: 세 arm 모두 같은 S12q 입력·같은 `pos_weight`·같은 최적화로 돌렸고,
-  P4가 더 적은 학습 파라미터와 더 짧은 시간으로 앞섰다. **비용 대비 우위는 예산과 무관하게 성립한다**
-  (P4는 62초·0.32 GB로 P2의 138초·0.96 GB를 이겼다).
+- **말할 수 있는 것**: 이 실행에서 세 arm은 같은 S12q 표본 계약을 썼고, 이미 만든 cache 위의
+  **head fit 범위**에서는 P4가 더 적은 학습 파라미터·시간·메모리를 썼다.
+- **말할 수 없는 것**: frozen OLMo encoder 88.96M 파라미터와 10.75 GB cache extraction을 제외한
+  62초·0.32 GB만으로 end-to-end 비용 우위를 주장할 수 없다. multi-task 수에 따른 amortization 표가
+  나오기 전에는 `cached-head cost`로만 부른다.
 - **말할 수 없는 것**:
   1. **정확도 우위는 아직 확정할 수 없다.** 미수렴 상태의 비교다
   2. 절대값이 낮다. IoU 0.115 · F1 0.207. 양성 픽셀이 0.9%인 극단 불균형 task이고
@@ -1116,12 +1126,12 @@ frozen feature가 이미 정보를 담고 있어서다. 즉 **짧은 예산은 P
   늘리고 **val IoU로 best epoch을 고른다**(test는 선택에 쓰지 않는다). 1차 결과는 폐기하지 않고
   이 항목에 그대로 남긴다. 2차 결과는 별도 M-항목으로 기록한다.
 
-## M24. 원 논문 baseline과 우리 수치는 비교 대상이 아니다 — 우리 task가 더 어렵다
+## M24. 공식 저장소의 후속 binary benchmark와 우리 수치는 비교 대상이 아니다
 
-**근거**: `PaulH97/Sen12Landslides` README·configs (deepwiki 조회, 2026-08-25)
+**근거**: `PaulH97/Sen12Landslides` 현재 README·configs와 Scientific Data 본문
 **질문**: M23의 IoU 0.115가 낮은 것인가?
 
-### 원 논문이 보고한 S12LS-LD baseline (S2+DEM, seed 42/123/777 평균)
+### 공식 저장소가 추가 보고한 S12LS-LD binary benchmark (S2+DEM, seed 42/123/777 평균)
 
 | Model | AP | F1 | **IoU** | Precision | Recall |
 |---|---|---|---|---|---|
@@ -1132,28 +1142,65 @@ frozen feature가 이미 정보를 담고 있어서다. 즉 **짧은 예산은 P
 
 ### 왜 비교할 수 없는가 — 네 가지가 다르다
 
-| | 원 논문 | 우리 (M23) |
+| | 공식 저장소 S12LS-LD benchmark | 우리 (M23) |
 |---|---|---|
-| **task** | `min_annotated_pixel: 50` — **마스크 50픽셀 이상 표본만** (S2 4,988개, 100% annotated) | headline 6,834개, **음성 포함**, 양성 픽셀 0.90% |
+| **task** | README의 **마스크 >50픽셀 표본만** (S2 4,988개, 100% annotated) | headline 6,834개, **음성 포함**, 양성 픽셀 0.90% |
 | **split** | random 80/20 (`seed 42`) | **leave-one-region-out** (M9·M12의 요지) |
 | **입력** | 11채널 (밴드 + SCL + **DEM**), **15 timestep** | 10밴드, **12 timestep**, DEM 없음 |
 | **학습** | **75 epoch**, `BCEDiceLoss(pos_weight 5, dice_w 0.5)` | 8 epoch, `BCE(pos_weight 35)` |
 
-**네 가지 모두 우리 쪽이 더 어렵다.** 특히 split이 결정적이다 — 그들은 같은 지역이 train과
-test에 함께 들어가고, 우리는 지역을 통째로 빼놓는다.
+두 표는 네 축이 동시에 달라 **난이도 순서까지 단정할 수 없다.** LOCO는 random split보다 공간 전이에
+엄격하지만, 음성 표본 증가는 지표에 따라 난이도를 올리거나 background-dominated metric을 쉽게 만들 수
+있다. 또한 위 표는 논문 원표가 아니라 현재 공식 저장소가 별도로 제공하는 binary benchmark다.
+Scientific Data 논문 자체는 50 epoch·cross-entropy 설정과 geographic cluster leave-one-out 실험도
+보고하므로, 이를 “원 논문은 같은 지역 random split만 썼다”라고 요약하면 틀린다.
 
-- **말할 수 있는 것**: M23의 IoU 0.115를 "우리가 못한 것"으로 읽으면 안 된다.
+- **말할 수 있는 것**: M23의 IoU 0.115와 저장소 benchmark 0.447을 직접 나눠 성능 격차로 읽으면 안 된다.
   또한 이 표는 **P3(U-TAE)이 3D U-Net보다 IoU 44.74 vs 41.66으로 우수함**을 보여주므로,
   G-P 게이트의 `max(P2,P3)`에서 P3가 기준선이 될 가능성이 높다 → **P3를 반드시 돌려야 한다.**
-- **말할 수 없는 것**: task만 맞춘 부분집합(마스크 ≥50) 수치로도 **split·입력·epoch이 여전히
+- **말할 수 없는 것**: task만 맞춘 부분집합(마스크 >50) 수치로도 **split·입력·epoch이 여전히
   다르므로** 직접 비교가 아니다. 그들의 LOCO(Experiment 3) 수치는 확인하지 못했다.
-- **조치**: pilot에 `ld_iou`/`ld_f1`(마스크 ≥50 부분집합)을 같은 pass에서 함께 내도록 추가했고,
+- **조치**: v2 pilot에 `ld_iou`/`ld_f1`(마스크 >50 부분집합)을 같은 pass에서 함께 내도록 추가했고,
   산출물에 원 논문 표와 **`not_comparable_because` 4항목**을 함께 박았다. 숫자만 옮겨 비교하는
   일을 코드 수준에서 막았다.
 
+## M25. strict G-P 개발 pilot — P4는 유망하지만 “전 지표 1위”가 아니다
+
+**근거**: `artifacts/sen12_gp_pilot_audit/determinism/final/`,
+`docs/GP_PILOT_VALIDATION_AUDIT.md`
+**환경**: Python 3.12.3, NumPy 1.26.4, PyTorch `2.7.0a0+7c8ec84dab.nv25.03`, CUDA 12.8,
+cuDNN 9.8, NVIDIA H200 physical GPU1. 코드 SHA-256 `478c6af5…`.
+
+strict CUDA 결정성, arm별 RNG/DataLoader reset, 전체 train pos_weight 46.53, val-best checkpoint,
+모든 pixel exact AP, checkpoint/per-sample SHA를 적용했다. cache 6,834/6,834 content audit도 통과했다.
+
+| arm | val IoU | test IoU | exact AP | F1 | positive-patch macro IoU | LD IoU | head fit+val 초 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| P1 raw mean | 0.03685 | 0.054055 | 0.077737 | 0.102565 | 0.115962 | 0.14488 | **387.3** |
+| P2-tiny factorized | 0.06197 | 0.134989 | **0.286074** | 0.237869 | **0.195021** | 0.21327 | 1,455.7 |
+| P4 frozen OLMo | **0.11181** | **0.141643** | 0.225115 | **0.248139** | 0.183479 | **0.23041** | 950.5 |
+
+- **말할 수 있는 것**: 이 개발 fold에서 P4는 P1보다 강하며 P2-tiny 대비 IoU 104.9%·F1 104.3%,
+  LD IoU 108.0%다. OLMo spatial cache에 산사태 segmentation 신호가 있다는 viability evidence다.
+- **동시에 말해야 하는 것**: P4의 AP는 P2-tiny의 **78.7%**, positive-patch macro IoU는 94.1%다.
+  따라서 사전 G-P의 IoU+AUPRC 95% 조건을 충족하지 않는다. calibration 지표는 P4가 낮지만
+  background-dominated pixel-micro라 router calibration 근거가 아니다.
+- **말할 수 없는 것**: P2는 공식 Sen12 3D U-Net이 아니라 deterministic factorized-pool tiny
+  stand-in이고 P3 U-TAE가 없다. P4만 acquisition timestamp를 받았다. Chimanimani test는 이미
+  M23에서 열람했다. 따라서 strong baseline 우위·region 일반화·confirmatory test·CVPR gate를
+  주장할 수 없다.
+- **재현성 복구**: RNG reset만 한 pre-fix P4 replay는 test IoU `0.122826→0.143442`(+16.8%)로
+  갈렸다. strict algorithms/cuBLAS/cuDNN/TF32 계약 뒤 P1/P4 smoke와 P2-tiny smoke는 각각
+  checkpoint tensor max-abs diff 0을 보였다. final P4-only 40-epoch도 full run과 history(시간 제외),
+  모든 지표, per-sample/checkpoint SHA, tensor가 bitwise 일치했다(max-abs diff 0).
+- **비용 범위**: 표의 시간은 cached head fit+val이다. P4 cold extraction은 1,130.05초,
+  embedding 10.75 GB, frozen encoder 88.96M 파라미터다. 같은 P4의 wall time도 full sequence
+  950.5초 vs 단독 replay 520.0초로 갈려, isolated 반복 전에는 P4 end-to-end/cost 우위가 미측정이다.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
-이 세션의 실험에 들어간 입력은 **제주 Sentinel-2 영상과 공개 Major TOM parquet뿐**이다.
+M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
+**표현 기여**는 여전히 어떤 성능표에도 들어가지 않았다.
 
 | | 사용량 |
 |---|---|
@@ -1163,8 +1210,9 @@ test에 함께 들어가고, 우리는 지역을 통째로 빼놓는다.
 | 한국 공공데이터 — 접근·계약 감사 | M9·M10에서 수행 (AI-Hub 71363, GK2A 10/10, VWorld) |
 | 사람 판독 라벨 | **0** |
 
-Sen12Landslides는 M11–M13의 접근·annotation·한국 polygon 호환 감사까지 끝났지만,
-frozen OLMo downstream 성능은 아직 0이다. 네팔 BIPAD/ICIMOD와 스위스 event join도 0이다.
+Sen12Landslides frozen OLMo 수치는 이미 열람한 Chimanimani 1개 개발 fold에서만 나왔다.
+미열람 9지역·공식 P2/P3·timestamp parity를 갖춘 full G-P는 0이다. 네팔 BIPAD/ICIMOD와
+스위스 event join도 0이다.
 
 ---
 

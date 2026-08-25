@@ -1,11 +1,12 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-08-25
+최종 갱신: 2026-08-26
 
 > ## 북극성 — 우선순위가 헷갈리면 이것부터
-> **frozen OLMoEarth 임베딩 위에서 Italy에서 배운 것이 한국으로 얼마나 옮겨지는가.**
-> 측정 사슬 1~5가 0%인 동안 6(E_live)을 확장하지 않는다. → **`docs/CRITICAL_PATH.md`**
-> (2026-08-25 자체 감사: 최근 측정 8건 중 7건이 6번 배관이었고 1번조차 시작 안 됐음)
+> **frozen OLMoEarth가 공개 Sen12 산사태 segmentation과 event retrieval에 실제 자격이 있는지
+> 먼저 닫고, 같은 cache가 한국으로 얼마나 옮겨지는지 잰다.** → **`docs/CRITICAL_PATH.md`**
+> strict 개발 pilot은 P4 IoU 0.1416 / AP 0.2251로 viability를 보였지만 official P2/P3·timestamp
+> parity·미열람 9지역이 없어 G-P는 **BLOCKED**다. 이 조건 전에는 Korea/live 성능을 열지 않는다.
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에
@@ -46,8 +47,9 @@
 | `RESEARCH_STRATEGY.md` | 박사 연구 프로그램 — WorldShift × ModelShift, 가설·베이스라인·12주 실행 |
 | `RESEARCH_EXECUTION_PLAN.md` | **현재 7일 실행 queue** — MountainShift public spine·3국 access·probe/residual/transfer gate; 아래에는 과거 K-ALIGN 계획 보존 |
 | `K_CONTEXT_FUSION_EXPERIMENT.md` | K-ALIGN 보존 branch — 동적 공공 context, EO-only privileged distillation, simple/native baseline, 3지역 split·kill gate |
-| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** M1 릴리스 identity 실패 / M2 Major TOM 계약 감사 / M3 dose–response / M4 취약성 반증 / M5 복제 실패 |
+| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** M1–M25의 근거·허용 주장·금지 주장. 최신 M25는 strict G-P 개발 pilot |
 | `MOUNTAIN_EVIDENCE_TRANSFER.md` | MountainShift — 알프스·HKH·한국 산악 전이 설계, TRANSFER/LOCAL-ADAPT/RE-EMBED/ABSTAIN, 중단 기준 |
+| `docs/GP_PILOT_VALIDATION_AUDIT.md` | M23–M25 독립 감사 — invalid 8ep 계보, exact metric/cache seal, strict replay, G-P 차단 사유 |
 | `K_ALIGN_BIG_PICTURE.md` | **EarthKV 프로그램 spine** — EarthEmbedContract·FoldRefresh·EarthRoute·MountainShift의 층위와 REUSE/ADAPT/RECOMPUTE 판정 |
 | `K_ALIGN_CVPR_READINESS_AUDIT.md` | CVPR 준비도 감사 — 필요성·예측가능성·fixed quantizer, 14일 P0 |
 | `K_ALIGN_WIDE_ANGLE.md` | **광각 보정** — 계약 불일치 계측기(dose–response), 진단 눈멂 행렬, Major TOM 실험대, ADC killer baseline, embeddings-STAC gap |

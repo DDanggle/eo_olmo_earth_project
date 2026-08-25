@@ -716,7 +716,32 @@ checksum·shape·순서를 contract로 고정한다. fitted transform은 공식 
 **확인 질문**: 같은 행정동의 100시각 반복이 새로운 projection anchor가 아닌 이유는 무엇이며,
 공식 lat/lon grid가 갱신됐을 때 어떤 hash·shape gate로 downstream join을 중단해야 하는가?
 
+### #46 seed 고정과 결정론적 실행은 같은 계약이 아니다 (2026-08-26, M25)
+
+Python/NumPy/PyTorch/DataLoader seed를 arm마다 reset해도 CUDA kernel이 nondeterministic하면 같은
+seed 결과가 달라진다. 실제 P4 replay는 test IoU가 0.122826→0.143442(+16.8%)로 갈렸다.
+`torch.use_deterministic_algorithms(True)`를 켜자 `max_pool3d`와 `avg_pool3d` backward가 지원되지
+않는다는 오류가 드러났다. 경고로 후퇴하지 않고 pilot P2를 시간 pair 평균 + 2D spatial pool로
+분해했고, 공식 3D U-Net이 아니라 P2-tiny라고 명시했다.
+
+strict cuBLAS/cuDNN/TF32 계약 뒤 final P4 full-run과 P4-only는 checkpoint·모든 tensor·per-sample·
+metric이 bitwise 동일(max-abs diff 0)이었다. 그러나 wall time은 950.5초 vs 520.0초였다. 즉
+**수치 결정성은 cost 결정성이 아니다.** 비용은 isolated repeat·randomized order·cold/warm cache를
+별도로 통제해야 한다.
+
+**확인 질문**: 같은 seed의 두 CUDA 학습이 재현됐다고 말하려면 무엇을 비교해야 하며, 모델 수치는
+bitwise 같지만 wall time이 1.8배 다를 때 accuracy-cost Pareto에는 어떤 측정 설계를 써야 하는가?
+
 ## 스터디 로그
+
+### 2026-08-26 — G-P pilot 재현성·지표·비용 계약 복구
+
+- 배운 것: 카드 #46. RNG seed, deterministic kernel, artifact equality, wall-time repeatability는
+  네 개의 다른 계약이다.
+- 실행 보정: sampled AP를 all-pixel exact AP로, 300-mask pos_weight를 전체 5,542 mask로 바꾸고,
+  checkpoint/per-sample SHA와 독립 aggregate verifier를 남겼다.
+- 판정 보정: P4 IoU가 P2-tiny를 넘었어도 AP는 78.7%이며 official P2/P3와 timestamp parity가 없어
+  G-P는 통과도 실패도 아닌 BLOCKED다. Chimanimani 추가 튜닝 대신 미열람 9지역 전 recipe를 닫는다.
 
 ### 2026-08-25 — GK2A 운영·좌표계·sensor contract 재감사
 
