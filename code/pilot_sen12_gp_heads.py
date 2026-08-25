@@ -114,7 +114,7 @@ def parse_args():
                    default=Path("/home/work/data/olmoearth/sen12_gp_pilot_v2"))
     p.add_argument("--cache-audit", type=Path, default=None,
                    help="기본값은 <cache>/cache_audit.json; all_gates_pass seal 필수")
-    p.add_argument("--arms", type=str, default="P1,P2,P4")
+    p.add_argument("--arms", type=str, default="P1,P2,P3,P4")
     p.add_argument("--epochs", type=int, default=EPOCHS)
     return p.parse_args()
 
@@ -129,11 +129,14 @@ def main() -> None:
     os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"
     os.environ["NVIDIA_TF32_OVERRIDE"] = "0"
 
+    import sys as _sys
     import numpy as np
     import torch
     import torch.nn as nn
     import torch.nn.functional as F
     from torch.utils.data import DataLoader, Dataset
+    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from sen12_official_baselines import (OfficialUNet3D, OfficialUTAE, param_count)
 
     args = parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
@@ -175,6 +178,18 @@ def main() -> None:
     if min(len(v) for v in splits.values()) == 0:
         raise SystemExit("캐시가 비었다. extract_sen12_fold_cache.py 를 먼저 완료해야 한다.")
 
+    # ---- timestamp parity: S12q 12시점의 월 인덱스 ----
+    # P4는 OlmoEarth wrapper 내부 position encoding으로 월(0~11)을 받는다. raw arm에도
+    # 같은 정보를 준다. 이것이 M25가 지적한 정보 비대칭의 해소다.
+    months_p = args.cache / "months.jsonl"
+    months: dict[str, list[int]] = {}
+    if months_p.exists():
+        for line in months_p.read_text(encoding="utf-8").splitlines():
+            if line:
+                r = json.loads(line)
+                months[r["sample_id"]] = r["months_0_11"]
+    print("months 로드 %d개" % len(months), flush=True)
+
     class S12(Dataset):
         """arm이 요구하는 텐서만 읽는다. mmap으로 RAM을 아낀다."""
 
@@ -199,7 +214,14 @@ def main() -> None:
                 x = x.clamp(0.0, 1.5)                       # C,T,H,W
                 if self.kind == "raw_mean":
                     x = x.mean(dim=1)                        # C,H,W
-            return x, y, sid
+            m = months.get(sid)
+            if m is None:
+                mt = torch.zeros(12, dtype=torch.float32)
+            else:
+                mt = torch.tensor(m[:12], dtype=torch.float32)
+                if mt.numel() < 12:
+                    mt = F.pad(mt, (0, 12 - mt.numel()))
+            return x, y, mt, sid
 
     # ---- embedding 채널 통계는 **train split에서만** 낸다 (누수 방지) ----
     def emb_stats(train_ids, sample=400):
