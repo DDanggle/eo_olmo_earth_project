@@ -1185,6 +1185,32 @@ strict CUDA 결정성, arm별 RNG/DataLoader reset, 전체 train pos_weight 46.5
 - **동시에 말해야 하는 것**: P4의 AP는 P2-tiny의 **78.7%**, positive-patch macro IoU는 94.1%다.
   따라서 사전 G-P의 IoU+AUPRC 95% 조건을 충족하지 않는다. calibration 지표는 P4가 낮지만
   background-dominated pixel-micro라 router calibration 근거가 아니다.
+### 독립 재검증 추가분 (2026-08-26)
+
+산출물 JSON을 다시 파싱해 P4/P2 비를 **모든 축에서** 계산했다. 95% 미달이 두 개가 아니라 **세 개**다.
+
+| 축 | P4/P2 | |
+|---|---|---|
+| test IoU | 104.9% | PASS |
+| F1 | 104.3% | PASS |
+| LD 부분집합 IoU | 108.0% | PASS |
+| precision | **110.9%** | PASS |
+| **AP exact** | **78.7%** | 미달 |
+| **positive-patch macro IoU** | **94.1%** | 미달 |
+| **recall** | **75.1%** | **미달 (기존 기록에 없던 축)** |
+
+**recall이 AP 미달의 원인을 설명한다.** P2-tiny는 recall **0.89748**로 과다 예측하고
+precision은 0.13710이다. P4는 recall 0.67382에 precision 0.15207이다. 즉 두 arm은
+품질 차이보다 **작동점(operating point)이 다르다** — P2는 많이 잡고 틀리는 쪽, P4는 적게
+잡고 맞히는 쪽이다. threshold-free AP는 전자에 유리하다.
+
+따라서 "P4가 AP에서 밀린다"를 **표현 품질이 낮다**로 읽으면 안 된다. 동시에
+"작동점 차이일 뿐"으로 넘겨서도 안 된다 — AP는 threshold와 무관하므로 P2의 **순위 능력이
+실제로 더 좋다.** 두 해석을 함께 보고한다. 결론은 바뀌지 않는다: 사전 G-P 조건 미충족.
+
+Brier도 P4가 1.42배 우수(0.02869 vs 0.04075)지만, ECE와 같은 이유로
+background-dominated pixel-micro이므로 router calibration 근거로 쓰지 않는다.
+
 - **말할 수 없는 것**: P2는 공식 Sen12 3D U-Net이 아니라 deterministic factorized-pool tiny
   stand-in이고 P3 U-TAE가 없다. P4만 acquisition timestamp를 받았다. Chimanimani test는 이미
   M23에서 열람했다. 따라서 strong baseline 우위·region 일반화·confirmatory test·CVPR gate를
