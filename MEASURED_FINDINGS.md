@@ -39,6 +39,7 @@
 | M24 | 공식 저장소 binary benchmark와의 비교 가능성 | **비교 불가 — task·split·입력·학습이 다름. 난이도 순서도 단정 금지** | 정정 완료 |
 | M25 | G-P strict 개발 pilot 독립 복구 | **P4 IoU는 P2-tiny 초과, AP는 78.7%. G-P는 strong baseline 부재로 BLOCKED** | 개발 측정 완료 |
 | M26 | 결정성 × 공식성 충돌 범위 실측 | **pooling backward 3개만 막힘. conv3d로 대체 가능** | 완료 |
+| M27 | 공식 구조는 이미 결정적 — 치환 1개가 수학적으로 동일 | **구조 변경 0. diff 3.3e-16** | 완료 |
 
 **아직 confirmatory하게 측정하지 않은 것**: frozen OLMo의 full region-macro downstream 자격,
 한국 공공데이터의 **표현 기여**(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 0),
@@ -1257,6 +1258,51 @@ M25에서 P2-tiny를 쓴 이유는 strict 모드에서 `max_pool3d_with_indices_
   **"공식과 동일"이라고 쓰지 않는다** — 바꾼 연산과 이유를 산출물에 기록한다.
 - **결정**: 선택지 C(deterministic-safe 재구현)를 택한다. A(경고 모드 후퇴)는 재현성을 버리고
   B(tiny 유지)는 공식성을 버린다. C의 비용은 pooling 치환 하나이며 M25가 우려한 것보다 작다.
+
+## M27. 공식 baseline 이식에 **구조 변경이 필요 없다** — 치환 하나가 수학적으로 동일하다
+
+**근거**: `code/verify_pool_equiv.py` (float64, GPU1), 공식 config 조회
+**질문**: M26의 선택지 C가 얼마나 공식성을 훼손하는가?
+
+### 공식 config를 확인하니 애초에 pooling으로 downsample하지 않는다
+
+| | downsampling | strict에서 막히는 것 |
+|---|---|---|
+| 공식 `UNet3D` | **strided `Conv3d`** | 마지막 `AdaptiveAvgPool3d` 하나 |
+| 공식 `UTAE` | **strided conv** (`str_conv_k 4, s 2, p 1`) | **없음** |
+
+U-TAE 공식 설정: `encoder_widths [64,64,64,128]`, `decoder_widths [32,32,64,128]`,
+`agg_mode att_group`, `encoder_norm group`, `n_head 16`, `d_model 256`, `d_k 4`,
+`padding_mode reflect`. UNet3D는 `dropout 0.0`.
+
+**M25에서 내가 P2를 분해한 것은 내가 `max_pool3d`를 선택했기 때문이었다.**
+공식 모델은 max pooling을 쓰지 않는다. 내 stand-in이 공식과 멀어진 것은 결정성 때문이 아니라
+**내 설계 선택 때문이었다.**
+
+### 남은 하나는 근사가 아니라 동일하다
+
+`AdaptiveAvgPool3d((1,H,W))`가 T를 1로 줄이는 것이면 `x.mean(dim=2, keepdim=True)`와
+**같은 함수**다. float64로 검증했다.
+
+| | 값 |
+|---|---|
+| forward `max|diff|` | **3.331e-16** |
+| backward `max|diff|` | **5.551e-17** |
+| 출력 shape | 동일 `(3,16,1,32,32)` |
+
+strict 모드 backward: `adaptive_avg_pool3d` **막힘**, `mean(dim=2)` **OK**,
+`conv2d k4s2p1 reflect` **OK**, `conv3d k(1,4,4) s(1,2,2)` **OK**.
+
+- **말할 수 있는 것**: 공식 `UNet3D`·`UTAE`를 **구조 변경 없이** 이식할 수 있다.
+  바뀌는 것은 **같은 수학 함수의 커널 선택**뿐이고 기계정밀도 내에서 동일함을 검증했다.
+  따라서 M26의 "치환을 명시해야 한다"는 부담이 크게 줄어든다 — 명시는 하지만
+  **아키텍처가 다르다고 쓸 필요는 없다.**
+- **말할 수 없는 것**: `UNet3D`의 내부 채널 리스트·depth는 config에 없고 클래스 기본값이므로
+  파라미터 수를 공식과 정확히 맞췄는지는 **구현 후 파라미터 수로 검증해야** 한다.
+  U-TAE의 `att_group` 집계 세부는 원 구현(Garnot & Landrieu 2021)을 따르되
+  우리 구현이 bit 단위로 같다는 보장은 없다.
+- **함의**: M25의 `BLOCKED` 사유 중 "P2가 공식이 아니다"는 **해소 가능한 것**이었다.
+  남은 사유는 P3 부재와 timestamp 비대칭이다.
 
 ## 이 장부에 없는 것 (혼동 방지)
 
