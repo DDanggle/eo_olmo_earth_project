@@ -323,10 +323,37 @@ def main() -> None:
             return F.interpolate(self.head(x), size=(128, 128), mode="bilinear",
                                  align_corners=False)
 
+    def forward(model, arm, x, mt):
+        """arm별 입력 계약. **월 정보를 모든 raw arm에 동일하게 준다** (timestamp parity).
+
+        P4는 OlmoEarth wrapper 내부 position encoding으로 월(0~11)을 이미 받는다.
+        raw arm에 같은 정보를 주지 않으면 모델 차이와 정보량 차이가 섞인다(M25 지적).
+        """
+        if arm == "P4":
+            return model(x)
+        if arm == "P1":
+            b, c, h, w = x.shape
+            ch = (mt.mean(dim=1) / 11.0).view(b, 1, 1, 1).expand(b, 1, h, w)
+            return model(torch.cat([x, ch], dim=1))
+        b, c, t, h, w = x.shape
+        ch = (mt[:, :t] / 11.0).view(b, 1, t, 1, 1).expand(b, 1, t, h, w)
+        xin = torch.cat([x, ch], dim=1)
+        if arm == "P3":
+            return model(xin, mt[:, :t].long().clamp(0, 11))
+        return model(xin)
+
     ARMS = {
-        "P1": ("raw_mean", ShallowUNet, "raw 시간평균 shallow U-Net"),
-        "P2": ("raw", UNet3D,
-               "raw 12시점 P2-tiny (deterministic temporal-mean + spatial-max pool)"),
+        # P1은 대조 하한. 월 1채널을 받으므로 in_channels=11.
+        "P1": ("raw_mean", lambda: ShallowUNet(cin=11),
+               "raw 시간평균 shallow U-Net (+month parity)"),
+        # P2/P3는 **공식 구조 이식본** (M27: 구조 변경 없음, 비결정적 커널만 교체)
+        "P2": ("raw", lambda: OfficialUNet3D(in_channels=11),
+               "공식 UNet3D 이식 — strided Conv3d, AdaptiveAvgPool3d→mean(dim=2) (+month)"),
+        "P3": ("raw", lambda: OfficialUTAE(in_channels=11),
+               "공식 U-TAE 이식 — enc[64,64,64,128] dec[32,32,64,128] k4/s2/p1, "
+               "LTAE n_head16 d_model256 d_k4 att_group (+month)"),
+        "P2_tiny": ("raw", UNet3D,
+                    "M25의 P2-tiny stand-in. 참고용으로만 보존 (strong baseline 아님)"),
         "P4": ("emb", EmbDecoder, "frozen OlmoEarth v1 + spatial decoder"),
     }
 
@@ -365,11 +392,12 @@ def main() -> None:
         for ep in range(args.epochs):
             model.train()
             tot, nb = 0.0, 0
-            for x, y, _ in loaders["train"]:
+            for x, y, mt, _ in loaders["train"]:
                 x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
+                mt = mt.to(device, non_blocking=True)
                 opt.zero_grad(set_to_none=True)
                 with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-                    loss = lossf(model(x).float(), y)
+                    loss = lossf(forward(model, arm, x, mt).float(), y)
                 loss.backward(); opt.step()
                 tot += float(loss.detach()); nb += 1
             sched.step()
@@ -377,10 +405,10 @@ def main() -> None:
             model.eval()
             vtp = vfp = vfn = 0.0
             with torch.no_grad():
-                for x, y, _ in loaders["val"]:
-                    x, y = x.to(device), y.to(device)
+                for x, y, mt, _ in loaders["val"]:
+                    x, y, mt = x.to(device), y.to(device), mt.to(device)
                     with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-                        pr = (torch.sigmoid(model(x).float()) > 0.5).float()
+                        pr = (torch.sigmoid(forward(model, arm, x, mt).float()) > 0.5).float()
                     vtp += float((pr * y).sum()); vfp += float((pr * (1 - y)).sum())
                     vfn += float(((1 - pr) * y).sum())
             v_iou = vtp / max(vtp + vfp + vfn, 1e-9)
@@ -425,10 +453,10 @@ def main() -> None:
             ld_tp = ld_fp = ld_fn = 0.0
             ld_n = 0
             positive_patch_ious = []
-            for x, y, sids in loaders[split]:
-                x, y = x.to(device), y.to(device)
+            for x, y, mt, sids in loaders[split]:
+                x, y, mt = x.to(device), y.to(device), mt.to(device)
                 with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-                    p = torch.sigmoid(model(x).float())
+                    p = torch.sigmoid(forward(model, arm, x, mt).float())
                 pred = (p > 0.5).float()
                 batch_tp = (pred * y).flatten(1).sum(1)
                 batch_fp = (pred * (1 - y)).flatten(1).sum(1)
