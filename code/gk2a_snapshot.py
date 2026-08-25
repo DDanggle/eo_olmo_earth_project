@@ -6,7 +6,13 @@ GK2A 경량화 API는 "최대 조회 기간은 오늘 기준으로 2일 전까�
 즉 오늘 받지 않은 날짜는 **영구히 사라짐.** 실험 설계·모델 학습은 나중에 해도 되지만
 이 수집은 미루면 그만큼 자산이 없어짐.
 
-실행 위치: **로컬**. 서버(kt cloud)에서는 apis.data.go.kr 연결이 차단됨(실측).
+실행 위치: 로컬·서버 어디서든 됨. (2026-08-25 정정: 처음에 "서버에서 차단됨"이라고 적었는데
+틀렸음. `numOfRows=200000`으로 요청해 API의 동시호출 락이 걸려 있던 것이었음 —
+`resultCode 99 "이미 호출중에 있습니다"`와 같은 증상임. 고친 뒤 서버에서 3/3 정상 응답함.)
+
+**얼마나 자주 돌려야 하는가**: 보존이 2일이므로 **2일에 한 번**이면 충분함. 매일 아닐도 됨.
+인자 없이 돌리면 어제분을 받고, `--gaps`를 주면 아직 받을 수 있는 범위(D-1, D-2)에서
+빠진 것만 보충함.
 
 수집 대상 (10개 오퍼레이션 전부 검증됨):
   한반도(All) 2km 격자   CLD 구름탐지 / AOD 에어로졸 / FOG 안개 / COT 주간구름광학두께 / CT 구름분석
@@ -65,16 +71,57 @@ def fetch(url: str) -> tuple[int, bytes]:
 
 
 def main() -> None:
-    key = os.environ.get("DATA_GO_KR_SERVICE_KEY", "")
-    if not key:
+    if not os.environ.get("DATA_GO_KR_SERVICE_KEY"):
         print("DATA_GO_KR_SERVICE_KEY 없음", file=sys.stderr)
         raise SystemExit(2)
 
-    # 보존 2일이므로 '어제'를 받음. 인자로 날짜를 주면 그 날짜를 받음(재시도용).
-    target = (datetime.now(KST) - timedelta(days=1)).date()
-    if len(sys.argv) > 1:
-        target = datetime.strptime(sys.argv[1], "%Y%m%d").date()
+    today = datetime.now(KST).date()
+    # 보존 2일이므로 받을 수 있는 날짜는 D-1, D-2뿐임.
+    if len(sys.argv) > 1 and sys.argv[1] == "--gaps":
+        targets = [today - timedelta(days=d) for d in (1, 2)]
+    elif len(sys.argv) > 1 and sys.argv[1] == "--status":
+        report_status()
+        return
+    elif len(sys.argv) > 1:
+        targets = [datetime.strptime(sys.argv[1], "%Y%m%d").date()]
+    else:
+        targets = [today - timedelta(days=1)]
 
+    for target in targets:
+        collect(target)
+
+
+def report_status() -> None:
+    """쌓인 상태를 보여줌. 빠진 날짜와 총량을 냄."""
+    days = sorted(p for p in ROOT.glob("*/*/*") if p.is_dir())
+    if not days:
+        print(f"수집 없음. ROOT={ROOT}")
+        return
+    total_files = total_bytes = 0
+    rows = []
+    for d in days:
+        gz = list(d.glob("*.json.gz"))
+        b = sum(f.stat().st_size for f in gz)
+        total_files += len(gz); total_bytes += b
+        rows.append((f"{d.parent.parent.name}-{d.parent.name}-{d.name}", len(gz), b))
+    first = datetime.strptime(rows[0][0], "%Y-%m-%d").date()
+    last = datetime.strptime(rows[-1][0], "%Y-%m-%d").date()
+    have = {r[0] for r in rows}
+    missing = [str(first + timedelta(days=i)) for i in range((last - first).days + 1)
+               if str(first + timedelta(days=i)) not in have]
+    print(f"ROOT      {ROOT}")
+    print(f"기간      {first} ~ {last}  ({len(rows)}일 수집, 빠진 날 {len(missing)}일)")
+    print(f"총량      파일 {total_files}개 / {total_bytes/1e6:.1f} MB")
+    print(f"하루 평균 {total_bytes/max(1,len(rows))/1e6:.2f} MB  → 1년 추정 {total_bytes/max(1,len(rows))*365/1e9:.2f} GB")
+    if missing:
+        print(f"빠진 날   {', '.join(missing[:12])}{' …' if len(missing) > 12 else ''}")
+        print("          (D-1/D-2 안에 있는 것만 --gaps 로 보충 가능. 그보다 오래된 것은 영구 소실)")
+    for name, n, b in rows[-7:]:
+        print(f"  {name}  파일{n:3d}  {b/1e6:5.2f} MB")
+
+
+def collect(target) -> None:
+    key = os.environ.get("DATA_GO_KR_SERVICE_KEY", "")
     outdir = ROOT / f"{target:%Y/%m/%d}"
     outdir.mkdir(parents=True, exist_ok=True)
     manifest = outdir / "manifest.jsonl"

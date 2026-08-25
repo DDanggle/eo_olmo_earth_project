@@ -106,26 +106,56 @@ bash /home/work/data/code/aihub_setup.sh get 71363 \
 행정구역(Area) lon/lat + value (야간 구름형은 -9999 = 결측)
 ```
 
-### 두 번째 제약 — 서버에서 이 API가 차단됨 (2026-08-25 실측)
+### 정정 — "서버에서 차단됨"은 내 오진이었음
+
+처음에 서버에서 60초 타임아웃(http=000)이 나서 "한국 공공API가 이 클라우드 대역을 막는다"고
+적었음. **틀렸음.** 원인은 내가 `numOfRows=200000`으로 요청해 **API의 동시호출 락**이 걸려
+있던 것이었음 — 앞서 본 `resultCode 99 "이미 호출중에 있습니다"`와 같은 증상임.
+
+락이 풀린 뒤 서버에서 재검증한 결과:
 
 | | 결과 |
 |---|---|
-| 서버 DNS `apis.data.go.kr` | `27.101.236.63` 정상 해석 |
-| 서버 → `apis.data.go.kr` curl | **60초 타임아웃, http=000** |
-| 같은 서버 → `huggingface.co` | http=200, **0.15초** |
+| `apis.data.go.kr` 루트 | http 400, 0.085 s (파라미터 없는 정상 반응) |
+| `getGk2acldAll` 실제 호출 ×3 | **3/3 http 200, 0.22~0.31 s, 254 KB** |
+| 대조: `api.vworld.kr` / `api.aihub.or.kr` / `www.kma.go.kr` | 전부 200/302, 0.1~0.3 s |
 
-즉 회선 문제가 아니라 **한국 공공API가 이 클라우드 대역을 막고 있음.**
-따라서 GK2A 수집은 **로컬에서 돌리고** 나중에 서버로 동기해야 함.
-`code/gk2a_snapshot.py`는 `GK2A_ROOT` 환경변수로 저장 위치를 바꿀 수 있음.
+**차단 없음.** 교훈: 타임아웃을 네트워크 차단으로 단정하기 전에 요청 자체가 과대한지 본다.
 
-### 수집 시작함 — 이 프로그램에서 유일하게 되돌릴 수 없는 것
+### 수집 운영 — 어디에 어떻게 쌓이는가
 
-보존이 2일이므로 **오늘 받지 않은 날짜는 영구히 사라짐.** 실험·학습은 나중에 해도 되지만
-수집은 미루면 그만큼 자산이 없어짐. 그래서 설계보다 먼저 시작했음.
+```
+~/dong/ai_projects/data/gk2a/YYYY/MM/DD/
+  ├─ getGk2acldAll_CLD_0000.json.gz     구름탐지 00시
+  ├─ getGk2aappsAll_AOD_0000.json.gz    에어로졸
+  ├─ getGk2afogAll_FOG_0000.json.gz     안개
+  ├─ getGk2adcoewAll_COT_0000.json.gz   주간구름 광학두께
+  ├─ getGk2aclaAll_CT_0000.json.gz      구름분석
+  │   … 03/06/09/12/15/18/21시 반복 (하루 5종 × 8슬롯 = 40개)
+  └─ manifest.jsonl                      시각·바이트·sha256·http상태·resultCode
+```
 
-첫 실행 (2026-08-24분): **35/40 성공, 0.4 MB(gz)**.
-실패 5건은 `resultCode 03 NO_DATA` — 야간에 주간구름(COT) 산출물이 없는 정상 결측임.
-하루 0.4 MB이므로 1년 ≈ 150 MB. 비용은 무시할 수 있음.
+응답 원본을 gzip으로 그대로 보존함. 파생 가공은 나중에 함.
+저장 위치는 `GK2A_ROOT` 환경변수로 바꿀 수 있음.
+
+**얼마나 자주**: 보존이 2일이므로 **2일에 한 번**이면 충분함. 매일 아니어도 됨.
+
+```bash
+cd ~/dong/ai_projects/olmoearth_projects && set -a && . ./.env && set +a
+python3 _work/code/gk2a_snapshot.py --gaps     # D-1, D-2 중 빠진 것만 보충
+python3 _work/code/gk2a_snapshot.py --status    # 쌓인 상태·빠진 날·용량
+```
+
+`--gaps`는 이미 받은 파일을 건너뛰므로 여러 번 돌려도 안전함(idempotent).
+
+**현재 상태 (2026-08-25)**: 2일분 70파일 0.8 MB. 하루 평균 0.38 MB → **1년 약 0.14 GB.**
+용량은 사실상 문제가 아님.
+
+**하루 40개 중 5개는 항상 실패함** — `resultCode 03 NO_DATA`임. 야간(15·18·21시 등)에
+주간구름 산출물(COT)이 존재하지 않는 정상 결측이며 오류가 아님.
+
+**서버에 cron이 없고 세션이 GPU 6시간 미사용 시 회수되므로** 서버를 상주 수집 호스트로
+쓰지 않음. 2일 여유가 있으니 수동으로 충분함.
 
 ### 치명적 제약 — 이 API는 71363에 결합할 수 없다
 
