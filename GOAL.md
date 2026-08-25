@@ -380,6 +380,43 @@ v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, �
 
 ## Worklog
 
+### 2026-08-25 — GK2A 운영·격자 감사와 국가 센서 축 정합성 재점검
+
+- 계획: 최신 GK2A 수집 상태와 `--gaps`/`--status` 구현을 실제 산출물 기준으로 감사하고,
+  `DAILY_OPS.md`의 2일 창·복구 불가능성·72파일/일 주장을 측정 범위에 맞게 축소한다.
+  M15는 반복 관측 96개가 아니라 **고유 공간 anchor 4개**라는 점을 기준으로 LCC/offset 결론의
+  과적합 여부를 재판정하고, 공식 행정동 코드 및 held-out spatial validation 전에는 좌표 변환을
+  operational path에 넣지 않는다.
+- 큰 그림 연결: GK2A는 강우 forcing이 아니라 시간 정합된 외부 observability residual로만 두고,
+  admission/retrieval/segmentation에 더하는 조건부 이득을 frozen split에서 평가한다. 국가 센서 축은
+  KOMPSAT-5↔Sentinel-1의 주파수·편파 계약과 CAS500-4의 spectral/GSD 계약을 공식 사양으로 다시
+  확인해, 플랫폼-only 또는 pure-GSD 실험이라는 과장된 표현을 제거한다.
+- 산출물: 기존 SSOT와 설계 문서만 갱신하고, 필요한 invariant/상태 검사를 추가한다. bulk 데이터나
+  frozen split은 변경하지 않되 status가 D-1/D-2 gap을 찾으면 기존 운영계약 안에서만 보충한다.
+- 결과 — 운영: `--status`의 credential 선검사를 제거하고 날짜 폴더 존재가 아니라 현행
+  **57-slot terminal contract**를 검사하게 했다. 8월 23·24일은 각각 data 54 + NO_DATA 3으로
+  57/57이며, 구 스케줄 extra 18개 때문에 보이던 “72파일/일”을 현행 분모에서 제거했다.
+  정상 NO_DATA는 재시도하지 않고, 성공 manifest만 있고 파일이 사라지면 다시 받도록 고쳤다.
+- 결과 — 수명 주장: “저장소의 유일한 비가역 작업/돈으로도 복구 불가”를 철회했다. D-1/D-2는
+  data.go.kr 경량화 endpoint의 창이고, KMA API Hub에 별도 L2 download가 존재한다. archive와
+  경량화 산출물의 parity는 미측정이라 매일 snapshot은 계속하되 정확한 endpoint provenance
+  보존으로 의미를 제한했다.
+- 결과 — M15: KMA가 KO/2 km 공식 lat/lon ASCII·NetCDF를 grid 저장순서대로 제공함을 확인해
+  4-anchor LCC 역공학을 operational 경로에서 폐기했다. 기존 cache key에 `resultType`이 없어
+  FOG가 CLD를 덮어쓸 수 있던 결함을 고쳤고, CLD-only 재실행도 0.8958이었지만 4개 공간점에
+  fit/eval을 같이 했으므로 projection 확인 주장은 철회했다.
+- 결과 — 큰 그림: GK2A는 한국 arm의 forcing/정확도 feature가 아니라 acquisition-time-matched
+  observability residual이다. S2-only 대비 failure AUROC와 risk–coverage/AURC의 조건부 이득으로
+  승격 여부를 판단하고, 네팔·스위스 공통 feature로 부르지 않는다.
+- 결과 — 국가 센서: KOMPSAT-5는 X-band 9.66 GHz single-pol이고 Sentinel-1은 C-band 5.405 GHz
+  VV+VH 계약이므로 platform-only 가설을 폐기했다. CAS500-4↔S2도 pure-GSD가 아니다. 한 release의
+  sensor adapter → task utility → release×sensor 2×2 순서로만 연다.
+- 검증: GK2A contract unit test 5개 통과(credential-free status, partial/NO_DATA/raw-SHA 포함).
+  outer repo venv의 전체 suite **133 passed, 1 skipped**. 로컬 실데이터 status는 두 날짜 모두
+  57/57 OK. system Python suite의 PyYAML import 5건 실패는 코드 회귀가 아니라 환경 차이였다.
+- PR 판정: 새 Ai2 upstream defect는 발견하지 않았다. K5/CAS500 adapter는 제품 사양·접근·task
+  utility를 먼저 증명해야 하는 연구 arm이지 현 시점의 upstream PR 후보가 아니다.
+
 ### 2026-08-25 — 큰 그림 복귀: 한국·네팔·스위스 Live Mountain Transfer를 임계경로로 승격
 
 - 계획: C2-C exact-scene 복구를 논문의 임계경로에서 지원용 한국 ingestion gate로 내린다.
@@ -2157,8 +2194,9 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
    각 split 타일목록 SHA-256 + LOCO 13폴드 산출.
 5. 데이터 계약 4층 봉인 (원본 zip / 파생 / 내용 / 코드), seal `5b088ada…`.
 6. `tests/test_aihub_split_invariants.py` 10개 추가 — 동결이 깨지면 CI가 잡는다.
-7. data.go.kr GK2A 10/10 오퍼레이션 통과. **단 보존기간 2일** → 71363에 소급 결합 불가,
-   전향적 데모 전용으로 역할 변경.
+7. data.go.kr GK2A 10/10 오퍼레이션 통과. 당시에는 “보존기간 2일 → 소급 결합 불가”로
+   판정했으나, **2026-08-25 정정**: 이것은 경량화 endpoint의 D-1/D-2 창이다. KMA 별도 L2
+   archive가 존재하며 product parity는 미검증. 전향적 observability demo 역할은 유지한다.
 
 **마찰**
 - 라벨 파서를 클래스 키 추측으로 짜서 0건이 나왔다. 실제는 GeoJSON `ANN_CD`/`ANN_NM`이고

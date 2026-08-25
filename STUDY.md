@@ -679,7 +679,30 @@ center는 7,240 m. 기하 해석을 추측으로 넘기면 이후 모든 bbox가
 **확인 질문**: 데이터셋이 제공한 split을 쓸 수 없다고 판정하려면 최소 몇 가지를 재야 하는가?
 그리고 "타일당 날짜 수 1~8"이라는 사실이 split 설계에 주는 제약은 무엇인가?
 
+### #23 반복 관측 수는 공간 anchor 수가 아니다 (2026-08-25, GK2A M15 재감사)
+
+행정동 4곳을 24시각 반복 측정해 96개 비교가 생겨도 projection/offset을 식별하는 공간 정보는
+4점뿐이다. 더구나 offset을 그 4점에서 고르고 같은 4점에서 평가한 0.8958은 held-out 정확도가
+아니다. 시간 반복과 범주 class 수로 effective spatial sample size를 부풀리면 안 된다.
+
+이번에는 더 싼 정답도 있었다. KMA API Hub가 KO/2 km의 lon·lat을 **grid 저장순서대로** 직접
+제공한다. 공식 deterministic mapping이 있으면 범주값 일치로 CRS를 역추정하지 말고, 원본
+checksum·shape·순서를 contract로 고정한다. fitted transform은 공식 파일의 sanity check나
+역사적 실패 감사에만 남긴다.
+
+**확인 질문**: 같은 행정동의 100시각 반복이 새로운 projection anchor가 아닌 이유는 무엇이며,
+공식 lat/lon grid가 갱신됐을 때 어떤 hash·shape gate로 downstream join을 중단해야 하는가?
+
 ## 스터디 로그
+
+### 2026-08-25 — GK2A 운영·좌표계·sensor contract 재감사
+
+- 배운 것: 카드 #23. 96 repeated observations를 96 spatial anchors로 해석할 수 없고,
+  deterministic official grid가 있으면 fitted categorical agreement보다 우선한다.
+- 운영 보정: 57개는 파일 수가 아니라 data/NO_DATA를 포함한 예정 슬롯 수다. 폴더/파일 개수만
+  세면 구 스케줄 extra가 누락을 가리므로 expected contract로 상태를 검사한다.
+- sensor 보정: 같은 SAR라는 말로 frequency/polarization을 지울 수 없다. KOMPSAT-5 X-band
+  single-pol과 Sentinel-1 C-band VV+VH는 platform-only 대조군이 아니다.
 
 ### 2026-08-24 — EarthKV 층위와 최신 공개 benchmark 보정
 

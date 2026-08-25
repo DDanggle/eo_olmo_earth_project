@@ -256,38 +256,44 @@ H200 1장, frozen backbone + 가벼운 head 기준. **1 run이 10분을 넘으�
 | 아리랑 1호 | 2008 임무 종료 |
 | 아리랑 2호 | 2015-10 임무 종료 |
 | **아리랑 3호** | **운용 중** (13년째) — 광학 |
-| **아리랑 5호** | **운용 중** (12년째) — **C-band SAR** |
-| 차세대중형위성 1·2호 (국토위성) | 흑백 0.5 m / 컬러 2.0 m |
-| **차세대중형위성 4호** | 광역 EO, 관측폭 120 km, **5 m** (농림) |
-| 차세대중형위성 5호 | **C-band SAR**, 120 km, 10 m |
-| 천리안 2A (GK2A) | 운용 중. **이미 API 통과 확인했음** (2일 보존) |
+| **아리랑 5호** | **운용 중** — **X-band 9.66 GHz SAR**, single polarization 선택 |
+| 차세대중형위성 1호 (국토위성) | 운용 자료 존재. 흑백 0.5 m / 컬러 2.0 m |
+| 차세대중형위성 2호 (국토위성) | 2026-05-03 발사 후 초기운영; 현재 공개 data availability 미확인 |
+| **차세대중형위성 4호** | 2026-07-07 발사·첫 교신. 광역 EO 120 km/5 m이나 초기운영·자료접근 미확인 |
+| 차세대중형위성 5호 | 개발 중인 **C-band SAR** 120 km/10 m; 운용 자료 없음 |
+| 천리안 2A (GK2A) | 운용 중. data.go.kr 경량화 endpoint 통과(D-1/D-2); KMA 별도 archive 존재 |
+
+사양 근거는 SIIS의 KOMPSAT-5 제품 사양(X-band, single polarization), KARI 차세대중형위성
+페이지(4호 120 km/5 m, 5호 C-band 120 km/10 m), 우주항공청 2026-07-07 발사·첫 교신
+보도자료다. “발사/첫 교신”과 “과학자료가 안정적으로 공개됨”은 같은 상태로 취급하지 않는다.
 
 `우리별`을 EO 자산으로 쓰겠다는 계획은 성립하지 않음. 30년 전 실험위성임.
 
 ### 왜 지금 임계경로에 넣지 않는가
 
-1. OlmoEarth에 KOMPSAT/CAS500 modality가 없음. 넣으려면 입력 계약을 새로 만들어야 하고,
-   그것이 릴리스마다 달라지는 문제가 **M8**임. 즉 이 축을 열면 M8을 먼저 풀어야 함.
-2. GSD가 안 맞음. 0.5/2/5 m를 S2의 10 m 계약에 넣으려면 resampling이 필요하고,
-   resampling 자체가 또 하나의 계약 변경임.
+1. OlmoEarth에 KOMPSAT/CAS500 modality가 없음. M8은 기존 S2 mask의 silent-consumption 문제를
+   닫았을 뿐 새 센서 계약을 만들지 않았다. 한 release에서 sensor-specific stem/adapter를 먼저
+   검증해야 한다.
+2. GSD만 다른 것이 아니다. 파장·편파·spectral response·PSF/MTF·제품 보정수준과 resampling이
+   함께 바뀐다. 각 축을 manifest와 ablation으로 분리해야 한다.
 3. 접근 조건 미확인. 국토위성센터·KARI 포털 경유이며 무상 제공·재배포 조건을 확인하지 않았음.
    AI-Hub와 같은 감사를 처음부터 다시 해야 함.
 4. P1(Sen12Landslides 11지역)은 이것 없이 돌아감.
 
-### 그럼에도 두 짝은 **잘 정의된 실험**임 — 후속 stress test로 예약
+### 후속 sensor-onboarding stress test — 통제축을 과장하지 않음
 
-| 짝 | 왜 깨끗한가 |
+| 짝 | 실제로 묻는 질문과 교란축 |
 |---|---|
-| **아리랑 5호 ↔ Sentinel-1** | **둘 다 C-band SAR임.** 파장이 같고 플랫폼·기하만 다름. Sen12Landslides가 S1 asc/desc 라벨을 이미 제공하므로 "S1으로 만든 cache를 KOMPSAT-5 영상에 재사용할 수 있는가"가 곧바로 물어짐 |
-| **차세대중형위성 4호 ↔ Sentinel-2** | 5 m vs 10 m로 정확히 2배 관계. GSD 계약 변경을 깔끔한 배수로 시험할 수 있음. 관측폭 120 km로 넓음 |
-
-특히 첫 짝이 가치 있음. 대부분의 cross-sensor 실험은 파장·편광·기하가 동시에 바뀌어
-원인을 분리할 수 없음. **같은 C-band끼리 비교하면 플랫폼 효과만 남음.**
+| **아리랑 5호 ↔ Sentinel-1** | national-sensor onboarding은 가치 있지만 clean platform test가 아님. K5 X-band/single-pol vs S1 C-band/통상 VV+VH라 주파수·편파·기하·처리가 함께 바뀜. fake VH 또는 `sentinel1` rename 금지 |
+| **차세대중형위성 4호 ↔ Sentinel-2** | cross-optical adapter 시험. 5 m↔10 m뿐 아니라 spectral response·band set·MTF·플랫폼이 바뀌므로 pure-GSD가 아님. pure-GSD 대조군은 CAS500-4 native 5 m를 PSF/MTF-aware 10 m로 낮춘 within-sensor arm |
+| **차세대중형위성 5호 ↔ Sentinel-1** | 공개 center frequency·편파·제품수준과 운용자료가 확인된 뒤의 미래 same-band-family 후보. 현재는 실험 불가 |
 
 이것은 Ai2 취업 축에도 직접 붙음 — 아시아 파트너가 가진 것은 Sentinel만이 아니라
 자국 위성이고, "자국 위성을 전지구 모델에 어떤 계약으로 넣는가"가 온보딩의 실제 질문임.
 
-**단 지금은 열지 않음.** P1 → G-S/G-N 통과 후, FoldRefresh arm과 함께 연다.
+**단 지금은 열지 않음.** P1 → G-S/G-N 통과 뒤, 먼저 한 OLMo release에서 sensor adapter와
+task utility를 검증한다. 그 gate가 통과한 뒤에만 release × sensor 2×2와 FoldRefresh를 연다.
+처음부터 sensor shift와 release shift를 함께 열면 원인을 식별할 수 없다.
 
 ## 7. 이미 측정된 자산의 자리 — 고아로 만들지 않는다
 

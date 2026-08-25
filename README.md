@@ -2,12 +2,14 @@
 
 최종 갱신: 2026-08-25
 
-> ## ⚠ 매일(또는 2일마다) 해야 하는 것 하나
-> **GK2A 스냅샷 수집** — 보존이 2일이므로 미루면 그 날짜는 영구히 사라짐.
-> 이 저장소에서 되돌릴 수 없는 작업은 이것뿐임. → **`docs/DAILY_OPS.md`**
+> ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
+> **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에
+> 별도 L2 archive가 있어 “원자료의 영구 소실”은 확인되지 않았다. 여기서 보존하는 것은
+> **이 endpoint의 정확한 응답·NO_DATA·provenance**다. → **`docs/DAILY_OPS.md`**
 > ```
-> cd ~/dong/ai_projects/olmoearth_projects && set -a && . ./.env && set +a
-> python3 _work/code/gk2a_snapshot.py --gaps && python3 _work/code/gk2a_snapshot.py --status
+> cd ~/dong/ai_projects/olmoearth_projects
+> python3 _work/code/gk2a_snapshot.py --status  # 키 없이도 현행 57-slot 계약 확인
+> set -a && . ./.env && set +a && python3 _work/code/gk2a_snapshot.py --gaps
 > ```
 
 
@@ -278,6 +280,8 @@ main에 강제로 합치지 않는다. BuildingHUB/EIA event-first 표본과 독
 | `ingest_kearth_public_data.py` | 로컬 | 공식 FarmMap SHP·개발행위·산지이용을 manifest/evidence edge로 정규화하고 point-in-polygon·exact PNU·시간축을 감사 |
 | `kearth_public/` | 로컬 | PNU·날짜구간·coverage·결정적 JSON/SHA·안전한 ZIP·FarmMap offline join의 재사용 가능한 ingestion core |
 | `collect_kearth_api_snapshot.py` / `kearth_public/api_snapshot.py` | 로컬/VM | 공공 API credential을 manifest에서 제외하고 raw 응답을 redaction·hash하며 제주 bounded pagination 수집 |
+| `gk2a_snapshot.py` | 로컬/서버 | D-1/D-2 경량화 응답을 57-slot(data 또는 NO_DATA) 계약으로 수집·상태 감사. `--status`는 키 불필요 |
+| `solve_gk2a_grid_crs.py` / `gk2a_offset_search.py` | 로컬 | **audit-only/superseded** 4-anchor LCC 적합 실패 기록. operational join은 KMA 공식 KO/2 km lat/lon grid 사용 |
 | `derive_kearth_api_snapshot.py` / `render_kearth_api_dashboard.py` | 로컬 | API raw를 기존 FarmMap PNU·OlmoEarth 후보와 재결합하고 GK2A/토지피복 context 및 14후보 보류 dashboard 생성 |
 | `merge_kearth_api_snapshots.py` | 로컬 | v7.6 비-VWorld raw와 gate된 VWorld 257점 snapshot을 네트워크 없이 결합하고, 입력 SHA·응답 lineage·FarmMap/VWorld PNU 충돌·완주 marker를 보존 |
 | `build_k_evidence_shift_pilot.py` / `kearth_benchmark/` | 로컬 | 제주 14후보를 audit-only site-event로 만들고 공간/window/scene/PNU/시간/API 누수와 promotion gate를 검사 |

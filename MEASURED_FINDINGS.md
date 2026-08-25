@@ -1,6 +1,6 @@
 # 측정 장부 — 실제로 잰 것만
 
-최종 갱신: 2026-08-24
+최종 갱신: 2026-08-25
 
 이 파일에는 **실행해서 나온 수치만** 넣는다. 계획·설계·문헌 판단은 넣지 않는다
 (그건 `K_ALIGN_PROGRAM_NOTE.md`, `K_ALIGN_CVPR_READINESS_AUDIT.md`, `K_GAIN_AXES.md`가 맡는다).
@@ -27,7 +27,9 @@
 | M12 | annotation-process 감사 (G-A) | **16지역 중 13이 저자 교락, MMU 최대 1,916배** | 완료 |
 | M13 | 한국 폴리곤을 Sen12 16지역과 같은 자로 측정 | **한국은 Höhn군과 호환. Italy는 최대 이질 짝** | 완료 |
 | M14 | OlmoEarth modality 전수 조사 | **15개. 기상용 비공간 슬롯 `era5_10`이 이미 있음** | 완료 |
-| M15 | GK2A 2km 격자 좌표계 역공학 | **LCC 계열 확인(0.896). 오프셋은 잠정** | 진행 |
+| M15 | GK2A 2km 격자 좌표계 역공학 | **4-point in-sample fit 0.896 — 좌표계 확인 주장 철회, 공식 KMA grid로 대체** | 종결/폐기 |
+| M16 | KMA API Hub 공식 격자 접근 | **키는 유효, API별 활용신청 미완 → 봉인 보류** | 대기 |
+| M17 | ASOS 일자료로 `era5_10` 6변수 소급 확보 | **가능. 2022-04-17 실측 성공** | 완료 |
 
 **아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 **표현 기여**
 (접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 여전히 0),
@@ -602,38 +604,40 @@ Sen12Landslides inventory는 전역 shapefile이라 잘리지 않았고, AI-Hub�
 | `latlon` | 1 | False | 1 | lat, lon |
 | `worldcover` / `worldpop` / `cdl` / `worldcereal` / `gse` / `openstreetmap_raster` / `wri_canopy_height_map` | 1 | True | 1 | (보조 레이어) |
 
-### 결론 — 새 modality를 만들 필요가 없음. 기존 슬롯에 넣는 문제임
+### 결론 — 기존 슬롯은 후보일 뿐, source contract를 새로 검증해야 함
 
 이것이 M8과 직결됨. 새 센서를 위해 아키텍처를 바꾸는 것이 아니라,
 **이미 사전학습된 슬롯에 다른 출처의 자료를 넣었을 때 계약이 지켜지는가**가 질문임.
 
 | 넣으려는 것 | 후보 슬롯 | 근거 |
 |---|---|---|
-| **아리랑 5호 (KOMPSAT-5)** | `sentinel1` (`vv`,`vh`) | 둘 다 C-band SAR. 편광이 맞으면 같은 슬롯 |
-| **KMA ASOS 지상관측** | **`era5_10`** | **변수 6종이 정확히 일치**(기온·이슬점·기압·풍속 u/v·강수). 승인 완료된 API임 |
+| **아리랑 5호 (KOMPSAT-5)** | 직접 재사용 불가. 새 sensor adapter 또는 공통 VV-only baseline 후보 | K5는 **X-band 9.66 GHz·single polarization**, S1은 **C-band 5.405 GHz·통상 VV+VH**. 주파수·편파 계약이 다름 |
+| **KMA ASOS 지상관측** | `era5_10`은 구조적 후보 | 변수 이름은 대응하지만 관측높이·단위·누적 강수·점→격자·u/v 변환이 달라 exact match가 아님 |
 | GK2A 구름·에어로졸 | 대응 슬롯 없음 | CLD/AOD/FOG/COT/CT는 어느 슬롯에도 없음. `r_t`로 head 쪽에서 결합해야 함 |
 | 차세대중형위성 4호 (5 m) | 없음 | GSD·밴드가 어느 슬롯과도 안 맞음 |
 
 - **말할 수 있는 것**:
-  1. `era5_10`이 **비공간(is_spatial=False, tile_factor=−256)** 슬롯이므로, 타일당 스칼라
-     시계열을 받는 구조임. 즉 설계의 `r_t`(live residual)를 **모델 밖 head가 아니라
-     사전학습된 modality 경로로** 넣는 길이 존재함.
-  2. **KMA ASOS 일자료는 이미 승인됐고 과거 이력이 있음.** GK2A(2일 보존)와 달리
-     소급 실험이 가능함. 따라서 retrospective live-residual arm의 1순위는 ASOS임.
-  3. 아리랑 5호는 새 modality가 아니라 `sentinel1` 슬롯 재사용 문제로 좁혀짐.
+  1. `era5_10`이 **비공간(is_spatial=False, tile_factor=−256)** 슬롯이므로, 기상 시계열을
+     받는 구조적 경로는 존재함. 그러나 ASOS를 넣어도 사전학습 분포 안이라는 뜻은 아님.
+  2. **KMA ASOS 일자료는 이미 승인됐고 과거 이력이 있음.** GK2A 경량화 endpoint의
+     D-1/D-2 창과 달리 소급 실험이 가능함. 따라서 retrospective forcing arm의 1순위는 ASOS임.
+  3. 아리랑 5호는 `sentinel1`이라는 이름으로 재포장하면 안 됨. 현재 OLMo task config는
+     Sentinel-1 IW의 `vv`,`vh` 두 밴드와 dB 변환을 요구하므로 K5 single-pol에서 fake VH를
+     만들지 않는다.
 - **말할 수 없는 것**: ASOS 관측값을 `era5_10`이 기대하는 단위·정규화로 맞출 수 있는지는
-  **미확인**임. ERA5는 재분석 격자, ASOS는 지점 관측이므로 공간 보간이 필요하고 그 보간이
-  또 하나의 계약 변경임. 아리랑 5호의 편광·입사각·보정수준이 Sentinel-1과 호환되는지도 미확인.
+  **미확인**임. ERA5 total precipitation과 ASOS 강수의 시간 누적·단위도 같다고 가정할 수 없다.
+  ERA5는 재분석 격자, ASOS는 지점 관측이므로 공간 보간이 필요하고 그 보간이 또 하나의 계약
+  변경이다. K5↔S1은 주파수·편파·입사각·보정수준이 함께 바뀌는 cross-sensor stress test다.
   이 슬롯들에 다른 출처를 넣었을 때 M8식 조용한 무시가 일어나는지도 아직 시험하지 않았음.
 
-## M15. GK2A 격자는 기상청 LCC 계열임 — 오프셋은 아직 잠정
+## M15. GK2A 4-anchor 좌표 역공학은 판정 불가 — 공식 KMA grid로 대체
 
 **근거**: `gk2a/_crs/grid_crs_test.json`, `code/solve_gk2a_grid_crs.py`,
 `code/gk2a_offset_search.py`, 앵커 캐시 `gk2a/_crs/area_anchors.jsonl`
 **문제**: 한반도(All) 응답에 CRS가 없음 (`gridKm=2.0 xdim=320 ydim=397 x0=63 y0=333` 뿐).
 좌표를 못 붙이면 격자를 AOI에 쓸 수 없음.
 
-### 검정 설계 (사전 등록)
+### 당시 검정 설계 (사전 등록)
 
 `Area` 계열이 행정동코드에 대해 `(lon, lat, value)`를 줌. 같은 시각 격자에서 그 위치의
 칸 값을 뽑아 **일치율**을 봄. 구름탐지는 3클래스이므로 우연 수준은 약 0.33임.
@@ -644,7 +648,7 @@ Sen12Landslides inventory는 전역 shapefile이라 잘리지 않았고, AI-Hub�
 | 0.50–0.90 | 오프셋 보정 후 재검정 |
 | < 0.50 | 기각. 문서 확보 전까지 격자를 쓰지 않음 |
 
-### 결과
+### 실측 결과와 재판정
 
 | 단계 | 가정 | 일치율 |
 |---|---|---|
@@ -652,20 +656,98 @@ Sen12Landslides inventory는 전역 shapefile이라 잘리지 않았고, AI-Hub�
 | H1′ | 같은 오프셋, **y축 뒤집음** | 0.385 (우연 수준) |
 | **H2** | LCC 유지, 오프셋을 탐색 (xo·yo를 −200~400 / −100~700에서 전수) | **0.8958** (86/96) |
 
-H2의 최적해: **`xo ≈ 124~125, yo = 664`, row-major, y축 안 뒤집음.**
-같은 최고점을 내는 조합이 **2개**뿐이므로(xo만 1 차이) 방향은 잡혔음.
+H2의 최적해는 `xo ≈ 124~125, yo = 664`, row-major, y축 안 뒤집음이었다. 최초 코드에는
+cache key에서 `resultType`이 빠져 FOG Area가 CLD Area를 덮어쓴 채 CLD All과 비교될 수 있는
+결함도 있었다. CLD만 명시적으로 filter한 재실행에서도 수치는 우연히 같은 0.8958(86/96)이었다.
+그러나 96개 비교는
+**고유 공간점 4개 × 24시각**이고, 두 offset을 같은 4개 지점으로 선택하고 평가했다. 범주별
+기저확률도 균등 0.33으로 검증하지 않았다. 따라서 0.8958은 held-out projection score가 아니며,
+LCC·저장순서·y축을 “확인”했다는 주장을 철회한다.
 
-- **말할 수 있는 것**: 투영 계열은 **기상청 Lambert Conformal Conic**이 맞음
-  (0.896 ≫ 우연 0.33). 저장 순서는 row-major이고 y축은 뒤집히지 않음.
-- **말할 수 없는 것**: **사전 등록 기준 0.90을 넘지 못했음(0.8958).**
-  그리고 고유 앵커가 **4곳뿐**이라 2자유도 오프셋 적합이 약하게 식별됨 — 과적합 위험이 실재함.
-  따라서 이 오프셋으로 격자를 실험에 쓰지 않음. **잠정**으로만 기록함.
-- **확정에 필요한 것**: 전국에 퍼진 **행정동코드 수십~수백 개**. 앵커가 늘면 2자유도 적합이
-  강하게 식별되고 일치율의 통계적 의미도 생김.
-  **앵커 자료도 2일 보존이므로 격자와 같은 날 받아야 짝이 맞음** — 그래서
-  `gk2a_snapshot.py`에 Area 앵커 수집을 넣어 매 실행마다 함께 쌓게 했음
-  (`GK2A_ANCHORS` 파일에 행정동코드를 한 줄씩 넣으면 그것을 씀).
-- **현재 누적**: 앵커 관측 192건 (지점 4 × CLD·FOG × 12슬롯 × 2일).
+- **말할 수 있는 것**: 4-point fitted candidate가 86/96을 맞췄고, Area parsed row는
+  192건(4지점 × CLD·FOG × 12슬롯 × 2일)이다.
+- **말할 수 없는 것**: projection family, offset, row/column order, y direction의 외부 타당성.
+- **대체 경로 발견**: KMA API Hub는 KO/2 km의 공식 lon·lat을 grid 저장순서대로 ASCII로
+  조회하거나 NetCDF로 받는 endpoint를 제공한다. 좌표는 추정하지 않고 이 파일을 SHA-256 고정한다.
+- **종결 기준**: 공식 lon/lat과 경량화 값이 모두 `320 × 397 = 127,040`이고 순서가 exact match한
+  뒤에만 AOI join을 연다. 기존 offset 코드는 audit-only 실패 기록으로 남긴다.
+
+## M16. 공식 KO/2km 격자 — 키는 유효하고 API별 활용신청이 남음
+
+**근거**: `gk2a/_grid/grid_seal.json`, `code/seal_gk2a_grid.py`
+**배경**: M15의 역공학은 철회됐음(4점 in-sample fit). 기상청이 KO/2km lat/lon을
+**격자 저장 순서대로** 제공하므로 역공학이 불필요함.
+
+### 공식 경로 (2026-08-25 확인)
+
+```
+ASCII   apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-gk2a_latlon_api
+        ?area=KO&grid=2&latlon=lon|lat&disp=A&authKey=
+NetCDF  apihub.kma.go.kr/api/typ01/url/gk2a_latlon_file_down.php?area=KO&grid=2&authKey=
+```
+
+### 실측 — 401과 403을 구분해야 함
+
+| 호출 | 응답 |
+|---|---|
+| 키 없음 | `401 유효한 인증키가 아닙니다` |
+| **키 있음** + GK2A latlon | `403 활용신청이 필요한 API 입니다` |
+| 키 있음 + NetCDF 다운로드 | `403` 동일 |
+| 키 있음 + **전혀 다른 API** (`kma_sfctm2` 지상관측) | **`403` 동일** |
+
+마지막 줄이 진단을 확정함. **키 자체는 유효하고**(401이 아님), apihub는 data.go.kr과 같이
+**API별 활용신청**을 요구하며 현재 신청된 API가 없음.
+
+### 봉인 스크립트는 준비됨 — 사전 등록 게이트 4개
+
+`code/seal_gk2a_grid.py`. 활용신청이 승인되면 그대로 실행함.
+
+| | 검증 | 실패 시 |
+|---|---|---|
+| V1 | lon·lat 원소 수 = `xdim × ydim` = 320 × 397 = 127,040 | 봉인 안 함 |
+| V2 | row-major 저장 순서 — 행 내 경도 단조증가, 열 내 위도 단조 | 저장 순서가 다른 것이므로 봉인 안 함 |
+| V3 | 경도 120~135, 위도 30~45 (한반도) | 봉인 안 함 |
+| V4 | **자유 매개변수 0개** 앵커 검증. 공식 격자에서 최근접 칸을 찾아 같은 시각 CLD 값과 대조. 일치율 ≥ 0.90 | 봉인 안 함 |
+
+V4가 M15와 결정적으로 다른 점: **아무것도 적합하지 않음.** 대응이 공식 파일에서 직접 오므로
+높은 일치율은 증거가 되고 낮은 일치율은 반증이 됨. M15의 캐시 결함(`resultType` 누락으로
+FOG가 CLD를 덮어씀)도 필터로 막았음.
+
+- **말할 수 있는 것**: 공식 경로가 존재하고 키는 유효함. 봉인 절차와 판정 기준이 사전 등록됨.
+- **말할 수 없는 것**: 격자 대응은 **아직 확정되지 않았음.** 320×397 순서 가정도 미검증임
+  (V2가 그것을 검증할 항목임). GK2A admission 실험은 봉인 전에 열지 않음.
+- **필요한 사용자 조치**: apihub.kma.go.kr에서 **GK2A 기상산출물** API 활용신청.
+  겸해서 **지상관측(ASOS)** 도 신청하면 M14의 `era5_10` 슬롯 경로가 열림.
+
+## M17. `era5_10` 슬롯 6변수를 ASOS 일자료로 소급 확보할 수 있음
+
+**근거**: `apis.data.go.kr/1360000/AsosDalyInfoService/getWthrDataList` 실호출
+**배경**: M14에서 OlmoEarth에 기상 전용 **비공간** modality `era5_10`이 있음을 확인했음.
+GK2A는 보존 2일이라 소급이 불가능했으나, ASOS는 과거 이력이 있음.
+
+### 실측 (2022-04-17, 서울 stn 108 — 71363 촬영일 중 하나)
+
+`resultCode 00 NORMAL_SERVICE`. 반환 필드가 `era5_10` 6변수와 대응함.
+
+| `era5_10` 밴드 | ASOS 필드 | 실측값 |
+|---|---|---|
+| 2m-temperature | `avgTa` | 14.0 |
+| 2m-dewpoint-temperature | `avgTd` | 3.5 |
+| surface-pressure | `avgPa` / `avgPs` | 1007.7 / 1017.9 |
+| 10m-u/v-component-of-wind | `avgWs` + `maxWd` | 2.3, 250° |
+| total-precipitation | `sumRn` | 공백(무강수) |
+
+- **말할 수 있는 것**: 6변수 모두 존재하고 **과거 날짜로 조회됨**. 이 서비스는 2026-05-18에
+  이미 승인돼 있어 추가 신청이 필요 없음. 따라서 retrospective live-residual arm의
+  1순위는 GK2A가 아니라 ASOS임(M14의 판단이 실측으로 확인됨).
+- **말할 수 없는 것**: 세 가지가 미해결임.
+  1. **단위·정규화**가 `era5_10`이 기대하는 것과 같은지 미확인. ERA5는 K·Pa·m/s 재분석이고
+     ASOS는 °C·hPa·m/s 지점관측임
+  2. `avgWs`+`maxWd`는 **평균 풍속과 최대 풍향**이라 u/v 성분으로 바로 바꿀 수 없음.
+     같은 시각의 풍향이 아니므로 벡터 분해가 부정확함. 시간자료가 필요할 수 있음
+  3. **지점 → 격자 보간**이 필요하고, 그 보간이 또 하나의 계약 변경임(M8 계열 위험)
+- **다음**: 지점 좌표(지상관측 지점정보)를 확보해 AOI 최근접 지점을 정하고,
+  단위 변환표를 사전 등록한 뒤 결합함. 보간 없이 **최근접 지점 값**부터 시작하는 것이 안전함.
 
 ## 이 장부에 없는 것 (혼동 방지)
 
@@ -679,8 +761,8 @@ H2의 최적해: **`xo ≈ 124~125, yo = 664`, row-major, y축 안 뒤집음.**
 | 한국 공공데이터 — 접근·계약 감사 | M9·M10에서 수행 (AI-Hub 71363, GK2A 10/10, VWorld) |
 | 사람 판독 라벨 | **0** |
 
-`MOUNTAIN_EVIDENCE_TRANSFER.md`의 Phase 0(Glacial-Lake-Bench·Landslide4Sense)은
-다운로드·라이선스 확인조차 시작하지 않았다.
+Sen12Landslides는 M11–M13의 접근·annotation·한국 polygon 호환 감사까지 끝났지만,
+frozen OLMo downstream 성능은 아직 0이다. 네팔 BIPAD/ICIMOD와 스위스 event join도 0이다.
 
 ---
 

@@ -6,11 +6,11 @@
 
 | GK2A가 답하는 것 | GK2A가 답하지 **못하는** 것 |
 |---|---|
-| **볼 수 있나** (구름·안개·에어로졸·구름광학두께·구름형) | **일어나고 있나** (강우·적설·지진) |
+| **볼 수 있나** (구름·안개·에어로졸·구름광학두께·구름형) | **왜 일어나나** (강우·적설·지진) |
 | = 관측 가능성 (observability) | = 재해 강제력 (forcing) |
 
-산사태는 강우가 유발함. **GK2A에는 강수가 없음.** 강수는 ASOS·레이더에서 와야 함.
-따라서 GK2A를 "산사태 예측을 도와주는 실시간 입력"으로 쓰면 틀림.
+현재 수집하는 **다섯 경량화 산출물에는 강수가 없음.** 강수 forcing은 ASOS·레이더 등에서
+따로 와야 한다. 따라서 이 다섯 산출물을 산사태 forcing으로 해석하면 틀린다.
 
 ### 그런데 이 구분이 오히려 기여가 됨
 
@@ -26,14 +26,15 @@
 
 | | 용도 | 어떻게 | 지금 가능한가 |
 |---|---|---|---|
-| **A** | **Admission control** — 새로 도착한 S2 타일을 임베딩할 가치가 있는지 판단 | 해당 시각·위치의 CLD/FOG로 게이팅. S2 자체 SCL과 **독립적인** 2차 판정이 되는 것이 핵심 | 격자 좌표계 필요 (§2) |
-| **B** | **`r_t` live residual** — 설계의 E_live | 행정동 단위 관측조건 시계열을 head에 결합 | 행정동코드 매핑 필요 (§2) |
-| **C** | **데이터 생명주기 결과** | "보존 2일 = 소급 연구 불가. 수집을 시작한 주체만 할 수 있다" | **지금 가능** |
+| **A** | **Admission/abstention** — 새 S2 관측을 처리·보류할지 판단 | S2 관측시각 ±60분의 CLD/FOG를 외부 보조관측으로 추가하고 S2 SCL-only 대비 조건부 이득 측정 | 공식 lat/lon grid 필요 (§2) |
+| **B** | **`r_t` observability residual** — 설계의 E_live | AOI별 관측조건을 head의 confidence/abstention에 결합. Area 값이 행정구역 평균인지는 미확인 | 행정동코드와 의미 감사 필요 |
+| **C** | **데이터 생명주기 결과** | 짧은 endpoint 창·별도 archive·snapshot provenance를 분리해 운영비용 측정 | **지금 가능** |
 
-C가 즉시 가능하고, M9(split 누수)·M12(annotation 교락)와 **같은 계열**임 —
-*"당연히 있다고 가정한 것이 실제로는 없다"*.
+C가 즉시 가능하고, M9(split 누수)·M12(annotation 교락)와 같은 **계약 감사 계열**이다.
+다만 KMA API Hub에 별도 L2 archive가 있으므로 “소급 연구가 불가능하다”는 결론은 철회한다.
+경량화 응답과 archive 산출물이 같은지는 아직 미측정이다.
 
-## 2. 막고 있는 것 — 좌표를 붙이는 방법
+## 2. 좌표 결합 — 역공학 대신 공식 lat/lon grid
 
 ### 격자(All) 응답에 CRS가 없음
 
@@ -63,33 +64,51 @@ getGk2acldArea?...&dongCode=1111051500
 즉 GK2A는 **행정동코드**를 받음. VWorld 역지오코딩의 `level4LC`는 법정동코드라 안 맞음
 (농촌 면 지역은 `level4AC` 행정동코드가 빈 값으로 옴).
 
-### 격자 좌표계는 절반 풀렸음 (M15)
+### M15 역공학은 operational 경로에서 폐기
 
-앵커 4곳으로 역공학했음. **투영 계열은 기상청 LCC가 맞음** — 오프셋 탐색으로
-일치율 **0.8958**(86/96)에 도달했고 우연 수준은 0.33임. row-major, y축 안 뒤집음,
-`xo ≈ 124.5, yo = 664`.
+4개 고유 지점의 CLD 반복관측 96개에 `xo/yo`를 적합해 86/96(0.8958)을 얻었다. 반복 시간값은
+고유 공간 anchor를 늘리지 않고, offset 선택과 평가를 같은 자료에서 했으므로 이것은 held-out
+좌표계 검증점수가 아니다. 범주 분포도 0.33 균등이라고 보장되지 않는다. 따라서 “LCC 계열 확인,
+row-major/y축 확정” 주장을 철회하고 **후보 적합 기록**으로만 남긴다.
+초기 cache key에 `resultType`이 없어 FOG가 CLD를 덮어쓸 수 있던 코드 결함도 있었다. CLD-only
+filter 후 수치는 우연히 동일했지만 설계의 외부 타당성 문제는 그대로다.
 
-**그러나 쓰지 않음.** 사전 등록 기준 0.90에 미달하고(0.8958), 고유 앵커가 4곳뿐이라
-2자유도 적합이 약하게 식별됨. 앵커를 늘려야 확정됨.
+기상청 API Hub가 공식 경로를 제공한다.
 
-### 다음 한 걸음 — 행정동코드가 두 가지를 동시에 푼다
+```text
+ASCII lat/lon:
+https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-gk2a_latlon_api
+  ?area=KO&grid=2&latlon={lon|lat}&disp=A&authKey=...
 
-행정동코드 목록을 확보해 우리 AOI에 매핑함. **이것이 (a) Area residual 수집과
-(b) 격자 좌표계 확정을 동시에 해결함.**
-
-```bash
-# 행정동코드를 한 줄씩 넣으면 매 수집 때 앵커로 함께 받음
-$EDITOR ~/dong/ai_projects/data/gk2a/_crs/dongcodes.txt
-python3 _work/code/gk2a_snapshot.py --gaps       # 격자 + 앵커 동시 수집
-python3 _work/code/gk2a_offset_search.py         # 오프셋 재검정
+NetCDF lat/lon:
+https://apihub.kma.go.kr/api/typ01/url/gk2a_latlon_file_down.php
+  ?area=KO&grid=2&authKey=...
 ```
 
-주의 세 가지.
+공식 문서는 좌상단→우하단 순서이며 “격자자료가 저장된 순서”와 같다고 명시한다. 다음 gate는
+추정 정확도 0.90이 아니라 다음의 exact contract다.
 
-- GK2A는 **행정동코드**를 받음(법정동코드 아님). 확인된 형식은 `1111051500` 꼴 10자리임
-- 코드는 추측하지 않고 공식 목록에서 가져옴 (행정표준코드관리시스템 또는 data.go.kr)
-- **Area 자료도 2일 보존임.** 목록을 넣는 즉시 수집이 시작되며, 그 이전 날짜의 앵커는
-  받을 수 없음 — 즉 격자 좌표계 검정에 쓸 수 있는 표본은 오늘 이후로만 늘어남
+1. KMA API Hub 접근 승인 및 KO/2 km lon·lat 원본의 SHA-256 고정
+2. lon/lat/grid value의 `xdim × ydim = 127,040` 및 순서 exact 일치
+3. 4개 Area 지점은 **fit이 아닌 sanity check**로만 사용
+4. checksum이나 shape가 바뀌면 grid version 변경으로 보고 join을 중단
+
+행정동코드는 이제 격자 좌표계를 푸는 열쇠가 아니라 **Area residual을 쓸 때만** 필요하다.
+AOI와 직접 겹치는 소수 코드만 공식 코드표에서 고정하며, Area의 `lon/lat/value`가 경계 평균인지
+대표점 값인지 활용가이드로 먼저 확인한다. `area_anchors.jsonl`은 parsed row이지 원본 응답이 아니다.
+
+### admission 실험의 사전등록 단위
+
+GK2A는 S2 SCL과 완전히 독립된 label이 아니라 같은 대기상태를 다른 플랫폼·알고리즘으로 본
+외부 보조관측이다. 따라서 “GK2A를 넣어 정확도가 올랐다”보다 **incremental selective utility**를 잰다.
+
+- 입력: S2-only quality score/SCL vs S2 + acquisition-time-matched GK2A(±60분)
+- 평가: frozen 한국 spatial split의 failure-detection AUROC와 risk–coverage/AURC
+- downstream 보조지표: admitted subset의 retrieval precision·segmentation mIoU, coverage와 함께 보고
+- kill: S2-only 대비 held-out cluster에서 이득이 없거나 timestamp/official-grid gate가 깨지면
+  GK2A를 performance method가 아니라 운영 provenance 사례로 내림
+
+이 arm은 한국 operational demonstration이다. 네팔·스위스 transfer의 공통 입력인 척하지 않는다.
 
 ## 3. AOI 역지오코딩 결과 (부수 발견)
 
@@ -121,11 +140,9 @@ VWorld로 M10의 13개 군집 중심을 역지오코딩했음. **9/13이 육상*
 
 ## 4. 지금 말할 수 있는 것과 없는 것
 
-- **말할 수 있는 것**: GK2A는 관측 가능성 자료이며 재해 강제력 자료가 아님. Area 계열은
-  행정동코드로 lon/lat과 값을 주므로 좌표계 확정 없이도 쓸 수 있음. 13군집 중 9개가
-  육상 국립공원으로 확인됨.
-- **말할 수 없는 것**: 격자(All) 계열의 좌표계는 **미확정**임. 행정동코드 매핑은 미완임.
-  GK2A를 결합해 성능이 오른다는 증거는 **0**임. admission control이 실제로 이득을
-  내는지도 미측정임.
-- **하지 않을 것**: 격자 좌표계를 추측으로 정하지 않음. KMA 문서 또는 다수 앵커점
-  적합으로 확정한 뒤에만 격자를 씀.
+- **말할 수 있는 것**: 선택한 다섯 산출물은 observability 자료다. 8월 23·24일은 각
+  57/57 terminal outcome으로 수집됐다. 공식 KO/2 km lat/lon API가 존재한다.
+- **말할 수 없는 것**: 공식 lat/lon 파일을 아직 받지 않아 grid join은 0이다. Area aggregation
+  의미와 행정동 매핑도 미완이다. GK2A 결합 성능 증거는 **0**이다.
+- **하지 않을 것**: 4-anchor fitted offset을 operational 좌표로 쓰지 않는다. GK2A를 forcing 또는
+  국가 간 공통 live feature로 부르지 않는다.

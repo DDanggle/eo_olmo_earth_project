@@ -1,13 +1,12 @@
-"""오프셋 (XO2,YO2) 탐색. 캐시된 앵커만 씀 — API 재호출 없음.
+"""[AUDIT-ONLY/SUPERSEDED] 오프셋 (XO2,YO2) 탐색 기록.
 
-앵커가 4곳뿐이라 2자유도 탐색은 과적합될 수 있음. 그래서 최고점만 보지 않고
-**최고점을 내는 오프셋이 몇 개인지**(식별 가능성)를 같이 냄. 여러 개면 확정 불가임.
-CLD(3클래스)와 FOG(5클래스)를 함께 씀 — FOG가 더 판별력이 높음.
+공식 KMA KO/2 km lat/lon grid가 발견되어 operational 경로에서는 폐기했다. 고유 공간점 4개로
+offset을 선택하고 같은 자료로 평가하므로 최고점 개수나 반복 시각 수가 외부 타당성을 주지 않는다.
 """
 import gzip, json, math, os
 from collections import Counter, defaultdict
 from pathlib import Path
-ROOT = Path(os.path.expanduser("~/dong/ai_projects/data/gk2a"))
+ROOT = Path(os.environ.get("GK2A_ROOT", os.path.expanduser("~/dong/ai_projects/data/gk2a")))
 RE, SLAT1, SLAT2, OLON, OLAT = 6371.00877, 30.0, 60.0, 126.0, 38.0
 
 def ll2g(lon, lat, gk):
@@ -25,7 +24,9 @@ def ll2g(lon, lat, gk):
 cache={}
 for line in (ROOT/"_crs/area_anchors.jsonl").read_text(encoding="utf-8").splitlines():
     if line:
-        r=json.loads(line); cache[(r["dateTime"],r["dong"])]=(r["lon"],r["lat"],r["value"])
+        r=json.loads(line)
+        if r.get("resultType", "CLD") == "CLD":
+            cache[(r["dateTime"],r["dong"])]=(r["lon"],r["lat"],r["value"])
 print("캐시된 CLD 앵커 관측:", len(cache), " 고유 지점:", len({k[1] for k in cache}))
 
 grids={}

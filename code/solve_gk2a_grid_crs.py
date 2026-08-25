@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""GK2A 2km 격자의 좌표계를 실측으로 확정함 (추측 금지, 반증 가능한 가설 검정).
+"""[AUDIT-ONLY/SUPERSEDED] GK2A 2km 격자의 4-anchor LCC 후보 적합 기록.
+
+KMA API Hub가 KO/2 km 공식 lat/lon grid를 저장 순서대로 제공하므로 operational 좌표에는
+이 스크립트의 fitted offset을 쓰지 않는다. 96개 반복 비교의 고유 공간점은 4개뿐이고
+offset 선택과 평가가 같은 자료에서 이뤄져 projection family를 확정할 수 없다.
 
 문제: 한반도(All) 응답에 CRS가 없음 — `gridKm=2.0 xdim=320 ydim=397 x0=63.0 y0=333.0` 뿐임.
 좌표를 못 붙이면 격자를 AOI에 쓸 수 없음.
@@ -10,11 +14,11 @@
   2 km로 환산하면 XO2 = 43×2.5 = 107.5, YO2 = 136×2.5 = 340.
   응답의 x0/y0는 전체 2 km 격자 안에서 우리가 받은 부분집합의 시작 인덱스로 본다.
 
-검정 방법: `Area` 계열이 행정동코드에 대해 (lon, lat, value)를 줌.
+당시 검정 방법: `Area` 계열이 행정동코드에 대해 (lon, lat, value)를 줌.
   같은 시각의 `All` 격자에서 그 lon/lat이 떨어지는 칸의 값을 뽑아 **일치율**을 본다.
   가설이 맞으면 일치율이 높아야 하고, 틀리면 우연 수준(구름탐지 3클래스 → 약 33%)이어야 함.
 
-사전 등록 판정:
+당시 사전 등록 판정:
   일치율 ≥ 0.90  → H1 채택
   0.50 ~ 0.90    → 오프셋이 다름. XO2/YO2를 격자 탐색으로 보정한 뒤 재검정
   < 0.50         → H1 기각. 문서 확보 전까지 격자를 쓰지 않음
@@ -124,7 +128,10 @@ def main() -> None:
         for line in cache_p.read_text(encoding="utf-8").splitlines():
             if line:
                 r = json.loads(line)
-                cache[(r["dateTime"], r["dong"])] = (r["lon"], r["lat"], r["value"])
+                # 초기 CLD row에는 resultType이 없었음. 이후 FOG row가 같은 key를
+                # 덮어쓰면 CLD All과 FOG Area를 비교하는 잘못된 검정이 됨.
+                if r.get("resultType", "CLD") == "CLD":
+                    cache[(r["dateTime"], r["dong"])] = (r["lon"], r["lat"], r["value"])
 
     trials, hits = [], Counter()
     cache_f = cache_p.open("a", encoding="utf-8")
@@ -146,7 +153,7 @@ def main() -> None:
                         cache[ck] = a
                         cache_f.write(json.dumps(
                             {"dateTime": dt, "dong": dong, "lon": a[0], "lat": a[1],
-                             "value": a[2]}, ensure_ascii=False) + "\n")
+                             "resultType": "CLD", "value": a[2]}, ensure_ascii=False) + "\n")
                         cache_f.flush()
                 if a is None:
                     continue

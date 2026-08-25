@@ -131,19 +131,22 @@ bash /home/work/data/code/aihub_setup.sh get 71363 \
   ├─ getGk2afogAll_FOG_0000.json.gz     안개
   ├─ getGk2adcoewAll_COT_0000.json.gz   주간구름 광학두께
   ├─ getGk2aclaAll_CT_0000.json.gz      구름분석
-  │   … 03/06/09/12/15/18/21시 반복 (하루 5종 × 8슬롯 = 40개)
+  │   … 산출물별 유효 시간대에 반복 (현행 하루 57 예정 슬롯)
   └─ manifest.jsonl                      시각·바이트·sha256·http상태·resultCode
 ```
 
 응답 원본을 gzip으로 그대로 보존함. 파생 가공은 나중에 함.
 저장 위치는 `GK2A_ROOT` 환경변수로 바꿀 수 있음.
 
-**얼마나 자주**: 보존이 2일이므로 **2일에 한 번**이면 충분함. 매일 아니어도 됨.
+**얼마나 자주**: 경량화 endpoint의 창은 D-1/D-2다. 장애 여유를 위해 **매일 권장**한다.
+KMA API Hub의 별도 L2 archive와 product parity는 미검증이다.
 
 ```bash
-cd ~/dong/ai_projects/olmoearth_projects && set -a && . ./.env && set +a
+cd ~/dong/ai_projects/olmoearth_projects
+python3 _work/code/gk2a_snapshot.py --status    # API 키 불필요
+set -a && . ./.env && set +a
 python3 _work/code/gk2a_snapshot.py --gaps     # D-1, D-2 중 빠진 것만 보충
-python3 _work/code/gk2a_snapshot.py --status    # 쌓인 상태·빠진 날·용량
+python3 _work/code/gk2a_snapshot.py --status    # 날짜+57-slot 완전성
 ```
 
 `--gaps`는 이미 받은 파일을 건너뛰므로 여러 번 돌려도 안전함(idempotent).
@@ -170,11 +173,12 @@ python3 _work/code/gk2a_snapshot.py --status    # 쌓인 상태·빠진 날·용
 ```
 CLD, FOG        2시간 간격 × 24h = 12슬롯   (전천후)
 AOD, COT, CT    1시간 간격 08~18h = 11슬롯  (주간 전용)
-                                  하루 72 요청
+                                  하루 57 예정 슬롯
 ```
 
-**현재 상태 (2026-08-25)**: 하루 72파일 **1.07 MB** → **1년 약 0.39 GB.**
-전부결측 파일이 차지하는 용량은 2%뿐임. 정보량이 3배로 늘고 용량은 여전히 무시할 수준임.
+**현재 상태 (2026-08-25)**: 8월 23·24일 모두 **57/57 terminal outcome**
+(data 54 + NO_DATA 3). 구 스케줄 extra 18개를 포함해 실제 파일은 하루 72개, 평균 1.07 MB다.
+현행 57-slot 용량은 7일 뒤 다시 추정한다.
 
 ### 왜 이렇게 작은가 — 영상이 아니라 산출물이기 때문
 
@@ -219,7 +223,7 @@ dateTime=202210290300  -> code 99 (같음)
 |---|---|
 | AI-Hub 71363 (10m S2) | 한국 외부 stress test. 승인 나면 즉시 받는다 |
 | VWorld | 행정경계·POI 보조. 검증용 |
-| data.go.kr GK2A | **소급 조회 불가(2일 보존).** 전향적 운영 데모 전용. headline claim에 쓰지 않는다 |
+| data.go.kr GK2A | 경량화 endpoint는 D-1/D-2. KMA L2 archive parity 미검증. 한국의 전향적 observability 데모 전용 |
 | 71363 관측조건 | Sentinel-2 SCL 밴드 또는 STAC `eo:cloud_cover`로 대체 — P0에서 함께 확보 |
 | 건축HUB | 건물 라벨 교차확인 후보 |
 
