@@ -145,7 +145,13 @@ contract gate가 silent error를 줄이는지 측정한다. quantizer-aware adap
 `R@1=0`은 좌표 호환성 실패의 강한 증거지만 task failure 자체는 아니다. frozen-head 실험이 실패하면
 논문 headline을 `silent high-confidence error`에서 `representation compatibility audit`로 낮춘다.
 
-## 2026-08-24 확정 — P0 실험 경로 (C1·C2-A 종결 후)
+## [SUPERSEDED 2026-08-25] 2026-08-24 확정 — PhilEO 중심 P0 경로
+
+> **이 절은 더 이상 유효하지 않다.** 아래 「2026-08-25 재확정」이 대체한다.
+> 폐기 이유: (1) PhilEO nshot 아카이브에 building density가 없어 task가 2개뿐이었고,
+> (2) M8에서 10밴드 결측을 두 릴리스에 대칭적으로 줄 수 없음이 확인됐으며,
+> (3) AI-Hub 71363이 같은 타일에 3 task + 12밴드 물질화 가능 조건을 제공한다.
+> 기록으로만 남긴다 (L3: 폐기한 계획도 지우지 않는다).
 
 M7·M8로 두 사실이 확정됐다. (1) M1의 same-token 비교는 유효하다. (2) v1.2에서는
 partial-group missingness를 표현할 수단이 없고 그 무시가 조용하다.

@@ -24,7 +24,8 @@
 | M9 | AI-Hub 71363 인벤토리·split 감사 | **공식 split 사용 불가 (valid 110/110 누수)** | 완료 |
 | M10 | AOI 군집 spatial holdout 구축·동결 (C2-S) | **게이트 6/6 통과, 동결 완료** | 완료 |
 
-**아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 표현 기여,
+**아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 **표현 기여**
+(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 여전히 0),
 스위스·네팔 산악 데이터, 압축(PQ/int8) 하에서의 거동, ADC baseline.
 
 ---
@@ -420,7 +421,8 @@ test에서 뺐고, train으로 옮기면 공간 분리가 깨지므로 **어느 
 |---|---|
 | GLAMOS·swissALTI3D (스위스) | **0** |
 | ICIMOD·HKH (네팔) | **0** |
-| 한국 공공데이터 (BuildingHUB·EIA·VWorld PNU·GK2A·FarMap) | **0** |
+| 한국 공공데이터 — 표현 기여(모델 성능) | **0** (2026-08-25 현재도 미측정) |
+| 한국 공공데이터 — 접근·계약 감사 | M9·M10에서 수행 (AI-Hub 71363, GK2A 10/10, VWorld) |
 | 사람 판독 라벨 | **0** |
 
 `MOUNTAIN_EVIDENCE_TRANSFER.md`의 Phase 0(Glacial-Lake-Bench·Landslide4Sense)은

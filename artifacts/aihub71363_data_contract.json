@@ -1,0 +1,112 @@
+{
+  "L0_source_zips": [
+    {
+      "bytes": 1273613,
+      "name": "01.메타데이터_03._Sentinel2.zip",
+      "relpath": "310.AI기반_국립공원_변화탐지_모니터링_플랫폼_구축/01-1.정식개방데이터/Other/01.메타데이터_03._Sentinel2.zip",
+      "sha256": "2b02c288816ceec83289dcdebeb724a08a9608b240afaab3a3be33c55fe577e8"
+    },
+    {
+      "bytes": 832667702,
+      "name": "02.SHP_03._Sentinel2.zip",
+      "relpath": "310.AI기반_국립공원_변화탐지_모니터링_플랫폼_구축/01-1.정식개방데이터/Other/02.SHP_03._Sentinel2.zip",
+      "sha256": "684a0190f8e195ad744fc01f2815dc06e11c3123aa1180c5913aa39175b202c4"
+    },
+    {
+      "bytes": 1464861265,
+      "name": "TS_03._Sentinel2.zip",
+      "relpath": "310.AI기반_국립공원_변화탐지_모니터링_플랫폼_구축/01-1.정식개방데이터/Training/01.원천데이터/TS_03._Sentinel2.zip",
+      "sha256": "2c46de5365614580a166d6fef036c1458209f365dc90cd4e81efda2356ec0ba1"
+    },
+    {
+      "bytes": 15767223,
+      "name": "TL_01.LABEL_03._Sentinel2.zip",
+      "relpath": "310.AI기반_국립공원_변화탐지_모니터링_플랫폼_구축/01-1.정식개방데이터/Training/02.라벨링데이터/TL_01.LABEL_03._Sentinel2.zip",
+      "sha256": "fc83dc7e61f6787ff595a8dd3ceb9414a149d66aa94fa2c077ed9b89679a319c"
+    },
+    {
+      "bytes": 758875019,
+      "name": "TL_02.JSON_03._Sentinel2.zip",
+      "relpath": "310.AI기반_국립공원_변화탐지_모니터링_플랫폼_구축/01-1.정식개방데이터/Training/02.라벨링데이터/TL_02.JSON_03._Sentinel2.zip",
+      "sha256": "1b442e8ea0eb633a6eec430deea4c53191a8af588157ec0d5f62ed2df9aa6b20"
+    },
+    {
+      "bytes": 158072485,
+      "name": "VS_03._Sentinel2.zip",
+      "relpath": "310.AI기반_국립공원_변화탐지_모니터링_플랫폼_구축/01-1.정식개방데이터/Validation/01.원천데이터/VS_03._Sentinel2.zip",
+      "sha256": "394af1ce6a043e461bdba3ab7a72bad1f5e4e6c657499fc92f1bbcce776e746a"
+    },
+    {
+      "bytes": 1716653,
+      "name": "VL_01.LABEL_03._Sentinel2.zip",
+      "relpath": "310.AI기반_국립공원_변화탐지_모니터링_플랫폼_구축/01-1.정식개방데이터/Validation/02.라벨링데이터/VL_01.LABEL_03._Sentinel2.zip",
+      "sha256": "9f1c837022e270a8926b5665e5a958c59fc0b9d6c0d9afd31be3ced3c86389b2"
+    },
+    {
+      "bytes": 86435255,
+      "name": "VL_02.JSON_03._Sentinel2.zip",
+      "relpath": "310.AI기반_국립공원_변화탐지_모니터링_플랫폼_구축/01-1.정식개방데이터/Validation/02.라벨링데이터/VL_02.JSON_03._Sentinel2.zip",
+      "sha256": "118e015ed58cd609ff0299706425843b94f971f78529d0266e85210cda4e79c2"
+    }
+  ],
+  "L1_derived": {
+    "inventory.jsonl": {
+      "bytes": 672843,
+      "sha256": "617124844839e3b0fea44e060b139525792678418865692e25db32ae400b4f8b"
+    },
+    "inventory_audit.json": {
+      "bytes": 1746,
+      "sha256": "238d40620521e21b5c80216dd2058471a6a490ebff528ceb3bb384f1a37925c8"
+    },
+    "loco_folds.json": {
+      "bytes": 1563,
+      "sha256": "e21d6637d1a9deae7ac44ee7822989322574eb57293afd476b3eb8a1024e3bb9"
+    },
+    "spatial_holdout.json": {
+      "bytes": 9811,
+      "sha256": "30b888960ed0eef46fd34e617659664db58f2e871e3b84647b23eea8f716c080"
+    },
+    "split_leakage_audit.json": {
+      "bytes": 2654,
+      "sha256": "09b6b6fb8e04829f4094a4a1731d702ee4d2135ae49f8288fc17b10f701062ea"
+    },
+    "tile_assignment.jsonl": {
+      "bytes": 37939,
+      "sha256": "2f2bb17a4904bf22327fa6937d47eaf1c6ebf285edcd04fc91f72fc09f651223"
+    }
+  },
+  "L2_geometry_rows": 2699,
+  "L2_geometry_sha256": "d4e93ecac539fabd3d14a8f691533b68b4444b0a15bec9fbdb941f49e0f83a8d",
+  "L2_label_features": 187168,
+  "L2_label_sha256": "d3aa2c4766b2c2241b8c10fa96c13381070667289a59fb54d575c70c1bdda91b",
+  "L3_code": {
+    "aihub_setup.sh": {
+      "bytes": 3411,
+      "sha256": "074ac049c69edca55b3b22c61930c94169017157ae8b7ae9f12f1e39cca6a261"
+    },
+    "audit_aihub_71363.py": {
+      "bytes": 7875,
+      "sha256": "d88f96c9bb8cc34abc5a93941ead642bfdf6617dc290fe33df2c675a8f99b55b"
+    },
+    "audit_aihub_split_leakage.py": {
+      "bytes": 6067,
+      "sha256": "d31ee3b0af27f154b569cebb7ecea1461bfe6576c562ff974bf2d3d23ef07cf3"
+    },
+    "build_aihub_inventory.py": {
+      "bytes": 10245,
+      "sha256": "6aa0cb77a84b861f24555616cf505d14fdc97cd6f06f3740f954eb1a5ddb00cb"
+    },
+    "build_aihub_spatial_holdout.py": {
+      "bytes": 14418,
+      "sha256": "a0b9156acf0acd257d2c8977fb1b49fb394fe974ac9dcb438a0220d3c0afcaf4"
+    }
+  },
+  "L3_git_commit": null,
+  "dataset": {
+    "datasetkey": 71363,
+    "portal": "aihub.or.kr",
+    "subset": "Sentinel-2 10m only"
+  },
+  "schema": "aihub-71363-data-contract-v1",
+  "seal_sha256": "5b088adadbc12693f5ba0bc3fc6c7fb597f53a89376a1b39e0a84ea2b5f479b4"
+}

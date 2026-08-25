@@ -21,7 +21,9 @@ M9에서 공식 split이 사용 불가로 판정됐다 (valid 타일 110/110이 
 
 동결
   - 산출물에 각 split의 타일 목록 SHA-256을 박는다. 이후 이 해시가 바뀌면 split이 바뀐 것이다.
-  - 탐색에 이미 쓴 공식 valid 300은 test로 쓰지 않는다 (겹치면 경고를 남긴다).
+  - 탐색에 이미 쓴 공식 valid 300은 test로 쓰지 않는다.
+    주의: S4는 **타일 ID 교집합 0**만 검사한다. 기탐색 타일과의 모든 공간적 근접까지
+    0이라는 뜻은 아니다. 게이트 이름을 그 범위에 맞췄다.
 """
 from __future__ import annotations
 
@@ -267,7 +269,7 @@ def main() -> None:
         "S1_inter_cluster_gap_ge_one_tile": min_gap >= 10240.0,
         "S2_test_covers_both_rare": set(test_cov) >= set(RARE),
         "S3_val_covers_both_rare": set(val_cov) >= set(RARE),
-        "S4_test_not_from_explored_valid": len(overlap_with_explored) == 0,
+        "S4_test_has_no_explored_valid_tile_ids": len(overlap_with_explored) == 0,
         "S5_all_tiles_assigned": len(assign) == total_tiles,
         "S6_val_test_rare_ge_min": all(
             rare_counts(sp)[r] >= MIN_RARE_TILES for sp in ("val", "test") for r in RARE),
