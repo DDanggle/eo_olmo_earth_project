@@ -102,6 +102,8 @@ r_t       live residual       — 강우·적설·경보·freshness (cutoff 유�
 | **A2** | z_global + local head | 공유 표현 + 지역 head |
 | **A3** | A2 + z_region | **E_static** |
 | **A4** | A3 + r_t | **E_live** |
+| **T-m** | A4를 Höhn 11지역에서 학습 → Korea 적용 | matched-annotation 전이 |
+| **T-x** | A4를 Italy에서 학습 → Korea 적용 | mismatched-annotation 전이. `T-m − T-x` = **E_annotation** |
 | **B1** | region-ID one-hot | residual이 그냥 "지역 식별자"인지 반증 |
 | **B2** | 위경도 (lat/lon) | 같음 |
 | **B3** | raw-spectral retrieval | 임베딩이 필요하긴 한지 |
@@ -109,6 +111,7 @@ r_t       live residual       — 강우·적설·경보·freshness (cutoff 유�
 | **C2** | Prithvi-EO-2.0 **또는** TerraMind 하나 | 방향이 backbone 무관한지 |
 
 `E_transfer` = A4의 LOCO 성능 − A0(hold-out 지역 자체 학습).
+`E_annotation` = T-m − T-x. 도화 기준 차이가 전이에 주는 단독 손실임.
 `E_refresh` = FoldRefresh arm에서만. **local/live 정확도 기여로 세지 않는다.**
 
 ## 2. 평가 단위와 지표
@@ -125,7 +128,7 @@ r_t       live residual       — 강우·적설·경보·freshness (cutoff 유�
 ```
 P1  Sen12Landslides **저자 고정 11지역** leave-one-region-out  ← headline spine (공개)
 P2  G-A annotation-process 감사   **[완료 M12]**        ← 모든 cross-region 주장의 전제
-P3  한국(AI-Hub, 봉인됨 M10)을 12번째 지역으로 추가        ← annotation shift 측정
+P3  한국(봉인됨 M10)을 12번째 지역으로 + T-m/T-x arm     ← annotation shift 측정 (M13)
 P4  네팔·스위스 access audit 통과분만 추가                ← live residual 확장
 P5  FoldRefresh continuity/cost 표                       ← E_refresh
 ```
@@ -167,9 +170,16 @@ annotation 차이를 "확인하고 제외"하는 게 아니라 **측정하고 �
 | A5 | 날짜 3종 존재율 + `event_conf` 분포 | cutoff replay 가능성 |
 | A6 | type(현상) 구성 | debris flow vs ice avalanche |
 
-**2단계 — 교락 판정 (임계값 사전 고정)**
+**2단계 — 교락 판정 (임계값 사전 고정. M13에서 2회 수정했음)**
+
 - 최다 저자 점유율 ≥ **0.90** → 그 지역은 `author-confounded`
-- 지역쌍 MMU 비 ≥ **10×** → 그 쌍은 `직접 비교 불가`
+- **클리핑 정규화 후** MMU(p1) 비 ≥ **10×** → `직접 비교 불가`
+- **median 면적 비 ≥ 10×** → `분포 이질` (MMU만으로는 부족했음)
+
+**클리핑 정규화가 왜 필요한가**: AI-Hub 한국 폴리곤은 1024×1024 타일 경계에서 잘려
+100 m² 미만 사각형 조각이 150개(1.80%) 섞여 있었음. 그대로 재면 MMU가 0.046 m²로 나와
+Italy와 1,367배 차이가 남. 400 m² 하한으로 2.74%만 버리면 MMU가 549.1 m²가 되고
+Italy와 8.7배가 됨. **잘린 상태가 다른 데이터셋끼리 MMU를 비교하면 무효임.**
 
 **3단계 — 통제 (제외가 아니라 통제가 기본)**
 
@@ -183,6 +193,28 @@ annotation 차이를 "확인하고 제외"하는 게 아니라 **측정하고 �
 | 4 | 해당 지역을 headline에서 제외 | 위 셋 모두 실패 |
 
 M12 기준 **1번이 통과했다** (11지역, MMU 비 20×).
+
+**3.5단계 — annotation-shift를 제거만 하지 말고 **측정**함 (M13)**
+
+한국을 잰 결과 Höhn 11지역 범위 안에 들어갔음 (MMU 549.1, median 5,731.8).
+따라서 한국은 저자 고정 LOCO의 **12번째 지역**이 됨.
+
+동시에 Italy는 한국과 median 14배 차이나는 **최대 이질 짝**임. 이걸 버리지 않고 2×2로 씀.
+
+| | source → Korea | 도화 기준 |
+|---|---|---|
+| **matched** | Höhn 11지역 → Korea | 같음 (M13 확인) |
+| **mismatched** | Italy → Korea | median 14×, Italy가 전체의 63% |
+
+**두 값의 차이 = annotation shift 단독 효과**임. 지형 차이와 분리됨.
+그리고 `Italy → Korea`는 "라벨이 많은 곳에서 배워 라벨 없는 곳에 쓴다"는 현실 배치
+시나리오와 정확히 같음. 따라서 headline이 아니라 **배치 스트레스 테스트**로 씀.
+
+주장 문구는 이렇게 제한함.
+
+> matched-annotation 전이에서 얻은 이득이 mismatched-annotation 전이에서 얼마나 남는가.
+
+`Italy 학습 모델이 한국에 잘 적용된다`고 단독으로 쓰지 않음. matched 짝과 함께 보고함.
 
 **4단계 — 민감도와 반증**
 - 면적 하한값을 ±50% 흔들어 결론이 뒤집히는지 본다. 뒤집히면 결론은 하한 선택의 산물이다
