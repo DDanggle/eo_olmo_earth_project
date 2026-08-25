@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# GPU1 전용 서버 실행 래퍼. 2026-08-25 사용자 지시 — GPU0은 건드리지 않는다.
+#
+#   ./bin/gpu1 'python code/train.py --foo'
+#
+# 하는 일
+#   1. GPU1이 비어 있는지 확인한다 (다른 프로세스가 있으면 거부)
+#   2. CUDA_VISIBLE_DEVICES=1 과 env -u PYTHONPATH 로 감싼다
+#   3. 긴 작업은 --bg 를 주면 setsid nohup 으로 분리한다
+set -euo pipefail
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BG=0
+if [ "${1:-}" = "--bg" ]; then BG=1; shift; fi
+CMD="${*:?실행할 명령이 필요하다}"
+
+# GPU1 점유 확인 — 문자열이 아니라 프로세스 목록으로 판정한다
+BUSY=$("$HERE/nx" sh 'nvidia-smi --query-compute-apps=gpu_uuid,pid,used_memory --format=csv,noheader 2>/dev/null | wc -l' 2>/dev/null | tail -1 | tr -d " \r")
+if [ "${BUSY:-0}" != "0" ]; then
+    echo "▸ GPU에 실행 중 프로세스가 있다 (${BUSY}개). nvidia-smi 로 확인하고 GPU1이 비었는지 판단한 뒤 진행하라." >&2
+    "$HERE/nx" sh 'nvidia-smi --query-compute-apps=pid,used_memory,process_name --format=csv' >&2
+    exit 1
+fi
+
+LOG="/home/work/data/olmoearth/logs/gpu1_$(date +%Y%m%d_%H%M%S).log"
+if [ "$BG" = "1" ]; then
+    "$HERE/nx" sh "mkdir -p /home/work/data/olmoearth/logs && cd /home/work/data && setsid nohup env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 bash -lc $(printf '%q' "$CMD") > $LOG 2>&1 < /dev/null & echo \"▸ 백그라운드 시작. 로그: $LOG\""
+else
+    "$HERE/nx" sh "mkdir -p /home/work/data/olmoearth/logs && cd /home/work/data && env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 bash -lc $(printf '%q' "$CMD") 2>&1 | tee $LOG"
+fi

@@ -232,7 +232,7 @@ backbone:      arm 2(C1,C2) × 11폴드 × seed 1               =  22 run
                                                        합계  = 264 run
 ```
 
-H200 1장, frozen backbone + 가벼운 head 기준. **1 run이 10분을 넘으면 44시간을 넘는다.**
+**H200 GPU1 1장** (`CUDA_VISIBLE_DEVICES=1`, 사용자 지시), frozen backbone + 가벼운 head 기준. **1 run이 10분을 넘으면 44시간을 넘는다.**
 따라서 착수 전에 1 run 시간을 재고, 초과하면 **seed를 3→1로 줄이거나 LOCO를 11→8폴드로**
 줄이는 것을 미리 정한다. 돌리다가 줄이면 선택 편향이 들어간다.
 

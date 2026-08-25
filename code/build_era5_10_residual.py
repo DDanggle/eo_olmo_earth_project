@@ -159,13 +159,22 @@ def main() -> None:
                         "dewpoint_C": num(rec.get("TD", "")),
                         "surface_pressure_hPa": num(rec.get("PA", "")),
                         "wind_u_ms": u, "wind_v_ms": v,
+                        # 강수는 공백이 "무강수"를 뜻함 (M22 실측: 4~10월 98.2%,
+                        # 11~3월 98.8%가 공백 — 계절 규칙이 아니라 0을 생략하는 것).
+                        # 원값과 가정을 분리해 둘 다 보존함. 조용히 0으로 채우지 않음.
                         "precipitation_mm": num(rec.get("RN", "")),
+                        "precipitation_mm_zerofilled": (
+                            num(rec.get("RN", "")) if num(rec.get("RN", "")) is not None
+                            else 0.0),
+                        "precip_was_blank": num(rec.get("RN", "")) is None,
+                        "precipitation_day_mm": num(rec.get("RN_DAY", "")),
+                        "precip_intensity_mmh": num(rec.get("RN_INT", "")),
                         # 보조 (관측조건·눈사태용)
                         "cloud_total_tenths": num(rec.get("CA_TOT", "")),
                         "snow_depth_cm": num(rec.get("SD_TOT", "")),
                     }
                     for k in ("temperature_C", "dewpoint_C", "surface_pressure_hPa",
-                              "wind_u_ms", "precipitation_mm"):
+                              "wind_u_ms"):
                         if row[k] is None:
                             missing_counter[k] += 1
                     rows.append(row)
@@ -186,13 +195,20 @@ def main() -> None:
             "wind": "WD(36방위)×10도를 바람이 불어오는 방향으로 보고 u=-WS·sin(θ), v=-WS·cos(θ)",
             "units": "원단위 보존 (°C, hPa, m/s, mm). ERA5의 K·Pa 변환은 학습 직전 단계에서 명시적으로 함",
             "interpolation": "없음. 최근접 지점 값만 사용",
+            "precipitation": ("ASOS는 무강수를 생략함(M22). 원값 precipitation_mm(None 가능)과 "
+                              "가정 적용값 precipitation_mm_zerofilled(0.0 채움)을 분리 보존하고 "
+                              "precip_was_blank 로 표시함. 산사태 forcing에는 시각값이 아니라 "
+                              "선행강우 누적이 필요하므로 별도 설계가 남았음"),
         },
         "dates": len(dates), "clusters": len(cl2stn),
         "rows_total": len(rows), "rows_primary": n,
         "coverage_primary": {k: cov(k) for k in
                              ("temperature_C", "dewpoint_C", "surface_pressure_hPa",
-                              "wind_u_ms", "precipitation_mm", "cloud_total_tenths",
-                              "snow_depth_cm")},
+                              "wind_u_ms", "precipitation_mm",
+                              "precipitation_mm_zerofilled", "precipitation_day_mm",
+                              "cloud_total_tenths", "snow_depth_cm")},
+        "precip_blank_rate_primary": (
+            round(sum(1 for r in primary if r["precip_was_blank"]) / n, 4) if n else None),
         "missing_counts": dict(missing_counter.most_common(12)),
         "file": str(OUT / "era5_10_residual.jsonl"),
     }
