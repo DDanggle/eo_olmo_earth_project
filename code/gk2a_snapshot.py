@@ -45,16 +45,27 @@ KST = timezone(timedelta(hours=9))
 ROOT = Path(os.environ.get("GK2A_ROOT",
             str(Path.home() / "dong/ai_projects/data/gk2a")))
 
-# M-기록에서 확정한 (오퍼레이션, resultType) 조합
+# M-기록에서 확정한 (오퍼레이션, resultType) 조합과 **유효 시간대**.
+#
+# 2026-08-24분을 시각별로 검사한 결과 (유효 픽셀 비율):
+#            00   03   06   09   12   18   21
+#   CLD     100  100  100  100  100  100  100   ← 전천후
+#   FOG     100  100  100  100  100  100  100   ← 전천후
+#   AOD       0    0    0   33   27   20    0   ← 주간 전용
+#   COT       0    0    0   52   60   63    0   ← 주간 전용
+#   CT        0    0    0   57   64   66    0   ← 주간 전용
+#
+# AOD·COT·CT는 태양광 반사가 필요해 야간에는 격자 전체가 -9999임. 3시간 격자로는
+# 주간 산출물을 8슬롯 중 3개만 잡았음. 산출물별로 시간대를 따로 잡음.
+DAY_HOURS   = list(range(8, 19))          # 08~18 KST. 06시는 태양고도가 낮아 실패함
+ALLDAY_HOURS = list(range(0, 24, 2))      # 2시간 간격
 PRODUCTS = [
-    ("getGk2acldAll", "CLD"),
-    ("getGk2aappsAll", "AOD"),
-    ("getGk2afogAll", "FOG"),
-    ("getGk2adcoewAll", "COT"),
-    ("getGk2aclaAll", "CT"),
+    ("getGk2acldAll",   "CLD", ALLDAY_HOURS),
+    ("getGk2afogAll",   "FOG", ALLDAY_HOURS),
+    ("getGk2aappsAll",  "AOD", DAY_HOURS),
+    ("getGk2adcoewAll", "COT", DAY_HOURS),
+    ("getGk2aclaAll",   "CT",  DAY_HOURS),
 ]
-# 하루에 받을 관측 슬롯 (KST 시각). 2일 보존이므로 어제 것을 안전하게 받음.
-SLOT_HOURS = [0, 3, 6, 9, 12, 15, 18, 21]
 SLEEP_S = 4          # 동시호출 제한(code 99 "이미 호출중") 회피
 # 한반도(All) 응답은 item 1개에 격자 전체가 들어 있음
 # ("gridKm":"2.0","xdim":"320","ydim":"397","value":"0,0,0,...") — 실측 확인.
@@ -134,10 +145,12 @@ def collect(target) -> None:
                     done.add(r["file"])
 
     ok = fail = skip = 0
+    jobs = [(hh, op, rt) for op, rt, hours in PRODUCTS for hh in hours]
+    jobs.sort()
     with manifest.open("a", encoding="utf-8") as mf:
-        for hh in SLOT_HOURS:
+        for hh, op, rt in jobs:
             dt = f"{target:%Y%m%d}{hh:02d}00"
-            for op, rt in PRODUCTS:
+            if True:
                 fname = f"{op}_{rt}_{hh:02d}00.json.gz"
                 if fname in done:
                     skip += 1
