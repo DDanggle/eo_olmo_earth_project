@@ -100,6 +100,7 @@ def main() -> None:
 
     for target in targets:
         collect(target)
+        collect_anchors(target)
 
 
 def report_status() -> None:
@@ -129,6 +130,70 @@ def report_status() -> None:
         print("          (D-1/D-2 안에 있는 것만 --gaps 로 보충 가능. 그보다 오래된 것은 영구 소실)")
     for name, n, b in rows[-7:]:
         print(f"  {name}  파일{n:3d}  {b/1e6:5.2f} MB")
+
+
+# Area(행정구역) 앵커. 격자 좌표계 확정과 즉시 사용 가능한 residual 둘 다에 쓰임.
+# 목록 파일이 있으면 그것을 씀 — 행정동코드 한 줄씩. 없으면 검증된 4개만 씀.
+ANCHOR_FILE = Path(os.environ.get("GK2A_ANCHORS", str(ROOT / "_crs" / "dongcodes.txt")))
+DEFAULT_ANCHORS = ["1111051500", "1114052000", "2611051000", "3111051000"]
+
+
+def anchors() -> list[str]:
+    if ANCHOR_FILE.exists():
+        codes = [l.strip() for l in ANCHOR_FILE.read_text(encoding="utf-8").splitlines()
+                 if l.strip() and not l.startswith("#")]
+        if codes:
+            return codes
+    return DEFAULT_ANCHORS
+
+
+def collect_anchors(target) -> None:
+    """행정구역(Area) 계열 수집. lon/lat이 함께 오므로 좌표계 없이도 바로 쓸 수 있음.
+
+    이 자료도 2일 보존이므로 격자와 같은 날 받아야 짝이 맞음.
+    """
+    key = os.environ["DATA_GO_KR_SERVICE_KEY"]
+    codes = anchors()
+    outdir = ROOT / "_crs"
+    outdir.mkdir(parents=True, exist_ok=True)
+    path = outdir / "area_anchors.jsonl"
+    seen = set()
+    if path.exists():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line:
+                r = json.loads(line)
+                seen.add((r["dateTime"], r["dong"], r.get("resultType", "CLD")))
+    ok = skip = fail = 0
+    with path.open("a", encoding="utf-8") as f:
+        for hh in ALLDAY_HOURS:
+            dt = f"{target:%Y%m%d}{hh:02d}00"
+            for op, rt in (("getGk2acldArea", "CLD"), ("getGk2afogArea", "FOG")):
+                for dong in codes:
+                    if (dt, dong, rt) in seen:
+                        skip += 1
+                        continue
+                    u = (f"{BASE}/{op}?ServiceKey={key}&pageNo=1&numOfRows=1"
+                         f"&dataType=JSON&dateTime={dt}&resultType={rt}&dongCode={dong}")
+                    status, body = fetch(u)
+                    time.sleep(SLEEP_S)
+                    try:
+                        d = json.loads(body.decode())
+                        if d["response"]["header"]["resultCode"] != "00":
+                            fail += 1
+                            continue
+                        it = ((d["response"].get("body") or {}).get("items")
+                              or {}).get("item") or [{}]
+                        it = it[0]
+                        f.write(json.dumps({"dateTime": dt, "dong": dong,
+                                            "resultType": rt, "lon": float(it["lon"]),
+                                            "lat": float(it["lat"]),
+                                            "value": it.get("value")},
+                                           ensure_ascii=False) + "\n")
+                        f.flush()
+                        ok += 1
+                    except Exception:  # noqa: BLE001
+                        fail += 1
+    print(f"    앵커 {len(codes)}개 · ok={ok} skip={skip} fail={fail}")
 
 
 def collect(target) -> None:
