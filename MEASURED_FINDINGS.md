@@ -23,6 +23,8 @@
 | M8 | v1.2 mask 소비 경로 실측 (C2-A) | **게이트 6/6 통과 — M1 방어 완결** | 완료 |
 | M9 | AI-Hub 71363 인벤토리·split 감사 | **공식 split 사용 불가 (valid 110/110 누수)** | 완료 |
 | M10 | AOI 군집 spatial holdout 구축·동결 (C2-S) | **게이트 6/6 통과, 동결 완료** | 완료 |
+| M11 | Sen12Landslides 접근 감사 (G-0) | **통과 — CC BY 4.0, 지역 단위 선택 수신 가능** | 완료 |
+| M12 | annotation-process 감사 (G-A) | **16지역 중 13이 저자 교락, MMU 최대 1,916배** | 완료 |
 
 **아직 한 번도 측정하지 않은 것**: downstream task 정확도, 한국 공공데이터의 **표현 기여**
 (접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 여전히 0),
@@ -412,6 +414,81 @@ test에서 뺐고, train으로 옮기면 공간 분리가 깨지므로 **어느 
   같은 head를 두 분할에서 학습·평가해야 수치가 나온다 (C2-B에서 함께 잰다).
   test 군집의 희소 클래스 절대량(벌목 26 / 산사태 22 타일)은 작으므로, 신뢰구간을
   spatial bootstrap으로 반드시 붙인다.
+
+## M11. Sen12Landslides 접근 감사 — G-0 통과
+
+**근거**: `sen12landslides/audit/access_audit.json`, `code/audit_sen12landslides_access.py`
+**출처**: HuggingFace `paulhoehn/Sen12Landslides` (실물 확인. 논문·검색 요약을 근거로 쓰지 않았다)
+
+| 항목 | 실측 |
+|---|---|
+| 라이선스 | **CC BY 4.0** (`doi:10.57967/hf/5883`) — 파생물 공개 가능 |
+| 총 용량 | 170.5 GB |
+| harmonized S2 | **39.42 GB / 28 파트** |
+| 파트 구성 | **지역별로 묶여 있다** (part01 = chimanimani 500개) → **필요한 지역만 수신 가능** |
+| 패치 | 128×128 px @10 m, **15 timestep** |
+| S2 밴드 | **B02–B12 (10밴드)** + SCL + MASK + DEM |
+| 메타 속성 | `event_date`, `date_confidence`, `pre_post_dates`, `annotated`, `crs`, `center_lat/lon` |
+| inventory | `inventories.zip` 22 MB, shapefile 1개 (74,956 폴리곤) |
+
+**두 가지가 설계에 직접 영향을 준다.**
+
+1. `data_harmonized`가 **ESA Baseline 04.00의 +1000 DN offset을 이미 보정**했다
+   (2022-01-25 이후). 앞서 걱정한 PB04 문제를 데이터셋 저자가 처리했다.
+   단 `data_raw`는 보정하지 않았으므로 **둘을 섞으면 안 된다.**
+2. S2가 **B02–B12 10밴드로 B01·B09가 없다.** PhilEO와 같은 구조다. 즉 M8의 비대칭이
+   여기서도 그대로 적용된다 — v1에서는 band_set 2 부재로 표현 가능하고 v1.2에서는 무시된다.
+   설계가 정한 "v1 + B01·B09 band-group missing mask" 경로가 맞다는 뜻이다.
+
+## M12. annotation 교락 — Sen12Landslides의 지역은 라벨 저자와 거의 같다
+
+**근거**: `sen12landslides/audit/annotation_audit.json`, `code/audit_annotation_process.py`
+**질문 (R2/G-A)**: leave-one-region-out 성능 하락이 지형 차이인가 라벨 차이인가?
+
+### 측정 (inventory 74,956 폴리곤, 16지역, 저자 5명)
+
+| region | 폴리곤 | MMU(p1) m² | median m² | 최다 저자 점유 |
+|---|---|---|---|---|
+| Italy | 47,522 | **62.9** | 409.8 | Ferrario 1.00 |
+| DominicaMaria | 10,172 | 219.7 | 3,191.9 | Emberson 1.00 |
+| Newzealand | 3,242 | 1,038.2 | 7,905.8 | Höhn 1.00 |
+| Chimanimani | 2,513 | 441.7 | 2,813.4 | Höhn 1.00 |
+| Kyrgyzstan1 | 2,405 | 2,230.3 | 8,640.2 | Höhn 1.00 |
+| Hokkaido | 2,340 | 562.0 | 7,391.3 | Höhn 1.00 |
+| Indonesia | 2,097 | 8,757.4 | 26,769.9 | Höhn 0.91 |
+| USA_Alaska | 103 | **120,569.4** | 466,259.8 | Belair 1.00 |
+| **Nepal** | **8** | 4,640.2 | 72,720.5 | Höhn 1.00 |
+
+- **13/16 지역이 단일 저자 90% 이상** → leave-one-region-out은 부분적으로
+  leave-one-**annotator**-out이다.
+- **MMU 비가 최대 1,916배** (Italy 62.9 vs USA_Alaska 120,569). 10배 이상 차이나는 지역쌍 **50개**.
+- median 면적이 409.8 m²(Italy) ~ 466,259.8 m²(USA_Alaska)로 **1,100배** 퍼져 있다.
+
+### 내가 제안한 harmonization은 실패한다
+
+전 지역 공통 면적 하한을 `max(MMU) = 120,569 m²`로 잡으면 Italy는 p99가 6,965 m²이므로
+**사실상 전멸한다.** 단순 면적 하한으로는 조화가 불가능하다. 이 실패를 기록으로 남긴다.
+
+### 해결 — 저자를 고정한 LOCO
+
+Höhn et al. (2025) 단독으로 **14지역 16,306 폴리곤**을 덮는다.
+
+| | 전체 저자 | **Höhn 단독** |
+|---|---|---|
+| 지역 | 16 | 14 (≥100 폴리곤 **11**) |
+| MMU 비 | **1,916×** | **20×** |
+| 공통 하한 8,821.8 m² 적용 | Italy 전멸 | 11지역 **15.2~99.0%** 보존, 합계 7,921 폴리곤 |
+
+11지역: Chimanimani · China · Hiroshima · Hokkaido · Indonesia · Itogon ·
+Kyrgyzstan1 · Kyrgyzstan2 · LanaoDelNorte · Newzealand · Thrissur
+
+- **말할 수 있는 것**: annotation 교락을 **설계로 제거**할 수 있다. 저자 고정 11지역 LOCO는
+  독립 표본 11개이고, 3국 LOCO(n=3)보다 신뢰구간을 만들 수 있다.
+- **말할 수 없는 것**: 저자를 고정해도 MMU가 20배 남는다. 면적 하한의 보존율이
+  Chimanimani 15.2%로 낮으므로, 하한값에 대한 **민감도 분석**이 필요하다.
+  라벨 정확도 자체(폴리곤이 옳은가)는 검증하지 않았다.
+- **설계 변경**: **네팔은 이 inventory에서 폴리곤이 8개뿐이다.** 문서의 네팔 arm은
+  Sen12Landslides로 성립하지 않는다. BIPAD/ICIMOD에서 따로 와야 하고 headline 지역이 아니다.
 
 ## 이 장부에 없는 것 (혼동 방지)
 

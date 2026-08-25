@@ -12,16 +12,17 @@
 한국을 뺀 두 나라(네팔·스위스)는 snapshot join을 **한 번도 하지 않았다.**
 어느 한 나라가 막히면 headline이 2-way로 무너지는데, 그 경우의 대비가 문서에 없다.
 
-**그런데 이미 기록된 자산에 답이 있다.** Sen12Landslides는 **15지역** S1/S2+DEM,
-refined 74,956 landslides, event date/confidence 포함이다
-(`MOUNTAIN_EVIDENCE_TRANSFER.md` 2026-08-24 보정표).
+**그런데 이미 기록된 자산에 답이 있다.** Sen12Landslides는 S1/S2+DEM에
+refined 74,956 landslides와 event date/confidence를 담고 있다. 2026-08-25 실측 결과
+inventory의 지역은 **16개**이고(문서의 "15지역"은 부정확했다), R2의 저자 교락을 통제하면
+**11개**가 남는다 (M11·M12).
 
-→ **headline spine을 공개 15지역 leave-one-region-out으로 옮긴다.**
+→ **headline spine을 공개 데이터의 저자 고정 11지역 leave-one-region-out으로 옮긴다.**
 3국은 headline이 아니라 **annotation-shift + live-residual 확장**으로 붙인다.
 
-| | 15지역 LOCO (공개) | 3국 LOCO |
+| | 저자 고정 11지역 LOCO (공개) | 3국 LOCO |
 |---|---|---|
-| 독립 표본 | **15** | 3 |
+| 독립 표본 | **11** (저자 고정 후) | 3 |
 | 재배포 제약 | 없음 | AI-Hub 있음 |
 | 접근 위험 | 이미 공개 | 네팔·스위스 미측정 |
 | 신뢰구간 | 만들 수 있다 | 사실상 불가 |
@@ -30,21 +31,46 @@ refined 74,956 landslides, event date/confidence 포함이다
 이렇게 하면 **네팔·스위스가 전부 막혀도 논문이 산다.** 3국은 기여를 더하는 층이지
 논문의 생사가 걸린 층이 아니게 된다.
 
-### R2. annotation 생성 과정이 나라마다 다르다 — domain shift와 구분되지 않는다
+### R2. annotation 생성 과정이 지역마다 다르다 — 2026-08-25 측정 완료 (M12)
 
-세 나라의 산사태 라벨은 **만들어진 방식이 다르다.**
+우려가 아니라 **측정된 사실**이다. Sen12Landslides inventory 74,956 폴리곤을 감사했다.
 
-| 국가 | 라벨 출처 | 날짜의 의미 |
+| | 실측 |
+|---|---|
+| 지역 | 16 |
+| 라벨 저자 | 5 |
+| **단일 저자 90% 이상인 지역** | **13 / 16** |
+| **MMU(p1 면적) 최대 비** | **1,916×** (Italy 62.9 m² vs USA_Alaska 120,569 m²) |
+| MMU 10배 이상 차이나는 지역쌍 | **50** |
+| median 면적 범위 | 409.8 ~ 466,259.8 m² (**1,100배**) |
+
+**지역과 저자가 거의 같은 변수다.** Italy 47,522 = Ferrario 47,522.
+따라서 순진한 leave-one-region-out은 부분적으로 leave-one-**annotator**-out이고,
+성능 하락이 지형 차이인지 라벨 차이인지 분리되지 않는다.
+
+#### 실패한 대안 (기록으로 남긴다)
+
+전 지역 공통 면적 하한으로 조화하려 했다. `max(MMU) = 120,569 m²`가 되어
+**Italy가 전멸한다**(p99가 6,965 m²). 단순 면적 하한은 불가능하다.
+
+#### 채택 — 저자를 고정해 교락을 **설계로** 제거한다
+
+Höhn et al. (2025) 단독이 14지역 16,306 폴리곤을 덮는다.
+
+| | 전체 저자 | **저자 고정** |
 |---|---|---|
-| 한국 | AI-Hub, S2 10 m 위에서 사람이 그린 폴리곤 | 영상 촬영일 |
-| 네팔 | Sen12Landslides refined inventory | event date + confidence |
-| 스위스 | Bern natural-event cadastre | 행정 신고/기록일 (EO 파생 아닐 수 있음) |
+| 지역 | 16 | 14 (≥100 폴리곤 **11**) |
+| MMU 비 | 1,916× | **20×** |
+| 공통 하한 8,821.8 m² | Italy 전멸 | 11지역 15.2~99.0% 보존, **7,921 폴리곤** |
 
-**최소도화면적(min mapping unit)·날짜 의미·폴리곤 정밀도가 다르면, 국가 간 성능 차이는
-"지역이 달라서"인지 "라벨을 다르게 그려서"인지 분리되지 않는다.**
-이건 앞서 "4단 해상도 ladder"로 틀렸던 것과 **같은 종류의 오류**다.
+**headline은 저자 고정 11지역 LOCO다.**
+Chimanimani · China · Hiroshima · Hokkaido · Indonesia · Itogon ·
+Kyrgyzstan1 · Kyrgyzstan2 · LanaoDelNorte · Newzealand · Thrissur
 
-→ 게이트 **G-A**를 headline 주장 앞에 둔다 (아래 §4).
+Italy·DominicaMaria·USA_* 는 headline에서 빼고, **annotation-shift 전용 arm**으로 따로 쓴다
+— "같은 지형인데 다른 저자가 그리면 성능이 얼마나 달라지는가"는 그 자체로 측정 가치가 있다.
+
+→ 게이트 **G-A**는 이제 아래 §4의 구체 절차로 확정한다.
 
 ### R3. `region residual → F1 +2%p`는 그 자체로 novelty가 아니다
 
@@ -97,9 +123,9 @@ r_t       live residual       — 강우·적설·경보·freshness (cutoff 유�
 ## 3. 실행 순서 — 공개 spine 먼저, 3국은 확장
 
 ```
-P1  Sen12Landslides 15지역 leave-one-region-out         ← headline spine (공개)
-P2  G-A annotation-process 감사                          ← 3국 주장의 전제
-P3  한국(AI-Hub, 봉인됨) 을 16번째 지역으로 추가          ← annotation shift 측정
+P1  Sen12Landslides **저자 고정 11지역** leave-one-region-out  ← headline spine (공개)
+P2  G-A annotation-process 감사   **[완료 M12]**        ← 모든 cross-region 주장의 전제
+P3  한국(AI-Hub, 봉인됨 M10)을 12번째 지역으로 추가        ← annotation shift 측정
 P4  네팔·스위스 access audit 통과분만 추가                ← live residual 확장
 P5  FoldRefresh continuity/cost 표                       ← E_refresh
 ```
@@ -114,9 +140,9 @@ v1/10밴드 + B01·B09 band-group missing mask로 간다. P1을 막지 않는다
 
 | ID | 시점 | 통과 조건 | 실패 시 |
 |---|---|---|---|
-| **G-0** | P1 착수 전 | Sen12Landslides 다운로드·라이선스·split 정의 확인, 지역 경계가 실제로 분리됨 | MountainShift 중단. 여기서 막히면 없다 |
+| **G-0** | P1 착수 전 | Sen12Landslides 다운로드·라이선스·지역 분리 확인 **[통과 M11]**. split 파일 단위 정의는 미확인 | MountainShift 중단. 여기서 막히면 없다 |
 | **G-P** | P1 probe | frozen OLMo probe가 scratch/U-TAE의 **95% 이상** 또는 raw-spectral retrieval보다 우수 | GeoFM을 backbone으로 쓰지 않는다. task model로 전환 |
-| **G-A** | 3국 주장 전 | 국가별로 ① 라벨 출처 센서 ② min mapping unit ③ 날짜 의미(event/mapping/신고) ④ 폴리곤 면적 분포를 표로 확정. **min mapping unit이 2배 이상 차이나거나 날짜 의미가 다르면** headline에서 제외 | 3국 결과를 `annotation-confounded`로 명시하고 auxiliary로 강등 |
+| **G-A** | 모든 cross-region 주장 전 | 아래 4단계를 통과해야 한다 (M12에서 1·2 실행 완료) | 위반 지역을 headline에서 빼고 annotation-shift arm으로 |
 | **G-S** | E_static 주장 | region-macro F1 또는 Recall@20 **+2%p**, **worst-region 저하 ≤1%p**, 지역 bootstrap CI 하한 > 0, **B1·B2를 유의하게 상회** | E_static 주장 철회 |
 | **G-N** | E_static·E_live 주장 전 | **negative control**: region-shuffle / time-shift 시 이득이 **소멸**해야 한다 | 이득이 남으면 그것은 지역 정보가 아니라 leakage다. 주장 전부 철회 |
 | **G-L** | E_live 주장 | cutoff replay에서 observed/published/retrieved 시각 95% 이상 확보, **미래정보 0건**, AUPRC 또는 detection lead-time 개선 | E_live를 inference-fusion으로만 보고 |
@@ -126,18 +152,56 @@ v1/10밴드 + B01·B09 band-group missing mask로 간다. P1을 막지 않는다
 G-N이 가장 중요하다. **이득이 negative control에서도 남으면 그것은 leakage다.**
 이 게이트를 사후에 만들면 자기기만이 된다.
 
+### G-A 상세 절차 (사전 등록)
+
+annotation 차이를 "확인하고 제외"하는 게 아니라 **측정하고 통제한다.**
+
+**1단계 — descriptor 측정** (지역마다, inventory 속성에서 직접)
+
+| | 무엇 | 왜 |
+|---|---|---|
+| A1 | 폴리곤 개수 | 표본량 |
+| A2 | 면적 분포 min/p1(MMU)/median/p99/max + log10 히스토그램 | 도화 상세도 |
+| A3 | 저자 구성과 최다 저자 점유율 | **교락 여부** |
+| A4 | event_type(유발요인) 구성 | 현상 차이 |
+| A5 | 날짜 3종 존재율 + `event_conf` 분포 | cutoff replay 가능성 |
+| A6 | type(현상) 구성 | debris flow vs ice avalanche |
+
+**2단계 — 교락 판정 (임계값 사전 고정)**
+- 최다 저자 점유율 ≥ **0.90** → 그 지역은 `author-confounded`
+- 지역쌍 MMU 비 ≥ **10×** → 그 쌍은 `직접 비교 불가`
+
+**3단계 — 통제 (제외가 아니라 통제가 기본)**
+
+우선순위대로 시도하고, 통과한 첫 방법을 쓴다.
+
+| 순위 | 방법 | 조건 |
+|---|---|---|
+| 1 | **저자 고정** — 단일 저자가 덮는 지역만으로 LOCO | 지역 ≥ 8, 지역당 폴리곤 ≥ 100 |
+| 2 | **면적 하한 조화** — 공통 하한 적용 후 재평가 | 모든 지역 보존율 ≥ 10% |
+| 3 | **면적 밴드 층화** — 모든 지역이 공유하는 크기 구간에서만 평가 | 밴드 내 지역당 ≥ 50 |
+| 4 | 해당 지역을 headline에서 제외 | 위 셋 모두 실패 |
+
+M12 기준 **1번이 통과했다** (11지역, MMU 비 20×).
+
+**4단계 — 민감도와 반증**
+- 면적 하한값을 ±50% 흔들어 결론이 뒤집히는지 본다. 뒤집히면 결론은 하한 선택의 산물이다
+- **annotation-shift arm**: 같은/유사 지형에서 저자만 다른 쌍(예: Höhn Hiroshima 1,937 vs
+  전체 Hiroshima 2,211)으로, 저자 차이 단독의 성능 영향을 따로 잰다
+- 보고 시 항상 `raw` 결과와 `저자 고정` 결과를 **둘 다** 싣는다
+
 ## 5. 계산 예산 — 착수 전에 고정한다 (G-C)
 
 ```
-P1 headline:  arm 5(A0..A4) × LOCO 15폴드 × seed 3          = 225 run
-반증 baseline: arm 3(B1..B3) × 15폴드 × seed 1              =  45 run
-backbone:      arm 2(C1,C2) × 15폴드 × seed 1               =  30 run
-라벨 regime:   A4만 × 4regime(0/1/5/10%) × 15폴드 × seed 1  =  60 run
-                                                       합계  = 360 run
+P1 headline:  arm 5(A0..A4) × LOCO 11폴드 × seed 3          = 165 run
+반증 baseline: arm 3(B1..B3) × 11폴드 × seed 1              =  33 run
+backbone:      arm 2(C1,C2) × 11폴드 × seed 1               =  22 run
+라벨 regime:   A4만 × 4regime(0/1/5/10%) × 11폴드 × seed 1  =  44 run
+                                                       합계  = 264 run
 ```
 
-H200 1장, frozen backbone + 가벼운 head 기준. **1 run이 10분을 넘으면 60시간을 넘는다.**
-따라서 착수 전에 1 run 시간을 재고, 초과하면 **seed를 3→1로 줄이거나 LOCO를 15→8폴드로**
+H200 1장, frozen backbone + 가벼운 head 기준. **1 run이 10분을 넘으면 44시간을 넘는다.**
+따라서 착수 전에 1 run 시간을 재고, 초과하면 **seed를 3→1로 줄이거나 LOCO를 11→8폴드로**
 줄이는 것을 미리 정한다. 돌리다가 줄이면 선택 편향이 들어간다.
 
 ## 6. 무엇이 CVPR이고 무엇이 워크숍인가
@@ -164,8 +228,14 @@ H200 1장, frozen backbone + 가벼운 head 기준. **1 run이 10분을 넘으�
 
 ## 8. 지금 열려 있는 미측정 항목 (정직하게)
 
-- P1 Sen12Landslides: 다운로드 0, split 정의 확인 0
-- G-A annotation 감사: 0
+- ~~P1 Sen12Landslides 접근~~ → **G-0 통과 (M11)**. CC BY 4.0, harmonized S2 39.42 GB /
+  28 파트, 파트가 지역별로 묶여 있어 필요한 지역만 수신 가능. `data_harmonized`는 PB04
+  +1000 DN offset을 이미 보정했다(`data_raw`와 섞지 말 것). S2는 B02–B12 10밴드로
+  **B01·B09가 없다** — M8의 비대칭이 그대로 적용되므로 v1 + band-group missing mask 경로가 맞다
+- ~~G-A annotation 감사~~ → **측정 완료 (M12)**. 저자 고정 11지역 LOCO로 확정
+- **네팔은 이 inventory에 폴리곤이 8개뿐이다.** 네팔 arm은 Sen12Landslides로 성립하지 않고
+  BIPAD/ICIMOD에서 따로 와야 하며 headline 지역이 아니다
+- S12LS-LD / S12LS-AD split의 **파일 단위 정의**: 미확인 (README에 개수만 있음)
 - 네팔 BIPAD/ICIMOD snapshot join: 0
 - 스위스 Bern/SLF event join: 0
 - frozen OLMo probe 성능: 0
