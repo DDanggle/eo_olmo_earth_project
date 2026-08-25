@@ -3,10 +3,13 @@
 최종 갱신: 2026-08-26
 
 > ## 북극성 — 우선순위가 헷갈리면 이것부터
-> **frozen OLMoEarth가 공개 Sen12 산사태 segmentation과 event retrieval에 실제 자격이 있는지
-> 먼저 닫고, 같은 cache가 한국으로 얼마나 옮겨지는지 잰다.** → **`docs/CRITICAL_PATH.md`**
-> strict 개발 pilot은 P4 IoU 0.1416 / AP 0.2251로 viability를 보였지만 official P2/P3·timestamp
-> parity·미열람 9지역이 없어 G-P는 **BLOCKED**다. 이 조건 전에는 Korea/live 성능을 열지 않는다.
+> **모델·지역·시점·센서가 변했을 때, task별 성능 위험을 사전에 예측해 어떤 embedding cache를
+> 언제 갱신하는가.** 실험 질문은 RQ1~RQ5로 고정했고 **RQ2(위험이 정말 task별로 다른가)가
+> 사슬의 하중을 진다** — 여기서 이질성이 없으면 router 논문은 중단한다.
+> → **`docs/CRITICAL_PATH.md`**
+>
+> 현재 병목은 더 많은 기록이 아니라 **공식 baseline 정렬 + unseen-region confirmatory run**이다.
+> 감사 예산 규칙: **main claim을 막지 않는 감사 항목은 새로 열지 않는다** (M-항목 26 : method 결과 0).
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에

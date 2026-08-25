@@ -133,6 +133,136 @@ artifact verifier는 checkpoint/per-sample SHA와 threshold aggregate 전부 통
 40-epoch replay도 metric/checkpoint/tensor가 bitwise 일치했지만 wall time은 950.5초 vs 520.0초로
 갈렸으므로 G-C 비용은 isolated 반복 실험으로 다시 잰다.
 
+## 2026-08-26 재구성 — 이야기의 축을 성능 우열에서 **판단 문제**로 옮긴다
+
+### 지금 유의미한 사실은 "P4가 이겼다"가 아니다
+
+| 결과 | IoU | AP |
+|---|---|---|
+| P2-tiny raw | 0.1350 | **0.2861** |
+| P4 frozen OLMo | **0.1416** | 0.2251 |
+
+**하나의 cache가 어떤 지표에는 충분하고 다른 지표에는 부족하다.** "무조건 재사용 가능"도
+"쓸모없음"도 아니다. 이것이 판단이 필요한 이유다.
+
+**단 정확히 좁혀 말한다** — 지금 있는 것은 **같은 task 안에서의 metric 이질성**이다.
+task 이질성이 아니다. IoU와 AP는 두 task가 아니라 한 task의 두 지표다.
+따라서 이 결과는 RQ2의 **동기**이지 RQ2의 **증거가 아니다.**
+
+### 논문의 사슬 — `기록`은 마지막 단계가 아니라 모든 단계의 증거층이다
+
+```
+관측된 실패
+   ↓
+비용이 걸린 의사결정 문제
+   ↓
+반증 가능한 가설
+   ↓
+가설을 구별하는 실험
+   ↓
+PASS / FAIL / BLOCKED 판정
+   ↓
+다음 질문 또는 방법 설계
+
+각 단계 옆에 코드 · 해시 · split · checkpoint · 결과
+```
+
+논문 본문은 인과를 말하고, 저장소는 그 주장을 재현할 수 있게 한다.
+
+### 의사결정 문제 — 현재는 두 극단뿐이다
+
+```
+전부 재사용    싸다 · 일부 task가 망가질 수 있다
+전부 재계산    안전하다 · 느리고 비싸다
+```
+
+> **모델·지역·시점·센서가 변했을 때, task별 성능 위험을 사전에 예측해
+> 어떤 embedding cache를 언제 갱신하는가?**
+
+이것이 `EarthRoute`의 본체다. `FoldRefresh`는 전체 문제가 아니라 router가 고를 수 있는
+**하나의 복구 action**이다.
+
+```
+reuse cache  →  cheap recalibration  →  partial refresh
+             →  FoldRefresh repair   →  full re-embedding
+```
+
+## 실험 질문 5개 — 이 다섯 개로 고정한다
+
+| RQ | 질문 | 현재 | kill 조건 |
+|---|---|---|---|
+| **RQ1** | cached embedding이 쓸 만한가 | IoU 가능성 / **AP 부족** / 공식 baseline·timestamp parity 없어 판정 불가 (**BLOCKED**) | 공식 P2·P3 정렬 후에도 밀리면 GeoFM을 backbone에서 제외 |
+| **RQ2** | **위험이 정말 task별로 다른가** | **0%** | **모든 task가 비슷하게 망가지면 router 불필요 → method 논문 중단** |
+| **RQ3** | label 없이 하락을 사전 예측할 수 있는가 | 0% | 예측이 무작위 수준이면 router 불가 |
+| **RQ4** | router가 정확도–비용 Pareto를 개선하는가 | 0% | oracle 대비 regret이 단순 규칙보다 나쁘면 system/benchmark로 강등 |
+| **RQ5** | 다른 지역·모델로 transfer되는가 | 0% | 외부 지역에서 이득 소멸이면 public 한정으로 축소 |
+
+**RQ2가 사슬의 하중을 진다.** 여기서 이질성이 없으면 뒤의 셋이 전부 무의미해진다.
+
+### RQ2의 데이터 제약 — 실측으로 확인했다 (2026-08-26)
+
+RQ2는 **같은 타일에 여러 task 라벨**이 필요하다. 어디에 있는지 재봤다.
+
+| 데이터셋 | land-cover | 벌목 | 산사태 |
+|---|---|---|---|
+| **Sen12Landslides** | 없음 | 없음 | 이진 마스크 1종만 (`label_positive`, `mask_*`) |
+| **AI-Hub 71363** | 산림 541 · 밭 300 · 건물 287 · 도로 202 타일 | **167 타일** | **90 타일** |
+
+**즉 RQ2는 Sen12에서 불가능하고 AI-Hub에서만 가능하다.** 계획의 `T1 land-cover /
+T2 deforestation / T3 landslide`는 AI-Hub 71363을 전제로만 성립한다.
+
+동시에 **표본이 얇다** — 희소 task가 벌목 167 / 산사태 90 타일이다(전 군집 합계).
+따라서 RQ2는 실행 가능하지만 **지역 단위 CI가 넓게 나올 것을 미리 인정하고**,
+효과 크기를 절대값이 아니라 **task 사이 순위 역전**으로 판정한다.
+
+### RQ3의 데이터 제약
+
+RQ3의 정답은 **실제 downstream 하락량**이므로 shift 전후 **양쪽에 라벨**이 필요하다.
+릴리스 shift(v1→v1.2)는 같은 라벨을 쓰므로 가능하고, 시점·센서 shift는 라벨이 시점마다
+있어야 한다. AI-Hub는 타일당 1~8 날짜가 있어 시점 축이 가능하다.
+
+## 감사 예산 규칙 (2026-08-26 신설)
+
+M-항목이 **26개**인데 method 결과는 **0개**다. 이 비율을 유지하면 감사 논문이 된다.
+
+> **main claim을 막지 않는 감사 항목은 새로 열지 않는다.**
+
+새 감사를 열려면 `RQ1~RQ5 중 어느 것을 막고 있는가`를 먼저 적는다. 예외는
+`DAILY_OPS.md`의 GK2A 수집뿐이다(2일 보존이라 미루면 소실).
+
+## 현재 위치 — 정확히
+
+| 작업 | 논문에서의 역할 | 상태 |
+|---|---|---|
+| split·SHA·LOCO·cache audit | 결과 신뢰성 기반 | 완료 |
+| 잘못된 AP sampling 발견 | 허위 결론 방지 | 완료 |
+| deterministic replay (bitwise) | 재현성 기반 | 완료 |
+| P4 frozen OLMo pilot | cache viability | **부분 긍정** |
+| 공식 P2/P3 정렬 | 경쟁력 판정 | **미완 ← 병목** |
+| unseen 9지역 confirmatory | 지역 일반화 | **미완 ← 병목** |
+| 3 task 위험 이질성 (RQ2) | router 필요성 | 미측정 |
+| router Pareto (RQ4) | method contribution | 미측정 |
+| 한국·네팔·스위스 (RQ5) | external transfer | 미측정 |
+
+지금까지의 감사는 헛일이 아니다 — 잘못된 "P4 전 지표 1위"를 제거하고 진짜 질문을 남겼다.
+**그러나 이제 병목은 더 많은 기록이 아니라 공식 baseline 정렬과 unseen-region confirmatory run이다.**
+
+## 실행 순서 (확정)
+
+1. 공식 Sen12 3D U-Net · U-TAE 이식 — **M26의 선택지 C**(pooling만 결정적 치환)
+2. P4와 raw baseline의 **timestamp 정보량 정렬**
+3. Chimanimani에서 **recipe 동결**
+4. **unseen 9지역을 한 번만** 평가 (사전등록)
+5. 같은 cache 위에 **AI-Hub 3 task** 구축 (RQ2 — Sen12로는 불가)
+6. shift별 **task degradation matrix**
+7. **risk router + accuracy–cost Pareto** (RQ4)
+8. **두 번째 backbone** 검증
+9. 한국 + 네팔 또는 스위스 **untouched transfer** (RQ5)
+
+CVPR method paper가 되려면
+`task별 위험 이질성 → 위험 예측 → refresh 의사결정 → 정확도·비용 Pareto → 외부 지역·두 번째 모델`
+이 **하나의 인과 사슬로 닫혀야** 한다. 현재는 `좋은 재현성 감사 + 유망한 pilot` 단계다.
+
 ## 결정성 × 공식성 — M26으로 해소됨
 
 strict 모드에서 막히는 것은 **pooling backward 3개**(`max_pool3d`, `avg_pool3d`,
