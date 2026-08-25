@@ -101,7 +101,7 @@ r_t       live residual       — 강우·적설·경보·freshness (cutoff 유�
 | **A1** | z_global (전 지역 pooled) | naive pooling |
 | **A2** | z_global + local head | 공유 표현 + 지역 head |
 | **A3** | A2 + z_region | **E_static** |
-| **A4** | A3 + r_t | **E_live** |
+| **A4** | A3 + r_t | **E_live**. `r_t`는 두 종류로 나눔 — 관측가능성(GK2A)과 강제력(강수·적설). 섞지 않음 (`docs/GK2A_INTEGRATION.md`) |
 | **T-m** | A4를 Höhn 11지역에서 학습 → Korea 적용 | matched-annotation 전이 |
 | **T-x** | A4를 Italy에서 학습 → Korea 적용 | mismatched-annotation 전이. `T-m − T-x` = **E_annotation** |
 | **B1** | region-ID one-hot | residual이 그냥 "지역 식별자"인지 반증 |

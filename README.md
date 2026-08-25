@@ -2,6 +2,15 @@
 
 최종 갱신: 2026-08-25
 
+> ## ⚠ 매일(또는 2일마다) 해야 하는 것 하나
+> **GK2A 스냅샷 수집** — 보존이 2일이므로 미루면 그 날짜는 영구히 사라짐.
+> 이 저장소에서 되돌릴 수 없는 작업은 이것뿐임. → **`docs/DAILY_OPS.md`**
+> ```
+> cd ~/dong/ai_projects/olmoearth_projects && set -a && . ./.env && set +a
+> python3 _work/code/gk2a_snapshot.py --gaps && python3 _work/code/gk2a_snapshot.py --status
+> ```
+
+
 이 파일이 **입구**입니다. 처음 보는 사람(또는 새 컴퓨터의 나)은 여기부터 읽습니다.
 
 ## 이 폴더의 위치와 두 저장소의 관계
