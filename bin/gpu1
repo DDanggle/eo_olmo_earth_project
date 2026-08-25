@@ -14,10 +14,10 @@ if [ "${1:-}" = "--bg" ]; then BG=1; shift; fi
 CMD="${*:?실행할 명령이 필요하다}"
 
 # GPU1 점유 확인 — 문자열이 아니라 프로세스 목록으로 판정한다
-BUSY=$("$HERE/nx" sh 'nvidia-smi --query-compute-apps=gpu_uuid,pid,used_memory --format=csv,noheader 2>/dev/null | wc -l' 2>/dev/null | tail -1 | tr -d " \r")
+BUSY=$("$HERE/nx" sh 'nvidia-smi -i 1 --query-compute-apps=pid --format=csv,noheader,nounits 2>/dev/null | sed "/^[[:space:]]*$/d" | wc -l' 2>/dev/null | tail -1 | tr -d " \r")
 if [ "${BUSY:-0}" != "0" ]; then
     echo "▸ GPU에 실행 중 프로세스가 있다 (${BUSY}개). nvidia-smi 로 확인하고 GPU1이 비었는지 판단한 뒤 진행하라." >&2
-    "$HERE/nx" sh 'nvidia-smi --query-compute-apps=pid,used_memory,process_name --format=csv' >&2
+    "$HERE/nx" sh 'nvidia-smi -i 1 --query-compute-apps=pid,used_memory,process_name --format=csv' >&2
     exit 1
 fi
 

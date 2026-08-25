@@ -1,0 +1,1951 @@
+{
+  "all_gates_pass": true,
+  "cache_bytes_per_sample": 1572992,
+  "cache_total_bytes": 100671488,
+  "crop_size": 64,
+  "crops": 256,
+  "gates": {
+    "all_10_regions": true,
+    "all_finite": true,
+    "both_labels": true,
+    "deterministic_replay": true,
+    "sample_count": true,
+    "shape_768x32x32": true
+  },
+  "inference_and_write_s": 15.43639,
+  "input_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+  "missing_contract": "B01/B09 zeros + band-set 2 MaskValue.MISSING",
+  "model_id": "OLMOEARTH_V1_BASE",
+  "model_load_s": 4.747313,
+  "model_timesteps": 12,
+  "outputs": [
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "bc116358ec468c87d1d64139bd80887712a147f6b8fce8d1430568f3a9f09da1",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0029068447183817625,
+      "region": "chimanimani",
+      "sample_id": "chimanimani_s2_1001",
+      "seconds": 1.25103,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3521741032600403,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "5fc5a5725165d7f315adfa95f7340a6cb6ce80a8cf8c1952a5c78dfe9cb5a995",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0030456737149506807,
+      "region": "chimanimani",
+      "sample_id": "chimanimani_s2_1000",
+      "seconds": 0.151813,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.34961146116256714,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "5995cdb0ef40412ea51c727ed3cfa1340ef7289b1ad979e0b5ba0737a5492910",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0022324954625219107,
+      "region": "china",
+      "sample_id": "china_s2_1000",
+      "seconds": 0.150953,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.34134456515312195,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "bccd3db48de4891b3fa0d3444957147d9f1947495cec275a9748ecf670c80f20",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002378082601353526,
+      "region": "china",
+      "sample_id": "china_s2_100",
+      "seconds": 0.144904,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.332671582698822,
+      "timestep_indices": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "3a776e00ceca2860fd04bc3ac1bb540beae49b8be41f6b090b1ed77cbc1dd513",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0021663971710950136,
+      "region": "hiroshima",
+      "sample_id": "hiroshima_s2_1000",
+      "seconds": 0.148082,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.33202654123306274,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "16e0c174b81012ee0a8fafc0f7bbcb1e53ba9eb0ea8e0d27aa39a74ba2cea954",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0023819978814572096,
+      "region": "hiroshima",
+      "sample_id": "hiroshima_s2_1002",
+      "seconds": 0.151803,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3336235582828522,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "bfc1ef2f4f84d95796700c09633a99457c1fe17e9485a40bb301fa0f1baa46da",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0017549535259604454,
+      "region": "hokkaido",
+      "sample_id": "hokkaido_s2_1020",
+      "seconds": 0.158202,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.29795682430267334,
+      "timestep_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "60b7675968c277b16dd70e3a18181cb202c3c6c33edf2cbd9078b494483918db",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002147406106814742,
+      "region": "hokkaido",
+      "sample_id": "hokkaido_s2_1006",
+      "seconds": 0.175954,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.30765318870544434,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        4,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "4e5e84525ac77dc5b2ead83f3b554c3bcb93a423fb561f5228025e1a2e9e08c4",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0014066541334614158,
+      "region": "indonesia",
+      "sample_id": "indonesia_s2_1008",
+      "seconds": 0.159207,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3240739107131958,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "02ed4df889e6a8f8bdd135c80cb955200f01eda65b8f5a67298d85e044cabc05",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0004308726638555527,
+      "region": "indonesia",
+      "sample_id": "indonesia_s2_1001",
+      "seconds": 0.153062,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.43944108486175537,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "b19eae993534bd150e4361b4dd41d24827d21aba7fa4ee22ea10c5121c9d6579",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002803957788273692,
+      "region": "itogon",
+      "sample_id": "itogon_s2_156",
+      "seconds": 0.151067,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3349752724170685,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "54f480938f78d44520848377f22857730cd0d3ffc5970fab5d02e9ad25d9cd3c",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0024598834570497274,
+      "region": "itogon",
+      "sample_id": "itogon_s2_1012",
+      "seconds": 0.148858,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.34568822383880615,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "47a3952f7adc5494ce42ac17f8b9ad4ab397ef14fec239cb5213e30bade464d9",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002171959960833192,
+      "region": "kyrgyzstan1",
+      "sample_id": "kyrgyzstan1_s2_1101",
+      "seconds": 0.15373,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.379376083612442,
+      "timestep_indices": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "d1c4f84441034e03be007ba1eebc404e3388817425dd2dd3be176fcc494167ca",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0019989171996712685,
+      "region": "kyrgyzstan1",
+      "sample_id": "kyrgyzstan1_s2_10",
+      "seconds": 0.157987,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3644315302371979,
+      "timestep_indices": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "6f63584af616f3ee9fef2327cca9f8bdff9685df99b90c6e5d3ad8eadb9e3f37",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002180401934310794,
+      "region": "kyrgyzstan2",
+      "sample_id": "kyrgyzstan2_s2_10070",
+      "seconds": 0.161985,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3572230637073517,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "ef67c5ce2443c8d9df5606ecddfec0087921880448e45bb61b7ac25f1f940682",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0021547211799770594,
+      "region": "kyrgyzstan2",
+      "sample_id": "kyrgyzstan2_s2_10015",
+      "seconds": 0.156561,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3520619571208954,
+      "timestep_indices": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "fc379f210c0c662196e17974440b0be1fc6482ece4aeec18822ce9d8cd321ec1",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002076495671644807,
+      "region": "newzealand",
+      "sample_id": "newzealand_s2_1000",
+      "seconds": 0.150012,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.37426289916038513,
+      "timestep_indices": [
+        0,
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "ee45c591b81aa4cb2aa39b9bd5fcdcfc8ad19bedebe4544a4ce4d234e5f39e61",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0022432971745729446,
+      "region": "newzealand",
+      "sample_id": "newzealand_s2_1018",
+      "seconds": 0.153793,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3755415678024292,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        4,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "25765e09743f26ebb7ee87022d42f35c5e1690b1cc664ce1a971d3ada701ea4c",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0024281542282551527,
+      "region": "thrissur",
+      "sample_id": "thrissur_s2_1001",
+      "seconds": 0.152122,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.34067973494529724,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "7d6640f1141462efc89805dadfa225b388a2325903ffd72ed39044312791d407",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002585926093161106,
+      "region": "thrissur",
+      "sample_id": "thrissur_s2_1009",
+      "seconds": 0.14286,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.32692936062812805,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "5db75104000852561ef8f999a774318c000f4f9fe664b0ce8a6e977fa022ff78",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0030093707609921694,
+      "region": "chimanimani",
+      "sample_id": "chimanimani_s2_1002",
+      "seconds": 0.151081,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3496614098548889,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "88f0f92adc98a79dc1fd3393e5640daa6efad161980e8e61e165d1ae17f88ea3",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002864532172679901,
+      "region": "chimanimani",
+      "sample_id": "chimanimani_s2_1007",
+      "seconds": 0.149032,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3329014480113983,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "c842a9cddfc0d819bbe6dbe710e59d237a65aad08b533f06042f6f3d36c93dc6",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.001795660238713026,
+      "region": "china",
+      "sample_id": "china_s2_1004",
+      "seconds": 0.156104,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3163054883480072,
+      "timestep_indices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "1dd9f3393b65d994c244cef4cac4d8610660bd84ec59cdbad992c12d13228e8f",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0030807547736912966,
+      "region": "china",
+      "sample_id": "china_s2_1018",
+      "seconds": 0.152722,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3524582087993622,
+      "timestep_indices": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "0c98f0065a06408f679e51b35ea31a5162c47d6969fbe25b0057a5ede2421d39",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002475978108122945,
+      "region": "hiroshima",
+      "sample_id": "hiroshima_s2_1001",
+      "seconds": 0.150856,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.32745161652565,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "831ef07cc03fce236f90faef329cc84d0f6e210ac7ecc08372f20159dfa205ab",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002160540083423257,
+      "region": "hiroshima",
+      "sample_id": "hiroshima_s2_1004",
+      "seconds": 0.154961,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.32337117195129395,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "0225945a65ecd1e86d8b247382bb7bc055624b091e86fa503983f85005ba69e9",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002310943091288209,
+      "region": "hokkaido",
+      "sample_id": "hokkaido_s2_422",
+      "seconds": 0.164079,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3096849322319031,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "51edff6faf2dc1ac4c07b7b52447769b9f4f3b3101ecb8bf3906aff90a5b3e23",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0019299284322187304,
+      "region": "hokkaido",
+      "sample_id": "hokkaido_s2_1017",
+      "seconds": 0.160043,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3024020195007324,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11,
+        12,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "c19c940672ed1ebec64329cbe5c9f2af0acaf6ecbaa63e954cfc7a5b89872e55",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0015113368863239884,
+      "region": "indonesia",
+      "sample_id": "indonesia_s2_1009",
+      "seconds": 0.152885,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3280180096626282,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "1a6ee2d76c45b7e760fa6a848a1ad604ff75a945a614827f0cc27ea02ada71a4",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0002713246794883162,
+      "region": "indonesia",
+      "sample_id": "indonesia_s2_1002",
+      "seconds": 0.148065,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.42590564489364624,
+      "timestep_indices": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "312bc98abee32c1a5c3650851bc058243dda1c5c3638c5800764d02b24c9623e",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.00265672174282372,
+      "region": "itogon",
+      "sample_id": "itogon_s2_157",
+      "seconds": 0.15514,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.33195528388023376,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "abc5f22d575cb1108fa288332ecc12fe176ab2fa96001e9359dccbea6443d99e",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002790189580991864,
+      "region": "itogon",
+      "sample_id": "itogon_s2_1015",
+      "seconds": 0.159893,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3520355522632599,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "10b649bac02ceee7985c6c498c545c8668930fc4f6e8945d7b46ade3d2795522",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0020917721558362246,
+      "region": "kyrgyzstan1",
+      "sample_id": "kyrgyzstan1_s2_1102",
+      "seconds": 0.154406,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.35522589087486267,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "ad6ed93d07f6ab9defa145dee851ae6ca3af223d21df98951894ea6175a5c393",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002895093522965908,
+      "region": "kyrgyzstan1",
+      "sample_id": "kyrgyzstan1_s2_1022",
+      "seconds": 0.16234,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3716011345386505,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "7d2c829bd61038d3694e11e68067b0975581bd1f866985e4ad1bdc3313417f63",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002409536624327302,
+      "region": "kyrgyzstan2",
+      "sample_id": "kyrgyzstan2_s2_10071",
+      "seconds": 0.151705,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3607403039932251,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "b3cdee9469e48f7adcdf9d3c941057122d7aef6ecb539c38dc28edb0562b9d72",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002200688933953643,
+      "region": "kyrgyzstan2",
+      "sample_id": "kyrgyzstan2_s2_10088",
+      "seconds": 0.150025,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.34528499841690063,
+      "timestep_indices": [
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "b90c43afe8d5844028af255047072994027505d634eb53f2e6fd78fa247ae0a4",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002187085570767522,
+      "region": "newzealand",
+      "sample_id": "newzealand_s2_1001",
+      "seconds": 0.151392,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3641855716705322,
+      "timestep_indices": [
+        0,
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "22be927e4b1c6b004cb435529f1378e44273560faaf4c1c2bd3360d7239a1518",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002450383035466075,
+      "region": "newzealand",
+      "sample_id": "newzealand_s2_1023",
+      "seconds": 0.152106,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.37835493683815,
+      "timestep_indices": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "ee019734f87ff11ac48ec54d4e8d42e9ed20f691c85552e766f5b0edffc9f99b",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002104203449562192,
+      "region": "thrissur",
+      "sample_id": "thrissur_s2_1037",
+      "seconds": 0.146177,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3313765525817871,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "90a89e40699def4aaebe009d40528db0d8cca540aa7532ae07568bd0a7386590",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002549567958340049,
+      "region": "thrissur",
+      "sample_id": "thrissur_s2_1018",
+      "seconds": 0.152121,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.33047372102737427,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "62a4c6f21757cbdc1902c701524092061f4310dc716def83a1da8e35fe2d6ab5",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0025902194902300835,
+      "region": "chimanimani",
+      "sample_id": "chimanimani_s2_1003",
+      "seconds": 0.156085,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.34668636322021484,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "ec4749cfb6715a594c1ae9add5a4a904840cca603469d81dbba067416e8b36df",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0028714395593851805,
+      "region": "chimanimani",
+      "sample_id": "chimanimani_s2_101",
+      "seconds": 0.158036,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3482398986816406,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "8fd668fabd4163805341a1f684dbf07b3218135c124c417f6711b83708179833",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002951881615445018,
+      "region": "china",
+      "sample_id": "china_s2_1012",
+      "seconds": 0.152329,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.35529258847236633,
+      "timestep_indices": [
+        0,
+        1,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "5d47573fee8b8b0c589ae0520c118dd46a9a42164d9afb52802b972e2a282fc5",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0026549461763352156,
+      "region": "china",
+      "sample_id": "china_s2_1037",
+      "seconds": 0.149928,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.32421988248825073,
+      "timestep_indices": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "abcdec35abbdb8dbdec9676d0e9c8b4f9500a392557610e05e5237022ef97cb8",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0023353712167590857,
+      "region": "hiroshima",
+      "sample_id": "hiroshima_s2_1003",
+      "seconds": 0.150124,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3276112377643585,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "2f749d25085f5ef9d04309573684f9398c0d97a69f99a3ba655e51d00578f6ba",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.001828244305215776,
+      "region": "hiroshima",
+      "sample_id": "hiroshima_s2_1005",
+      "seconds": 0.153283,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3246118128299713,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "03f71371fffaf7f5159530ccbbb4396d2492385844ada2cff1b7517e3fe97e77",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0024561139289289713,
+      "region": "hokkaido",
+      "sample_id": "hokkaido_s2_423",
+      "seconds": 0.154991,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3109651505947113,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "0e321e5d61d0c177084517236c1949af1cafe827f716eda81044c631205c1611",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.001882391981780529,
+      "region": "hokkaido",
+      "sample_id": "hokkaido_s2_1026",
+      "seconds": 0.151075,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3066263794898987,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11,
+        12,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "c08dc6fa31ef3acb190b3af60d4d7870f4edc3ea50e551e4318fbd7de2db7ac7",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0019946624524891376,
+      "region": "indonesia",
+      "sample_id": "indonesia_s2_1010",
+      "seconds": 0.155086,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.32879045605659485,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "fc21db980845076828d3d70b4c8e01d07b794f59d61bb678a8e98c3d7d50d060",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0015526562929153442,
+      "region": "indonesia",
+      "sample_id": "indonesia_s2_1004",
+      "seconds": 0.151432,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.34447261691093445,
+      "timestep_indices": [
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "e1b2fa532656270824fceb05694b8267cb474320963207076f4cee116ebbe28b",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0024026690516620874,
+      "region": "itogon",
+      "sample_id": "itogon_s2_158",
+      "seconds": 0.158857,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3271469473838806,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "48da5a24f13627f76d0464f0a114572f6ab20a49a26ffd1592592cbc4b3ce3c9",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0026283003389835358,
+      "region": "itogon",
+      "sample_id": "itogon_s2_1027",
+      "seconds": 0.146906,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.35503894090652466,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "ab28ebe92a5786b59796b5a72ea481541693bef4f9f40f3bde039ce4002f798c",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0024004827719181776,
+      "region": "kyrgyzstan1",
+      "sample_id": "kyrgyzstan1_s2_1276",
+      "seconds": 0.151577,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.36635342240333557,
+      "timestep_indices": [
+        0,
+        1,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "434da289ccaaf21457ca5b811451fa327a00d96a965e56d4467df9aa85e11c9d",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002995169023051858,
+      "region": "kyrgyzstan1",
+      "sample_id": "kyrgyzstan1_s2_1028",
+      "seconds": 0.143031,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3273664116859436,
+      "timestep_indices": [
+        1,
+        2,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "eb199fa37cb1e5b341b8700d3e4635d26c149e8aec9e463f1df0f5ae7d3a0bc8",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0021822794806212187,
+      "region": "kyrgyzstan2",
+      "sample_id": "kyrgyzstan2_s2_10312",
+      "seconds": 0.147271,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.36537855863571167,
+      "timestep_indices": [
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "63f951f881b6cf16da8d753088641f48c0a8210d2ea08c5393fddb2f1cf62438",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0020247146021574736,
+      "region": "kyrgyzstan2",
+      "sample_id": "kyrgyzstan2_s2_10099",
+      "seconds": 0.151369,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3415481448173523,
+      "timestep_indices": [
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "1e348cdeb566418f891310247e7c62eb3a6ea8344d0f78d11604563631e21a59",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0017604721942916512,
+      "region": "newzealand",
+      "sample_id": "newzealand_s2_1002",
+      "seconds": 0.152612,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.30901265144348145,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        10,
+        11,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "1a8182f066e59d741c5f72b6387d5205b9636d5b768af4c5faaa539e14f524ac",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0021389981266111135,
+      "region": "newzealand",
+      "sample_id": "newzealand_s2_1024",
+      "seconds": 0.161849,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.37939488887786865,
+      "timestep_indices": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "97256bb01c8f3f360377762dbfd188fecd9c7819ab0fcd1197fcfe0a08089124",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.0024873134680092335,
+      "region": "thrissur",
+      "sample_id": "thrissur_s2_1038",
+      "seconds": 0.156651,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3228524327278137,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "dfa9e96cbaeab9908415098ed99725e11fc0e5bf73943db97bebc58737a6ffa4",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.0026108138263225555,
+      "region": "thrissur",
+      "sample_id": "thrissur_s2_1019",
+      "seconds": 0.166914,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3314806818962097,
+      "timestep_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "5dfd3d14a0fac3abf369c2cdd9cec6a69c3e6ff9e0ca7da354139e6013fdad3f",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002663959516212344,
+      "region": "chimanimani",
+      "sample_id": "chimanimani_s2_1004",
+      "seconds": 0.145129,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.35009056329727173,
+      "timestep_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "e7dce08a04c987a0f438ae3353252fea19452b0a01cdc1e621e9d079e9a1ed3d",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.002954286290332675,
+      "region": "chimanimani",
+      "sample_id": "chimanimani_s2_1010",
+      "seconds": 0.158024,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3341456651687622,
+      "timestep_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "e8cb47e10e922c482d6ad39d7f71e503ee2063f8188ba54a0f5dcd7dc478a32b",
+      "finite": true,
+      "label_positive": true,
+      "mean": 0.002977246418595314,
+      "region": "china",
+      "sample_id": "china_s2_1013",
+      "seconds": 0.161998,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.3611774444580078,
+      "timestep_indices": [
+        1,
+        2,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "cache_bytes": 1572992,
+      "cache_sha256": "12d4e5118ad1db9a665ccd76f627049acdf26b362ad33a6f6bccbb127139ce4e",
+      "finite": true,
+      "label_positive": false,
+      "mean": 0.00263359397649765,
+      "region": "china",
+      "sample_id": "china_s2_1052",
+      "seconds": 0.167017,
+      "shape": [
+        768,
+        32,
+        32
+      ],
+      "std": 0.32176870107650757,
+      "timestep_indices": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    }
+  ],
+  "patch_size": 4,
+  "peak_cuda_bytes": 739656192,
+  "replay_max_abs_diff": 0.0,
+  "samples": 64,
+  "samples_per_s": 4.146047,
+  "schema": "sen12-olmo-v1-embedding-smoke-v1",
+  "source_timesteps": 15,
+  "timestep_policy": "top-12 SCL clear fraction, then chronological; label-independent"
+}

@@ -377,8 +377,56 @@ v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, �
    class ID equality를 왜곡할 수 있다. v7에서 SCL 보조 band set + nearest 점수 adapter로
    재현·해결. compositor가 SCL 의존성을 선언하고 categorical nearest를 강제하거나 문서화할
    공개 PR 후보 (`code/scl_compositor.py`, 세 실패 로그와 성공 로그 보존).
+10. **Sen12Landslides metadata/label issue 후보** — harmonized S2 13,628파일 전수 감사에서
+    `center_lat/lon`이 13,628/13,628 모두 위경도 범위를 벗어난 projected coordinate였고,
+    `hiroshima_s2_1427/1428`은 `annotated=True`·`ann_id=1964`인데 MASK 양성 픽셀이 0이었다.
+    LanaoDelNorte 71패치도 inventory에는 annotation 후보가 있으나 harmonized S2 MASK는 전부 0이다.
+    원본을 수정하지 않고 task cohort에서 fail-closed 처리했으며, 재현 manifest와 sample ID를 붙여
+    upstream data issue로 보고할 가치가 있다.
 
 ## Worklog
+
+### 2026-08-25 — ASSET_INVENTORY × CRITICAL_PATH 재동기화와 CVPR 최소 실험 고정
+
+- 계획: `docs/ASSET_INVENTORY.md`의 실측 보유자산을 authoritative `docs/CRITICAL_PATH.md`의
+  단계 1~7에 재매핑한다. 특히 Sen12 수신 완료 이후에도 남은 “수신 없음/다운로드가 유일한 다음
+  행동”을 제거하고, 진짜 병목을 G-P sample/label/input contract → smoke runtime → frozen probe로
+  고정한다.
+- 실험 설계: Italy 5,321패치를 곧바로 headline source로 쓰지 않고, 먼저 annotation-matched Höhn
+  11지역의 region-held-out G-P에서 frozen OLMo의 task 자격을 판정한다. 입력·label·split·head·
+  task-specific baseline·runtime budget·promotion/kill 기준을 실행 전에 봉인하고, 통과한 경우에만
+  Italy→Korea(T-x), Höhn→Korea(T-m), `E_annotation`, static/live residual 순으로 연다.
+- CVPR 감사: 최신 관련 benchmark/method와 비교해 “산악 데이터 결합”이 아니라 어떤 식별 가능한
+  method contribution이 남는지, 필요한 region 수·baseline·통계·외부 한국 holdout·ablation을
+  명시한다. G-P가 실패하거나 residual 이득이 +2%p/CI gate를 못 넘으면 method paper 주장을
+  축소하고 benchmark/negative-transfer 결과로 전환한다.
+- 결과 — 자산/임계경로 정합: Sen12 수신 없음·GPU 둘 다 점유라는 stale 상태를 제거했다. GPU0은
+  다른 프로젝트가 62,585 MiB 사용 중이라 건드리지 않았고 GPU1은 0 MiB 가용이었다. Italy→Korea를
+  headline에서 annotation-shift arm으로 내리고, 공개 task contract→G-P→T-m/T-x→static/live→
+  R-cache의 promotion chain으로 `ASSET_INVENTORY`, `CRITICAL_PATH`, MountainShift 설계를 동기화했다.
+- 결과 — C0 전수 계약: `code/build_sen12_gp_contract.py`로 13,628/13,628 NetCDF의 128×128·15시점·
+  10밴드·SCL/MASK/DEM·시간순서·이진/시간불변 MASK가 통과했다. Hiroshima 2건의
+  `annotated=True, MASK=0`을 원본 변경 없이 제외했다. annotation-matched 후보 11지역 중
+  LanaoDelNorte 71패치는 양성 MASK=0이라 negative-only stress로 내리고, **task headline을 10지역
+  6,834표본**으로 봉인했다. 전체 양성 6,737 중 단일 pre/post 유효는 5,397(**80.11%**)라 S≤t는
+  계속 차단한다. sample contract SHA `dcdfef9a…`, anomaly SHA `bf086042…`.
+- 결과 — G-P embedding smoke: 첫 15시점 forward가 OLMo v1 time embedding `12 != 15`로 실패했다.
+  이를 숨기지 않고 SCL clear 상위 12개를 label-independent하게 고른 뒤 시간순 정렬하는 **S12q**로
+  바꾸고 모든 baseline 입력을 맞췄다. 10지역·양/음성 32/32, 64표본/256crop이 15.44초,
+  **4.146 sample/s**, peak CUDA 0.740 GB, fp16 cache 1,572,992 B/sample, shape `768×32×32`,
+  replay max-abs diff 0으로 6/6 통과했다. headline 단순 외삽은 약 27.5분/10.75 GB다.
+- 결과 — 연구/CVPR 재판정: 2026-08-10 GeoPhysAdapter가 frozen Prithvi + terrain/material/rainfall,
+  event-isolated 55 event, pixel/object scale 및 misalignment 통제까지 이미 공개했다. 따라서 A3/A4의
+  정확도 향상만으로는 CVPR novelty가 아니다. CVPR 후보를 task별
+  `reuse/add_static/refresh_live/recompute_release`의 Δloss와 cost를 예측하는 **R-cache router**로
+  좁히고 oracle regret·calibration·accuracy-cost Pareto, 2 backbone·3 task·한국 external holdout을
+  통과 조건으로 고정했다.
+- 검증/산출물: `artifacts/sen12_gp_contract/{summary,loco_folds}.json`,
+  `artifacts/sen12_olmo_v1_smoke_64/summary.json` 회수. outer venv 전체 suite
+  **153 passed, 1 skipped, 10 subtests**. system Python의 PyYAML 5개 collection failure는 환경
+  차이이며 outer venv에서 전체 검증했다.
+- 다음: smoke cache로 raw spectral/P4 head tensor 계약을 닫고, 한 10-region LOCO fold×1 seed에서
+  P1/P2/P4 runtime·effect pilot을 먼저 잰다. 성능을 보기 전 full fold×seed 예산을 동결한다.
 
 ### 2026-08-25 — GK2A 운영·격자 감사와 국가 센서 축 정합성 재점검
 

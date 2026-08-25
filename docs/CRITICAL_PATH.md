@@ -1,88 +1,177 @@
-# 임계경로 한 장 — Italy → Korea 임베딩 강화
+# 임계경로 한 장 — transferable · refreshable Earth embedding
 
-작성 2026-08-25. **이 문서가 우선순위의 최종 근거임.** 다른 문서와 충돌하면 이 문서를 따름.
+갱신 2026-08-25. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
+`docs/ASSET_INVENTORY.md`, arm·통계의 상세는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`를 따른다.
 
 ## 북극성
 
-> **frozen OLMoEarth 임베딩 위에서, Italy에서 배운 것이 한국으로 얼마나 옮겨지는가.
-> 그리고 무엇을 더하면 더 옮겨지는가.**
+> **한 번 계산해 여러 task가 공유하는 Earth embedding을 유지하면서, 지역·시점·센서·모델이
+> 바뀔 때 task별 손실과 비용을 예측해 reuse / residual 추가 / refresh / recompute를 고른다.**
 
-`강화`의 정의를 좁게 고정함. **backbone을 재학습하지 않음.**
-M6에서 실측한 이유임 — end-to-end fine-tuning은 인코더 231 텐서 중 206개를 바꿔
-릴리스 교체 가능성을 영구히 잃음. 그러면 `EarthEmbedContract`(M1·M8) 자산이 무효가 됨.
-따라서 강화는 **frozen 임베딩 + 얇은 head + 더하는 residual**로만 함.
+MountainShift는 이 방법을 만들기 위한 첫 과학 실험이다. 먼저 frozen OLMoEarth가 산사태 task에
+실제로 쓸 만한지 판정하고, 그다음 공개 task-eligible 10지역→한국 전이에서 static/live evidence의 한계를 잰다.
+FoldRefresh는 전체 논문의 목적이 아니라 `recompute` action 하나를 제공하는 기존 자산이다.
 
-## 측정 사슬 — 순서를 바꿀 수 없음
+이 순서는 세 목표와 겹친다.
+
+| 목표 | 남겨야 하는 증거 |
+|---|---|
+| AI2 취업 | OLMoEarth 실물 입력계약·release 재현·공개 benchmark·수정 가능한 코드 |
+| 박사/CVPR | task/region/event 분리, 강한 baseline, 음성통제, 새 routing method |
+| 비즈니스 | 정확도만이 아니라 GPU시간·저장량·응답지연을 포함한 refresh 의사결정 |
+
+## 지금까지 작업 — 자산에서 실험으로
+
+| 완료 | 의미 |
+|---|---|
+| M1·M8 release/mask 감사 | 같은 tag·release라도 cache 의미가 달라질 수 있음을 실측. refresh action의 근거 |
+| M9·M10 한국 split 감사·봉인 | 공식 valid의 누수를 잡고 13 spatial cluster split을 동결. 한국 external test 기반 |
+| M11 Sen12 접근·수신 | harmonized S2 **13,628 NetCDF / 38 GB** 확보. 공개 spine 실행 가능 |
+| M12·M13 annotation 감사 | 저자 고정 후보 11지역, Italy는 annotation-shift arm으로 분리 |
+| C0 task contract | 후보 중 Lanao 양성 0 → S12q headline **10지역**. label anomaly 2건 제외 봉인 |
+| M16~M22 GK2A·ASOS | live residual 배관. 단, G-P와 static transfer 전에는 성능 기여로 세지 않음 |
+
+과거 문서의 `Sen12 수신 없음`, `GPU 둘 다 점유`, `Italy→Korea가 headline`은 현재 사실이 아니다.
+2026-08-25 재확인 시 **GPU0은 다른 프로젝트가 점유, GPU1은 0 MiB로 가용**했다. GPU 상태는
+자산이 아니라 순간 상태이므로 매 실행 직전 다시 확인한다.
+
+## task를 먼저 분리한다
+
+같은 mask를 쓰더라도 세 질문은 다르다. 한 수치로 섞지 않는다.
+
+| ID | task | 입력 시점 | 출력·지표 | 자리 |
+|---|---|---|---|---|
+| **S12q** | matched retrospective segmentation | SCL clear 상위 12개를 시간순 재정렬 | pixel mask · IoU/AUPRC/F1 | **G-P headline**. OLMo와 모든 baseline 동일 입력 |
+| **S15-ref** | paper-reference segmentation | 15 timestep 전체 | pixel mask · IoU/AUPRC/F1 | Sen12 논문 수치 재현용. G-P 직접 비교 아님 |
+| **S≤t** | cutoff-valid segmentation | cutoff까지 도착한 관측만 | pixel mask · IoU/AUPRC + lead time | operational/live 확장 |
+| **R-event** | candidate retrieval | 같은 frozen cache | tile/event 순위 · Recall@K/nDCG | shared-cache 두 번째 task |
+
+Sen12 `MASK`는 표본에서 **동일 event polygon이 15 timestep에 반복**되어 있었다. 따라서 15개
+시점 라벨로 세지 않는다. S≤t에서 음성 patch는 event date가 없으므로 계절·지역을 맞춘
+pseudo-cutoff 정책을 사전에 동결하기 전까지 열지 않는다. OLMo v1의 time embedding table은
+12개라 15개 입력에서 shape error가 났다. 사후 편의 선택을 막기 위해 SCL quality만으로 top-12를
+고르고 시간순으로 복원하는 S12q를 고정했으며 P1~P5 모두 같은 index를 쓴다.
+
+## 측정 사슬 — promotion gate를 통과해야 다음으로 간다
 
 | # | 단계 | 무엇을 재는가 | 현재 |
 |---|---|---|---|
-| **1** | **G-P** frozen probe | frozen OLMo가 task-specific 모델의 95%에 닿는가 | **0%** |
-| **2** | **T-x** Italy → Korea | 라벨 풍부한 곳에서 배워 없는 곳에 씀 (zero / 1·5·10%) | **0%** |
-| **3** | **T-m** Höhn 11지역 → Korea | 같은 도화 기준에서 옮김 | **0%** |
-| **4** | **E_annotation** = T-m − T-x | 도화 기준 차이의 단독 손실 | **0%** |
-| **5** | **E_static** + `z_region` | DEM·slope·기후평년을 더하면 더 옮겨지는가 | **0%** |
-| 6 | **E_live** + `r_t` | 관측조건·강수를 더하면 더 옮겨지는가 | 배관 준비됨 |
-| 7 | **G-N** negative control | region-shuffle·time-shift에서 이득이 **소멸**하는가 | **0%** |
+| **0** | **C0 data contract** | 13,628파일 shape/band/time/static-mask/pre-post/SCL + LOCO 해시 | **통과** |
+| **1a** | **G-P smoke** | GPU1, 64표본에서 OLMo 입력·메모리·cache runtime | **통과** |
+| **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model의 95%에 닿는가 | 0% |
+| **1c** | **R-event probe** | 같은 cache가 retrieval에도 raw spectral보다 나은가 | 0% |
+| **2** | **T-m** Höhn task-eligible 10지역 → Korea | annotation-matched zero/1/5/10% transfer | 0% |
+| **3** | **T-x** Italy → Korea | annotation-mismatched transfer | 0% |
+| **4** | **E_annotation** = T-m − T-x | 도화 기준 차이의 손실 | 0% |
+| **5** | **E_static** | DEM/slope/기후평년을 더한 transfer 변화 | 0% |
+| **6** | **E_live** | cutoff-valid 관측조건·강수 residual | 배관만 있음 |
+| **7** | **R-cache** | task별 action 가치와 cost를 예측하는 router | 설계 후보 |
+| **8** | external stress | 한국 untouched + 접근 통과 시 Swiss/Nepal | 한국 split만 봉인 |
 
-**1~5가 0%인 동안 6을 확장하지 않음.** 6은 5까지가 닫힌 뒤 더하는 층임.
+0~1b 전에는 Italy/Korea 성능을 돌리지 않는다. **GeoFM 자체가 task에 부적합하면 residual의
+성공도 실패도 해석할 수 없기 때문이다.** 5 전에는 6을 확장하지 않는다. 다만 GK2A는 2일만
+보존되므로 `DAILY_OPS.md`의 최소 수집만 예외적으로 계속한다.
 
-## 2026-08-25 자체 감사 — 드리프트를 확인했음
+## C0와 G-P의 동결 계약
 
-최근 측정 8건의 기여를 세어봤음.
+### C0 — CPU 전수 감사
 
-| 기여 축 | 건수 | 항목 |
+`code/build_sen12_gp_contract.py`가 아래를 실물 NetCDF에서 검사한다.
+
+- harmonized S2만 사용; `data_raw`와 혼합 금지
+- 128×128, 15 timestep, B02--B12 10밴드 + SCL/MASK/DEM
+- MASK 이진성·시간 불변성·`annotated` attr 일치
+- pre/post index 범위·시간 순서·SCL clear fraction
+- `center_lat/lon`은 값 범위와 CRS를 확인하기 전 위경도로 사용 금지
+- annotation-matched 11지역 중 양·음성이 모두 있는 10지역을 outer test로 한 번씩 쓰는 10-fold.
+  LanaoDelNorte 71개(양성 0)는 false-positive stress cohort로만 보존
+- sample manifest와 각 fold train/val/test 목록의 SHA-256
+
+C0 실측은 13,628/13,628 readable, 공통 schema gate 8/8 통과다. retrospective/R-event는
+`hiroshima_s2_1427`, `hiroshima_s2_1428` 두 label anomaly를 fail-closed로 제외해
+**13,626 전체 eligible / headline 6,834**로 봉인했다. 전체 양성의 단일 pre/post coverage는
+5,397/6,737 = **80.11%**라 S≤t는 아직 열지 않는다.
+
+### G-P — 비교가 공정해지는 최소 표
+
+| arm | S12q segmentation | 목적 |
 |---|---|---|
-| **핵심 (1~5)** | **1** | M13 (Italy↔Korea annotation 호환성) |
-| 6 E_live 배관 | 7 | M16 M17 M18 M19 M20 M21 M22 |
+| P0 | all-negative / prevalence predictor | 불균형 하한 |
+| P1 | raw spectral shallow U-Net | embedding 불필요 가능성 |
+| P2 | 3D-UNet | Sen12 논문의 효율적인 temporal baseline을 동일 12시점으로 재학습 |
+| P3 | U-TAE | 다른 temporal inductive bias |
+| P4 | **frozen OLMo v1 + 같은 용량의 spatial decoder** | G-P 대상 |
+| P5 | frozen Prithvi-EO-2.0 + 같은 decoder | OLMo 한정 여부와 최신 근접연구 대조 |
 
-그리고 핵심 경로의 실제 상태를 서버에서 확인했음.
+OLMo v1.2는 12밴드 단일 group이고 Sen12는 B01·B09가 없는 10밴드라 v1과 대칭 입력이 안 된다.
+따라서 **첫 task 자격 시험은 v1만** 쓴다. v1.2는 band imputation 실험이 아니라 입력계약 연구
+(M8/FoldRefresh)에 남긴다. P4/P5의 decoder 깊이·parameter 수·학습 epoch·augmentation은 기록한다.
 
-```
-Sen12Landslides 수신    없음
-71363 12밴드 물질화     없음
-frozen OLMo probe       없음
-```
+1 run 시간을 smoke에서 먼저 잰다. 그 값으로 전체 fold×seed 예산을 동결하며, 실행 중 성능을 보고
+seed나 fold를 줄이지 않는다.
 
-**즉 사슬의 1번조차 시작되지 않은 상태에서 6번 배관을 7건 했음.** KMA 작업이 쓸모없는 것은
-아니지만(M17·M21·M22는 6번에 그대로 쓰임), **1~5 없이 6은 의미가 없음.**
+**G-P smoke 실측**: 10지역·양/음성 32/32의 64표본, 256 crop이 15.44초(모델 로드 4.75초 제외),
+**4.146 sample/s**, peak CUDA **0.740 GB**, fp16 spatial cache **1,572,992 B/sample**, 첫 표본
+재실행 max-abs diff **0.0**, shape 64/64 `768×32×32`, finite 64/64로 6/6 gate를 통과했다.
+이 속도를 단순 외삽하면 headline 6,834개는 약 **27.5분 / 10.75 GB**다. 이는 embedding extraction
+예산이지 decoder 학습시간이 아니며 pilot에서 따로 잰다.
 
-## 지금의 유일한 다음 행동
+## 판정 기준
 
-**Sen12Landslides harmonized S2 수신 → G-P frozen probe.**
+| gate | 통과 조건 | 실패 시 |
+|---|---|---|
+| C0 | core contract 전 파일 통과 + LOCO seal | 오류 유형·지역을 분리하고 고친 뒤 재봉인. 성능 실행 금지 |
+| G-P | S12q region-macro IoU와 AUPRC에서 P4가 max(P2,P3)의 **95% 이상**, P1보다 우수, catastrophic fold 없음 | OLMo를 MountainShift backbone으로 쓰지 않음 |
+| G-R | R-event에서 pooled OLMo가 raw spectral보다 우수 | “다중 task 공유 cache” 주장을 보류 |
+| G-T | T-m zero/few-shot 곡선이 local-only/naive pooling보다 우수 | transfer 주장을 접고 Korea를 독립 배치 사례로만 보고 |
+| G-S | E_static ≥+2%p, region CI 하한>0, worst-region 저하≤1%p | static residual method 주장 철회 |
+| G-N | region shuffle / spatial shift / time shift에서 이득 소멸 | leakage로 판정하고 해당 주장 철회 |
+| G-L | 미래정보 0건, cutoff provenance ≥95%, accuracy 또는 lead-time 개선 | live는 inference-fusion 배관으로만 보고 |
+| G-CV | R-cache가 no-router/uncertainty-only/fixed schedule보다 accuracy-cost Pareto 우위 | system/benchmark 또는 워크숍으로 축소 |
 
-수신은 2026-08-25 시작함(28 파트 39.42 GB, 파트당 20~30초). 이유:
-- `T-x`에 Italy(47,522 폴리곤, 전체의 63%)가 필요함
-- `T-m`에 Höhn 11지역이 필요함
-- 둘 다 이 데이터셋 안에 있고 파트가 지역별로 묶여 있어 대부분을 받아야 함
-- `data_harmonized`만 받음. `data_raw`와 섞으면 PB04 offset 보정 상태가 달라짐 (M11)
+논문에 보고할 독립 단위는 타일이 아니라 **region과 canonical event**다. pixel pooled 수치와 함께
+region/event macro, fold 원자료, paired bootstrap 또는 randomization interval을 모두 둔다.
 
-G-P는 GPU가 필요함. 2026-08-25 19시 기준 두 GPU가 다른 프로젝트 점유(각 62 GB)이므로
-`bin/gpu1` 래퍼가 실행을 거부함. 비면 즉시 돌림.
+## 2026-08-25 prior-art 충돌과 CVPR 경로
 
-## 이 문서로 대체되는 우선순위
+`frozen VFM + terrain/material/rainfall residual`은 더 이상 충분한 novelty가 아니다.
+2026-08-10 공개된 **GeoPhysAdapter**가 이미 Prithvi를 고정하고, 4개 공개 source·55 event·7,890
+test sample에서 terrain/material/trigger를 pixel/object scale로 제한하며 misalignment·time-shift·
+cross-anchor 통제까지 수행했다. 따라서 A3/A4가 좋아지는 것만으로는 CVPR method claim을 하지 않는다.
 
-| 문서 | 관계 |
-|---|---|
-| `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md` | arm·지표·게이트의 **상세**는 여기가 authoritative. 다만 **순서는 이 문서를 따름** |
-| `docs/GK2A_INTEGRATION.md` | 6번(E_live) 설계. **1~5가 닫히기 전에 열지 않음** |
-| `docs/DAILY_OPS.md` | GK2A 수집은 계속함 — 2일 보존이라 미루면 소실되므로 **예외** |
-| `RESEARCH_EXECUTION_PLAN.md` | 7일 queue는 이 사슬 순서로 재해석함 |
+남아 있는 더 강한 질문은 아래다.
 
-## 하지 않을 것 (사슬 1~5가 닫히기 전)
+> task `q`, cache 상태 `c`, 새 관측/모델 변경 `d`, 비용 budget `B`가 있을 때,
+> `reuse / add_static / refresh_live / recompute_release` 중 어느 action이 downstream loss를 가장
+> 많이 줄이는가?
 
-- KMA API 추가 신청·파라미터 탐색 (레이더, 단기예보, 격자 오프셋 재시도)
-- GK2A 격자 좌표계 확정 시도 (M20에서 보류. Area 경로로 우회 가능)
-- 선행강우지수 설계
-- 센서 축 (아리랑 5호·차세대중형위성)
-- 네팔·스위스 access audit
-- 새 문서 생성
+router는 `Δloss(q, action | drift, freshness, quality)`와 action cost를 예측한다. 평가는 단순 F1이
+아니라 **oracle 대비 regret, calibration, GPU시간·storage·latency를 포함한 Pareto frontier**다.
+FoldRefresh는 `recompute_release`, MountainShift는 `add_static/refresh_live`, M1·M8은 drift feature를
+제공한다. 이 결합이 검증될 때만 세 프레임이 하나의 CVPR 방법이 된다.
 
-## 판정 기준을 미리 적어둠
+## 지금 하지 않을 것
 
-| 단계 | 실패 시 |
-|---|---|
-| 1 G-P 실패 | GeoFM을 backbone으로 쓰지 않음. task-specific 모델로 전환하고 그 결과를 보고함 |
-| 2·3 전이가 zero-shot에서 무의미 | `E_transfer` 주장을 접고 few-shot 곡선만 보고함 |
-| 4 `E_annotation`이 0에 가까움 | 도화 기준 차이가 전이에 영향 없다는 **음성 결과**. M12의 경고를 완화하는 근거가 됨 |
-| 5 `E_static` +2%p 미달 | 지역 residual 주장 철회 |
-| 7 G-N에서 이득 잔존 | **전부 철회.** 그것은 지역 정보가 아니라 leakage임 |
+- C0/G-P 전에 264-run 전체 matrix 실행
+- static/live feature를 그냥 10 m로 broadcast하고 novelty라고 주장
+- GPU0 사용
+- C0 전에 한국·Italy 결과로 하이퍼파라미터 선택
+- 네팔·스위스를 headline 독립표본으로 과장
+- OLMo v1.2의 빠진 B01·B09를 사후 편의대로 채우기
+
+## 다음 세 행동
+
+1. 64개 smoke cache로 P1 raw spectral과 P4 frozen-feature decoder의 tensor/head 계약을 확인한다.
+2. 가장 작은 한 LOCO fold·seed에서 P1/P2/P4를 돌려 effect와 runtime을 보고 full G-P 예산을 확정한다.
+3. G-P와 G-R을 통과한 뒤에만 한국 T-m/T-x를 연다.
+
+## 이번 재설계에 직접 사용한 공개 근거
+
+- [Sen12Landslides data descriptor](https://www.nature.com/articles/s41597-025-06167-2) — 15시점,
+  3D-UNet/U-TAE/U-ConvLSTM baseline과 기존 stratified split의 범위
+- [GeoPhysAdapter](https://arxiv.org/abs/2608.09325) — frozen Prithvi + scale-matched physical prior가
+  이미 직접 경쟁선임
+- [rs-embed](https://arxiv.org/abs/2602.23678) — multi-model embedding 생성·표준화·batch cache는
+  이미 존재하며, 우리의 차별점은 task-risk 기반 refresh decision이어야 함
+- [How to Embed Matters](https://openaccess.thecvf.com/content/CVPR2026W/EarthVision/html/Gilch_How_to_Embed_Matters_Evaluation_of_EO_Embedding_Design_Choices_CVPRW_2026_paper.html)
+  — 한 embedding을 여러 task에 재사용하는 효율성은 중요하지만 task별 설계 차이가 성능을 바꿈

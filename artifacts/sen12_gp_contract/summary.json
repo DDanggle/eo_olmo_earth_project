@@ -1,0 +1,90 @@
+{
+  "annotation_matched_regions": [
+    "chimanimani",
+    "china",
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "lanaodelnorte",
+    "newzealand",
+    "thrissur"
+  ],
+  "center_attrs_geographic_count": 0,
+  "center_attrs_projected_or_invalid_count": 13628,
+  "headline_s15_eligible_samples": 6834,
+  "headline_samples": 6836,
+  "label_anomaly_policy": "exclude from S15 and R-event; preserve source unchanged",
+  "limit": null,
+  "negative_only_regions": {
+    "lanaodelnorte": 71
+  },
+  "negative_pseudo_cutoff_policy_frozen": false,
+  "notes": [
+    "MASK는 15개 시점의 독립 라벨이 아니라 동일 event polygon의 반복인지 전수 검사한다.",
+    "center_lat/lon은 이름만으로 위경도로 쓰지 않고 CRS와 값 범위를 함께 검사한다.",
+    "annotation-matched Höhn 11지역 중 LanaoDelNorte는 양성 MASK가 0이라 S15 headline에서 제외한다.",
+    "G-P S15 headline은 Italy가 아니라 task-eligible Höhn 10지역 LOCO다."
+  ],
+  "operational_cutoff_ready": false,
+  "positive_prepost_coverage": 0.801098,
+  "positive_prepost_valid": 5397,
+  "positive_region_counts": {
+    "chimanimani": 423,
+    "china": 81,
+    "dominicamaria": 403,
+    "hiroshima": 457,
+    "hokkaido": 150,
+    "indonesia": 300,
+    "italy": 2859,
+    "itogon": 125,
+    "kyrgyzstan1": 786,
+    "kyrgyzstan2": 215,
+    "nepal": 8,
+    "newzealand": 584,
+    "thrissur": 221,
+    "usa": 125
+  },
+  "region_counts": {
+    "chimanimani": 1133,
+    "china": 159,
+    "dominicamaria": 1148,
+    "hiroshima": 864,
+    "hokkaido": 290,
+    "indonesia": 573,
+    "italy": 5321,
+    "itogon": 235,
+    "kyrgyzstan1": 1566,
+    "kyrgyzstan2": 416,
+    "lanaodelnorte": 71,
+    "nepal": 14,
+    "newzealand": 1173,
+    "thrissur": 427,
+    "usa": 238
+  },
+  "retrospective_contract_ready": true,
+  "s15_eligible_samples": 13626,
+  "s15_excluded_label_anomalies": [
+    "hiroshima_s2_1427",
+    "hiroshima_s2_1428"
+  ],
+  "s15_excluded_label_anomalies_sha256": "bf086042f20039e8cab929e1d757da05925c86b4d6462de2ed72de35be23afc8",
+  "sample_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+  "samples_indexed": 13628,
+  "samples_positive": 6737,
+  "samples_readable": 13628,
+  "schema": "sen12-gp-contract-v1",
+  "schema_gates": {
+    "all_indexed_files_readable": true,
+    "binary_static_mask": true,
+    "headline_10_regions_present": true,
+    "headline_regions_have_both_classes": true,
+    "required_vars_present": true,
+    "s2_10band_contract": true,
+    "time_strictly_ordered": true,
+    "uniform_15x128x128": true
+  },
+  "source_index_sha256": "b6fe0c854808485ae87a9b6e3c6f7bd39db2d4004e511b30b1188928a697f086"
+}

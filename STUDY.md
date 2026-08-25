@@ -28,6 +28,29 @@
 
 ## 개념 카드
 
+### #48 모델의 최대 time embedding 길이도 downstream 비교 계약이다 (2026-08-25, G-P smoke)
+
+Sen12는 15시점이지만 OLMoEarth v1의 learned time embedding table은 12개여서 실제 forward가
+`12 != 15`로 실패했다. OLMo만 12개, task-specific baseline은 15개를 쓰면 표현력 차이와 입력정보량
+차이가 섞인다. 그래서 라벨·event date를 보지 않고 SCL clear fraction 상위 12개를 고른 뒤 시간순으로
+복원하는 S12q를 만들고 모든 G-P arm에 같은 index를 준다. 논문의 15시점 성능은 S15-ref로 따로
+재현해야 하며 G-P 분모로 직접 쓰지 않는다.
+
+**확인 질문**: foundation model의 입력 시점 수가 baseline보다 작을 때 “baseline의 95%” gate를
+유효하게 만들려면 어떤 matched-input arm과 reference arm이 필요한가?
+
+### #47 시계열 cube의 반복 MASK는 시점별 독립 라벨이 아니다 (2026-08-25, Sen12 C0)
+
+Sen12 S2 표본은 `time=15`이고 `MASK`도 time 차원을 갖지만, 실물 smoke에서 한 표본의 mask는
+모든 시점에 동일했다. 이것은 각 시점에 새로 관측한 산사태 상태가 아니라 한 event polygon을
+모든 영상 옆에 반복 저장한 것이다. 이를 15개 label로 세면 표본 수와 독립성을 15배 부풀리고,
+event 전 영상에도 사후 polygon을 붙인 채 prospective detection이라고 오해하게 된다. 따라서
+retrospective S15 segmentation과 cutoff-valid S≤t를 분리하고, 통계 단위는 canonical event/region으로
+둔다. 음성 patch에는 event date가 없으므로 S≤t의 pseudo-cutoff도 계절·지역을 맞춰 미리 동결한다.
+
+**확인 질문**: `MASK(time)`의 배열 shape만 보고 time-varying label이라고 판단하면 왜 leakage와
+pseudoreplication이 동시에 생기는가? S15와 S≤t는 baseline 입력과 주장 문구가 어떻게 달라야 하는가?
+
 ### #46 느린 EO cache와 near-real-time residual은 다른 시계다 (2026-08-25)
 
 Sentinel-1/2 기반 Earth embedding을 `실시간`이라고 부르며 매 alert마다 전체 gallery를 다시

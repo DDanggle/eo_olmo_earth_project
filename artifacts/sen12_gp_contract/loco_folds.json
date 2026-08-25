@@ -1,0 +1,269 @@
+{
+  "folds": [
+    {
+      "fold": "holdout_chimanimani",
+      "sample_counts": {
+        "test": 1133,
+        "train": 5542,
+        "val": 159
+      },
+      "sample_sha256": {
+        "test": "d103465cf8ed5bb3a44d1ab45c7eb7bfd409e45184c5198d693d19cd75843e52",
+        "train": "eab929a4f865dcf82717b85197be98c7c80865fc96b3a6af230fda740a4a875e",
+        "val": "e0c1b59aac10285e0c726917a6ceeae2a6eb94da97cd8234b43105900c2d11cf"
+      },
+      "test_region": "chimanimani",
+      "train_regions": [
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "china"
+    },
+    {
+      "fold": "holdout_china",
+      "sample_counts": {
+        "test": 159,
+        "train": 5813,
+        "val": 862
+      },
+      "sample_sha256": {
+        "test": "e0c1b59aac10285e0c726917a6ceeae2a6eb94da97cd8234b43105900c2d11cf",
+        "train": "98b82206382c0c111dcc9dc941bddfce66d77d7edb909168372037040cabd881",
+        "val": "eb30bee232f6f21df307c040a466d5fc171a9e461b6d6e29542dd04dfec64217"
+      },
+      "test_region": "china",
+      "train_regions": [
+        "chimanimani",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "hiroshima"
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "sample_counts": {
+        "test": 862,
+        "train": 5682,
+        "val": 290
+      },
+      "sample_sha256": {
+        "test": "eb30bee232f6f21df307c040a466d5fc171a9e461b6d6e29542dd04dfec64217",
+        "train": "62e23bd32d55b403490f73a0f3a46eb6dda6de4516252da84774dd792dd0c07b",
+        "val": "e190168f52b9de32ea537a10ae87791093ac0f338edc5330b4aeb90432955f4d"
+      },
+      "test_region": "hiroshima",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "hokkaido"
+    },
+    {
+      "fold": "holdout_hokkaido",
+      "sample_counts": {
+        "test": 290,
+        "train": 5971,
+        "val": 573
+      },
+      "sample_sha256": {
+        "test": "e190168f52b9de32ea537a10ae87791093ac0f338edc5330b4aeb90432955f4d",
+        "train": "adf143484c2f188c2758a579f460b2be21b6ac4b08e3913d8f5454df0c05b13e",
+        "val": "514c813a35429d2060c4fa29013c07476983ec34f889dbd2b3f15f43a9650b71"
+      },
+      "test_region": "hokkaido",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "indonesia"
+    },
+    {
+      "fold": "holdout_indonesia",
+      "sample_counts": {
+        "test": 573,
+        "train": 6026,
+        "val": 235
+      },
+      "sample_sha256": {
+        "test": "514c813a35429d2060c4fa29013c07476983ec34f889dbd2b3f15f43a9650b71",
+        "train": "e3770b4fece71b15cc219655fd9cb7234bb94ced29398ea63741bcc0e225866a",
+        "val": "3c3d18ca4a381552b633d0142ec717f70945f411747a1904efbde11dc7b09508"
+      },
+      "test_region": "indonesia",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "itogon"
+    },
+    {
+      "fold": "holdout_itogon",
+      "sample_counts": {
+        "test": 235,
+        "train": 5033,
+        "val": 1566
+      },
+      "sample_sha256": {
+        "test": "3c3d18ca4a381552b633d0142ec717f70945f411747a1904efbde11dc7b09508",
+        "train": "df4fd0afa9a3f62638ed16ab2457579bdf1d60714eeec08c133b0542c5b5f9a0",
+        "val": "56e9178e96e708d0b7105d06790c78a8a04ad9f3c62deb8312254682a821a9bb"
+      },
+      "test_region": "itogon",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "kyrgyzstan1"
+    },
+    {
+      "fold": "holdout_kyrgyzstan1",
+      "sample_counts": {
+        "test": 1566,
+        "train": 4852,
+        "val": 416
+      },
+      "sample_sha256": {
+        "test": "56e9178e96e708d0b7105d06790c78a8a04ad9f3c62deb8312254682a821a9bb",
+        "train": "2d197ca0a87291ecef75e542fcf886c5f330fdf5f9ef2430daf826d3eaa7a11a",
+        "val": "02c4f7c9b535769f559ad723858dda2e7561d85a0821b2aa71906af33c213334"
+      },
+      "test_region": "kyrgyzstan1",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "kyrgyzstan2"
+    },
+    {
+      "fold": "holdout_kyrgyzstan2",
+      "sample_counts": {
+        "test": 416,
+        "train": 5245,
+        "val": 1173
+      },
+      "sample_sha256": {
+        "test": "02c4f7c9b535769f559ad723858dda2e7561d85a0821b2aa71906af33c213334",
+        "train": "8eda7d7350a01cfbdf214e3834069f4b4d3a88b8fa67a4ec315b4d0b17ae7e04",
+        "val": "e832d00919c84f5bb72d177c796c13e5239f31fafaa3e46a554c7735bb198984"
+      },
+      "test_region": "kyrgyzstan2",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "thrissur"
+      ],
+      "val_region": "newzealand"
+    },
+    {
+      "fold": "holdout_newzealand",
+      "sample_counts": {
+        "test": 1173,
+        "train": 5234,
+        "val": 427
+      },
+      "sample_sha256": {
+        "test": "e832d00919c84f5bb72d177c796c13e5239f31fafaa3e46a554c7735bb198984",
+        "train": "3dd3fcb6ba861544bc7dce98a3c0843f8dfe93d3fded398ec2882708b5dce6b2",
+        "val": "71b230130f11bbe2b7f86d92065f8febbaef779c35faaa190163c9fe3a6728ad"
+      },
+      "test_region": "newzealand",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2"
+      ],
+      "val_region": "thrissur"
+    },
+    {
+      "fold": "holdout_thrissur",
+      "sample_counts": {
+        "test": 427,
+        "train": 5274,
+        "val": 1133
+      },
+      "sample_sha256": {
+        "test": "71b230130f11bbe2b7f86d92065f8febbaef779c35faaa190163c9fe3a6728ad",
+        "train": "5aff45edb102be3f5e331fa8d45e48c00aa5b9fc51bd921ac602d26afe17e640",
+        "val": "d103465cf8ed5bb3a44d1ab45c7eb7bfd409e45184c5198d693d19cd75843e52"
+      },
+      "test_region": "thrissur",
+      "train_regions": [
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand"
+      ],
+      "val_region": "chimanimani"
+    }
+  ],
+  "headline_regions": [
+    "chimanimani",
+    "china",
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+  ],
+  "sample_contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+  "schema": "sen12-gp-loco-v1",
+  "validation_rule": "next region in the frozen HEADLINE_REGIONS order"
+}
