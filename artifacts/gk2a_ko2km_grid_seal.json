@@ -1,0 +1,182 @@
+{
+  "expect": {
+    "cells": 127040,
+    "xdim": 320,
+    "ydim": 397
+  },
+  "extent": {
+    "lat": [
+      29.31225,
+      46.35796
+    ],
+    "lon": [
+      113.99642,
+      138.00359
+    ]
+  },
+  "full_grid": {
+    "cells": 810000,
+    "nx": 900,
+    "ny": 900
+  },
+  "gates_seal_a_grid_file": {
+    "V1_cell_count": true,
+    "V2_storage_order": true,
+    "V3_extent_in_domain": true
+  },
+  "gates_seal_b_window_mapping": {
+    "V4_anchor_match": false
+  },
+  "lat": {
+    "bytes": 8181016,
+    "count": 810000,
+    "header_dims": [
+      900,
+      900
+    ],
+    "http": 200,
+    "raw_file": "/Users/dgyi/dong/ai_projects/data/gk2a/_grid/ko2km_lat.txt",
+    "sha256": "997ebe8c066194d63e8892919dfcd2807bc3e70414e112314dd3685a455d9d1d"
+  },
+  "lon": {
+    "bytes": 8991016,
+    "count": 810000,
+    "header_dims": [
+      900,
+      900
+    ],
+    "http": 200,
+    "raw_file": "/Users/dgyi/dong/ai_projects/data/gk2a/_grid/ko2km_lon.txt",
+    "sha256": "2b1f43a28a8002e1862394af860bf45cbee6a920dda512ff728a0cff5b16fad3"
+  },
+  "params": {
+    "area": "KO",
+    "disp": "A",
+    "grid": 2
+  },
+  "schema": "gk2a-ko2km-grid-seal-v1",
+  "seal_a_sha256": "0476c9ad622bbedb1e825e9c0203280306e6bcb736d23faf3a47672d9d481e1a",
+  "seal_b_status": "미결 — data.go.kr 경량화 활용가이드의 x0/y0 정의 필요. 앵커 4곳으로는 식별 불가(동률 x0 213개)",
+  "source": "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-gk2a_latlon_api",
+  "v2_detail": {
+    "lat_col_monotonic": "inc 0/18, dec 18/18",
+    "lat_direction": "north_to_south",
+    "lon_row_monotonic": "18/18"
+  },
+  "v4_anchor": {
+    "best": "y_down",
+    "best_match_rate": 0.2396,
+    "note": "자유 매개변수 0개. 대응은 공식 격자에서 직접 옴",
+    "subset_origin": {
+      "x0": 63,
+      "xdim": 320,
+      "y0": 333,
+      "ydim": 397
+    },
+    "threshold": 0.9,
+    "unique_anchor_points": 4,
+    "variants": {
+      "y_down": {
+        "compared": 96,
+        "match": 23,
+        "match_rate": 0.2396,
+        "samples": [
+          {
+            "anchor": [
+              126.97065,
+              37.58414
+            ],
+            "area_value": "1",
+            "cell": [
+              124.43405,
+              37.51636
+            ],
+            "dateTime": "202608230000",
+            "dist_deg": 2.5375,
+            "dong": "1111051500",
+            "grid_value": "0"
+          },
+          {
+            "anchor": [
+              126.97911,
+              37.55963
+            ],
+            "area_value": "1",
+            "cell": [
+              124.4345,
+              37.49789
+            ],
+            "dateTime": "202608230000",
+            "dist_deg": 2.54536,
+            "dong": "1114052000",
+            "grid_value": "0"
+          },
+          {
+            "anchor": [
+              129.03758,
+              35.09819
+            ],
+            "area_value": "1",
+            "cell": [
+              124.49383,
+              34.99298
+            ],
+            "dateTime": "202608230000",
+            "dist_deg": 4.54497,
+            "dong": "2611051000",
+            "grid_value": "0"
+          },
+          {
+            "anchor": [
+              129.33699,
+              35.55232
+            ],
+            "area_value": "1",
+            "cell": [
+              124.48369,
+              35.43385
+            ],
+            "dateTime": "202608230000",
+            "dist_deg": 4.85475,
+            "dong": "3111051000",
+            "grid_value": "0"
+          },
+          {
+            "anchor": [
+              126.97065,
+              37.58414
+            ],
+            "area_value": "1",
+            "cell": [
+              124.43405,
+              37.51636
+            ],
+            "dateTime": "202608230200",
+            "dist_deg": 2.5375,
+            "dong": "1111051500",
+            "grid_value": "0"
+          },
+          {
+            "anchor": [
+              126.97911,
+              37.55963
+            ],
+            "area_value": "1",
+            "cell": [
+              124.4345,
+              37.49789
+            ],
+            "dateTime": "202608230200",
+            "dist_deg": 2.54536,
+            "dong": "1114052000",
+            "grid_value": "0"
+          }
+        ]
+      },
+      "y_up": {
+        "error": "창이 격자 밖"
+      }
+    }
+  },
+  "verdict": "Seal A 완료 — 공식 격자 파일 봉인됨(투영 역공학 불필요). Seal B 미결 — 창 매핑 없이는 격자를 AOI에 붙이지 않음"
+}

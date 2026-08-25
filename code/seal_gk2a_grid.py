@@ -20,14 +20,23 @@
   V1 개수    lon·lat 원소 수가 GK2A 응답의 `xdim × ydim` = 320 × 397 = 127,040과 같음
   V2 순서    row-major (397, 320)로 재구성했을 때 한 행 안에서 경도가 단조증가하고
              한 열 안에서 위도가 단조(증가 또는 감소)함. 아니면 저장 순서가 다른 것임
-  V3 범위    경도 120~135, 위도 30~45 안에 들어옴 (한반도 영역)
-  V4 앵커    **자유 매개변수 0개**로 검증함. Area API가 준 앵커의 lon/lat에 대해 공식
-             격자에서 최근접 칸을 찾고, 같은 시각 격자값이 Area 값과 일치하는지 봄.
-             일치율 ≥ 0.90 이면 통과.
+  V3 범위    공식 KO/2km 도메인 범위 안에 들어옴 (실측 113.996~138.004 E, 29.312~45.729 N)
 
-V4가 M15와 결정적으로 다른 점: **아무것도 적합하지 않음.** 대응 관계가 공식 파일에서
-직접 오므로, 높은 일치율은 증거가 되고 낮은 일치율은 반증이 됨. 앵커가 4곳이라는 한계는
-남지만 in-sample fit 문제는 사라짐.
+이 셋이 통과하면 **격자 파일 자체가 봉인됨(Seal A)**. 투영을 다시 역공학할 필요가 사라짐.
+
+  V4 창      경량화 응답의 `x0/y0`가 이 격자의 어디를 가리키는지. **미결(Seal B)**.
+
+V4는 왜 지금 풀 수 없는가 (2026-08-25 실측):
+  - `y0=333`을 행 인덱스로 보면 위도 40.08~32.81로 한반도를 덮어 그럴듯함
+  - 그러나 `x0=63`을 열 인덱스로 보면 경도 116.69~124.54로 **한국보다 서쪽**임
+  - EA 격자(3000×2600, 76.81 E 시작)로 봐도 열 63은 서쪽이라 안 맞음
+  - 앵커로 x0을 정하려 하면 **식별 불가**임: y0=333 고정 후 x0만 탐색해도
+    최악 앵커 거리 1.17 km(반 칸)를 내는 x0이 **213개** 동률임. 320폭 창이 앵커를
+    포함하기만 하면 거리가 항상 반 칸이 되기 때문임. y0도 같은 이유로 확인된 게 아님
+  - 이는 M15에서 철회한 것과 **같은 종류의 함정**임. 적합으로 메우지 않음
+
+따라서 Seal B는 data.go.kr **위성자료 경량화 활용가이드(참고문서)** 의 `x0/y0` 정의를
+확보한 뒤에만 닫음.
 """
 from __future__ import annotations
 
@@ -49,7 +58,13 @@ OUT = GK2A_ROOT / "_grid"
 EXPECT_X, EXPECT_Y = 320, 397          # GK2A 응답의 xdim, ydim (실측)
 # 공식 KO/2km 전체 격자. 파일 첫 줄이 "900, 900,=" 이므로 900x900임 (실측).
 FULL_NX, FULL_NY = 900, 900
-LON_RANGE, LAT_RANGE = (120.0, 135.0), (30.0, 45.0)
+# 공식 KO/2km 도메인의 실측 범위. 처음에 (120~135, 30~45)로 좁게 잡아 V3이 틀리게 실패했음 —
+# 격자 문제가 아니라 **게이트 문제**였음. LCC라 위도에 따라 경도 폭이 수렴함:
+#   행 0   lon 113.996 ~ 138.004,  lat 45.729
+#   행 899 lon 116.753 ~ 135.247,  lat 29.312
+LON_RANGE, LAT_RANGE = (113.0, 139.0), (29.0, 46.5)
+# 창이 담아야 하는 한반도 범위 (창 오프셋이 확정된 뒤에만 검사 가능)
+KOREA_LON, KOREA_LAT = (124.5, 131.9), (33.0, 38.7)
 ANCHOR_MATCH_MIN = 0.90
 
 
@@ -246,17 +261,28 @@ def main() -> None:
                                              "xdim": EXPECT_X, "ydim": EXPECT_Y},
                            "note": "자유 매개변수 0개. 대응은 공식 격자에서 직접 옴"}
 
-    result["gates"] = {"V1_cell_count": v1, "V2_storage_order": v2,
-                       "V3_extent_in_korea": v3, "V4_anchor_match": v4}
-    sealed = all(result["gates"].values())
-    if sealed:
-        payload = json.dumps({k: v for k, v in result.items() if k != "seal_sha256"},
-                             ensure_ascii=False, sort_keys=True)
-        result["seal_sha256"] = hashlib.sha256(payload.encode()).hexdigest()
-        result["verdict"] = "봉인 완료 — 이 격자 대응을 실험에 사용할 수 있음"
-    else:
-        failed = [k for k, v in result["gates"].items() if not v]
-        result["verdict"] = f"봉인 보류 — 실패 게이트 {failed}. 격자를 실험에 쓰지 않음"
+    # ---- 봉인을 둘로 분리함 ----
+    # Seal A: 격자 파일 자체. V1~V3만 필요하며 창 오프셋과 무관함.
+    # Seal B: 경량화 응답의 창 오프셋 매핑. 활용가이드가 없으면 미결이며,
+    #         앵커 적합으로 대체하지 않음(식별 불가 — docstring 참조).
+    result["gates_seal_a_grid_file"] = {"V1_cell_count": v1, "V2_storage_order": v2,
+                                        "V3_extent_in_domain": v3}
+    result["gates_seal_b_window_mapping"] = {"V4_anchor_match": v4}
+    seal_a = all(result["gates_seal_a_grid_file"].values())
+    if seal_a:
+        payload = json.dumps(
+            {"lon_sha256": result["lon"]["sha256"], "lat_sha256": result["lat"]["sha256"],
+             "full_grid": result["full_grid"], "v2_detail": result.get("v2_detail"),
+             "extent": result.get("extent")}, ensure_ascii=False, sort_keys=True)
+        result["seal_a_sha256"] = hashlib.sha256(payload.encode()).hexdigest()
+    result["seal_b_status"] = ("확정" if v4 else
+                               "미결 — data.go.kr 경량화 활용가이드의 x0/y0 정의 필요. "
+                               "앵커 4곳으로는 식별 불가(동률 x0 213개)")
+    result["verdict"] = (
+        ("Seal A 완료 — 공식 격자 파일 봉인됨(투영 역공학 불필요). " if seal_a
+         else f"Seal A 실패 {[k for k, v in result['gates_seal_a_grid_file'].items() if not v]}. ")
+        + ("Seal B 완료 — 창 매핑 확정, 실험 사용 가능" if v4
+           else "Seal B 미결 — 창 매핑 없이는 격자를 AOI에 붙이지 않음"))
 
     (OUT / "grid_seal.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
