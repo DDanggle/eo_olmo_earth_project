@@ -487,6 +487,28 @@ Kyrgyzstan1 · Kyrgyzstan2 · LanaoDelNorte · Newzealand · Thrissur
 - **말할 수 없는 것**: 저자를 고정해도 MMU가 20배 남는다. 면적 하한의 보존율이
   Chimanimani 15.2%로 낮으므로, 하한값에 대한 **민감도 분석**이 필요하다.
   라벨 정확도 자체(폴리곤이 옳은가)는 검증하지 않았다.
+### 이 교락이 원 논문의 결과에 실제로 닿는가 — 닿는다
+
+원 논문(Sci Data 2025)을 확인했다.
+
+- **Experiment 3에서 leave-one-cluster-out을 수행한다.** 6개 지리 군집:
+  Americas / Europe / Africa / Central Asia / Southeast Asia / Oceania.
+- 라벨 잡음은 인정한다 — *"the ground truth data was noisy, particularly in inventories
+  derived from deep learning models"*. slope < 7% 제외 등 정제도 했다.
+- **그러나 원 inventory 간 도화 기준(최소 도화 면적·상세도) 이질성에 대한 명시적 논의는 없다.**
+
+우리 측정과 겹쳐 보면: inventory에 유럽 지역은 Italy 하나뿐이고 Italy = Ferrario 47,522
+(전체의 63%, MMU 62.9 m²)다. 따라서 **Europe 군집을 hold-out하는 것은 사실상 한 저자를
+hold-out하는 것**이고, 그 저자의 MMU는 다른 지역보다 최대 1,916배 작다.
+Americas 군집도 DominicaMaria(Emberson) + USA_*(Belair)로 저자가 갈린다.
+
+- **말할 수 있는 것**: 공개 benchmark의 지역 일반화 평가가 annotation 이질성과 교락돼 있고,
+  원 논문이 이를 논의하지 않는다. M9(공식 split 공간 누수)와 **같은 종류의 benchmark validity
+  결과**이며, 재현 스크립트가 있다.
+- **말할 수 없는 것**: 원 논문의 6개 군집 각각의 정확한 지역 구성을 논문에서 확인하지
+  않았다(우리 inventory 지역 목록으로 추정했다). 교락이 그들의 보고 수치를 **얼마나**
+  바꾸는지도 측정하지 않았다 — 저자 고정 LOCO와 raw LOCO를 같은 head로 비교해야 나온다.
+
 - **설계 변경**: **네팔은 이 inventory에서 폴리곤이 8개뿐이다.** 문서의 네팔 arm은
   Sen12Landslides로 성립하지 않는다. BIPAD/ICIMOD에서 따로 와야 하고 headline 지역이 아니다.
 
