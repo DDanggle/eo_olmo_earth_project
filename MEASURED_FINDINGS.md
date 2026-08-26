@@ -2598,6 +2598,84 @@ china 결과(M48·M51)를 "유리한 지역을 골랐다"고 공격할 근거가
 있으며 "학습에 쓰지 않은 geographic validation 지역에서의 반복 신호"가 정확한 표현임 —
 독립 test transfer가 아님.
 
+## M54. M52의 서술 세 곳을 **강등** — seed 부호 불일치와 미검정 격차를 반영
+
+**근거**: `evidence/factorial_3seed.json` 재분석(새 실행 없음),
+`evidence/action_matrix_v1/matrix_summary.json` 3-seed 재계산
+**동기**: 외부 감사가 M52의 표현이 한 단계 과장됐다고 지적했고, seed별 수치를 직접
+확인해 **전부 사실로 확인**했음.
+
+### seed별 대비 — 부호가 일치하는 것과 아닌 것
+
+| 대비 | seed 1 | seed 2 | seed 3 | 3/3 부호 일치 |
+|---|---|---|---|---|
+| C_small (문맥, 작은) | −0.0181 | −0.0004 | −0.0299 | **예** |
+| **C_large (문맥, 큰)** | −0.0724 | −0.0341 | **+0.0345** | **아니오** |
+| D_tiled (용량, tiled) | −0.0208 | −0.0414 | −0.0801 | **예** |
+| D_full (용량, full) | −0.0752 | −0.0751 | −0.0157 | **예** |
+| **상호작용 I** | −0.0544 | −0.0337 | **+0.0644** | **아니오** |
+
+### 강등 1 — "상호작용이 사실상 0"은 과장
+
+seed 3에서 **+0.0644로 부호가 뒤집힘**. 평균 −0.0079는 상호작용이 없다는 증거가
+아니라 **방향이 seed에 강하게 의존해 재현 가능한 효과로 식별되지 않았다**는 뜻임.
+정확한 서술: **"no robust evidence of interaction"**. "소멸"이라고 쓰지 않음.
+
+### 강등 2 — "문맥 효과 방향 생존"은 조건부
+
+`C_small`은 3/3 음수로 성립하나 `C_large`는 seed 3에서 양수임.
+정확한 서술: **"3-seed 평균에서는 full-context가 불리했으나, 큰 판독기 조건에서는
+seed별 방향이 일치하지 않았다."**
+
+### 유지 — 큰 판독기 손해는 강한 결과
+
+`D_tiled` 3/3 음수(−0.0208 / −0.0414 / −0.0801), `D_full` 3/3 음수
+(−0.0752 / −0.0751 / −0.0157). **두 문맥 계약 모두에서 6/6 seed 전부 음수.**
+이 task에서 decoder 용량 증가는 양성 타일 분할을 회복시키지 못했고 오히려 손해였음.
+M52에서 가장 단단한 결과임.
+
+### 강등 3 — "가장 싸고 1위"는 두 군데 과장
+
+1. **P4 > P3는 미검정.** 격차 0.0132인데 P4 폭 0.0397, P3 폭 0.0484임.
+   paired 공간 블록 CI를 내기 전에는 **"관측 평균 1위"**까지만 말함.
+2. **"가장 싸다"는 warm cache 기준.** M38 손익분기가 U-TAE 대비 8~12 task였으므로
+   **단일 task cold start에서는 U-TAE가 더 쌀 수 있음.**
+   정확한 표현: **"가장 싼 warm-cache head"**.
+
+## M55. E6 action matrix 3-seed 재계산 — 결정적 블록이 **3개 → 1개**로 더 줄었음
+
+**근거**: `code/build_action_matrix.py`(3-seed 연결 + 판정 강화),
+`evidence/action_matrix_v1/matrix_summary.json`
+**동기**: 감사 지적 — M52는 factorial 분석이었고 **action matrix 자체는 갱신되지 않았음**.
+`ACTIONS`가 `recontext`·`recontext_bigdec`·`raw_utae`를 여전히 seed 1 파일만 읽고 있었음.
+사실이었음.
+
+### 조치
+
+1. 세 action을 `matrix_fill`의 seed 2·3에 연결 → **전 action 3-seed** (`all_actions_3seed: true`)
+2. 판정 강화: `decisive` = **margin > seed 폭 그리고 3 seed 전부에서 top이 second를 이김**
+   (후자는 M54 교훈 — 평균 부호만 보면 seed에서 뒤집히는 효과를 놓침)
+
+### 결과
+
+| | M46 (seed 1 혼재) | **3-seed 재계산** |
+|---|---|---|
+| argmax 분포 | raw_utae 28 · reuse 16 · recontext 9 · reuse_bigdec 8 · raw_unet3d 5 · recontext_bigdec 3 | **reuse 24** · recontext 14 · raw_utae 12 · reuse_bigdec 11 · raw_unet3d 6 · recontext_bigdec 2 |
+| 결정적 블록 | 3 / 69 | **1 / 69** |
+
+**argmax는 여전히 6개 action에 흩어지지만 그 다양성이 재현되지 않음.**
+`reuse`가 24블록(35%)으로 최다이고, 판정 기준을 통과하는 블록은 `recontext` 1개뿐임.
+
+**M46의 결론이 강화됨**: 단일 task 안의 블록 단위 routing은 근거가 없음.
+이제 이 판정은 "seed 1 편향 때문"이라는 반론을 받지 않음 — 전 action이 3-seed임.
+
+### 감사 지적을 그대로 인용해 기록함
+
+> "M52는 올바른 3-seed factorial 분석이지만 'E6 action matrix 재실행 완료'는 아니다."
+
+맞음. M52 커밋 메시지의 "E6 재실행"은 factorial 재계산을 뜻했고 matrix는 갱신되지
+않았음. M55가 실제 재계산임.
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,
