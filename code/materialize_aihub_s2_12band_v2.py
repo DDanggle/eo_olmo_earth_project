@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import time
 from pathlib import Path
@@ -27,6 +28,8 @@ MIN_COMMON_COVERAGE = 0.999
 RESAMPLING = "nearest"
 TARGET_CRS = "EPSG:32652"
 TILE_PX = 1024
+TARGET_SPAN_M = 10_240.0
+TARGET_SPAN_TOLERANCE_M = 0.05
 STAC_URL = "https://planetarycomputer.microsoft.com/api/stac/v1"
 
 
@@ -53,6 +56,24 @@ def normalize_platform(value: str | None) -> str | None:
     if normalized in {"S2A", "S2B"}:
         return normalized
     return None
+
+
+def target_bbox_is_exact_10m_grid(bbox) -> bool:
+    """Accept only the inventory's 10.24 km square target, before any STAC I/O."""
+    if not isinstance(bbox, (list, tuple)) or len(bbox) != 4:
+        return False
+    try:
+        west, south, east, north = (float(value) for value in bbox)
+    except (TypeError, ValueError):
+        return False
+    if not all(math.isfinite(value) for value in (west, south, east, north)):
+        return False
+    return bool(
+        east > west
+        and north > south
+        and abs((east - west) - TARGET_SPAN_M) <= TARGET_SPAN_TOLERANCE_M
+        and abs((north - south) - TARGET_SPAN_M) <= TARGET_SPAN_TOLERANCE_M
+    )
 
 
 def sha256_file(path: Path) -> str:
@@ -88,11 +109,17 @@ def main() -> None:
     excluded_path = args.out / "excluded.jsonl"
 
     done = set()
-    for path in (manifest_path, excluded_path):
-        if path.exists():
-            for line in path.read_text(encoding="utf-8").splitlines():
-                if line:
-                    done.add(json.loads(line)["key"])
+    if manifest_path.exists():
+        for line in manifest_path.read_text(encoding="utf-8").splitlines():
+            if line:
+                done.add(json.loads(line)["key"])
+    if excluded_path.exists():
+        for line in excluded_path.read_text(encoding="utf-8").splitlines():
+            if line:
+                row = json.loads(line)
+                # Network/reader errors are not scientific exclusions and must be retryable.
+                if row.get("reason") != "error":
+                    done.add(row["key"])
 
     requested_keys = None
     if args.keys_file:
@@ -125,6 +152,16 @@ def main() -> None:
             iso_date = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
             expected_platform = normalize_platform(record.get("platform"))
             try:
+                target_bbox = record.get("utm52n_bbox")
+                if not target_bbox_is_exact_10m_grid(target_bbox):
+                    append_jsonl(excluded_stream, {
+                        "key": key, "date": iso_date, "reason": "invalid_target_grid",
+                        "utm52n_bbox": target_bbox,
+                        "required_span_m": TARGET_SPAN_M,
+                        "tolerance_m": TARGET_SPAN_TOLERANCE_M,
+                    })
+                    excluded += 1
+                    continue
                 search = client.search(
                     collections=["sentinel-2-l2a"],
                     bbox=record["wgs84_bbox"],
@@ -169,7 +206,7 @@ def main() -> None:
                     excluded += 1
                     continue
 
-                west, south, east, north = record["utm52n_bbox"]
+                west, south, east, north = target_bbox
                 target_transform = from_bounds(west, south, east, north, TILE_PX, TILE_PX)
                 cube = np.zeros((len(BANDS), TILE_PX, TILE_PX), dtype=np.uint16)
                 band_valid = np.zeros((len(BANDS), TILE_PX, TILE_PX), dtype=bool)
@@ -213,6 +250,12 @@ def main() -> None:
                     "candidate_ids": [item.id for item in cloud_items],
                     "candidate_cloud_cover": {
                         item.id: item.properties.get("eo:cloud_cover") for item in cloud_items
+                    },
+                    "target_utm52n_bbox": target_bbox,
+                    "target_wgs84_bbox": record["wgs84_bbox"],
+                    "candidate_item_footprints": {
+                        item.id: {"bbox": item.bbox, "geometry": item.geometry}
+                        for item in cloud_items
                     },
                     "item_contribution_by_band": item_contribution,
                     "missing_assets_by_item": missing_assets,
@@ -283,6 +326,8 @@ def main() -> None:
         "grid": {
             "crs": TARGET_CRS,
             "shape": [TILE_PX, TILE_PX],
+            "span_m": TARGET_SPAN_M,
+            "span_tolerance_m": TARGET_SPAN_TOLERANCE_M,
             "resampling": RESAMPLING,
             "min_common_12band_coverage": MIN_COMMON_COVERAGE,
         },

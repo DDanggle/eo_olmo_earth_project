@@ -138,19 +138,19 @@ Chimanimani test는 이미 노출된 development fold이므로 E1 원인진단 �
 
 ## 2026-08-26 재구성 — 이야기의 축을 성능 우열에서 **판단 문제**로 옮긴다
 
-### 지금 유의미한 사실은 "P4가 이겼다"가 아니다
+### 지금 유의미한 사실은 metric 교차가 아니라 recipe 의존성이다
 
-| 결과 | IoU | AP |
-|---|---|---|
-| P2-tiny raw | 0.1350 | **0.2861** |
-| P4 frozen OLMo | **0.1416** | 0.2251 |
+| 같은 공식 실행 | IoU | AUPRC | 해석 |
+|---|---:|---:|---|
+| P2 official-safe UNet3D | **0.1593** | **0.1746** | 현재 strong raw baseline |
+| P4 frozen last-layer + small decoder | 0.1306 | 0.1513 | 두 성능지표 모두 열세 |
+| P4c frozen last-layer + large decoder | 0.1777 | 0.2136 | E1의 한 노출된 개발 셀; positive-patch macro·LD-IoU는 P2보다 낮음 |
 
-**하나의 cache가 어떤 지표에는 충분하고 다른 지표에는 부족하다.** "무조건 재사용 가능"도
-"쓸모없음"도 아니다. 이것이 판단이 필요한 이유다.
-
-**단 정확히 좁혀 말한다** — 지금 있는 것은 **같은 task 안에서의 metric 이질성**이다.
-task 이질성이 아니다. IoU와 AP는 두 task가 아니라 한 task의 두 지표다.
-따라서 이 결과는 RQ2의 **동기**이지 RQ2의 **증거가 아니다.**
+P4-small에는 metric별 승자 교차가 없다. P4c의 회복 신호도 한 개발 지역·한 seed에서 decoder
+용량을 바꾼 결과일 뿐, task별 위험 이질성이나 router 필요성의 증거가 아니다. 지금 유의미한 것은
+**같은 embedding도 serving context와 decoder recipe에 따라 판정이 뒤집힐 수 있으므로 먼저 공정한
+representation action을 동결해야 한다**는 점이다. RQ2는 이후 같은 목적함수에서 task별 action
+gain의 순위가 실제로 달라지는지를 별도로 측정해야 한다.
 
 ### 논문의 사슬 — `기록`은 마지막 단계가 아니라 모든 단계의 증거층이다
 
@@ -211,8 +211,10 @@ RQ2는 **같은 타일에 여러 task 라벨**이 필요하다. 어디에 있는
 | **Sen12Landslides** | 없음 | 없음 | 이진 마스크 1종만 (`label_positive`, `mask_*`) |
 | **AI-Hub 71363** | 산림 541 · 밭 300 · 건물 287 · 도로 202 타일 | **167 타일** | **90 타일** |
 
-**즉 RQ2는 Sen12에서 불가능하고 AI-Hub에서만 가능하다.** 계획의 `T1 land-cover /
-T2 deforestation / T3 landslide`는 AI-Hub 71363을 전제로만 성립한다.
+**즉 Sen12만으로 RQ2는 불가능하고, 현재 확보 자산 중 AI-Hub가 유일한 3-task 후보**다. 다만 M35에서
+v1 cube의 24.6% 심각한 0-fill과 선택편향을 확인했으므로, `T1 land-cover / T2 deforestation /
+T3 landslide`는 v2 target-grid mosaic·12-band common coverage ≥99.9%·task별 제외율 gate를 통과한
+표본에서만 성립한다. 아래 숫자는 label inventory이지 experiment-eligible count가 아니다.
 
 동시에 **표본이 얇다** — 희소 task가 벌목 167 / 산사태 90 타일이다(전 군집 합계).
 따라서 RQ2는 실행 가능하지만 **지역 단위 CI가 넓게 나올 것을 미리 인정하고**,

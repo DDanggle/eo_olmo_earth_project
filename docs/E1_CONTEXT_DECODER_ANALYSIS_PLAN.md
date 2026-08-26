@@ -17,6 +17,10 @@ M30의 P4 열세가 기존 cache의 4×64 독립 crop 문맥과 작은 decoder �
 | `y10` | 1×128 full-context | small, 237,537 params | 실행 대기/중 |
 | `y11` | 1×128 full-context | large convolutional | 실행 대기/중 |
 
+실행 배관을 수정한 뒤의 최종 분석은 M30/첫 중단 실행의 셀을 섞지 않고, 동일한 수정 runner code
+SHA로 `y00`부터 `y11`까지 네 셀을 모두 새로 계산한다. 위 M30 수치는 탐색적 참고값일 뿐 최종
+factorial 입력이 아니다. 이 운영 상태 갱신은 아래 estimand·판정 규칙을 변경하지 않는다.
+
 `large`는 skip connection이나 OLMo intermediate feature를 쓰지 않는다. 따라서
 **U-Net, multi-scale decoder, official AI2 decoder라고 부르지 않는다.** 이는 마지막-layer
 feature에서 decoder parameter capacity만 늘린 대조군이다.

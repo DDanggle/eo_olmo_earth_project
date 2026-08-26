@@ -13,7 +13,10 @@ sys.path.insert(0, str(CODE))
 
 from audit_sen12_fold_cache import array_sha256  # noqa: E402
 from analyze_e1_factorial import contrasts  # noqa: E402
-from materialize_aihub_s2_12band_v2 import normalize_platform  # noqa: E402
+from materialize_aihub_s2_12band_v2 import (  # noqa: E402
+    normalize_platform,
+    target_bbox_is_exact_10m_grid,
+)
 from pilot_sen12_gp_heads import exact_average_precision, fixed_bin_ece  # noqa: E402
 from verify_sen12_gp_artifacts import verify  # noqa: E402
 
@@ -57,6 +60,14 @@ def test_aihub_v2_platform_matching_is_explicit():
     assert normalize_platform("Sentinel_2B") == "S2B"
     assert normalize_platform("landsat-8") is None
     assert normalize_platform(None) is None
+
+
+def test_aihub_v2_rejects_non_10m_or_malformed_target_grid():
+    assert target_bbox_is_exact_10m_grid([100.0, 200.0, 10_340.0, 10_440.0])
+    assert not target_bbox_is_exact_10m_grid([100.0, 200.0, 10_339.0, 10_440.0])
+    assert not target_bbox_is_exact_10m_grid([100.0, 200.0, 100.0, 10_440.0])
+    assert not target_bbox_is_exact_10m_grid([100.0, 200.0, float("nan"), 10_440.0])
+    assert not target_bbox_is_exact_10m_grid(None)
 
 
 def test_e1_factorial_contrasts_keep_main_effects_and_interaction_separate():

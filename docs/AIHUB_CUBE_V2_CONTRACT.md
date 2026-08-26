@@ -15,7 +15,7 @@
 | 항목 | 동결값 |
 |---|---|
 | target CRS | inventory의 EPSG:32652 |
-| target grid | inventory bbox, 1024×1024, 정확히 10 m |
+| target grid | inventory bbox, 1024×1024, 정확히 10 m (rounding tolerance 0.05 m/span) |
 | 날짜 | AI-Hub 관측일 UTC 하루 |
 | 플랫폼 | AI-Hub `S2A/S2B`와 STAC `sentinel-2a/2b` 일치 필수 |
 | collection | Planetary Computer `sentinel-2-l2a` |
@@ -28,6 +28,10 @@
 | missing asset | 한 밴드라도 없으면 해당 item의 그 밴드는 기여 불가; 최종 공통 coverage로 판정 |
 | write policy | v2 별도 디렉터리, array+validity mask 원자적 저장, v1 덮어쓰기 금지 |
 
+유한하지 않거나 10,240 m 정사각형이 아닌 inventory bbox는 STAC 검색 전에
+`invalid_target_grid`로 제외한다. 네트워크/reader `error`는 과학적 제외가 아니므로 재실행 때
+재시도하고, manifest의 완료 항목이나 결정론적 제외와 합치지 않는다.
+
 `coverage`는 픽셀값 0 여부가 아니라 raster source mask/nodata를 target grid로 warping한 유효성으로
 계산한다. 실제 0 반사도와 nodata를 혼동하지 않는다. 99.9% 미만은 학습 때 0으로 채우지 않고
 `excluded.jsonl`에 candidate IDs, band별 coverage, 공통 coverage와 함께 fail-closed한다.
@@ -36,7 +40,8 @@
 
 1. 40개 층화 pilot: v1 severe 20 + v1 clean 20, 서로 다른 날짜·플랫폼·경계 유형을 포함한다.
 2. pilot 40/40에서 platform match, 12 asset, shape/dtype, common coverage ≥99.9%를 만족해야 전수 실행한다.
-3. pilot마다 source item footprint와 target bbox 교집합, band별 validity, 공통 validity를 보존한다.
+3. pilot마다 source item bbox/geometry와 target UTM/WGS84 bbox, band별 validity, 공통 validity를
+   보존해 footprint 교집합을 독립 감사할 수 있게 한다.
 4. 전수 결과는 예외 수가 아니라 coverage 분포·band별 nodata·all-band-zero 분포를 다시 감사한다.
 5. 전수 중 임계값을 낮추지 않는다. 탈락이 많으면 v2 결과로 기록하고 v3 계약을 새로 쓴다.
 6. downstream split별 제외율과 희소 class별 제외율을 보고해 selection bias를 검사한다.
