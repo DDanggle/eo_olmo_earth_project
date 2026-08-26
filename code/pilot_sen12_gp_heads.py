@@ -323,13 +323,43 @@ def main() -> None:
             return F.interpolate(self.head(x), size=(128, 128), mode="bilinear",
                                  align_corners=False)
 
+    class EmbDecoderBig(nn.Module):
+        """P4c — 같은 frozen 캐시에 **용량이 큰** decoder.
+
+        M32에서 토큰 격자 천장(0.607)이 실제 성능(0.131)의 4배로 나왔으므로
+        해상도가 병목이 아니다. 남은 후보 중 **decoder 용량**을 이 arm이 검정한다.
+        P2(공식 UNet3D 2,693,121)와 자릿수를 맞춰야 공정한 검정이 된다.
+        """
+
+        def __init__(self, cin=768, base=256):
+            super().__init__()
+
+            def blk(a, b):
+                return nn.Sequential(
+                    nn.Conv2d(a, b, 3, padding=1), nn.BatchNorm2d(b), nn.ReLU(inplace=True),
+                    nn.Conv2d(b, b, 3, padding=1), nn.BatchNorm2d(b), nn.ReLU(inplace=True))
+
+            self.proj = blk(cin, base)                 # 32x32
+            self.d1 = blk(base, base // 2)             # 64x64
+            self.d2 = blk(base // 2, base // 4)        # 128x128
+            self.refine = blk(base // 4, base // 4)    # 128x128 정제
+            self.head = nn.Conv2d(base // 4, 1, 1)
+
+        def forward(self, x):
+            x = self.proj(x)
+            x = self.d1(F.interpolate(x, scale_factor=2, mode="bilinear", align_corners=False))
+            x = self.d2(F.interpolate(x, scale_factor=2, mode="bilinear", align_corners=False))
+            x = self.refine(x)
+            return F.interpolate(self.head(x), size=(128, 128), mode="bilinear",
+                                 align_corners=False)
+
     def forward(model, arm, x, mt):
         """arm별 입력 계약. **월 정보를 모든 raw arm에 동일하게 준다** (timestamp parity).
 
         P4는 OlmoEarth wrapper 내부 position encoding으로 월(0~11)을 이미 받는다.
         raw arm에 같은 정보를 주지 않으면 모델 차이와 정보량 차이가 섞인다(M25 지적).
         """
-        if arm == "P4":
+        if arm.startswith("P4"):
             return model(x)
         if arm == "P1":
             b, c, h, w = x.shape
@@ -355,6 +385,9 @@ def main() -> None:
         "P2_tiny": ("raw", UNet3D,
                     "M25의 P2-tiny stand-in. 참고용으로만 보존 (strong baseline 아님)"),
         "P4": ("emb", EmbDecoder, "frozen OlmoEarth v1 + spatial decoder"),
+        # E1 요인설계: 캐시(--cache로 교체) x decoder 용량
+        "P4c": ("emb", EmbDecoderBig,
+                "frozen OlmoEarth v1 + 큰 decoder (P2와 자릿수 맞춤)"),
     }
 
     stats = emb_stats(splits["train"])

@@ -1,0 +1,102 @@
+{
+  "schema": "aihub-cube-audit-v1",
+  "n_cubes": 2539,
+  "all_band_zero_fraction": {
+    "mean": 0.201758,
+    "median": 0.0,
+    "p95": 1.0,
+    "max": 1.0,
+    "buckets": {
+      "clean_lt_0.1pct": 1891,
+      "minor_0.1_1pct": 21,
+      "notable_1_10pct": 3,
+      "severe_ge_10pct": 624
+    }
+  },
+  "worst_10": [
+    {
+      "key": "SA1900000000_20220417",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 10.274171
+    },
+    {
+      "key": "SA1900000001_20220417",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 10.274171
+    },
+    {
+      "key": "SA1900000002_20220417",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 2.300341
+    },
+    {
+      "key": "SA1900000003_20220417",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 2.300341
+    },
+    {
+      "key": "SA1900000004_20220417",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 2.300341
+    },
+    {
+      "key": "SA1900000008_20190523",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 0.186204
+    },
+    {
+      "key": "SA1900000008_20200427",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 15.037936
+    },
+    {
+      "key": "SA1900000008_20201113",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 0.226416
+    },
+    {
+      "key": "SA1900000008_20221024",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 1.458207
+    },
+    {
+      "key": "SA1900000009_20190523",
+      "zero_frac_max_band": 1.0,
+      "zero_frac_mean": 1.0,
+      "all_band_zero_frac": 1.0,
+      "max_value": 0,
+      "cloud_cover": 0.186204
+    }
+  ],
+  "platform_mismatch_n": 0,
+  "platform_mismatch_examples": [],
+  "max_value_over_all": 25024,
+  "why": "boundless=True 읽기는 격자 밖을 0으로 채우고도 성공으로 집계된다"
+}
