@@ -2445,6 +2445,10 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 원격 마찰: localhost:9922 SSH host fingerprint가 기존 known_hosts와 달라졌다
   (`SHA256:y6YfMhYlugocey1MiM5fS2Ggg0RFtQSMCexH2ryWziI`). read-only로 E1 로그·산출물은 확인했지만
   Backend.AI 세션 identity를 재확인하기 전 code push·GPU 재실행은 중단했다.
+- 원격 재개: Backend.AI session ID를 로컬 state와 대조하고 위 fingerprint를 봉인한 뒤 code SHA
+  4개가 로컬과 서버에서 일치함을 확인했다. 첫 재실행은 runner가 `/home/work/data`에서 상대
+  `code/...`를 찾는 경로 결함으로 학습 전에 종료됐다. 결과·GPU 상태를 오염시키지 않았으며,
+  project root로 `cd`하도록 고치고 셸 검사·추가 커밋 후 처음부터 재실행한다.
 - 다음: ① host identity 확인 ② 수정 코드 push ③ full embedding seal ④ 동일 code SHA로 E1 3셀
   재실행·per-sample 봉인·factorial CI ⑤ 결과에 따라 multi-level cached-token decoder 또는 PEFT
   한 축만 열기 ⑥ exact-time parity 후 미열람 region protocol 동결.

@@ -3,8 +3,8 @@
 # M30 타일+작은 값은 참고 가능하지만 최종 factorial은 동일 code SHA를 위해 네 칸 모두 다시 돈다.
 # GPU1 전용. 각 칸은 같은 fold·같은 12 timestep·같은 40 epoch·best val IoU 선택.
 set -euo pipefail
-cd /home/work/data
-PY="env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 olmoearth/.venv-master/bin/python"
+cd /home/work/data/olmoearth
+PY="env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 .venv-master/bin/python"
 TILED=/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani
 FULL=/home/work/data/olmoearth/sen12_pilot_full128/holdout_chimanimani
 ROOT=/home/work/data/olmoearth/e1_factorial_v2
