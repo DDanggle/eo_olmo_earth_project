@@ -2033,6 +2033,54 @@ M40은 tile-IoU로 선택하고 micro-IoU로 보고해 쌍별 gain이 음수가 
   구성하면 gain이 줄 수 있음.
 - 전부 chimanimani 단일 지역·development-only임.
 
+## M42. E7a R-event — task 이질성 kill gate **발동**: 두 task의 승자가 같았음
+
+**근거**: `code/probe_r_event.py`, `evidence/r_event_probe.json` · 학습 없음, CPU 전용
+**맥락**: RQ2 public twin의 최소형. 같은 봉인 캐시로 retrieval(양성 타일 검색)을 수행해
+segmentation과 **캐시 선택의 순위가 달라지는지** 봤음. 사전 등록 판정:
+"두 task의 순위가 같으면 task 이질성 주장은 AI-Hub 3-task 전까지 보류."
+
+### 설계
+
+train 양성 타일 평균 임베딩(prototype) 코사인 유사도로 test 1,133타일 순위.
+prototype은 train에서만 생성, test 라벨은 평가에만 사용. 학습·seed 없음(결정적).
+
+### 결과
+
+| arm | AP | R@50 | R@200 | nDCG@100 |
+|---|---|---|---|---|
+| tiled_4x64 캐시 | **0.6954** | 0.1111 | 0.3499 | 0.8953 |
+| full_1x128 캐시 | 0.6805 | 0.1087 | 0.3381 | 0.8545 |
+| raw spectral 평균 (10차원) | 0.6682 | 0.1040 | 0.3499 | 0.8479 |
+| random (20회 평균) | 0.3769 | 0.0415 | 0.1799 | 0.3677 |
+
+### 판정 — kill gate 발동
+
+| task | 승자 |
+|---|---|
+| segmentation (M30/M37, 작은 decoder) | tiled_4x64 |
+| retrieval (본 실험) | tiled_4x64 |
+
+**역전 없음.** 등록한 대로 "같은 캐시 자원에 대해 task별 최적 선택이 다르다"는 주장은
+이 데이터로 지지되지 않으며, **AI-Hub 3-task(E8) 전까지 보류함.**
+
+### 부수 발견 — retrieval에서 캐시의 부가가치가 얇음
+
+frozen 캐시(768차원) AP 0.6954 vs **밴드 평균 10개짜리** 0.6682. 차이 +0.0272.
+prototype 코사인이라는 극히 단순한 판독에서는 캐시가 spectral 평균을 거의 못 벗어남.
+R@200은 동률(0.3499)임. CRITICAL_PATH 1c("같은 cache가 retrieval에도 raw spectral보다
+나은가")의 답은 **"근소하게, 그러나 강하지 않게"**임.
+
+### 아직 말할 수 없는 것
+
+- prototype 1개짜리 최약체 판독임. 학습된 retrieval head면 캐시 우위가 커질 수 있음
+  (그러면 그 자체가 "판독기 용량 의존"의 재현이 됨 — M37과 같은 구조).
+- 단일 지역·이진 양성 검색임. event 단위 검색(동일 event 타일 묶음)은 ann_id가
+  타일당 고유(M33)라 이 데이터로는 정의 불가.
+- kill gate는 "보류"이지 "기각"이 아님 — task 축이 seg vs retrieval 두 개뿐이고
+  둘 다 산사태 신호를 공유함. 이질성의 진짜 시험대는 서로 다른 물리 신호를 쓰는
+  AI-Hub 3-task(토지피복/벌목/산사태)임.
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,

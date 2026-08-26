@@ -1,0 +1,60 @@
+{
+  "schema": "r-event-probe-v1",
+  "evidence_status": "development_only_not_confirmatory",
+  "task": "R-event: 양성(산사태 존재) 타일 검색",
+  "prototype": "train 양성 타일 평균 임베딩 (test 라벨 미사용)",
+  "n_test": 1133,
+  "n_test_positive": 423,
+  "arms": {
+    "tiled_4x64": {
+      "recall@50": 0.1111,
+      "ndcg@50": 0.9535,
+      "recall@100": 0.2057,
+      "ndcg@100": 0.8953,
+      "recall@200": 0.3499,
+      "ndcg@200": 0.7814,
+      "average_precision": 0.6954
+    },
+    "full_1x128": {
+      "recall@50": 0.1087,
+      "ndcg@50": 0.9374,
+      "recall@100": 0.1939,
+      "ndcg@100": 0.8545,
+      "recall@200": 0.3381,
+      "ndcg@200": 0.7574,
+      "average_precision": 0.6805
+    },
+    "raw_spectral_mean": {
+      "recall@50": 0.104,
+      "ndcg@50": 0.8766,
+      "recall@100": 0.1986,
+      "ndcg@100": 0.8479,
+      "recall@200": 0.3499,
+      "ndcg@200": 0.7668,
+      "average_precision": 0.6682
+    },
+    "random_mean_of_20": {
+      "recall@50": 0.0415,
+      "ndcg@50": 0.3478,
+      "recall@100": 0.0887,
+      "ndcg@100": 0.3677,
+      "recall@200": 0.1799,
+      "ndcg@200": 0.375,
+      "average_precision": 0.3769
+    }
+  },
+  "task_heterogeneity_check": {
+    "segmentation_iou_small_decoder": {
+      "tiled_4x64": 0.130582,
+      "full_1x128": 0.116565
+    },
+    "retrieval_average_precision": {
+      "tiled_4x64": 0.6954,
+      "full_1x128": 0.6805
+    },
+    "segmentation_winner": "tiled_4x64",
+    "retrieval_winner": "tiled_4x64",
+    "rank_reversed": false,
+    "note": "역전이면 같은 캐시 자원에 대해 task별 최적 선택이 다르다는 공개 증거"
+  }
+}

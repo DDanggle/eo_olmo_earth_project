@@ -130,6 +130,11 @@ def parse_args():
     #   (c) crop 경계(seam)의 화소 단위 검증
     p.add_argument("--save-probs", action="store_true",
                    help="test/val 확률맵을 uint8로 저장 (arm당 약 19 MB)")
+    # 재학습 없이 기존 체크포인트로 평가만 한다. --save-probs와 조합하면
+    # 봉인된 실행(M30/M37)의 확률맵을 몇 분 만에 소급 생성할 수 있다.
+    # 정합성 검증 내장: 재현된 test 지표가 봉인값과 다르면 즉시 실패한다.
+    p.add_argument("--eval-only-ckpt", type=Path, default=None,
+                   help="체크포인트 경로. 주면 학습을 건너뛰고 평가만 수행")
     return p.parse_args()
 
 
@@ -438,56 +443,68 @@ def main() -> None:
         torch.cuda.reset_peak_memory_stats(device)
         t0 = time.perf_counter()
         history, best = [], {"val_iou": -1.0, "epoch": 0, "state": None}
-        for ep in range(args.epochs):
-            model.train()
-            tot, nb = 0.0, 0
-            for x, y, mt, _ in loaders["train"]:
-                x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
-                mt = mt.to(device, non_blocking=True)
-                opt.zero_grad(set_to_none=True)
-                with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-                    loss = lossf(forward(model, arm, x, mt).float(), y)
-                loss.backward(); opt.step()
-                tot += float(loss.detach()); nb += 1
-            sched.step()
-            # val IoU로 best epoch을 고른다. test는 절대 보지 않는다.
-            model.eval()
-            vtp = vfp = vfn = 0.0
-            with torch.no_grad():
-                for x, y, mt, _ in loaders["val"]:
-                    x, y, mt = x.to(device), y.to(device), mt.to(device)
-                    with torch.amp.autocast("cuda", dtype=torch.bfloat16):
-                        pr = (torch.sigmoid(forward(model, arm, x, mt).float()) > 0.5).float()
-                    vtp += float((pr * y).sum()); vfp += float((pr * (1 - y)).sum())
-                    vfn += float(((1 - pr) * y).sum())
-            v_iou = vtp / max(vtp + vfp + vfn, 1e-9)
-            history.append({"epoch": ep + 1, "train_loss": round(tot / max(nb, 1), 5),
-                            "val_iou": round(v_iou, 5),
-                            "seconds": round(time.perf_counter() - t0, 1)})
-            if v_iou > best["val_iou"]:
-                best = {"val_iou": v_iou, "epoch": ep + 1,
-                        "state": {k: v.detach().cpu().clone()
-                                  for k, v in model.state_dict().items()}}
-            if (ep + 1) % 5 == 0 or ep + 1 == args.epochs:
-                print(f"  [{arm}] epoch {ep+1}/{args.epochs} loss {tot/max(nb,1):.4f} "
-                      f"val_iou {v_iou:.4f} (best {best['val_iou']:.4f}@{best['epoch']}) "
-                      f"({time.perf_counter()-t0:.0f}s)", flush=True)
+        if args.eval_only_ckpt is not None:
+            ck = torch.load(args.eval_only_ckpt, map_location=device, weights_only=False)
+            if ck.get("arm") != arm or ck.get("fold") != args.fold:
+                raise SystemExit(f"체크포인트 불일치: ckpt(arm={ck.get('arm')}, "
+                                 f"fold={ck.get('fold')}) vs 요청({arm}, {args.fold})")
+            best = {"val_iou": float(ck["best_val_iou"]), "epoch": int(ck["best_val_epoch"]),
+                    "state": ck["model_state"]}
+            print(f"  [{arm}] eval-only: {args.eval_only_ckpt.name} "
+                  f"(best val {best['val_iou']:.5f}@{best['epoch']})", flush=True)
+        else:
+          for ep in range(args.epochs):
+              model.train()
+              tot, nb = 0.0, 0
+              for x, y, mt, _ in loaders["train"]:
+                  x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
+                  mt = mt.to(device, non_blocking=True)
+                  opt.zero_grad(set_to_none=True)
+                  with torch.amp.autocast("cuda", dtype=torch.bfloat16):
+                      loss = lossf(forward(model, arm, x, mt).float(), y)
+                  loss.backward(); opt.step()
+                  tot += float(loss.detach()); nb += 1
+              sched.step()
+              # val IoU로 best epoch을 고른다. test는 절대 보지 않는다.
+              model.eval()
+              vtp = vfp = vfn = 0.0
+              with torch.no_grad():
+                  for x, y, mt, _ in loaders["val"]:
+                      x, y, mt = x.to(device), y.to(device), mt.to(device)
+                      with torch.amp.autocast("cuda", dtype=torch.bfloat16):
+                          pr = (torch.sigmoid(forward(model, arm, x, mt).float()) > 0.5).float()
+                      vtp += float((pr * y).sum()); vfp += float((pr * (1 - y)).sum())
+                      vfn += float(((1 - pr) * y).sum())
+              v_iou = vtp / max(vtp + vfp + vfn, 1e-9)
+              history.append({"epoch": ep + 1, "train_loss": round(tot / max(nb, 1), 5),
+                              "val_iou": round(v_iou, 5),
+                              "seconds": round(time.perf_counter() - t0, 1)})
+              if v_iou > best["val_iou"]:
+                  best = {"val_iou": v_iou, "epoch": ep + 1,
+                          "state": {k: v.detach().cpu().clone()
+                                    for k, v in model.state_dict().items()}}
+              if (ep + 1) % 5 == 0 or ep + 1 == args.epochs:
+                  print(f"  [{arm}] epoch {ep+1}/{args.epochs} loss {tot/max(nb,1):.4f} "
+                        f"val_iou {v_iou:.4f} (best {best['val_iou']:.4f}@{best['epoch']}) "
+                        f"({time.perf_counter()-t0:.0f}s)", flush=True)
         train_s = time.perf_counter() - t0
         if best["state"] is not None:
             model.load_state_dict(best["state"])   # test는 best-val 가중치로만 평가한다
 
         checkpoint_dir = args.out / "checkpoints" / args.fold
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
-        checkpoint_path = checkpoint_dir / f"{arm}_best.pt"
-        torch.save({
-            "schema": "sen12-gp-checkpoint-v2",
-            "arm": arm,
-            "fold": args.fold,
-            "seed": args.seed,
-            "best_val_epoch": best["epoch"],
-            "best_val_iou": best["val_iou"],
-            "model_state": best["state"],
-        }, checkpoint_path)
+        checkpoint_path = (args.eval_only_ckpt if args.eval_only_ckpt is not None
+                           else checkpoint_dir / f"{arm}_best.pt")
+        if args.eval_only_ckpt is None:
+            torch.save({
+                "schema": "sen12-gp-checkpoint-v2",
+                "arm": arm,
+                "fold": args.fold,
+                "seed": args.seed,
+                "best_val_epoch": best["epoch"],
+                "best_val_iou": best["val_iou"],
+                "model_state": best["state"],
+            }, checkpoint_path)
         checkpoint_sha256 = sha256_file(checkpoint_path)
 
         @torch.no_grad()
