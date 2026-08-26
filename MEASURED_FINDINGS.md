@@ -2215,6 +2215,68 @@ P2 micro 0.159235 vs 봉인 0.159254 (uint8 양자화 오차 2e-5, 허용).
 - 이 쌍(P2 seed1 vs P4c seed1)은 M43상 **P2의 운 좋은 seed**라 승자 라벨 자체가
   seed 조건부임. 다중 seed 확률맵이 쌓이면 라벨의 안정성부터 재야 함.
 
+## M46. E6 Action Matrix v1 — **블록별 이질성의 겉모습은 거의 전부 seed 잡음이었음**
+
+**근거**: `code/build_action_matrix.py`, `evidence/action_matrix_v1/`
+(`matrix_summary.json`, `blocks.jsonl`) · 재학습 없음
+**맥락**: EarthRoute 학습 데이터의 원형. 5.12 km 블록 × 6 action × utility.
+주 지표는 양성 타일 macro IoU(M40), 기준 action은 `reuse`, λ 후보 3개를 **모두** 보고
+(결과를 보고 하나를 고르지 않기 위해).
+
+**설계에 M43을 계약으로 박았음**: 모든 action 값은 가용 seed 평균, seed 1개인 action은
+`reliable=false`, 블록 최적은 **seed 폭보다 큰 차이**일 때만 유효.
+
+### 겉보기 — 이질성이 있는 것처럼 보임
+
+양성 있는 블록 69개에서 argmax가 6개 action에 흩어짐:
+`raw_utae 28 · reuse 16 · recontext 9 · reuse_bigdec 8 · raw_unet3d 5 · recontext_bigdec 3`.
+`single_action_dominates=false` — kill gate 통과처럼 보임.
+
+### 실제 — 두 개의 치명적 오염
+
+**(1) seed 폭이 margin을 압도함**
+
+| | 값 |
+|---|---|
+| 블록 최적 vs 차순위 margin 중위 | **0.0270** |
+| 블록 seed 폭 중위 | **0.1054** (3.9배) |
+| seed 폭을 넘는 결정적 블록 | **69개 중 3개 (4.3%)** |
+
+**(2) 단일 seed action이 승자를 독식함**
+
+6개 action 중 3개(`raw_utae`·`recontext`·`recontext_bigdec`)가 seed 1개뿐임.
+이들이 **69블록 중 40개(58%)에서 최적으로 뽑혔음.** seed 운으로 이긴 것과
+실력으로 이긴 것을 구분할 수 없음.
+
+3-seed action(`reuse`·`reuse_bigdec`·`raw_unet3d`)만으로 다시 계산하면:
+
+| | 값 |
+|---|---|
+| 블록 최적 분포 | reuse **42** · reuse_bigdec 15 · raw_unet3d 12 |
+| seed 폭 넘는 결정적 블록 | **69개 중 2개 (reuse만)** |
+
+**즉 신뢰 가능한 action만 보면 `reuse`가 61%의 블록에서 최적이고, 나머지는 잡음 안에 있음.**
+
+### 판정
+
+- **E6 kill gate: "블록 간 최적 action이 단일하면 중단" → 사실상 발동.**
+  겉보기 다양성은 seed 1개 action의 운과 seed 폭 안의 요동으로 설명됨.
+  **단일 task(산사태) 안에서의 블록 단위 routing은 현재 근거가 없음.**
+- M45(라벨 없는 예측 미달)와 방향이 일치함. 예측할 대상 자체가 잡음이었다면
+  예측기가 안 서는 것이 당연함.
+- 다만 M41의 oracle 여유(+0.078, 바닥의 2.7배)는 **타일 단위**였고 여기는 **블록 단위**임.
+  블록으로 묶으면 타일 수준 상보성이 평균으로 상쇄됨 — 두 결과는 모순이 아니라
+  **routing의 유효 해상도가 타일급이라는 뜻**임. 그런데 타일급 결정은 라벨 없이
+  예측해야 하고 그게 M45에서 미달임.
+
+### 그래서 다음이 바뀜
+
+1. 모든 action을 **최소 3 seed**로 채우는 것이 E6 재실행의 전제임
+   (현재 미달 3개: raw_utae, recontext ×2).
+2. routing 해상도를 **타일급**으로 고정하고 블록은 CV 단위로만 씀.
+3. task 축을 늘리는 것(E8 AI-Hub 3-task)이 단일 task 안에서 이질성을 더 파는 것보다
+   우선순위가 높아짐 — M42와 같은 결론.
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,

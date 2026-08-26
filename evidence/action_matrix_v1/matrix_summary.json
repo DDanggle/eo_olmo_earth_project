@@ -1,0 +1,31 @@
+{
+  "schema": "action-matrix-v1",
+  "evidence_status": "development_only_not_confirmatory",
+  "primary_metric": "positive-tile macro IoU",
+  "baseline_action": "reuse",
+  "lambda_candidates": {
+    "lambda_free": 0.0,
+    "lambda_mid": 1e-06,
+    "lambda_strict": 1e-05
+  },
+  "n_blocks_with_positives": 69,
+  "n_tiles": 1133,
+  "argmax_distribution": {
+    "recontext": 9,
+    "raw_utae": 28,
+    "recontext_bigdec": 3,
+    "reuse": 16,
+    "reuse_bigdec": 8,
+    "raw_unet3d": 5
+  },
+  "argmax_distribution_decisive_only": {
+    "recontext": 1,
+    "reuse": 1,
+    "raw_utae": 1
+  },
+  "n_decisive_blocks": 3,
+  "single_action_dominates": false,
+  "kill_gate": "블록 간 최적 action이 단일하면 단일 task routing 중단 → RQ2로 이동. seed 폭을 넘는 결정적 블록이 없으면 matrix 자체가 잡음이다.",
+  "missing_inputs": {},
+  "seed_policy": "action별 가용 seed 평균. seed_n<3은 reliable=false로 표시"
+}
