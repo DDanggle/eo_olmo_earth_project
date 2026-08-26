@@ -22,11 +22,20 @@ OlmoEarth 연구 작업공간입니다. **`README.md`를 먼저 읽으세요** (
    `CUDA_VISIBLE_DEVICES=1`로 실행한다. GPU0은 건드리지 않는다.
    실행 직전에 `nvidia-smi`로 GPU1이 비어 있는지 확인하고, 다른 프로세스가 있으면 멈춘다.
    과거 기록의 `GPU0 전용`은 이 지시로 대체됐다 (GOAL.md 이전 Worklog는 그대로 보존).
-4c. **확증(confirmatory) 실행 중에는 서버 코드를 푸시하지 않는다** (2026-08-26, M57).
-   `code_sha256`은 실행이 끝난 뒤 계산되므로 실행 중 파일 교체를 **탐지하지 못한다**.
-   실제로 그 위반이 한 번 발생했다(수치에는 무해했으나 표준 검사로 잡히지 않았다).
-   확증 실행 전에 `code/run_confirmatory_region.sh`가 소스 **실물**을 스냅샷으로
-   봉인한다. 실행 중 코드 수정이 필요하면 실행이 끝날 때까지 로컬에만 둔다.
+4c. **확증(confirmatory) 실행 중에는 실행 경로의 서버 코드를 푸시하지 않는다**
+   (2026-08-26, M57·M58). 실행 경로 = `pilot_sen12_gp_heads.py`,
+   `sen12_official_baselines.py`, `extract_sen12_fold_cache.py`,
+   `audit_sen12_fold_cache.py`. 그 밖의 분석·게이트 스크립트는 푸시해도 되지만
+   **푸시 후 실행 경로 4개의 mtime·해시가 불변임을 확인해 기록한다.**
+
+   왜 mtime까지 봐야 하는가: `code_sha256`은 실행이 끝난 뒤 디스크 파일을 해싱하므로
+   **실행 중 교체를 탐지하지 못한다**(Python은 시작 시 소스를 메모리에 로드).
+   실제로 그 위반이 한 번 발생했고 표준 검사로 잡히지 않았다.
+
+   `code/run_confirmatory_region.sh`는 실행 직전 소스 실물을 `code_snapshot/`에 봉인하고
+   **그 사본을 실제로 실행한다**. 복사만 하고 live 경로를 실행하면 보호장치가 아니라
+   착각이다(초판의 결함). 사후에 snapshot을 만들어 게이트를 통과시키는 것은 금지 —
+   그건 pre-run snapshot이 아니라 retrospective copy다.
 
 5. 작업 종료 시 `GOAL.md` Worklog에 결과(수치 포함)·마찰·다음 단계를 기록하고, PR 후보는
    `## PR 후보` 절에 누적한다.

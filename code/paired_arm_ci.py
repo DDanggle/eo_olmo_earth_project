@@ -86,13 +86,24 @@ def main():
                                  "ci95": [round(float(lo), 6), round(float(hi), 6)],
                                  "excludes_zero": bool(lo > 0 or hi < 0)}
         ci_ok = all(v["excludes_zero"] for v in blocks.values())
+        mean_gap = float(np.mean(per_seed))
+        # 방향 버그 수정(감사 [P2]): 이전 버전은 세 격차가 모두 **음수**여도 왼쪽 arm을
+        # "우세"로 기록했다. 승자는 부호로 정한다. CI 방향도 그 부호와 맞아야 한다.
+        winner = A if mean_gap > 0 else (B if mean_gap < 0 else None)
+        ci_dir_ok = all((v["ci95"][0] > 0) if mean_gap > 0 else (v["ci95"][1] < 0)
+                        for v in blocks.values()) if winner else False
+        passes = bool(ci_ok and sign_ok and ci_dir_ok and winner)
         res["pairs"][f"{A}_vs_{B}"] = {
             "per_seed_gap": [round(x, 6) for x in per_seed],
-            "mean_gap": round(float(np.mean(per_seed)), 6),
+            "mean_gap": round(mean_gap, 6),
+            "observed_winner": winner,
+            "direction": ("A>B" if mean_gap > 0 else ("B>A" if mean_gap < 0 else "tie")),
             "sign_consistent_3of3": sign_ok,
             "blocks": blocks, "all_ci_exclude_zero": ci_ok,
-            "verdict": ("우세" if (ci_ok and sign_ok)
-                        else ("관측 평균 우위(미확정)" if abs(np.mean(per_seed)) > 0 else "동률"))}
+            "ci_direction_matches_mean": ci_dir_ok,
+            # "확정"이라는 말을 쓰지 않는다(감사 지적). 사전 등록 규칙 통과 여부일 뿐이다.
+            "verdict": ("passes_preregistered_development_dominance_rule" if passes
+                        else "observed_mean_advantage_only")}
         print(f"{A} vs {B}: 평균 {np.mean(per_seed):+.6f} · 부호 3/3 {sign_ok} · "
               f"CI 전부 0제외 {ci_ok} → {res['pairs'][f'{A}_vs_{B}']['verdict']}", flush=True)
 

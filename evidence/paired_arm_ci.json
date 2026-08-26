@@ -14,6 +14,8 @@
         0.069133
       ],
       "mean_gap": 0.034345,
+      "observed_winner": "P4_reuse",
+      "direction": "A>B",
       "sign_consistent_3of3": false,
       "blocks": {
         "2.56km": {
@@ -42,7 +44,8 @@
         }
       },
       "all_ci_exclude_zero": true,
-      "verdict": "관측 평균 우위(미확정)"
+      "ci_direction_matches_mean": true,
+      "verdict": "observed_mean_advantage_only"
     },
     "P4_reuse_vs_P3_utae": {
       "per_seed_gap": [
@@ -51,6 +54,8 @@
         0.059136
       ],
       "mean_gap": 0.013191,
+      "observed_winner": "P4_reuse",
+      "direction": "A>B",
       "sign_consistent_3of3": false,
       "blocks": {
         "2.56km": {
@@ -79,7 +84,8 @@
         }
       },
       "all_ci_exclude_zero": true,
-      "verdict": "관측 평균 우위(미확정)"
+      "ci_direction_matches_mean": true,
+      "verdict": "observed_mean_advantage_only"
     },
     "P4_reuse_vs_P4c_bigdec": {
       "per_seed_gap": [
@@ -88,6 +94,8 @@
         0.080064
       ],
       "mean_gap": 0.047424,
+      "observed_winner": "P4_reuse",
+      "direction": "A>B",
       "sign_consistent_3of3": true,
       "blocks": {
         "2.56km": {
@@ -116,7 +124,8 @@
         }
       },
       "all_ci_exclude_zero": true,
-      "verdict": "우세"
+      "ci_direction_matches_mean": true,
+      "verdict": "passes_preregistered_development_dominance_rule"
     },
     "P2_unet3d_vs_P3_utae": {
       "per_seed_gap": [
@@ -125,6 +134,8 @@
         -0.009998
       ],
       "mean_gap": -0.021154,
+      "observed_winner": "P3_utae",
+      "direction": "B>A",
       "sign_consistent_3of3": false,
       "blocks": {
         "2.56km": {
@@ -153,7 +164,8 @@
         }
       },
       "all_ci_exclude_zero": true,
-      "verdict": "관측 평균 우위(미확정)"
+      "ci_direction_matches_mean": true,
+      "verdict": "observed_mean_advantage_only"
     },
     "P2_unet3d_vs_P4c_bigdec": {
       "per_seed_gap": [
@@ -162,6 +174,8 @@
         0.010931
       ],
       "mean_gap": 0.013079,
+      "observed_winner": "P2_unet3d",
+      "direction": "A>B",
       "sign_consistent_3of3": false,
       "blocks": {
         "2.56km": {
@@ -190,7 +204,8 @@
         }
       },
       "all_ci_exclude_zero": false,
-      "verdict": "관측 평균 우위(미확정)"
+      "ci_direction_matches_mean": false,
+      "verdict": "observed_mean_advantage_only"
     },
     "P3_utae_vs_P4c_bigdec": {
       "per_seed_gap": [
@@ -199,6 +214,8 @@
         0.020928
       ],
       "mean_gap": 0.034233,
+      "observed_winner": "P3_utae",
+      "direction": "A>B",
       "sign_consistent_3of3": true,
       "blocks": {
         "2.56km": {
@@ -227,7 +244,8 @@
         }
       },
       "all_ci_exclude_zero": true,
-      "verdict": "우세"
+      "ci_direction_matches_mean": true,
+      "verdict": "passes_preregistered_development_dominance_rule"
     }
   }
 }

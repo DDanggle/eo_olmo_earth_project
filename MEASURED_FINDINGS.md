@@ -2780,6 +2780,85 @@ mtime 비교 없이는 탐지 불가임. **`verify_confirmatory_release.py`의
 확증 실험 전체가 무효가 됨. **감사가 지적한 위험이 실제로 발생했고 표준 검사로는
 탐지되지 않았다는 사실 자체가 기록할 값어치가 있음.**
 
+## M58. 확증 인프라 재설계 — 초판 보호장치의 결함 4건을 고쳤음. thrissur는 **예외로 공개 유지**
+
+**근거**: `code/run_confirmatory_region.sh`(재작성), `code/verify_confirmatory_release.py`
+(v2 재작성), `code/paired_arm_ci.py`(방향 버그 수정),
+`evidence/confirmatory_manifests/holdout_thrissur_retrospective_audit.json`
+**성격**: 감사 지적 4건이 전부 사실이었음. M57의 조치가 **절반만 작동**했음.
+
+### 결함 1 — snapshot을 만들고 **live 코드를 실행**했음 (가장 심각)
+
+초판은 소스를 `code_snapshot/`에 복사한 뒤 여전히 `code/pilot_sen12_gp_heads.py`를
+실행했음. **snapshot 이후 서버 코드가 바뀌면 다음 arm은 snapshot과 다른 코드를 실행함.**
+보호장치가 아니라 보호받는다는 착각을 주는 코드였음.
+
+수정: snapshot 사본을 직접 실행함. `pilot`이 `sys.path.insert(0, Path(__file__).parent)`
+(162행)를 하므로 `sen12_official_baselines.py`도 snapshot에서 읽힘 — 확인함.
+`chmod -w`로 사본을 잠그고, `OUTROOT`가 이미 있으면 **덮어쓰지 않고 종료**함.
+
+### 결함 2 — pre gate가 runner에서 강제되지 않았음
+
+초판 runner는 게이트를 호출조차 하지 않아 우회가 가능했음.
+수정: pre gate를 `[0/4]` 첫 단계로 넣고, PASS가 아니면 `set -e`로 즉시 종료.
+`--results-root`를 **필수 인자**로 바꿔 로컬 기본 경로를 보는 사고를 막았음.
+
+### 결함 3 — post gate가 snapshot **존재**만 검사했음
+
+디렉터리가 있다는 것은 실행 전 봉인의 증명이 아님. v2가 추가로 검사하는 것:
+
+| 검사 | 무엇을 잡는가 |
+|---|---|
+| `snapshot_sha256sums_match` | SHA256SUMS와 실제 파일 대조 — 사후 교체 |
+| `snapshot_before_first_checkpoint` | `started_at` < 최초 checkpoint — 사후 생성 |
+| `snapshot_required_files` | 필수 4개 파일 존재 |
+| `prob_maps_present` | 확률맵 저장 여부 |
+| `seeds_declared_match` | 선언 seed가 실제 [1,2,3]×3인가 |
+| `test_region_matches_fold` | 산출물의 test_region이 fold와 일치 |
+| **`test_set_matches_sealed_contract`** | **봉인 `loco_folds.json`의 test SHA와 직접 대조** |
+
+마지막 항목이 중요함. 초판의 `identical_sample_sets`는 "9개가 서로 같은가"만 봤으므로
+**9개가 모두 동일하게 틀린 test set이어도 통과**했음. 이제 봉인 계약과 대조함.
+
+### 결함 4 — `paired_arm_ci.py`의 방향 버그
+
+`ci_ok and sign_ok`이면 평균 격차의 **부호와 무관하게** 왼쪽 arm을 "우세"로 기록했음.
+세 격차가 모두 음수면 오른쪽이 이기는데도 왼쪽을 승자로 적었을 것임.
+보고된 두 쌍에는 영향이 없었으나(둘 다 양수) 일반 코드로는 버그였음.
+
+수정: `observed_winner`·`direction`을 부호로 계산하고, CI 방향이 부호와 일치하는지
+(`ci_direction_matches_mean`) 별도 검사함. 판정 문구도 **"우세"를 쓰지 않음** —
+`passes_preregistered_development_dominance_rule`로 바꿨음. 통계적 "확정"이 아니라
+사전 등록 규칙 통과일 뿐임(감사 지적).
+
+### thrissur 재라벨 — 초판 pre manifest를 삭제했음
+
+초판 `holdout_thrissur_pre.json`은 (a) pre gate 코드(`658ebf7`)가 존재하기 **전에**
+실행이 시작됐고 (b) 서버 경로가 아니라 로컬 `evidence/confirmatory`를 검사했음.
+따라서 **"pre gate 6/6 통과"는 틀린 표현**이었음. 그 파일을 삭제하고
+`holdout_thrissur_retrospective_audit.json`으로 교체했음. 기록 내용:
+
+- `pre_run_code_snapshot: false` — **사후 snapshot을 만들어 통과시키지 않음**
+- `protocol_deviation: server source updated during region pipeline`
+- `pilot_update_before_first_training: true` (21:53:33 < 22:17:31)
+- `performance_affecting_diff: false` (20 insertions / 3 deletions, metadata literal만)
+- 올바른 라벨: **confirmatory first-look with a disclosed execution-provenance deviation**
+- 금지 표현: "clean confirmatory run", "pre gate 6/6 통과"
+- 보고 규칙: primary 8지역에 **포함**하되 **thrissur 제외 sensitivity를 함께 보고**
+
+### recipe v2의 지위도 낮춤
+
+v2는 thrissur의 P4 seed 1 결과 파일이 생성된 **후** 커밋됨. "결과를 읽지 않았다"는
+제 자기신고는 남기지만, **git 시각만으로 미열람을 증명할 수 없음**(로그에 test metric이
+출력됨). 따라서 v2는 thrissur에 대해 **prospective analysis amendment**이고,
+**완전한 사전등록은 hiroshima부터** 적용됨.
+
+### 이번 푸시의 자체 검증
+
+이 수정 중 `verify_confirmatory_release.py`·`paired_arm_ci.py`를 실행 중에 푸시했음.
+둘은 실행 경로 밖이며, 푸시 후 실행 경로 4개의 mtime·해시 불변을 확인했음
+(`pilot` 21:53:33 / 해시 `ebe1ee88ee3f4cdb` 동일). 규칙 4c를 이 구분에 맞게 정밀화했음.
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,

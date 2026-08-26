@@ -1,0 +1,36 @@
+{
+  "correct_label": "retrospective release audit (not a prospective pre-gate)",
+  "fold": "holdout_thrissur",
+  "head_at_audit": "733bdcf4ccb08f48311f4d91cb4bfed0c4ee2064",
+  "protocol_deviation": {
+    "cache_audit_done": "2026-08-26T22:06:22+09:00",
+    "deviation": "server source updated during region pipeline",
+    "evidence": [
+      "deployment mtime",
+      "first-run start time",
+      "reviewed diff: 20 insertions / 3 deletions, information_contract literal only",
+      "git show 28c9257 -- code/pilot_sen12_gp_heads.py"
+    ],
+    "first_training_checkpoint": "2026-08-26T22:17:31+09:00",
+    "performance_affecting_diff": false,
+    "pilot_update_before_first_training": true,
+    "pre_run_code_snapshot": false,
+    "server_pilot_mtime": "2026-08-26T21:53:33+09:00"
+  },
+  "recipe_status": {
+    "from_hiroshima": "v2가 완전한 사전등록으로 적용된다",
+    "v1": "thrissur 실행 **전**에 등록된 recipe (blob af46b01132ca... @ e214218)",
+    "v2": "thrissur의 P4 seed 1 결과 파일이 생성된 **후**, 결과 inspection 전이라고 주장되는 시점에 등록된 prospective analysis amendment. git 시각만으로 결과 미열람을 증명할 수는 없다 — 로그에 test metric이 출력되기 때문이다. 따라서 thrissur에 대해 v2가 완전히 검증 가능한 사전등록이었다고 쓰지 않는다."
+  },
+  "reporting_rule": {
+    "also_report": "thrissur 제외 sensitivity를 함께 보고한다",
+    "do_not_say": [
+      "clean confirmatory run",
+      "pre gate 6/6 통과"
+    ],
+    "include_in_primary": true,
+    "label": "confirmatory first-look with a disclosed execution-provenance deviation"
+  },
+  "schema": "confirmatory-retrospective-audit-v1",
+  "why_not_pre_gate": "이 파일은 pre gate가 아니다. 감사 지적대로 thrissur는 pre gate 코드(658ebf7)가 존재하기 **전에** 실행이 시작됐고, 초판 pre manifest는 서버 결과 경로가 아니라 로컬 evidence/confirmatory를 검사했다. 따라서 '개봉 전 게이트 통과'라는 표현은 틀렸으며 그 파일을 삭제하고 이 retrospective audit으로 교체한다."
+}
