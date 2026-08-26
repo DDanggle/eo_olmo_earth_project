@@ -2,7 +2,7 @@
   "checks": {
     "clean_worktree": {
       "detail": "미커밋 변경이 있으면 실행 코드 신원을 증명할 수 없다",
-      "pass": false
+      "pass": true
     },
     "fold_in_release_order": {
       "detail": "개봉 순서에 등록된 지역인가. 등록: ['holdout_thrissur', 'holdout_hiroshima', 'holdout_hokkaido', 'holdout_indonesia', 'holdout_itogon', 'holdout_kyrgyzstan1', 'holdout_kyrgyzstan2', 'holdout_newzealand']",
@@ -25,15 +25,11 @@
       "pass": true
     }
   },
-  "failed_checks": [
-    "clean_worktree"
-  ],
+  "failed_checks": [],
   "fold": "holdout_thrissur",
   "git": {
-    "dirty_files": [
-      "?? code/verify_confirmatory_release.py"
-    ],
-    "head": "ded6b1099b8dbe7d84341563e8dcf62cafdafe62"
+    "dirty_files": [],
+    "head": "658ebf7a18caaf0272f124134bdb50259e5565e6"
   },
   "mode": "pre",
   "preregistered_predictions": {
@@ -56,7 +52,7 @@
     "on_continue": "2지역 이상이면 남은 5지역을 순서대로 개봉",
     "on_stop": "reuse 우위 주장을 '지역 특수'로 강등하고 논문 축을 계약·감사로 이동. 이미 개봉한 지역 결과는 전부 보고한다"
   },
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "win_definition": {
     "headline_aggregate": "8개 held-out 지역의 **region-macro 평균**(지역마다 동일 가중). 타일 수로 가중하지 않는다 — 큰 지역이 결론을 지배하지 않도록",
     "no_exclusion": "중단하더라도 **이미 본 지역은 최종 평균에서 제외하지 않는다**. 나쁜 지역을 빼는 것이 optional stopping의 가장 흔한 형태다",

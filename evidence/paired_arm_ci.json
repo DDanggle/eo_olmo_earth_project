@@ -1,0 +1,233 @@
+{
+  "schema": "paired-arm-ci-v1",
+  "evidence_status": "development_only_not_confirmatory",
+  "metric": "positive-tile macro IoU",
+  "n_tiles": 1133,
+  "n_bootstrap": 10000,
+  "seed": 20260826,
+  "decision_rule": "'우세'는 (a) 세 블록 크기 전부 CI가 0 제외 **그리고** (b) 3 seed 전부 부호 일치일 때만. 하나만이면 '관측 평균 우위'",
+  "pairs": {
+    "P4_reuse_vs_P2_unet3d": {
+      "per_seed_gap": [
+        -0.03448,
+        0.068382,
+        0.069133
+      ],
+      "mean_gap": 0.034345,
+      "sign_consistent_3of3": false,
+      "blocks": {
+        "2.56km": {
+          "n_blocks": 463,
+          "ci95": [
+            0.023821,
+            0.044743
+          ],
+          "excludes_zero": true
+        },
+        "5.12km": {
+          "n_blocks": 133,
+          "ci95": [
+            0.023985,
+            0.044747
+          ],
+          "excludes_zero": true
+        },
+        "10.24km": {
+          "n_blocks": 39,
+          "ci95": [
+            0.023793,
+            0.044543
+          ],
+          "excludes_zero": true
+        }
+      },
+      "all_ci_exclude_zero": true,
+      "verdict": "관측 평균 우위(미확정)"
+    },
+    "P4_reuse_vs_P3_utae": {
+      "per_seed_gap": [
+        -0.028993,
+        0.009432,
+        0.059136
+      ],
+      "mean_gap": 0.013191,
+      "sign_consistent_3of3": false,
+      "blocks": {
+        "2.56km": {
+          "n_blocks": 463,
+          "ci95": [
+            0.004436,
+            0.021825
+          ],
+          "excludes_zero": true
+        },
+        "5.12km": {
+          "n_blocks": 133,
+          "ci95": [
+            0.004214,
+            0.02209
+          ],
+          "excludes_zero": true
+        },
+        "10.24km": {
+          "n_blocks": 39,
+          "ci95": [
+            0.00182,
+            0.021864
+          ],
+          "excludes_zero": true
+        }
+      },
+      "all_ci_exclude_zero": true,
+      "verdict": "관측 평균 우위(미확정)"
+    },
+    "P4_reuse_vs_P4c_bigdec": {
+      "per_seed_gap": [
+        0.020794,
+        0.041414,
+        0.080064
+      ],
+      "mean_gap": 0.047424,
+      "sign_consistent_3of3": true,
+      "blocks": {
+        "2.56km": {
+          "n_blocks": 463,
+          "ci95": [
+            0.036267,
+            0.059311
+          ],
+          "excludes_zero": true
+        },
+        "5.12km": {
+          "n_blocks": 133,
+          "ci95": [
+            0.035059,
+            0.060502
+          ],
+          "excludes_zero": true
+        },
+        "10.24km": {
+          "n_blocks": 39,
+          "ci95": [
+            0.035244,
+            0.060613
+          ],
+          "excludes_zero": true
+        }
+      },
+      "all_ci_exclude_zero": true,
+      "verdict": "우세"
+    },
+    "P2_unet3d_vs_P3_utae": {
+      "per_seed_gap": [
+        0.005486,
+        -0.05895,
+        -0.009998
+      ],
+      "mean_gap": -0.021154,
+      "sign_consistent_3of3": false,
+      "blocks": {
+        "2.56km": {
+          "n_blocks": 463,
+          "ci95": [
+            -0.029754,
+            -0.012549
+          ],
+          "excludes_zero": true
+        },
+        "5.12km": {
+          "n_blocks": 133,
+          "ci95": [
+            -0.030203,
+            -0.012321
+          ],
+          "excludes_zero": true
+        },
+        "10.24km": {
+          "n_blocks": 39,
+          "ci95": [
+            -0.032537,
+            -0.010237
+          ],
+          "excludes_zero": true
+        }
+      },
+      "all_ci_exclude_zero": true,
+      "verdict": "관측 평균 우위(미확정)"
+    },
+    "P2_unet3d_vs_P4c_bigdec": {
+      "per_seed_gap": [
+        0.055274,
+        -0.026968,
+        0.010931
+      ],
+      "mean_gap": 0.013079,
+      "sign_consistent_3of3": false,
+      "blocks": {
+        "2.56km": {
+          "n_blocks": 463,
+          "ci95": [
+            -0.001266,
+            0.027532
+          ],
+          "excludes_zero": false
+        },
+        "5.12km": {
+          "n_blocks": 133,
+          "ci95": [
+            -0.003646,
+            0.029949
+          ],
+          "excludes_zero": false
+        },
+        "10.24km": {
+          "n_blocks": 39,
+          "ci95": [
+            -0.001877,
+            0.03003
+          ],
+          "excludes_zero": false
+        }
+      },
+      "all_ci_exclude_zero": false,
+      "verdict": "관측 평균 우위(미확정)"
+    },
+    "P3_utae_vs_P4c_bigdec": {
+      "per_seed_gap": [
+        0.049788,
+        0.031982,
+        0.020928
+      ],
+      "mean_gap": 0.034233,
+      "sign_consistent_3of3": true,
+      "blocks": {
+        "2.56km": {
+          "n_blocks": 463,
+          "ci95": [
+            0.02039,
+            0.048035
+          ],
+          "excludes_zero": true
+        },
+        "5.12km": {
+          "n_blocks": 133,
+          "ci95": [
+            0.018553,
+            0.051429
+          ],
+          "excludes_zero": true
+        },
+        "10.24km": {
+          "n_blocks": 39,
+          "ci95": [
+            0.018909,
+            0.053719
+          ],
+          "excludes_zero": true
+        }
+      },
+      "all_ci_exclude_zero": true,
+      "verdict": "우세"
+    }
+  }
+}
