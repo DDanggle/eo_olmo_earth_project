@@ -120,9 +120,9 @@
 | 없는 것 | 막는 단계 | 비고 |
 |---|---|---|
 | **Sen12 전수 task contract** | **0 (C0)** | **통과** — 13,628 readable, retrospective 2건 fail-closed 제외, 10-region LOCO 봉인 |
-| **full frozen OLMo probe 결과** | **1 (G-P)** | strict 개발 pilot은 측정. P4 IoU 0.1416/AP 0.2251. 공식 P2/P3·9 unseen region은 **BLOCKED** |
-| **matched head/baseline 1 run 시간** | **G-C** | cached fit+val: P1 387.3초 / P2-tiny 1,455.7초 / P4 950.5초. native strong baseline은 미측정 |
-| 71363의 12밴드 물질화 | 2·3의 대안 경로 | C2-C 미실행. v1 + B01·B09 missing mask로 우회 가능 |
+| **full frozen OLMo probe 결과** | **1 (G-P)** | 공식 4-arm Chimanimani 개발 fold 완료. P4 IoU/AP 0.1306/0.1513, P2 0.1593/0.1746 → 95% gate **FAIL(82.0%)**. unseen region은 미개봉 |
+| **matched head/baseline 1 run 시간** | **G-C** | fixed 40-epoch: P2 1,491초 / P3 1,103초 / P4 641초 + cache 1,130초. practical early-stop·inference 미측정 |
+| 71363의 12밴드 물질화 | 2·3의 대안 경로 | v1 2,539 파일은 M35에서 철회. 624개 severe zero hole; <1% zero 1,912도 후보일 뿐. v2 mosaic/coverage contract 필요 |
 | Sen12 ↔ 71363 공통 입력 계약 | 2·3 | 양쪽 다 B02–B12 10밴드라 **같은 결측 구조**임 — 유리함 |
 | GK2A 격자 대응 | 6 | Area 경로로 우회 가능 |
 | 선행강우지수 | 6 | 설계 미착수 (사슬 1~5 전에는 열지 않음) |
@@ -130,5 +130,6 @@
 ## 7. 한 줄 판정
 
 > **사슬 1~4에 필요한 데이터는 전부 손에 있음** (Sen12 13,628패치 + 한국 2,699쌍 + 체크포인트
-> + 동결된 split). C0·cache audit·strict 개발 pilot은 닫혔다. 현재 병목은 **공식 3D U-Net/U-TAE와
-> timestamp parity → 미열람 9지역 full G-P**다. 개발 fold 수치는 존재하지만 confirmatory 성능은 0이다.
+> + 동결된 split). C0·cache audit·공식 4-arm 개발 fold는 닫혔다. 현재 병목은 **E1 원인진단
+> → exact timestamp parity → recipe 동결 → 미열람 지역 평가**다. 개발 fold의 frozen-small
+> recipe는 95% gate에 실패했고 confirmatory 성능은 여전히 0이다.

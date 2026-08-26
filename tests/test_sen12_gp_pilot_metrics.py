@@ -12,6 +12,8 @@ CODE = Path(__file__).resolve().parents[1] / "code"
 sys.path.insert(0, str(CODE))
 
 from audit_sen12_fold_cache import array_sha256  # noqa: E402
+from analyze_e1_factorial import contrasts  # noqa: E402
+from materialize_aihub_s2_12band_v2 import normalize_platform  # noqa: E402
 from pilot_sen12_gp_heads import exact_average_precision, fixed_bin_ece  # noqa: E402
 from verify_sen12_gp_artifacts import verify  # noqa: E402
 
@@ -47,6 +49,44 @@ def test_array_content_hash_changes_with_one_value_not_memory_layout():
     changed[0, 0] = 99
     assert array_sha256(base) == array_sha256(same)
     assert array_sha256(base) != array_sha256(changed)
+
+
+def test_aihub_v2_platform_matching_is_explicit():
+    assert normalize_platform("S2A") == "S2A"
+    assert normalize_platform("sentinel-2a") == "S2A"
+    assert normalize_platform("Sentinel_2B") == "S2B"
+    assert normalize_platform("landsat-8") is None
+    assert normalize_platform(None) is None
+
+
+def test_e1_factorial_contrasts_keep_main_effects_and_interaction_separate():
+    result = contrasts({"y00": 0.10, "y01": 0.20, "y10": 0.15, "y11": 0.30})
+    assert result["C_small"] == pytest.approx(0.05)
+    assert result["C_large"] == pytest.approx(0.10)
+    assert result["C_context_mean"] == pytest.approx(0.075)
+    assert result["D_tiled"] == pytest.approx(0.10)
+    assert result["D_full"] == pytest.approx(0.15)
+    assert result["D_decoder_mean"] == pytest.approx(0.125)
+    assert result["I_interaction"] == pytest.approx(0.05)
+
+
+def test_gp_bundle_v2_counts_blank_rows_not_unique_blank_values():
+    root = Path(__file__).resolve().parents[1]
+    bundle = root / "evidence" / "gp_official_bundle"
+    manifest = json.loads((bundle / "bundle_manifest_v2.json").read_text(encoding="utf-8"))
+    rows = [
+        json.loads(line)
+        for line in (bundle / "per_sample" / "P2_test.jsonl").read_text(encoding="utf-8").splitlines()
+        if line
+    ]
+    corrected = manifest["bootstrap_units_available_corrected"]
+    assert corrected["n_rows"] == len(rows) == 1_133
+    for key in ("ann_id", "event_date", "region"):
+        values = [row.get(key) for row in rows]
+        assert corrected[key]["n_blank_rows"] == sum(v in (None, "") for v in values)
+        assert corrected[key]["n_distinct_nonblank"] == len({
+            v for v in values if v not in (None, "")
+        })
 
 
 def test_artifact_verifier_recomputes_thresholded_metrics(tmp_path):

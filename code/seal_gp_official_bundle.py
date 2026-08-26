@@ -45,30 +45,39 @@ def main() -> None:
     # per-sample 스키마는 평면이다: tp/fp/fn (tn 없음). 처음에 confusion 중첩 키로
     # 추측해서 전부 0이 나왔다. 파일을 읽고 고쳤다.
     recomputed = {}
-    group_keys = {"ann_id": set(), "event_date": set(), "region": set()}
+    canonical_group_rows = None
     for p in sorted((OUT / "per_sample").glob("*_test.jsonl")):
         arm = p.name.split("_")[0]
         tp = fp = fn = n = 0
+        rows = []
         for line in p.read_text(encoding="utf-8").splitlines():
             if not line:
                 continue
             r = json.loads(line)
             tp += r["tp"]; fp += r["fp"]; fn += r["fn"]
             n += 1
-            for k in group_keys:
-                group_keys[k].add(r.get(k))
+            rows.append(r)
         iou = tp / (tp + fp + fn) if (tp + fp + fn) else None
         recomputed[arm] = {"n_samples": n, "tp": tp, "fp": fp, "fn": fn,
                            "iou_micro_recomputed": round(iou, 6) if iou else None}
+        if arm == "P2":
+            canonical_group_rows = rows
 
     # 부트스트랩 가능성 진단: 묶을 단위가 실제로 몇 개인가.
     # test region이 1개면 region-level CI는 원리상 불가하다 (n=1).
-    bootstrap_units = {k: {"n_distinct": len([x for x in v if x not in (None, "")]),
-                           "n_blank": len([x for x in v if x in (None, "")])}
-                       for k, v in group_keys.items()}
+    if canonical_group_rows is None:
+        raise RuntimeError("P2_test.jsonl이 없어 canonical bootstrap unit을 계산할 수 없음")
+    bootstrap_units = {}
+    for key in ("ann_id", "event_date", "region"):
+        values = [row.get(key) for row in canonical_group_rows]
+        bootstrap_units[key] = {
+            "n_rows": len(values),
+            "n_blank_rows": sum(value in (None, "") for value in values),
+            "n_distinct_nonblank": len({value for value in values if value not in (None, "")}),
+        }
 
     manifest = {
-        "schema": "gp-official-evidence-bundle-v1",
+        "schema": "gp-official-evidence-bundle-generated-v2",
         "fold": FOLD,
         "what_this_proves": "M30 표의 test 지표를 per-sample 파일에서 재계산할 수 있음",
         "what_this_does_not_prove": [
@@ -81,7 +90,8 @@ def main() -> None:
         "recomputed_from_per_sample": recomputed,
         "bootstrap_units_available": bootstrap_units,
     }
-    (OUT / "bundle_manifest.json").write_text(
+    # 원본 v1 manifest는 증거 이력으로 보존한다. 재실행해도 덮어쓰지 않는다.
+    (OUT / "bundle_manifest_generated_v2.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8")
     print(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True))

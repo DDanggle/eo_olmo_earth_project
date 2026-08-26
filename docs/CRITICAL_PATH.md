@@ -52,9 +52,12 @@ pseudo-cutoff 정책을 사전에 동결하기 전까지 열지 않는다. OLMo 
 12개라 15개 입력에서 shape error가 났다. 사후 편의 선택을 막기 위해 SCL quality만으로 top-12를
 고르고 시간순으로 복원하는 S12q를 고정했으며 P1~P5 모두 같은 index를 쓴다.
 
-**공정성 정정(2026-08-25)**: 같은 timestep index만으로 정보 계약이 완전히 같지는 않다. P4 cache는
-OLMo에 실제 acquisition timestamp를 전달하지만 현재 P1/P2는 순서만 본다. matched G-P를 주장하려면
-raw temporal baseline에도 같은 날짜/간격 encoding을 주거나 P4 timestamp ablation을 함께 둔다.
+**공정성 정정(2026-08-26)**: 같은 timestep index만으로 정보 계약이 완전히 같지는 않다. P4 cache는
+OLMo에 실제 acquisition datetime을 전달한다. 현재 P2/P3는 각 시점의 month-of-year를 받고 P1은
+시간평균 뒤 mean month를 받으므로 **월은 부분 정렬됐지만 day·관측 간격은 정렬되지 않았다.**
+matched G-P를 주장하려면 raw temporal baseline에 exact date/gap encoding을 주거나 P4 timestamp
+ablation을 함께 둔다. 기존 pilot JSON의 `P1/P2 only receive order` 문구는 stale이며
+`evidence/gp_official_bundle/bundle_manifest_v2.json`에서 정정했다.
 
 ## 측정 사슬 — promotion gate를 통과해야 다음으로 간다
 
@@ -62,7 +65,7 @@ raw temporal baseline에도 같은 날짜/간격 encoding을 주거나 P4 timest
 |---|---|---|---|
 | **0** | **C0 data contract** | 13,628파일 shape/band/time/static-mask/pre-post/SCL + LOCO 해시 | **통과** |
 | **1a** | **G-P smoke** | GPU1, 64표본에서 OLMo 입력·메모리·cache runtime | **통과** |
-| **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model의 95%에 닿는가 | 개발 pilot 측정 / **BLOCKED** |
+| **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model의 95%에 닿는가 | Chimanimani 개발 fold **FAIL(82.0%)** / 지역 확증 미개봉 |
 | **1c** | **R-event probe** | 같은 cache가 retrieval에도 raw spectral보다 나은가 | 0% |
 | **2** | **T-m** Höhn task-eligible 10지역 → Korea | annotation-matched zero/1/5/10% transfer | 0% |
 | **3** | **T-x** Italy → Korea | annotation-mismatched transfer | 0% |
@@ -104,7 +107,7 @@ C0 실측은 13,628/13,628 readable, 공통 schema gate 8/8 통과다. retrospec
 | P1 | raw spectral shallow U-Net | embedding 불필요 가능성 |
 | P2 | **공식 Sen12 3D-UNet 구조** | 동일 12시점·날짜 encoding으로 재학습. tiny stand-in 금지 |
 | P3 | **공식 U-TAE 구조** | 다른 temporal inductive bias. acquisition date를 동일 계약으로 사용 |
-| P4 | **frozen OLMo v1 + 같은 용량의 spatial decoder** | G-P 대상 |
+| P4 | **frozen OLMo v1 last-layer cache + small spatial decoder** | 원래 G-P 대상; 237,537 params |
 | P5 | frozen Prithvi-EO-2.0 + 같은 decoder | OLMo 한정 여부와 최신 근접연구 대조 |
 
 OLMo v1.2는 12밴드 단일 group이고 Sen12는 B01·B09가 없는 10밴드라 v1과 대칭 입력이 안 된다.
@@ -124,14 +127,14 @@ seed나 fold를 줄이지 않는다.
 이 속도를 단순 외삽하면 headline 6,834개는 약 **27.5분 / 10.75 GB**다. 이는 embedding extraction
 예산이지 decoder 학습시간이 아니며 pilot에서 따로 잰다.
 
-**strict 개발 pilot 실측(M25)**: full cache extraction은 실제 1,130.05초(18.8분)였다. 이미 열람한
-Chimanimani 한 fold에서 P4는 P1을 넘었고, P2-tiny 대비 test IoU 0.14164 vs 0.13499였지만 exact
-AP는 0.22512 vs 0.28607(78.7%)였다. 따라서 viability 신호는 있으나 G-P의 IoU+AUPRC 95%를
-동시에 통과하지 못했다. P2가 공식 구조가 아니고 P3·timestamp parity·미열람 9지역이 없으므로
-최종 판정은 실패가 아니라 **BLOCKED**다. strict CUDA smoke는 checkpoint tensor max-abs diff 0,
-artifact verifier는 checkpoint/per-sample SHA와 threshold aggregate 전부 통과했다. final P4-only
-40-epoch replay도 metric/checkpoint/tensor가 bitwise 일치했지만 wall time은 950.5초 vs 520.0초로
-갈렸으므로 G-C 비용은 isolated 반복 실험으로 다시 잰다.
+**공식 4-arm 개발 fold 실측(M30)**: cache extraction은 1,130.05초였다. 같은 40-epoch 실행에서
+P2 official-safe UNet3D IoU/AUPRC는 **0.159254/0.174585**, P3 U-TAE는
+0.120554/0.166852, P4 frozen last-layer cache는 **0.130582/0.151348**이었다.
+P4/P2 IoU 비율은 **82.0%**로 사전 95% 게이트에 실패했고, P4가 이긴 segmentation 성능 지표는
+없다(ECE만 더 낮음). 따라서 첫 fold의 frozen-small recipe는 FAIL이다. 이것은 OLMoEarth 전체나
+adaptation 가능성을 기각하지 않고, **last-layer frozen cache + 해당 decoder 조합의 실패**를 뜻한다.
+Chimanimani test는 이미 노출된 development fold이므로 E1 원인진단 결과도 확증으로 승격하지 않는다.
+증거 번들은 per-sample·로그·checkpoint SHA를 봉인했고, v2 manifest가 blank-count·timing 문구를 정정한다.
 
 ## 2026-08-26 재구성 — 이야기의 축을 성능 우열에서 **판단 문제**로 옮긴다
 
@@ -191,7 +194,7 @@ reuse cache  →  cheap recalibration  →  partial refresh
 
 | RQ | 질문 | 현재 | kill 조건 |
 |---|---|---|---|
-| **RQ1** | cached embedding이 쓸 만한가 | IoU 가능성 / **AP 부족** / 공식 baseline·timestamp parity 없어 판정 불가 (**BLOCKED**) | 공식 P2·P3 정렬 후에도 밀리면 GeoFM을 backbone에서 제외 |
+| **RQ1** | cached embedding이 쓸 만한가 | frozen-small은 P2 대비 IoU 82.0%, AUPRC 86.7%로 **개발 gate FAIL**. E1 원인진단 중 | context/capacity/multi-level/PEFT 후에도 밀리면 해당 GeoFM recipe를 backbone에서 제외 |
 | **RQ2** | **위험이 정말 task별로 다른가** | **0%** | **모든 task가 비슷하게 망가지면 router 불필요 → method 논문 중단** |
 | **RQ3** | label 없이 하락을 사전 예측할 수 있는가 | 0% | 예측이 무작위 수준이면 router 불가 |
 | **RQ4** | router가 정확도–비용 Pareto를 개선하는가 | 0% | oracle 대비 regret이 단순 규칙보다 나쁘면 system/benchmark로 강등 |
@@ -223,7 +226,7 @@ RQ3의 정답은 **실제 downstream 하락량**이므로 shift 전후 **양쪽�
 
 ## 감사 예산 규칙 (2026-08-26 신설)
 
-M-항목이 **26개**인데 method 결과는 **0개**다. 이 비율을 유지하면 감사 논문이 된다.
+측정·감사 항목은 M36까지 쌓였지만 method 결과는 아직 0개다. 이 비율을 유지하면 감사 논문이 된다.
 
 > **main claim을 막지 않는 감사 항목은 새로 열지 않는다.**
 
@@ -237,31 +240,34 @@ M-항목이 **26개**인데 method 결과는 **0개**다. 이 비율을 유지�
 | split·SHA·LOCO·cache audit | 결과 신뢰성 기반 | 완료 |
 | 잘못된 AP sampling 발견 | 허위 결론 방지 | 완료 |
 | deterministic replay (bitwise) | 재현성 기반 | 완료 |
-| P4 frozen OLMo pilot | cache viability | **부분 긍정** |
-| 공식 P2/P3 정렬 | 경쟁력 판정 | **미완 ← 병목** |
+| P4 frozen OLMo pilot | cache viability | **원래 게이트 FAIL(82.0%)** |
+| 공식 P2/P3 정렬 | 경쟁력 판정 | **완료(official-safe 이식)** |
+| E1 crop-context × decoder capacity | 실패 원인 후보 분리 | **개발 진단 실행 중** |
+| exact timestamp parity | 정보량 정렬 | **미완 ← 잔여 confound** |
 | unseen 9지역 confirmatory | 지역 일반화 | **미완 ← 병목** |
 | 3 task 위험 이질성 (RQ2) | router 필요성 | 미측정 |
 | router Pareto (RQ4) | method contribution | 미측정 |
 | 한국·네팔·스위스 (RQ5) | external transfer | 미측정 |
 
-지금까지의 감사는 헛일이 아니다 — 잘못된 "P4 전 지표 1위"를 제거하고 진짜 질문을 남겼다.
-**그러나 이제 병목은 더 많은 기록이 아니라 공식 baseline 정렬과 unseen-region confirmatory run이다.**
+지금까지의 감사는 헛일이 아니다 — 잘못된 "P4 전 지표 1위"를 제거하고 frozen-cache failure를
+재현 가능한 결과로 만들었다. **현재 병목은 E1을 닫고, exact-time confound를 제거한 하나의 recipe를
+개발 fold에서 동결한 뒤, 미열람 지역을 더 이상 튜닝하지 않고 평가하는 것**이다.
 
 ## 실행 순서 (확정)
 
-1. 공식 Sen12 3D U-Net · U-TAE 이식 — **M26의 선택지 C**(pooling만 결정적 치환)
-2. P4와 raw baseline의 **timestamp 정보량 정렬**
-3. Chimanimani에서 **recipe 동결**
-4. **unseen 9지역을 한 번만** 평가 (사전등록)
-5. 같은 cache 위에 **AI-Hub 3 task** 구축 (RQ2 — Sen12로는 불가)
-6. shift별 **task degradation matrix**
-7. **risk router + accuracy–cost Pareto** (RQ4)
-8. **두 번째 backbone** 검증
-9. 한국 + 네팔 또는 스위스 **untouched transfer** (RQ5)
+1. E1의 새 세 칸을 끝내고 `docs/E1_CONTEXT_DECODER_ANALYSIS_PLAN.md`대로 contrast·공간 CI를 봉인한다.
+2. E1 결과에 따라 **(a) context, (b) capacity, (c) multi-level feature/UNet, (d) PEFT** 중 다음
+   한 축만 열고 Chimanimani development recipe를 끝낸다. 여러 축을 동시에 사후 탐색하지 않는다.
+3. raw arm exact date/gap 또는 P4 timestamp ablation으로 정보 계약을 정렬한다.
+4. 최종 recipe·seed·metric·중단 규칙을 사전등록하고 **미열람 지역을 순차 공개**한다.
+5. AI-Hub v2 모자이크·coverage contract를 만들고 원래 v1 2,539큐브는 사용하지 않는다.
+6. 같은 유효 cache 위에 AI-Hub 3 task를 구축해 RQ2의 shift×task degradation matrix를 잰다.
+7. **risk router + accuracy–cost Pareto**, 두 번째 backbone, 한국→네팔/스위스 transfer 순으로 연다.
 
 CVPR method paper가 되려면
 `task별 위험 이질성 → 위험 예측 → refresh 의사결정 → 정확도·비용 Pareto → 외부 지역·두 번째 모델`
-이 **하나의 인과 사슬로 닫혀야** 한다. 현재는 `좋은 재현성 감사 + 유망한 pilot` 단계다.
+이 **하나의 인과 사슬로 닫혀야** 한다. 현재는
+`좋은 재현성 감사 + 한 frozen-cache recipe의 반증 + 원인진단` 단계다.
 
 ## 결정성 × 공식성 — M26으로 해소됨
 
@@ -315,6 +321,13 @@ router는 `Δloss(q, action | drift, freshness, quality)`와 action cost를 예�
 FoldRefresh는 `recompute_release`, MountainShift는 `add_static/refresh_live`, M1·M8은 drift feature를
 제공한다. 이 결합이 검증될 때만 세 프레임이 하나의 CVPR 방법이 된다.
 
+**2026-08-26 추가 충돌**: OLMoEarth 원 논문·PANGAEA·PEFT 연구는 decoder/multi-level feature와
+fine-tuning recipe가 frozen GFM 판정에 결정적임을 이미 보여준다. AlphaEarth·TESSERA·OlmoEarth
+Studio는 shared embeddings-as-data를, TESSERA v2는 multi-task storage frontier와 seam artifact를,
+Berkeley RALF는 downstream regret 기반 feature refresh를 이미 다룬다. 따라서 decoder 회복,
+shared cache, seam, generic refresh는 headline novelty가 아니다. 남는 gap과 인용은
+`docs/RECENT_LITERATURE_DECISION_2026_08_26.md`에 고정했다.
+
 ## 지금 하지 않을 것
 
 - C0/G-P 전에 264-run 전체 matrix 실행
@@ -326,9 +339,9 @@ FoldRefresh는 `recompute_release`, MountainShift는 `add_static/refresh_live`, 
 
 ## 다음 세 행동
 
-1. 공식 Sen12 3D U-Net·U-TAE를 원 구현 tensor/parameter regression test와 함께 이식한다.
-2. raw baseline에 동일 acquisition date/gap encoding을 주고 Chimanimani에서 recipe를 동결한다.
-3. 미열람 9지역을 한 번씩 열어 region/event-macro G-P와 G-R을 닫은 뒤 한국 T-m/T-x를 연다.
+1. E1 2×2를 고정 contrast와 paired spatial-block CI로 닫고, 표현 차이와 성능 개선을 구분한다.
+2. E1이 회복하지 못하면 multi-level feature/UNet과 PEFT를 **별도 요인**으로 한 번씩만 시험한다.
+3. exact date/gap parity 뒤 recipe를 동결하고, 미열람 지역을 순차 평가한 후에만 AI-Hub v2/RQ2를 연다.
 
 ## 이번 재설계에 직접 사용한 공개 근거
 

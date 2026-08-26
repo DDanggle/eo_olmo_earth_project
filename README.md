@@ -8,8 +8,9 @@
 > 사슬의 하중을 진다** — 여기서 이질성이 없으면 router 논문은 중단한다.
 > → **`docs/CRITICAL_PATH.md`**
 >
-> 현재 병목은 더 많은 기록이 아니라 **공식 baseline 정렬 + unseen-region confirmatory run**이다.
-> 감사 예산 규칙: **main claim을 막지 않는 감사 항목은 새로 열지 않는다** (M-항목 26 : method 결과 0).
+> 공식 P2/P3 정렬은 끝났고 frozen-small P4는 첫 개발 fold에서 95% gate에 실패했다(82.0%).
+> 현재 병목은 **E1 context×decoder 원인진단 완결 → exact-time parity → recipe 동결 →
+> unseen-region 평가**다. 감사 예산 규칙: **main claim을 막지 않는 감사 항목은 새로 열지 않는다.**
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에
@@ -50,7 +51,10 @@
 | `RESEARCH_STRATEGY.md` | 박사 연구 프로그램 — WorldShift × ModelShift, 가설·베이스라인·12주 실행 |
 | `RESEARCH_EXECUTION_PLAN.md` | **현재 7일 실행 queue** — MountainShift public spine·3국 access·probe/residual/transfer gate; 아래에는 과거 K-ALIGN 계획 보존 |
 | `K_CONTEXT_FUSION_EXPERIMENT.md` | K-ALIGN 보존 branch — 동적 공공 context, EO-only privileged distillation, simple/native baseline, 3지역 split·kill gate |
-| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** M1–M25의 근거·허용 주장·금지 주장. 최신 M25는 strict G-P 개발 pilot |
+| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** 최신 M36은 E1 첫 capacity cell의 회복 신호와 배관 중단을 기록 |
+| `docs/E1_CONTEXT_DECODER_ANALYSIS_PLAN.md` | E1 2×2 cell·contrast·공간 CI·95% 참고선·비용 판정 계약 |
+| `docs/RECENT_LITERATURE_DECISION_2026_08_26.md` | OLMo/PANGAEA/PEFT/TESSERA/RALF 대비 선점 주장과 CVPR 잔여 gap |
+| `docs/AIHUB_CUBE_V2_CONTRACT.md` | M35 이후 12-band 재물질화의 platform/mosaic/validity/coverage 사전 계약 |
 | `MOUNTAIN_EVIDENCE_TRANSFER.md` | MountainShift — 알프스·HKH·한국 산악 전이 설계, TRANSFER/LOCAL-ADAPT/RE-EMBED/ABSTAIN, 중단 기준 |
 | `docs/GP_PILOT_VALIDATION_AUDIT.md` | M23–M25 독립 감사 — invalid 8ep 계보, exact metric/cache seal, strict replay, G-P 차단 사유 |
 | `K_ALIGN_BIG_PICTURE.md` | **EarthKV 프로그램 spine** — EarthEmbedContract·FoldRefresh·EarthRoute·MountainShift의 층위와 REUSE/ADAPT/RECOMPUTE 판정 |
@@ -91,7 +95,24 @@ kt cloud AI Nexus의 **H200 ×2**.
   최대 ×26 리프트의 유사지 검색이 가능함을 정량 검증. few-shot 프로토타입은 지역·유형을
   건너뛰어 전이됨(완도 해상 김양식 → 제주 육상 수조, 9/9가 상위 4% 내).
 
-### 2026-08-25 현재판 — 평가 기반은 섰고, downstream은 여전히 0%
+### 2026-08-26 현재판 — 개발 downstream은 나왔고, confirmatory downstream은 여전히 0%
+
+Chimanimani 개발 fold의 공식 4-arm 결과에서 P2 UNet3D는 IoU/AUPRC 0.1593/0.1746,
+frozen OLMoEarth last-layer + small decoder는 0.1306/0.1513으로 원래 95% gate에 실패했다.
+다만 E1 첫 새 셀인 같은 tiled cache + 2.99M large convolutional decoder는
+0.1777/0.2136으로 회복했다. positive-patch macro IoU와 LD-IoU는 P2보다 낮고, 한 지역·한 seed·
+test 노출 결과이므로 모델 우월성으로 쓰지 않는다. full-context 두 셀은 cache root 결합 버그로
+시작 전 중단됐고 source 분리·alternate embedding seal을 구현했다(M36).
+
+AI-Hub v1 12-band 물질화의 2,539 성공 집계도 철회했다. 624개가 all-band zero 10% 이상이었고,
+1,912개는 사후 low-zero 후보일 뿐 usable cube가 아니다. v2 target-grid mosaic와 99.9% validity
+coverage 계약을 통과하기 전에는 RQ2 학습에 넣지 않는다(M35).
+
+최신 문헌상 decoder/PEFT 회복, reusable embedding, tile seam, generic feature refresh는 각각 이미
+선점돼 있다. 남는 방법 질문은 EO의 region/time/sensor/model shift에서 **label-free task risk를
+예측해 reuse/adapter/re-embed/PEFT/raw action을 고르고 regret–cost Pareto를 개선하는가**다.
+
+### 2026-08-25 기반 — 공간 평가 계약
 
 M9·M10으로 **AI-Hub 71363 위에서 P0를 돌릴 공간적 평가 기반이 유효하게 마련됐다.**
 공식 split의 valid 타일 110/110이 train과 겹친다는 것도 그 자체로 benchmark validity 결과다.

@@ -2403,3 +2403,48 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 다음: Chimanimani 추가 튜닝을 멈춘다. 공식 Sen12 3D U-Net/U-TAE tensor regression → raw date/gap
   encoding 또는 P4 timestamp ablation → recipe 동결 → 미열람 9지역 region/event-macro G-P 순서다.
   그 뒤 같은 cache의 R-event를 닫아야 한국 T-m/T-x와 다중-task cache 주장을 연다.
+
+### 2026-08-26 — M32–M36 주장 정정·E1 배관 복구·최근 연구 대비 재설계
+
+- 작업 계획: 최신 evidence bundle과 M31–M35를 독립 재감사하고, 결과를 읽기 전에 E1 2×2의
+  estimand·판정식·비용 규칙을 고정한다. 과장된 원인진단과 manifest 집계 오류를 코드·문서에서
+  수정하고, AI-Hub v2 materialization 계약을 만든다. 그 뒤 최신 OLMo/PANGAEA/PEFT/embedding
+  product/feature refresh 연구와 대조해 CVPR 잔여 gap을 다시 판정한다.
+- M32 정정: 0.4987/0.6071은 모든 decoder가 넘지 못하는 token-grid ceiling이 아니라
+  **block-constant label oracle 참고값**이다. 실제 embedding 정보 보존과 40 m support 병목은
+  미판정이다. 면적 quartile만으로 thin-scar 가설도 기각할 수 없어 제목·코드·금지 주장을 고쳤다.
+- M33/M34 정정: spatial block bootstrap의 tail fraction을 p-value로 부르지 않고 20.48 km 12블록의
+  불안정성을 명시했다. seam v1은 ID 정렬 첫 300개·CI 없음이라 확증에서 관측으로 낮췄고,
+  지역 균형 30개씩 + tiled/full difference-in-differences + 계층 bootstrap v2 코드를 추가했다.
+- 증거 정정: v1 manifest의 `n_blank=1`은 blank unique value 수를 센 버그였다. P2 test 기준
+  ann_id blank row는 **710/1,133**, nonblank distinct 422다. 원본 v1은 보존하고 correction manifest
+  v2와 미래 seal script를 추가했다. timing 계약도 P2/P3 month 채널, P1 mean-month로 정정하되
+  exact day/gap mismatch는 남겼다.
+- E1 analysis lock: `y00/y01/y10/y11`, context·decoder contrast·interaction, 4개 spatial block CI,
+  IoU/AUPRC 95% 탐색 기준(0.1512913/0.16585575), fixed/practical cost를 결과 전에 문서화했다.
+  첫 새 셀 validation 일부를 이미 본 뒤라 완전 preregistration이 아니라
+  `prospective analysis lock after run start`로 명시했다.
+- M36 실측: tiled + 2.989M large convolutional decoder(P4c)는 IoU/AUPRC
+  **0.177727/0.213574**로 small P4(0.130582/0.151348)와 P2(0.159254/0.174585)를 micro 지표에서
+  넘었다. 그러나 positive-patch macro IoU는 **0.139172**로 small P4(0.159966), P2(0.194446)보다
+  낮고 LD-IoU도 P2보다 낮다. 한 개발 지역·seed 1·test 노출 결과라 우월성으로 쓰지 않는다.
+- E1 중단 원인: full128 root에는 embedding만 있고 base mask/raw/month/audit가 없는데 단일
+  `--cache`로 결합돼 두 번째 셀이 시작 전 종료됐다. runner에 `--emb-cache`를 분리하고,
+  alternate embedding exact set/shape/dtype/finite/content SHA를 base seal에 묶는 audit를 추가했다.
+  최종 2×2는 동일 수정 code SHA로 재실행한다.
+- AI-Hub M35 후속: 1,912는 usable이 아니라 post-hoc low-zero 후보로 낮췄다. v2는 같은 날짜·플랫폼
+  item을 target EPSG:32652 grid에 warp/mosaic하고 alpha/source validity 기반 12-band common
+  coverage **≥99.9%**만 통과한다. v1을 덮어쓰지 않고 40표본 층화 pilot→전수 health/class
+  selection-bias audit 뒤에만 RQ2에 사용한다. 계약과 v2 materializer를 추가했다.
+- 최신 연구 판정: strong decoder·PEFT, shared embeddings-as-data, tile seam, generic downstream
+  regret refresh는 각각 OLMo/PANGAEA/PEFT, AlphaEarth/TESSERA, TESSERA v2, Berkeley RALF가
+  선점했다. 남는 gap은 **label-free EO task-risk prediction + reuse/cached-adapter/re-embed/PEFT/raw
+  multi-action policy + external-region regret–cost Pareto**로 좁혔다.
+- 검증: project parent venv에서 **161 passed, 1 skipped, 10 subtests**, 수정 스크립트 py_compile과
+  관련 18 tests 통과. system Python의 PyYAML 부재 collection failure는 환경 문제로 재확인했다.
+- 원격 마찰: localhost:9922 SSH host fingerprint가 기존 known_hosts와 달라졌다
+  (`SHA256:y6YfMhYlugocey1MiM5fS2Ggg0RFtQSMCexH2ryWziI`). read-only로 E1 로그·산출물은 확인했지만
+  Backend.AI 세션 identity를 재확인하기 전 code push·GPU 재실행은 중단했다.
+- 다음: ① host identity 확인 ② 수정 코드 push ③ full embedding seal ④ 동일 code SHA로 E1 3셀
+  재실행·per-sample 봉인·factorial CI ⑤ 결과에 따라 multi-level cached-token decoder 또는 PEFT
+  한 축만 열기 ⑥ exact-time parity 후 미열람 region protocol 동결.

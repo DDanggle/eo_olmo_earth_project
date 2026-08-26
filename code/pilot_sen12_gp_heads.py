@@ -105,6 +105,11 @@ def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--cache", type=Path,
                    default=Path("/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani"))
+    p.add_argument(
+        "--emb-cache", type=Path, default=None,
+        help=("embedding 전용 cache root. 생략하면 --cache와 동일. E1 full-context arm은 "
+              "--cache에서 mask/raw/month/audit를, 여기서 emb_fp16만 읽는다."),
+    )
     p.add_argument("--folds", type=Path,
                    default=Path("/home/work/data/olmoearth/sen12_gp_contract/loco_folds.json"))
     p.add_argument("--contract", type=Path,
@@ -139,6 +144,7 @@ def main() -> None:
     from sen12_official_baselines import (OfficialUNet3D, OfficialUTAE, param_count)
 
     args = parse_args()
+    emb_cache = args.emb_cache or args.cache
     args.out.mkdir(parents=True, exist_ok=True)
     audit_path = args.cache_audit or (args.cache / "cache_audit.json")
     if not audit_path.is_file():
@@ -204,7 +210,7 @@ def main() -> None:
             y = np.load(args.cache / "mask_u8" / f"{sid}.npy", mmap_mode="r")
             y = torch.from_numpy(np.array(y, copy=True, order="C")).float().unsqueeze(0)
             if self.kind == "emb":
-                x = np.load(args.cache / "emb_fp16" / f"{sid}.npy", mmap_mode="r")
+                x = np.load(emb_cache / "emb_fp16" / f"{sid}.npy", mmap_mode="r")
                 x = torch.from_numpy(np.array(x, copy=True, order="C")).float()
                 if self.stats is not None:
                     x = (x - self.stats[0]) / self.stats[1]
@@ -231,7 +237,7 @@ def main() -> None:
         acc2 = np.zeros((768,), dtype="float64")
         n = 0
         for j in idx:
-            a = np.load(args.cache / "emb_fp16" / f"{train_ids[j]}.npy").astype("float32")
+            a = np.load(emb_cache / "emb_fp16" / f"{train_ids[j]}.npy").astype("float32")
             acc += a.mean(axis=(1, 2)); acc2 += (a ** 2).mean(axis=(1, 2)); n += 1
         mean = acc / n
         var = np.maximum(acc2 / n - mean ** 2, 1e-6)
@@ -324,11 +330,12 @@ def main() -> None:
                                  align_corners=False)
 
     class EmbDecoderBig(nn.Module):
-        """P4c — 같은 frozen 캐시에 **용량이 큰** decoder.
+        """P4c — 같은 frozen 캐시에 용량이 큰 convolutional decoder.
 
-        M32에서 토큰 격자 천장(0.607)이 실제 성능(0.131)의 4배로 나왔으므로
-        해상도가 병목이 아니다. 남은 후보 중 **decoder 용량**을 이 arm이 검정한다.
-        P2(공식 UNet3D 2,693,121)와 자릿수를 맞춰야 공정한 검정이 된다.
+        중간 feature나 skip connection을 쓰지 않으므로 U-Net 또는 multi-scale decoder가 아니다.
+        P2(공식 UNet3D 2,693,121)와 parameter order를 맞춰 **마지막-layer decoder 용량**
+        효과만 분리한다. M32의 블록-상수 라벨 oracle은 모델 성능 상한이 아니므로 이 arm의
+        결과만으로 40 m support 병목을 기각하지 않는다.
         """
 
         def __init__(self, cin=768, base=256):
@@ -584,9 +591,12 @@ def main() -> None:
         del model, loaders
         torch.cuda.empty_cache()
 
-    cache_bytes = {k: sum(p.stat().st_size for p in (args.cache / k).glob("*.npy"))
-                   for k in ("emb_fp16", "raw_u16", "mask_u8")}
-    cache_summary_path = args.cache / "cache_summary.json"
+    cache_bytes = {
+        "emb_fp16": sum(p.stat().st_size for p in (emb_cache / "emb_fp16").glob("*.npy")),
+        "raw_u16": sum(p.stat().st_size for p in (args.cache / "raw_u16").glob("*.npy")),
+        "mask_u8": sum(p.stat().st_size for p in (args.cache / "mask_u8").glob("*.npy")),
+    }
+    cache_summary_path = emb_cache / "cache_summary.json"
     cache_summary = (json.loads(cache_summary_path.read_text(encoding="utf-8"))
                      if cache_summary_path.is_file() else None)
     summary = {
@@ -641,6 +651,10 @@ def main() -> None:
         "cache_audit": {"path": str(audit_path), "sha256": sha256_file(audit_path),
                         "summary": cache_audit},
         "cache_build_summary": cache_summary,
+        "cache_sources": {
+            "base_mask_raw_month_audit": str(args.cache),
+            "embedding": str(emb_cache),
+        },
         "cache_bytes": cache_bytes,
         "cost_scope": {
             "reported_fit_time": "head fit + validation every epoch; excludes cache construction",

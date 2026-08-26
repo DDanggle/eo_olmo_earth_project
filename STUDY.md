@@ -732,7 +732,45 @@ metric이 bitwise 동일(max-abs diff 0)이었다. 그러나 wall time은 950.5�
 **확인 질문**: 같은 seed의 두 CUDA 학습이 재현됐다고 말하려면 무엇을 비교해야 하며, 모델 수치는
 bitwise 같지만 wall time이 1.8배 다를 때 accuracy-cost Pareto에는 어떤 측정 설계를 써야 하는가?
 
+### #47 라벨 oracle 참고값은 learned decoder의 성능 상한이 아니다 (2026-08-26, M32 정정)
+
+128×128 라벨을 4×4 블록으로 내린 뒤 블록 전체를 한 값으로 되올려 얻은 IoU는
+`block-constant label oracle`이다. 라벨을 보고 규칙·threshold를 고르므로 배포할 수 없고,
+decoder는 토큰 하나에서 블록 내부의 서로 다른 4×4 값을 출력할 수 있으므로 모든 decoder가
+넘지 못하는 상한도 아니다. 이 값이 높다는 사실은 block-constant geometry로도 라벨 일부를
+표현할 수 있다는 약한 참고일 뿐, 실제 embedding이 그 정보를 보존한다거나 40 m support가
+병목이 아니라는 증거가 아니다.
+
+**확인 질문**: label oracle, representational upper bound, deployable model 성능을 각각 정의하고,
+32×32 token에서 128×128 mask를 복원할 때 어떤 추가 실험이 있어야 resolution bottleneck을
+기각할 수 있는가?
+
+### #48 factor 하나의 contrast와 전체 factorial main effect는 다르다 (2026-08-26, E1)
+
+2×2 `context(tiled/full) × decoder(small/large)`에서 tiled-small→tiled-large가 좋아져도
+`decoder main effect`가 확정된 것은 아니다. full-small→full-large contrast까지 같은 부호인지,
+두 context contrast가 같은지, interaction이 있는지를 함께 봐야 한다. 더욱이 micro-IoU가 좋아지고
+positive-patch macro IoU가 나빠지면 "더 좋은 segmentation"이라는 단일 결론도 불가능하다.
+estimand와 metric hierarchy를 결과 전에 고정하고 paired spatial interval로 uncertainty를 붙인다.
+
+**확인 질문**: `y00,y01,y10,y11`에서 context effect, decoder effect, interaction을 어떻게 계산하며,
+한 셀의 test 결과만 읽은 상태에서 허용되는 가장 강한 주장은 무엇인가?
+
 ## 스터디 로그
+
+### 2026-08-26 — E1 원인진단·Earth embedding product prior-art 재정렬
+
+- 배운 것: 카드 #47. M32의 0.607을 decoder 상한으로 부른 것은 오류였고, block-constant label
+  oracle로 낮췄다. 해상도·가는 형태 가설은 열어 둔다.
+- 배운 것: 카드 #48. tiled-large 한 셀의 큰 회복은 tiled context에서 capacity가 중요하다는
+  신호지만 2×2 main effect가 아니며, micro/positive-patch metric도 교차한다.
+- 배관 보정: alternate full128 embedding root와 base mask/raw/month/audit root를 분리하고 별도
+  content seal을 추가했다. 기존 E1은 첫 새 셀 뒤 audit path 결합 오류로 중단됐다.
+- 문헌 보정: OLMo/PANGAEA/PEFT는 strong decoder·adaptation, TESSERA v2는 shared product·seam,
+  RALF는 downstream-regret refresh를 이미 다룬다. 남는 gap을 label-free EO task-risk와
+  multi-action regret–cost policy로 좁혔다.
+- 다음 학습: host identity를 확인한 뒤 동일 code SHA로 E1을 재실행하고, full factorial이 닫힌
+  뒤 multi-level cached-token adapter와 encoder-changing PEFT를 서로 다른 action으로 설계한다.
 
 ### 2026-08-26 — G-P pilot 재현성·지표·비용 계약 복구
 

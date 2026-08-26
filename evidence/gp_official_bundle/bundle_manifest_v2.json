@@ -1,0 +1,73 @@
+{
+  "schema": "gp-official-evidence-bundle-corrections-v2",
+  "supersedes_manifest": {
+    "path": "bundle_manifest.json",
+    "sha256": "50974dfc3184fe2c38239533d588cd280945dfc4618de49be84d164b45a4d1d8",
+    "preservation": "v1 is retained unchanged as the original evidence record"
+  },
+  "canonical_count_source": "per_sample/P2_test.jsonl",
+  "bootstrap_units_available_corrected": {
+    "n_rows": 1133,
+    "ann_id": {
+      "n_blank_rows": 710,
+      "n_distinct_nonblank": 422,
+      "valid_cluster_unit": false,
+      "reason": "nonblank IDs occur on 423 positive rows and are nearly one-to-one with tiles"
+    },
+    "event_date": {
+      "n_blank_rows": 710,
+      "n_distinct_nonblank": 1,
+      "valid_cluster_unit": false,
+      "reason": "the exposed test fold contains one canonical event"
+    },
+    "region": {
+      "n_blank_rows": 0,
+      "n_distinct_nonblank": 1,
+      "valid_cluster_unit": false,
+      "reason": "region-level resampling is impossible with one held-out region"
+    }
+  },
+  "information_contract_corrected": {
+    "shared_timestep_indices": true,
+    "P4": "exact acquisition datetimes were passed to the frozen encoder during cache extraction",
+    "P1": "the time-averaged raw input receives one mean month-of-year channel",
+    "P2_P3": "each raw timestep receives a month-of-year channel",
+    "remaining_mismatch": "raw arms do not receive exact day or inter-acquisition gaps; month is only partially matched",
+    "claim_status": "month-partially-matched, exact-timing-not-matched"
+  },
+  "supplemental_evidence": {
+    "arm_gap_ci_spatial.json": {
+      "sha256": "22ed4239c3ce09803a24fb9224d76125eeca14e46359b9c9b0cb9fb8dde1c5e1",
+      "status": "one-region spatial-block sensitivity analysis, not region-level inference"
+    },
+    "arm_gap_ci.json": {
+      "sha256": "9d2ae6e7cfc2834af5cdacf9769556ba95825dd1fcfda646da8546b6363b019e",
+      "status": "invalid as cluster inference because ann_id is absent on negatives and nearly tile-unique"
+    },
+    "cache_seam.json": {
+      "sha256": "551afe9da7ed78d0162d9bd039aba987130055e2d4743cdf388a0d69c1d4d182",
+      "status": "descriptive v1; sorted-first-300 selection and no paired interval"
+    },
+    "p4_gap_diagnosis.json": {
+      "sha256": "dacc9bcf9a3c881b933f277da0e313570225e023f8cddab7e58f4614d94ba0b8",
+      "status": "v1 preserved; token_grid_ceiling is a misnomer and must be read as a block-constant label-oracle reference"
+    }
+  },
+  "cross_asset_correction": {
+    "path": "../cube_audit.json",
+    "sha256": "8946f23bdce22e2357830645bfaba85672f173d209d68d84801d46eeba4fdc37",
+    "status": "M31 file-success count retracted; 1912 is a post-hoc low-zero candidate count, not a verified usable-cube count"
+  },
+  "what_this_proves": [
+    "M30 test micro-IoU values remain independently recomputable from the v1 per-sample files",
+    "the v1 blank-count bug and stale timing-contract description are explicitly corrected",
+    "later diagnostics are linked without mutating their original artifacts"
+  ],
+  "what_this_does_not_prove": [
+    "regional generalization or a region-level confidence interval",
+    "causal superiority of P2 over P4 beyond the exposed Chimanimani development fold",
+    "that crop-context differences improve downstream segmentation",
+    "that 40 m token support is or is not the practical bottleneck",
+    "that any AI-Hub v1 cube is ready for downstream use"
+  ]
+}
