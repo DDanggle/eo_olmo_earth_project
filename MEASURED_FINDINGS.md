@@ -2547,6 +2547,57 @@ M51(china val 3/3 우위)과 방향이 일치함.
 "M37이 뒤집혔다"고 보고했고 **그것은 틀렸음**. per-sample 재계산으로 0.133을
 확인한 뒤 정정함. 교훈: 로그 정규식 추출을 신뢰하지 말고 per-sample 재계산만 쓸 것.
 
+## M53. 메타데이터 감사 — stale `information_contract`를 **소스에서** 고치고 봉인본에는 정정 주석을 병기
+
+**근거**: `code/pilot_sen12_gp_heads.py:700` 부근(정정 완료),
+`code/fix_stale_information_contract.py`, 로컬 5개 + 서버 10개 이상 pilot JSON
+**동기**: 외부 감사가 "봉인 JSON의 한 필드가 아직 'P2는 순서만 받았다'로 남아 있다"고
+지적했음. **확인 결과 사실이었음.**
+
+### 무엇이 틀려 있었나
+
+```
+"known_mismatch": "P4 encoder received acquisition timestamps; P1/P2 only receive order"
+"claim_status":   "not timestamp-matched"
+```
+
+두 필드 다 틀렸음.
+
+1. **P1/P2/P3는 order가 아니라 월(month/11) 1채널을 받음.** `forward()`의 timestamp
+   parity 처리이고 로그에 `months 로드 6834개`로 남음.
+2. **M39 실측**: 인코더는 시간을 **월 해상도로 양자화**함(날짜 ±1~3일 이동 시 임베딩
+   5/5 비트 동일). 따라서 P4도 acquisition datetime의 날짜 성분을 쓰지 않음.
+   `not timestamp-matched`라는 판정 자체가 성립하지 않음.
+
+### 조치 — 봉인본은 덮어쓰지 않음
+
+- **소스 정정**: `pilot_sen12_gp_heads.py`의 해당 블록을
+  `information_parity: true` · `encoder_time_resolution: month` ·
+  `residual_asymmetry: encoding form only`로 교체하고, 왜 이전 문구가 stale인지를
+  코드 주석으로 남겼음. 이후 실행되는 모든 산출물은 올바른 값을 씀.
+- **봉인본 처리**: 이미 만들어진 pilot JSON의 원본 필드는 **삭제하지 않음.**
+  봉인 산출물의 사후 수정은 그 자체가 재현성 위반이므로,
+  `information_contract_correction_2026_08_26` 키를 나란히 추가해
+  "무엇이 틀렸는지 · 왜 틀렸는지 · 올바른 진술 · 근거"를 같은 파일 안에 남겼음.
+  로컬 5개 적용 완료, 서버 적용 진행.
+
+### 남는 진짜 비대칭 (미검정)
+
+정보량은 동일하고 **부호화 형태만** 다름 — P4는 sinusoidal positional encoding,
+raw arm은 스칼라 1채널 broadcast. 이는 "P4가 더 많은 정보를 봤다"가 아니라
+"같은 정보를 더 쓰기 좋은 형태로 받았다"는 훨씬 약한 주장이며 별도 ablation 항목임.
+
+### 함께 검증한 것 — val 지역 선택이 사후가 아님
+
+`build_sen12_gp_contract.py`의 `build_loco_folds`는
+`val_region = regions[(i + 1) % len(regions)]`로 **기계적으로** 고름.
+즉 test=chimanimani → val=china는 결과를 보고 고른 것이 아니라 지역 순서상 자동임.
+china 결과(M48·M51)를 "유리한 지역을 골랐다"고 공격할 근거가 없음.
+
+단, **china가 epoch 선택에 쓰였다는 한계는 그대로 유효함.** M48·M51에 이미 기록돼
+있으며 "학습에 쓰지 않은 geographic validation 지역에서의 반복 신호"가 정확한 표현임 —
+독립 test transfer가 아님.
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,

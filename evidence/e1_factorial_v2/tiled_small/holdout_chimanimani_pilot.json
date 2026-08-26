@@ -486,5 +486,29 @@
   },
   "test_exposure": "chimanimani test는 M23 8-epoch 결과에서 이미 열람됐다. 이후 40-epoch와 v2는 개발 결과다. 최종 주장은 미열람 지역 fold를 사전등록 후 한 번만 평가해야 한다.",
   "test_region": "chimanimani",
-  "val_region": "china"
+  "val_region": "china",
+  "information_contract_correction_2026_08_26": {
+    "corrected_at": "2026-08-26",
+    "what_was_wrong": [
+      "known_mismatch='P4 encoder received acquisition timestamps; P1/P2 only receive order'",
+      "claim_status='not timestamp-matched'"
+    ],
+    "why_wrong": [
+      "P1/P2/P3는 order가 아니라 월(month/11) 1채널을 받는다 (forward() timestamp parity).",
+      "M39 실측: 월을 보존한 채 날짜를 ±1~3일 옮기면 임베딩이 5/5 비트 단위 동일하다. 인코더는 시간을 월 해상도로 양자화하므로 P4도 날짜를 쓰지 않는다."
+    ],
+    "corrected_statement": {
+      "information_parity": true,
+      "encoder_time_resolution": "month",
+      "raw_arm_time_input": "month-of-year scalar channel (month/11)",
+      "residual_asymmetry": "encoding form only (sinusoidal PE vs broadcast scalar)",
+      "claim_status": "information-matched at encoder time resolution"
+    },
+    "policy": "원본 필드는 삭제하지 않는다. 봉인 산출물의 사후 수정은 재현성 위반이므로 정정을 나란히 기록한다.",
+    "evidence": [
+      "MEASURED_FINDINGS.md M39",
+      "code/probe_timestamp_asymmetry.py",
+      "evidence/timestamp_asymmetry.json"
+    ]
+  }
 }

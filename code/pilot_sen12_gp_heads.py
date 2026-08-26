@@ -699,10 +699,27 @@ def main() -> None:
                           },
                           "information_contract": {
                               "shared_timestep_indices": True,
-                              "known_mismatch": (
-                                  "P4 encoder received acquisition timestamps; P1/P2 only receive order"
+                              # 2026-08-26 정정: 아래 두 필드가 stale이었다.
+                              # (a) P1/P2/P3는 order가 아니라 **월(month/11) 1채널**을 받는다
+                              #     (forward()의 timestamp parity 처리, 로그 "months 로드 6834개").
+                              # (b) M39 실측: OlmoEarth wrapper는 월을 보존한 채 날짜를
+                              #     ±1~3일 옮겨도 임베딩이 5/5 비트 단위 동일하다 —
+                              #     인코더가 시간을 **월 해상도로 양자화**한다.
+                              #     따라서 "P4가 더 세밀한 시간 정보를 받았다"는 서술은 틀렸다.
+                              "raw_arm_time_input": "month-of-year scalar channel (month/11)",
+                              "encoder_time_resolution": "month (M39: day shift → bitwise identical)",
+                              "information_parity": True,
+                              "residual_asymmetry": (
+                                  "encoding form only — P4 gets sinusoidal positional encoding, "
+                                  "raw arms get a broadcast scalar channel. Same information content."
                               ),
-                              "claim_status": "not timestamp-matched",
+                              "claim_status": "information-matched at encoder time resolution; "
+                                              "encoding-form asymmetry remains untested",
+                              "superseded_field": (
+                                  "previous versions wrote known_mismatch='P1/P2 only receive "
+                                  "order' and claim_status='not timestamp-matched' — both stale, "
+                                  "corrected 2026-08-26 (M39)"
+                              ),
                           }},
         "cache_audit": {"path": str(audit_path), "sha256": sha256_file(audit_path),
                         "summary": cache_audit},
