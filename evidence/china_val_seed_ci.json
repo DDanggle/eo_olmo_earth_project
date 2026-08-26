@@ -1,0 +1,117 @@
+{
+  "schema": "china-val-seed-ci-v1",
+  "evidence_status": "development_only_not_confirmatory",
+  "region": "china (val) — test는 chimanimani로 다른 지역",
+  "caveat": "val은 epoch 선택에 쓰였으므로 완전한 held-out이 아니다",
+  "n_tiles": 159,
+  "n_bootstrap": 10000,
+  "seed": 20260826,
+  "per_seed": {
+    "micro_iou": {
+      "seed1": {
+        "P2": 0.074189,
+        "P4": 0.097149,
+        "gap": 0.02296
+      },
+      "seed2": {
+        "P2": 0.057994,
+        "P4": 0.113883,
+        "gap": 0.055889
+      },
+      "seed3": {
+        "P2": 0.055926,
+        "P4": 0.105357,
+        "gap": 0.049431
+      },
+      "all_positive": true,
+      "mean_gap": 0.04276
+    },
+    "macro_pos_iou": {
+      "seed1": {
+        "P2": 0.113788,
+        "P4": 0.14401,
+        "gap": 0.030222
+      },
+      "seed2": {
+        "P2": 0.090929,
+        "P4": 0.153555,
+        "gap": 0.062626
+      },
+      "seed3": {
+        "P2": 0.081882,
+        "P4": 0.151983,
+        "gap": 0.070101
+      },
+      "all_positive": true,
+      "mean_gap": 0.054316
+    }
+  },
+  "seed_mean": {
+    "micro_iou": {
+      "mean_gap": 0.04276,
+      "blocks": {
+        "2.56km": {
+          "n_blocks": 115,
+          "ci95": [
+            0.024116,
+            0.063114
+          ],
+          "p_le_0": 0.0,
+          "excludes_zero": true
+        },
+        "5.12km": {
+          "n_blocks": 59,
+          "ci95": [
+            0.025081,
+            0.06561
+          ],
+          "p_le_0": 0.0,
+          "excludes_zero": true
+        },
+        "10.24km": {
+          "n_blocks": 28,
+          "ci95": [
+            0.020851,
+            0.060056
+          ],
+          "p_le_0": 0.0004,
+          "excludes_zero": true
+        }
+      },
+      "all_block_sizes_exclude_zero": true
+    },
+    "macro_pos_iou": {
+      "mean_gap": 0.054316,
+      "blocks": {
+        "2.56km": {
+          "n_blocks": 115,
+          "ci95": [
+            0.027178,
+            0.081985
+          ],
+          "p_le_0": 0.0003,
+          "excludes_zero": true
+        },
+        "5.12km": {
+          "n_blocks": 59,
+          "ci95": [
+            0.023736,
+            0.085086
+          ],
+          "p_le_0": 0.0006,
+          "excludes_zero": true
+        },
+        "10.24km": {
+          "n_blocks": 28,
+          "ci95": [
+            0.01375,
+            0.090121
+          ],
+          "p_le_0": 0.007,
+          "excludes_zero": true
+        }
+      },
+      "all_block_sizes_exclude_zero": true
+    }
+  }
+}
