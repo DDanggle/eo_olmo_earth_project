@@ -2529,6 +2529,11 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - PR #1 보완: GeoJSON EOF newline을 추가했고 JSON parse·6 feature·legacy key 0·dict label gate를
   통과했다. macOS current runtime은 schema 이후 forkserver에서 다시 hang해 #8을 재확인했다.
   Linux 0.1.14의 기존 6-window 완주는 유효하지만 제출 전 current Linux replay는 남아 있다.
+- 동시 M40 재감사: current output-confidence rule의 label-free winner prediction 실패는 유효한
+  음성 결과다. 다만 한 task/region의 recipe gate이고, 후보 출력 자체의 pre-action availability/cost가
+  정의되지 않았으며, tile-IoU로 선택한 뒤 micro-IoU를 보고해 pairwise oracle gain이 음수가 되는
+  objective mismatch가 있다. metric-aligned oracle과 noise-floor/FP-rate 통제 전에는 EarthRoute
+  전체 kill로 승격하지 않는다.
 - 산출물: `docs/OLMO_EXTERNAL_DATA_ONBOARDING_AND_PR_AUDIT_2026_08_26.md`, 갱신된
   `PR_DOSSIER.md`, `PR_REVIEW_NOTES.md`, PR body, README/CRITICAL_PATH/STUDY.
 - 다음: AI-Hub v2 eligibility를 닫은 뒤 세 task의 action ranking 이질성을 먼저 잰다. PR 축은

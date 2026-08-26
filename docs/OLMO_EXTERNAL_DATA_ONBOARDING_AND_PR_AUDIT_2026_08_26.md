@@ -99,6 +99,29 @@ utility와 regret 평가에만 쓴다.
 6. predictor와 action set을 동결한 뒤 Nepal을 geography transfer로 한 번만 연다. silver-label audit를
    통과하지 못하면 Switzerland 운영 track으로 대체하는 것이 아니라 external claim을 낮춘다.
 
+### M40은 무엇을 죽였고 무엇을 아직 못 죽였나
+
+이 문서를 갱신하는 동안 M40 cheap oracle pilot이 추가됐다. 한 Chimanimani development task에서
+P2와 P4 계열의 tile별 승자는 교차했지만, `mean_probability`와 predicted-positive-pixel만 쓴
+in-sample threshold rule은 다수결보다 2.4%p만 높았다. 따라서 **현재 output-confidence proxy로는
+label-free routing이 안 된다**는 음성 결과는 유효하다.
+
+그러나 이것이 위 EarthRoute 질문 전체의 kill은 아니다.
+
+- 한 task·한 region의 **model recipe 선택**이지 AI-Hub 세 task의 action-risk 이질성이 아니다.
+- feature를 얻으려고 P2/P4c 출력을 모두 계산하면 후보 action 실행비를 이미 지불한다. pre-action
+  feature로 쓸 것인지 cheap probe 비용으로 셀 것인지 계약이 없다.
+- 같은 타일에서 threshold를 찾고 평가했으므로 out-of-region prediction evidence가 아니다.
+- 코드가 tile-IoU로 arm을 고른 뒤 picked confusion count를 micro-IoU로 합친다. pairwise
+  `oracle gain`이 음수가 되는 항목이 실제로 생기므로 **선택 목적과 보고 목적이 불일치**한다.
+  additive block utility의 macro oracle 또는 micro-IoU를 직접 최적화하는 oracle로 다시 정의해야 한다.
+- empty tile 62.7%에서는 boundary quality와 false-positive suppression을 같은 IoU winner로 섞지
+  말고, positive-event utility와 no-event false-alarm utility를 분리해야 한다.
+
+따라서 다음 gate는 더 많은 proxy를 즉흥 추가하는 것이 아니다. 먼저 seed-only noise-floor oracle,
+FP-rate-matched threshold 비교, pre-action feature availability/cost, metric-aligned oracle을 고정한다.
+그 뒤 AI-Hub에서 **task별 action ranking**이 재현될 때만 label-free predictor를 다시 연다.
+
 ## upstream PR 문서 재감사 — 2026-08-26
 
 확인 기준은 `olmoearth_projects origin/main=23a3d7b`, rslearn `v0.1.14/master=c47952f`다.
