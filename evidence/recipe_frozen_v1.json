@@ -1,0 +1,94 @@
+{
+  "arms": {
+    "raw_efficient": {
+      "desc": "공식 U-TAE 1,165,409 (raw 학습)",
+      "id": "P3",
+      "why": "M38: P2보다 7배 싸고 IoU 76%. 비용 축의 진짜 경쟁자"
+    },
+    "raw_strong": {
+      "desc": "공식 UNet3D 2,693,121 (raw 학습)",
+      "id": "P2",
+      "why": "M27 공식 구조 이식. 가장 강한 raw baseline"
+    },
+    "reuse": {
+      "desc": "frozen OlmoEarth v1 캐시(tiled 4x64) + 작은 판독기 237,537",
+      "id": "P4",
+      "why": "M51: china val에서 3/3 seed·두 지표·세 블록 크기 전부 우위, CI 0 제외"
+    }
+  },
+  "excluded_arms": {
+    "P1": "대조 하한. 확증 표에 넣지 않음",
+    "P4_full / P4c_full": "M37: 문맥 복원이 음의 효과. M41: 고주파 16.4% 손실",
+    "P4c": "M43: seed 폭 0.033, micro 우위가 seed 1의 운. M46: 블록 우위도 잡음 안"
+  },
+  "frozen_at_commit": "38fe916af8488dd17ff757ee5736380aa7023b45",
+  "known_limitations_at_freeze_time": [
+    "china val은 epoch 선택에 쓰였으므로 완전한 held-out이 아님",
+    "P2 불안정이 다른 튜닝 조합으로 고쳐질 가능성은 배제되지 않음 (M49)",
+    "task 이질성은 미증명 (M42 kill gate, M46 블록 이질성 잡음)",
+    "라벨 없는 승자 예측은 등록 기준 미달 (M45, lift +5.9%p이나 fold 1개 미달)"
+  ],
+  "metrics": {
+    "cost": "샘플당 forward FLOPs + 학습 배율 (M38)",
+    "primary": "양성 타일 macro IoU",
+    "reporting": "지표마다 3-seed 평균 ± 폭을 병기. 단일 seed 값 단독 보고 금지",
+    "secondary": [
+      "빈 타일 FP 화소 수",
+      "ECE(15bin)",
+      "AUPRC",
+      "micro IoU"
+    ],
+    "why_cost": "M38: 벽시계는 GPU 경합으로 같은 계산에서 2.14배 차이",
+    "why_primary": "M40: test 타일의 62.7%가 양성 0. 전체 micro는 사실상 오경보 지표"
+  },
+  "predictions_registered_before_unsealing": {
+    "AUPRC_spread_not_smaller": "성립하지 않을 것으로 예측 (M47)",
+    "P4_beats_P2_on_primary": "3지역 중 2지역 이상에서 성립할 것으로 예측",
+    "P4_spread_smaller_than_P2": "고정 임계값 지표에서 성립할 것으로 예측 (M49)",
+    "why": "M51 china 결과의 외삽. 틀리면 기록하고 주장을 지역 특수로 강등"
+  },
+  "protocol": {
+    "batch": 16,
+    "epochs": 40,
+    "grad_clip": 0.0,
+    "lr": 0.001,
+    "missing_bands": "B01/B09 zeros + band-set 2를 MaskValue.MISSING",
+    "model_selection": "val IoU 최고 epoch. test는 선택에 사용 금지",
+    "save_probs": true,
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "threshold": 0.5,
+    "time_encoding": "월(month/11) 1채널을 raw arm에 부여",
+    "timestep": "S12q — SCL clear 상위 12개를 라벨 무관 선택 후 시간순 복원",
+    "weight_decay": 0.0001,
+    "why_month": "M39: 인코더가 월 해상도로 양자화. 날짜 정렬은 없는 문제",
+    "why_no_clip": "M49: clip 1.0 + lr 절반이 분산을 26%만 줄이고 평균을 떨어뜨렸다",
+    "why_probs": "M44·M45의 전제. 임계값 스윕·불일치 특징에 필수",
+    "why_s12q": "v1 time table 12개 한계. 모든 arm이 동일 index",
+    "why_seeds": "M43: 단일 seed 비교가 결론을 뒤집었다. 3 seed 미만 금지",
+    "why_threshold": "고정. M44에서 FP율 정합 비교를 별도 보조 분석으로 보고"
+  },
+  "region_release_plan": {
+    "confirmatory": "미열람 LOCO 지역 — 한 번에 하나씩 순차 공개",
+    "development": "chimanimani (test, 다회 노출) + china (val, epoch 선택에 사용)",
+    "rule": "지역을 연 뒤에는 그 지역 수치를 보고 어떤 설정도 바꾸지 않는다",
+    "stopping": "3지역 연속으로 reuse가 raw_strong 대비 primary에서 열세면 중단하고 강등"
+  },
+  "schema": "confirmatory-recipe-frozen-v1",
+  "self_sha256": "7536d20c329e6dd2be3fd383618d00b1f41fec70f7598ee49bf7203350d369f7",
+  "statistics": {
+    "ci": "공간 블록 부트스트랩 10,000회, 블록 2.56/5.12/10.24 km 전부 보고",
+    "forbidden": [
+      "in-sample 임계값 탐색 (M40)",
+      "지표 사후 선택 (M40)",
+      "단일 seed 대 단일 seed 비교 (M43)"
+    ],
+    "noise_floor": "같은 구성 seed쌍의 per-tile oracle gain을 차감 (M41)",
+    "seed_handling": "seed 평균 격차에 대한 CI. seed 재표집은 n=3으로 검정력 없음",
+    "why_blocks": "M33: 타일 i.i.d.는 공간 상관을 무시. M43: seed도 함께 필요"
+  },
+  "status": "PREREGISTERED"
+}
