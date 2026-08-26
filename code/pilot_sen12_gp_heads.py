@@ -135,6 +135,11 @@ def parse_args():
     # 정합성 검증 내장: 재현된 test 지표가 봉인값과 다르면 즉시 실패한다.
     p.add_argument("--eval-only-ckpt", type=Path, default=None,
                    help="체크포인트 경로. 주면 학습을 건너뛰고 평가만 수행")
+    # M43 관문 1(안정화 강건성)용. 기본값이 기존 상수와 같으므로
+    # 플래그 없는 과거 실행의 재현성은 불변이다.
+    p.add_argument("--lr", type=float, default=LR)
+    p.add_argument("--grad-clip", type=float, default=0.0,
+                   help="0이면 클리핑 없음(기존과 동일)")
     return p.parse_args()
 
 
@@ -437,7 +442,7 @@ def main() -> None:
             pos += int((m > 0).sum()); neg += int((m == 0).sum())
         pw = min(POS_WEIGHT_CAP, max(1.0, neg / max(pos, 1)))
         lossf = nn.BCEWithLogitsLoss(pos_weight=torch.tensor(pw, device=device))
-        opt = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WD)
+        opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=WD)
         sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=args.epochs)
 
         torch.cuda.reset_peak_memory_stats(device)
@@ -462,7 +467,10 @@ def main() -> None:
                   opt.zero_grad(set_to_none=True)
                   with torch.amp.autocast("cuda", dtype=torch.bfloat16):
                       loss = lossf(forward(model, arm, x, mt).float(), y)
-                  loss.backward(); opt.step()
+                  loss.backward()
+                  if args.grad_clip > 0:
+                      torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
+                  opt.step()
                   tot += float(loss.detach()); nb += 1
               sched.step()
               # val IoU로 best epoch을 고른다. test는 절대 보지 않는다.
@@ -670,6 +678,7 @@ def main() -> None:
             "confirmatory 사전등록이 아니다. 1차 결과는 M23에 보존한다."),
         "probability_maps_saved": bool(args.save_probs),
         "development_protocol_v2": {"epochs": args.epochs, "batch": BATCH, "seed": args.seed,
+                                    "lr": args.lr, "grad_clip": args.grad_clip,
                           "model_selection": "best val IoU; test never used for selection",
                           "decision_threshold": 0.5,
                           "lr": LR, "weight_decay": WD,

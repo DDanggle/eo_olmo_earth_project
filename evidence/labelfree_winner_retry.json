@@ -1,0 +1,47 @@
+{
+  "schema": "labelfree-winner-retry-v1",
+  "evidence_status": "development_only_not_confirmatory",
+  "pair": [
+    "P2 (seed1)",
+    "P4c (seed1)"
+  ],
+  "n_decidable": 377,
+  "prevalence_p4c_wins": 0.374,
+  "cv": {
+    "folds": 5,
+    "block_km": 5.12,
+    "acc_per_fold": [
+      0.5875,
+      0.75,
+      0.7952,
+      0.6818,
+      0.6081
+    ],
+    "majority_per_fold": [
+      0.575,
+      0.6154,
+      0.6386,
+      0.625,
+      0.6757
+    ],
+    "acc_mean": 0.6845,
+    "majority_mean": 0.6259,
+    "lift": 0.0586,
+    "beats_majority_all_folds": false
+  },
+  "feature_weights_mean": {
+    "f_disagree_iou": 0.134,
+    "f_disagree_px": 0.096,
+    "f_prob_l1": 0.806,
+    "f_meanp_a": 0.305,
+    "f_meanp_b": 0.213,
+    "f_predpx_a": -0.674,
+    "f_predpx_b": 0.641,
+    "f_maxp_a": -0.787,
+    "f_maxp_b": 1.739,
+    "f_conf_a": 0.051,
+    "f_conf_b": 0.932
+  },
+  "preregistered_pass_rule": "lift >= +0.05 이고 전 fold에서 다수결 이상",
+  "verdict": "M40 실패 유지 — 이 특징으로도 부족"
+}
