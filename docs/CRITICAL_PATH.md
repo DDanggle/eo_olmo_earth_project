@@ -52,11 +52,12 @@ pseudo-cutoff 정책을 사전에 동결하기 전까지 열지 않는다. OLMo 
 12개라 15개 입력에서 shape error가 났다. 사후 편의 선택을 막기 위해 SCL quality만으로 top-12를
 고르고 시간순으로 복원하는 S12q를 고정했으며 P1~P5 모두 같은 index를 쓴다.
 
-**공정성 정정(2026-08-26)**: 같은 timestep index만으로 정보 계약이 완전히 같지는 않다. P4 cache는
-OLMo에 실제 acquisition datetime을 전달한다. 현재 P2/P3는 각 시점의 month-of-year를 받고 P1은
-시간평균 뒤 mean month를 받으므로 **월은 부분 정렬됐지만 day·관측 간격은 정렬되지 않았다.**
-matched G-P를 주장하려면 raw temporal baseline에 exact date/gap encoding을 주거나 P4 timestamp
-ablation을 함께 둔다. 기존 pilot JSON의 `P1/P2 only receive order` 문구는 stale이며
+**공정성 정정의 정정(2026-08-26, M39)**: "day·관측 간격이 정렬되지 않았다"는 우려를 실측으로
+확인한 결과 **비대칭이 존재하지 않았다.** OLMo wrapper(`use_legacy_timestamps=False`)는 월을
+보존한 채 날짜를 ±1~3일 옮겨도 임베딩이 5/5 비트 단위로 동일했다 — 시간 정보를 **월 해상도로
+양자화**한다. 따라서 month 채널을 받는 P2/P3는 이미 인코더와 같은 시간 해상도를 가지며,
+exact date/gap 정렬 실험은 없는 문제를 고치는 것이므로 하지 않는다. 남는 비대칭은 정보량이
+아니라 부호화 형태(sinusoidal PE vs 스칼라 broadcast)뿐이고, 이는 별도 ablation 항목으로 둔다. 기존 pilot JSON의 `P1/P2 only receive order` 문구는 stale이며
 `evidence/gp_official_bundle/bundle_manifest_v2.json`에서 정정했다.
 
 ## 측정 사슬 — promotion gate를 통과해야 다음으로 간다
@@ -277,7 +278,8 @@ raw baseline을 공통 seed로 확인해 하나의 recipe를 개발 fold에서 �
 
 ## 실행 순서 (확정)
 
-1. raw arm exact date/gap 또는 P4 timestamp ablation으로 정보 계약을 정렬한다.
+1. ~~raw arm exact date/gap 정렬~~ **M39로 해소** — 인코더가 월 해상도로 양자화하므로
+   비대칭이 없다. 부호화 형태 ablation만 후순위로 남긴다.
 2. E1의 tiled-large와 strong P2를 같은 seed 집합으로 반복하고, fixed threshold와 val-selected
    threshold를 구분해 recipe를 동결한다. full-context는 이 개발 계약에서 중단한다.
 3. tiled-large가 positive-macro·비용까지 회복하지 못하면 **multi-level decoder 또는 PEFT 중 한 축만**
@@ -291,6 +293,12 @@ raw baseline을 공통 seed로 확인해 하나의 recipe를 개발 fold에서 �
    Koshi 2024는 U-Net-assisted + manual-QC silver label이므로 `untouched geography`와 `untouched gold`
    를 구분하고, 수동 adjudication subset 없이는 후자를 주장하지 않는다. swissEO 7-band를 쓰면
    regional transfer가 아니라 missing-band/source contract shift로 기록한다.
+
+**실험 확장(2026-08-26 계획 승인)**: 위 순서의 2~8번을 E5(전제 완결: seed 폭·확률맵·FP율
+정합·recipe 동결) → E6(Sen12 action matrix v1) → E7(public twin: R-event 승격 + PANGAEA 감사)
+→ E8(AI-Hub v2 3-task) → E9(label-free predictor tournament) → E10(Gym 명세·post-training
+타당성, 문서만)으로 구체화했다. 상세는 `docs/EARTHROUTE_GYM_SPEC.md`,
+`docs/POSTTRAINING_FEASIBILITY.md`. LLM 학습은 이번 사이클에서 하지 않는다(사용자 결정).
 
 지역 자산의 model-input/context/target 분리와 upstream 기여 연결은
 `docs/OLMO_EXTERNAL_DATA_ONBOARDING_AND_PR_AUDIT_2026_08_26.md`가 SSOT다.

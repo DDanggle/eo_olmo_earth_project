@@ -124,6 +124,12 @@ def parse_args():
     # seed는 잡음 바닥(noise-floor) oracle 측정에 필요하다. 기본값은 기존 실행과
     # 동일한 1이므로 과거 산출물의 재현성은 영향받지 않는다.
     p.add_argument("--seed", type=int, default=SEED)
+    # 확률맵 저장. 기본 off이므로 이 플래그를 주지 않는 과거·진행 중 실행의
+    # 산출물은 바뀌지 않는다. 이게 없으면 다음 세 실험이 전부 막힌다:
+    #   (a) FP율을 맞춘 공정 비교  (b) arm 간 불일치(disagreement) 특징
+    #   (c) crop 경계(seam)의 화소 단위 검증
+    p.add_argument("--save-probs", action="store_true",
+                   help="test/val 확률맵을 uint8로 저장 (arm당 약 19 MB)")
     return p.parse_args()
 
 
@@ -496,6 +502,8 @@ def main() -> None:
             ld_tp = ld_fp = ld_fn = 0.0
             ld_n = 0
             positive_patch_ious = []
+            prob_chunks = []          # 배치별 uint8 확률맵
+            prob_sids = []            # 같은 순서의 sample_id
             for x, y, mt, sids in loaders[split]:
                 x, y, mt = x.to(device), y.to(device), mt.to(device)
                 with torch.amp.autocast("cuda", dtype=torch.bfloat16):
@@ -518,6 +526,12 @@ def main() -> None:
                 yf = y.detach().cpu().numpy().astype("uint8", copy=False)
                 score_chunks.append(pf.reshape(-1))
                 label_chunks.append(yf.reshape(-1))
+                if args.save_probs:
+                    # uint8 양자화(1/255 해상도). float32의 1/4 용량으로
+                    # 임계값 스윕·불일치·seam 분석에 충분하다.
+                    prob_chunks.append(np.rint(pf.reshape(pf.shape[0], 128, 128) * 255.0)
+                                       .astype("uint8"))
+                    prob_sids.extend(list(sids))
                 for i, sid in enumerate(sids):
                     p_tp, p_fp, p_fn = (float(batch_tp[i]), float(batch_fp[i]),
                                         float(batch_fn[i]))
@@ -537,6 +551,18 @@ def main() -> None:
                         "iou_at_0_5": round(patch_iou, 8),
                         "mean_probability": round(float(pf[i].mean()), 8),
                     })
+            if args.save_probs and prob_chunks:
+                pdir = args.out / "prob_maps" / args.fold
+                pdir.mkdir(parents=True, exist_ok=True)
+                arr = np.concatenate(prob_chunks, axis=0)
+                np.save(pdir / f"{arm}_{split}_probs_u8.npy", arr, allow_pickle=False)
+                (pdir / f"{arm}_{split}_probs_index.json").write_text(
+                    json.dumps({"sample_ids": prob_sids, "dtype": "uint8",
+                                "scale": "p = value / 255", "shape": list(arr.shape),
+                                "threshold_used_for_metrics": 0.5}, ensure_ascii=False),
+                    encoding="utf-8")
+                print(f"  [{arm}] {split} 확률맵 저장 {arr.shape} "
+                      f"{arr.nbytes/1e6:.1f} MB", flush=True)
             iou = tp / max(tp + fp + fn, 1e-9)
             f1 = 2 * tp / max(2 * tp + fp + fn, 1e-9)
             precision = tp / max(tp + fp, 1e-9)
@@ -625,6 +651,7 @@ def main() -> None:
             "1차 8-epoch 실행에서 세 arm 모두 손실이 단조 하강 중(미수렴)이어서 예산을 모든 arm에 "
             "동일하게 늘리고 val IoU로 best epoch을 골랐다. 이 변경은 test 열람 뒤 이뤄졌으므로 "
             "confirmatory 사전등록이 아니다. 1차 결과는 M23에 보존한다."),
+        "probability_maps_saved": bool(args.save_probs),
         "development_protocol_v2": {"epochs": args.epochs, "batch": BATCH, "seed": args.seed,
                           "model_selection": "best val IoU; test never used for selection",
                           "decision_threshold": 0.5,

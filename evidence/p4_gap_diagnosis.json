@@ -1,0 +1,68 @@
+{
+  "schema": "p4-gap-diagnosis-v1",
+  "n_test_tiles": 1133,
+  "n_positive_tiles": 423,
+  "token_grid_ceiling": {
+    "note": "캐시 토큰 32x32 (=40m). 어떤 decoder도 이 상한을 넘을 수 없다.",
+    "compare_P2_actual_iou": 0.159254,
+    "compare_P4_actual_iou": 0.130582,
+    "any_positive": {
+      "tp": 167477,
+      "fp": 168363,
+      "fn": 0,
+      "iou_ceiling": 0.498681
+    },
+    "majority": {
+      "tp": 118105,
+      "fp": 27063,
+      "fn": 49372,
+      "iou_ceiling": 0.607099
+    }
+  },
+  "size_stratified_gap": [
+    {
+      "bin": "아주 작음",
+      "n_tiles": 105,
+      "positive_px_range": [
+        2,
+        73
+      ],
+      "P2_iou": 0.04327,
+      "P4_iou": 0.038162,
+      "gap_P2_minus_P4": 0.005108
+    },
+    {
+      "bin": "작음",
+      "n_tiles": 106,
+      "positive_px_range": [
+        75,
+        206
+      ],
+      "P2_iou": 0.091225,
+      "P4_iou": 0.083583,
+      "gap_P2_minus_P4": 0.007642
+    },
+    {
+      "bin": "중간",
+      "n_tiles": 106,
+      "positive_px_range": [
+        207,
+        475
+      ],
+      "P2_iou": 0.20348,
+      "P4_iou": 0.157499,
+      "gap_P2_minus_P4": 0.045981
+    },
+    {
+      "bin": "큼",
+      "n_tiles": 106,
+      "positive_px_range": [
+        478,
+        3229
+      ],
+      "P2_iou": 0.311845,
+      "P4_iou": 0.28474,
+      "gap_P2_minus_P4": 0.027105
+    }
+  ]
+}

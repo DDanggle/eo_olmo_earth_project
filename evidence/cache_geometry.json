@@ -1,0 +1,40 @@
+{
+  "schema": "cache-geometry-v1",
+  "n_samples": 250,
+  "caches": {
+    "tiled_4x64": {
+      "hf_energy_mean": 2.137822,
+      "effective_rank_per_tile_mean": 356.204,
+      "effective_rank_global": 488.845,
+      "channel_mean": 0.002675,
+      "channel_std": 0.346642,
+      "token_norm_mean": 9.5894,
+      "max_effective_rank_possible": 768
+    },
+    "full_1x128": {
+      "hf_energy_mean": 1.786994,
+      "effective_rank_per_tile_mean": 342.985,
+      "effective_rank_global": 471.996,
+      "channel_mean": 0.002432,
+      "channel_std": 0.33928,
+      "token_norm_mean": 9.3714,
+      "max_effective_rank_possible": 768
+    }
+  },
+  "verdict": {
+    "A_oversmoothing": {
+      "hf_ratio_full_over_tiled": 0.8359,
+      "supported": true
+    },
+    "B_representation_collapse": {
+      "eff_rank_ratio_full_over_tiled": 0.9655,
+      "supported": false
+    },
+    "C_scale_shift": {
+      "std_ratio_full_over_tiled": 0.9788,
+      "norm_ratio_full_over_tiled": 0.9773,
+      "supported": false
+    }
+  },
+  "caveat": "어느 가설이 지지돼도 그것이 성능 저하의 **원인**이라는 증명은 아니다. 상관 관찰이며, C가 지지되면 정규화를 맞춘 재실행으로 분리해야 한다."
+}
