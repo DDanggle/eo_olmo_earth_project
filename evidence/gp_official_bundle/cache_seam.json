@@ -1,0 +1,23 @@
+{
+  "schema": "cache-seam-v1",
+  "n_samples": 300,
+  "boundary_token_index": 16,
+  "neighbor_cosine_distance": {
+    "tiled_4x64": {
+      "cross_mean": 0.267883,
+      "inner_mean": 0.214104,
+      "ratio": 1.48987
+    },
+    "full_1x128": {
+      "cross_mean": 0.21244,
+      "inner_mean": 0.246232,
+      "ratio": 0.823504
+    },
+    "interpretation": "ratio가 1보다 크게 높으면 경계에서 표현이 끊긴다는 뜻"
+  },
+  "tiled_vs_full_difference": {
+    "boundary_band_mean_cosdist": 0.24578,
+    "interior_mean_cosdist": 0.291037,
+    "relative_frobenius_diff_mean": 0.746274
+  }
+}

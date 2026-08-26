@@ -1,0 +1,29 @@
+{
+  "schema": "arm-gap-ci-v1",
+  "comparison": "P2(공식 UNet3D) - P4(frozen)",
+  "metric": "micro IoU",
+  "observed_gap": 0.028672,
+  "n_bootstrap": 10000,
+  "seed": 20260826,
+  "units": {
+    "ann_id_cluster": {
+      "n_units": 1132,
+      "ci95": [
+        0.014455,
+        0.043575
+      ],
+      "p_gap_le_0": 0.0,
+      "excludes_zero": true
+    },
+    "tile": {
+      "n_units": 1133,
+      "ci95": [
+        0.014292,
+        0.043521
+      ],
+      "p_gap_le_0": 0.0,
+      "excludes_zero": true
+    }
+  },
+  "caveat": "region 단위 CI는 원리상 불가능(test region n=1). tile 단위는 공간 상관을 무시하므로 구간을 과소추정한다 — ann_id cluster 쪽을 우선 본다."
+}

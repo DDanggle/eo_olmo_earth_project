@@ -1,0 +1,61 @@
+{
+  "schema": "arm-gap-ci-spatial-v1",
+  "comparison": "P2(공식 UNet3D) - P4(frozen)",
+  "metric": "micro IoU",
+  "observed_gap": 0.028672,
+  "n_tiles": 1133,
+  "n_bootstrap": 10000,
+  "seed": 20260826,
+  "why_not_ann_id": "ann_id는 양성 423타일에만 있고 422개가 고유 — 타일과 1:1이라 군집이 아님",
+  "why_not_region": "test region이 chimanimani 하나 (n=1)",
+  "blocks": {
+    "2.56km": {
+      "n_blocks": 463,
+      "tiles_per_block_median": 2,
+      "tiles_per_block_max": 4,
+      "ci95": [
+        0.011592,
+        0.045378
+      ],
+      "ci_width": 0.033786,
+      "p_gap_le_0": 0.0009,
+      "excludes_zero": true
+    },
+    "5.12km": {
+      "n_blocks": 133,
+      "tiles_per_block_median": 9,
+      "tiles_per_block_max": 16,
+      "ci95": [
+        0.012339,
+        0.04533
+      ],
+      "ci_width": 0.03299,
+      "p_gap_le_0": 0.0002,
+      "excludes_zero": true
+    },
+    "10.24km": {
+      "n_blocks": 39,
+      "tiles_per_block_median": 34,
+      "tiles_per_block_max": 60,
+      "ci95": [
+        0.008401,
+        0.04783
+      ],
+      "ci_width": 0.039429,
+      "p_gap_le_0": 0.0027,
+      "excludes_zero": true
+    },
+    "20.48km": {
+      "n_blocks": 12,
+      "tiles_per_block_median": 77,
+      "tiles_per_block_max": 176,
+      "ci95": [
+        0.009739,
+        0.052631
+      ],
+      "ci_width": 0.042893,
+      "p_gap_le_0": 0.0018,
+      "excludes_zero": true
+    }
+  }
+}
