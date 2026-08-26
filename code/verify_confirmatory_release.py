@@ -131,6 +131,21 @@ def main() -> None:
               f"split_counts가 동일한가. 고유 {len(splits)}개")
         check("metrics_read_from_per_sample", True,
               "이 게이트는 로그 문자열을 쓰지 않는다. 판독은 per-sample 재계산으로만 한다")
+        # M57: code_sha256은 summary 작성 시점에 계산되므로 **실행 중** 파일 교체를
+        # 탐지하지 못한다. mtime으로 별도 검사한다.
+        snap = root / "code_snapshot"
+        first_out = None
+        outs = sorted(root.rglob("*_pilot.json"), key=lambda x: x.stat().st_mtime)
+        if outs:
+            first_out = outs[0].stat().st_mtime
+        man["code_timeline"] = {
+            "first_output_mtime": first_out,
+            "code_snapshot_present": snap.exists(),
+            "note": "code_sha256은 실행 후 계산되므로 실행 중 교체를 못 잡는다 (M57). "
+                    "코드 스냅샷이 있으면 실물 대조가 가능하다",
+        }
+        check("code_snapshot_present", snap.exists(),
+              "실행 시작 시 소스 스냅샷이 봉인됐는가. 해시만으로는 M57 시나리오를 못 잡는다")
         man["evidence_status_override"] = {
             "note": "pilot이 fold와 무관하게 development 문구를 하드코딩한다 (감사 [P2]). "
                     "이 manifest가 정정한다.",
