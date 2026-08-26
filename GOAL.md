@@ -2453,3 +2453,17 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   처음부터 재실행 중이며, 완료 뒤 per-sample 검증과 factorial CI를 한 번 계산한다. 그 결과에 따라
   multi-level cached-token decoder 또는 PEFT 한 축만 열고, exact-time parity 뒤 미열람 region
   protocol을 동결한다.
+- E1 완결(M37): 동일 runner SHA·paired 1,133 test tile로 `tiled-small 0.130582`,
+  `tiled-large 0.177727`, `full-small 0.116565`, `full-large 0.081419` IoU를 얻었다. full-context
+  평균효과 -0.055162의 공간 CI는 네 scale 모두 0 아래였고, decoder 효과는 tiled +0.047145에서
+  full -0.035146으로 반전(interaction -0.082291)했다. 따라서 seam smoothness→성능, context와
+  capacity의 독립 가산 개선을 모두 기각한다.
+- 비용/주장 판정: tiled-large는 P2보다 micro/AP가 높지만 positive-patch macro·LD-IoU가 낮고,
+  head fit 1,596.2초 + cache 1,130초라 P2 1,491초 대비 Pareto 우위가 없다. 한 노출 지역·seed 1의
+  개발 결과이므로 우월성·일반화 주장은 금지한다. 증거 1.3 MB와 입력 SHA를
+  `evidence/e1_factorial_v2/`에 봉인했다.
+- 다음: full-context는 이 개발 계약에서 중단한다. exact-time parity를 먼저 닫고 tiled-large와 P2를
+  공통 seed·공통 threshold-selection 규칙으로 반복한다. positive-macro·비용이 여전히 약할 때만
+  multi-level decoder 또는 PEFT 한 축을 열고, 그 뒤 미열람 지역 protocol을 동결한다.
+- 검증: evidence 입력파일 SHA·analysis code SHA·runner code SHA를 로컬 테스트에서 다시 대조했고,
+  project venv 전체 **164 passed, 1 skipped, 10 subtests**, `git diff --check`를 통과했다.

@@ -9,7 +9,8 @@
 > → **`docs/CRITICAL_PATH.md`**
 >
 > 공식 P2/P3 정렬은 끝났고 frozen-small P4는 첫 개발 fold에서 95% gate에 실패했다(82.0%).
-> 현재 병목은 **E1 context×decoder 원인진단 완결 → exact-time parity → recipe 동결 →
+> E1은 full-context의 음의 효과와 decoder×context 상호작용으로 완결됐다(M37).
+> 현재 병목은 **exact-time parity → tiled-large recipe 공통-seed 검증 → recipe 동결 →
 > unseen-region 평가**다. 감사 예산 규칙: **main claim을 막지 않는 감사 항목은 새로 열지 않는다.**
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
@@ -51,7 +52,7 @@
 | `RESEARCH_STRATEGY.md` | 박사 연구 프로그램 — WorldShift × ModelShift, 가설·베이스라인·12주 실행 |
 | `RESEARCH_EXECUTION_PLAN.md` | **현재 7일 실행 queue** — MountainShift public spine·3국 access·probe/residual/transfer gate; 아래에는 과거 K-ALIGN 계획 보존 |
 | `K_CONTEXT_FUSION_EXPERIMENT.md` | K-ALIGN 보존 branch — 동적 공공 context, EO-only privileged distillation, simple/native baseline, 3지역 split·kill gate |
-| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** 최신 M36은 E1 첫 capacity cell의 회복 신호와 배관 중단을 기록 |
+| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** 최신 M37은 E1 2×2의 음의 context 효과와 decoder×context 부호 반전을 기록 |
 | `docs/E1_CONTEXT_DECODER_ANALYSIS_PLAN.md` | E1 2×2 cell·contrast·공간 CI·95% 참고선·비용 판정 계약 |
 | `docs/RECENT_LITERATURE_DECISION_2026_08_26.md` | OLMo/PANGAEA/PEFT/TESSERA/RALF 대비 선점 주장과 CVPR 잔여 gap |
 | `docs/AIHUB_CUBE_V2_CONTRACT.md` | M35 이후 12-band 재물질화의 platform/mosaic/validity/coverage 사전 계약 |
@@ -97,12 +98,13 @@ kt cloud AI Nexus의 **H200 ×2**.
 
 ### 2026-08-26 현재판 — 개발 downstream은 나왔고, confirmatory downstream은 여전히 0%
 
-Chimanimani 개발 fold의 공식 4-arm 결과에서 P2 UNet3D는 IoU/AUPRC 0.1593/0.1746,
-frozen OLMoEarth last-layer + small decoder는 0.1306/0.1513으로 원래 95% gate에 실패했다.
-다만 E1 첫 새 셀인 같은 tiled cache + 2.99M large convolutional decoder는
-0.1777/0.2136으로 회복했다. positive-patch macro IoU와 LD-IoU는 P2보다 낮고, 한 지역·한 seed·
-test 노출 결과이므로 모델 우월성으로 쓰지 않는다. full-context 두 셀은 cache root 결합 버그로
-시작 전 중단됐고 source 분리·alternate embedding seal을 구현했다(M36).
+Chimanimani 개발 fold의 공식 P2 UNet3D는 IoU/AUPRC 0.1593/0.1746, frozen OLMoEarth
+last-layer + small decoder는 0.1306/0.1513으로 원래 95% gate에 실패했다. E1 2×2를 동일 SHA로
+재실행한 결과 tiled+large는 0.1777/0.2136으로 회복했지만 full-context는 small 0.1166,
+large 0.0814로 오히려 악화됐다. context 평균효과는 -0.0552이고 decoder 효과는 tiled +0.0471,
+full -0.0351로 부호가 반전됐다. 따라서 seam 제거와 decoder 증가는 독립 개선책이 아니다.
+tiled+large도 positive-patch macro·LD-IoU·fixed-budget 비용에서 P2 Pareto 우위가 없고, 한 노출
+지역·seed 1이므로 모델 우월성으로 쓰지 않는다(M37).
 
 AI-Hub v1 12-band 물질화의 2,539 성공 집계도 철회했다. 624개가 all-band zero 10% 이상이었고,
 1,912개는 사후 low-zero 후보일 뿐 usable cube가 아니다. v2 target-grid mosaic와 99.9% validity

@@ -1,0 +1,477 @@
+{
+  "arms": {
+    "P4": {
+      "best_val_epoch": 33,
+      "best_val_iou": 0.11582,
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/e1_factorial_v2/full_small/checkpoints/holdout_chimanimani/P4_best.pt",
+        "sha256": "da62f55bfd928df6af92a2a63a41bd495c802f4033645d2ca681a681a98e1f8d"
+      },
+      "desc": "frozen OlmoEarth v1 + spatial decoder",
+      "fit_plus_epoch_val_seconds": 647.4,
+      "history": [
+        {
+          "epoch": 1,
+          "seconds": 17.1,
+          "train_loss": 0.58003,
+          "val_iou": 0.06021
+        },
+        {
+          "epoch": 2,
+          "seconds": 30.3,
+          "train_loss": 0.40425,
+          "val_iou": 0.10902
+        },
+        {
+          "epoch": 3,
+          "seconds": 45.7,
+          "train_loss": 0.35981,
+          "val_iou": 0.04943
+        },
+        {
+          "epoch": 4,
+          "seconds": 60.4,
+          "train_loss": 0.33986,
+          "val_iou": 0.06691
+        },
+        {
+          "epoch": 5,
+          "seconds": 76.9,
+          "train_loss": 0.31205,
+          "val_iou": 0.07487
+        },
+        {
+          "epoch": 6,
+          "seconds": 92.2,
+          "train_loss": 0.30559,
+          "val_iou": 0.09731
+        },
+        {
+          "epoch": 7,
+          "seconds": 108.3,
+          "train_loss": 0.2779,
+          "val_iou": 0.10592
+        },
+        {
+          "epoch": 8,
+          "seconds": 124.4,
+          "train_loss": 0.26336,
+          "val_iou": 0.09234
+        },
+        {
+          "epoch": 9,
+          "seconds": 140.8,
+          "train_loss": 0.26026,
+          "val_iou": 0.10053
+        },
+        {
+          "epoch": 10,
+          "seconds": 157.1,
+          "train_loss": 0.24224,
+          "val_iou": 0.08913
+        },
+        {
+          "epoch": 11,
+          "seconds": 173.6,
+          "train_loss": 0.24564,
+          "val_iou": 0.10666
+        },
+        {
+          "epoch": 12,
+          "seconds": 190.0,
+          "train_loss": 0.23281,
+          "val_iou": 0.09886
+        },
+        {
+          "epoch": 13,
+          "seconds": 206.5,
+          "train_loss": 0.21454,
+          "val_iou": 0.11365
+        },
+        {
+          "epoch": 14,
+          "seconds": 222.2,
+          "train_loss": 0.20399,
+          "val_iou": 0.10102
+        },
+        {
+          "epoch": 15,
+          "seconds": 238.8,
+          "train_loss": 0.20163,
+          "val_iou": 0.07768
+        },
+        {
+          "epoch": 16,
+          "seconds": 254.9,
+          "train_loss": 0.19345,
+          "val_iou": 0.0869
+        },
+        {
+          "epoch": 17,
+          "seconds": 271.4,
+          "train_loss": 0.19107,
+          "val_iou": 0.10527
+        },
+        {
+          "epoch": 18,
+          "seconds": 288.2,
+          "train_loss": 0.18465,
+          "val_iou": 0.10244
+        },
+        {
+          "epoch": 19,
+          "seconds": 303.1,
+          "train_loss": 0.18098,
+          "val_iou": 0.10274
+        },
+        {
+          "epoch": 20,
+          "seconds": 319.4,
+          "train_loss": 0.17194,
+          "val_iou": 0.08831
+        },
+        {
+          "epoch": 21,
+          "seconds": 335.8,
+          "train_loss": 0.16491,
+          "val_iou": 0.10211
+        },
+        {
+          "epoch": 22,
+          "seconds": 351.7,
+          "train_loss": 0.1586,
+          "val_iou": 0.1068
+        },
+        {
+          "epoch": 23,
+          "seconds": 368.5,
+          "train_loss": 0.15399,
+          "val_iou": 0.10022
+        },
+        {
+          "epoch": 24,
+          "seconds": 385.2,
+          "train_loss": 0.15029,
+          "val_iou": 0.10225
+        },
+        {
+          "epoch": 25,
+          "seconds": 401.8,
+          "train_loss": 0.14716,
+          "val_iou": 0.10436
+        },
+        {
+          "epoch": 26,
+          "seconds": 418.6,
+          "train_loss": 0.14092,
+          "val_iou": 0.11039
+        },
+        {
+          "epoch": 27,
+          "seconds": 435.0,
+          "train_loss": 0.13954,
+          "val_iou": 0.10704
+        },
+        {
+          "epoch": 28,
+          "seconds": 451.6,
+          "train_loss": 0.13616,
+          "val_iou": 0.10102
+        },
+        {
+          "epoch": 29,
+          "seconds": 468.1,
+          "train_loss": 0.13245,
+          "val_iou": 0.10878
+        },
+        {
+          "epoch": 30,
+          "seconds": 484.4,
+          "train_loss": 0.12763,
+          "val_iou": 0.10796
+        },
+        {
+          "epoch": 31,
+          "seconds": 500.9,
+          "train_loss": 0.12479,
+          "val_iou": 0.10671
+        },
+        {
+          "epoch": 32,
+          "seconds": 517.4,
+          "train_loss": 0.12381,
+          "val_iou": 0.11457
+        },
+        {
+          "epoch": 33,
+          "seconds": 533.7,
+          "train_loss": 0.12071,
+          "val_iou": 0.11582
+        },
+        {
+          "epoch": 34,
+          "seconds": 550.2,
+          "train_loss": 0.11871,
+          "val_iou": 0.1127
+        },
+        {
+          "epoch": 35,
+          "seconds": 566.4,
+          "train_loss": 0.11975,
+          "val_iou": 0.11555
+        },
+        {
+          "epoch": 36,
+          "seconds": 583.0,
+          "train_loss": 0.11781,
+          "val_iou": 0.11461
+        },
+        {
+          "epoch": 37,
+          "seconds": 599.5,
+          "train_loss": 0.11628,
+          "val_iou": 0.114
+        },
+        {
+          "epoch": 38,
+          "seconds": 615.8,
+          "train_loss": 0.1154,
+          "val_iou": 0.11265
+        },
+        {
+          "epoch": 39,
+          "seconds": 631.9,
+          "train_loss": 0.11509,
+          "val_iou": 0.11248
+        },
+        {
+          "epoch": 40,
+          "seconds": 647.4,
+          "train_loss": 0.11572,
+          "val_iou": 0.11234
+        }
+      ],
+      "peak_cuda_bytes": 626094080,
+      "per_sample": {
+        "test": {
+          "path": "/home/work/data/olmoearth/e1_factorial_v2/full_small/per_sample/holdout_chimanimani/P4_test.jsonl",
+          "rows": 1133,
+          "sha256": "60b9d179f0dbe092eb1fe1cc8d9d40d6c5152f04845001e4ce15dad14b378a97"
+        },
+        "val": {
+          "path": "/home/work/data/olmoearth/e1_factorial_v2/full_small/per_sample/holdout_chimanimani/P4_val.jsonl",
+          "rows": 159,
+          "sha256": "9c7df70b913ed303c6f7a00da93427587e4bec93959d73e676516b92bba6cb2a"
+        }
+      },
+      "pos_weight": 46.53,
+      "test": {
+        "auprc_exact": 0.132972,
+        "brier_pixel_micro": 0.022668,
+        "confusion_pixels": {
+          "fn": 96005,
+          "fp": 445675,
+          "tn": 17949920,
+          "tp": 71472
+        },
+        "ece_15bin_pixel_micro": 0.025914,
+        "f1": 0.208792,
+        "iou": 0.116565,
+        "ld_f1": 0.3374,
+        "ld_iou": 0.20293,
+        "ld_subset_n": 347,
+        "nll_pixel_micro": 0.086508,
+        "positive_patch_macro_iou": 0.141897,
+        "positive_patch_n": 423,
+        "positive_pixel_frac": 0.00902205,
+        "precision": 0.138204,
+        "recall": 0.426757
+      },
+      "trainable_params": 237537,
+      "val": {
+        "auprc_exact": 0.13056,
+        "brier_pixel_micro": 0.01135,
+        "confusion_pixels": {
+          "fn": 11668,
+          "fp": 25396,
+          "tn": 2563137,
+          "tp": 4855
+        },
+        "ece_15bin_pixel_micro": 0.012771,
+        "f1": 0.207594,
+        "iou": 0.115819,
+        "ld_f1": 0.24369,
+        "ld_iou": 0.13875,
+        "ld_subset_n": 65,
+        "nll_pixel_micro": 0.054495,
+        "positive_patch_macro_iou": 0.112365,
+        "positive_patch_n": 81,
+        "positive_pixel_frac": 0.00634267,
+        "precision": 0.160491,
+        "recall": 0.293833
+      }
+    }
+  },
+  "cache_audit": {
+    "path": "/home/work/data/olmoearth/sen12_pilot_full128/holdout_chimanimani/cache_audit.json",
+    "sha256": "8e65452e286ab7cb39d6a5012f9cb7e1d7aea07ba7548465fa08001b54ad0573",
+    "summary": {
+      "all_gates_pass": true,
+      "audit_code_sha256": "b2b433ed1500bf610aec83b3516c53c70839ca01bb44c8d3cb6164ca4dfe5c3d",
+      "base_cache_audit": {
+        "path": "/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani/cache_audit.json",
+        "sha256": "58fab487d112743d3f2e54f9c563c9d66a493f8339f8dcd8e1b2078c67f45457"
+      },
+      "cache_sources": {
+        "base_mask_raw_month": "/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani",
+        "embedding": "/home/work/data/olmoearth/sen12_pilot_full128/holdout_chimanimani"
+      },
+      "embedding_content_sha256": "c6ad8362afa81872dff7f5d8cb23b68f56bdfb40f55c7031cb351fb36e9b1a2e",
+      "failures": [],
+      "file_set": {
+        "actual": 6834,
+        "expected": 6834,
+        "extra": [],
+        "missing": []
+      },
+      "fold": "holdout_chimanimani",
+      "gates": {
+        "all_embedding_contracts": true,
+        "all_expected_samples_audited": true,
+        "base_cache_audit_passed": true,
+        "base_contract_matches_fold_contract": true,
+        "exact_embedding_file_set": true,
+        "split_sha256_verified": true
+      },
+      "manifest_sha256": "1d9c1eb64a1e30399adf59f1d3fb9b83d460cce596171bd44f50012245ef512a",
+      "sample_counts": {
+        "test": 1133,
+        "train": 5542,
+        "val": 159
+      },
+      "samples_audited": 6834,
+      "schema": "sen12-alternate-embedding-cache-audit-v1"
+    }
+  },
+  "cache_build_summary": {
+    "cache_bytes": 10749827328,
+    "difference_from_baseline": "128x128 단일 패스 인코딩 (기존은 64 crop 4장 독립 인코딩)",
+    "fold": "holdout_chimanimani",
+    "peak_cuda_bytes": 1222937088,
+    "samples_total": 6834,
+    "samples_written": 6834,
+    "schema": "sen12-cache-full128-v1",
+    "total_s": 1120.24,
+    "unchanged": [
+      "patch_size 4",
+      "token grid 32x32",
+      "fp16",
+      "MODEL_BANDS 12",
+      "band-set 2 MISSING",
+      "동일 12 timestep"
+    ]
+  },
+  "cache_bytes": {
+    "emb_fp16": 10749827328,
+    "mask_u8": 112843008,
+    "raw_u16": 26873256192
+  },
+  "cache_sources": {
+    "base_mask_raw_month_audit": "/home/work/data/olmoearth/sen12_pilot/holdout_chimanimani",
+    "embedding": "/home/work/data/olmoearth/sen12_pilot_full128/holdout_chimanimani"
+  },
+  "caveat": "test는 held-out 지역 1개뿐이다. region-macro는 10-fold 전체에서만 나온다. 이미 열람한 개발 fold이므로 지역 일반화나 최종 test로 읽지 않는다. patch들은 같은 inventory/event와 중첩될 수 있어 1,133개 독립 사건이 아니다. pixel-micro ECE는 배경 픽셀이 지배하므로 router calibration 근거가 아니다.",
+  "code_sha256": "1fb3fd66db407c5221b792000f3fbfec0d7d9fb3f68011af215f9dab685e2700",
+  "cost_scope": {
+    "p4_warning": "P4의 frozen OlmoEarth encoder 파라미터·cache extraction 비용을 0으로 간주하지 않는다. end-to-end/cold 비용과 task 수에 따른 amortized 비용은 별도 표가 나오기 전까지 비교 불가.",
+    "reported_fit_time": "head fit + validation every epoch; excludes cache construction",
+    "reported_peak_cuda": "head training/evaluation only"
+  },
+  "development_protocol_v2": {
+    "auprc": "exact over all pixels; tied scores grouped",
+    "batch": 16,
+    "decision_threshold": 0.5,
+    "determinism": {
+      "cublas_workspace_config": ":4096:8",
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "float32_matmul_precision": "highest",
+      "strict_algorithms": true,
+      "tf32": false
+    },
+    "ece": "15 equal-width bins, pixel-micro",
+    "emb_norm": "fixed 400-sample train-only channel mean/std approximation",
+    "epochs": 40,
+    "information_contract": {
+      "claim_status": "not timestamp-matched",
+      "known_mismatch": "P4 encoder received acquisition timestamps; P1/P2 only receive order",
+      "shared_timestep_indices": true
+    },
+    "lr": 0.001,
+    "model_selection": "best val IoU; test never used for selection",
+    "pos_weight_cap": 50.0,
+    "pos_weight_source": "all train masks, exact",
+    "raw_norm": "uint16/10000, clamp[0,1.5]",
+    "seed": 1,
+    "timestep_policy": "S12q (shared across arms)",
+    "weight_decay": 0.0001
+  },
+  "evidence_status": "development_only_not_confirmatory",
+  "fold": "holdout_chimanimani",
+  "official_repository_benchmark_S12LS_LD": {
+    "ConvGRU": {
+      "AP": 60.0,
+      "F1": 59.06,
+      "IoU": 41.91
+    },
+    "U-ConvLSTM": {
+      "AP": 65.13,
+      "F1": 61.95,
+      "IoU": 44.88
+    },
+    "U-TAE": {
+      "AP": 67.75,
+      "F1": 61.8,
+      "IoU": 44.74
+    },
+    "Unet3d": {
+      "AP": 62.08,
+      "F1": 58.82,
+      "IoU": 41.66
+    },
+    "corrections": [
+      "위 표는 Scientific Data 논문의 원 표가 아니라 공식 저장소가 추가한 binary benchmark다",
+      "Scientific Data 논문 자체는 50 epoch/cross-entropy 설정과 별도의 geographic cluster LOCO도 보고한다"
+    ],
+    "not_comparable_because": [
+      "task: 그들은 mask>50 픽셀 표본만(양성 밀집). 우리 headline은 음성 포함",
+      "split: 그들은 random 80/20. 우리는 leave-one-region-out",
+      "input: 그들은 11채널(밴드+SCL+DEM) 15 timestep. 우리는 10밴드 12 timestep, DEM 없음",
+      "optimization: 그들은 75 epoch BCEDice(pos_weight 5, dice_w 0.5). 우리는 40 epoch BCE(train exact pos_weight)"
+    ],
+    "our_ld_subset_note": "ld_iou/ld_f1 은 >50 필터만 맞춘 참고값이며 split·input·loss는 여전히 다르다",
+    "source": "PaulH97/Sen12Landslides README current benchmark, S2+DEM, seeds 42/123/777 평균"
+  },
+  "protocol_history": "1차 8-epoch 실행에서 세 arm 모두 손실이 단조 하강 중(미수렴)이어서 예산을 모든 arm에 동일하게 늘리고 val IoU로 best epoch을 골랐다. 이 변경은 test 열람 뒤 이뤄졌으므로 confirmatory 사전등록이 아니다. 1차 결과는 M23에 보존한다.",
+  "runtime": {
+    "cuda": "13.0",
+    "cudnn": 92000,
+    "device": "NVIDIA H200",
+    "device_capability": [
+      9,
+      0
+    ],
+    "numpy": "2.4.6",
+    "python": "3.11.15",
+    "torch": "2.13.0+cu130"
+  },
+  "schema": "sen12-gp-pilot-v2",
+  "split_counts": {
+    "test": 1133,
+    "train": 5542,
+    "val": 159
+  },
+  "test_exposure": "chimanimani test는 M23 8-epoch 결과에서 이미 열람됐다. 이후 40-epoch와 v2는 개발 결과다. 최종 주장은 미열람 지역 fold를 사전등록 후 한 번만 평가해야 한다.",
+  "test_region": "chimanimani",
+  "val_region": "china"
+}

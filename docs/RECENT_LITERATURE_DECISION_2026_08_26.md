@@ -12,6 +12,11 @@ E1의 큰 decoder가 frozen OLMoEarth 성능을 회복하는 것은 **중요한 
 level과 UPerNet을 사용한다. 따라서 마지막 layer + 237K decoder로 GeoFM을 판정한 M30은
 **embedding-product viability 시험**으로는 유효하지만, model potential의 최종 판정으로는 약했다.
 
+M37 완결 결과는 이를 더 좁혔다. large decoder의 회복은 tiled cache에서만 나타났고
+full-context에서는 small/large가 모두 악화됐다. 따라서 `더 넓은 context`나 `더 큰 decoder`를
+일반 처방으로 제안하지 않고, **serving context와 head를 결합한 recipe contract**로 다룬다.
+이 interaction 역시 한 개발 지역·seed의 분석 결과이지 방법 novelty가 아니다.
+
 - OLMoEarth paper: <https://arxiv.org/pdf/2511.13655>
 - PANGAEA: <https://arxiv.org/abs/2412.04204>
 - PEFT systematic study: <https://arxiv.org/abs/2504.17397>
@@ -68,8 +73,10 @@ embedding generator/version과 task semantics가 함께 변한다. novelty는 ro
 
 ### Stage A — representation viability를 공정하게 닫기
 
-1. E1: tiled/full context × small/large convolutional decoder.
-2. multi-level/UNet decoder: OLMo intermediate feature를 실제로 노출할 수 있을 때만 별도 arm.
+1. E1: tiled/full context × small/large convolutional decoder — M37 완료. full-context는 중단하고
+   tiled-large만 exact-time·공통 seed에서 재검증한다.
+2. multi-level/UNet decoder: tiled-large가 positive-macro·비용을 회복하지 못하고 OLMo intermediate
+   feature를 실제로 노출할 수 있을 때만 별도 arm.
 3. adapter 위치를 분리한다.
    - cached-token adapter: encoder 재실행 없이 task별 head/adapter만 학습.
    - LoRA/partial/full fine-tuning: encoder가 바뀌므로 **shared cache 재생성이 필요한 action**.

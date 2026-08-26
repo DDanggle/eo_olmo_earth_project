@@ -100,6 +100,24 @@ def test_gp_bundle_v2_counts_blank_rows_not_unique_blank_values():
         })
 
 
+def test_e1_factorial_evidence_matches_sealed_input_hashes():
+    root = Path(__file__).resolve().parents[1]
+    evidence = root / "evidence" / "e1_factorial_v2"
+    analysis = json.loads((evidence / "e1_factorial_analysis.json").read_text(encoding="utf-8"))
+
+    assert analysis["n_paired_test_tiles"] == 1_133
+    assert analysis["analysis_code_sha256"] == hashlib.sha256(
+        (root / "code" / "analyze_e1_factorial.py").read_bytes()
+    ).hexdigest()
+    assert analysis["runner_code_sha256"] == hashlib.sha256(
+        (root / "code" / "pilot_sen12_gp_heads.py").read_bytes()
+    ).hexdigest()
+    for relative_path, expected_sha in analysis["input_files_sha256"].items():
+        path = evidence / relative_path
+        assert path.is_file(), relative_path
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == expected_sha
+
+
 def test_artifact_verifier_recomputes_thresholded_metrics(tmp_path):
     checkpoint = tmp_path / "checkpoints" / "fold" / "P4_best.pt"
     checkpoint.parent.mkdir(parents=True)

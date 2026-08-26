@@ -1624,7 +1624,10 @@ v2는 같은 날짜·플랫폼의 교차 item 전체를 target grid로 재투영
 **산출물은 형태·개수뿐 아니라 내용 분포까지 봐야 함** — L5(눈으로 확인한다)를
 4표본에만 적용하고 전수에 적용하지 않은 것이 이번 누락의 직접 원인임.
 
-## M36. E1 첫 새 셀은 회복 신호, 전체 factorial은 **배관 결함으로 중단**
+## M36. [SUPERSEDED BY M37] E1 첫 새 셀은 회복 신호, 당시 factorial은 **배관 결함으로 중단**
+
+아래는 첫 중단 실행의 역사 기록이다. 배관 수정·host identity 확인·동일 SHA 네 셀 재실행 결과는
+M37이 현재 판정이며, M36의 한 셀만 최종 결과로 인용하지 않는다.
 
 **근거(서버, 아직 저장소 미봉인)**:
 `/home/work/data/olmoearth/e1_tiled_big/`, `/home/work/data/logs/e1_factorial.log`
@@ -1667,6 +1670,48 @@ runner의 단일 `--cache` 인자가 이 네 source를 모두 같은 root에서 
 원격 접속에서는 SSH host fingerprint 변경 경고가 발생했다
 (`SHA256:y6YfMhYlugocey1MiM5fS2Ggg0RFtQSMCexH2ryWziI`). 현재 파일 읽기는 됐지만 host identity를
 Backend.AI 세션과 재확인하기 전에는 코드 push·재실행 같은 원격 변경을 하지 않는다.
+
+## M37. E1 2×2 완결 — full-context는 성능을 해쳤고 decoder 효과는 context에 따라 반전
+
+**근거(저장소 봉인)**: `evidence/e1_factorial_v2/e1_factorial_analysis.json`과 네 cell의
+pilot/per-sample JSONL. runner code SHA `1fb3fd66…`, paired test tile 1,133개. 네 cell의 runner
+SHA·sample ID가 같고, per-sample TP/FP/FN에서 재계산한 micro-IoU가 pilot JSON과 일치해야만
+분석기가 결과를 썼다.
+
+| cell | cache / decoder | params | fixed 40-epoch fit+val | IoU | AUPRC | LD-IoU | positive-patch macro IoU |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `y00` | tiled 4×64 / small | 237,537 | 866.6 s | 0.130582 | 0.151348 | 0.21338 | **0.159966** |
+| `y01` | tiled 4×64 / large | 2,989,121 | 1,596.2 s | **0.177727** | **0.213574** | **0.21952** | 0.139172 |
+| `y10` | full 1×128 / small | 237,537 | 647.4 s | 0.116565 | 0.132972 | 0.20293 | 0.141897 |
+| `y11` | full 1×128 / large | 2,989,121 | 775.9 s | 0.081419 | 0.080557 | 0.09515 | 0.066738 |
+
+사전 고정 IoU contrast:
+
+| contrast | 값 | 판정 |
+|---|---:|---|
+| `C_small = y10-y00` | **-0.014017** | full-context가 small에서도 악화 |
+| `C_large = y11-y01` | **-0.096308** | large에서 더 크게 악화 |
+| context 평균 | **-0.055162** | 2.56/5.12/10.24/20.48 km CI 모두 0 아래 |
+| `D_tiled = y01-y00` | **+0.047145** | tiled에서는 capacity 이득 |
+| `D_full = y11-y10` | **-0.035146** | full에서는 capacity 손해 |
+| decoder 평균 | +0.005999 | 네 scale CI 모두 0 포함, main effect 불성립 |
+| interaction | **-0.082291** | 네 scale CI 모두 0 아래 |
+
+따라서 사전 규칙의 `context-supported`와 `capacity-supported`, `y11 exploratory parity`는 모두
+false다. 더 강한 결론은 **full-context의 음의 효과**와 **decoder 효과의 부호 반전**이다.
+M34에서 full cache가 경계 이질성을 줄였다는 표현 진단은 맞지만, smoothness가 downstream
+정보량이나 정확도를 보장하지 않았다. 즉 seam 제거를 성능 개선의 대리변수로 쓸 수 없다.
+
+`y01`은 공식 P2의 micro-IoU/AUPRC(0.159254/0.174585)를 넘지만 positive-patch macro와 LD-IoU는
+P2보다 낮다. 또한 head fit만 1,596.2 s로 P2의 1,491 s보다 길고 cache extraction 1,130 s를 별도로
+요구하므로 현재 수치에는 accuracy-cost Pareto가 없다. 낮은 ECE나 높은 micro 지표 하나로 shared
+cache 사업성을 주장하지 않는다.
+
+**한계**: Chimanimani는 이미 노출된 개발 지역이고 seed 1뿐이다. spatial bootstrap은 test tile의
+공간 상관 민감도이지 optimization seed 불확실성이 아니다. 따라서 negative interaction을 지역·seed
+일반 법칙으로 승격하지 않는다. 다음 recipe 선택 전에 exact-time 정보 계약을 정렬하고, 선택한
+tiled-large와 strong raw baseline을 공통 seed로 반복해야 한다. full-context arm은 이 개발 계약에서
+중단하며 다른 모델/해상도로 일반화하지 않는다.
 
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 

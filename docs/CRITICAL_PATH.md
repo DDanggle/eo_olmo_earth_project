@@ -140,7 +140,7 @@ Chimanimani test는 이미 노출된 development fold이므로 E1 원인진단 �
 
 ### 지금 유의미한 사실은 metric 교차가 아니라 recipe 의존성이다
 
-| 같은 공식 실행 | IoU | AUPRC | 해석 |
+| 개발 evidence | IoU | AUPRC | 해석 |
 |---|---:|---:|---|
 | P2 official-safe UNet3D | **0.1593** | **0.1746** | 현재 strong raw baseline |
 | P4 frozen last-layer + small decoder | 0.1306 | 0.1513 | 두 성능지표 모두 열세 |
@@ -194,7 +194,7 @@ reuse cache  →  cheap recalibration  →  partial refresh
 
 | RQ | 질문 | 현재 | kill 조건 |
 |---|---|---|---|
-| **RQ1** | cached embedding이 쓸 만한가 | frozen-small은 P2 대비 IoU 82.0%, AUPRC 86.7%로 **개발 gate FAIL**. E1 원인진단 중 | context/capacity/multi-level/PEFT 후에도 밀리면 해당 GeoFM recipe를 backbone에서 제외 |
+| **RQ1** | cached embedding이 쓸 만한가 | frozen-small은 개발 gate FAIL. E1에서 tiled-large만 micro/AP 회복, full-context는 악화하고 positive-macro·비용 Pareto는 미회복 | exact-time·공통 seed 뒤에도 tiled-large가 불안정하면 multi-level/PEFT 한 축; 그래도 밀리면 backbone 제외 |
 | **RQ2** | **위험이 정말 task별로 다른가** | **0%** | **모든 task가 비슷하게 망가지면 router 불필요 → method 논문 중단** |
 | **RQ3** | label 없이 하락을 사전 예측할 수 있는가 | 0% | 예측이 무작위 수준이면 router 불가 |
 | **RQ4** | router가 정확도–비용 Pareto를 개선하는가 | 0% | oracle 대비 regret이 단순 규칙보다 나쁘면 system/benchmark로 강등 |
@@ -228,7 +228,7 @@ RQ3의 정답은 **실제 downstream 하락량**이므로 shift 전후 **양쪽�
 
 ## 감사 예산 규칙 (2026-08-26 신설)
 
-측정·감사 항목은 M36까지 쌓였지만 method 결과는 아직 0개다. 이 비율을 유지하면 감사 논문이 된다.
+측정·감사 항목은 M37까지 쌓였지만 method 결과는 아직 0개다. 이 비율을 유지하면 감사 논문이 된다.
 
 > **main claim을 막지 않는 감사 항목은 새로 열지 않는다.**
 
@@ -244,7 +244,7 @@ RQ3의 정답은 **실제 downstream 하락량**이므로 shift 전후 **양쪽�
 | deterministic replay (bitwise) | 재현성 기반 | 완료 |
 | P4 frozen OLMo pilot | cache viability | **원래 게이트 FAIL(82.0%)** |
 | 공식 P2/P3 정렬 | 경쟁력 판정 | **완료(official-safe 이식)** |
-| E1 crop-context × decoder capacity | 실패 원인 후보 분리 | **개발 진단 실행 중** |
+| E1 crop-context × decoder capacity | 실패 원인 후보 분리 | **완료: full-context 음의 효과, decoder 부호 반전(M37)** |
 | exact timestamp parity | 정보량 정렬 | **미완 ← 잔여 confound** |
 | unseen 9지역 confirmatory | 지역 일반화 | **미완 ← 병목** |
 | 3 task 위험 이질성 (RQ2) | router 필요성 | 미측정 |
@@ -252,17 +252,19 @@ RQ3의 정답은 **실제 downstream 하락량**이므로 shift 전후 **양쪽�
 | 한국·네팔·스위스 (RQ5) | external transfer | 미측정 |
 
 지금까지의 감사는 헛일이 아니다 — 잘못된 "P4 전 지표 1위"를 제거하고 frozen-cache failure를
-재현 가능한 결과로 만들었다. **현재 병목은 E1을 닫고, exact-time confound를 제거한 하나의 recipe를
-개발 fold에서 동결한 뒤, 미열람 지역을 더 이상 튜닝하지 않고 평가하는 것**이다.
+재현 가능한 결과로 만들었다. **현재 병목은 exact-time confound를 제거한 뒤 tiled-large와 strong
+raw baseline을 공통 seed로 확인해 하나의 recipe를 개발 fold에서 동결하고, 미열람 지역을 더 이상
+튜닝하지 않고 평가하는 것**이다.
 
 ## 실행 순서 (확정)
 
-1. E1의 새 세 칸을 끝내고 `docs/E1_CONTEXT_DECODER_ANALYSIS_PLAN.md`대로 contrast·공간 CI를 봉인한다.
-2. E1 결과에 따라 **(a) context, (b) capacity, (c) multi-level feature/UNet, (d) PEFT** 중 다음
-   한 축만 열고 Chimanimani development recipe를 끝낸다. 여러 축을 동시에 사후 탐색하지 않는다.
-3. raw arm exact date/gap 또는 P4 timestamp ablation으로 정보 계약을 정렬한다.
+1. raw arm exact date/gap 또는 P4 timestamp ablation으로 정보 계약을 정렬한다.
+2. E1의 tiled-large와 strong P2를 같은 seed 집합으로 반복하고, fixed threshold와 val-selected
+   threshold를 구분해 recipe를 동결한다. full-context는 이 개발 계약에서 중단한다.
+3. tiled-large가 positive-macro·비용까지 회복하지 못하면 **multi-level decoder 또는 PEFT 중 한 축만**
+   열고 Chimanimani development recipe를 끝낸다. 여러 축을 동시에 사후 탐색하지 않는다.
 4. 최종 recipe·seed·metric·중단 규칙을 사전등록하고 **미열람 지역을 순차 공개**한다.
-5. AI-Hub v2 모자이크·coverage contract를 만들고 원래 v1 2,539큐브는 사용하지 않는다.
+5. AI-Hub v2 40표본 pilot→전수 health/selection-bias gate를 통과시킨다. v1 2,539큐브는 쓰지 않는다.
 6. 같은 유효 cache 위에 AI-Hub 3 task를 구축해 RQ2의 shift×task degradation matrix를 잰다.
 7. **risk router + accuracy–cost Pareto**, 두 번째 backbone, 한국→네팔/스위스 transfer 순으로 연다.
 
@@ -341,9 +343,9 @@ shared cache, seam, generic refresh는 headline novelty가 아니다. 남는 gap
 
 ## 다음 세 행동
 
-1. E1 2×2를 고정 contrast와 paired spatial-block CI로 닫고, 표현 차이와 성능 개선을 구분한다.
-2. E1이 회복하지 못하면 multi-level feature/UNet과 PEFT를 **별도 요인**으로 한 번씩만 시험한다.
-3. exact date/gap parity 뒤 recipe를 동결하고, 미열람 지역을 순차 평가한 후에만 AI-Hub v2/RQ2를 연다.
+1. exact date/gap parity를 닫고 tiled-large 대 P2를 공통 seed·공통 threshold-selection 규칙으로 반복한다.
+2. 그 recipe가 positive-macro·비용까지 회복하지 못할 때만 multi-level decoder 또는 PEFT 한 축을 연다.
+3. recipe를 동결하고 미열람 지역을 순차 평가한 후에만 AI-Hub v2/RQ2를 연다.
 
 ## 이번 재설계에 직접 사용한 공개 근거
 

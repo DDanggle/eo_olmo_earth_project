@@ -756,6 +756,22 @@ estimand와 metric hierarchy를 결과 전에 고정하고 paired spatial interv
 **확인 질문**: `y00,y01,y10,y11`에서 context effect, decoder effect, interaction을 어떻게 계산하며,
 한 셀의 test 결과만 읽은 상태에서 허용되는 가장 강한 주장은 무엇인가?
 
+### #49 표현이 더 매끄럽다는 사실은 downstream sufficiency가 아니다 (2026-08-26, M37)
+
+full-context cache는 crop 경계 이웃의 이질성을 줄였지만 E1 test IoU는 small decoder에서
+0.1306→0.1166, large에서 0.1777→0.0814로 하락했다. seam/smoothness 진단은 표현의 한 성질을
+측정할 뿐 task-relevant signal 보존을 측정하지 않는다. 넓은 context가 token을 과도하게
+동질화하거나 positional/statistical contract를 바꾸고, decoder가 그 변화에 다르게 반응할 수도
+있다. 따라서 proxy metric 개선을 causal mechanism이나 downstream 개선으로 승격하려면 paired
+intervention과 task 결과가 함께 필요하다.
+
+같은 결과에서 decoder 증가는 tiled에서는 +0.0471, full에서는 -0.0351이었다. main effect 평균이
+작다고 "decoder가 무관"한 것도 아니고, 한 조건에서 좋다고 "decoder가 좋다"고도 할 수 없다.
+부호 반전과 interaction을 먼저 보고 action을 joint recipe로 정의해야 한다.
+
+**확인 질문**: representation smoothness가 높아져도 segmentation이 나빠질 수 있는 세 가지 기전을
+말하고, spatial bootstrap이 optimization seed 불확실성을 해결하지 못하는 이유를 설명할 수 있는가?
+
 ## 스터디 로그
 
 ### 2026-08-26 — E1 원인진단·Earth embedding product prior-art 재정렬
@@ -771,6 +787,9 @@ estimand와 metric hierarchy를 결과 전에 고정하고 paired spatial interv
   multi-action regret–cost policy로 좁혔다.
 - 다음 학습: host identity를 확인한 뒤 동일 code SHA로 E1을 재실행하고, full factorial이 닫힌
   뒤 multi-level cached-token adapter와 encoder-changing PEFT를 서로 다른 action으로 설계한다.
+- 실행 결과: 카드 #49. full-context의 평균효과는 -0.0552, decoder 효과는 tiled +0.0471/full
+  -0.0351로 반전했다. seam 제거를 성능 proxy로 쓰지 않고, exact-time parity와 공통-seed 반복 뒤
+  tiled-large recipe만 남길지 판정한다.
 
 ### 2026-08-26 — G-P pilot 재현성·지표·비용 계약 복구
 

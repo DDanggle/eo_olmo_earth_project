@@ -89,3 +89,17 @@ G-P를 통과시키지 않는다. G-P는 미열람 지역의 region/event-macro 
 
 E1의 성공은 후속 가설을 좁힐 뿐 CVPR 기여가 아니다. 최종 방법 기여는 동일 cache의
 다중 task에서 shift별 action value를 예측하고 accuracy–cost Pareto를 개선할 때 생긴다.
+
+## 실행 결과 — M37 (계약 변경 없음)
+
+동일 runner SHA `1fb3fd66…`와 paired test 1,133개로 네 셀을 완결했다. IoU는
+`y00=0.130582`, `y01=0.177727`, `y10=0.116565`, `y11=0.081419`였다.
+
+- `C_small=-0.014017`, `C_large=-0.096308`: positive context-supported 규칙은 실패했고,
+  context 평균 `-0.055162`의 CI가 네 block scale 모두 0 아래였다.
+- `D_tiled=+0.047145`, `D_full=-0.035146`: capacity의 부호가 반전돼 main effect 규칙이 실패했다.
+- interaction `-0.082291`: 네 scale CI 모두 0 아래였다.
+- `y11` exploratory parity는 실패했다.
+
+봉인 결과와 입력 해시는 `evidence/e1_factorial_v2/e1_factorial_analysis.json`, 해석은 M37에 있다.
+이는 한 노출 지역·seed 1의 개발 진단이며 optimization-seed나 지역 일반화의 증거가 아니다.
