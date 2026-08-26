@@ -1,0 +1,62 @@
+{
+  "schema": "noise-floor-analysis-v1",
+  "evidence_status": "development_only_not_confirmatory",
+  "n_tiles": 1133,
+  "n_positive_tiles": 423,
+  "seed_spread_P4c_tiled": {
+    "seed1": {
+      "micro_iou_all": 0.177727,
+      "macro_pos_iou": 0.139172
+    },
+    "seed2": {
+      "micro_iou_all": 0.159746,
+      "macro_pos_iou": 0.139827
+    },
+    "seed3": {
+      "micro_iou_all": 0.144488,
+      "macro_pos_iou": 0.119644
+    }
+  },
+  "seed_spread_summary": {
+    "micro_iou_mean": 0.160654,
+    "micro_iou_range": 0.033239,
+    "micro_iou_std": 0.016638,
+    "P2_single_seed_micro_iou": 0.159254,
+    "P2_inside_seed_range": true
+  },
+  "noise_floor_pairs": {
+    "seed1|seed2": {
+      "best_single_macro": 0.139827,
+      "oracle_macro": 0.168847,
+      "noise_floor_gain": 0.029021
+    },
+    "seed1|seed3": {
+      "best_single_macro": 0.139172,
+      "oracle_macro": 0.158088,
+      "noise_floor_gain": 0.018916
+    },
+    "seed2|seed3": {
+      "best_single_macro": 0.139827,
+      "oracle_macro": 0.158152,
+      "noise_floor_gain": 0.018325
+    }
+  },
+  "noise_floor_max": 0.029021,
+  "observed_oracle_4arms_macro_pos": {
+    "best_single": 0.194446,
+    "oracle": 0.272922,
+    "gain": 0.078476,
+    "gain_minus_noise_floor": 0.049455,
+    "gain_over_noise_floor_ratio": 2.704
+  },
+  "greedy_micro_oracle_4arms": {
+    "best_single_micro": 0.177727,
+    "greedy_oracle_micro": 0.305031,
+    "gain": 0.127304,
+    "note": "좌표상승 하한. M40의 per-tile-max 방식은 micro 지표와 목적이 어긋났음"
+  },
+  "gain_minus_floor_ci95_5.12km": [
+    0.048845,
+    0.069595
+  ]
+}

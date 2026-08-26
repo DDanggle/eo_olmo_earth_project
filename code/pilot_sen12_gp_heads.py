@@ -121,6 +121,9 @@ def parse_args():
                    help="기본값은 <cache>/cache_audit.json; all_gates_pass seal 필수")
     p.add_argument("--arms", type=str, default="P1,P2,P3,P4")
     p.add_argument("--epochs", type=int, default=EPOCHS)
+    # seed는 잡음 바닥(noise-floor) oracle 측정에 필요하다. 기본값은 기존 실행과
+    # 동일한 1이므로 과거 산출물의 재현성은 영향받지 않는다.
+    p.add_argument("--seed", type=int, default=SEED)
     return p.parse_args()
 
 
@@ -159,7 +162,7 @@ def main() -> None:
     torch.backends.cuda.matmul.allow_tf32 = False
     torch.backends.cudnn.allow_tf32 = False
     torch.set_float32_matmul_precision("highest")
-    seed_everything(torch, np, SEED)
+    seed_everything(torch, np, args.seed)
     device = torch.device("cuda")
     torch.cuda.set_device(0)   # CUDA_VISIBLE_DEVICES=1 이므로 physical GPU1
 
@@ -403,12 +406,12 @@ def main() -> None:
         if arm not in ARMS:
             raise SystemExit(f"알 수 없는 arm: {arm}")
         # 이전 arm의 학습/평가가 다음 arm의 초기화·shuffle을 바꾸지 않게 독립 reset한다.
-        seed_everything(torch, np, SEED)
+        seed_everything(torch, np, args.seed)
         kind, cls, desc = ARMS[arm]
         st = stats if kind == "emb" else None
         loaders = {}
         for split_idx, s in enumerate(("train", "val", "test")):
-            generator = torch.Generator().manual_seed(SEED + split_idx)
+            generator = torch.Generator().manual_seed(args.seed + split_idx)
             loaders[s] = DataLoader(
                 S12(splits[s], kind, st), batch_size=BATCH, shuffle=(s == "train"),
                 num_workers=6, pin_memory=True, drop_last=(s == "train"),
@@ -474,7 +477,7 @@ def main() -> None:
             "schema": "sen12-gp-checkpoint-v2",
             "arm": arm,
             "fold": args.fold,
-            "seed": SEED,
+            "seed": args.seed,
             "best_val_epoch": best["epoch"],
             "best_val_iou": best["val_iou"],
             "model_state": best["state"],
@@ -622,7 +625,7 @@ def main() -> None:
             "1차 8-epoch 실행에서 세 arm 모두 손실이 단조 하강 중(미수렴)이어서 예산을 모든 arm에 "
             "동일하게 늘리고 val IoU로 best epoch을 골랐다. 이 변경은 test 열람 뒤 이뤄졌으므로 "
             "confirmatory 사전등록이 아니다. 1차 결과는 M23에 보존한다."),
-        "development_protocol_v2": {"epochs": args.epochs, "batch": BATCH, "seed": SEED,
+        "development_protocol_v2": {"epochs": args.epochs, "batch": BATCH, "seed": args.seed,
                           "model_selection": "best val IoU; test never used for selection",
                           "decision_threshold": 0.5,
                           "lr": LR, "weight_decay": WD,
