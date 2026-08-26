@@ -1,0 +1,80 @@
+{
+  "schema": "flops-cost-v1",
+  "why": "벽시계는 GPU 경합으로 같은 구성에서 641 s vs 866.6 s (+35%) 편차를 보였다",
+  "shape": {
+    "T": 12,
+    "H": 128,
+    "W": 128
+  },
+  "per_sample_forward_flops": {
+    "P2_official_unet3d": 270761197568,
+    "P3_official_utae": 38724830720,
+    "P4_small_decoder": 2014314496,
+    "P4c_large_decoder": 14497611776,
+    "olmoearth_encoder_1x128": 26454315368448
+  },
+  "param_check": {
+    "small_decoder": 237537,
+    "big_decoder": 2989121,
+    "expected_small": 237537,
+    "expected_big": 2989121
+  },
+  "encoder_params": 88955904,
+  "cost_model": {
+    "n_cached_samples": 6834,
+    "n_train_samples": 5542,
+    "epochs": 40,
+    "backward_multiplier": 3.0,
+    "note": "backward를 forward의 2배로 잡아 fwd+bwd = 3x forward로 계산한다",
+    "encoder_total_flops_one_time": 180788791227973632,
+    "train_forward_equivalents": 665040.0
+  },
+  "amortization": {
+    "P4_small_decoder_vs_P2_official_unet3d": {
+      "encoder_total_flops": 180788791227973632,
+      "head_train_flops_per_task": 1339599712419840,
+      "task_model_train_flops_per_task": 180067026830622720,
+      "breakeven_K_real": 1.0115,
+      "breakeven_K_integer": 2,
+      "note": "공유 캐시가 더 쌈"
+    },
+    "P4c_large_decoder_vs_P2_official_unet3d": {
+      "encoder_total_flops": 180788791227973632,
+      "head_train_flops_per_task": 9641491735511040,
+      "task_model_train_flops_per_task": 180067026830622720,
+      "breakeven_K_real": 1.0608,
+      "breakeven_K_integer": 2,
+      "note": "공유 캐시가 더 쌈"
+    },
+    "P4_small_decoder_vs_P3_official_utae": {
+      "encoder_total_flops": 180788791227973632,
+      "head_train_flops_per_task": 1339599712419840,
+      "task_model_train_flops_per_task": 25753561422028800,
+      "breakeven_K_real": 7.4051,
+      "breakeven_K_integer": 8,
+      "note": "공유 캐시가 더 쌈"
+    },
+    "P4c_large_decoder_vs_P3_official_utae": {
+      "encoder_total_flops": 180788791227973632,
+      "head_train_flops_per_task": 9641491735511040,
+      "task_model_train_flops_per_task": 25753561422028800,
+      "breakeven_K_real": 11.2207,
+      "breakeven_K_integer": 12,
+      "note": "공유 캐시가 더 쌈"
+    }
+  },
+  "sanity_vs_wallclock": {
+    "encoder_total_flops": 180788791227973632,
+    "p2_train_total_flops": 180067026830622720,
+    "measured_seconds": {
+      "cache_extraction": 1130,
+      "p2_training": 1491
+    },
+    "implied_tflops_per_s": {
+      "cache": 160.0,
+      "p2": 120.8
+    },
+    "interpretation": "두 값이 같은 자릿수면 FLOPs 모델이 실측과 모순되지 않는다"
+  },
+  "caveat": "forward FLOPs만이다. backward는 대략 2배이지만 arm마다 비율이 같지 않을 수 있다. 메모리 대역폭·커널 효율은 반영되지 않는다. 실제 시간은 아니다."
+}
