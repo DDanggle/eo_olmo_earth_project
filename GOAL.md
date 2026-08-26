@@ -333,6 +333,13 @@ v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, �
 
 ## PR 후보
 
+**2026-08-26 current-upstream 재감사**: 아래는 발견 계보라 번호를 지우지 않는다. 실제 제출 큐는
+`PR_DOSSIER.md`가 SSOT다. 첫 sample schema PR은 current main에도 유효하고 미제출 상태다.
+rslearn direct-materialize `NotImplementedError`는 v0.1.14에서 해소됐고, `미출시 API` 문제는
+project lock(`rslearn 0.0.23 + olmoearth-pretrain 0.0.2`)과 current release의 skew로 재분류했다.
+SCL 후보는 categorical-nearest 최소 PR과 auxiliary dependency RFC로 분리한다. partial-band mask는
+public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR이 아니다.
+
 1. **`olmoearth-runner`의 `requires-python <3.12` 상한** — NGC PyTorch 컨테이너(py3.12)를 쓰는
    조직은 시스템 파이썬으로 설치 불가. `pip install olmoearth-runner` →
    "No matching distribution found". 상한을 풀거나 문서에 명시할 것을 제안할 가치.
@@ -342,7 +349,8 @@ v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, �
    마이그레이션됐는데 `annotation_features.geojson`은 legacy `es_*` + 스칼라 `es_label`인
    채로 남아 runner 0.1.14의 pydantic 검증(`oe_annotations_task_id`, dict형 `oe_labels`)에서
    실패. README대로 실행하면 바로 깨짐. **로컬 레포에 수정 적용 완료** (es_→oe_,
-   `es_label: 1` → `oe_labels: {category: 1}`) — 이대로 PR 가능.
+   `es_label: 1` → `oe_labels: {category: 1}`) — local commits `5e044ee`, `21b658a`; EOF newline·schema
+   gate 통과. current upstream/open PR 중복 없음. Linux current-runtime replay 뒤 첫 PR로 제출 가능.
 3. `olmoearth-runner`가 라이브러리가 아니라 완전 고정(`==`) 의존성의 잠긴 앱으로 배포됨 —
    requires-python 상한과 함께 논의 가치 (#1과 묶어서).
 4. **forest_loss_driver가 외부에서 실행 불가 (문서 vs 실제 불일치, 중요)** —
@@ -376,7 +384,9 @@ v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, �
    등록 후에도 compositor가 레이어의 bilinear resampling을 범주형 SCL 점수에 그대로 넘겨
    class ID equality를 왜곡할 수 있다. v7에서 SCL 보조 band set + nearest 점수 adapter로
    재현·해결. compositor가 SCL 의존성을 선언하고 categorical nearest를 강제하거나 문서화할
-   공개 PR 후보 (`code/scl_compositor.py`, 세 실패 로그와 성공 로그 보존).
+   공개 기여 후보 (`code/scl_compositor.py`, 세 실패 로그와 성공 로그 보존). current v0.1.14에서도
+   `_score_item`이 layer resampling을 그대로 받는 것을 재확인했다. nearest scoring fix를 작은 PR로,
+   보조-band dependency declaration은 별도 issue/RFC로 낸다.
 10. **Sen12Landslides metadata/label issue 후보** — harmonized S2 13,628파일 전수 감사에서
     `center_lat/lon`이 13,628/13,628 모두 위경도 범위를 벗어난 projected coordinate였고,
     `hiroshima_s2_1427/1428`은 `annotated=True`·`ann_id=1964`인데 MASK 양성 픽셀이 0이었다.
@@ -2499,3 +2509,27 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   backbone/untouched country가 모두 필요하다.
 - 산출물: `docs/PAPER_CLAIM_EXPANSION_2026_08_26.md`를 claim SSOT로 추가하고 README,
   `docs/CRITICAL_PATH.md`, `PAPER_READING_LIST.md`를 동기화했다.
+
+### 2026-08-26 — 외부 지역 onboarding 계약·upstream PR 큐 재감사
+
+- 작업 계획: 한국·네팔·스위스 자산을 OLMoEarth input/context/target으로 다시 분류하고, 현재
+  rslearn/olmoearth_projects upstream에서 PR 후보가 여전히 살아 있는지 재검증한다. 제출 상태를
+  로컬 브랜치와 혼동하지 않고, 의미 있는 후보만 current queue로 남긴다.
+- 입력계약 판정: 공개 rslearn OLMoEarth 경로는 canonical S2 12밴드/S1/Landsat의 band order,
+  normalization, 10 m, time contract를 요구한다. AI-Hub label은 canonical S2 target으로 조인하고,
+  KMA/GK2A/DEM은 residual, swissEO 7-band는 canonical transfer가 아니라 별도 missing-band/source
+  shift로 둔다.
+- Nepal 정정: Koshi 2024는 CC BY 4.0이고 geography transfer에는 유용하지만 U-Net 자동탐지 후
+  manual QC된 silver label이다. 과거 Worklog의 `Nepal untouched`는 `untouched geography`로만
+  정정하며, manual adjudication 없이는 untouched gold claim을 금지한다.
+- upstream 재감사: `olmoearth_projects origin/main=23a3d7b`, rslearn
+  `v0.1.14/master=c47952f`를 기준으로 확인했다. sample schema #1은 upstream/open PR과 중복 없이
+  유효하다. direct-materialize #4는 current에서 해소, 미출시-API #5는 lock skew #13에 병합,
+  docs #9는 clarification으로 강등했다. SCL #10은 nearest-only PR과 dependency RFC로 분리한다.
+- PR #1 보완: GeoJSON EOF newline을 추가했고 JSON parse·6 feature·legacy key 0·dict label gate를
+  통과했다. macOS current runtime은 schema 이후 forkserver에서 다시 hang해 #8을 재확인했다.
+  Linux 0.1.14의 기존 6-window 완주는 유효하지만 제출 전 current Linux replay는 남아 있다.
+- 산출물: `docs/OLMO_EXTERNAL_DATA_ONBOARDING_AND_PR_AUDIT_2026_08_26.md`, 갱신된
+  `PR_DOSSIER.md`, `PR_REVIEW_NOTES.md`, PR body, README/CRITICAL_PATH/STUDY.
+- 다음: AI-Hub v2 eligibility를 닫은 뒤 세 task의 action ranking 이질성을 먼저 잰다. PR 축은
+  Linux current replay→사용자 승인 후 fork/push 순서다.

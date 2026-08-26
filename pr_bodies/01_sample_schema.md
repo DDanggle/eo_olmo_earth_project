@@ -40,4 +40,15 @@ After the change, `prepare_labeled_windows` completes and writes 6 labeled windo
   ... (6 total, EPSG:32611, 10 m, split=train/val)
 ```
 
-Verified on Linux (Python 3.11, olmoearth-runner 0.1.14) and macOS (0.1.12).
+Verified end-to-end on Linux (Python 3.11, olmoearth-runner 0.1.14). On macOS,
+the updated file passes schema/JSON validation, but the documented CLI still hangs
+later in multiprocessing; that is a separate pre-existing issue and not evidence for
+or against this data-only fix.
+
+The updated FeatureCollection also parses as JSON, contains 6 features, has no
+legacy `es_*` property keys, and each feature has a dict-valued `oe_labels.category`.
+
+## Scope
+
+This is intentionally a data-only schema repair. `annotation_task_features.geojson`
+already uses the required `oe_*` schema, so it is unchanged.

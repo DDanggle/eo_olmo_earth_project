@@ -73,7 +73,7 @@ ablation을 함께 둔다. 기존 pilot JSON의 `P1/P2 only receive order` 문�
 | **5** | **E_static** | DEM/slope/기후평년을 더한 transfer 변화 | 0% |
 | **6** | **E_live** | cutoff-valid 관측조건·강수 residual | 배관만 있음 |
 | **7** | **R-cache** | task별 action 가치와 cost를 예측하는 router | 설계 후보 |
-| **8** | external stress | 한국 untouched + 접근 통과 시 Swiss/Nepal | 한국 split만 봉인 |
+| **8** | external stress | 한국 + 접근·label provenance 통과 시 Nepal/Swiss | 한국 split만 봉인 |
 
 0~1b 전에는 Italy/Korea 성능을 돌리지 않는다. **GeoFM 자체가 task에 부적합하면 residual의
 성공도 실패도 해석할 수 없기 때문이다.** 5 전에는 6을 확장하지 않는다. 다만 GK2A는 2일만
@@ -287,7 +287,13 @@ raw baseline을 공통 seed로 확인해 하나의 recipe를 개발 fold에서 �
 6. 같은 유효 cache 위에 AI-Hub 3 task를 구축해 RQ2의 shift×task degradation matrix를 잰다.
 7. contract-only·entropy·drift·GdScore·ODD·agreement와 action-gain predictor를 tournament한다.
 8. **shared extraction cost를 포함한 joint router + accuracy–cost Pareto**, 두 번째 backbone 순으로 연다.
-9. recipe를 모두 동결한 뒤 Nepal 또는 Switzerland 한 곳만 untouched external transfer로 공개한다.
+9. recipe를 모두 동결한 뒤 Nepal 또는 Switzerland 한 곳만 external transfer로 공개한다. Nepal
+   Koshi 2024는 U-Net-assisted + manual-QC silver label이므로 `untouched geography`와 `untouched gold`
+   를 구분하고, 수동 adjudication subset 없이는 후자를 주장하지 않는다. swissEO 7-band를 쓰면
+   regional transfer가 아니라 missing-band/source contract shift로 기록한다.
+
+지역 자산의 model-input/context/target 분리와 upstream 기여 연결은
+`docs/OLMO_EXTERNAL_DATA_ONBOARDING_AND_PR_AUDIT_2026_08_26.md`가 SSOT다.
 
 CVPR method paper가 되려면
 `task별 위험 이질성 → 위험 예측 → refresh 의사결정 → 정확도·비용 Pareto → 외부 지역·두 번째 모델`

@@ -57,6 +57,7 @@
 | `docs/E1_CONTEXT_DECODER_ANALYSIS_PLAN.md` | E1 2×2 cell·contrast·공간 CI·95% 참고선·비용 판정 계약 |
 | `docs/RECENT_LITERATURE_DECISION_2026_08_26.md` | OLMo/PANGAEA/PEFT/TESSERA/RALF 대비 선점 주장과 CVPR 잔여 gap |
 | `docs/PAPER_CLAIM_EXPANSION_2026_08_26.md` | M37 이후 claim ladder, label-free action utility, 최신 baseline, CVPR kill path |
+| `docs/OLMO_EXTERNAL_DATA_ONBOARDING_AND_PR_AUDIT_2026_08_26.md` | 한국·네팔·스위스 자산을 input/context/target으로 분리한 OLMo onboarding 계약 + upstream PR 재감사 |
 | `docs/AIHUB_CUBE_V2_CONTRACT.md` | M35 이후 12-band 재물질화의 platform/mosaic/validity/coverage 사전 계약 |
 | `MOUNTAIN_EVIDENCE_TRANSFER.md` | MountainShift — 알프스·HKH·한국 산악 전이 설계, TRANSFER/LOCAL-ADAPT/RE-EMBED/ABSTAIN, 중단 기준 |
 | `docs/GP_PILOT_VALIDATION_AUDIT.md` | M23–M25 독립 감사 — invalid 8ep 계보, exact metric/cache seal, strict replay, G-P 차단 사유 |

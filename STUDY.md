@@ -787,7 +787,33 @@ intervention과 task 결과가 함께 필요하다.
 **확인 질문**: representation smoothness가 높아져도 segmentation이 나빠질 수 있는 세 가지 기전을
 말하고, spatial bootstrap이 optimization seed 불확실성을 해결하지 못하는 이유를 설명할 수 있는가?
 
+### #50 지역 데이터셋은 자동으로 foundation-model modality가 되지 않는다 (2026-08-26)
+
+AI-Hub label, ICIMOD 산사태 inventory, swissEO 영상, KMA 강우를 모두 “OLMoEarth에 넣을 데이터”로
+부르면 연결이 막힌다. foundation model input에는 센서·밴드 순서·값 단위·정규화·GSD·시간축·
+tokenization 계약이 있고, label은 target, 강우/DEM/경보는 local context, 새 센서는 adapter/PEFT
+대상이다. OLMoEarth가 derived maps로 pretrain됐다는 사실도 임의의 지역 map channel을 append해도
+된다는 뜻이 아니다.
+
+따라서 지역 transfer는 local label과 **canonical supported EO**를 조인해 재고, missing-band product
+shift는 별도 arm으로 잰다. Nepal Koshi처럼 U-Net-assisted label은 geography는 새로워도 label
+mechanism이 독립 gold가 아니므로 silver target + manual adjudication으로 보고해야 한다.
+
+**확인 질문**: swissEO 7-band 결과가 나빠졌을 때 geography shift, source-product shift,
+missing-band shift 중 무엇이 원인인지 구별하려면 어떤 두 arm을 만들어야 하는가?
+
 ## 스터디 로그
+
+### 2026-08-26 — 외부 데이터 onboarding·upstream PR 재감사
+
+- 배운 것: 카드 #50. 한국·네팔·스위스 자산을 canonical input / local context / target으로
+  분리해야 model update와 지역 transfer를 식별할 수 있다.
+- label provenance 보정: Nepal Koshi 2024는 independent geography이지만 U-Net-assisted + manual-QC
+  silver label이다. 수동 adjudication 없이는 untouched gold라고 부르지 않는다.
+- upstream 보정: sample schema PR은 current main에도 유효하고 direct-materialize 후보는 current
+  rslearn에서 해소됐다. SCL categorical scoring은 남지만 dependency API와 nearest fix를 분리한다.
+- 다음 학습: AI-Hub v2 3-task action ranking을 먼저 닫고, public partial-band end-to-end repro를
+  만든 뒤에만 release-aware mask를 upstream patch로 승격한다.
 
 ### 2026-08-26 — E1 원인진단·Earth embedding product prior-art 재정렬
 
