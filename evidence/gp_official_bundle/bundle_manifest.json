@@ -1,0 +1,118 @@
+{
+  "bootstrap_units_available": {
+    "ann_id": {
+      "n_blank": 1,
+      "n_distinct": 422
+    },
+    "event_date": {
+      "n_blank": 1,
+      "n_distinct": 1
+    },
+    "region": {
+      "n_blank": 0,
+      "n_distinct": 1
+    }
+  },
+  "checkpoints_sha256_only": {
+    "P1_best.pt": {
+      "bytes": 1926411,
+      "server_path": "/home/work/data/olmoearth/sen12_gp_official/checkpoints/holdout_chimanimani/P1_best.pt",
+      "sha256": "c3b86c4c552ba371bf21731242a3312b5efff86bfc92af54831a46c8855d3a19"
+    },
+    "P2_best.pt": {
+      "bytes": 10793041,
+      "server_path": "/home/work/data/olmoearth/sen12_gp_official/checkpoints/holdout_chimanimani/P2_best.pt",
+      "sha256": "94ec0ef1fbd88ec262f9cef0c03e09cee72e1b59d59c367229fe0448fe729dd4"
+    },
+    "P3_best.pt": {
+      "bytes": 4684092,
+      "server_path": "/home/work/data/olmoearth/sen12_gp_official/checkpoints/holdout_chimanimani/P3_best.pt",
+      "sha256": "d52666a83f7415ef030d2ea8bff373d589e83c0fa44551b027746eb764e84468"
+    },
+    "P4_best.pt": {
+      "bytes": 963572,
+      "server_path": "/home/work/data/olmoearth/sen12_gp_official/checkpoints/holdout_chimanimani/P4_best.pt",
+      "sha256": "cd6503724486341116cc9270f02f900f24fc513e99e8386532c5db5daeea9cfc"
+    }
+  },
+  "files": {
+    "gp_official_full.log": {
+      "bytes": 41592,
+      "sha256": "8c337b86668360585909a60d7d1ec7efa3ae4f8bc044296bc64ee24de73abd8f"
+    },
+    "holdout_chimanimani_pilot.json": {
+      "bytes": 37387,
+      "sha256": "85e9b2ace81453d31595eb5ee8a12ea8a4ba0db172924d5624f1c28d6e6572f8"
+    },
+    "per_sample/P1_test.jsonl": {
+      "bytes": 290777,
+      "sha256": "391a2f615def08cc9ba4b4a7e7285cdd5c04d26a73f5ce5e12bd9e9b4bfeaa70"
+    },
+    "per_sample/P1_val.jsonl": {
+      "bytes": 38148,
+      "sha256": "e6e08eebc47ab6a3030e04653c0ee2f4db5e583a54df49c6e74321e1fd49ed06"
+    },
+    "per_sample/P2_test.jsonl": {
+      "bytes": 287968,
+      "sha256": "299f948cc9801782cb62a58ef8d958bf27561851f17b67119bae8e01d7cd3561"
+    },
+    "per_sample/P2_val.jsonl": {
+      "bytes": 38125,
+      "sha256": "59d466d7ff155994b985db620ea2e9ffaedc7a799d55fec9464f8058549fe7af"
+    },
+    "per_sample/P3_test.jsonl": {
+      "bytes": 289121,
+      "sha256": "6e507011d5920a4ed2217d01345cd02f4da6aa44c800f611e2205105a6ce9c0c"
+    },
+    "per_sample/P3_val.jsonl": {
+      "bytes": 38026,
+      "sha256": "5d66c255c1704f2137c96e7435ff2a04588a4c30e0d2ec0187d55f7c54112e87"
+    },
+    "per_sample/P4_test.jsonl": {
+      "bytes": 288229,
+      "sha256": "1aea56cf1d53c282713df3e3d0f08c81d568d4b8c9f6df9475f8bb12d9c70858"
+    },
+    "per_sample/P4_val.jsonl": {
+      "bytes": 38024,
+      "sha256": "1cb448ffa6b1ae676fd1cdad9bf79723f208dcb11a80b6ee0cdc5631acf129ea"
+    }
+  },
+  "fold": "holdout_chimanimani",
+  "recomputed_from_per_sample": {
+    "P1": {
+      "fn": 67076,
+      "fp": 1670662,
+      "iou_micro_recomputed": 0.054621,
+      "n_samples": 1133,
+      "tp": 100401
+    },
+    "P2": {
+      "fn": 80927,
+      "fp": 375995,
+      "iou_micro_recomputed": 0.159254,
+      "n_samples": 1133,
+      "tp": 86550
+    },
+    "P3": {
+      "fn": 42952,
+      "fp": 865461,
+      "iou_micro_recomputed": 0.120554,
+      "n_samples": 1133,
+      "tp": 124525
+    },
+    "P4": {
+      "fn": 87361,
+      "fp": 446053,
+      "iou_micro_recomputed": 0.130582,
+      "n_samples": 1133,
+      "tp": 80116
+    }
+  },
+  "schema": "gp-official-evidence-bundle-v1",
+  "what_this_does_not_prove": [
+    "체크포인트 자체는 저장소에 없음 (SHA-256만 봉인)",
+    "신뢰구간 없음 — 아직 부트스트랩 미실행",
+    "test region이 Chimanimani 하나이므로 region-level CI는 원리상 불가 (n=1)"
+  ],
+  "what_this_proves": "M30 표의 test 지표를 per-sample 파일에서 재계산할 수 있음"
+}
