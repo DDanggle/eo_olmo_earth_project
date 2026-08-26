@@ -1,0 +1,179 @@
+{
+  "schema": "oracle-routing-headroom-v1",
+  "evidence_status": "development_only_not_confirmatory",
+  "warning": "chimanimani test는 이미 다회 노출됨. 확증이 아님",
+  "n_tiles": 1133,
+  "single_arm_micro_iou": {
+    "P4c_tiled_big": 0.177727,
+    "P2_unet3d": 0.159254,
+    "P4_tiled_small": 0.130582,
+    "P3_utae": 0.120554,
+    "P4_full_small": 0.116565,
+    "P4c_full_big": 0.081419,
+    "P1_shallow": 0.054621
+  },
+  "best_single_arm": "P4c_tiled_big",
+  "best_single_micro_iou": 0.177727,
+  "oracle_all_arms": {
+    "micro_iou": 0.24831,
+    "gain_over_best_single": 0.070583,
+    "relative_gain_pct": 39.71,
+    "winner_share": {
+      "P4c_tiled_big": 0.4245,
+      "P4_tiled_small": 0.1571,
+      "P4c_full_big": 0.1553,
+      "P2_unet3d": 0.1121,
+      "P3_utae": 0.0724,
+      "P4_full_small": 0.0538,
+      "P1_shallow": 0.0247
+    }
+  },
+  "pairwise": {
+    "P1_shallow|P2_unet3d": {
+      "oracle": 0.116915,
+      "best_of_two": 0.159254,
+      "gain": -0.042339,
+      "minority_share": 0.2515
+    },
+    "P1_shallow|P3_utae": {
+      "oracle": 0.117627,
+      "best_of_two": 0.120554,
+      "gain": -0.002927,
+      "minority_share": 0.1439
+    },
+    "P1_shallow|P4_tiled_small": {
+      "oracle": 0.121844,
+      "best_of_two": 0.130582,
+      "gain": -0.008738,
+      "minority_share": 0.1977
+    },
+    "P1_shallow|P4c_tiled_big": {
+      "oracle": 0.093563,
+      "best_of_two": 0.177727,
+      "gain": -0.084164,
+      "minority_share": 0.4316
+    },
+    "P1_shallow|P4_full_small": {
+      "oracle": 0.120261,
+      "best_of_two": 0.116565,
+      "gain": 0.003696,
+      "minority_share": 0.1774
+    },
+    "P1_shallow|P4c_full_big": {
+      "oracle": 0.093087,
+      "best_of_two": 0.081419,
+      "gain": 0.011668,
+      "minority_share": 0.489
+    },
+    "P2_unet3d|P3_utae": {
+      "oracle": 0.130639,
+      "best_of_two": 0.159254,
+      "gain": -0.028614,
+      "minority_share": 0.1995
+    },
+    "P2_unet3d|P4_tiled_small": {
+      "oracle": 0.166027,
+      "best_of_two": 0.159254,
+      "gain": 0.006773,
+      "minority_share": 0.2348
+    },
+    "P2_unet3d|P4c_tiled_big": {
+      "oracle": 0.219797,
+      "best_of_two": 0.177727,
+      "gain": 0.04207,
+      "minority_share": 0.3804
+    },
+    "P2_unet3d|P4_full_small": {
+      "oracle": 0.15407,
+      "best_of_two": 0.159254,
+      "gain": -0.005184,
+      "minority_share": 0.233
+    },
+    "P2_unet3d|P4c_full_big": {
+      "oracle": 0.205133,
+      "best_of_two": 0.159254,
+      "gain": 0.045879,
+      "minority_share": 0.4175
+    },
+    "P3_utae|P4_tiled_small": {
+      "oracle": 0.161947,
+      "best_of_two": 0.130582,
+      "gain": 0.031365,
+      "minority_share": 0.2489
+    },
+    "P3_utae|P4c_tiled_big": {
+      "oracle": 0.195309,
+      "best_of_two": 0.177727,
+      "gain": 0.017582,
+      "minority_share": 0.4528
+    },
+    "P3_utae|P4_full_small": {
+      "oracle": 0.153742,
+      "best_of_two": 0.120554,
+      "gain": 0.033188,
+      "minority_share": 0.2445
+    },
+    "P3_utae|P4c_full_big": {
+      "oracle": 0.178913,
+      "best_of_two": 0.120554,
+      "gain": 0.058359,
+      "minority_share": 0.4863
+    },
+    "P4_tiled_small|P4c_tiled_big": {
+      "oracle": 0.197859,
+      "best_of_two": 0.177727,
+      "gain": 0.020132,
+      "minority_share": 0.4069
+    },
+    "P4_tiled_small|P4_full_small": {
+      "oracle": 0.143178,
+      "best_of_two": 0.130582,
+      "gain": 0.012596,
+      "minority_share": 0.1977
+    },
+    "P4_tiled_small|P4c_full_big": {
+      "oracle": 0.190929,
+      "best_of_two": 0.130582,
+      "gain": 0.060347,
+      "minority_share": 0.444
+    },
+    "P4c_tiled_big|P4_full_small": {
+      "oracle": 0.180413,
+      "best_of_two": 0.177727,
+      "gain": 0.002686,
+      "minority_share": 0.4237
+    },
+    "P4c_tiled_big|P4c_full_big": {
+      "oracle": 0.181718,
+      "best_of_two": 0.177727,
+      "gain": 0.003991,
+      "minority_share": 0.1871
+    },
+    "P4_full_small|P4c_full_big": {
+      "oracle": 0.174976,
+      "best_of_two": 0.116565,
+      "gain": 0.058412,
+      "minority_share": 0.4519
+    }
+  },
+  "label_free_winner_prediction": {
+    "pair": [
+      "P2_unet3d",
+      "P4c_tiled_big"
+    ],
+    "n_decidable_tiles": 377,
+    "majority_class_rate": 0.626,
+    "best_single_feature_rule": {
+      "accuracy": 0.6499,
+      "feature_index": 2,
+      "threshold": 33.6,
+      "features": [
+        "A_mean_prob",
+        "B_mean_prob",
+        "A_pred_pos_px",
+        "B_pred_pos_px"
+      ]
+    },
+    "note": "규칙 정확도가 다수결과 비슷하면 라벨 없는 예측이 안 된다는 뜻. 임계값을 같은 데이터에서 고른 in-sample 상한이므로 낙관적이다."
+  }
+}
