@@ -3,10 +3,11 @@
 최종 갱신: 2026-08-26
 
 > ## 북극성 — 우선순위가 헷갈리면 이것부터
-> **모델·지역·시점·센서가 변했을 때, task별 성능 위험을 사전에 예측해 어떤 embedding cache를
-> 언제 갱신하는가.** 실험 질문은 RQ1~RQ5로 고정했고 **RQ2(위험이 정말 task별로 다른가)가
+> **모델·지역·시점·센서가 변했을 때, target label 없이 task별 maintenance action의 gain을
+> 예측해 shared embedding cache를 언제 갱신하는가.** 실험 질문은 RQ1~RQ5로 고정했고
+> **RQ2(위험이 정말 task별로 다른가)가
 > 사슬의 하중을 진다** — 여기서 이질성이 없으면 router 논문은 중단한다.
-> → **`docs/CRITICAL_PATH.md`**
+> → **`docs/CRITICAL_PATH.md`**, **`docs/PAPER_CLAIM_EXPANSION_2026_08_26.md`**
 >
 > 공식 P2/P3 정렬은 끝났고 frozen-small P4는 첫 개발 fold에서 95% gate에 실패했다(82.0%).
 > E1은 full-context의 음의 효과와 decoder×context 상호작용으로 완결됐다(M37).
@@ -55,6 +56,7 @@
 | **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** 최신 M37은 E1 2×2의 음의 context 효과와 decoder×context 부호 반전을 기록 |
 | `docs/E1_CONTEXT_DECODER_ANALYSIS_PLAN.md` | E1 2×2 cell·contrast·공간 CI·95% 참고선·비용 판정 계약 |
 | `docs/RECENT_LITERATURE_DECISION_2026_08_26.md` | OLMo/PANGAEA/PEFT/TESSERA/RALF 대비 선점 주장과 CVPR 잔여 gap |
+| `docs/PAPER_CLAIM_EXPANSION_2026_08_26.md` | M37 이후 claim ladder, label-free action utility, 최신 baseline, CVPR kill path |
 | `docs/AIHUB_CUBE_V2_CONTRACT.md` | M35 이후 12-band 재물질화의 platform/mosaic/validity/coverage 사전 계약 |
 | `MOUNTAIN_EVIDENCE_TRANSFER.md` | MountainShift — 알프스·HKH·한국 산악 전이 설계, TRANSFER/LOCAL-ADAPT/RE-EMBED/ABSTAIN, 중단 기준 |
 | `docs/GP_PILOT_VALIDATION_AUDIT.md` | M23–M25 독립 감사 — invalid 8ep 계보, exact metric/cache seal, strict replay, G-P 차단 사유 |

@@ -204,6 +204,36 @@ Theia → BCT/FCT/LCE → MRL`이다. robotics/world-model 22–26은 stable bus
    baseline보다 5%p 개선` 중 하나와, 두 번째 태스크 반복이다. 이 수치는 시장 사실이 아니라
    실험 전 잠금용 가설이다.
 
+### 2.1 M37 이후 action-utility claim을 위한 최우선 문헌 (2026-08-26)
+
+아래는 단순 관련 문헌이 아니라 EarthRoute가 반드시 이겨야 하거나 주장을 좁히게 만든 직접
+경쟁선이다. 상세 claim contract는 `docs/PAPER_CLAIM_EXPANSION_2026_08_26.md`를 따른다.
+
+| 우선 | 문헌 | 이미 점유한 것 | 우리 실험에 강제하는 것 |
+|---:|---|---|---|
+| 1 | [EarthShift](https://earthshift.github.io/) | 8 GeoFM·11 task·5 real shift의 robustness 측정 | 공개 paired shift를 재사용하고 label-free action selection만 추가 |
+| 2 | [CrossEarth-Gate](https://openaccess.thecvf.com/content/CVPR2026/html/Cao_CrossEarth-Gate_Fisher-Guided_Adaptive_Tuning_Engine_for_Efficient_Adaptation_of_Cross-Domain_CVPR_2026_paper.html) | Fisher-guided spatial/semantic/frequency PEFT 선택 | PEFT routing을 novelty에서 제거; cache lifecycle action으로 차별화 |
+| 3 | [DARN](https://openaccess.thecvf.com/content/CVPR2026F/html/Yadav_DARN_Dynamic_Adaptive_Regularization_Networks_for_Efficient_and_Robust_Foundation_CVPRF_2026_paper.html) | sample difficulty 기반 decoder regularization/capacity gate | decoder-size router를 headline에서 제거; difficulty-only baseline 추가 |
+| 4 | [GdScore](https://openreview.net/forum?id=FIWHRSuoos) | one-step gradient norm 기반 unsupervised accuracy estimation | dense segmentation용 gradient baseline과 cache-only 한계 보고 |
+| 5 | [ODD](https://proceedings.mlr.press/v286/mishra25a.html) | source–target overlap-aware target error estimation | domain-overlap feature/baseline, support 밖 abstention |
+| 6 | [RALF / Feature Store Freshness](https://escholarship.org/uc/item/5xk0f4z9) | downstream error feedback 기반 feature regret scheduling | label 도착 전 cold-start와 delayed-feedback baseline을 분리 |
+| 7 | [IUPM](https://proceedings.mlr.press/v258/koebler25a.html) | gradual shift monitoring + uncertainty-aware active labels | temporal shift와 소량 audit-label action 비교 |
+| 8 | [Model Assessment under Temporal Shift](https://proceedings.mlr.press/v235/han24b.html) | rolling-window loss 추정과 pairwise model selection | feedback delay·target-unlabeled 조건을 명시 |
+| 9 | [Agreement-on-the-Line TTA](https://openreview.net/forum?id=iEFMwP5wng) | label-free accuracy·TTA selection·calibration | model agreement baseline; shift family 밖 실패를 따로 보고 |
+| 10 | [Adapting Prediction Sets without Labels](https://proceedings.mlr.press/v286/kasa25a.html) | unlabeled shifted target의 conformal set 조정 | 예측 구간·risk–coverage·abstain action |
+| 11 | [Testable Learning with Distribution Shift](https://proceedings.mlr.press/v247/klivans24a.html) | 통과 가능한 shift test 아래의 성능 certification | 보편 label-free 보장 금지; predefined shift family와 support test |
+| 12 | [How to Embed Matters](https://openaccess.thecvf.com/content/CVPR2026W/EarthVision/html/Gilch_How_to_Embed_Matters_Evaluation_of_EO_Embedding_Design_Choices_CVPRW_2026_paper.html) | embedding design/aggregation recipe 의존성 | M37을 novelty가 아닌 proxy–utility 출발 evidence로 한정 |
+| 13 | [ChronoEarth-492K](https://uiuctml.github.io/ChronoEarth492K/) | static/short/long horizon, spatial-temporal OOD, cross-satellite transfer | staleness/history action의 public stress 후보 |
+| 14 | [MMEarth-Bench](https://mmearth-bench.com/) | 5 environmental task·geographic OOD·multimodal TTT | test-time adaptation ceiling과 task별 rank heterogeneity 비교 |
+
+읽기 결과로 고정한 경계:
+
+1. `target-unlabeled`는 source/development label을 쓴다는 사실을 숨기지 않는다.
+2. 현재 risk가 아니라 **reuse 대비 각 action의 gain과 구간**을 예측한다.
+3. `reuse / repair / re-embed / task-raw`를 test 전에 봉인한다.
+4. representation extraction 비용은 여러 task가 공유하고, head/raw 비용은 task별로 계산한다.
+5. leave-one-region뿐 아니라 leave-one-shift-family-out에서 baseline을 이겨야 한다.
+
 ## 3. 제한 예산 라벨 수집·능동 전이
 
 | 상태 | 문헌 | 선점한 것 / 중요한 반례 | 우리 결정 |

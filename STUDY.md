@@ -28,6 +28,21 @@
 
 ## 개념 카드
 
+### #49 현재 위험 추정과 action utility 추정은 다른 문제다 (2026-08-26, M37 claim 확장)
+
+새 target batch의 정확도를 label 없이 추정하는 GdScore·ODD·agreement·IUPM이 이미 있다. 하지만
+EarthRoute가 필요한 값은 현재 오류 하나가 아니라 `reuse / repair / re-embed / task-raw`를 각각
+했을 때 **reuse 대비 얼마나 나아지는가**인 counterfactual action-gain matrix다. 같은 shift score가
+커도 모든 action이 비슷하게 나쁘면 갱신할 이유가 없고, 현재 위험이 작아도 저비용 repair의 gain이
+크면 행동할 수 있다. 여러 task가 같은 re-embedding을 쓰면 representation 비용은 한 번만 내므로
+task별 독립 argmax가 아니라 공동 비용 최적화가 된다. 단 source/development label은 gain predictor
+학습에 쓰며, label-free는 새 target의 선택 시점만 뜻한다. support 밖에서는 보편 보장을 주장하지
+말고 abstain/audit-label action으로 보내야 한다.
+
+**확인 질문**: target error estimator가 완벽해도 최적 refresh action을 못 고를 수 있는 예를 들고,
+task 수 `K`가 늘 때 shared re-embedding과 task-specific raw model의 비용식이 어떻게 달라지는지
+설명하라.
+
 ### #48 모델의 최대 time embedding 길이도 downstream 비교 계약이다 (2026-08-25, G-P smoke)
 
 Sen12는 15시점이지만 OLMoEarth v1의 learned time embedding table은 12개여서 실제 forward가

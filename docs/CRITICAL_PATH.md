@@ -196,11 +196,30 @@ reuse cache  →  cheap recalibration  →  partial refresh
 |---|---|---|---|
 | **RQ1** | cached embedding이 쓸 만한가 | frozen-small은 개발 gate FAIL. E1에서 tiled-large만 micro/AP 회복, full-context는 악화하고 positive-macro·비용 Pareto는 미회복 | exact-time·공통 seed 뒤에도 tiled-large가 불안정하면 multi-level/PEFT 한 축; 그래도 밀리면 backbone 제외 |
 | **RQ2** | **위험이 정말 task별로 다른가** | **0%** | **모든 task가 비슷하게 망가지면 router 불필요 → method 논문 중단** |
-| **RQ3** | label 없이 하락을 사전 예측할 수 있는가 | 0% | 예측이 무작위 수준이면 router 불가 |
-| **RQ4** | router가 정확도–비용 Pareto를 개선하는가 | 0% | oracle 대비 regret이 단순 규칙보다 나쁘면 system/benchmark로 강등 |
-| **RQ5** | 다른 지역·모델로 transfer되는가 | 0% | 외부 지역에서 이득 소멸이면 public 한정으로 축소 |
+| **RQ3** | target label 없이 task별 **action gain**을 사전 예측할 수 있는가 | 0% | contract·uncertainty·GdScore·ODD·agreement보다 regret이 낮지 않으면 method 중단 |
+| **RQ4** | shared extraction cost까지 넣은 router가 정확도–비용 Pareto를 개선하는가 | 0% | oracle 대비 regret이 fixed refresh/best-single-action보다 나쁘면 system/benchmark로 강등 |
+| **RQ5** | 다른 지역·모델·shift family로 transfer되는가 | 0% | 외부 지역에서 이득 소멸이면 한국/특정 backbone으로 축소 |
 
 **RQ2가 사슬의 하중을 진다.** 여기서 이질성이 없으면 뒤의 셋이 전부 무의미해진다.
+
+### RQ3–RQ4의 정확한 문제 계약 — generic router가 아니다 (2026-08-26)
+
+최신 EarthShift·GEO-Bench-2·CrossEarth-Gate·DARN·GdScore·ODD·IUPM과 대조한 뒤 남는 질문은
+`현재 성능을 추정`하거나 `PEFT module을 고른다`가 아니다.
+
+> source/development label로 학습하되 새 target region/window label은 action 선택 때 보지 않고,
+> `reuse / repair / re-embed / task-raw`의 task별 metric gain을 예측해 여러 task가 공유하는
+> representation extraction 비용을 공동 배분할 수 있는가?
+
+- action 단위는 pixel이 아니라 `spatial block × observation window`다.
+- target label은 사후 utility/regret 평가에만 쓴다. `no labels anywhere`라고 쓰지 않는다.
+- representation 재추출은 task 수 `K`에 한 번만 부과하고 head/raw 비용은 task별로 부과한다.
+- 단순 seam·drift·entropy는 feature/baseline이지 method가 아니다.
+- predictor support 밖에서는 `abstain / small audit-label request`를 별도 safety action으로 둔다.
+- action set을 test 전에 hash로 봉인한다. 후보가 많아질수록 oracle gain이 자동으로 커지기 때문이다.
+
+수식·claim ladder·강한 baseline·외부 지역 선택은
+`docs/PAPER_CLAIM_EXPANSION_2026_08_26.md`가 SSOT다.
 
 ### RQ2의 데이터 제약 — 실측으로 확인했다 (2026-08-26)
 
@@ -249,7 +268,7 @@ RQ3의 정답은 **실제 downstream 하락량**이므로 shift 전후 **양쪽�
 | unseen 9지역 confirmatory | 지역 일반화 | **미완 ← 병목** |
 | 3 task 위험 이질성 (RQ2) | router 필요성 | 미측정 |
 | router Pareto (RQ4) | method contribution | 미측정 |
-| 한국·네팔·스위스 (RQ5) | external transfer | 미측정 |
+| 한국→Nepal 또는 Switzerland 한 곳 (RQ5) | external transfer | 미측정 |
 
 지금까지의 감사는 헛일이 아니다 — 잘못된 "P4 전 지표 1위"를 제거하고 frozen-cache failure를
 재현 가능한 결과로 만들었다. **현재 병목은 exact-time confound를 제거한 뒤 tiled-large와 strong
@@ -266,7 +285,9 @@ raw baseline을 공통 seed로 확인해 하나의 recipe를 개발 fold에서 �
 4. 최종 recipe·seed·metric·중단 규칙을 사전등록하고 **미열람 지역을 순차 공개**한다.
 5. AI-Hub v2 40표본 pilot→전수 health/selection-bias gate를 통과시킨다. v1 2,539큐브는 쓰지 않는다.
 6. 같은 유효 cache 위에 AI-Hub 3 task를 구축해 RQ2의 shift×task degradation matrix를 잰다.
-7. **risk router + accuracy–cost Pareto**, 두 번째 backbone, 한국→네팔/스위스 transfer 순으로 연다.
+7. contract-only·entropy·drift·GdScore·ODD·agreement와 action-gain predictor를 tournament한다.
+8. **shared extraction cost를 포함한 joint router + accuracy–cost Pareto**, 두 번째 backbone 순으로 연다.
+9. recipe를 모두 동결한 뒤 Nepal 또는 Switzerland 한 곳만 untouched external transfer로 공개한다.
 
 CVPR method paper가 되려면
 `task별 위험 이질성 → 위험 예측 → refresh 의사결정 → 정확도·비용 Pareto → 외부 지역·두 번째 모델`

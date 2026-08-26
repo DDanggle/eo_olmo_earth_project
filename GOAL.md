@@ -2467,3 +2467,35 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   multi-level decoder 또는 PEFT 한 축을 열고, 그 뒤 미열람 지역 protocol을 동결한다.
 - 검증: evidence 입력파일 SHA·analysis code SHA·runner code SHA를 로컬 테스트에서 다시 대조했고,
   project venv 전체 **164 passed, 1 skipped, 10 subtests**, `git diff --check`를 통과했다.
+
+### 2026-08-26 — M37 이후 논문 claim 확장·최신 경쟁선 재조사
+
+- 목적: M37의 context×decoder interaction을 과장하지 않으면서 CVPR method로 확장 가능한 정확한
+  빈칸을 찾는다. EarthShift/GEO-Bench-2/embedding product, CrossEarth-Gate/DARN/DEFLECT adaptation,
+  GdScore/ODD/IUPM/agreement/conformal/testable-learning을 1차 출처로 대조했다.
+- 증거 경계: M37이 허용하는 것은 Chimanimani 한 개발 fold에서 `seam/smoothness 개선 ≠ task utility
+  개선`이라는 존재 반례와 serving-context×decoder interaction뿐이다. context·decoder·OLMoEarth의
+  일반 우열, task heterogeneity, label-free prediction, router Pareto는 모두 미측정으로 유지한다.
+- claim 재정의: generic refresh router가 아니라 **Contract-Conditional Action Utility Estimation for
+  Shared Earth Embeddings**로 좁혔다. source/development label은 쓰되 새 target label은 action 선택에
+  쓰지 않고, `reuse / repair / re-embed / task-raw`의 task별 gain을 예측한다.
+- 비용 재정의: representation extraction은 여러 task가 한 번을 공유하고 task head/raw 비용은 각각
+  부담한다. facility-location/knapsack optimizer 자체가 아니라 EO action-value matrix의 예측 가능성과
+  regret/Pareto가 기여 후보다.
+- 강한 경쟁선: EarthShift는 labeled robustness, CrossEarth-Gate는 Fisher-guided PEFT selection,
+  DARN은 difficulty-aware decoder gate, GdScore/ODD/IUPM은 label-free performance monitoring을 이미
+  점유했다. 따라서 contract-only·entropy·drift·gradient·overlap·agreement baseline을 모두 둔다.
+- 이론 경계: `no labels anywhere`나 보편 보장을 금지한다. predefined EO shift family에서
+  `source-labeled meta-training + target-unlabeled selection`으로 한정하고, support 밖에서는
+  abstain/small audit-label action을 둔다.
+- 지역 결정: AI-Hub v2는 같은 cube의 3-task heterogeneity, EarthShift는 공개 shift 재현을 담당한다.
+  external test는 둘을 동시에 열지 않는다. Nepal은 동일 landslide semantics가 강하지만 2024 Koshi
+  inventory의 U-Net-assisted label provenance를 감사해야 하고, Switzerland는 STAC/COG/mask/registration/
+  license가 깨끗하지만 avalanche로 task가 달라진다. 현재 추천은 Nepal 한 곳 untouched, Switzerland는
+  후속 operational track이다.
+- kill path: task×action ordering이 같으면 router를 즉시 중단한다. action-gain predictor가 GdScore·
+  ODD·agreement 등을 못 이기면 `When Earth Embedding Diagnostics Mislead` analysis/benchmark로
+  전환한다. CVPR에는 proxy failure→heterogeneity→label-free action value→joint Pareto→second
+  backbone/untouched country가 모두 필요하다.
+- 산출물: `docs/PAPER_CLAIM_EXPANSION_2026_08_26.md`를 claim SSOT로 추가하고 README,
+  `docs/CRITICAL_PATH.md`, `PAPER_READING_LIST.md`를 동기화했다.
