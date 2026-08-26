@@ -12,12 +12,23 @@
 from __future__ import annotations
 import hashlib, json, pathlib, subprocess
 
-OUT = pathlib.Path("evidence/recipe_frozen_v1.json")
+OUT = pathlib.Path("evidence/recipe_frozen_v2.json")
 
 RECIPE = {
-    "schema": "confirmatory-recipe-frozen-v1",
+    "schema": "confirmatory-recipe-frozen-v2",
     "frozen_at_commit": None,          # 실행 시 채움
     "status": "PREREGISTERED",
+    "supersedes": "recipe_frozen_v1.json (commit e214218)",
+    "why_v2": (
+        "v1은 (a) 확증 지역 순서, (b) '승리' 정의, (c) 집계 방식, (d) 중단 규칙, "
+        "(e) freeze 경계의 의미를 명시하지 않았다. 외부 감사가 이를 지적했고 사실이었다. "
+        "v2가 그 다섯 개를 못 박는다."),
+    "preregistration_boundary_statement": (
+        "thrissur 실행은 v1 하에서 **시작**됐고 v2 커밋 시점에 9실행 중 1개(P4 seed 1)가 "
+        "완료돼 있었다. 그러나 **어떤 결과 수치도 읽지 않은 상태**에서 v2를 커밋했다. "
+        "사전등록의 기준은 데이터 수집 이전이 아니라 **결과 관찰 이전**이므로, "
+        "v2의 승리 정의·집계·중단 규칙은 thrissur에 대해서도 사전등록으로 유효하다. "
+        "이 문장 자체가 그 주장의 증거이며, git 커밋 시각이 검증 수단이다."),
 
     "arms": {
         "reuse": {
@@ -83,16 +94,56 @@ RECIPE = {
 
     "region_release_plan": {
         "development": "chimanimani (test, 다회 노출) + china (val, epoch 선택에 사용)",
-        "confirmatory": "미열람 LOCO 지역 — 한 번에 하나씩 순차 공개",
+        # 순서는 HEADLINE_REGIONS 알파벳 순서에서 개발용 2개를 제외한 것이다.
+        # 결과를 보고 순서를 바꾸지 않기 위해 **여기에 전부 못 박는다**.
+        "release_order": ["holdout_thrissur", "holdout_hiroshima", "holdout_hokkaido",
+                          "holdout_indonesia", "holdout_itogon", "holdout_kyrgyzstan1",
+                          "holdout_kyrgyzstan2", "holdout_newzealand"],
+        "first_three": ["holdout_thrissur", "holdout_hiroshima", "holdout_hokkaido"],
+        "why_this_order": "thrissur는 이미 개봉했으므로 첫 자리. 나머지는 알파벳 순서 "
+                          "고정으로 선택 여지를 없앤다",
+        "one_at_a_time": True,
         "rule": "지역을 연 뒤에는 그 지역 수치를 보고 어떤 설정도 바꾸지 않는다",
-        "stopping": "3지역 연속으로 reuse가 raw_strong 대비 primary에서 열세면 중단하고 강등",
+    },
+
+    "win_definition": {
+        # 감사 지적 반영: '승리'가 평균 양수인지 CI 제외인지 불명확했다. 여기서 고정한다.
+        "per_region_win": "seed-mean primary(양성 macro)에서 reuse > raw_strong "
+                          "**그리고** 3 seed 전부에서 reuse > raw_strong",
+        "why_both": "M52: C_large·상호작용이 평균은 음수인데 seed 3에서 부호가 뒤집혔다. "
+                    "평균만으로는 재현 가능한 효과를 식별할 수 없다",
+        "per_region_ci": "공간 블록 부트스트랩 2.56/5.12/10.24 km 전부 보고. "
+                         "CI 0 제외는 '강한 승리'로 별도 표기하되 승리 판정의 필수조건은 아님",
+        "headline_aggregate": "8개 held-out 지역의 **region-macro 평균**(지역마다 동일 가중). "
+                              "타일 수로 가중하지 않는다 — 큰 지역이 결론을 지배하지 않도록",
+        "no_exclusion": "중단하더라도 **이미 본 지역은 최종 평균에서 제외하지 않는다**. "
+                        "나쁜 지역을 빼는 것이 optional stopping의 가장 흔한 형태다",
+    },
+
+    "stopping_rule": {
+        "condition": "첫 3지역 중 reuse가 raw_strong에 대해 per_region_win을 "
+                     "**1지역 이하**에서만 달성하면 중단",
+        "on_stop": "reuse 우위 주장을 '지역 특수'로 강등하고 논문 축을 계약·감사로 이동. "
+                   "이미 개봉한 지역 결과는 전부 보고한다",
+        "on_continue": "2지역 이상이면 남은 5지역을 순서대로 개봉",
     },
 
     "predictions_registered_before_unsealing": {
-        "P4_beats_P2_on_primary": "3지역 중 2지역 이상에서 성립할 것으로 예측",
+        "P4_beats_P2_on_primary": "first_three 중 2지역 이상에서 per_region_win 달성 예측",
         "why": "M51 china 결과의 외삽. 틀리면 기록하고 주장을 지역 특수로 강등",
         "P4_spread_smaller_than_P2": "고정 임계값 지표에서 성립할 것으로 예측 (M49)",
-        "AUPRC_spread_not_smaller": "성립하지 않을 것으로 예측 (M47)",
+        "AUPRC_spread_not_smaller": "성립하지 않을 것으로 예측 (M47) — 일부러 넣은 실패 예측",
+        "block_heterogeneity_stays_noise": "확증 지역에서도 블록 단위 결정적 action은 "
+                                           "10% 미만일 것으로 예측 (M46·M52 재계산: 69블록 중 1개)",
+    },
+
+    "freeze_boundary": {
+        # 감사 지적 반영: frozen_at_commit은 파일 생성 시 HEAD일 뿐이며
+        # 당시 worktree가 clean했음을 증명하지 않는다. 공식 경계는 git blob이다.
+        "note": "공식 freeze 경계는 이 파일이 처음 git에 들어간 커밋의 blob이다",
+        "first_committed_at": "e214218",
+        "blob_hash_command": "git rev-parse HEAD:evidence/recipe_frozen_v1.json",
+        "frozen_at_commit_meaning": "파일 생성 시점의 HEAD (worktree 상태 증명 아님)",
     },
 
     "known_limitations_at_freeze_time": [
@@ -100,6 +151,11 @@ RECIPE = {
         "P2 불안정이 다른 튜닝 조합으로 고쳐질 가능성은 배제되지 않음 (M49)",
         "task 이질성은 미증명 (M42 kill gate, M46 블록 이질성 잡음)",
         "라벨 없는 승자 예측은 등록 기준 미달 (M45, lift +5.9%p이나 fold 1개 미달)",
+        "P4 > P3 격차 0.0132는 양쪽 seed 폭(0.0397/0.0484) 안이며 paired CI 미측정. "
+        "'P4가 P3보다 우수'로 승격 금지 — 현재는 '관측 평균 1위'까지만",
+        "reuse가 '가장 싸다'는 것은 **warm cache 기준**임. cold start 단일 task에서는 "
+        "인코더 비용 때문에 raw_efficient(U-TAE)가 더 쌀 수 있음 (M38: 손익분기 8~12 task)",
+        "블록 단위 action 이질성은 3-seed 재계산 후에도 69블록 중 결정적 1개뿐 (M46 후속)",
     ],
 }
 

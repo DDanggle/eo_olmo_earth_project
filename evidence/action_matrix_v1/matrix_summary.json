@@ -11,21 +11,21 @@
   "n_blocks_with_positives": 69,
   "n_tiles": 1133,
   "argmax_distribution": {
-    "recontext": 9,
-    "raw_utae": 28,
-    "recontext_bigdec": 3,
-    "reuse": 16,
-    "reuse_bigdec": 8,
-    "raw_unet3d": 5
+    "recontext": 14,
+    "raw_utae": 12,
+    "reuse_bigdec": 11,
+    "reuse": 24,
+    "raw_unet3d": 6,
+    "recontext_bigdec": 2
   },
   "argmax_distribution_decisive_only": {
-    "recontext": 1,
-    "reuse": 1,
-    "raw_utae": 1
+    "recontext": 1
   },
-  "n_decisive_blocks": 3,
+  "n_decisive_blocks": 1,
   "single_action_dominates": false,
   "kill_gate": "블록 간 최적 action이 단일하면 단일 task routing 중단 → RQ2로 이동. seed 폭을 넘는 결정적 블록이 없으면 matrix 자체가 잡음이다.",
+  "decisive_definition": "margin > seed 폭 **그리고** 3 seed 전부에서 top이 second를 이김. 후자는 M52 교훈(C_large·상호작용이 seed 3에서 부호 반전)",
+  "all_actions_3seed": true,
   "missing_inputs": {},
   "seed_policy": "action별 가용 seed 평균. seed_n<3은 reliable=false로 표시"
 }

@@ -37,11 +37,17 @@ ACTIONS = {
                   E / "noise_floor/seed2_P4c_test.jsonl",
                   E / "noise_floor/seed3_P4c_test.jsonl"],
         "train_pflops": 9.64, "desc": "frozen v1 캐시 + 큰 판독기"},
+    # 아래 셋은 M46 시점에 seed 1뿐이어서 69블록 중 40개(58%)를 운으로 독식했다.
+    # matrix_fill 실행(2026-08-26)으로 seed 2·3을 확보해 여기서 연결한다.
     "recontext": {
-        "files": [E / "e1_factorial_v2/full_small/per_sample/holdout_chimanimani/P4_test.jsonl"],
+        "files": [E / "e1_factorial_v2/full_small/per_sample/holdout_chimanimani/P4_test.jsonl",
+                  E / "matrix_fill/P4full_seed2/P4_test.jsonl",
+                  E / "matrix_fill/P4full_seed3/P4_test.jsonl"],
         "train_pflops": 1.34, "desc": "통짜 1x128 캐시로 재계산 + 작은 판독기"},
     "recontext_bigdec": {
-        "files": [E / "e1_factorial_v2/full_big/per_sample/holdout_chimanimani/P4c_test.jsonl"],
+        "files": [E / "e1_factorial_v2/full_big/per_sample/holdout_chimanimani/P4c_test.jsonl",
+                  E / "matrix_fill/P4cfull_seed2/P4c_test.jsonl",
+                  E / "matrix_fill/P4cfull_seed3/P4c_test.jsonl"],
         "train_pflops": 9.64, "desc": "통짜 캐시 + 큰 판독기"},
     "raw_unet3d": {
         "files": [E / "gp_official_bundle/per_sample/P2_test.jsonl",
@@ -49,7 +55,9 @@ ACTIONS = {
                   E / "seed_spread/P2_seed3_test.jsonl/P2_test.jsonl"],
         "train_pflops": 180.07, "desc": "raw 학습 공식 UNet3D"},
     "raw_utae": {
-        "files": [E / "gp_official_bundle/per_sample/P3_test.jsonl"],
+        "files": [E / "gp_official_bundle/per_sample/P3_test.jsonl",
+                  E / "matrix_fill/P3_seed2/P3_test.jsonl",
+                  E / "matrix_fill/P3_seed3/P3_test.jsonl"],
         "train_pflops": 25.75, "desc": "raw 학습 공식 U-TAE"},
 }
 BASELINE = "reuse"
@@ -69,6 +77,12 @@ def macro_pos(recs, sids):
     v = [tile_iou(recs[s]) for s in sids if recs[s]["mask_positive_pixels"] > 0]
     v = [x for x in v if x is not None]
     return float(np.mean(v)) if v else None
+
+
+def sign_consistent(vals):
+    """3 seed 부호가 모두 같은가. M52에서 C_large·상호작용이 seed 3에서 부호가
+    뒤집힌 것을 확인했으므로, 블록 판정에도 같은 기준을 적용한다."""
+    return bool(vals) and (all(x > 0 for x in vals) or all(x < 0 for x in vals))
 
 
 def main():
@@ -110,13 +124,22 @@ def main():
             v["delta_vs_reuse"] = round(v["metric_mean"] - base, 6)
             for ln, lv in LAMBDAS.items():
                 v[f"utility_{ln}"] = round(v["delta_vs_reuse"] - lv * v["train_pflops"] * 1e3, 6)
-        # 블록 최적 action — seed 폭보다 큰 차이만 유효로 센다
+        # 블록 최적 action — 두 조건을 모두 요구한다:
+        #  (a) margin이 seed 폭보다 크다  (b) seed별로 top이 second를 항상 이긴다
+        # (b)는 M52 교훈이다 — 평균 부호만 보면 seed에서 뒤집히는 효과를 놓친다.
         spread_ref = max(v["metric_spread"] for v in per_action.values())
         ranked = sorted(per_action.items(), key=lambda kv: -kv[1]["utility_lambda_free"])
         top, second = ranked[0], ranked[1] if len(ranked) > 1 else (None, None)
-        decisive = bool(second and
-                        (top[1]["utility_lambda_free"] - second[1]["utility_lambda_free"])
-                        > spread_ref)
+        margin_ok = bool(second and
+                         (top[1]["utility_lambda_free"] - second[1]["utility_lambda_free"])
+                         > spread_ref)
+        per_seed_ok = False
+        if second and top[1]["seed_n"] == 3 and second[1]["seed_n"] == 3:
+            ta = [macro_pos(d, bs) for d in loaded[top[0]]]
+            sa = [macro_pos(d, bs) for d in loaded[second[0]]]
+            diffs = [x - y for x, y in zip(ta, sa) if x is not None and y is not None]
+            per_seed_ok = sign_consistent(diffs) and all(x > 0 for x in diffs)
+        decisive = bool(margin_ok and per_seed_ok)
         rows.append({
             "block": {"ix": b[0], "iy": b[1], "block_km": BLOCK_M / 1000},
             "n_tiles": len(bs), "n_positive_tiles": npos,
@@ -126,6 +149,8 @@ def main():
             "margin": round(top[1]["utility_lambda_free"]
                             - second[1]["utility_lambda_free"], 6) if second else None,
             "seed_spread_reference": round(spread_ref, 6),
+            "margin_exceeds_seed_spread": margin_ok,
+            "top_beats_second_in_all_seeds": per_seed_ok,
             "decisive_beyond_seed_noise": decisive})
 
     from collections import Counter
@@ -144,6 +169,9 @@ def main():
         "single_action_dominates": len(argmax) == 1,
         "kill_gate": ("블록 간 최적 action이 단일하면 단일 task routing 중단 → RQ2로 이동. "
                       "seed 폭을 넘는 결정적 블록이 없으면 matrix 자체가 잡음이다."),
+        "decisive_definition": ("margin > seed 폭 **그리고** 3 seed 전부에서 top이 second를 "
+                                "이김. 후자는 M52 교훈(C_large·상호작용이 seed 3에서 부호 반전)"),
+        "all_actions_3seed": True,
         "missing_inputs": {k: v for k, v in missing.items() if v},
         "seed_policy": "action별 가용 seed 평균. seed_n<3은 reliable=false로 표시",
     }
