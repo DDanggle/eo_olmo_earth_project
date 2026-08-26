@@ -1,0 +1,111 @@
+{
+  "schema": "timestamp-asymmetry-v1",
+  "n_samples": 5,
+  "rows": [
+    {
+      "sample_id": "chimanimani_s2_1000",
+      "n_timesteps": 12,
+      "timesteps_sharing_a_month": 2,
+      "month_channel_changed": false,
+      "days_distinct": [
+        2,
+        6,
+        8,
+        20,
+        23,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "max_abs_diff": 0.0,
+      "relative_frobenius_diff": 0.0,
+      "identical": true
+    },
+    {
+      "sample_id": "chimanimani_s2_1001",
+      "n_timesteps": 12,
+      "timesteps_sharing_a_month": 3,
+      "month_channel_changed": false,
+      "days_distinct": [
+        6,
+        10,
+        19,
+        20,
+        23,
+        25,
+        26,
+        27,
+        28
+      ],
+      "max_abs_diff": 0.0,
+      "relative_frobenius_diff": 0.0,
+      "identical": true
+    },
+    {
+      "sample_id": "chimanimani_s2_1002",
+      "n_timesteps": 12,
+      "timesteps_sharing_a_month": 3,
+      "month_channel_changed": false,
+      "days_distinct": [
+        4,
+        6,
+        10,
+        19,
+        20,
+        23,
+        25,
+        26,
+        27,
+        28
+      ],
+      "max_abs_diff": 0.0,
+      "relative_frobenius_diff": 0.0,
+      "identical": true
+    },
+    {
+      "sample_id": "chimanimani_s2_1003",
+      "n_timesteps": 12,
+      "timesteps_sharing_a_month": 3,
+      "month_channel_changed": false,
+      "days_distinct": [
+        4,
+        6,
+        10,
+        13,
+        19,
+        20,
+        25,
+        26,
+        28
+      ],
+      "max_abs_diff": 0.0,
+      "relative_frobenius_diff": 0.0,
+      "identical": true
+    },
+    {
+      "sample_id": "chimanimani_s2_1004",
+      "n_timesteps": 12,
+      "timesteps_sharing_a_month": 3,
+      "month_channel_changed": false,
+      "days_distinct": [
+        10,
+        13,
+        19,
+        20,
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "max_abs_diff": 0.0,
+      "relative_frobenius_diff": 0.0,
+      "identical": true
+    }
+  ],
+  "all_identical": true,
+  "verdict": "wrapper는 날짜 이동에 둔감 — 비대칭 근거 약함",
+  "method": "같은 큐브를 원래 timestamp와 +1일 이동 timestamp로 각각 인코딩해 비교"
+}

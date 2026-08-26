@@ -1811,6 +1811,63 @@ full(−0.035146)이 상쇄된 결과이지 "효과 없음"이 아님.
   운영비 주장에는 이 둘이 필요함.
 - 저장 비용(캐시 10.75 GB)은 이 식에 없음.
 
+## M39. "exact timestamp 비대칭"은 **존재하지 않음** — wrapper는 월 해상도만 씀
+
+**근거**: `code/probe_timestamp_asymmetry.py`, `evidence/timestamp_asymmetry.json`
+**맥락**: 다음 실험 1순위가 "P2/P3의 month 입력과 P4의 exact timestamp 비대칭 제거"였음.
+고치기 전에 **비대칭이 실재하는지부터** 확인했음.
+
+### 방법
+
+같은 큐브를 두 timestamp 집합으로 인코딩해 임베딩을 비교했음.
+(a) 원래 timestamp (b) **월을 보존한 채 날짜만 ±1~3일 이동**.
+
+### 결과 — 5/5 비트 단위 동일
+
+| sample | 시점 수 | 한 달을 공유하는 시점 | 월 채널 변화 | max abs diff | 동일? |
+|---|---|---|---|---|---|
+| chimanimani_s2_1000 | 12 | 2 | False | **0.0** | 예 |
+| chimanimani_s2_1001 | 12 | 3 | False | **0.0** | 예 |
+| chimanimani_s2_1002 | 12 | 3 | False | **0.0** | 예 |
+| chimanimani_s2_1003 | 12 | 3 | False | **0.0** | 예 |
+| chimanimani_s2_1004 | 12 | 3 | False | **0.0** | 예 |
+
+**OlmoEarth wrapper(`use_legacy_timestamps=False`)는 날짜 수준 변화에 완전히 둔감함.**
+시간 정보를 **월 해상도로 양자화**함.
+
+### 따라서
+
+`month/11` 한 채널을 받는 P2/P3는 **이미 인코더와 같은 시간 해상도**를 가짐.
+**"exact-time parity" 실험은 없는 문제를 고치는 것이므로 실행하지 않음.**
+다음 실험 순서에서 이 항목을 내림.
+
+### 남는 진짜 비대칭 — 정보량이 아니라 **부호화 형태**
+
+| | P4 | P2 / P3 |
+|---|---|---|
+| 시간 정보 | 월 | 월 (동일) |
+| 부호화 | sinusoidal positional encoding (d_model 차원) | 스칼라 1채널 `month/11`을 공간 전체에 broadcast |
+
+정보량은 같고 **표현 방식이 다름**. 이는 "P4가 더 많은 정보를 봤다"가 아니라
+"같은 정보를 더 쓰기 좋은 형태로 받았다"는 훨씬 약한 주장임.
+검정하려면 raw arm에 **월의 sinusoidal 부호화**를 주고 다시 재야 함 — 별도 실험 항목으로 둠.
+
+### 중간에 잡은 내 오류 2건
+
+1. 처음엔 월을 전부 그 달 1일로 뭉갰는데, 한 달에 2~3개 시점이 몰려 있어
+   **timestamp 중복**으로 wrapper가 거부했음(`multiple images with the same timestamp`).
+   이 실패 자체가 "12시점 중 9~10개 월만 존재"한다는 증거였음.
+2. 그다음 무조건 +1일을 썼는데 일부 시점의 **월이 넘어가** `month_channel_changed=True`가
+   됐고, 그 상태에서 임베딩이 달라진 것을 "날짜 민감성"으로 잘못 읽을 뻔했음.
+   월 보존 이동으로 바꾼 뒤 차이가 **정확히 0**이 됐음.
+
+### 아직 말할 수 없는 것
+
+- 5샘플·1지역·`use_legacy_timestamps=False` 설정에서만 확인했음.
+  `use_legacy_timestamps=True`나 다른 modality에서는 다를 수 있음.
+- 월 해상도 양자화가 **downstream에 손해인지**는 별개 문제이며 여기서 답하지 않음.
+  (계절 신호만 필요한 task에는 충분할 수 있음.)
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,
