@@ -2,7 +2,7 @@
 
 :root {
   --ink: #06100e;
-  --panel: rgba(6, 18, 15, 0.84);
+  --panel: rgba(6, 18, 15, 0.76);
   --panel-line: rgba(167, 255, 227, 0.16);
   --mint: #5fffd7;
   --amber: #ffb45f;
@@ -13,11 +13,11 @@
 html, body { margin: 0; min-height: 100%; background: var(--ink); color: #effff9; }
 body { font-family: var(--font-geist-sans), Arial, sans-serif; overflow: hidden; }
 button { font: inherit; }
-.app-shell { position: fixed; inset: 0; overflow: hidden; background: #06100e; }
+.app-shell { position: fixed; inset: 0; overflow: hidden; background: #10241e; }
 .map-stage { position: absolute; inset: 0; }
-.map-stage .maplibregl-canvas { filter: saturate(.72) contrast(1.16) brightness(.62) hue-rotate(8deg); }
+.map-stage .maplibregl-canvas { filter: saturate(1.04) contrast(1.08) brightness(.98); }
 .flow-canvas { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.terrain-wash { position: absolute; z-index: 2; inset: 0; pointer-events: none; background: radial-gradient(circle at 50% 45%, transparent 20%, rgba(3,10,8,.13) 51%, rgba(3,10,8,.63) 100%), linear-gradient(180deg, rgba(3,14,11,.24), transparent 28%, rgba(3,14,11,.28)); }
+.terrain-wash { position: absolute; z-index: 2; inset: 0; pointer-events: none; background: radial-gradient(circle at 50% 45%, transparent 34%, rgba(3,10,8,.06) 64%, rgba(3,10,8,.34) 100%), linear-gradient(180deg, rgba(3,14,11,.12), transparent 28%, rgba(3,14,11,.12)); }
 .glass-panel { background: var(--panel); border: 1px solid var(--panel-line); box-shadow: 0 24px 70px rgba(0,0,0,.28); backdrop-filter: blur(16px); }
 .topbar { position: absolute; z-index: 5; top: 0; left: 0; right: 0; height: 84px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; border-bottom: 1px solid rgba(143,255,219,.16); background: linear-gradient(180deg, rgba(4,15,12,.96), rgba(4,15,12,.66)); backdrop-filter: blur(14px); }
 .brand-lockup { display: flex; align-items: center; gap: 13px; }
@@ -31,8 +31,15 @@ h1 span { color: var(--mint); font-weight: 430; }
 .event-status strong { font: 650 11px var(--font-geist-mono); letter-spacing: .1em; }
 .event-status small { margin-top: 4px; color: var(--amber); font: 600 9px var(--font-geist-mono); letter-spacing: .09em; }
 .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 6px rgba(255,180,95,.13), 0 0 22px rgba(255,180,95,.8); }
-.corridor-button { position: absolute; left: 50%; padding: 8px 12px; color: #b8d2ca; border: 1px solid rgba(95,255,215,.2); background: rgba(5,18,14,.55); transform: translateX(-50%); font: 650 9px var(--font-geist-mono); letter-spacing: .08em; cursor: pointer; transition: .2s ease; }
-.corridor-button:hover { color: var(--mint); border-color: rgba(95,255,215,.5); }
+.map-mode-switch { position: absolute; left: 50%; display: flex; border: 1px solid rgba(95,255,215,.24); background: rgba(5,18,14,.72); transform: translateX(-50%); }
+.map-mode-switch button { padding: 9px 12px; color: #b8d2ca; border: 0; border-right: 1px solid rgba(95,255,215,.15); background: transparent; font: 650 9px var(--font-geist-mono); letter-spacing: .07em; cursor: pointer; transition: .2s ease; }
+.map-mode-switch button:last-child { border-right: 0; }
+.map-mode-switch button:hover { color: var(--mint); background: rgba(95,255,215,.07); }
+.map-readout { position: absolute; z-index: 3; top: 105px; left: 50%; width: 340px; padding: 10px 13px; border: 1px solid rgba(95,255,215,.23); background: rgba(4,15,12,.72); box-shadow: 0 16px 36px rgba(0,0,0,.24); transform: translateX(-50%); backdrop-filter: blur(10px); pointer-events: none; }
+.map-readout span, .map-readout strong, .map-readout small { display: block; }
+.map-readout span { color: var(--mint); font: 700 8px var(--font-geist-mono); letter-spacing: .11em; }
+.map-readout strong { margin-top: 4px; font-size: 12px; }
+.map-readout small { margin-top: 4px; color: #a6bbb4; font: 8px/1.4 var(--font-geist-mono); }
 .left-rail, .right-rail { position: absolute; z-index: 4; top: 98px; width: 318px; border-radius: 3px; padding: 17px; }
 .left-rail { left: 18px; }
 .right-rail { right: 18px; }
@@ -118,7 +125,7 @@ input[type='range']::-webkit-slider-thumb { width: 10px; height: 10px; border: 2
   .eyebrow { display: none; }
   h1 { font-size: 16px; }
   .event-status small { display: none; }
-  .corridor-button { display: none; }
+  .map-mode-switch, .map-readout { display: none; }
   .map-stage, .terrain-wash { height: 100svh; }
   .left-rail { top: 86px; left: 10px; right: 10px; width: auto; padding: 12px; }
   .coordinate { grid-template-columns: 24px 1fr; }

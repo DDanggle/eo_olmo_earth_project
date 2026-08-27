@@ -78,7 +78,10 @@ const rasterStyle = {
       attribution: '© OpenStreetMap contributors',
     },
   },
-  layers: [{ id: 'osm', type: 'raster' as const, source: 'osm' }],
+  layers: [
+    { id: 'map-background', type: 'background' as const, paint: { 'background-color': '#10241e' } },
+    { id: 'osm', type: 'raster' as const, source: 'osm', paint: { 'raster-opacity': 0.88, 'raster-brightness-max': 0.9 } },
+  ],
 };
 
 setWorkerUrl('/maplibre-gl-worker.mjs');
@@ -89,6 +92,7 @@ export default function Home() {
   const mapRef = useRef<MapLibreMap | null>(null);
   const flowSpeedRef = useRef(0.034);
   const flowPlayingRef = useRef(true);
+  const initialSceneFitRef = useRef(false);
   const [mapReady, setMapReady] = useState(false);
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [hydrography, setHydrography] = useState<Hydrography | null>(null);
@@ -115,10 +119,10 @@ export default function Home() {
     const map = new MapLibreMap({
       container: mapNode.current,
       style: rasterStyle,
-      center: [85.365, 28.235],
-      zoom: 11.3,
-      pitch: 48,
-      bearing: -18,
+      center: [85.3779, 28.276],
+      zoom: 14.15,
+      pitch: 0,
+      bearing: 0,
       attributionControl: false,
     });
     map.addControl(new NavigationControl({ showCompass: true }), 'bottom-right');
@@ -173,16 +177,46 @@ export default function Home() {
     }).catch(() => undefined);
   }, [mapReady]);
 
+  const fitScene = (scene: SceneRecord, duration = 900) => {
+    const map = mapRef.current;
+    if (!map) return;
+    const [topLeft, , bottomRight] = scene.coordinates;
+    const southWest: [number, number] = [topLeft[0], bottomRight[1]];
+    const northEast: [number, number] = [bottomRight[0], topLeft[1]];
+    const wide = window.innerWidth > 1100;
+    map.fitBounds(
+      new LngLatBounds(southWest, northEast),
+      {
+        padding: wide
+          ? { top: 118, right: 370, bottom: 154, left: 370 }
+          : { top: 94, right: 28, bottom: 142, left: window.innerWidth > 720 ? 350 : 18 },
+        maxZoom: 15.1,
+        pitch: 0,
+        bearing: 0,
+        duration,
+      },
+    );
+  };
+
   useEffect(() => {
     const map = mapRef.current;
     if (!mapReady || !map || !scenario) return;
     if (map.getLayer('satellite-scene')) map.removeLayer('satellite-scene');
     if (map.getSource('satellite-scene')) map.removeSource('satellite-scene');
-    const scene = scenario.scene_records.find((item) => item.id === activeSceneId);
+    const scene = scenario.scene_records.find((item) => item.id === activeSceneId)
+      ?? scenario.scene_records.find((item) => item.id === 's1-2026-08-24');
     if (!scene) return;
     map.addSource('satellite-scene', { type: 'image', url: scene.image, coordinates: scene.coordinates });
-    map.addLayer({ id: 'satellite-scene', type: 'raster', source: 'satellite-scene', paint: { 'raster-opacity': overlayOpacity, 'raster-fade-duration': 120 } }, 'point-halo');
-  }, [activeSceneId, mapReady, overlayOpacity, scenario]);
+    map.addLayer({ id: 'satellite-scene', type: 'raster', source: 'satellite-scene', paint: { 'raster-opacity': 0.78, 'raster-fade-duration': 120, 'raster-saturation': 0.12, 'raster-contrast': 0.08 } }, 'point-halo');
+    fitScene(scene, initialSceneFitRef.current ? 700 : 0);
+    initialSceneFitRef.current = true;
+  }, [activeSceneId, mapReady, scenario]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map || !map.getLayer('satellite-scene')) return;
+    map.setPaintProperty('satellite-scene', 'raster-opacity', overlayOpacity);
+  }, [mapReady, overlayOpacity]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -281,7 +315,11 @@ export default function Home() {
   };
 
   const fitCorridor = () => {
-    mapRef.current?.fitBounds(new LngLatBounds([85.302, 28.135], [85.386, 28.288]), { padding: { top: 110, right: 345, bottom: 150, left: 345 }, duration: 1500 });
+    mapRef.current?.fitBounds(new LngLatBounds([85.302, 28.135], [85.386, 28.288]), { padding: { top: 110, right: 350, bottom: 150, left: 350 }, pitch: 22, bearing: -12, duration: 1200 });
+  };
+
+  const focusActiveScene = () => {
+    if (previewScene) fitScene(previewScene, 900);
   };
 
   return (
@@ -295,9 +333,18 @@ export default function Home() {
           <div className="brand-mark"><span /></div>
           <div><p className="eyebrow">AI2 / PLANETARY INTELLIGENCE PROTOTYPE</p><h1>OLMoEarth <span>Live Twin</span></h1></div>
         </div>
-        <button className="corridor-button" onClick={fitCorridor}>⌖ FIT RIVER CORRIDOR</button>
+        <div className="map-mode-switch">
+          <button onClick={focusActiveScene}>▣ FOCUS SATELLITE</button>
+          <button onClick={fitCorridor}>⌖ RIVER CORRIDOR</button>
+        </div>
         <div className="event-status"><span className="live-dot" /><div><strong>RASUWA · NEPAL</strong><small>26 AUG 2026 · INVESTIGATION</small></div></div>
       </header>
+
+      <div className="map-readout">
+        <span>VISIBLE MAP LAYER</span>
+        <strong>{previewScene?.sensor ?? 'Loading satellite'} · {previewScene?.acquired_at.slice(0, 10) ?? '—'}</strong>
+        <small>{activeScene ? 'Georeferenced local scene · click another date below' : 'Post-event scene pending · latest baseline remains visible'}</small>
+      </div>
 
       <aside className="left-rail glass-panel">
         <div className="panel-heading"><span>01</span><div><p>AREA OF INTEREST</p><strong>Coordinate audit</strong></div></div>

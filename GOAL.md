@@ -426,6 +426,12 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
   찾지 못할 수 있음을 발견했다. worker entry와 shared bundle(합계 508,167 B)을 self-hosted asset으로
   봉인하고 invariant에 크기 검사를 추가했다. ESLint·typecheck·production build를 다시 통과한 독립
   source commit `99bdddf…`를 Sites version 2로 저장해 같은 owner-only production URL에 재배포했다.
+- 가시성 감사/정정: 사용자 스크린샷에서 v2의 중앙 지도가 사실상 검게 보이는 것을 확인했다. 초기
+  카메라가 2.56 km 장면보다 넓은 corridor를 보면서 canvas brightness를 0.62로 낮췄고, 외부 OSM tile이
+  비면 빈 배경이 지배하는 설계 결함이었다. 기본 카메라와 모든 ready-scene 전환을 장면 bounds에 자동
+  fit하고 brightness 0.98, local background fallback, `FOCUS SATELLITE / RIVER CORRIDOR` 분리, 현재
+  표시 장면 readout을 추가했다. pending 날짜도 지도를 지우지 않고 최신 baseline을 유지한다. 독립 source
+  commit `563260e…`, Sites version 3으로 같은 owner-only production URL에 교체 배포했다.
 - 다음: post-event S2/S1가 catalog에 생기면 Python compiler에 같은 AOI overlay를 추가하고,
   봉인한 OLMo runner로 baseline/post embedding과 Δ layer를 실제 계산한다. r.avaflow/SFINCS 결과가
   생기면 WASM preview를 대체하지 않고 별도 `physics_result` layer로 나란히 비교한다.
