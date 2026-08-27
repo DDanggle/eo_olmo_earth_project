@@ -2,7 +2,7 @@
   "checks": {
     "clean_worktree": {
       "detail": "미커밋 변경이 있으면 실행 코드 신원을 증명 불가",
-      "pass": false
+      "pass": true
     },
     "fold_in_release_order": {
       "detail": "등록 순서: ['holdout_thrissur', 'holdout_hiroshima', 'holdout_hokkaido', 'holdout_indonesia', 'holdout_itogon', 'holdout_kyrgyzstan1', 'holdout_kyrgyzstan2', 'holdout_newzealand']",
@@ -21,17 +21,11 @@
       "pass": true
     }
   },
-  "failed_checks": [
-    "clean_worktree"
-  ],
+  "failed_checks": [],
   "fold": "holdout_newzealand",
   "git": {
-    "dirty_files": [
-      "?? evidence/confirmatory_manifests/holdout_itogon_pre.json",
-      "?? evidence/confirmatory_manifests/holdout_kyrgyzstan1_pre.json",
-      "?? evidence/confirmatory_manifests/holdout_kyrgyzstan2_pre.json"
-    ],
-    "head": "e82e2a62250d75c5023cf7c35e017fa793eef969"
+    "dirty_files": [],
+    "head": "1baaa4cd0ee60195eeccd94f1edc9e932eb8298d"
   },
   "mode": "pre",
   "preregistered": {
@@ -62,5 +56,5 @@
     "schema": "confirmatory-recipe-frozen-v2"
   },
   "schema": "confirmatory-release-gate-v2",
-  "verdict": "FAIL"
+  "verdict": "PASS"
 }
