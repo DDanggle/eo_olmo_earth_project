@@ -25,14 +25,27 @@ if [ -e "$OUTROOT" ]; then
   exit 2
 fi
 
-# ── (1) pre gate 강제 — 서버 결과 경로를 명시적으로 넘긴다 ──
-echo "=== [0/4] pre gate ==="
-$RUN code/verify_confirmatory_release.py --fold "$FOLD" --mode pre \
-     --recipe /home/work/data/olmoearth/recipe_frozen_v2.json \
-     --results-root /home/work/data/olmoearth/confirmatory \
-     --manifest-root /home/work/data/olmoearth/confirmatory_manifests \
-     --repo-root /home/work/data
-echo "pre gate PASS"
+# ── (1) pre gate 강제 ──
+# 서버에는 git 저장소가 없으므로 `clean_worktree` 검사가 서버에서는 공허하게 통과한다.
+# 그래서 pre gate는 **로컬에서** 돌리고(진짜 git 상태를 봄) 그 manifest를 여기로
+# 푸시해야 한다. runner는 그 manifest의 존재·verdict·recipe 해시 일치를 요구한다.
+PRE="/home/work/data/olmoearth/confirmatory_manifests/${FOLD}_pre.json"
+echo "=== [0/4] pre gate manifest 확인 ==="
+if [ ! -f "$PRE" ]; then
+  echo "중단: $PRE 가 없다. 로컬에서 pre gate를 통과시키고 manifest를 푸시하라." >&2
+  exit 3
+fi
+$PYBIN - "$PRE" /home/work/data/olmoearth/recipe_frozen_v2.json "$FOLD" <<'PYCHK'
+import hashlib, json, sys
+man = json.load(open(sys.argv[1])); rec = json.load(open(sys.argv[2])); fold = sys.argv[3]
+assert man.get("verdict") == "PASS", f"pre gate verdict={man.get('verdict')}"
+assert man.get("fold") == fold, f"manifest fold 불일치: {man.get('fold')}"
+body = dict(rec); body.pop("self_sha256", None)
+h = hashlib.sha256(json.dumps(body, ensure_ascii=False, indent=2, sort_keys=True).encode()).hexdigest()
+assert rec.get("self_sha256") == h, "recipe self_sha 불일치"
+assert man["recipe"]["declared_self_sha256"] == h, "manifest가 다른 recipe로 만들어졌다"
+print(f"pre gate PASS 확인 · recipe {h[:16]} · HEAD {man.get('git',{}).get('head','?')[:8]}")
+PYCHK
 
 # ── (2) 소스 실물 봉인. 이후 모든 실행은 이 사본에서만 한다 ──
 echo "=== [1/4] 코드 스냅샷 봉인 ==="
