@@ -1,0 +1,86 @@
+{
+  "schema": "thrissur-independent-verification-v1",
+  "recomputed_primary": {
+    "reuse": {
+      "per_seed": [
+        0.348025,
+        0.359919,
+        0.368561
+      ],
+      "mean": 0.358835
+    },
+    "raw_strong": {
+      "per_seed": [
+        0.239009,
+        0.209783,
+        0.245746
+      ],
+      "mean": 0.231513
+    },
+    "raw_efficient": {
+      "per_seed": [
+        0.228862,
+        0.217525,
+        0.251097
+      ],
+      "mean": 0.232495
+    }
+  },
+  "matches_read_summary": {
+    "reuse_mean": 0.358835,
+    "expected": 0.358835,
+    "raw_strong_mean": 0.231513,
+    "expected_rs": 0.231513,
+    "agree": true
+  },
+  "sample_id_sha256": "71b230130f11bbe2b7f86d92065f8febbaef779c35faaa190163c9fe3a6728ad",
+  "n_test_tiles": 427,
+  "all_nine_same_ids": true,
+  "fold_structure": {
+    "test_region": "thrissur",
+    "val_region": "chimanimani",
+    "concern": "thrissur의 epoch 선택에 **다회 노출된 개발 지역(chimanimani)**이 val로 쓰였다. test set 자체는 미열람이지만, 선택 신호가 우리가 깊이 들여다본 지역에서 온다",
+    "mitigation": "두 arm이 같은 val을 쓰므로 대칭적이다. 다만 recipe(arm 구성·decoder 크기)를 chimanimani test 성능을 보고 골랐다는 점에서 간접 오염이 남는다"
+  },
+  "val_chimanimani_primary": {
+    "reuse": [
+      0.225489,
+      0.203223,
+      0.161716
+    ],
+    "raw_strong": [
+      0.210377,
+      0.226077,
+      0.227005
+    ],
+    "raw_efficient": [
+      0.22756,
+      0.246211,
+      0.220974
+    ]
+  },
+  "region_difficulty": {
+    "thrissur": {
+      "n_tiles": 427,
+      "n_positive_tiles": 221,
+      "positive_tile_frac": 0.5176,
+      "median_positive_px": 208,
+      "mean_positive_px": 365.4
+    },
+    "chimanimani_reference": {
+      "n_tiles": 1133,
+      "n_positive_tiles": 423,
+      "positive_tile_frac": 0.3734,
+      "median_positive_px": 207
+    },
+    "note": "양성 타일 비율이 크게 다르면 주지표(양성 macro)의 절대값은 비교 불가다. arm 간 격차는 같은 지역 안에서만 비교한다"
+  },
+  "gap_distribution_seed1": {
+    "n_positive_tiles": 221,
+    "reuse_wins_tiles": 140,
+    "reuse_wins_frac": 0.6335,
+    "median_gap": 0.079131,
+    "top10pct_share_of_total_gap": 0.4344,
+    "note": "소수 타일이 격차를 만들면 top10pct 비중이 1에 가깝다"
+  }
+}
