@@ -2859,6 +2859,80 @@ v2는 thrissur의 P4 seed 1 결과 파일이 생성된 **후** 커밋됨. "결�
 둘은 실행 경로 밖이며, 푸시 후 실행 경로 4개의 mtime·해시 불변을 확인했음
 (`pilot` 21:53:33 / 해시 `ebe1ee88ee3f4cdb` 동일). 규칙 4c를 이 구분에 맞게 정밀화했음.
 
+## M59. **확증 1지역(thrissur) — 사전등록 승리 조건 통과, 강한 승리.** 격차가 개발 지역보다 큼
+
+**근거**: `evidence/confirmatory/holdout_thrissur/read_summary.json`,
+`evidence/confirmatory_manifests/holdout_thrissur_post.json`,
+`code/read_confirmatory_region.py`
+**절차**: post 게이트 **먼저** 통과시킨 뒤 판독함. 로그 문자열을 읽지 않고
+per-sample 재계산만 씀(M52 교훈).
+
+### post 게이트 (11항목)
+
+`test_set_matches_sealed_contract` 포함 전 항목 통과. 이 검사가 봉인된
+`loco_folds.json`의 thrissur test SHA와 직접 대조하므로 "9개가 똑같이 틀린 test set"
+시나리오가 배제됨. `code_snapshot_verified`는 **면제**(M58: thrissur는 snapshot 도입
+이전 시작 → `allow_no_snapshot`, protocol deviation 기록).
+
+### 결과 (thrissur test 427타일, 양성 221, 주지표 양성 macro IoU)
+
+| arm | seed 1 | seed 2 | seed 3 | 평균 | 폭 | micro 평균 | 빈타일 FP |
+|---|---|---|---|---|---|---|---|
+| **reuse (P4)** | 0.348025 | 0.359919 | 0.368561 | **0.358835** | **0.020536** | **0.408811** | **7,263~11,400** |
+| raw_strong (P2) | 0.239009 | 0.209783 | 0.245746 | 0.231513 | 0.035963 | 0.194997 | 51,651~75,812 |
+| raw_efficient (P3) | 0.228862 | 0.217525 | 0.251097 | 0.232495 | 0.033572 | 0.205319 | 23,350~83,865 |
+
+### 사전등록 승리 판정 — **통과**
+
+규칙: `seed-mean primary > 0` **그리고** `3 seed 전부 > 0` (recipe v2 `win_definition`).
+
+| | 값 |
+|---|---|
+| reuse − raw_strong seed별 | **+0.109017 / +0.150135 / +0.122815** |
+| 평균 격차 | **+0.127322** |
+| 3 seed 전부 양수 | **예** |
+| **per_region_win** | **True** |
+
+참고(reuse vs raw_efficient): +0.119163 / +0.142394 / +0.117464, 평균 +0.126341,
+3/3 양수. **두 raw baseline 모두에 대해 3/3임.**
+
+### 공간 블록 CI — 세 크기 전부 0 제외 → **강한 승리**
+
+| 블록 | 블록 수 | CI95 | 0 제외 |
+|---|---|---|---|
+| 2.56 km | 283 | [+0.103846, +0.150669] | 예 |
+| 5.12 km | 125 | [+0.099501, +0.156236] | 예 |
+| 10.24 km | 45 | [+0.097006, +0.157389] | 예 |
+
+`strong_win: True`.
+
+### 개발 지역과의 대비 — 격차가 훨씬 큼
+
+| 지역 | reuse − raw_strong (주지표) | 3 seed 부호 |
+|---|---|---|
+| chimanimani (test, 다회 노출) | +0.034345 | **−, +, +** (갈림, M56) |
+| china (val, epoch 선택 사용) | +0.054316 | +, +, + (M51) |
+| **thrissur (미열람 확증)** | **+0.127322** | **+, +, +** |
+
+**미열람 지역에서 격차가 개발 지역의 2~4배임.** 노출 편향으로는 설명되지 않는 방향임
+(노출된 지역일수록 유리해야 하는데 반대임).
+
+부수 관찰: 빈 타일 FP가 reuse 7~11천 vs raw_strong 52~76천으로 **약 6배 차이**임.
+M44에서 본 "frozen은 오경보 축에서 유리"가 확증 지역에서 훨씬 크게 나타남.
+
+### 정직한 한계 — 확정이 아님
+
+1. **1지역임.** recipe v2의 headline은 8지역 region-macro 평균이며, 승리 판정도
+   첫 3지역 중 2지역 이상이 조건임. **아직 1/3임.**
+2. **thrissur는 공개된 provenance 예외임**(M58). 라벨은
+   `confirmatory first-look with a disclosed execution-provenance deviation`이며,
+   최종 보고에는 **thrissur 제외 sensitivity를 함께** 낸다.
+3. recipe v2는 thrissur에 대해 **prospective analysis amendment**이지 완전한
+   사전등록이 아님. 완전 사전등록은 hiroshima부터임.
+4. 이 결과는 **라우팅을 지지하지 않음.** 오히려 reuse가 두 raw baseline을 모두
+   3/3으로 이겼으므로 "상황에 따라 골라야 한다"의 반대 방향임.
+   지역별 이질성은 hiroshima·hokkaido가 판정함.
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,

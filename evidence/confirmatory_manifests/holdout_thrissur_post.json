@@ -1,0 +1,220 @@
+{
+  "checks": {
+    "all_nine_runs_complete": {
+      "detail": "9실행이 pilot JSON·per-sample·checkpoint를 모두 남겼는가",
+      "pass": true
+    },
+    "code_snapshot_verified": {
+      "detail": "면제 — protocol_deviation으로 기록됨",
+      "pass": null
+    },
+    "fold_in_release_order": {
+      "detail": "등록 순서: ['holdout_thrissur', 'holdout_hiroshima', 'holdout_hokkaido', 'holdout_indonesia', 'holdout_itogon', 'holdout_kyrgyzstan1', 'holdout_kyrgyzstan2', 'holdout_newzealand']",
+      "pass": true
+    },
+    "identical_code_sha_across_runs": {
+      "detail": "실행 간 code_sha256 동일. 단 M57대로 이것만으로는 실행 중 교체를 탐지하지 못한다. 고유 1개",
+      "pass": true
+    },
+    "identical_sample_sets": {
+      "detail": "9실행의 test sample 집합이 서로 동일. 고유 1개",
+      "pass": true
+    },
+    "identical_split": {
+      "detail": "split_counts 고유 1개",
+      "pass": true
+    },
+    "prob_maps_present": {
+      "detail": "확률맵이 저장됐는가 (임계값 스윕·불일치 분석의 전제)",
+      "pass": true
+    },
+    "recipe_self_sha_matches": {
+      "detail": "self_sha256 재계산 일치. 불일치면 recipe가 커밋 후 수정됐다",
+      "pass": true
+    },
+    "seeds_declared_match": {
+      "detail": "선언된 seed가 실제 [1,2,3] x 3 arm 인가. 관측: {'P4_seed1': 1, 'P4_seed2': 2, 'P4_seed3': 3, 'P2_seed1': 1, 'P2_seed2': 2, 'P2_seed3': 3, 'P3_seed1': 1, 'P3_seed2': 2, 'P3_seed3': 3}",
+      "pass": true
+    },
+    "test_region_matches_fold": {
+      "detail": "각 산출물의 test_region이 fold와 일치하는가",
+      "pass": true
+    },
+    "test_set_matches_sealed_contract": {
+      "detail": "test sample 집합이 봉인된 loco_folds.json의 SHA와 일치하는가. 9개가 모두 동일하게 틀린 경우를 잡는 유일한 검사",
+      "pass": true
+    }
+  },
+  "evidence_status_override": {
+    "actual_status": "confirmatory_first_look_with_disclosed_provenance_deviation",
+    "note": "pilot이 fold와 무관하게 development 문구를 하드코딩한다. 이 manifest가 정정한다",
+    "test_exposure": "holdout_thrissur test는 이 실행에서 처음 열렸다"
+  },
+  "failed_checks": [],
+  "fold": "holdout_thrissur",
+  "mode": "post",
+  "protocol_deviation": {
+    "policy": "사후 snapshot을 만들어 통과시키지 않는다. 그것은 pre-run snapshot이 아니라 retrospective copy다",
+    "pre_run_code_snapshot": false,
+    "reason": "이 실행은 snapshot 도입(M57) 이전에 시작됐다"
+  },
+  "recipe": {
+    "declared_self_sha256": "95becb32ab2df2c73537a4d19550dfd2c93d426671c15703e59cf4d8d44d2f5a",
+    "path": "/home/work/data/olmoearth/recipe_frozen_v2.json",
+    "recomputed_self_sha256": "95becb32ab2df2c73537a4d19550dfd2c93d426671c15703e59cf4d8d44d2f5a",
+    "schema": "confirmatory-recipe-frozen-v2"
+  },
+  "runs": {
+    "P2_seed1": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 1,
+      "test_region": "thrissur"
+    },
+    "P2_seed2": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 2,
+      "test_region": "thrissur"
+    },
+    "P2_seed3": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 3,
+      "test_region": "thrissur"
+    },
+    "P3_seed1": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 1,
+      "test_region": "thrissur"
+    },
+    "P3_seed2": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 2,
+      "test_region": "thrissur"
+    },
+    "P3_seed3": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 3,
+      "test_region": "thrissur"
+    },
+    "P4_seed1": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 1,
+      "test_region": "thrissur"
+    },
+    "P4_seed2": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 2,
+      "test_region": "thrissur"
+    },
+    "P4_seed3": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 427,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 3,
+      "test_region": "thrissur"
+    }
+  },
+  "schema": "confirmatory-release-gate-v2",
+  "sealed_contract": {
+    "folds_json": "/home/work/data/olmoearth/sen12_gp_contract/loco_folds.json",
+    "observed_test_sha256": "71b230130f11bbe2b7f86d92065f8febbaef779c35faaa190163c9fe3a6728ad",
+    "sealed_test_sha256": "71b230130f11bbe2b7f86d92065f8febbaef779c35faaa190163c9fe3a6728ad"
+  },
+  "verdict": "PASS"
+}

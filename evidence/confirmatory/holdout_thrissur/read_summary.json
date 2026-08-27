@@ -1,0 +1,130 @@
+{
+  "schema": "confirmatory-region-read-v1",
+  "fold": "holdout_thrissur",
+  "gate_verdict": "PASS",
+  "protocol_deviation": {
+    "policy": "사후 snapshot을 만들어 통과시키지 않는다. 그것은 pre-run snapshot이 아니라 retrospective copy다",
+    "pre_run_code_snapshot": false,
+    "reason": "이 실행은 snapshot 도입(M57) 이전에 시작됐다"
+  },
+  "evidence_status": "confirmatory_first_look_with_disclosed_provenance_deviation",
+  "primary_metric": "positive-tile macro IoU",
+  "arms": {
+    "reuse": {
+      "arm_id": "P4",
+      "primary_per_seed": [
+        0.348025,
+        0.359919,
+        0.368561
+      ],
+      "primary_mean": 0.358835,
+      "primary_spread": 0.020536,
+      "micro_per_seed": [
+        0.378974,
+        0.415047,
+        0.432412
+      ],
+      "micro_mean": 0.408811,
+      "fp_empty_per_seed": [
+        11400,
+        7263,
+        7765
+      ],
+      "n_tiles": 427,
+      "n_positive_tiles": 221
+    },
+    "raw_strong": {
+      "arm_id": "P2",
+      "primary_per_seed": [
+        0.239009,
+        0.209783,
+        0.245746
+      ],
+      "primary_mean": 0.231513,
+      "primary_spread": 0.035963,
+      "micro_per_seed": [
+        0.18687,
+        0.182635,
+        0.215487
+      ],
+      "micro_mean": 0.194997,
+      "fp_empty_per_seed": [
+        75812,
+        55356,
+        51651
+      ],
+      "n_tiles": 427,
+      "n_positive_tiles": 221
+    },
+    "raw_efficient": {
+      "arm_id": "P3",
+      "primary_per_seed": [
+        0.228862,
+        0.217525,
+        0.251097
+      ],
+      "primary_mean": 0.232495,
+      "primary_spread": 0.033572,
+      "micro_per_seed": [
+        0.193096,
+        0.242283,
+        0.180577
+      ],
+      "micro_mean": 0.205319,
+      "fp_empty_per_seed": [
+        59574,
+        23350,
+        83865
+      ],
+      "n_tiles": 427,
+      "n_positive_tiles": 221
+    }
+  },
+  "preregistered_win_reuse_vs_raw_strong": {
+    "per_seed_gap": [
+      0.109017,
+      0.150135,
+      0.122815
+    ],
+    "mean_gap": 0.127322,
+    "all_three_seeds_positive": true,
+    "per_region_win": true,
+    "rule": "seed-mean > 0 AND 3 seed 전부 > 0"
+  },
+  "reference_reuse_vs_raw_efficient": {
+    "per_seed_gap": [
+      0.119163,
+      0.142394,
+      0.117464
+    ],
+    "mean_gap": 0.126341,
+    "all_three_seeds_positive": true
+  },
+  "spatial_block_ci": {
+    "2.56km": {
+      "n_blocks": 283,
+      "ci95": [
+        0.103846,
+        0.150669
+      ],
+      "excludes_zero": true
+    },
+    "5.12km": {
+      "n_blocks": 125,
+      "ci95": [
+        0.099501,
+        0.156236
+      ],
+      "excludes_zero": true
+    },
+    "10.24km": {
+      "n_blocks": 45,
+      "ci95": [
+        0.097006,
+        0.157389
+      ],
+      "excludes_zero": true
+    }
+  },
+  "strong_win": true
+}
