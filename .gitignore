@@ -17,3 +17,6 @@ __pycache__/
 # 재다운로드 가능한 대용량 원본은 저장소에 넣지 않는다.
 # provenance는 같은 디렉터리의 manifest(raw_sha256 / download_url / retrieved_at)로 보존된다.
 artifacts/external_data/**/raw/*.zip
+# 재생성 가능한 rslearn COG cutout/배열. 상위 manifest·seal은 추적한다.
+artifacts/external_data/**/materialized/**/dataset/
+artifacts/external_data/**/materialized/**/code_snapshot/

@@ -1,0 +1,126 @@
+{
+  "schema": "confirmatory-region-read-v1",
+  "fold": "holdout_hokkaido",
+  "gate_verdict": "PASS",
+  "protocol_deviation": null,
+  "evidence_status": "confirmatory_first_look",
+  "primary_metric": "positive-tile macro IoU",
+  "arms": {
+    "reuse": {
+      "arm_id": "P4",
+      "primary_per_seed": [
+        0.38619,
+        0.367017,
+        0.403705
+      ],
+      "primary_mean": 0.385637,
+      "primary_spread": 0.036688,
+      "micro_per_seed": [
+        0.445042,
+        0.417633,
+        0.459849
+      ],
+      "micro_mean": 0.440841,
+      "fp_empty_per_seed": [
+        20473,
+        26915,
+        17480
+      ],
+      "n_tiles": 290,
+      "n_positive_tiles": 150
+    },
+    "raw_strong": {
+      "arm_id": "P2",
+      "primary_per_seed": [
+        0.155157,
+        0.243705,
+        0.247465
+      ],
+      "primary_mean": 0.215442,
+      "primary_spread": 0.092308,
+      "micro_per_seed": [
+        0.130004,
+        0.201507,
+        0.197573
+      ],
+      "micro_mean": 0.176361,
+      "fp_empty_per_seed": [
+        210834,
+        274833,
+        326677
+      ],
+      "n_tiles": 290,
+      "n_positive_tiles": 150
+    },
+    "raw_efficient": {
+      "arm_id": "P3",
+      "primary_per_seed": [
+        0.258741,
+        0.248177,
+        0.156443
+      ],
+      "primary_mean": 0.22112,
+      "primary_spread": 0.102299,
+      "micro_per_seed": [
+        0.227412,
+        0.186381,
+        0.127431
+      ],
+      "micro_mean": 0.180408,
+      "fp_empty_per_seed": [
+        186734,
+        394192,
+        247162
+      ],
+      "n_tiles": 290,
+      "n_positive_tiles": 150
+    }
+  },
+  "preregistered_win_reuse_vs_raw_strong": {
+    "per_seed_gap": [
+      0.231033,
+      0.123313,
+      0.15624
+    ],
+    "mean_gap": 0.170195,
+    "all_three_seeds_positive": true,
+    "per_region_win": true,
+    "rule": "seed-mean > 0 AND 3 seed 전부 > 0"
+  },
+  "reference_reuse_vs_raw_efficient": {
+    "per_seed_gap": [
+      0.127448,
+      0.11884,
+      0.247263
+    ],
+    "mean_gap": 0.164517,
+    "all_three_seeds_positive": true
+  },
+  "spatial_block_ci": {
+    "2.56km": {
+      "n_blocks": 158,
+      "ci95": [
+        0.143063,
+        0.197453
+      ],
+      "excludes_zero": true
+    },
+    "5.12km": {
+      "n_blocks": 76,
+      "ci95": [
+        0.139007,
+        0.197795
+      ],
+      "excludes_zero": true
+    },
+    "10.24km": {
+      "n_blocks": 29,
+      "ci95": [
+        NaN,
+        NaN
+      ],
+      "excludes_zero": false
+    }
+  },
+  "strong_win": false
+}
