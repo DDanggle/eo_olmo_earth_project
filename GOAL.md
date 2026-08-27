@@ -396,6 +396,20 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
 
 ## Worklog
 
+### 2026-08-27 — Nepal OLMoEarth Live Twin GIS/WASM 공개 데모
+
+- 계획: 사용자 지정 좌표 `28.2786794, 85.3780644`와 인접점
+  `28.2828546, 85.3763336`을 Rasuwagadhi impact AOI로 지도에 고정하고, 원거리 좌표
+  `27.8790412, 84.3103107`은 즉시 같은 유로로 가정하지 않고 거리·지명·하천 연결을 감사한다.
+- 구현: 이미 물질화한 Sentinel-1/2 baseline과 향후 post-event 장면을 같은 georeferenced overlay
+  계약으로 내보내는 Python compiler, 브라우저에서 직접 실행되는 Rust/WASM illustrative flow,
+  OLMoEarth baseline/live-delta 상태와 acquisition timeline을 결합한 MapLibre GIS를 만든다.
+- 주장 경계: WASM 흐름은 물리 예측이 아니라 UI/kinematic preview이며, `r.avaflow`·SFINCS 등 검증된
+  물리 모델 산출물이 들어오기 전에는 hazard forecast로 표시하지 않는다. OLMoEarth 숫자도 실제
+  embedding 산출물 전에는 invented similarity를 쓰지 않고 `baseline ready / post pending`으로 둔다.
+- 검증·공개: mobile/desktop layout, Python manifest 재생성, Rust wasm build, frontend lint/build를
+  통과한 정확한 소스 snapshot만 private site로 배포하고 URL과 재현 명령을 남긴다.
+
 ### 2026-08-27 — 확증 sweep 진행 기록
 
 - **sweep 정의**: 동결 recipe(v2)로 미열람 8지역을 등록 순서대로 한 번씩 여는 확증 실험.
