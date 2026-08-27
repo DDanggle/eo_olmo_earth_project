@@ -48,6 +48,11 @@ def main() -> None:
                     help="live 소스 디렉터리. snapshot과 비교한다")
     ap.add_argument("--folds-json", type=pathlib.Path, default=None,
                     help="봉인된 loco_folds.json. test sample SHA 대조에 쓴다")
+    ap.add_argument("--batch-pregen", action="store_true",
+                    help="야간 자동화용 일괄 pre 생성. prior_regions_closed를 판정하지 않고 "
+                         "생성 시점의 미완 지역 목록만 기록한다. 나머지 검사는 동일하다. "
+                         "정당성: 뒤 지역의 결과를 본 적이 없고 순서는 등록돼 있으며 "
+                         "worktree는 생성 시점에 clean이다")
     ap.add_argument("--allow-no-snapshot", action="store_true",
                     help="Thrissur처럼 snapshot 도입 **이전에** 시작된 실행에만 쓴다. "
                          "이 플래그를 쓰면 manifest에 pre_run_code_snapshot=false로 "
@@ -85,9 +90,15 @@ def main() -> None:
         idx = allowed.index(a.fold) if a.fold in allowed else -1
         prior = allowed[:max(idx, 0)]
         closed = [r for r in prior if (a.manifest_root / f"{r}_post.json").exists()]
-        check("prior_regions_closed", set(prior) == set(closed),
-              f"앞 순서 지역이 모두 post 게이트를 통과했는가. 미완: "
-              f"{sorted(set(prior) - set(closed))}")
+        if a.batch_pregen:
+            man["checks"]["prior_regions_closed"] = {
+                "pass": None,
+                "detail": f"일괄 생성 — 생성 시점 미완: {sorted(set(prior) - set(closed))}. "
+                          "서버 오케스트레이터가 순서를 강제하고 post gate를 지역마다 실행한다"}
+        else:
+            check("prior_regions_closed", set(prior) == set(closed),
+                  f"앞 순서 지역이 모두 post 게이트를 통과했는가. 미완: "
+                  f"{sorted(set(prior) - set(closed))}")
         check("no_existing_output", not root.exists(),
               f"결과 경로 {root} 가 이미 있으면 재실행이므로 중단")
         dirty = [l for l in sh("git", "status", "--porcelain",
