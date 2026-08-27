@@ -396,6 +396,19 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
 
 ## Worklog
 
+### 2026-08-27 — 확증 sweep 진행 기록
+
+- **sweep 정의**: 동결 recipe(v2)로 미열람 8지역을 등록 순서대로 한 번씩 여는 확증 실험.
+  지역당 3 arm(P4/P2/P3) × 3 seed = 9실행, pre gate → snapshot 봉인 → 봉인본 실행 → post gate → 판독.
+- 완료: thrissur(강한 승리, +0.127, provenance 예외 공개), hiroshima(강한 승리, +0.062, 첫 완전 clean).
+  중단 규칙(첫 3지역 2승) **2/2로 통과 확정**.
+- 진행: hokkaido 3/9 (순차 runner, ~17:35 예상). 캐시 prefetch 7/9 지역 완료, 잔여 2지역 ~16:40 예상.
+- indonesia부터 병렬 runner(seed당 3 arm 동시, 지역당 ~80분) → 8지역 완주 ~내일 01:40 예상.
+- 일관 패턴: 오경보 격차(5~21배)가 주지표 격차보다 큼(2지역 연속). 지역별 이득 편차 2배(+0.127 vs +0.062).
+- 위치 확인: sweep은 A~G 표의 A·B행 확증이지 논문 novelty가 아님(M61). 한국은 recipe 동결 후
+  untouched 3-task로 개봉함(큐브 v2 재물질화 선행).
+
+
 ### 2026-08-25 — ASSET_INVENTORY × CRITICAL_PATH 재동기화와 CVPR 최소 실험 고정
 
 - 계획: `docs/ASSET_INVENTORY.md`의 실측 보유자산을 authoritative `docs/CRITICAL_PATH.md`의
