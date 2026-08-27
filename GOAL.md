@@ -422,6 +422,10 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
 - 검증/공개: scene 8·anchor 5·route 78·WASM particle 280 invariant, ESLint, `tsc --noEmit`,
   vinext production build 통과. 독립 site source commit `5b5a189…`, Sites version 1을 owner-only로
   배포했다: `https://olmoearth-nepal-live-twin.seeso.chatgpt.site`.
+- 배포 감사/정정: v1 뒤 local preview 재감사에서 MapLibre가 번들러가 만든 상대 worker 경로를
+  찾지 못할 수 있음을 발견했다. worker entry와 shared bundle(합계 508,167 B)을 self-hosted asset으로
+  봉인하고 invariant에 크기 검사를 추가했다. ESLint·typecheck·production build를 다시 통과한 독립
+  source commit `99bdddf…`를 Sites version 2로 저장해 같은 owner-only production URL에 재배포했다.
 - 다음: post-event S2/S1가 catalog에 생기면 Python compiler에 같은 AOI overlay를 추가하고,
   봉인한 OLMo runner로 baseline/post embedding과 Δ layer를 실제 계산한다. r.avaflow/SFINCS 결과가
   생기면 WASM preview를 대체하지 않고 별도 `physics_result` layer로 나란히 비교한다.

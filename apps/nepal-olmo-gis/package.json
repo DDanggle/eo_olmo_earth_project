@@ -12,7 +12,7 @@
     "verify": "node scripts/verify-assets.mjs",
     "build": "bash scripts/build-wasm.sh && vinext build",
     "start": "vinext start",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern public/maplibre-gl-worker.mjs --ignore-pattern public/maplibre-gl-shared.mjs"
   },
   "dependencies": {
     "maplibre-gl": "^6.6.0",

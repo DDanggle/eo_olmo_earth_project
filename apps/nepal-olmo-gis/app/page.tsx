@@ -1,6 +1,6 @@
 'use client';
 
-import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl } from 'maplibre-gl';
+import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl, setWorkerUrl } from 'maplibre-gl';
 import type { Feature, FeatureCollection } from 'geojson';
 import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -80,6 +80,8 @@ const rasterStyle = {
   },
   layers: [{ id: 'osm', type: 'raster' as const, source: 'osm' }],
 };
+
+setWorkerUrl('/maplibre-gl-worker.mjs');
 
 export default function Home() {
   const mapNode = useRef<HTMLDivElement>(null);

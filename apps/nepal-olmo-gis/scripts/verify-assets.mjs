@@ -23,6 +23,10 @@ for (const scene of scenario.scene_records) {
 }
 
 const wasmBytes = await readFile(resolve(root, 'public/wasm/nepal_flow.wasm'));
+const mapWorker = await readFile(resolve(root, 'public/maplibre-gl-worker.mjs'));
+const mapWorkerShared = await readFile(resolve(root, 'public/maplibre-gl-shared.mjs'));
+assert.ok(mapWorker.length > 10_000, 'MapLibre worker entry is missing or truncated');
+assert.ok(mapWorkerShared.length > 100_000, 'MapLibre shared worker bundle is missing or truncated');
 const instantiated = await WebAssembly.instantiate(wasmBytes, {});
 const wasm = instantiated.instance.exports;
 assert.equal(wasm.abi_version(), 1);
@@ -37,4 +41,4 @@ assert.ok(values.every(Number.isFinite));
 assert.ok(values[0] > 80 && values[0] < 90);
 assert.ok(values[1] > 20 && values[1] < 35);
 
-console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: scenario.olmoearth.anchors, route_points: hydrography.simulation_route.length, wasm_particles: count }, null, 2));
+console.log(JSON.stringify({ scenes: scenario.scene_records.length, anchors: scenario.olmoearth.anchors, route_points: hydrography.simulation_route.length, wasm_particles: count, map_worker_bytes: mapWorker.length + mapWorkerShared.length }, null, 2));
