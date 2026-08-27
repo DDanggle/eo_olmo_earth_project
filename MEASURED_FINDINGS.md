@@ -3091,6 +3091,55 @@ source 성능 유지 여부.
 클 가능성을 드러냈기 때문임**(M60의 val↔test 해리). 그 편차의 원인과 경량
 post-training으로 통제 가능한지가 논문의 실체가 됨.
 
+## M62. 실험 C1 타당성 probe — frozen Presto가 우리 계약에서 **8/8 통과**했음
+
+**근거**: `code/probe_presto_feasibility.py`, `evidence/presto_probe.json`,
+`docs/EXPERIMENT_C_SECOND_GEOFM.md`(설계·예측 3건 사전 커밋 `0fb32b7`)
+**맥락**: M61의 최우선 미착수 축 C — "이득이 OLMo 고유인가, 일반 GeoFM 효과인가"는
+**다른 frozen encoder + 같은 판독기** 없이는 답할 수 없음. CPU 전용으로 probe함
+(GPU1은 hiroshima 확증 중 — 규칙 4b·4c 준수).
+
+### probe 결과 (8/8)
+
+| 검증 | 결과 |
+|---|---|
+| 코드·가중치 확보 | vendoring 성공. 가중치 **3.3 MB**, 파라미터 **822,682** |
+| 밴드 계약 | 17채널 중 S2 10개(인덱스 2~11)가 우리 REAL_BANDS와 **정확히 대응** |
+| 결측 처리 | S1·ERA5·SRTM을 mask=1로 가리는 것이 동작 — 우리 MISSING 계약과 같은 사상 |
+| 파생 NDVI | 채널 16을 B04·B08에서 계산해 채움(S2-only 조건 유지) |
+| 실타일 인코딩 | Sen12 픽셀 16개 → (16, 128) embedding, 전부 유한 |
+| 결정성 | 2회 인코딩 **비트 단위 동일** (max diff 0.0) |
+
+### 왜 Presto가 이례적으로 잘 맞는가
+
+- S2 밴드 10개 = Sen12 실관측과 **동일 집합** (B01·B09 없음까지 일치)
+- 12 timestep 기본 = S12q와 동일
+- 결측 modality 마스킹 내장 = 우리 `MaskValue.MISSING` 계약과 동형
+- **픽셀 시계열 모델**(공간 문맥 없음) — 이 차이가 곧 비교 축임.
+  OLMo와의 격차가 "사전학습 일반 효과"와 "공간 문맥 기여"를 분리해 줌
+
+### 비용 전망
+
+822K 파라미터로 OLMo 인코더(88.96M)의 **1/108**임. 128×128 타일 = 16,384픽셀
+배치 인코딩이 필요하나 모델이 작아 부담 없음. 캐시는 128ch @ 10 m 픽셀 격자.
+
+### 아직 말할 수 없는 것 (진행 전 해결)
+
+1. **정규화 미확정** — single_file_presto에는 학습 시 사용한 밴드별 정규화 상수가 없음.
+   probe는 /10000 스케일만 썼음. 원 저장소 dataops의 정규화를 찾아 **사전 등록** 후
+   캐시를 만들어야 함. 정규화가 틀리면 Presto에 불리한 비교가 됨(공정성 위반).
+2. 커밋 고정 안 됨 — `main` tarball을 받았음. 실제 커밋 해시를 캐시 산출물에 박아야 함.
+3. probe는 픽셀 16개임. 전 타일 인코딩 처리율은 미측정.
+4. latlon·month를 실값으로 줘야 함(probe는 chimanimani 고정값).
+
+### 사전 등록 예측 (설계 문서에 커밋됨 — 결과 관찰 전)
+
+1. C1(Presto)은 OLMo보다 낮되 scratch보다 높을 것
+2. 라벨 1%에서 frozen 계열과 scratch 격차 최대일 것
+3. **틀릴 것으로 예측**: C1의 빈 타일 오경보가 OLMo와 동급일 것 —
+   픽셀 모델은 문맥이 없어 오경보가 많을 것으로 예상함.
+   동급이면 "오경보 억제 = 공간 문맥" 가설이 기각됨
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,

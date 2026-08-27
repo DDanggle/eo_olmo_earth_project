@@ -1,0 +1,79 @@
+{
+  "schema": "presto-feasibility-probe-v1",
+  "checks": {
+    "P1_code": {
+      "pass": true,
+      "detail": "src=True single_file=True pt_files=['default_model.pt']"
+    },
+    "P1_weights": {
+      "pass": true,
+      "detail": "/home/work/data/olmoearth/models/presto/src/data/default_model.pt (3.3MB)"
+    },
+    "P2_import": {
+      "pass": true,
+      "detail": "module=single_file_presto"
+    },
+    "P2_bands": {
+      "pass": true,
+      "detail": "S2 10밴드가 인덱스 2~11에 존재. NDVI(16)는 B04·B08에서 파생 가능"
+    },
+    "P3_construct": {
+      "pass": true,
+      "detail": "params=822,682 weights_loaded=True"
+    },
+    "P3_band_mapping": {
+      "pass": true,
+      "detail": "S2 10밴드 + 파생 NDVI 배치, S1/ERA5/SRTM은 mask=1"
+    },
+    "P4_encode": {
+      "pass": true,
+      "detail": "embedding shape=(16, 128) finite=True"
+    },
+    "P5_deterministic": {
+      "pass": true,
+      "detail": "max|diff|=0.000e+00"
+    }
+  },
+  "band_contract": {
+    "BANDS_GROUPS_IDX": {
+      "S1": [
+        0,
+        1
+      ],
+      "S2_RGB": [
+        2,
+        3,
+        4
+      ],
+      "S2_Red_Edge": [
+        5,
+        6,
+        7
+      ],
+      "S2_NIR_10m": [
+        8
+      ],
+      "S2_NIR_20m": [
+        9
+      ],
+      "S2_SWIR": [
+        10,
+        11
+      ],
+      "ERA5": [
+        12,
+        13
+      ],
+      "SRTM": [
+        14,
+        15
+      ],
+      "NDVI": [
+        16
+      ]
+    }
+  },
+  "embedding_dim": 128,
+  "cost_note": "픽셀 16개 인코딩 기준. 128x128 타일 = 16,384픽셀 — 배치 처리 필요",
+  "verdict": "C1 진행 가능"
+}
