@@ -409,6 +409,22 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
   embedding 산출물 전에는 invented similarity를 쓰지 않고 `baseline ready / post pending`으로 둔다.
 - 검증·공개: mobile/desktop layout, Python manifest 재생성, Rust wasm build, frontend lint/build를
   통과한 정확한 소스 snapshot만 private site로 배포하고 URL과 재현 명령을 남긴다.
+- 결과 — 좌표 감사: A는 Rasuwagadhi의 Pasang Lhamu Highway, B는 중국 Gyirong의 G216으로
+  국경 양쪽 0.49 km 쌍이다. C는 Gandaki Province Tanahun의 Rishing-03이며 A에서 **113.79 km**라
+  같은 사건 유로 endpoint에서 제외하고 별도 transfer/reference AOI로 표시했다.
+- 결과 — 데이터/엔진: 로컬 물질화본에서 S1 4장·S2 4장을 256×256 georeferenced RGBA로 생성했고,
+  5개 OLMo input anchor polygon을 별도 GeoJSON으로 냈다. OSM Bhote Koshi→Trishuli way
+  `201928141→809865767→24624604`를 78점으로 봉인하고 Rust raw-WASM이 280입자를 그 경로에서
+  브라우저 내 계산한다. Python은 build-time data plane이고 배포 runtime은 JS/WASM만 사용한다.
+- 결과 — 주장 경계: UI와 manifest 모두 `embedding_status=not_run_in_this_web_snapshot`,
+  `post_event_delta=blocked_until_post_scene`, `illustrative_kinematic_preview_not_hazard_forecast`를
+  기계적으로 보존한다. 즉 OLMo 입력 준비와 임베딩 결과를 혼동하지 않고, 물리 모델 결과도 꾸미지 않는다.
+- 검증/공개: scene 8·anchor 5·route 78·WASM particle 280 invariant, ESLint, `tsc --noEmit`,
+  vinext production build 통과. 독립 site source commit `5b5a189…`, Sites version 1을 owner-only로
+  배포했다: `https://olmoearth-nepal-live-twin.seeso.chatgpt.site`.
+- 다음: post-event S2/S1가 catalog에 생기면 Python compiler에 같은 AOI overlay를 추가하고,
+  봉인한 OLMo runner로 baseline/post embedding과 Δ layer를 실제 계산한다. r.avaflow/SFINCS 결과가
+  생기면 WASM preview를 대체하지 않고 별도 `physics_result` layer로 나란히 비교한다.
 
 ### 2026-08-27 — 확증 sweep 진행 기록
 

@@ -1,6 +1,8 @@
 'use client';
 
 import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl } from 'maplibre-gl';
+import type { Feature, FeatureCollection } from 'geojson';
+import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -24,7 +26,7 @@ type Scenario = {
 
 type Hydrography = {
   type: 'FeatureCollection';
-  features: GeoJSON.Feature[];
+  features: Feature[];
   simulation_route: [number, number][];
 };
 
@@ -39,7 +41,7 @@ type FlowExports = WebAssembly.Exports & {
   abi_version: () => number;
 };
 
-const researchPoints: GeoJSON.FeatureCollection = {
+const researchPoints: FeatureCollection = {
   type: 'FeatureCollection',
   features: [
     { type: 'Feature', properties: { id: 'A', name: 'Rasuwagadhi impact AOI' }, geometry: { type: 'Point', coordinates: [85.3780644, 28.2786794] } },
@@ -98,8 +100,8 @@ export default function Home() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/data/scenario.json').then((response) => response.json()),
-      fetch('/data/hydrography.geojson').then((response) => response.json()),
+      fetch('/data/scenario.json').then((response) => response.json() as Promise<Scenario>),
+      fetch('/data/hydrography.geojson').then((response) => response.json() as Promise<Hydrography>),
     ]).then(([nextScenario, nextHydrography]) => {
       setScenario(nextScenario);
       setHydrography(nextHydrography);
@@ -153,7 +155,7 @@ export default function Home() {
   useEffect(() => {
     const map = mapRef.current;
     if (!mapReady || !map || !hydrography || map.getSource('hydrography')) return;
-    map.addSource('hydrography', { type: 'geojson', data: hydrography as GeoJSON.FeatureCollection });
+    map.addSource('hydrography', { type: 'geojson', data: hydrography as FeatureCollection });
     map.addLayer({ id: 'river-casing', type: 'line', source: 'hydrography', paint: { 'line-color': '#06100e', 'line-width': 8, 'line-opacity': 0.82 } }, 'point-halo');
     map.addLayer({ id: 'river-route', type: 'line', source: 'hydrography', paint: { 'line-color': '#5fffd7', 'line-width': 2.2, 'line-opacity': 0.8, 'line-dasharray': [1.2, 1.6] } }, 'point-halo');
   }, [hydrography, mapReady]);
@@ -161,7 +163,7 @@ export default function Home() {
   useEffect(() => {
     const map = mapRef.current;
     if (!mapReady || !map) return;
-    fetch('/data/olmo-input-anchors.geojson').then((response) => response.json()).then((anchors) => {
+    fetch('/data/olmo-input-anchors.geojson').then((response) => response.json() as Promise<FeatureCollection>).then((anchors) => {
       if (map.getSource('olmo-anchors')) return;
       map.addSource('olmo-anchors', { type: 'geojson', data: anchors });
       map.addLayer({ id: 'olmo-anchor-fill', type: 'fill', source: 'olmo-anchors', paint: { 'fill-color': '#5fffd7', 'fill-opacity': 0.045 } }, 'point-halo');
@@ -206,8 +208,8 @@ export default function Home() {
     const start = async () => {
       try {
         const response = await fetch('/wasm/nepal_flow.wasm');
-        const module = await WebAssembly.instantiateStreaming(response, {});
-        const wasm = module.instance.exports as FlowExports;
+        const instantiated = await WebAssembly.instantiateStreaming(response, {});
+        const wasm = instantiated.instance.exports as FlowExports;
         if (wasm.abi_version() !== 1) throw new Error('Unexpected WASM ABI');
         wasm.clear_route();
         hydrography.simulation_route.forEach(([lon, lat], index) => wasm.set_route_point(index, lon, lat));
@@ -317,7 +319,7 @@ export default function Home() {
         <div className="panel-heading"><span>02</span><div><p>EVIDENCE LENS</p><strong>Before → after contract</strong></div></div>
         <div className="compare-strip">
           <div className="scene-preview">
-            {previewScene ? <img src={previewScene.image} alt={`${previewScene.sensor} pre-event observation`} /> : <span className="loading-grid" />}
+            {previewScene ? <Image src={previewScene.image} alt={`${previewScene.sensor} pre-event observation`} fill unoptimized sizes="150px" /> : <span className="loading-grid" />}
             <span>PRE · {previewScene?.acquired_at.slice(0, 10) ?? 'LOADING'}</span>
           </div>
           <div className="compare-arrow">→</div>
