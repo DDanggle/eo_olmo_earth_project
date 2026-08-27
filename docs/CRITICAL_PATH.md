@@ -300,6 +300,13 @@ raw baseline을 공통 seed로 확인해 하나의 recipe를 개발 fold에서 �
 타당성, 문서만)으로 구체화했다. 상세는 `docs/EARTHROUTE_GYM_SPEC.md`,
 `docs/POSTTRAINING_FEASIBILITY.md`. LLM 학습은 이번 사이클에서 하지 않는다(사용자 결정).
 
+**논문 질문 재설정 (2026-08-27, M61)**: "OlmoEarth frozen cache가 좋은가"는 약함 —
+큰 EO 사전학습 모델이 작은 scratch baseline을 이기는 것은 예상 범위임.
+질문을 **"지역이 바뀌었을 때 frozen / 경량 post-training / full fine-tuning 중 무엇이
+정확도·오경보·비용에서 유리한가"**로 바꿈. 최우선 미착수 항목은 **C: 다른 frozen GeoFM과의
+동일 decoder 비교** — 이것이 없으면 OLMo 고유 효과인지 일반 GeoFM 효과인지 말할 수 없음.
+label budget 축(1/5/10/100%)을 더해 transfer frontier로 만듦. 상세는 M61.
+
 지역 자산의 model-input/context/target 분리와 upstream 기여 연결은
 `docs/OLMO_EXTERNAL_DATA_ONBOARDING_AND_PR_AUDIT_2026_08_26.md`가 SSOT다.
 

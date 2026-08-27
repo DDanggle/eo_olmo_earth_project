@@ -3007,6 +3007,90 @@ seed 1 기준, 양성 221타일에서:
 - **새 관찰**: val↔test 해리가 **지역 축 이질성**의 첫 신호일 수 있음.
   hiroshima(val=hokkaido, 미열람)가 이 가설의 다음 시험대임.
 
+## M61. M59 역할 강등 — **"EO 사전학습이 scratch를 이김"은 당연에 가까움.** viability 관찰로 재분류함
+
+**근거**: 외부 감사 지적. 새 실행 없음. M59·M60 재해석임.
+
+### 무엇이 문제인가
+
+P4는 **8,896만 파라미터 EO 사전학습 인코더**, P2/P3는 **제한된 산사태 라벨로 처음부터 학습**함.
+큰 사전학습 모델이 작은 scratch baseline을 이기는 것은 **예상 범위**임.
+리뷰어의 첫 질문은 "왜 놀라운가"이고 현재 답할 수 없음.
+
+### M59가 실제로 증명한 것 (범위 축소)
+
+> OLMoEarth의 **frozen** 표현이 미열람 산사태 지역에서 실사용 가능하며,
+> 그 지역에서 scratch temporal model보다 오경보가 6배 적고 주지표도 높았음.
+
+**viability evidence이지 우월성 증명이 아님.**
+
+완전히 자명하지는 않았던 이유 5가지(기록용):
+1. 인코더를 fine-tuning하지 않고 **동결**함
+2. B01·B09 부재를 `MaskValue.MISSING`으로 처리한 비표준 입력임
+3. 40 m 토큰 해상도가 10 m 분할에 불리할 수 있었음(M32에서 천장은 0.607로 확인)
+4. chimanimani에서는 seed에 따라 승패가 갈렸음(M56)
+5. 사전등록 게이트를 한 번 **실패**했음(82.0%, M30)
+
+### M59가 답하지 못한 것
+
+| 질문 | 답했나 |
+|---|---|
+| EO 사전학습이 scratch보다 유용한가 | thrissur 1지역에서만 예 |
+| OlmoEarth가 **다른 GeoFM**보다 좋은가 | **아니오 — 비교 대상 없음** |
+| 이득이 사전학습 때문인가 decoder 때문인가 | 분리 못 함 |
+| frozen이 fine-tuning보다 효율적인가 | 아니오 |
+| v1.2에서도 재현되는가 | 아니오 |
+| 지역에 따라 골라야 하는가 | 아니오 |
+| 한국·네팔로 transfer되는가 | 아니오 |
+| stale cache 재사용 가능한가 | 아니오 |
+
+**현재 P4의 상대가 다른 GeoFM이 아니라 scratch model임** — 이것이 가장 큰 약점임.
+
+### 논문 질문 재설정
+
+기존: "OlmoEarth frozen cache가 좋은가" → **약함**
+변경: **"지역이 바뀌었을 때 frozen / 경량 post-training / full fine-tuning 중
+무엇이 정확도·오경보·비용·캐시 재사용에서 유리한가"**
+
+필요한 비교축 (A~G):
+
+| 단계 | 비교 | 답하는 질문 |
+|---|---|---|
+| A | scratch P2/P3 | task-specific 학습 하한 (**완료**) |
+| B | frozen OLMo v1 | 사전학습 표현만의 transfer (**완료**) |
+| C | **다른 frozen GeoFM** | OLMo 고유 효과인가 일반 GeoFM 효과인가 (**미착수·최우선**) |
+| D | OLMo adapter/PEFT | 경량 적응의 회복량 (미착수) |
+| E | full fine-tuning | 최대 성능·비용 (미착수) |
+| F | source-region 재평가 | 적응이 기존 지역을 망가뜨리는가 (미착수) |
+| G | 한국·네팔 untouched | 실제 외부 transfer (미착수) |
+
+**label budget 축 추가**: 1% / 5% / 10% / 100%.
+라벨이 적을수록 frozen·PEFT가 유리한지, 어느 지점부터 full fine-tuning 비용이
+정당화되는지가 **배포 결정 곡선(transfer frontier)**이 됨.
+
+### 공정성 통제 8항목 (C 이후 전부 필수)
+
+동일 입력 시계열 · 동일 fold · 가능한 동일 decoder · 동일 checkpoint 선택 지표 ·
+동일 seed 수 · **인코더/캐시 생성 비용 포함** · AUPRC와 FP-budget matched 평가 ·
+source 성능 유지 여부.
+
+특히 `frozen OLMo + decoder` vs `다른 pretrained EO encoder + **같은** decoder`가
+있어야 OLMo 자체를 말할 수 있음.
+
+### 현재 판정 (정확한 위치)
+
+| 항목 | 판정 |
+|---|---|
+| M59 자체 | 유의미한 **양성 관찰** |
+| "OLMo가 좋다" 논문 | **약함** |
+| frozen→PEFT→full 지역 transfer 연구 착수 근거 | **충분함** |
+| EarthRoute router 증거 | **아님** |
+| CVPR method paper | 추가 비교(C~G) 없이는 **불가** |
+
+**M59가 중요한 이유는 EO 모델이 좋아서가 아니라, frozen 표현의 지역별 이득 편차가
+클 가능성을 드러냈기 때문임**(M60의 val↔test 해리). 그 편차의 원인과 경량
+post-training으로 통제 가능한지가 논문의 실체가 됨.
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,
