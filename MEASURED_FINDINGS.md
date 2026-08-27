@@ -3140,6 +3140,55 @@ post-training으로 통제 가능한지가 논문의 실체가 됨.
    픽셀 모델은 문맥이 없어 오경보가 많을 것으로 예상함.
    동급이면 "오경보 억제 = 공간 문맥" 가설이 기각됨
 
+## M63. 확증 2지역(hiroshima) — **첫 완전 clean 확증. 강한 승리. 사전등록 승리 조건 2/2 달성**
+
+**근거**: `evidence/confirmatory/holdout_hiroshima/read_summary.json`,
+`evidence/confirmatory_manifests/holdout_hiroshima_post.json`
+**절차**: 첫 **완전 clean** 지역임 — 로컬 pre gate(git 상태 실검사) → snapshot 봉인 →
+**봉인본 실행** → post 게이트 **13/13** (snapshot 파일·체크섬·시각 검사 포함, 면제 없음)
+→ per-sample 재계산 판독. recipe v2가 완전한 사전등록으로 적용된 첫 지역임.
+
+### 결과 (hiroshima test 862타일, 양성 457, 주지표 양성 macro IoU)
+
+| arm | seed 1 | seed 2 | seed 3 | 평균 | 빈타일 FP |
+|---|---|---|---|---|---|
+| **reuse (P4)** | 0.308665 | 0.235743 | 0.290190 | **0.278199** | **12,734~15,621** |
+| raw_strong (P2) | 0.223914 | 0.215263 | 0.208876 | 0.216018 | 62,176~130,294 |
+| raw_efficient (P3) | 0.241242 | 0.143087 | 0.150226 | 0.178185 | 175,180~292,998 |
+
+### 사전등록 판정
+
+| | 값 |
+|---|---|
+| reuse − raw_strong seed별 | +0.084751 / +0.020480 / +0.081314 (**3/3 양수**) |
+| 평균 격차 | **+0.062182** |
+| per_region_win | **True** |
+| 공간 블록 CI (2.56/5.12/10.24 km) | [+0.048,+0.076] / [+0.045,+0.078] / [+0.042,+0.083] — **전부 0 제외** |
+| strong_win | **True** |
+| P3 대비 | +0.067 / +0.093 / +0.140 — 3/3 양수 |
+
+### 중단 규칙 판정 — 계속 진행 확정
+
+recipe v2: "첫 3지역 중 per_region_win 1지역 이하면 중단."
+**thrissur·hiroshima 2/2 승리로 세 번째 지역 결과와 무관하게 계속 조건 충족.**
+사전등록 예측 1("first_three 중 2지역 이상")도 달성됨.
+
+### 관찰
+
+- 빈 타일 오경보: reuse가 raw_strong의 **1/5~1/9**, raw_efficient의 **1/14~1/21**.
+  thrissur(6배)에 이어 두 번째 지역에서도 오경보 격차가 주지표 격차보다 큼.
+- seed 2에서 reuse가 0.2357로 출렁임(폭 0.0729) — reuse도 seed 면역이 아님.
+  그래도 최저 seed가 raw_strong 최고 seed(0.2239)보다 높음.
+- P3(U-TAE)가 이 지역에서 무너짐(seed 2·3에서 0.14~0.15, 오경보 17만~29만).
+  "싼 raw baseline" 서사는 지역 의존적임.
+
+### 한계
+
+- 3지역째(hokkaido) 미실행 — headline은 여전히 8지역 region-macro 평균임 (현재 2/8).
+- M61 그대로: scratch 대비 승리는 viability이지 우월성 아님. C축(Presto) 비교가 필요함.
+- 격차 크기 비교: thrissur +0.127 > hiroshima +0.062 — **지역별 이득 편차가 실재**함
+  (M60 해리 관찰과 일관). 이 편차 자체가 D·E(적응) 실험의 동기임.
+
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 
 **근거**: `aihub/probe_tif/`, `aihub/stac_probe/stac_match_probe.json`,

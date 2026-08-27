@@ -1,0 +1,126 @@
+{
+  "schema": "confirmatory-region-read-v1",
+  "fold": "holdout_hiroshima",
+  "gate_verdict": "PASS",
+  "protocol_deviation": null,
+  "evidence_status": "confirmatory_first_look",
+  "primary_metric": "positive-tile macro IoU",
+  "arms": {
+    "reuse": {
+      "arm_id": "P4",
+      "primary_per_seed": [
+        0.308665,
+        0.235743,
+        0.29019
+      ],
+      "primary_mean": 0.278199,
+      "primary_spread": 0.072922,
+      "micro_per_seed": [
+        0.390824,
+        0.313242,
+        0.380495
+      ],
+      "micro_mean": 0.36152,
+      "fp_empty_per_seed": [
+        15621,
+        13919,
+        12734
+      ],
+      "n_tiles": 862,
+      "n_positive_tiles": 457
+    },
+    "raw_strong": {
+      "arm_id": "P2",
+      "primary_per_seed": [
+        0.223914,
+        0.215263,
+        0.208876
+      ],
+      "primary_mean": 0.216018,
+      "primary_spread": 0.015038,
+      "micro_per_seed": [
+        0.229335,
+        0.23632,
+        0.185351
+      ],
+      "micro_mean": 0.217002,
+      "fp_empty_per_seed": [
+        94774,
+        62176,
+        130294
+      ],
+      "n_tiles": 862,
+      "n_positive_tiles": 457
+    },
+    "raw_efficient": {
+      "arm_id": "P3",
+      "primary_per_seed": [
+        0.241242,
+        0.143087,
+        0.150226
+      ],
+      "primary_mean": 0.178185,
+      "primary_spread": 0.098155,
+      "micro_per_seed": [
+        0.189481,
+        0.118145,
+        0.128188
+      ],
+      "micro_mean": 0.145272,
+      "fp_empty_per_seed": [
+        175180,
+        292998,
+        269373
+      ],
+      "n_tiles": 862,
+      "n_positive_tiles": 457
+    }
+  },
+  "preregistered_win_reuse_vs_raw_strong": {
+    "per_seed_gap": [
+      0.084751,
+      0.02048,
+      0.081314
+    ],
+    "mean_gap": 0.062182,
+    "all_three_seeds_positive": true,
+    "per_region_win": true,
+    "rule": "seed-mean > 0 AND 3 seed 전부 > 0"
+  },
+  "reference_reuse_vs_raw_efficient": {
+    "per_seed_gap": [
+      0.067423,
+      0.092656,
+      0.139964
+    ],
+    "mean_gap": 0.100015,
+    "all_three_seeds_positive": true
+  },
+  "spatial_block_ci": {
+    "2.56km": {
+      "n_blocks": 394,
+      "ci95": [
+        0.048107,
+        0.076284
+      ],
+      "excludes_zero": true
+    },
+    "5.12km": {
+      "n_blocks": 120,
+      "ci95": [
+        0.04501,
+        0.077946
+      ],
+      "excludes_zero": true
+    },
+    "10.24km": {
+      "n_blocks": 42,
+      "ci95": [
+        0.04217,
+        0.082727
+      ],
+      "excludes_zero": true
+    }
+  },
+  "strong_win": true
+}

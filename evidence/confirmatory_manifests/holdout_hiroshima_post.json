@@ -1,0 +1,246 @@
+{
+  "checks": {
+    "all_nine_runs_complete": {
+      "detail": "9실행이 pilot JSON·per-sample·checkpoint를 모두 남겼는가",
+      "pass": true
+    },
+    "fold_in_release_order": {
+      "detail": "등록 순서: ['holdout_thrissur', 'holdout_hiroshima', 'holdout_hokkaido', 'holdout_indonesia', 'holdout_itogon', 'holdout_kyrgyzstan1', 'holdout_kyrgyzstan2', 'holdout_newzealand']",
+      "pass": true
+    },
+    "identical_code_sha_across_runs": {
+      "detail": "실행 간 code_sha256 동일. 단 M57대로 이것만으로는 실행 중 교체를 탐지하지 못한다. 고유 1개",
+      "pass": true
+    },
+    "identical_sample_sets": {
+      "detail": "9실행의 test sample 집합이 서로 동일. 고유 1개",
+      "pass": true
+    },
+    "identical_split": {
+      "detail": "split_counts 고유 1개",
+      "pass": true
+    },
+    "prob_maps_present": {
+      "detail": "확률맵이 저장됐는가 (임계값 스윕·불일치 분석의 전제)",
+      "pass": true
+    },
+    "recipe_self_sha_matches": {
+      "detail": "self_sha256 재계산 일치. 불일치면 recipe가 커밋 후 수정됐다",
+      "pass": true
+    },
+    "seeds_declared_match": {
+      "detail": "선언된 seed가 실제 [1,2,3] x 3 arm 인가. 관측: {'P4_seed1': 1, 'P4_seed2': 2, 'P4_seed3': 3, 'P2_seed1': 1, 'P2_seed2': 2, 'P2_seed3': 3, 'P3_seed1': 1, 'P3_seed2': 2, 'P3_seed3': 3}",
+      "pass": true
+    },
+    "snapshot_before_first_checkpoint": {
+      "detail": "started_at이 최초 checkpoint보다 앞서는가 (사후 생성 탐지)",
+      "pass": true
+    },
+    "snapshot_required_files": {
+      "detail": "필수 파일 ['pilot_sen12_gp_heads.py', 'sen12_official_baselines.py', 'extract_sen12_fold_cache.py', 'audit_sen12_fold_cache.py'] 전부 존재",
+      "pass": true
+    },
+    "snapshot_sha256sums_match": {
+      "detail": "SHA256SUMS.txt가 실제 파일과 일치하는가 (사후 교체 탐지)",
+      "pass": true
+    },
+    "test_region_matches_fold": {
+      "detail": "각 산출물의 test_region이 fold와 일치하는가",
+      "pass": true
+    },
+    "test_set_matches_sealed_contract": {
+      "detail": "test sample 집합이 봉인된 loco_folds.json의 SHA와 일치하는가. 9개가 모두 동일하게 틀린 경우를 잡는 유일한 검사",
+      "pass": true
+    }
+  },
+  "evidence_status_override": {
+    "actual_status": "confirmatory_first_look",
+    "note": "pilot이 fold와 무관하게 development 문구를 하드코딩한다. 이 manifest가 정정한다",
+    "test_exposure": "holdout_hiroshima test는 이 실행에서 처음 열렸다"
+  },
+  "failed_checks": [],
+  "fold": "holdout_hiroshima",
+  "live_vs_snapshot": {
+    "live_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+    "note": "다르면 실행 후 live가 바뀐 것. snapshot을 실행했다면 결과는 무해",
+    "snapshot_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca"
+  },
+  "mode": "post",
+  "recipe": {
+    "declared_self_sha256": "95becb32ab2df2c73537a4d19550dfd2c93d426671c15703e59cf4d8d44d2f5a",
+    "path": "/home/work/data/olmoearth/recipe_frozen_v2.json",
+    "recomputed_self_sha256": "95becb32ab2df2c73537a4d19550dfd2c93d426671c15703e59cf4d8d44d2f5a",
+    "schema": "confirmatory-recipe-frozen-v2"
+  },
+  "runs": {
+    "P2_seed1": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 1,
+      "test_region": "hiroshima"
+    },
+    "P2_seed2": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 2,
+      "test_region": "hiroshima"
+    },
+    "P2_seed3": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 3,
+      "test_region": "hiroshima"
+    },
+    "P3_seed1": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 1,
+      "test_region": "hiroshima"
+    },
+    "P3_seed2": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 2,
+      "test_region": "hiroshima"
+    },
+    "P3_seed3": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 3,
+      "test_region": "hiroshima"
+    },
+    "P4_seed1": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 1,
+      "test_region": "hiroshima"
+    },
+    "P4_seed2": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 2,
+      "test_region": "hiroshima"
+    },
+    "P4_seed3": {
+      "cache_audit_pass": {
+        "all_array_contracts": true,
+        "all_expected_samples_audited": true,
+        "exact_file_sets": true,
+        "split_sha256_verified": true
+      },
+      "checkpoint": true,
+      "code_sha256": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "n_samples": 862,
+      "per_sample": true,
+      "pilot_json": true,
+      "prob_map": true,
+      "seed_declared": 3,
+      "test_region": "hiroshima"
+    }
+  },
+  "schema": "confirmatory-release-gate-v2",
+  "sealed_contract": {
+    "folds_json": "/home/work/data/olmoearth/sen12_gp_contract/loco_folds.json",
+    "observed_test_sha256": "eb30bee232f6f21df307c040a466d5fc171a9e461b6d6e29542dd04dfec64217",
+    "sealed_test_sha256": "eb30bee232f6f21df307c040a466d5fc171a9e461b6d6e29542dd04dfec64217"
+  },
+  "snapshot": {
+    "actual": {
+      "audit_sen12_fold_cache.py": "34c4626f4e52637c6ac84784eba3c574cc1002808fe05faae7e844d2121d9364",
+      "extract_sen12_fold_cache.py": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "pilot_sen12_gp_heads.py": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "sen12_official_baselines.py": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b"
+    },
+    "declared": {
+      "audit_sen12_fold_cache.py": "34c4626f4e52637c6ac84784eba3c574cc1002808fe05faae7e844d2121d9364",
+      "extract_sen12_fold_cache.py": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "pilot_sen12_gp_heads.py": "ebe1ee88ee3f4cdb1b80dca91e9996d8120a0d2ba9e982b66cb3185a63f8e4ca",
+      "sen12_official_baselines.py": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b"
+    }
+  },
+  "snapshot_timing": {
+    "earliest_checkpoint_mtime": 1787797231.502157,
+    "started_at": "2026-08-27T10:51:21+09:00"
+  },
+  "verdict": "PASS"
+}
