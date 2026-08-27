@@ -7,7 +7,9 @@
   },
   "scripts": {
     "dev": "vinext dev",
-    "build": "vinext build",
+    "data": "/Users/dgyi/dong/ai_projects/olmoearth_projects/.venv/bin/python python/build_live_twin_data.py",
+    "wasm": "bash scripts/build-wasm.sh",
+    "build": "bash scripts/build-wasm.sh && vinext build",
     "start": "vinext start",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
   },

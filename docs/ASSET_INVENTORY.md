@@ -136,3 +136,35 @@
 > + 동결된 split). C0·cache audit·공식 4-arm·E1 개발 진단은 닫혔다. 현재 병목은 **exact
 > timestamp parity → tiled-large/P2 공통-seed 검증 → recipe 동결 → 미열람 지역 평가**다. 개발 fold의 frozen-small
 > recipe는 95% gate에 실패했고 confirmatory 성능은 여전히 0이다.
+
+---
+
+# 증보 — 2026-08-27 실측
+
+## A. 이번 이틀간 새로 만든 파생 자산
+
+| 자산 | 위치(서버) | 크기 | 상태 |
+|---|---|---|---|
+| AI-Hub 대응 12밴드 S2 큐브 **v1** | `olmoearth/aihub/s2_12band` | **63.9 GB**, 2,539큐브 | **오염 판정** — 24.6%가 격자 밖 0 채움(M35). v2(모자이크) 재물질화 전까지 사용 금지 |
+| OLMo v1 캐시 — 9개 LOCO fold 전부 | `olmoearth/sen12_pilot/holdout_*` | fold당 emb 10.75 GB + raw/mask (chimanimani 실측 36 GB) | prefetch 완료. 확증 sweep의 기반 |
+| full-context(1×128) 캐시 | `sen12_pilot_full128` | 10.3 GB | 보유하되 **비채택**(M37·M52) |
+| 확증 산출물 3지역 | `olmoearth/confirmatory/` | 지역당 pilot JSON·per-sample·체크포인트·확률맵·코드 스냅샷 | thrissur(예외 공개)·hiroshima·hokkaido — post gate 통과, 로컬 `evidence/`에 회수 |
+| Presto 코드+가중치 | `olmoearth/models/presto` | 3.3 MB, 822K 파라미터 | probe 8/8 통과(M62). 정규화 상수 확정 전 캐시 생성 금지 |
+| 증거 번들 | 로컬 `evidence/` | ~10 MB, 90+ 파일 | per-sample 재계산 검증 통과분만 |
+
+## B. 사용자 제공·신청으로 확보한 원천 (변동 없음 — 08-26 실사 유지)
+
+| 원천 | 상태 | 역할 |
+|---|---|---|
+| AI-Hub 71363 (산사태 위성영상) | 라벨 GeoJSON + 원천 S2는 **3밴드 RGB**(M28) — 라벨·타일 정의만 사용 | 한국 3-task(E8)의 target |
+| KMA APIhub 인증키 + 승인 15건 | 유효 | live residual(E_live) 배관 |
+| data.go.kr 키 + GK2A 코드표 10종 | 유효 (키 회전 권고 유지) | GK2A 수집 |
+| GK2A 경량 산출물 | 로컬 19 MB, **2일 보존 예외 수집 계속** | 〃 |
+| ASOS `era5_10` residual | 로컬 13 MB, 5/6 변수 커버 | 〃 |
+
+## C. 사용 판정 요약
+
+- **지금 쓰는 것**: Sen12 38 GB + OLMo 캐시 9 fold + 확증 산출물
+- **대기**: Presto(정규화 확정 후), Clay(미착수), AI-Hub 라벨(큐브 v2 후)
+- **폐기·비채택**: s2_12band v1(오염), full-context 캐시(성능 열세), P2_tiny stand-in
+- **기상(GK2A·ASOS)**: 아직 성능 기여로 세지 않음 — E_live는 static transfer(사슬 5) 뒤 순서 유지

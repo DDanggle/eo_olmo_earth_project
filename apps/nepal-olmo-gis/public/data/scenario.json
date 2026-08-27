@@ -1,0 +1,339 @@
+{
+  "schema": "olmoearth-nepal-live-twin/v1",
+  "generated_at": "2026-08-27T09:07:12.333548+00:00",
+  "event": {
+    "name": "2026 Rasuwa–Bhote Koshi flash flood",
+    "occurred_at": "2026-08-26T03:15:00Z",
+    "cause_status": "Glacier/ice collapse and temporary debris blockage are under investigation; not an earthquake forecast.",
+    "evidence_status": "Post-event open satellite scene pending in this snapshot."
+  },
+  "points": [
+    {
+      "id": "A",
+      "name": "Rasuwagadhi impact AOI",
+      "coordinates": [
+        85.3780644,
+        28.2786794
+      ],
+      "role": "impact_focus",
+      "place": "Pasang Lhamu Highway, Rasuwagadhi, Rasuwa, Nepal",
+      "source": "user coordinate + OSM Nominatim reverse lookup",
+      "distance_from_a_km": 0.0
+    },
+    {
+      "id": "B",
+      "name": "Gyirong border checkpoint",
+      "coordinates": [
+        85.3763336,
+        28.2828546
+      ],
+      "role": "border_checkpoint",
+      "place": "G216, Gyirong Town, Tibet, China",
+      "source": "user coordinate + OSM Nominatim reverse lookup",
+      "distance_from_a_km": 0.49
+    },
+    {
+      "id": "C",
+      "name": "Rishing reference",
+      "coordinates": [
+        84.3103107,
+        27.8790412
+      ],
+      "role": "distant_reference",
+      "place": "Rishing-03, Tanahun, Gandaki Province, Nepal",
+      "source": "user coordinate + OSM Nominatim reverse lookup",
+      "distance_from_a_km": 113.79
+    }
+  ],
+  "scene_records": [
+    {
+      "id": "s2-2026-07-03",
+      "sensor": "Sentinel-2 L2A",
+      "acquired_at": "2026-07-03T04:57:01Z",
+      "state": "baseline_ready",
+      "image": "/data/scenes/s2-2026-07-03.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "7ad919a48e9a8fa828b9f97d89d9df739178365848df96fd2a5f84f8491f1601",
+      "shape": [
+        12,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s1-2026-07-11",
+      "sensor": "Sentinel-1 RTC VV/VH",
+      "acquired_at": "2026-07-11T12:21:39Z",
+      "state": "baseline_ready",
+      "image": "/data/scenes/s1-2026-07-11.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "1ac1053a9038076fbd41210f341ea6e28f098c0c004352a02793424eab384c34",
+      "shape": [
+        2,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s2-2026-07-23",
+      "sensor": "Sentinel-2 L2A",
+      "acquired_at": "2026-07-23T04:57:01Z",
+      "state": "baseline_ready",
+      "image": "/data/scenes/s2-2026-07-23.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "b6f0a2821af1ee29d2393f722e8af83cb9c99cfa23df409c50ac7528460f96a3",
+      "shape": [
+        12,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s1-2026-07-23",
+      "sensor": "Sentinel-1 RTC VV/VH",
+      "acquired_at": "2026-07-23T12:21:40Z",
+      "state": "baseline_ready",
+      "image": "/data/scenes/s1-2026-07-23.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "487796b712a2f3246e06b27b7c7e584d4a0b0eb27ea01120bf2991620316cd03",
+      "shape": [
+        2,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s1-2026-08-04",
+      "sensor": "Sentinel-1 RTC VV/VH",
+      "acquired_at": "2026-08-04T12:21:40Z",
+      "state": "baseline_ready",
+      "image": "/data/scenes/s1-2026-08-04.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "a30db30cdf51cd3fe5b48ca3574345f903f3f807d45d6f3f06bfaa107d78a77f",
+      "shape": [
+        2,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s2-2026-08-07",
+      "sensor": "Sentinel-2 L2A",
+      "acquired_at": "2026-08-07T04:56:59Z",
+      "state": "baseline_ready",
+      "image": "/data/scenes/s2-2026-08-07.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "6600fdaa7f6bbc32deaa3507603cc302a7ce8c073f84e69302aa401caf62f728",
+      "shape": [
+        12,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s2-2026-08-12",
+      "sensor": "Sentinel-2 L2A",
+      "acquired_at": "2026-08-12T04:57:01Z",
+      "state": "baseline_ready",
+      "image": "/data/scenes/s2-2026-08-12.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "66a0472979f30e55c8d33f2748e53bb6b671e101692453ca7740c77daacd22e3",
+      "shape": [
+        12,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s1-2026-08-24",
+      "sensor": "Sentinel-1 RTC VV/VH",
+      "acquired_at": "2026-08-24T00:18:44Z",
+      "state": "baseline_ready",
+      "image": "/data/scenes/s1-2026-08-24.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "063a0acd39575aaee3c736cf409bc9077b8ad07494742257ebb478d4f262729a",
+      "shape": [
+        2,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    }
+  ],
+  "scheduled_scenes": [
+    {
+      "sensor": "Sentinel-2",
+      "acquired_at": "2026-08-27T04:56:52Z",
+      "state": "catalog_pending"
+    },
+    {
+      "sensor": "Sentinel-1",
+      "acquired_at": "2026-08-28T12:19:28Z",
+      "state": "planned"
+    }
+  ],
+  "olmoearth": {
+    "model": "OLMoEarth Base",
+    "input_contract": "S1 RTC VV/VH + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
+    "anchors": 5,
+    "rasuwagadhi_baseline": "materialized_and_sealed",
+    "embedding_status": "not_run_in_this_web_snapshot",
+    "post_event_delta": "blocked_until_post_scene",
+    "anchor_geojson": "/data/olmo-input-anchors.geojson"
+  },
+  "simulation": {
+    "engine": "Rust/WASM deterministic particle preview",
+    "route_source": "OSM ways 201928141, 809865767, 24624604",
+    "route_points": 78,
+    "claim": "illustrative_kinematic_preview_not_hazard_forecast"
+  },
+  "provenance": {
+    "source_root": "/Users/dgyi/dong/ai_projects/olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
+    "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
+    "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
+    "hydrography_sha256": "17215dc5fe9adb009b904c85865d5ce66da4ebed1fbaeae119fc4f74826dd43a"
+  }
+}
