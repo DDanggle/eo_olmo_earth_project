@@ -1,0 +1,65 @@
+{
+  "checks": {
+    "clean_worktree": {
+      "detail": "미커밋 변경이 있으면 실행 코드 신원을 증명 불가",
+      "pass": false
+    },
+    "fold_in_release_order": {
+      "detail": "등록 순서: ['holdout_thrissur', 'holdout_hiroshima', 'holdout_hokkaido', 'holdout_indonesia', 'holdout_itogon', 'holdout_kyrgyzstan1', 'holdout_kyrgyzstan2', 'holdout_newzealand']",
+      "pass": true
+    },
+    "no_existing_output": {
+      "detail": "결과 경로 evidence/confirmatory/holdout_kyrgyzstan2 가 이미 있으면 재실행이므로 중단",
+      "pass": true
+    },
+    "prior_regions_closed": {
+      "detail": "일괄 생성 — 생성 시점 미완: ['holdout_indonesia', 'holdout_itogon', 'holdout_kyrgyzstan1']. 서버 오케스트레이터가 순서를 강제하고 post gate를 지역마다 실행한다",
+      "pass": null
+    },
+    "recipe_self_sha_matches": {
+      "detail": "self_sha256 재계산 일치. 불일치면 recipe가 커밋 후 수정됐다",
+      "pass": true
+    }
+  },
+  "failed_checks": [
+    "clean_worktree"
+  ],
+  "fold": "holdout_kyrgyzstan2",
+  "git": {
+    "dirty_files": [
+      "?? evidence/confirmatory_manifests/holdout_itogon_pre.json",
+      "?? evidence/confirmatory_manifests/holdout_kyrgyzstan1_pre.json"
+    ],
+    "head": "e82e2a62250d75c5023cf7c35e017fa793eef969"
+  },
+  "mode": "pre",
+  "preregistered": {
+    "predictions": {
+      "AUPRC_spread_not_smaller": "성립하지 않을 것으로 예측 (M47) — 일부러 넣은 실패 예측",
+      "P4_beats_P2_on_primary": "first_three 중 2지역 이상에서 per_region_win 달성 예측",
+      "P4_spread_smaller_than_P2": "고정 임계값 지표에서 성립할 것으로 예측 (M49)",
+      "block_heterogeneity_stays_noise": "확증 지역에서도 블록 단위 결정적 action은 10% 미만일 것으로 예측 (M46·M52 재계산: 69블록 중 1개)",
+      "why": "M51 china 결과의 외삽. 틀리면 기록하고 주장을 지역 특수로 강등"
+    },
+    "stopping_rule": {
+      "condition": "첫 3지역 중 reuse가 raw_strong에 대해 per_region_win을 **1지역 이하**에서만 달성하면 중단",
+      "on_continue": "2지역 이상이면 남은 5지역을 순서대로 개봉",
+      "on_stop": "reuse 우위 주장을 '지역 특수'로 강등하고 논문 축을 계약·감사로 이동. 이미 개봉한 지역 결과는 전부 보고한다"
+    },
+    "win_definition": {
+      "headline_aggregate": "8개 held-out 지역의 **region-macro 평균**(지역마다 동일 가중). 타일 수로 가중하지 않는다 — 큰 지역이 결론을 지배하지 않도록",
+      "no_exclusion": "중단하더라도 **이미 본 지역은 최종 평균에서 제외하지 않는다**. 나쁜 지역을 빼는 것이 optional stopping의 가장 흔한 형태다",
+      "per_region_ci": "공간 블록 부트스트랩 2.56/5.12/10.24 km 전부 보고. CI 0 제외는 '강한 승리'로 별도 표기하되 승리 판정의 필수조건은 아님",
+      "per_region_win": "seed-mean primary(양성 macro)에서 reuse > raw_strong **그리고** 3 seed 전부에서 reuse > raw_strong",
+      "why_both": "M52: C_large·상호작용이 평균은 음수인데 seed 3에서 부호가 뒤집혔다. 평균만으로는 재현 가능한 효과를 식별할 수 없다"
+    }
+  },
+  "recipe": {
+    "declared_self_sha256": "95becb32ab2df2c73537a4d19550dfd2c93d426671c15703e59cf4d8d44d2f5a",
+    "path": "evidence/recipe_frozen_v2.json",
+    "recomputed_self_sha256": "95becb32ab2df2c73537a4d19550dfd2c93d426671c15703e59cf4d8d44d2f5a",
+    "schema": "confirmatory-recipe-frozen-v2"
+  },
+  "schema": "confirmatory-release-gate-v2",
+  "verdict": "FAIL"
+}
