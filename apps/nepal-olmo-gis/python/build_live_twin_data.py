@@ -63,6 +63,26 @@ POINTS = [
         "source": "user coordinate + OSM Nominatim reverse lookup",
     },
     {
+        "id": "D",
+        "name": "Barrier lake (reported)",
+        # NDRRMA 위성분석(Planet/Landsat, 8/27 11:44): Rasuwagadhi 상류 ~18km, 0.11km².
+        # 정확 좌표 미공개 — Lhende 계곡 회랑을 따라 잠정 배치함 (source 앵커와 국경 사이).
+        "coordinates": [85.4800, 28.2850],
+        "role": "upstream_hazard_provisional",
+        "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
+        "source": "NDRRMA satellite analysis 2026-08-27 (exact coords unpublished; position illustrative)",
+    },
+    {
+        "id": "E",
+        "name": "Suspected detachment source",
+        # ICIMOD: 국경 북동 ~20km, 5,200m에서 빙하 일부가 Lhende로 1,200m 낙하 (조사 중).
+        # 파이프라인의 source_provisional 앵커와 같은 좌표 — 검증된 붕괴 폴리곤이 아님.
+        "coordinates": [85.5194, 28.2765],
+        "role": "source_provisional",
+        "place": "Upper Lhende basin, Gyirong County, Tibet (provisional)",
+        "source": "ICIMOD press assessment 2026-08-27; same as source_provisional search anchor",
+    },
+    {
         "id": "C",
         "name": "Rishing reference",
         "coordinates": [84.3103107, 27.8790412],
@@ -421,6 +441,9 @@ def build_ops_log() -> list[dict[str, Any]]:
                 f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}",
                 str(rp.relative_to(WORK_ROOT)))
 
+    add("2026-08-27T05:59:00Z", "Upstream barrier lake reported", "UPSTREAM_HAZARD", "orange",
+        "NDRRMA: lake ~0.11 km2, ~18 km upstream of Rasuwagadhi on the Lhende; China warns ~3M m3 inflow over 3 days; dam stability uncertain",
+        "kathmandupost.com 2026-08-27 / onlinekhabar.com")
     events.sort(key=lambda e: e["time_utc"], reverse=True)
     return events[:30]
 

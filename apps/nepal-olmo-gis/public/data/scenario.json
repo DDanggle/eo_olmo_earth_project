@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-28T09:00:32.938115+00:00",
+  "generated_at": "2026-08-28T09:16:04.903198+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T03:15:00Z",
@@ -31,6 +31,30 @@
       "place": "G216, Gyirong Town, Tibet, China",
       "source": "user coordinate + OSM Nominatim reverse lookup",
       "distance_from_a_km": 0.49
+    },
+    {
+      "id": "D",
+      "name": "Barrier lake (reported)",
+      "coordinates": [
+        85.48,
+        28.285
+      ],
+      "role": "upstream_hazard_provisional",
+      "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
+      "source": "NDRRMA satellite analysis 2026-08-27 (exact coords unpublished; position illustrative)",
+      "distance_from_a_km": 10.01
+    },
+    {
+      "id": "E",
+      "name": "Suspected detachment source",
+      "coordinates": [
+        85.5194,
+        28.2765
+      ],
+      "role": "source_provisional",
+      "place": "Upper Lhende basin, Gyirong County, Tibet (provisional)",
+      "source": "ICIMOD press assessment 2026-08-27; same as source_provisional search anchor",
+      "distance_from_a_km": 13.84
     },
     {
       "id": "C",
@@ -530,6 +554,17 @@
       "priority": "blue",
       "summary": "snapshot 20260827T062409Z: s2b_20260827=acquired_pending_catalog, s1d_20260828=planned, s2c_20260829=planned",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260827T062409Z/acquisition_status.json"
+    },
+    {
+      "event_id": "359f4c1561a76769",
+      "time_utc": "2026-08-27T05:59:00Z",
+      "recorded_at_utc": "2026-08-27T05:59:00Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Upstream barrier lake reported",
+      "type": "UPSTREAM_HAZARD",
+      "priority": "orange",
+      "summary": "NDRRMA: lake ~0.11 km2, ~18 km upstream of Rasuwagadhi on the Lhende; China warns ~3M m3 inflow over 3 days; dam stability uncertain",
+      "evidence_uri": "kathmandupost.com 2026-08-27 / onlinekhabar.com"
     }
   ],
   "simulation": {

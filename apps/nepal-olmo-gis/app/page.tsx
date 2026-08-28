@@ -188,8 +188,8 @@ export default function Home() {
   const [wasmStatus, setWasmStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
   const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
   // 2D(수직 정사영 — 판독·비교용) / 3D(지형 드레이프 — 회랑 실감용) 전환.
-  const [viewDim, setViewDim] = useState<'2d' | '3d'>('3d');
-  const viewDimRef = useRef<'2d' | '3d'>('3d');
+  const [viewDim, setViewDim] = useState<'2d' | '3d'>('2d');
+  const viewDimRef = useRef<'2d' | '3d'>('2d');
   const [selectedPoint, setSelectedPoint] = useState('A');
   const [overlayOpacity, setOverlayOpacity] = useState(0.78);
   const [showAnchors, setShowAnchors] = useState(true);
@@ -292,8 +292,8 @@ export default function Home() {
         style: basemapStyle,
         center: [85.3779, 28.276],
         zoom: 14.15,
-        pitch: TERRAIN_PITCH,
-        bearing: -18,
+        pitch: 0,
+        bearing: 0,
         maxPitch: 72,
         // 서비스 범위를 네팔·티베트 국경 회랑으로 잠금 — Trishuli 하류(Galchhi)에서
         // Kyirong(티베트) 상류까지. 언색호 lake_watch 회랑(국경 북쪽 ~20km)을 포함함.
@@ -308,9 +308,11 @@ export default function Home() {
       map.on('load', () => {
         // 초기 캔버스가 컨테이너보다 작게 잡히는 버그(실측 1440x300 vs 1440x813) 방지.
         map.resize();
-        // WebGL 3D 지형 — Terrarium DEM. 과장 1.3은 히말라야 계곡 스케일에서 안 깨지는 값.
-        try { map.setTerrain({ source: 'terrainDem', exaggeration: 1.3 }); }
-        catch (e) { console.warn('[diag] terrain 활성화 실패 — 평면 유지', e); }
+        // WebGL 3D 지형 — Terrarium DEM. 기본은 2D(판독·비교 좌표계), 3D는 토글로 켬.
+        if (viewDimRef.current === '3d') {
+          try { map.setTerrain({ source: 'terrainDem', exaggeration: 1.3 }); }
+          catch (e) { console.warn('[diag] terrain 활성화 실패 — 평면 유지', e); }
+        }
         // 진단: MapLibre가 실제로 무엇을 재는지 — private이지만 원인 확정용.
         const anyMap = map as unknown as { _container?: HTMLElement; _containerDimensions?: () => [number, number] };
         console.log('[diag] maplibre 내부 | sameContainer =', anyMap._container === mapNode.current,
