@@ -3378,6 +3378,39 @@ query = 각 지역 positive 패치(whole / masked-token 두 변형), gallery = *
   서명** 검색임. "산사태 발생을 찾았다"가 아니라 "산사태가 포함된 패치의 상태가 비슷한
   패치를 찾았다"임. 라벨 정확도 미검증, positive 임계 민감도 미실시.
 
+## M66. 다지점 사건 Δz 파일럿 — 3지역 모두 사전등록 기준 통과 (2026-08-28)
+
+**질문**: Nepal에서 설계한 pre/post 임베딩 Δz가 실제 산사태 위치를 골라내는가 —
+단일 사건이 아니라 **여러 지역·여러 사건에서 동시에**.
+
+**방법** (`code/sen12_event_delta_pilot.py`, 판정 기준을 실행 전에 스크립트에 등록함):
+Sen12Landslides 주석 패치(event_date 신뢰도 1.0)의 시간 축을 사건 날짜에서 갈라
+pre 4시점 / post 4시점을 SCL clear 상위로 라벨 미참조 선택 → frozen OlmoEarth v1로
+각각 임베딩(기존 캐시 스크립트와 동일 계약: 12밴드+MISSING, patch4, crop64×4) →
+토큰별 cosine Δz를 MASK(토큰 평균 ≥0.25 양성)로 AUROC 채점. placebo = pre 구간
+전반 4 vs 후반 4 (pre clear ≥8일 때만). 다운로드 0, GPU1 총 147초.
+
+| 지역 (사건) | 패치 | pooled AUROC | placebo AUROC (n) | 판정 |
+|---|---|---|---|---|
+| Hokkaido (2018-09-06 Iburi) | 120 | **0.853** | 0.564 (110) | candidate localization signal |
+| Hiroshima (2018-06-28 호우) | 120 | **0.952** | 0.602 (85) | candidate localization signal |
+| DominicaMaria (2017-09-23 Maria) | 120 | 0.605 | 0.433 (**12**) | 통과 — 단 placebo 비교는 무효 |
+
+**정직한 한계**:
+- DominicaMaria는 placebo 표본 12패치 < 30 — 사전 등록한 무효 조건에 해당하므로
+  placebo 비교는 버리고 AUROC ≥0.60(0.605, 경계선)만 남음. 허리케인 사건이라
+  Δz가 산사태 외 광역 변화(식생 파괴·홍수)와 얽혔을 가능성이 큼.
+- 지역당 사건 1개씩(패치는 다수) — "3사건 × 120패치"이지 "360사건"이 아님.
+- placebo AUROC가 0.5보다 높음(0.53~0.60) — 사건 전에도 Δz가 산사태-발생-예정
+  지형과 약하게 상관(급경사·나지 등 관측 변동이 큰 곳). 이 자체가 후속 질문임.
+- 상태 서명 검색(M17, 미검출)과 다른 태스크임: 이것은 **변화 지역화**이고 라벨이
+  같은 패치 안의 토큰 대비라 훨씬 쉬운 문제임.
+
+**의미**: Nepal Rasuwa 프로토콜(단일 사건)이 우연이 아닐 조건이 생겼음.
+Δz는 최소 2개 지역(Hokkaido·Hiroshima)에서 placebo 대비 +0.29/+0.35의
+지역화 신호를 냄. 봉인: report.json `c7aa4ab4…` / per_patch.jsonl `87e432c4…`
+(서버·로컬 미러 sha 일치, `artifacts/sen12_event_delta_pilot/`).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
