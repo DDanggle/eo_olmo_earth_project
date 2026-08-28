@@ -549,6 +549,36 @@ export default function Home() {
   };
 
   // 타임라인 키보드 탐색: ←/→ 로 READY 장면 사이 이동.
+  // River corridor 미니 도식 — 검증된 OSM centerline(78점)을 그대로 축소해 그림.
+  // 앵커 4곳(라수와가디→티무레→샤브루베시→둔체)을 실좌표로 route에 투영함.
+  const corridorSketch = useMemo(() => {
+    const route = hydrography?.simulation_route;
+    if (!route || route.length < 2) return null;
+    const lons = route.map((p) => p[0]); const lats = route.map((p) => p[1]);
+    const minLon = Math.min(...lons), maxLon = Math.max(...lons);
+    const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+    const W = 260, H = 84, PAD = 8;
+    const sx = (lon: number) => PAD + ((lon - minLon) / (maxLon - minLon || 1)) * (W - 2 * PAD);
+    const sy = (lat: number) => PAD + ((maxLat - lat) / (maxLat - minLat || 1)) * (H - 2 * PAD);
+    const path = route.map((pt, i) => `${i === 0 ? 'M' : 'L'}${sx(pt[0]).toFixed(1)},${sy(pt[1]).toFixed(1)}`).join(' ');
+    const anchors: { name: string; lon: number; lat: number }[] = [
+      { name: 'Rasuwagadhi', lon: 85.378, lat: 28.276 },
+      { name: 'Timure', lon: 85.363, lat: 28.235 },
+      { name: 'Syabrubesi', lon: 85.347, lat: 28.164 },
+      { name: 'Dhunche', lon: 85.296, lat: 28.102 },
+    ];
+    // route 위 최근접점에 스냅해 앵커가 강 선 위에 앉게 함
+    const dots = anchors.map((a) => {
+      let best = route[0]; let bd = Infinity;
+      for (const pt of route) {
+        const d = (pt[0] - a.lon) ** 2 + (pt[1] - a.lat) ** 2;
+        if (d < bd) { bd = d; best = pt; }
+      }
+      return { name: a.name, x: sx(best[0]), y: sy(best[1]) };
+    });
+    return { W, H, path, dots };
+  }, [hydrography]);
+
   const readyIds = useMemo(() => timeline.filter((t) => t.selectable).map((t) => t.id), [timeline]);
   const onTimelineKey = (event: React.KeyboardEvent) => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
@@ -638,6 +668,29 @@ export default function Home() {
           <input id="overlay-opacity" type="range" min="0" max="1" step="0.02" value={overlayOpacity} onChange={(event) => setOverlayOpacity(Number(event.target.value))} />
           <button className={showAnchors ? 'toggle active' : 'toggle'} onClick={() => setShowAnchors((value) => !value)} aria-pressed={showAnchors}><i /> OLMo input windows</button>
         </div>
+        {/* River corridor 도식 — 강 모양과 앵커 순서를 지도 줌과 무관하게 항상 보여줌.
+            선은 검증된 OSM centerline 그대로이고 개형/모식도가 아님. */}
+        {corridorSketch && (
+          <div className="corridor-sketch">
+            <span className="ops-title">RIVER CORRIDOR · Bhote Koshi → Trishuli</span>
+            <svg viewBox={`0 0 ${corridorSketch.W} ${corridorSketch.H}`} role="img"
+                 aria-label="Bhote Koshi to Trishuli corridor with four anchors from Rasuwagadhi down to Dhunche">
+              <path d={corridorSketch.path} fill="none" stroke="var(--blue)" strokeWidth="1.8"
+                    strokeLinecap="round" strokeLinejoin="round" />
+              {corridorSketch.dots.map((d, i) => (
+                <g key={d.name}>
+                  <circle cx={d.x} cy={d.y} r="3.4"
+                          fill={i === 0 ? 'var(--orange)' : 'var(--surface)'}
+                          stroke={i === 0 ? 'var(--orange)' : 'var(--blue)'} strokeWidth="1.6" />
+                  <text x={d.x + 7} y={d.y + 3.5} fontSize="8.5"
+                        fontFamily="var(--font-geist-mono)" fill="var(--muted)">{d.name}</text>
+                </g>
+              ))}
+              <text x={corridorSketch.W - 8} y={corridorSketch.H - 6} textAnchor="end"
+                    fontSize="8" fontFamily="var(--font-geist-mono)" fill="var(--muted)">▼ downstream</text>
+            </svg>
+          </div>
+        )}
         {/* EarthRanger식 이벤트 피드 — 파이프라인이 한 일과 거부한 일의 감사 로그.
             레코드는 catalog/preflight/manifest/report의 시간 기준과 evidence URI에서 파생함. */}
         {scenario?.ops_log && scenario.ops_log.length > 0 && (
