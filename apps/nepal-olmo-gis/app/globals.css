@@ -419,3 +419,21 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .story-popup .pp-place { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
 .story-popup .pp-story { font-size: 12px; line-height: 1.55; margin-bottom: 8px; }
 .story-popup .pp-src { font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--muted); }
+
+/* STORY v2 — 언어 토글 · figure · 아카이브 */
+.story-lang { position: fixed; top: 18px; right: 76px; z-index: 62; display: flex;
+  border: 1px solid var(--line-strong, #d5d1c6); background: var(--surface, #fffefb); }
+.story-lang button { padding: 9px 14px; font-family: var(--font-geist-mono); font-size: 11px;
+  letter-spacing: 0.08em; border: 0; background: transparent; color: var(--muted, #6f6c64); cursor: pointer; }
+.story-lang button.is-active { background: var(--ink, #16151a); color: #fffefb; }
+.story-figure { margin: 14px 0 6px; }
+.story-figure img { width: 100%; display: block; border: 1px solid var(--line-strong, #d5d1c6); }
+.story-figure-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.story-figure-pair figcaption { grid-column: 1 / -1; }
+.story-archive { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px; margin: 14px 0 22px; }
+.story-archive figure { margin: 0; }
+.story-archive img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
+  border: 1px solid var(--line, #e3e0d8); filter: saturate(0.95); }
+.story-archive figcaption { font-family: var(--font-geist-mono); font-size: 10px;
+  color: var(--muted, #6f6c64); padding-top: 4px; }

@@ -207,6 +207,7 @@ export default function Home() {
   // 2D(수직 정사영 — 판독·비교용) / 3D(지형 드레이프 — 회랑 실감용) 전환.
   const [viewDim, setViewDim] = useState<'2d' | '3d'>('2d');
   const [storyOpen, setStoryOpen] = useState(false);
+  const [storyLang, setStoryLang] = useState<'en' | 'ko'>('en');
   const [swipe, setSwipe] = useState(52);
   const viewDimRef = useRef<'2d' | '3d'>('2d');
   const [selectedPoint, setSelectedPoint] = useState('A');
@@ -932,26 +933,28 @@ export default function Home() {
         </div>
       </section>
 
-      {storyOpen && (
+      {storyOpen && (() => {
+        const ko = storyLang === 'ko';
+        return (
         <div className="story-overlay" ref={storyRef} role="dialog" aria-label="How to read this service">
           <div className="story-progress" style={{ width: `${storyProgress * 100}%` }} />
+          <div className="story-lang" role="group" aria-label="Story language">
+            <button className={!ko ? 'is-active' : ''} onClick={() => setStoryLang('en')}>EN</button>
+            <button className={ko ? 'is-active' : ''} onClick={() => setStoryLang('ko')}>한국어</button>
+          </div>
           <button className="story-close" onClick={() => setStoryOpen(false)} aria-label="Close story">×</button>
 
           <section className="story-hero story-step">
-            <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · INVESTIGATION ONGOING</p>
-            <h1>The valley stopped looking like itself.</h1>
-            <p className="story-lede">
-              Before dawn on 26 August, a flash flood tore down the Bhote Koshi valley on the
-              Nepal–China border — a suspected rock–ice avalanche, still under investigation.
-              The surge covered its first 22 kilometres at roughly 193 km/h. This page explains
-              how an open-data pipeline watches that valley: what the river tells us, what the
-              satellites see, and what a frozen Earth-observation model can — and refuses to — say.
-            </p>
+            <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '조사 진행 중' : 'INVESTIGATION ONGOING'}</p>
+            <h1>{ko ? '계곡이 자기 모습이기를 멈췄다.' : 'The valley stopped looking like itself.'}</h1>
+            <p className="story-lede">{ko
+              ? '2026년 8월 26일 새벽, 네팔–중국 국경의 Bhote Koshi 계곡을 돌발 홍수가 휩쓸었음. 원인은 rock–ice avalanche로 추정되며 조사 중임. 급류는 첫 22km를 시속 약 193km로 내려갔음. 이 페이지는 공개 데이터 파이프라인이 그 계곡을 어떻게 지켜보는지를 설명함 — 강이 말해주는 것, 위성이 보는 것, 그리고 frozen EO 모델이 말할 수 있는 것과 말하기를 거부하는 것.'
+              : 'Before dawn on 26 August, a flash flood tore down the Bhote Koshi valley on the Nepal–China border — a suspected rock–ice avalanche, still under investigation. The surge covered its first 22 kilometres at roughly 193 km/h. This page explains how an open-data pipeline watches that valley: what the river tells us, what the satellites see, and what a frozen Earth-observation model can — and refuses to — say.'}</p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">01 · THE RIVER — <em>where to look</em></p>
-            <h2>One corridor, drawn by water</h2>
+            <p className="story-kicker">01 · {ko ? '강' : 'THE RIVER'} — <em>{ko ? '어디를 볼 것인가' : 'where to look'}</em></p>
+            <h2>{ko ? '물이 그린 하나의 회랑' : 'One corridor, drawn by water'}</h2>
             <div className="story-corridor">
               {corridorSketch && (
                 <svg viewBox={`0 0 ${corridorSketch.W} ${corridorSketch.H}`} role="img" aria-label="River corridor">
@@ -967,22 +970,15 @@ export default function Home() {
                 </svg>
               )}
             </div>
-            <p>
-              The hydrography layer is not decoration: it is the OSM river centreline the flood
-              actually used. Everything upstream of Rasuwagadhi is the Lhende basin in Tibet —
-              the suspected detachment source (E, ~5,200 m) and, since 27 August, a newly formed
-              barrier lake (D, ~0.11 km²) that could send a second surge down the same line.
-              The river answers the first question of any disaster pipeline: <strong>where to look.</strong>
-            </p>
+            <p>{ko
+              ? '수계 레이어는 장식이 아님 — 급류가 실제로 사용한 OSM 강 중심선임. Rasuwagadhi 상류는 전부 티베트의 Lhende 유역이고, 그곳에 이탈 추정 발원(E, 약 5,200m)과 8월 27일부터 새로 생긴 언색호(D, 약 0.11km²)가 있음. 언색호가 무너지면 2차 급류가 같은 선을 따라 내려옴. 강은 재해 파이프라인의 첫 질문에 답함: 어디를 볼 것인가.'
+              : 'The hydrography layer is not decoration: it is the OSM river centreline the flood actually used. Everything upstream of Rasuwagadhi is the Lhende basin in Tibet — the suspected detachment source (E, ~5,200 m) and, since 27 August, a newly formed barrier lake (D, ~0.11 km²) that could send a second surge down the same line. The river answers the first question of any disaster pipeline: '}<strong>{ko ? '' : 'where to look.'}</strong></p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">02 · THE SATELLITES — <em>what is seen</em></p>
-            <h2>Two pictures, fifteen days apart</h2>
-            <p>
-              Below are the last cloud-usable Sentinel-2 view before the event and the first one
-              after it — drag the handle to compare.
-            </p>
+            <p className="story-kicker">02 · {ko ? '위성' : 'THE SATELLITES'} — <em>{ko ? '무엇이 보이는가' : 'what is seen'}</em></p>
+            <h2>{ko ? '15일 간격의 두 장' : 'Two pictures, fifteen days apart'}</h2>
+            <p>{ko ? '아래는 사건 전 마지막으로 구름이 걷힌 Sentinel-2 관측과 사건 후 첫 관측임 — 핸들을 끌어 비교.' : 'Below are the last cloud-usable Sentinel-2 view before the event and the first one after it — drag the handle to compare.'}</p>
             {sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && (
               <div className="story-swipe" style={{ ['--swipe' as string]: `${swipe}%` }}>
                 <img src={sceneById('s2-2026-08-27')!.image} alt="Sentinel-2 2026-08-27, one day after the event" />
@@ -996,67 +992,88 @@ export default function Home() {
                        onChange={(e) => setSwipe(Number(e.target.value))} />
               </div>
             )}
-            <p className="story-caption">
-              Sentinel-2 L2A true color · 10 m · 2.56 km window (Rasuwagadhi anchor) ·
-              left 2026-08-12 (S2C) · right 2026-08-27 04:56 UTC (S2B, event +1 day; this window
-              clear inside a 78%-cloud tile). Grey debris widens along the valley floor.
-              © Copernicus Sentinel data 2026.
-            </p>
+            <p className="story-caption">{ko
+              ? 'Sentinel-2 L2A 트루컬러 · 10m · 2.56km 창(Rasuwagadhi 앵커) · 좌 2026-08-12 (S2C) · 우 2026-08-27 04:56 UTC (S2B, 사건 +1일; 타일 구름 78% 중 이 구역은 맑음). 계곡 바닥을 따라 회색 debris 폭이 넓어짐. © Copernicus Sentinel data 2026.'
+              : 'Sentinel-2 L2A true color · 10 m · 2.56 km window (Rasuwagadhi anchor) · left 2026-08-12 (S2C) · right 2026-08-27 04:56 UTC (S2B, event +1 day; this window clear inside a 78%-cloud tile). Grey debris widens along the valley floor. © Copernicus Sentinel data 2026.'}</p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">03 · THE MODEL — <em>whether the place stopped looking like its own past</em></p>
-            <h2>What a machine sees</h2>
-            <p>
-              A frozen OlmoEarth v1 model reads eight weeks of radar (Sentinel-1) and optical
-              (Sentinel-2) history and compresses every 40 m patch into 768 numbers — a
-              <strong> state signature</strong> of how that place looks and behaves. No labels,
-              no training on this event.
-            </p>
+            <p className="story-kicker">03 · {ko ? '흐름의 추적' : 'THE FLOW TRACE'} — <em>{ko ? '급류는 어디로 갔는가' : 'where the surge went'}</em></p>
+            <h2>{ko ? '국경에서 하류까지, 네 개의 창' : 'Four windows, border to downstream'}</h2>
+            <p>{ko
+              ? '같은 8월 27일 장면을 회랑의 네 앵커에서 잘라 보면 급류의 경로가 그대로 읽힘. Rasuwagadhi(국경)에서는 두 물줄기가 만나는 Y자 합류부 전체가 넓은 회색 debris 판이 됐고, Timure는 구름 사이로 갈색으로 변한 물길이 보이며, Syabrubesi에서는 하폭이 크게 넓어져 강변 구조물 일부가 사라졌음. Dhunche는 구름에 덮여 판독 불가 — 그 정직한 공백은 오늘 밤 레이더가 채움.'
+              : 'Cut the same 27 August scene at four corridor anchors and the surge’s path reads directly. At Rasuwagadhi (border) the whole Y-junction where two channels meet became one broad grey debris sheet; at Timure a browned channel shows through cloud gaps; at Syabrubesi the channel widened dramatically and riverside structures are gone. Dhunche is cloud-blocked — an honest gap that tonight’s radar fills.'}</p>
+            <figure className="story-figure">
+              <img src="/data/story/corridor_post_grid.png" alt="Four anchor windows on 27 August showing the debris corridor" />
+              <figcaption className="story-caption">{ko
+                ? '2026-08-27 Sentinel-2 · 네 앵커 창 (각 2.56km). 좌상 Rasuwagadhi → 우상 Timure → 좌하 Syabrubesi → 우하 Dhunche(구름). © Copernicus Sentinel data 2026.'
+                : 'Sentinel-2, 27 Aug 2026 · four anchor windows (2.56 km each). Top-left Rasuwagadhi → top-right Timure → bottom-left Syabrubesi → bottom-right Dhunche (cloud). © Copernicus Sentinel data 2026.'}</figcaption>
+            </figure>
+            <p>{ko
+              ? '발원 추정 지점(E)의 8월 27일 광학은 구름에 막혔음. 즉 광학만으로는 빙하 이탈 흔적을 아직 확인할 수 없음 — 이것이 레이더(Sentinel-1)가 이 파이프라인의 절반인 이유임.'
+              : 'The optical view of the suspected source (E) on 27 August is blocked by cloud — so the detachment scar cannot yet be confirmed optically. This is exactly why radar (Sentinel-1) is half of this pipeline.'}</p>
+            <figure className="story-figure story-figure-pair">
+              <img src="/data/story/source_pre_0812.png" alt="Source window before, 12 August" />
+              <img src="/data/story/source_post_0827.png" alt="Source window after, 27 August — cloud covered" />
+              <figcaption className="story-caption">{ko
+                ? '발원 수색 창(E, 2.56km) · 좌 08-12 맑음 — 빙하·암릉이 보임 · 우 08-27 구름 — 판독 불가로 기록함.'
+                : 'Source search window (E, 2.56 km) · left 08-12, clear — glacier and ridgelines visible · right 08-27, cloud — recorded as unreadable.'}</figcaption>
+            </figure>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">04 · {ko ? '모델' : 'THE MODEL'} — <em>{ko ? '장소가 자기 과거처럼 보이기를 멈췄는가' : 'whether the place stopped looking like its own past'}</em></p>
+            <h2>{ko ? '기계가 보는 것' : 'What a machine sees'}</h2>
+            <p>{ko
+              ? 'frozen OlmoEarth v1 모델이 8주치 레이더(Sentinel-1)와 광학(Sentinel-2) 이력을 읽어 40m 패치 하나를 768개의 숫자로 압축함 — 그 장소가 어떻게 보이고 어떻게 행동하는지의 상태 서명임. 라벨도 없고, 이 사건으로 학습하지도 않았음.'
+              : 'A frozen OlmoEarth v1 model reads eight weeks of radar (Sentinel-1) and optical (Sentinel-2) history and compresses every 40 m patch into 768 numbers — a state signature of how that place looks and behaves. No labels, no training on this event.'}</p>
             <div className="story-diagram" aria-hidden="true">
-              <div className="sd-box">40 m patch<br /><small>8 weeks · S1+S2</small></div>
+              <div className="sd-box">{ko ? '40m 패치' : '40 m patch'}<br /><small>{ko ? '8주 · S1+S2' : '8 weeks · S1+S2'}</small></div>
               <div className="sd-arrow">→</div>
-              <div className="sd-box sd-vec">768-d signature<br /><small>frozen OlmoEarth v1</small></div>
+              <div className="sd-box sd-vec">{ko ? '768차원 서명' : '768-d signature'}<br /><small>frozen OlmoEarth v1</small></div>
               <div className="sd-arrow">→</div>
-              <div className="sd-box sd-delta">Δz vs its own past<br /><small>judged against placebo weeks</small></div>
+              <div className="sd-box sd-delta">{ko ? '자기 과거와의 Δz' : 'Δz vs its own past'}<br /><small>{ko ? 'placebo 주간과 대조 판정' : 'judged against placebo weeks'}</small></div>
             </div>
-            <p>
-              Change is declared only when the pre/post distance Δz exceeds what ordinary,
-              uneventful weeks produce (the placebo windows). The same protocol, replayed on three
-              past disasters with mapped landslides — Hokkaido 2018, Hiroshima 2018, Dominica 2017 —
-              localized damage with AUROC <strong>0.85 / 0.95 / 0.61</strong>. That is why a single
-              anchor in Nepal is not an anecdote: the recipe travels.
-            </p>
+            <p>{ko
+              ? '변화는 사건 없는 평범한 주간(placebo 창)이 만들어내는 Δz를 초과할 때만 선언됨. 같은 프로토콜을 산사태 지도가 있는 과거 재해 세 곳 — 2018 홋카이도, 2018 히로시마, 2017 도미니카 — 에 재생하면 AUROC 0.85 / 0.95 / 0.61 로 피해를 지역화했음. 네팔의 앵커 하나가 일화가 아닌 이유임: 레시피가 이동함.'
+              : 'Change is declared only when the pre/post distance Δz exceeds what ordinary, uneventful weeks produce (the placebo windows). The same protocol, replayed on three past disasters with mapped landslides — Hokkaido 2018, Hiroshima 2018, Dominica 2017 — localized damage with AUROC 0.85 / 0.95 / 0.61. That is why a single anchor in Nepal is not an anecdote: the recipe travels.'}</p>
           </section>
 
           <section className="story-section story-step story-boundary">
-            <p className="story-kicker">04 · THE BOUNDARY — <em>what we refuse to say</em></p>
-            <h2>Claim boundary</h2>
-            <p>
-              This comparison supports <strong>“candidate change”</strong> — nothing more.
-              It does not claim damage probability, casualty figures, cause, or depth.
-              The avalanche attribution stays “suspected, under investigation.”
-              The embedding verdict is computed only after every gate passes:
-              scene selection sealed, exactly four 14-day periods per sensor, code snapshot
-              hashed, placebo distribution on file. Where the sky is not observable, the honest
-              output is abstention, not a guess.
-            </p>
+            <p className="story-kicker">05 · {ko ? '경계' : 'THE BOUNDARY'} — <em>{ko ? '말하기를 거부하는 것' : 'what we refuse to say'}</em></p>
+            <h2>{ko ? '주장의 경계' : 'Claim boundary'}</h2>
+            <p>{ko
+              ? '이 비교가 지지하는 것은 “후보 변화(candidate change)”까지임 — 그 이상이 아님. 피해 확률·사상자·원인·깊이를 주장하지 않음. 눈사태 귀속은 “추정, 조사 중”으로 유지함. 임베딩 판정은 모든 게이트를 통과한 뒤에만 계산됨: 장면 선택 봉인, 센서당 정확히 4개의 14일 기간, 코드 스냅샷 해시, placebo 분포 확보. 하늘이 관측 불가능할 때 정직한 출력은 추측이 아니라 보류(abstention)임.'
+              : 'This comparison supports “candidate change” — nothing more. It does not claim damage probability, casualty figures, cause, or depth. The avalanche attribution stays “suspected, under investigation.” The embedding verdict is computed only after every gate passes: scene selection sealed, exactly four 14-day periods per sensor, code snapshot hashed, placebo distribution on file. Where the sky is not observable, the honest output is abstention, not a guess.'}</p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">05 · TONIGHT — <em>the next observation</em></p>
-            <h2>What tonight’s radar pass settles</h2>
-            <p>
-              Sentinel-1D crosses this valley at 21:19 KST tonight, cloud-blind. It fills the last
-              missing 14-day radar period — unlocking the sealed post-event cube and the first live
-              Δz verdict — and it should image the reported barrier lake as a dark, low-backscatter
-              patch, fixing its true position. Every step lands in the operations log on the main
-              screen, in the same event-record grammar rangers use in the field.
-            </p>
-            <p className="story-outro">Close this story and watch the log. The valley is still moving.</p>
+            <p className="story-kicker">06 · {ko ? '오늘 밤' : 'TONIGHT'} — <em>{ko ? '다음 관측' : 'the next observation'}</em></p>
+            <h2>{ko ? '오늘 밤 레이더가 결정하는 것' : 'What tonight’s radar pass settles'}</h2>
+            <p>{ko
+              ? 'Sentinel-1D가 오늘 밤 21:19 KST에 이 계곡을 지남 — 구름과 무관함. 마지막 남은 14일 레이더 기간이 채워지면 사건 후 큐브 봉인이 완성되고 첫 라이브 Δz 판정이 나옴. 또한 보도된 언색호가 낮은 후방산란의 어두운 패치로 찍혀 실제 위치가 고정될 것임. 모든 단계는 메인 화면의 operations log에 현장 레인저들이 쓰는 이벤트-레코드 문법 그대로 기록됨.'
+              : 'Sentinel-1D crosses this valley at 21:19 KST tonight, cloud-blind. It fills the last missing 14-day radar period — unlocking the sealed post-event cube and the first live Δz verdict — and it should image the reported barrier lake as a dark, low-backscatter patch, fixing its true position. Every step lands in the operations log on the main screen, in the same event-record grammar rangers use in the field.'}</p>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">07 · {ko ? '아카이브' : 'THE ARCHIVE'} — <em>{ko ? '모든 관측' : 'every acquisition'}</em></p>
+            <h2>{ko ? '이 계곡이 관측된 모든 순간' : 'Every time this valley was seen'}</h2>
+            <p>{ko
+              ? '아래는 이 서비스가 물질화한 관측 전부임 — 광학(S2)과 레이더(S1)가 번갈아 계곡을 지나감. 어떤 프레임도 합성이 아니고, 각 파일의 SHA-256이 봉인돼 있음.'
+              : 'Below is every acquisition this service has materialized — optical (S2) and radar (S1) alternating over the valley. No frame is synthetic; each file’s SHA-256 is sealed.'}</p>
+            <div className="story-archive">
+              {(scenario?.scene_records ?? []).map((s) => (
+                <figure key={s.id}>
+                  <img src={s.image} alt={`${s.sensor} ${s.acquired_at.slice(0, 10)}`} loading="lazy" />
+                  <figcaption>{shortSensor(s.sensor)} · {s.acquired_at.slice(5, 10)}</figcaption>
+                </figure>
+              ))}
+            </div>
+            <p className="story-outro">{ko ? '스토리를 닫고 로그를 지켜보라. 계곡은 아직 움직이고 있음.' : 'Close this story and watch the log. The valley is still moving.'}</p>
           </section>
         </div>
-      )}
+        );
+      })()}
 
       <div className="provenance-stamp">DATA SNAPSHOT {scenario?.generated_at.slice(0, 16).replace('T', ' ') ?? '—'} UTC · OSM ODbL · ESA COPERNICUS</div>
     </main>
