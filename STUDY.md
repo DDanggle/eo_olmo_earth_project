@@ -802,6 +802,26 @@ mechanism이 독립 gold가 아니므로 silver target + manual adjudication으�
 **확인 질문**: swissEO 7-band 결과가 나빠졌을 때 geography shift, source-product shift,
 missing-band shift 중 무엇이 원인인지 구별하려면 어떤 두 arm을 만들어야 하는가?
 
+### #23 파이프라인을 "읽는" 법 — 단계마다 산출물이 앞 단계를 증명한다 (2026-08-28, Nepal 완주)
+
+첫 완주(baseline·placebo×2)에서 확인한 감사 경로. 각 파일이 "무엇을 믿어도 되는가"를 담당함:
+
+| 단계 | 파일 | 이것이 증명하는 것 |
+|---|---|---|
+| ① 선택 | `windows/<anchor>/items.json` | 어떤 위성 제품이 어느 기간에 뽑혔나 (제품명=시각·궤도·타일) |
+| ② 물질화 | `materialization_manifest.json` | 픽셀이 실제로 왔고 계약(4기간·규칙)을 지켰나 → `valid` |
+| ③ 코드 | `code_snapshot/<UTC>/SHA256SUMS` | 어떤 model.yaml·러너가 돌았나 (실행 직전 봉인) |
+| ④ 임베딩 | `embedding_manifest.json` | 앵커별 768밴드 COG의 sha·CRS·transform |
+| ⑤ 판정 | `delta/<UTC>/nepal_delta_report.json` | 어떤 입력(sha)으로 어떤 수치가 나왔나 |
+
+핵심은 **교차참조**: ⑤의 입력 sha가 ④의 산출 sha와 일치해야 한다(실측: dhunche
+`30e5d1fe…` 양쪽 일치). 일치가 깨지면 누군가 중간에 파일을 바꾼 것이다.
+반대 방향 읽기도 됨 — 앱의 OPERATIONS LOG 레코드 하나를 잡고 그 타임스탬프의
+파일을 열면 같은 사슬로 내려감.
+
+**확인 질문**: ②의 valid=true는 ④가 올바른 임베딩임을 보장하는가? (아니라면 어떤
+추가 검증이 ④에 필요했고, 그것을 어느 파일이 담당하는가?)
+
 ## 스터디 로그
 
 ### 2026-08-26 — 외부 데이터 onboarding·upstream PR 재감사
