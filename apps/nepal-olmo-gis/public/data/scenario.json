@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-28T00:20:51.152416+00:00",
+  "generated_at": "2026-08-28T03:06:40.448313+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T03:15:00Z",
@@ -305,13 +305,18 @@
   ],
   "scheduled_scenes": [
     {
-      "sensor": "Sentinel-2B L2A",
-      "acquired_at": "2026-08-27T04:56:52Z",
-      "state": "catalog_published_cloudy"
+      "sensor": "Sentinel-1D IW GRD",
+      "acquired_at": "2026-08-28T12:19:28Z",
+      "state": "planned"
+    },
+    {
+      "sensor": "Sentinel-2C L2A",
+      "acquired_at": "2026-08-29T04:47:23Z",
+      "state": "planned"
     },
     {
       "sensor": "Sentinel-1D IW GRD",
-      "acquired_at": "2026-08-28T12:19:28Z",
+      "acquired_at": "2026-08-31T00:07:34Z",
       "state": "planned"
     }
   ],
@@ -327,18 +332,19 @@
     "relative_orbit": 119,
     "catalog_provider": "Copernicus Data Space OData",
     "materialization_provider": "Microsoft Planetary Computer STAC via rslearn",
+    "materialization_mode": "s2_live",
     "materialization_status": "blocked_provider_index_lag",
     "olmo_ready": false,
     "claim_boundary": "Tile cloud percentage is not AOI clear-pixel coverage; no post-event embedding is claimed."
   },
   "olmoearth": {
-    "model": "OLMoEarth Base",
+    "model": "OLMoEarth Base v1 (768-d)",
     "input_contract": "S1 RTC VV/VH + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
     "anchors": 5,
     "rasuwagadhi_baseline": "materialized_and_sealed",
     "embedding_status": "not_run_in_this_web_snapshot",
-    "post_event_delta": "blocked_until_olmo_ready_post_cube",
-    "anchor_geojson": "/data/olmo-input-anchors.geojson"
+    "anchor_geojson": "/data/olmo-input-anchors.geojson",
+    "post_event_delta": "blocked_until_olmo_ready_post_cube"
   },
   "simulation": {
     "engine": "Rust/WASM deterministic particle preview",
@@ -356,6 +362,6 @@
     "catalog_sha256": "cf4b800534f8d5f8998342ed49b533197f27d03d57d961b09c410ac1cb285e0b",
     "acquisition_status_sha256": "a45f0ec3dccf6f60d408235309614f5f8c9c0cc102a7267b564c1da1aa08cee6",
     "catalog_seal_sha256": "1c3be74f71e6c43d99c5cbf2ec6eaaefd42314e781dd4cd2ecb9bcfe53934ba2",
-    "s2_selection_preflight_sha256": "3fcbfe74637c96a665aa52a00db6036ca0234a1a4d9465ccc970a1d5c94be3a0"
+    "s2_live_selection_preflight_sha256": "3fcbfe74637c96a665aa52a00db6036ca0234a1a4d9465ccc970a1d5c94be3a0"
   }
 }

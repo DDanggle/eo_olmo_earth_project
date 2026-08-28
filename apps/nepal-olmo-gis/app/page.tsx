@@ -648,6 +648,15 @@ export default function Home() {
           <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>{liveObservation?.catalog_status === 'published' ? 'catalogued ≠ materialized OLMo cube' : 'post-event scene required'}</small></div><b>{liveObservation?.olmo_ready ? 'READY' : 'BLOCKED'}</b></div>
           <div className={`pipeline-row ${wasmStatus === 'ready' ? 'ready' : wasmStatus === 'failed' ? 'pending' : 'preview'}`}><span>W</span><div><strong>Flow layer</strong><small>Rust/WASM · {scenario?.simulation.route_points ?? '—'} route nodes</small></div><b>{wasmStatus.toUpperCase()}</b></div>
         </div>
+        {/* O/E/P/H 4-layer 계약 — 설계 문서의 관측/증거/물리/공식 분리를 UI에 명시함.
+            P·H는 아직 산출물이 없으므로 회색 placeholder로 정직하게 표시함. */}
+        <div className="layer-contract">
+          <span>LAYER CONTRACT</span>
+          <div className="layer-contract-row on"><b>O</b><span>Observation — S1 VV/VH · S2 12-band · masks</span><em>ACTIVE</em></div>
+          <div className={`layer-contract-row ${liveObservation?.olmo_ready ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · Δz · neighbours</span><em>{liveObservation?.olmo_ready ? 'ACTIVE' : 'PENDING'}</em></div>
+          <div className="layer-contract-row off"><b>P</b><span>Physics — r.avaflow runout · SFINCS envelope</span><em>NOT YET</em></div>
+          <div className="layer-contract-row off"><b>H</b><span>Human/official — Charter · ICIMOD polygons</span><em>NOT YET</em></div>
+        </div>
         <div className="flow-control">
           <button onClick={() => setFlowPlaying((value) => !value)} aria-label={flowPlaying ? 'Pause flow animation' : 'Play flow animation'}>{flowPlaying ? 'PAUSE' : 'PLAY'}</button>
           <div>

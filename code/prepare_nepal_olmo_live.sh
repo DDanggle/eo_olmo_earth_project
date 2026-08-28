@@ -25,8 +25,20 @@ case "$MODE" in
     END="2026-08-30T00:00:00+00:00"
     PREPARE_FORCE_ARGS=(--force)
     ;;
+  placebo_a)
+    # 사건 전 구간만 담는 shifted window — RQ-N1의 "일상 rolling delta" 표본.
+    # baseline과 같은 계약(4x14d), END만 2026-08-12로 이동. START=END-56d.
+    START="2026-06-17T00:00:00+00:00"
+    END="2026-08-12T00:00:00+00:00"
+    PREPARE_FORCE_ARGS=()
+    ;;
+  placebo_b)
+    START="2026-06-24T00:00:00+00:00"
+    END="2026-08-19T00:00:00+00:00"
+    PREPARE_FORCE_ARGS=()
+    ;;
   *)
-    echo "mode must be baseline, s2_live, or s1_live" >&2
+    echo "mode must be baseline, s2_live, s1_live, placebo_a, or placebo_b" >&2
     exit 2
     ;;
 esac
@@ -68,7 +80,7 @@ add_anchor dhunche 85.2960 28.1020
 
 "$RSLEARN_BIN" dataset prepare \
   --root "$DATASET_ROOT" --group nepal --workers 2 \
-  "${PREPARE_FORCE_ARGS[@]}" \
+  ${PREPARE_FORCE_ARGS[@]+"${PREPARE_FORCE_ARGS[@]}"} \
   --disabled-layers embeddings --retry-max-attempts 5 --retry-backoff-seconds 5
 
 # Live selection is cheap to inspect and expensive to materialize.  A provider
