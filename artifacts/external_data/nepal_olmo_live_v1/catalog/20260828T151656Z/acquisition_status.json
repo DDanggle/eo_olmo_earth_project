@@ -1,0 +1,59 @@
+{
+  "evaluated_at_utc": "2026-08-28T15:16:56Z",
+  "passes": [
+    {
+      "catalog_matches": [
+        "S2B_MSIL2A_20260827T045659_N0512_R119_T45RUM_20260827T084453.SAFE"
+      ],
+      "end_utc": "2026-08-27T05:17:15Z",
+      "expected_product_substring": "S2B_MSIL2A_20260827",
+      "id": "s2b_20260827",
+      "publication_latency_minutes": 276.8,
+      "sensor": "Sentinel-2B L2A",
+      "start_utc": "2026-08-27T04:56:52Z",
+      "status": "published"
+    },
+    {
+      "catalog_matches": [],
+      "end_utc": "2026-08-28T12:26:54Z",
+      "expected_product_substring": "S1D_IW_GRDH_1SDV_20260828",
+      "id": "s1d_20260828",
+      "publication_latency_minutes": null,
+      "sensor": "Sentinel-1D IW GRD",
+      "start_utc": "2026-08-28T12:19:28Z",
+      "status": "acquired_pending_catalog"
+    },
+    {
+      "catalog_matches": [],
+      "end_utc": "2026-08-29T05:04:50Z",
+      "expected_product_substring": "S2C_MSIL2A_20260829",
+      "id": "s2c_20260829",
+      "publication_latency_minutes": null,
+      "sensor": "Sentinel-2C L2A",
+      "start_utc": "2026-08-29T04:47:23Z",
+      "status": "planned"
+    },
+    {
+      "catalog_matches": [],
+      "end_utc": "2026-08-31T00:13:38Z",
+      "expected_product_substring": "S1D_IW_GRDH_1SDV_20260831",
+      "id": "s1d_20260831",
+      "publication_latency_minutes": null,
+      "sensor": "Sentinel-1D IW GRD",
+      "start_utc": "2026-08-31T00:07:34Z",
+      "status": "planned"
+    },
+    {
+      "catalog_matches": [],
+      "end_utc": "2026-08-31T05:04:44Z",
+      "expected_product_substring": "S2A_MSIL2A_20260831",
+      "id": "s2a_20260831",
+      "publication_latency_minutes": null,
+      "sensor": "Sentinel-2A L2A",
+      "start_utc": "2026-08-31T04:52:38Z",
+      "status": "planned"
+    }
+  ],
+  "schema": "nepal-olmo-live-acquisition-status-v1",
+  "warning": "planned swath intersection is not a guarantee of a usable cloud-free or damage-observing product"
+}

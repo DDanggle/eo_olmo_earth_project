@@ -1,12 +1,50 @@
 {
-  "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-28T14:51:16.382106+00:00",
+  "schema": "olmoearth-nepal-live-twin/v2",
+  "generated_at": "2026-08-28T15:34:25.625879+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
-    "occurred_at": "2026-08-26T03:15:00Z",
-    "cause_status": "Glacier/ice collapse and temporary debris blockage are under investigation; not an earthquake forecast.",
+    "occurred_at": "2026-08-26T02:52:10Z",
+    "cause_status": "A rock–ice/glacial collapse on the Nepal side of Langtang Lirung is the leading assessment. It generated a cross-border debris-flow/flood; causal and field details remain under review.",
     "evidence_status": "Post-event pixels exist, but the full OLMoEarth input contract is not sealed."
   },
+  "incident_updates": [
+    {
+      "occurred_at_utc": "2026-08-26T02:52:10Z",
+      "status": "primary_event",
+      "relation": "same_event_sequence",
+      "title": "Langtang Lirung rock–ice collapse",
+      "summary": "USGS reclassified the initial earthquake-like signal as an M5.2-equivalent landslide/glacial-collapse signal at zero depth; the source is on the Nepal side of Langtang Lirung.",
+      "source": "USGS Landslide Hazards Program",
+      "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood"
+    },
+    {
+      "occurred_at_utc": "2026-08-26T05:52:00Z",
+      "status": "secondary_signal",
+      "relation": "same_day_signal_not_new_27_aug_event",
+      "title": "Second seismic landslide signal",
+      "summary": "A second M4.2-equivalent signal followed roughly three hours later on 26 Aug. It is not evidence of a separate 27 Aug Tibet landslide.",
+      "source": "USGS Landslide Hazards Program",
+      "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood"
+    },
+    {
+      "occurred_at_utc": "2026-08-27T05:59:00Z",
+      "status": "secondary_hazard_reported",
+      "relation": "aftermath_of_26_aug_event",
+      "title": "Debris-dammed lake reported",
+      "summary": "Authorities reported a new upstream barrier lake created in the aftermath of the collapse; its exact public coordinates remained unresolved.",
+      "source": "NDRRMA / AP",
+      "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807"
+    },
+    {
+      "occurred_at_utc": "2026-08-28T12:00:00Z",
+      "status": "monitoring_continues",
+      "relation": "aftermath_of_26_aug_event",
+      "title": "Barrier lake draining",
+      "summary": "Chinese authorities reported the lake was draining and its level had fallen, while monitoring for secondary hazards continued.",
+      "source": "State Council of the People's Republic of China",
+      "source_url": "https://english.www.gov.cn/news/202608/28/content_WS6a91259dc6d00ca5f9a0cd54.html"
+    }
+  ],
   "points": [
     {
       "id": "A",
@@ -17,8 +55,10 @@
       ],
       "role": "impact_focus",
       "place": "Pasang Lhamu Highway, Rasuwagadhi, Rasuwa, Nepal",
-      "source": "user coordinate + OSM Nominatim reverse lookup",
-      "story": "Where the surge crossed the border highway. The 26 Aug flood descended the first 22 km at ~193 km/h; this anchor is the primary impact AOI and the reference window for every PRE/POST comparison.",
+      "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
+      "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+      "evidence_level": "verified_aoi_reported_impact_corridor",
+      "story": "Primary impact AOI at the Nepal–China crossing and the reference window for every PRE/POST comparison. The point locates an inspection window; it is not a pixel-level damage label.",
       "distance_from_a_km": 0.0
     },
     {
@@ -30,8 +70,10 @@
       ],
       "role": "border_checkpoint",
       "place": "G216, Gyirong Town, Tibet, China",
-      "source": "user coordinate + OSM Nominatim reverse lookup",
-      "story": "The Nepal–China crossing on the Kathmandu–Kerung trade route. Bridges and road sections around this point were destroyed; it anchors the human-exposure side of the corridor.",
+      "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
+      "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+      "evidence_level": "verified_coordinate_reported_impact_corridor",
+      "story": "The cross-border checkpoint beside the impact AOI. It anchors human-exposure review without treating every bright or dark satellite pixel as confirmed infrastructure damage.",
       "distance_from_a_km": 0.49
     },
     {
@@ -43,21 +85,25 @@
       ],
       "role": "upstream_hazard_provisional",
       "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
-      "source": "NDRRMA satellite analysis 2026-08-27 (exact coords unpublished; position illustrative)",
-      "story": "Barrier lake reported by NDRRMA on 27 Aug (~0.11 km2, ~18 km up the Lhende). Chinese authorities state it breached on 28 Aug and drained gradually, easing the second-surge threat. Position provisional; the next Sentinel-1 pass verifies the drained bed.",
+      "source": "NDRRMA report + AP and Chinese government updates; exact coordinates unpublished",
+      "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
+      "evidence_level": "reported_hazard_position_illustrative",
+      "story": "A debris-dammed lake was reported after the 26 Aug collapse and was draining on 28 Aug. This is a secondary hazard from the same event sequence—not evidence of a separate 27 Aug landslide—and the marker remains illustrative until an independent footprint is available.",
       "distance_from_a_km": 10.01
     },
     {
       "id": "E",
-      "name": "Suspected detachment source",
+      "name": "Langtang Lirung source estimate",
       "coordinates": [
         85.5194,
         28.2765
       ],
       "role": "source_provisional",
-      "place": "Upper Lhende basin, Gyirong County, Tibet (provisional)",
-      "source": "ICIMOD press assessment 2026-08-27; same as source_provisional search anchor",
-      "story": "ICIMOD's provisional source: at ~5,200 m a glacier section detached and fell ~1,200 m into the Lhende. Same coordinates as the pipeline's source_provisional embedding anchor — the machine was already watching this window.",
+      "place": "North flank of Langtang Lirung, Rasuwa, Nepal (satellite/seismic estimate)",
+      "source": "USGS + China Geological Survey + satellite interpretation",
+      "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+      "evidence_level": "source_estimate_not_release_polygon",
+      "story": "Best current source-search anchor for the 26 Aug rock–ice collapse on the Nepal side of Langtang Lirung. OLMoEarth can compare this window with its own history, but it cannot confirm cause or reconstruct the release volume by itself.",
       "distance_from_a_km": 13.84
     },
     {
@@ -69,8 +115,10 @@
       ],
       "role": "downstream_impact",
       "place": "Trishuli Bazar reach, Bidur, Nuwakot, Nepal",
-      "source": "onlinekhabar.com 2026-08-27; Wikipedia 2026 Nepal floods (72 km flood stretch)",
-      "story": "~60 houses reportedly swept away around Trishuli Bazar, two road bridges lost, Trishuli and Devighat hydropower damaged. The flood ran ~72 km down to Galchhi -- six plants and 431 MW knocked off the grid. This is why the flow line now continues past Betrawati.",
+      "source": "USGS public event map; OSM river reach",
+      "source_url": "https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map",
+      "evidence_level": "downstream_inspection_anchor",
+      "story": "A downstream inspection anchor on the Trishuli corridor. The event propagated far beyond the border, but this marker scopes where to seek corroboration rather than asserting damage at every intermediate reach.",
       "distance_from_a_km": 46.79
     },
     {
@@ -83,6 +131,7 @@
       "role": "distant_reference",
       "place": "Rishing-03, Tanahun, Gandaki Province, Nepal",
       "source": "user coordinate + OSM Nominatim reverse lookup",
+      "evidence_level": "distant_placebo_reference",
       "story": "A deliberately distant, untouched window ~114 km away. It exists so the pipeline can prove what NO change looks like — the placebo and transfer reference, not an impact site.",
       "distance_from_a_km": 113.79
     }
@@ -379,19 +428,28 @@
   ],
   "scheduled_scenes": [
     {
+      "id": "s1d_20260828",
       "sensor": "Sentinel-1D IW GRD",
       "acquired_at": "2026-08-28T12:19:28Z",
-      "state": "planned"
+      "state": "missed_coverage",
+      "detail": "regional_products_published_but_aoi_falls_outside_all_footprints",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/coverage/20260828T152324Z/coverage_audit.json"
     },
     {
+      "id": "s2c_20260829",
       "sensor": "Sentinel-2C L2A",
       "acquired_at": "2026-08-29T04:47:23Z",
-      "state": "planned"
+      "state": "planned",
+      "detail": null,
+      "evidence_uri": null
     },
     {
+      "id": "s1d_20260831",
       "sensor": "Sentinel-1D IW GRD",
       "acquired_at": "2026-08-31T00:07:34Z",
-      "state": "planned"
+      "state": "planned",
+      "detail": null,
+      "evidence_uri": null
     }
   ],
   "live_observation": {
@@ -437,7 +495,7 @@
     "status": "hold",
     "action": "DO NOT EMBED",
     "reason": "Post-event scene selected, but cube seal failed: S1 3/4; S2 4/4 per anchor.",
-    "next_gate": "Wait for Sentinel-1D IW GRD at 2026-08-28T12:19:28Z, materialize, then reseal 5/5 anchors.",
+    "next_gate": "Wait for Sentinel-1D IW GRD at 2026-08-31T00:07:34Z, materialize, then reseal 5/5 anchors.",
     "allowed_claim": "Post-event pixels exist; OLMoEarth evidence does not."
   },
   "ops_log": [
@@ -453,15 +511,48 @@
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
     },
     {
-      "event_id": "f2829000b2f13f44",
+      "event_id": "7b2aff1084c5ab47",
+      "time_utc": "2026-08-28T15:23:24Z",
+      "recorded_at_utc": "2026-08-28T15:23:24Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus footprint audit",
+      "type": "COVERAGE_MISS",
+      "priority": "orange",
+      "summary": "Sentinel-1D IW GRD: 2 nearby products, 0 cover the AOI — missed_coverage",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/coverage/20260828T152324Z/coverage_audit.json"
+    },
+    {
+      "event_id": "06987eccfb73b8ca",
+      "time_utc": "2026-08-28T15:16:56Z",
+      "recorded_at_utc": "2026-08-28T15:16:56Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "CATALOG_SNAPSHOT",
+      "priority": "blue",
+      "summary": "snapshot 20260828T151656Z: s2b_20260827=published, s1d_20260828=acquired_pending_catalog, s2c_20260829=planned",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260828T151656Z/acquisition_status.json"
+    },
+    {
+      "event_id": "d0c94e5a6f9206e7",
+      "time_utc": "2026-08-28T15:16:56Z",
+      "recorded_at_utc": "2026-08-28T15:16:56Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260828T151656Z/acquisition_status.json"
+    },
+    {
+      "event_id": "0961c597870eedd8",
       "time_utc": "2026-08-28T12:00:00Z",
       "recorded_at_utc": "2026-08-28T12:00:00Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Barrier lake breached, drained gradually",
-      "type": "UPSTREAM_HAZARD_EASED",
-      "priority": "green",
-      "summary": "Chinese authorities: the ~2M m3 barrier lake near the Chhochen/Purepu confluence breached 28 Aug and drained gradually; rescue operations resumed. Next S1 pass verifies the drained bed",
-      "evidence_uri": "en.wikipedia.org/wiki/2026_Nepal_floods (accessed 2026-08-28)"
+      "time_basis": "source_event_time",
+      "source": "State Council of the People's Republic of China",
+      "type": "MONITORING_CONTINUES",
+      "priority": "blue",
+      "summary": "Chinese authorities reported the lake was draining and its level had fallen, while monitoring for secondary hazards continued.",
+      "evidence_uri": "https://english.www.gov.cn/news/202608/28/content_WS6a91259dc6d00ca5f9a0cd54.html"
     },
     {
       "event_id": "54ec8ef7abbc028b",
@@ -585,33 +676,157 @@
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260827T062409Z/acquisition_status.json"
     },
     {
-      "event_id": "359f4c1561a76769",
+      "event_id": "9e1d68b898ce1c8e",
       "time_utc": "2026-08-27T05:59:00Z",
       "recorded_at_utc": "2026-08-27T05:59:00Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Upstream barrier lake reported",
-      "type": "UPSTREAM_HAZARD",
+      "time_basis": "source_event_time",
+      "source": "NDRRMA / AP",
+      "type": "SECONDARY_HAZARD_REPORTED",
       "priority": "orange",
-      "summary": "NDRRMA: lake ~0.11 km2, ~18 km upstream of Rasuwagadhi on the Lhende; China warns ~3M m3 inflow over 3 days; dam stability uncertain",
-      "evidence_uri": "kathmandupost.com 2026-08-27 / onlinekhabar.com"
+      "summary": "Authorities reported a new upstream barrier lake created in the aftermath of the collapse; its exact public coordinates remained unresolved.",
+      "evidence_uri": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807"
+    },
+    {
+      "event_id": "1e15958f428f2ddb",
+      "time_utc": "2026-08-26T05:52:00Z",
+      "recorded_at_utc": "2026-08-26T05:52:00Z",
+      "time_basis": "source_event_time",
+      "source": "USGS Landslide Hazards Program",
+      "type": "SECONDARY_SIGNAL",
+      "priority": "blue",
+      "summary": "A second M4.2-equivalent signal followed roughly three hours later on 26 Aug. It is not evidence of a separate 27 Aug Tibet landslide.",
+      "evidence_uri": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood"
+    },
+    {
+      "event_id": "97d93bb9dd29e4c7",
+      "time_utc": "2026-08-26T02:52:10Z",
+      "recorded_at_utc": "2026-08-26T02:52:10Z",
+      "time_basis": "source_event_time",
+      "source": "USGS Landslide Hazards Program",
+      "type": "PRIMARY_EVENT",
+      "priority": "orange",
+      "summary": "USGS reclassified the initial earthquake-like signal as an M5.2-equivalent landslide/glacial-collapse signal at zero depth; the source is on the Nepal side of Langtang Lirung.",
+      "evidence_uri": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood"
     }
   ],
+  "research": {
+    "integration_disclaimer": "Research integration of OlmoEarth representations with EarthRanger-style incident provenance and Skylight-style observation awareness; not an official Ai2 disaster product.",
+    "nepal_embedding": {
+      "status": "blocked_until_full_post_event_s1_plus_s2_cube_is_sealed",
+      "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
+      "placebo_count": 2,
+      "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet."
+    },
+    "historical_event_delta_pilot": {
+      "rows": [
+        {
+          "region": "hokkaido",
+          "auroc": 0.8528342431276242,
+          "placebo_auroc": 0.5637257773742953,
+          "patches": 120
+        },
+        {
+          "region": "hiroshima",
+          "auroc": 0.9515419318157091,
+          "placebo_auroc": 0.6023593143721633,
+          "patches": 120
+        },
+        {
+          "region": "dominicamaria",
+          "auroc": 0.6052332456385485,
+          "placebo_auroc": 0.43267552375140994,
+          "patches": 120
+        }
+      ],
+      "contract": "related S2-only pre4/post4 temporal-delta pilot",
+      "claim_boundary": "Strong in Hokkaido and Hiroshima; weak/borderline in Dominica with only 12 placebo patches. This supports feasibility, not Nepal validation or a universal landslide detector.",
+      "artifact_sha256": "c7aa4ab4929fae7c22858323f96c4eb02a04f22ab5d032f9bb667f4e88b44e47"
+    },
+    "pre_event_susceptibility_probe": {
+      "rows": [
+        {
+          "region": "hokkaido",
+          "olmo_auroc": 0.5823905216894046,
+          "raw_auroc": 0.6094463215074876,
+          "verdict": "not detected"
+        },
+        {
+          "region": "hiroshima",
+          "olmo_auroc": 0.6061850627686026,
+          "raw_auroc": 0.5805376665943307,
+          "verdict": "not detected"
+        },
+        {
+          "region": "dominicamaria",
+          "olmo_auroc": 0.5333809562559069,
+          "raw_auroc": 0.5664860037582405,
+          "verdict": "not detected"
+        }
+      ],
+      "overall": "not detected",
+      "claim_boundary": "Leave-one-region-out pre-event susceptibility was not detected. OlmoEarth is not being presented as a prospective landslide forecast model.",
+      "artifact_sha256": "c0d1e2bbe08c9c9fe2359a0d30977fa08ccef93f8980c05af8819495cef8170b"
+    },
+    "physics": {
+      "current": "Rust/WASM particles animate a verified mapped drainage corridor only.",
+      "proposed_primary": "r.avaflow v4 ensemble for rock–ice–debris–water cascade runout",
+      "independent_check": "D-Claw 1.0",
+      "downstream_hydraulics": "LISFLOOD-FP or BASEMENT after a cross-section hydrograph is defined",
+      "coupling_rule": "OLMoEarth proposes source/change/material-zone evidence; a physics solver owns runout, depth and arrival-time estimates. Embedding values never become friction or velocity directly."
+    },
+    "evaluation_arms": [
+      {
+        "id": "A0",
+        "label": "raw EO only"
+      },
+      {
+        "id": "A1",
+        "label": "classical pre/post change"
+      },
+      {
+        "id": "A2",
+        "label": "OLMoEarth temporal delta"
+      },
+      {
+        "id": "A3",
+        "label": "gate-aware OLMoEarth with abstention"
+      },
+      {
+        "id": "A4",
+        "label": "A3 + independent sensor / physics corroboration"
+      },
+      {
+        "id": "A5",
+        "label": "A4 + human/official review"
+      }
+    ],
+    "evaluation_metrics": {
+      "observation": "coverage correctness, publication latency, invalid-action rate",
+      "change": "event-wise AUROC/AUPRC, source localization error, false changed area",
+      "runout": "runout IoU, false-inundated area, maximum-runout error, interval coverage",
+      "operations": "analyst minutes and invalid actions at matched recall"
+    }
+  },
   "simulation": {
     "engine": "Rust/WASM deterministic particle preview",
-    "route_source": "OSM ways 201928141, 809865767, 24624604",
+    "route_source": "verified OSM river-way chain from Bhote Koshi to Trishuli",
     "route_points": 79,
-    "claim": "illustrative_kinematic_preview_not_hazard_forecast"
+    "claim": "illustrative_kinematic_preview_not_hazard_forecast",
+    "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw"
   },
   "provenance": {
     "source_root": "/Users/dgyi/dong/ai_projects/olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
     "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
     "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
     "hydrography_sha256": "005691a26c482012d3736d2191c0ee50a26761c8db44d1512730dc58ab66845c",
-    "catalog_snapshot": "20260828T000910Z",
-    "catalog_generated_at_utc": "2026-08-28T00:09:10Z",
-    "catalog_sha256": "cf4b800534f8d5f8998342ed49b533197f27d03d57d961b09c410ac1cb285e0b",
-    "acquisition_status_sha256": "a45f0ec3dccf6f60d408235309614f5f8c9c0cc102a7267b564c1da1aa08cee6",
-    "catalog_seal_sha256": "1c3be74f71e6c43d99c5cbf2ec6eaaefd42314e781dd4cd2ecb9bcfe53934ba2",
+    "catalog_snapshot": "20260828T151656Z",
+    "catalog_generated_at_utc": "2026-08-28T15:16:56Z",
+    "catalog_sha256": "4a563298cc344af7d1466cfb10408892639771a833bbc668ce64b934ba16d658",
+    "acquisition_status_sha256": "61343c1f3d4f31cf8f68e3dac1fc0c8d8a1123c579443eed6cb3b5e71977e60e",
+    "catalog_seal_sha256": "6c50fbf4d78582d2fb36314621fff107dcddee021989f329b6c350973c357dfb",
+    "coverage_snapshot": "20260828T152324Z",
+    "coverage_audit_sha256": "144f7ed3e70260046a051118ff4e7ac5b1f47b0652cc54cdfb781df33039c5f2",
+    "coverage_seal_sha256": "9b12e4965834298762936d27523816ce333597ec917f7e9fb20e61804b15415f",
     "s2_live_selection_preflight_sha256": "30f57460c5b212e2bf84c92853e936af12f7ef7d7cfbcf3e22207621ffff3db5",
     "s2_live_materialization_manifest_sha256": "941844a101476bc7d50907c06ff980402d460c76382f6a925f7e307fdb1c4279"
   }

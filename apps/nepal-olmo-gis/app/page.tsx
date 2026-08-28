@@ -1,6 +1,7 @@
 'use client';
 
 import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl, Popup, setWorkerUrl } from 'maplibre-gl';
+import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection } from 'geojson';
 import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -23,8 +24,41 @@ type ScenarioPoint = {
   role: string;
   place: string;
   source?: string;
+  source_url?: string;
+  evidence_level?: string;
   story?: string;
   distance_from_a_km: number;
+};
+
+type ScheduledScene = {
+  id?: string;
+  sensor: string;
+  acquired_at: string;
+  state: string;
+  detail?: string | null;
+  evidence_uri?: string | null;
+};
+
+type IncidentUpdate = {
+  occurred_at_utc: string;
+  status: string;
+  relation: string;
+  title: string;
+  summary: string;
+  source: string;
+  source_url: string;
+};
+
+type TransferRow = { region: string; auroc: number; placebo_auroc: number; patches: number };
+type SusceptibilityRow = { region: string; olmo_auroc: number; raw_auroc: number; verdict: string };
+type ResearchBlock = {
+  integration_disclaimer: string;
+  nepal_embedding: { status: string; baseline: string; placebo_count: number; claim: string };
+  historical_event_delta_pilot: { rows: TransferRow[]; contract: string; claim_boundary: string };
+  pre_event_susceptibility_probe: { rows: SusceptibilityRow[]; overall: string; claim_boundary: string };
+  physics: { current: string; proposed_primary: string; independent_check: string; downstream_hydraulics: string; coupling_rule: string };
+  evaluation_arms: { id: string; label: string }[];
+  evaluation_metrics: Record<string, string>;
 };
 
 type LiveObservation = {
@@ -55,12 +89,14 @@ type Scenario = {
   event: { name: string; occurred_at: string; cause_status: string; evidence_status: string };
   points: ScenarioPoint[];
   scene_records: SceneRecord[];
-  scheduled_scenes: { sensor: string; acquired_at: string; state: string }[];
+  scheduled_scenes: ScheduledScene[];
   live_observation: LiveObservation | null;
   olmoearth: { input_contract: string; anchors: number; embedding_status: string; post_event_delta: string | Record<string, unknown> };
   decision: CurrentDecision;
   ops_log?: { event_id?: string; time_utc: string; source: string; type: string; priority: 'green' | 'orange' | 'blue'; summary: string }[];
-  simulation: { route_points: number; claim: string };
+  incident_updates: IncidentUpdate[];
+  research: ResearchBlock;
+  simulation: { route_points: number; claim: string; scientific_upgrade?: string };
 };
 
 type Hydrography = {
@@ -194,6 +230,7 @@ export default function Home() {
   const railsRef = useRef({ left: true, right: true });
 
   const [mapReady, setMapReady] = useState(false);
+  const [styleRevision, setStyleRevision] = useState(0);
   // WebGL2가 없는 브라우저에서 MapLibre 생성자가 던지는 예외가 앱 전체를 죽이던
   // 결함의 방어. 'unsupported'면 지도 대신 정적 장면 이미지로 강등 표시한다.
   const [mapStatus, setMapStatus] = useState<'init' | 'ready' | 'unsupported'>('init');
@@ -206,7 +243,7 @@ export default function Home() {
   const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
   // 2D(수직 정사영 — 판독·비교용) / 3D(지형 드레이프 — 회랑 실감용) 전환.
   const [viewDim, setViewDim] = useState<'2d' | '3d'>('2d');
-  const [storyOpen, setStoryOpen] = useState(false);
+  const [storyOpen, setStoryOpen] = useState(() => typeof window !== 'undefined' && window.location.hash === '#story');
   const [storyLang, setStoryLang] = useState<'en' | 'ko'>('en');
   const [swipe, setSwipe] = useState(52);
   const viewDimRef = useRef<'2d' | '3d'>('2d');
@@ -265,7 +302,7 @@ export default function Home() {
     scenario.scheduled_scenes.forEach((s, i) => items.push({
       id: `scheduled-${i}`, kind: 'scheduled', iso: s.acquired_at, date: shortDate(s.acquired_at),
       sensor: shortSensor(s.sensor),
-      state: s.state === 'planned' ? 'PLANNED' : s.state === 'catalog_published_cloudy' ? 'CATALOG' : 'PENDING',
+      state: s.state === 'missed_coverage' ? 'MISSED' : s.state === 'planned' ? 'PLANNED' : s.state === 'catalog_published_cloudy' ? 'CATALOG' : 'PENDING',
       selectable: false,
     }));
     return items.sort((a, b) => a.iso.localeCompare(b.iso));
@@ -325,6 +362,7 @@ export default function Home() {
       map.addControl(new AttributionControl({ compact: true }), 'bottom-right');
       map.on('styledata', () => console.log('[diag] styledata — 레이어',
         map.getStyle()?.layers?.length ?? 0, '개'));
+      map.on('style.load', () => setStyleRevision((revision) => revision + 1));
       // MapTiler 스타일이 죽으면(403/네트워크) Esri raster 로 강등 — 화면 성립을 키에 맡기지 않음.
       let fellBack = false;
       map.on('error', (e) => {
@@ -403,26 +441,28 @@ export default function Home() {
   // 연구 지점 레이어 — points가 데이터에서 오므로 로드 후에 붙인다.
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || points.length === 0 || map.getSource('research-points')) return;
-    map.addSource('research-points', { type: 'geojson', data: researchPoints });
-    map.addLayer({
-      id: 'point-halo', type: 'circle', source: 'research-points',
-      paint: {
-        'circle-radius': ['case', ['==', ['get', 'id'], 'A'], 18, 12],
-        'circle-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
-        'circle-opacity': 0.16, 'circle-stroke-width': 1,
-        'circle-stroke-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
-      },
-    });
-    map.addLayer({
-      id: 'point-core', type: 'circle', source: 'research-points',
-      paint: {
-        'circle-radius': ['case', ['==', ['get', 'id'], 'A'], 6, 4],
-        'circle-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
-        'circle-stroke-width': 2, 'circle-stroke-color': '#081411',
-      },
-    });
-    map.on('click', 'point-core', (event) => {
+    if (!mapReady || !map || !map.isStyleLoaded() || points.length === 0) return;
+    if (!map.getSource('research-points')) {
+      map.addSource('research-points', { type: 'geojson', data: researchPoints });
+      map.addLayer({
+        id: 'point-halo', type: 'circle', source: 'research-points',
+        paint: {
+          'circle-radius': ['case', ['==', ['get', 'id'], 'A'], 18, 12],
+          'circle-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
+          'circle-opacity': 0.16, 'circle-stroke-width': 1,
+          'circle-stroke-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
+        },
+      });
+      map.addLayer({
+        id: 'point-core', type: 'circle', source: 'research-points',
+        paint: {
+          'circle-radius': ['case', ['==', ['get', 'id'], 'A'], 6, 4],
+          'circle-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
+          'circle-stroke-width': 2, 'circle-stroke-color': '#081411',
+        },
+      });
+    }
+    const onPointClick = (event: MapLayerMouseEvent) => {
       const id = event.features?.[0]?.properties?.id;
       if (!id) return;
       setSelectedPoint(String(id));
@@ -443,34 +483,42 @@ export default function Home() {
             + `<h3>${pt.name}</h3><p class="pp-place">${pt.place}</p>`
             + thumbs
             + (pt.story ? `<p class="pp-story">${pt.story}</p>` : '')
-            + `<p class="pp-src">${pt.source ?? ''}</p>`)
+            + `<p class="pp-src">${pt.source_url ? `<a href="${pt.source_url}" target="_blank" rel="noreferrer">${pt.source ?? 'source'} ↗</a>` : (pt.source ?? '')}</p>`)
           .addTo(map);
       }
-    });
-    map.on('mouseenter', 'point-core', () => { map.getCanvas().style.cursor = 'pointer'; });
-    map.on('mouseleave', 'point-core', () => { map.getCanvas().style.cursor = ''; });
-  }, [mapReady, points, researchPoints]);
+    };
+    const onPointEnter = () => { map.getCanvas().style.cursor = 'pointer'; };
+    const onPointLeave = () => { map.getCanvas().style.cursor = ''; };
+    map.on('click', 'point-core', onPointClick);
+    map.on('mouseenter', 'point-core', onPointEnter);
+    map.on('mouseleave', 'point-core', onPointLeave);
+    return () => {
+      map.off('click', 'point-core', onPointClick);
+      map.off('mouseenter', 'point-core', onPointEnter);
+      map.off('mouseleave', 'point-core', onPointLeave);
+    };
+  }, [mapReady, points, researchPoints, styleRevision]);
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !hydrography || map.getSource('hydrography')) return;
+    if (!mapReady || !map || !map.isStyleLoaded() || !hydrography || map.getSource('hydrography')) return;
     const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('hydrography', { type: 'geojson', data: hydrography as FeatureCollection });
     map.addLayer({ id: 'river-casing', type: 'line', source: 'hydrography', paint: { 'line-color': '#06100e', 'line-width': 8, 'line-opacity': 0.82 } }, before);
     map.addLayer({ id: 'river-route', type: 'line', source: 'hydrography', paint: { 'line-color': '#5fffd7', 'line-width': 2.2, 'line-opacity': 0.8, 'line-dasharray': [1.2, 1.6] } }, before);
-  }, [hydrography, mapReady]);
+  }, [hydrography, mapReady, styleRevision]);
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map) return;
+    if (!mapReady || !map || !map.isStyleLoaded()) return;
     fetch('/data/olmo-input-anchors.geojson').then((r) => r.json() as Promise<FeatureCollection>).then((anchors) => {
-      if (map.getSource('olmo-anchors')) return;
+      if (!map.isStyleLoaded() || map.getSource('olmo-anchors')) return;
       const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
       map.addSource('olmo-anchors', { type: 'geojson', data: anchors });
       map.addLayer({ id: 'olmo-anchor-fill', type: 'fill', source: 'olmo-anchors', paint: { 'fill-color': '#5fffd7', 'fill-opacity': 0.045 } }, before);
       map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch(() => undefined);
-  }, [mapReady]);
+  }, [mapReady, styleRevision]);
 
   // fitBounds 패딩은 실제로 열려 있는 패널에 맞춘다.
   // 이전 버전은 패널이 항상 보인다고 가정한 고정 패딩을 썼다.
@@ -497,7 +545,7 @@ export default function Home() {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !scenario || !activeSceneId) return;
+    if (!mapReady || !map || !map.isStyleLoaded() || !scenario || !activeSceneId) return;
     const scene = scenario.scene_records.find((item) => item.id === activeSceneId);
     if (!scene) return;
     if (map.getLayer('satellite-scene')) map.removeLayer('satellite-scene');
@@ -508,7 +556,7 @@ export default function Home() {
     fitScene(scene, initialSceneFitRef.current ? 700 : 0);
     initialSceneFitRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeSceneId, mapReady, scenario, fitScene]);
+  }, [activeSceneId, mapReady, scenario, fitScene, styleRevision]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -610,7 +658,9 @@ export default function Home() {
   };
 
   const backdropScene = activeScene && shortSensor(activeScene.sensor) === 'S2' ? activeScene : latestOpticalScene;
-  const nextScheduled = scenario?.scheduled_scenes[0] ?? null;
+  const missedCoverage = scenario?.scheduled_scenes.find((scene) => scene.state === 'missed_coverage') ?? null;
+  const nextScheduled = scenario?.scheduled_scenes.find((scene) => scene.state !== 'missed_coverage') ?? null;
+  const nextRadar = scenario?.scheduled_scenes.find((scene) => scene.state !== 'missed_coverage' && shortSensor(scene.sensor) === 'S1') ?? null;
   const liveObservation = scenario?.live_observation ?? null;
   const decision = scenario?.decision ?? null;
   const livePeriodText = liveObservation
@@ -678,8 +728,6 @@ export default function Home() {
   // STORY 오버레이 — Snow Fall식 스크롤리텔링: IntersectionObserver로 섹션 표시,
   // 진행 바는 스크롤 비율. prefers-reduced-motion 이면 항상 표시 상태로 시작함.
   const storyRef = useRef<HTMLDivElement>(null);
-  // #story 딥링크 — 공유 시 스토리부터 열림.
-  useEffect(() => { if (window.location.hash === '#story') setStoryOpen(true); }, []);
   const [storyProgress, setStoryProgress] = useState(0);
   useEffect(() => {
     if (!storyOpen) return;
@@ -876,9 +924,17 @@ export default function Home() {
         {liveObservation && (
           <div className="live-observation" role="status">
             <span>LIVE CATALOG UPDATE</span>
-            <strong>S2B 27 AUG · {liveObservation.catalog_status.toUpperCase()}</strong>
+            <strong>{shortSensor(liveObservation.sensor)} {shortDate(liveObservation.acquired_at)} · {liveObservation.catalog_status.toUpperCase()}</strong>
             <small>{kstStamp(liveObservation.publication_utc)} KST · TILE CLOUD {liveObservation.cloud_cover_tile_pct?.toFixed(2) ?? '—'}%</small>
             <em>{liveReadinessLabel} · {livePeriodText}</em>
+          </div>
+        )}
+        {missedCoverage && (
+          <div className="coverage-miss" role="status">
+            <span>FOOTPRINT AUDIT</span>
+            <strong>{shortSensor(missedCoverage.sensor)} {shortDate(missedCoverage.acquired_at)} · MISSED AOI</strong>
+            <small>2 nearby products · 0 contained Langtang Lirung</small>
+            <em>Not a publication delay. The next S1 gate is {nextRadar ? `${kstStamp(nextRadar.acquired_at)} KST` : 'not yet scheduled'}.</em>
           </div>
         )}
         <div className="pipeline-stack">
@@ -895,8 +951,8 @@ export default function Home() {
           <span>LAYER CONTRACT</span>
           <div className="layer-contract-row on"><b>O</b><span>Observation — S1 VV/VH · S2 12-band · masks</span><em>ACTIVE</em></div>
           <div className={`layer-contract-row ${(typeof scenario?.olmoearth?.post_event_delta === 'object' && (scenario.olmoearth.post_event_delta as Record<string, unknown>).live_mode) ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · Δz · neighbours</span><em>{(typeof scenario?.olmoearth?.post_event_delta === 'object' && (scenario.olmoearth.post_event_delta as Record<string, unknown>).live_mode) ? 'ACTIVE' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'PENDING'}</em></div>
-          <div className="layer-contract-row off"><b>P</b><span>Physics — r.avaflow runout · SFINCS envelope</span><em>NOT YET</em></div>
-          <div className="layer-contract-row off"><b>H</b><span>Human/official — Charter · ICIMOD polygons</span><em>NOT YET</em></div>
+          <div className="layer-contract-row off"><b>P</b><span>Physics — r.avaflow ensemble · D-Claw check</span><em>DESIGNED</em></div>
+          <div className="layer-contract-row off"><b>H</b><span>Human/official — Charter · CEMS · USGS review</span><em>EXTERNAL</em></div>
         </div>
         <div className="flow-control">
           <button onClick={() => setFlowPlaying((value) => !value)} aria-label={flowPlaying ? 'Pause flow animation' : 'Play flow animation'}>{flowPlaying ? 'PAUSE' : 'PLAY'}</button>
@@ -956,131 +1012,145 @@ export default function Home() {
           <button className="story-close" onClick={() => setStoryOpen(false)} aria-label="Close story">×</button>
 
           <section className="story-hero story-step">
-            <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '조사 진행 중' : 'INVESTIGATION ONGOING'}</p>
-            <h1>{ko ? '계곡이 자기 모습이기를 멈췄다.' : 'The valley stopped looking like itself.'}</h1>
+            <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '증거 갱신' : 'EVIDENCE UPDATED'} {scenario ? kstStamp(scenario.generated_at) : '—'} KST</p>
+            <h1>{ko ? '한 사건, 여러 시계.' : 'One event. Many clocks.'}</h1>
             <p className="story-lede">{ko
-              ? '2026년 8월 26일 새벽, 네팔–중국 국경의 Bhote Koshi 계곡을 돌발 홍수가 휩쓸었음. 원인은 rock–ice avalanche로 추정되며 조사 중임. 급류는 첫 22km를 시속 약 193km로 내려갔음. 이 페이지는 공개 데이터 파이프라인이 그 계곡을 어떻게 지켜보는지를 설명함 — 강이 말해주는 것, 위성이 보는 것, 그리고 frozen EO 모델이 말할 수 있는 것과 말하기를 거부하는 것.'
-              : 'Before dawn on 26 August, a flash flood tore down the Bhote Koshi valley on the Nepal–China border — a suspected rock–ice avalanche, still under investigation. The surge covered its first 22 kilometres at roughly 193 km/h. This page explains how an open-data pipeline watches that valley: what the river tells us, what the satellites see, and what a frozen Earth-observation model can — and refuses to — say.'}</p>
+              ? '8월 26일 네팔 영내 Langtang Lirung 북사면의 암반–빙하 붕괴가 Gyirong–Rasuwagadhi를 잇는 초국경 토석류·홍수로 이어졌음. 이후 생긴 언색호는 28일 배수 중이었지만 2차 위험 감시는 계속됨. 이 페이지는 재해를 예측했다고 주장하지 않음. 공개 관측, OLMoEarth 표현, 물리모델, 공식 확인이 서로 다른 속도로 도착할 때 무엇을 말할 수 있는지 보여줌.'
+              : 'On 26 August, a rock–ice collapse on the Nepal side of Langtang Lirung generated a cross-border debris flow and flood through Gyirong–Rasuwagadhi. A debris-dammed lake formed afterward and was draining on the 28th, while secondary-hazard monitoring continued. This page does not claim it predicted the disaster. It shows what can be said as observations, OlmoEarth representations, physics and official review arrive on different clocks.'}</p>
+          </section>
+
+          <section className="story-section story-step story-now">
+            <p className="story-kicker">01 · {ko ? '현재' : 'EVIDENCE NOW'} — <em>{ko ? '결론보다 상태' : 'state before conclusion'}</em></p>
+            <h2>{ko ? '지금 계산 가능한 것은 어디까지인가' : 'What is computable right now'}</h2>
+            <div className="story-status-grid">
+              <div className="ok"><b>O</b><strong>{ko ? '관측' : 'OBSERVATION'}</strong><span>{ko ? '8/27 S2 픽셀 확보' : '27 Aug S2 pixels acquired'}</span></div>
+              <div className="hold"><b>E</b><strong>{ko ? 'OLMo 증거' : 'OLMo EVIDENCE'}</strong><span>{ko ? 'S1 3/4 · S2 4/4, 보류' : 'S1 3/4 · S2 4/4, held'}</span></div>
+              <div className="design"><b>P</b><strong>{ko ? '물리' : 'PHYSICS'}</strong><span>{ko ? '실험 설계, 아직 미실행' : 'designed, not yet run'}</span></div>
+              <div className="external"><b>H</b><strong>{ko ? '공식 확인' : 'HUMAN / OFFICIAL'}</strong><span>{ko ? '외부 검증 자료로 동결' : 'frozen external evidence'}</span></div>
+            </div>
+            <p>{ko
+              ? '현재 올바른 출력은 DO NOT EMBED임. 사건 후 광학은 있지만 OLMoEarth의 S1+S2×4기간 계약이 덜 찼고, 네팔 placebo도 2개뿐이라 Δz 임계값을 만들 수 없음.'
+              : 'The correct output is currently DO NOT EMBED. Post-event optical pixels exist, but the S1+S2×4-period OlmoEarth contract is incomplete and two Nepal placebo windows are not enough to define a Δz anomaly threshold.'}</p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">01 · {ko ? '강' : 'THE RIVER'} — <em>{ko ? '어디를 볼 것인가' : 'where to look'}</em></p>
-            <h2>{ko ? '물이 그린 하나의 회랑' : 'One corridor, drawn by water'}</h2>
+            <p className="story-kicker">02 · {ko ? '시간축' : 'THE EVENT CLOCK'} — <em>{ko ? '27일에 새 산사태가 있었나' : 'was there a new slide on the 27th?'}</em></p>
+            <h2>{ko ? '아니오. 같은 사건의 여파가 이어졌다.' : 'No. The aftermath of the same event continued.'}</h2>
+            <div className="story-event-clock">
+              {(scenario?.incident_updates ?? []).map((item) => (
+                <article key={`${item.occurred_at_utc}-${item.status}`}>
+                  <time>{item.occurred_at_utc.slice(8, 10)} AUG · {item.occurred_at_utc.slice(11, 16)}Z</time>
+                  <div><strong>{item.title}</strong><p>{item.summary}</p><a href={item.source_url} target="_blank" rel="noreferrer">{item.source} ↗</a></div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">03 · {ko ? '회랑' : 'THE CORRIDOR'} — <em>{ko ? '어디를 볼 것인가' : 'where to look'}</em></p>
+            <h2>{ko ? '한 개의 선이 아니라, 검증할 지점들의 순서' : 'Not a flood polygon—a sequence of places to inspect'}</h2>
             <div className="story-corridor">
               {corridorSketch && (
-                <svg viewBox={`0 0 ${corridorSketch.W} ${corridorSketch.H}`} role="img" aria-label="River corridor">
-                  <path d={corridorSketch.path} fill="none" stroke="var(--blue)" strokeWidth="1.8"
-                        strokeLinecap="round" strokeLinejoin="round" />
+                <svg viewBox={`0 0 ${corridorSketch.W} ${corridorSketch.H}`} role="img" aria-label="Mapped drainage corridor">
+                  <path d={corridorSketch.path} fill="none" stroke="var(--blue)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   {corridorSketch.dots.map((d, i) => (
-                    <g key={d.name}>
-                      <circle cx={d.x} cy={d.y} r="3.4" fill={i === 0 ? 'var(--orange)' : 'var(--surface)'}
-                              stroke={i === 0 ? 'var(--orange)' : 'var(--blue)'} strokeWidth="1.6" />
-                      <text x={d.x + 7} y={d.y + 3.5} fontSize="8.5" fontFamily="var(--font-geist-mono)" fill="var(--muted)">{d.name}</text>
-                    </g>
+                    <g key={d.name}><circle cx={d.x} cy={d.y} r="3.4" fill={i === 0 ? 'var(--orange)' : 'var(--surface)'} stroke={i === 0 ? 'var(--orange)' : 'var(--blue)'} strokeWidth="1.6" /><text x={d.x + 7} y={d.y + 3.5} fontSize="8.5" fontFamily="var(--font-geist-mono)" fill="var(--muted)">{d.name}</text></g>
                   ))}
                 </svg>
               )}
             </div>
             <p>{ko
-              ? '수계 레이어는 장식이 아님 — 급류가 실제로 사용한 OSM 강 중심선임. Rasuwagadhi 상류는 전부 티베트의 Lhende 유역이고, 그곳에 이탈 추정 발원(E, 약 5,200m)과 8월 27일 생긴 언색호(D, 약 0.11km²)가 있음 — 중국 당국 발표로는 28일에 붕괴해 점진 배수됐고, 계곡은 2차 급류를 가까스로 피했음. 강은 재해 파이프라인의 첫 질문에 답함: 어디를 볼 것인가.'
-              : 'The hydrography layer is not decoration: it is the OSM river centreline the flood actually used. Everything upstream of Rasuwagadhi is the Lhende basin in Tibet — the suspected detachment source (E, ~5,200 m) and, a barrier lake (D, ~0.11 km²) that formed on 27 August and, per Chinese authorities, breached and drained gradually on the 28th — a second surge the valley narrowly avoided. The river answers the first question of any disaster pipeline: '}<strong>{ko ? '' : 'where to look.'}</strong></p>
+              ? '이 선은 OSM에 매핑된 배수 회랑임. 보도와 사건 후 영상이 이 회랑을 따라 영향을 놓지만, 선 자체가 홍수 경계·수심·도달시간을 뜻하지는 않음. E는 네팔 영내 Langtang Lirung 발원 수색점이고, D는 정확 좌표가 공개되지 않은 언색호의 설명용 표식임.'
+              : 'The line is a mapped OSM drainage corridor along which reports and post-event imagery place the flood. It is not a flood boundary, depth map or travel-time estimate. E is the Nepal-side Langtang Lirung source-search anchor; D is an illustrative marker for a reported lake whose exact public coordinates remain unresolved.'}</p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">02 · {ko ? '위성' : 'THE SATELLITES'} — <em>{ko ? '무엇이 보이는가' : 'what is seen'}</em></p>
-            <h2>{ko ? '15일 간격의 두 장' : 'Two pictures, fifteen days apart'}</h2>
-            <p>{ko ? '아래는 사건 전 마지막으로 구름이 걷힌 Sentinel-2 관측과 사건 후 첫 관측임 — 핸들을 끌어 비교.' : 'Below are the last cloud-usable Sentinel-2 view before the event and the first one after it — drag the handle to compare.'}</p>
+            <p className="story-kicker">04 · {ko ? '광학' : 'THE OPTICAL VIEW'} — <em>{ko ? '픽셀은 무엇을 보여주는가' : 'what the pixels show'}</em></p>
+            <h2>{ko ? '15일 간격의 두 관측' : 'Two observations, fifteen days apart'}</h2>
+            <p>{ko ? '두 장면 모두 Sentinel-2 L2A이며, 핸들을 움직여 같은 Rasuwagadhi 창을 비교할 수 있음.' : 'Both frames are Sentinel-2 L2A observations of the same Rasuwagadhi window. Drag the handle to compare them.'}</p>
             {sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && (
               <div className="story-swipe" style={{ ['--swipe' as string]: `${swipe}%` }}>
-                <img src={sceneById('s2-2026-08-27')!.image} alt="Sentinel-2 2026-08-27, one day after the event" />
-                <div className="swipe-clip">
-                  <img src={sceneById('s2-2026-08-12')!.image} alt="Sentinel-2 2026-08-12, before the event" />
-                </div>
-                <div className="swipe-bar" />
-                <span className="swipe-label pre">PRE · 08-12</span>
-                <span className="swipe-label post">POST · 08-27</span>
-                <input type="range" min={0} max={100} value={swipe} aria-label="Compare before and after"
-                       onChange={(e) => setSwipe(Number(e.target.value))} />
+                <img src={sceneById('s2-2026-08-27')!.image} alt="Sentinel-2 27 August post-event observation" />
+                <div className="swipe-clip"><img src={sceneById('s2-2026-08-12')!.image} alt="Sentinel-2 12 August pre-event observation" /></div>
+                <div className="swipe-bar" /><span className="swipe-label pre">PRE · 08-12</span><span className="swipe-label post">POST · 08-27</span>
+                <input type="range" min={0} max={100} value={swipe} aria-label="Compare before and after" onChange={(e) => setSwipe(Number(e.target.value))} />
               </div>
             )}
             <p className="story-caption">{ko
-              ? 'Sentinel-2 L2A 트루컬러 · 10m · 2.56km 창(Rasuwagadhi 앵커) · 좌 2026-08-12 (S2C) · 우 2026-08-27 04:56 UTC (S2B, 사건 +1일; 타일 구름 78% 중 이 구역은 맑음). 계곡 바닥을 따라 회색 debris 폭이 넓어짐. © Copernicus Sentinel data 2026.'
-              : 'Sentinel-2 L2A true color · 10 m · 2.56 km window (Rasuwagadhi anchor) · left 2026-08-12 (S2C) · right 2026-08-27 04:56 UTC (S2B, event +1 day; this window clear inside a 78%-cloud tile). Grey debris widens along the valley floor. © Copernicus Sentinel data 2026.'}</p>
+              ? 'Sentinel-2 L2A · 10m · 2.56km 창 · 우측 장면은 8/27 04:56 UTC. 타일 전체 구름률은 78.47%지만 AOI 구름분류(SCL)는 확보하지 못했음. B02 밝기 휴리스틱은 2.5%였으나 눈·구름을 구분하지 못하므로 “맑음” 판정이 아님. 회색/갈색 수로 폭과 반사도 변화는 후보 변화이며 피해 라벨이 아님. © Copernicus Sentinel data 2026.'
+              : 'Sentinel-2 L2A · 10 m · 2.56 km window · right frame 27 Aug 04:56 UTC. The tile is 78.47% cloudy, but no AOI SCL classification is available. A B02-bright heuristic measured 2.5%, yet cannot separate snow from cloud and is not a “clear” label. Apparent channel widening and altered reflectance are candidate changes, not damage labels. © Copernicus Sentinel data 2026.'}</p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">03 · {ko ? '흐름의 추적' : 'THE FLOW TRACE'} — <em>{ko ? '급류는 어디로 갔는가' : 'where the surge went'}</em></p>
-            <h2>{ko ? '국경에서 하류까지, 네 개의 창' : 'Four windows, border to downstream'}</h2>
+            <p className="story-kicker">05 · {ko ? '공백' : 'THE GAPS'} — <em>{ko ? '보이지 않는 곳도 결과다' : 'not seeing is also a result'}</em></p>
+            <h2>{ko ? '같은 영상, 서로 다른 관측성' : 'One scene, uneven observability'}</h2>
+            <figure className="story-figure"><img src="/data/story/corridor_post_grid.png" alt="Four corridor windows from the 27 August Sentinel-2 scene" /><figcaption className="story-caption">{ko ? 'Rasuwagadhi · Timure · Syabrubesi · Dhunche. 밝은 구름·눈이 앵커마다 다르게 나타나며 Dhunche 판독은 제한됨.' : 'Rasuwagadhi · Timure · Syabrubesi · Dhunche. Bright cloud/snow varies by anchor and limits interpretation at Dhunche.'}</figcaption></figure>
+            <figure className="story-figure story-figure-pair"><img src="/data/story/source_pre_0812.png" alt="Langtang Lirung source-search window on 12 August" /><img src="/data/story/source_post_0827.png" alt="Cloud-obscured source-search window on 27 August" /><figcaption className="story-caption">{ko ? 'Langtang Lirung 발원 수색 창: 8/12와 8/27. 사건 후 광학은 구름·눈 때문에 방출흔을 독립 확인하지 못함.' : 'Langtang Lirung source-search window: 12 Aug and 27 Aug. Cloud/snow prevents independent optical confirmation of the release scar.'}</figcaption></figure>
             <p>{ko
-              ? '같은 8월 27일 장면을 회랑의 네 앵커에서 잘라 보면 급류의 경로가 그대로 읽힘. Rasuwagadhi(국경)에서는 두 물줄기가 만나는 Y자 합류부 전체가 넓은 회색 debris 판이 됐고, Timure는 구름 사이로 갈색으로 변한 물길이 보이며, Syabrubesi에서는 하폭이 크게 넓어져 강변 구조물 일부가 사라졌음. Dhunche는 구름에 덮여 판독 불가 — 그 정직한 공백은 오늘 밤 레이더가 채움.'
-              : 'Cut the same 27 August scene at four corridor anchors and the surge’s path reads directly. At Rasuwagadhi (border) the whole Y-junction where two channels meet became one broad grey debris sheet; at Timure a browned channel shows through cloud gaps; at Syabrubesi the channel widened dramatically and riverside structures are gone. Dhunche is cloud-blocked — an honest gap that tonight’s radar fills.'}</p>
-            <figure className="story-figure">
-              <img src="/data/story/corridor_post_grid.png" alt="Four anchor windows on 27 August showing the debris corridor" />
-              <figcaption className="story-caption">{ko
-                ? '2026-08-27 Sentinel-2 · 네 앵커 창 (각 2.56km). 좌상 Rasuwagadhi → 우상 Timure → 좌하 Syabrubesi → 우하 Dhunche(구름). © Copernicus Sentinel data 2026.'
-                : 'Sentinel-2, 27 Aug 2026 · four anchor windows (2.56 km each). Top-left Rasuwagadhi → top-right Timure → bottom-left Syabrubesi → bottom-right Dhunche (cloud). © Copernicus Sentinel data 2026.'}</figcaption>
-            </figure>
-            <p>{ko
-              ? '발원 추정 지점(E)의 8월 27일 광학은 구름에 막혔음. 즉 광학만으로는 빙하 이탈 흔적을 아직 확인할 수 없음 — 이것이 레이더(Sentinel-1)가 이 파이프라인의 절반인 이유임.'
-              : 'The optical view of the suspected source (E) on 27 August is blocked by cloud — so the detachment scar cannot yet be confirmed optically. This is exactly why radar (Sentinel-1) is half of this pipeline.'}</p>
-            <figure className="story-figure story-figure-pair">
-              <img src="/data/story/source_pre_0812.png" alt="Source window before, 12 August" />
-              <img src="/data/story/source_post_0827.png" alt="Source window after, 27 August — cloud covered" />
-              <figcaption className="story-caption">{ko
-                ? '발원 수색 창(E, 2.56km) · 좌 08-12 맑음 — 빙하·암릉이 보임 · 우 08-27 구름 — 판독 불가로 기록함.'
-                : 'Source search window (E, 2.56 km) · left 08-12, clear — glacier and ridgelines visible · right 08-27, cloud — recorded as unreadable.'}</figcaption>
-            </figure>
+              ? '8월 24일의 보라색 화면은 광학 사진이 아니라 Sentinel-1 VV/VH/비율을 RGB로 배치한 레이더 false-colour임. 색은 지표의 실제 색이 아니며, 후방산란 채널의 조합을 읽기 위한 표현임.'
+              : 'The purple 24 August frame is not an optical photograph. It is a Sentinel-1 false-colour composite of VV, VH and their contrast; the colours encode radar backscatter channels, not surface colour.'}</p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">04 · {ko ? '모델' : 'THE MODEL'} — <em>{ko ? '장소가 자기 과거처럼 보이기를 멈췄는가' : 'whether the place stopped looking like its own past'}</em></p>
-            <h2>{ko ? '기계가 보는 것' : 'What a machine sees'}</h2>
+            <p className="story-kicker">06 · OLMoEarth — <em>{ko ? '표현과 예측을 구분하기' : 'representation is not prediction'}</em></p>
+            <h2>{ko ? '장소가 자기 과거와 얼마나 달라졌는가' : 'How far a place moved from its own past'}</h2>
             <p>{ko
-              ? 'frozen OlmoEarth v1 모델이 8주치 레이더(Sentinel-1)와 광학(Sentinel-2) 이력을 읽어 40m 패치 하나를 768개의 숫자로 압축함 — 그 장소가 어떻게 보이고 어떻게 행동하는지의 상태 서명임. 라벨도 없고, 이 사건으로 학습하지도 않았음.'
-              : 'A frozen OlmoEarth v1 model reads eight weeks of radar (Sentinel-1) and optical (Sentinel-2) history and compresses every 40 m patch into 768 numbers — a state signature of how that place looks and behaves. No labels, no training on this event.'}</p>
-            <div className="story-diagram" aria-hidden="true">
-              <div className="sd-box">{ko ? '40m 패치' : '40 m patch'}<br /><small>{ko ? '8주 · S1+S2' : '8 weeks · S1+S2'}</small></div>
-              <div className="sd-arrow">→</div>
-              <div className="sd-box sd-vec">{ko ? '768차원 서명' : '768-d signature'}<br /><small>frozen OlmoEarth v1</small></div>
-              <div className="sd-arrow">→</div>
-              <div className="sd-box sd-delta">{ko ? '자기 과거와의 Δz' : 'Δz vs its own past'}<br /><small>{ko ? 'placebo 주간과 대조 판정' : 'judged against placebo weeks'}</small></div>
+              ? 'frozen OLMoEarth v1은 2.56km 창의 S1·S2 시계열을 공간 패치별 768차원 표현으로 바꿈. 이 표현의 전후 거리 Δz와 유사사례 검색은 가능하지만, 원인·피해·유속을 직접 출력하지 않음.'
+              : 'Frozen OlmoEarth v1 turns each 2.56 km S1/S2 time-series window into 768-dimensional spatial patch representations. Their temporal distance Δz and nearest neighbours can support change triage, but do not directly output cause, damage, velocity or depth.'}</p>
+            <div className="story-diagram" aria-hidden="true"><div className="sd-box">S1 + S2<br /><small>4 × 14-day periods</small></div><div className="sd-arrow">→</div><div className="sd-box sd-vec">768-d<br /><small>frozen OLMoEarth v1</small></div><div className="sd-arrow">→</div><div className="sd-box sd-delta">Δz + neighbours<br /><small>vs local placebo</small></div></div>
+            <div className="story-research-grid">
+              <article><span>{ko ? '네팔 현재' : 'NEPAL NOW'}</span><strong>BLOCKED</strong><p>{scenario?.research.nepal_embedding.claim}</p></article>
+              <article><span>{ko ? '과거 사건 파일럿' : 'HISTORICAL PILOT'}</span><strong>S2-ONLY</strong><p>{scenario?.research.historical_event_delta_pilot.claim_boundary}</p></article>
+              <article><span>{ko ? '사전 위험예측' : 'PRE-EVENT RISK'}</span><strong>NOT DETECTED</strong><p>{scenario?.research.pre_event_susceptibility_probe.claim_boundary}</p></article>
             </div>
+            <div className="story-metric-table">
+              {(scenario?.research.historical_event_delta_pilot.rows ?? []).map((row) => <div key={row.region}><span>{row.region}</span><i style={{ width: `${Math.max(0, Math.min(100, row.auroc * 100))}%` }} /><b>{row.auroc.toFixed(3)}</b></div>)}
+            </div>
+            <p className="story-caption">{ko ? 'M66은 관련 S2-only pre4/post4 선행 실험임. 홋카이도·히로시마에서는 강했지만 도미니카는 약하고 placebo가 12패치뿐임. 네팔 S1+S2 계약의 검증값으로 사용하지 않음.' : 'M66 is a related S2-only pre4/post4 pilot. It was strong in Hokkaido and Hiroshima, weak in Dominica with only 12 placebo patches, and is not a Nepal S1+S2 validation result.'}</p>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">07 · {ko ? '물리 결합' : 'PHYSICS COUPLING'} — <em>{ko ? '표현에서 이동경로까지' : 'from evidence to runout'}</em></p>
+            <h2>{ko ? 'OLMo가 제안하고, 물리가 이동시킨다' : 'OLMo proposes. Physics propagates.'}</h2>
+            <div className="story-pipeline"><div><b>O</b><strong>Sentinel / DEM</strong><small>{ko ? '관측과 지형' : 'observation + terrain'}</small></div><i>→</i><div><b>E</b><strong>OLMoEarth</strong><small>{ko ? '발원·변화·유사사례 후보' : 'source/change/analogue candidates'}</small></div><i>→</i><div><b>P</b><strong>r.avaflow</strong><small>{ko ? '앙상블 runout' : 'ensemble runout'}</small></div><i>→</i><div><b>H</b><strong>Review</strong><small>{ko ? '공식·현장 검증' : 'official/field check'}</small></div></div>
             <p>{ko
-              ? '변화는 사건 없는 평범한 주간(placebo 창)이 만들어내는 Δz를 초과할 때만 선언됨. 같은 프로토콜을 산사태 지도가 있는 과거 재해 세 곳 — 2018 홋카이도, 2018 히로시마, 2017 도미니카 — 에 재생하면 AUROC 0.85 / 0.95 / 0.61 로 피해를 지역화했음. 네팔의 앵커 하나가 일화가 아닌 이유임: 레시피가 이동함.'
-              : 'Change is declared only when the pre/post distance Δz exceeds what ordinary, uneventful weeks produce (the placebo windows). The same protocol, replayed on three past disasters with mapped landslides — Hokkaido 2018, Hiroshima 2018, Dominica 2017 — localized damage with AUROC 0.85 / 0.95 / 0.61. That is why a single anchor in Nepal is not an anecdote: the recipe travels.'}</p>
+              ? '현재 WASM 입자는 검증된 배수 중심선을 따라 움직이는 인터페이스 설명용 애니메이션임. 과학 계산은 상류 암반–빙하–토석–물 연쇄를 r.avaflow v4 앙상블로 풀고 D-Claw로 독립 확인한 뒤, 정의된 단면 수문곡선이 있을 때만 LISFLOOD-FP 또는 BASEMENT로 하류 수리단계를 잇는 구조가 적절함.'
+              : 'The current WASM particles are an interface illustration along a mapped drainage centreline. A scientific upgrade would run an r.avaflow v4 ensemble for the upper rock–ice–debris–water cascade, check it independently with D-Claw, and couple to LISFLOOD-FP or BASEMENT downstream only after a defensible cross-section hydrograph exists.'}</p>
+            <p className="story-rule">{scenario?.research.physics.coupling_rule}</p>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">08 · {ko ? '평가' : 'THE TEST'} — <em>{ko ? '멋진 그림을 연구로 바꾸기' : 'turning a demo into evidence'}</em></p>
+            <h2>{ko ? '한 단계씩 무엇이 추가되는지 측정한다' : 'Measure what each layer actually adds'}</h2>
+            <div className="story-arms">{(scenario?.research.evaluation_arms ?? []).map((arm) => <div key={arm.id}><b>{arm.id}</b><span>{arm.label}</span></div>)}</div>
+            <p>{ko
+              ? '주 비교는 A1 고전 변화탐지 대 A3 gate-aware OLMoEarth임. 같은 recall에서 잘못된 action과 분석시간이 줄어드는지가 운영 헤드라인이고, 변화 영역 AUPRC·발원 위치오차·runout IoU·최대도달 오차·불확실성 coverage를 함께 봄. CEMS·Charter·USGS 산출물은 입력이 아니라 untouched 외부 판정자료로 동결함.'
+              : 'The primary comparison is classical change detection (A1) versus gate-aware OlmoEarth with abstention (A3). The operational headline is fewer invalid actions and analyst minutes at matched recall; event AUPRC, source-localisation error, runout IoU, maximum-runout error and interval coverage remain scientific metrics. CEMS, Charter and USGS products are frozen as untouched external adjudication—not model inputs.'}</p>
           </section>
 
           <section className="story-section story-step story-boundary">
-            <p className="story-kicker">05 · {ko ? '경계' : 'THE BOUNDARY'} — <em>{ko ? '말하기를 거부하는 것' : 'what we refuse to say'}</em></p>
-            <h2>{ko ? '주장의 경계' : 'Claim boundary'}</h2>
+            <p className="story-kicker">09 · {ko ? '주장 경계' : 'CLAIM BOUNDARY'} — <em>{ko ? '말하지 않는 것이 기능이다' : 'abstention is a feature'}</em></p>
+            <h2>{ko ? '후보 변화까지만' : 'Candidate change—and no further'}</h2>
             <p>{ko
-              ? '이 비교가 지지하는 것은 “후보 변화(candidate change)”까지임 — 그 이상이 아님. 피해 확률·사상자·원인·깊이를 주장하지 않음. 눈사태 귀속은 “추정, 조사 중”으로 유지함. 임베딩 판정은 모든 게이트를 통과한 뒤에만 계산됨: 장면 선택 봉인, 센서당 정확히 4개의 14일 기간, 코드 스냅샷 해시, placebo 분포 확보. 하늘이 관측 불가능할 때 정직한 출력은 추측이 아니라 보류(abstention)임.'
-              : 'This comparison supports “candidate change” — nothing more. It does not claim damage probability, casualty figures, cause, or depth. The avalanche attribution stays “suspected, under investigation.” The embedding verdict is computed only after every gate passes: scene selection sealed, exactly four 14-day periods per sensor, code snapshot hashed, placebo distribution on file. Where the sky is not observable, the honest output is abstention, not a guess.'}</p>
+              ? '이 시스템은 현재 피해 확률, 원인 귀속, 붕괴 부피, 홍수 수심, 도달시간을 주장하지 않음. OLMo 임베딩을 마찰계수나 속도로 변환하지 않음. 입력계약·코드 스냅샷·placebo·외부 확인 중 하나라도 빠지면 결과 대신 보류를 남김.'
+              : 'The system currently makes no claim about damage probability, causal attribution, release volume, flood depth or arrival time. It never converts embedding values into friction or velocity. If the input contract, code snapshot, placebo distribution or independent corroboration is missing, it records abstention instead of a result.'}</p>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">06 · {ko ? '오늘 밤' : 'TONIGHT'} — <em>{ko ? '다음 관측' : 'the next observation'}</em></p>
-            <h2>{ko ? '오늘 밤 레이더가 결정하는 것' : 'What tonight’s radar pass settles'}</h2>
+            <p className="story-kicker">10 · {ko ? '다음 관측' : 'THE NEXT CLOCK'} — <em>{ko ? '놓친 패스도 증거다' : 'a missed pass is evidence too'}</em></p>
+            <h2>{ko ? '8월 28일 레이더는 늦은 것이 아니라 빗나갔다' : 'The 28 August radar pass was not late. It missed.'}</h2>
             <p>{ko
-              ? 'Sentinel-1D가 오늘 밤 21:19 KST에 이 계곡을 지남 — 구름과 무관함. 마지막 남은 14일 레이더 기간이 채워지면 사건 후 큐브 봉인이 완성되고 첫 라이브 Δz 판정이 나옴. 또한 보도된 언색호가 낮은 후방산란의 어두운 패치로 찍혀 실제 위치가 고정될 것임. 모든 단계는 메인 화면의 operations log에 현장 레인저들이 쓰는 이벤트-레코드 문법 그대로 기록됨.'
-              : 'Sentinel-1D crosses this valley at 21:19 KST tonight, cloud-blind. It fills the last missing 14-day radar period — unlocking the sealed post-event cube and the first live Δz verdict — and it should image the reported barrier lake as a dark, low-backscatter patch, fixing its true position. Every step lands in the operations log on the main screen, in the same event-record grammar rangers use in the field.'}</p>
+              ? 'Copernicus에 인접 S1D 제품 두 개가 게시됐지만, 남쪽 제품의 북단은 위도 28.008°, 북쪽 제품의 남단은 29.113°였고 발원 AOI 28.277°는 둘 사이에 놓였음. 따라서 0개 footprint가 AOI를 포함함. 다음 레이더 후보는 8월 31일 09:07 KST이며, 예정표가 아니라 실제 footprint로 다시 통과시켜야 함.'
+              : 'Copernicus published two nearby S1D products, but the southern footprint ended at 28.008°N and the northern footprint began at 29.113°N; the 28.277°N source AOI sat between them. Zero footprints contained the AOI. The next radar candidate is 31 August 09:07 KST and must again pass actual footprint containment—not a schedule assumption.'}</p>
+            <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}</em></div>)}</div>
           </section>
 
           <section className="story-section story-step">
-            <p className="story-kicker">07 · {ko ? '아카이브' : 'THE ARCHIVE'} — <em>{ko ? '모든 관측' : 'every acquisition'}</em></p>
-            <h2>{ko ? '이 계곡이 관측된 모든 순간' : 'Every time this valley was seen'}</h2>
-            <p>{ko
-              ? '아래는 이 서비스가 물질화한 관측 전부임 — 광학(S2)과 레이더(S1)가 번갈아 계곡을 지나감. 어떤 프레임도 합성이 아니고, 각 파일의 SHA-256이 봉인돼 있음.'
-              : 'Below is every acquisition this service has materialized — optical (S2) and radar (S1) alternating over the valley. No frame is synthetic; each file’s SHA-256 is sealed.'}</p>
-            <div className="story-archive">
-              {(scenario?.scene_records ?? []).map((s) => (
-                <figure key={s.id}>
-                  <img src={s.image} alt={`${s.sensor} ${s.acquired_at.slice(0, 10)}`} loading="lazy" />
-                  <figcaption>{shortSensor(s.sensor)} · {s.acquired_at.slice(5, 10)}</figcaption>
-                </figure>
-              ))}
-            </div>
-            <p className="story-outro">{ko ? '스토리를 닫고 로그를 지켜보라. 계곡은 아직 움직이고 있음.' : 'Close this story and watch the log. The valley is still moving.'}</p>
+            <p className="story-kicker">11 · {ko ? '아카이브' : 'THE LEDGER'} — <em>{ko ? '관측과 출처' : 'observations and sources'}</em></p>
+            <h2>{ko ? '보여준 모든 픽셀과 판단의 계보' : 'A provenance trail for every pixel and decision'}</h2>
+            <div className="story-archive">{(scenario?.scene_records ?? []).map((s) => <figure key={s.id}><img src={s.image} alt={`${s.sensor} ${s.acquired_at.slice(0, 10)}`} loading="lazy" /><figcaption>{shortSensor(s.sensor)} · {s.acquired_at.slice(5, 10)}</figcaption></figure>)}</div>
+            <div className="story-sources"><a href="https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood" target="_blank" rel="noreferrer">USGS assessment ↗</a><a href="https://www.icimod.org/press-release/major-flash-flood-sweeps-through-nepals-rasuwa-district-raising-fears-of-further-downstream-flooding/" target="_blank" rel="noreferrer">ICIMOD assessment ↗</a><a href="https://mapping.emergency.copernicus.eu/activations/EMSR927/" target="_blank" rel="noreferrer">Copernicus EMSR927 ↗</a><a href="https://disasterscharter.org/activations/flood-in-nepal-activation-1052-" target="_blank" rel="noreferrer">International Charter 1052 ↗</a></div>
+            <p className="story-outro">{scenario?.research.integration_disclaimer}</p>
           </section>
         </div>
         );

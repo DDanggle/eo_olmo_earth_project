@@ -34,6 +34,7 @@ DISPLAY_ANCHOR = "rasuwagadhi"
 SOURCE_ROOT = MATERIALIZED_ROOT / "baseline/dataset/windows/nepal" / DISPLAY_ANCHOR
 PUBLIC_DATA = APP_ROOT / "public/data"
 CATALOG_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/catalog"
+COVERAGE_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/coverage"
 PREFLIGHTS = {
     "s2_live": MATERIALIZED_ROOT / "s2_live/selection_preflight.json",
     "s1_live": MATERIALIZED_ROOT / "s1_live/selection_preflight.json",
@@ -55,8 +56,10 @@ POINTS = [
         "coordinates": [85.3780644, 28.2786794],
         "role": "impact_focus",
         "place": "Pasang Lhamu Highway, Rasuwagadhi, Rasuwa, Nepal",
-        "source": "user coordinate + OSM Nominatim reverse lookup",
-        "story": "Where the surge crossed the border highway. The 26 Aug flood descended the first 22 km at ~193 km/h; this anchor is the primary impact AOI and the reference window for every PRE/POST comparison.",
+        "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
+        "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+        "evidence_level": "verified_aoi_reported_impact_corridor",
+        "story": "Primary impact AOI at the Nepal–China crossing and the reference window for every PRE/POST comparison. The point locates an inspection window; it is not a pixel-level damage label.",
     },
     {
         "id": "B",
@@ -64,8 +67,10 @@ POINTS = [
         "coordinates": [85.3763336, 28.2828546],
         "role": "border_checkpoint",
         "place": "G216, Gyirong Town, Tibet, China",
-        "source": "user coordinate + OSM Nominatim reverse lookup",
-        "story": "The Nepal–China crossing on the Kathmandu–Kerung trade route. Bridges and road sections around this point were destroyed; it anchors the human-exposure side of the corridor.",
+        "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
+        "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+        "evidence_level": "verified_coordinate_reported_impact_corridor",
+        "story": "The cross-border checkpoint beside the impact AOI. It anchors human-exposure review without treating every bright or dark satellite pixel as confirmed infrastructure damage.",
     },
     {
         "id": "D",
@@ -75,30 +80,35 @@ POINTS = [
         "coordinates": [85.4800, 28.2850],
         "role": "upstream_hazard_provisional",
         "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
-        "source": "NDRRMA satellite analysis 2026-08-27 (exact coords unpublished; position illustrative)",
-        "story": "Barrier lake reported by NDRRMA on 27 Aug (~0.11 km2, ~18 km up the Lhende). Chinese authorities state it breached on 28 Aug and drained gradually, easing the second-surge threat. Position provisional; the next Sentinel-1 pass verifies the drained bed.",
+        "source": "NDRRMA report + AP and Chinese government updates; exact coordinates unpublished",
+        "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
+        "evidence_level": "reported_hazard_position_illustrative",
+        "story": "A debris-dammed lake was reported after the 26 Aug collapse and was draining on 28 Aug. This is a secondary hazard from the same event sequence—not evidence of a separate 27 Aug landslide—and the marker remains illustrative until an independent footprint is available.",
     },
     {
         "id": "E",
-        "name": "Suspected detachment source",
-        # ICIMOD: 국경 북동 ~20km, 5,200m에서 빙하 일부가 Lhende로 1,200m 낙하 (조사 중).
-        # 파이프라인의 source_provisional 앵커와 같은 좌표 — 검증된 붕괴 폴리곤이 아님.
+        "name": "Langtang Lirung source estimate",
+        # USGS/위성 기반 근사점. 붕괴는 네팔 영내 Langtang Lirung 북사면에서 발생했으며
+        # 좌표는 검증된 붕괴 폴리곤이 아니라 source-search anchor임.
         "coordinates": [85.5194, 28.2765],
         "role": "source_provisional",
-        "place": "Upper Lhende basin, Gyirong County, Tibet (provisional)",
-        "source": "ICIMOD press assessment 2026-08-27; same as source_provisional search anchor",
-        "story": "ICIMOD's provisional source: at ~5,200 m a glacier section detached and fell ~1,200 m into the Lhende. Same coordinates as the pipeline's source_provisional embedding anchor — the machine was already watching this window.",
+        "place": "North flank of Langtang Lirung, Rasuwa, Nepal (satellite/seismic estimate)",
+        "source": "USGS + China Geological Survey + satellite interpretation",
+        "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+        "evidence_level": "source_estimate_not_release_polygon",
+        "story": "Best current source-search anchor for the 26 Aug rock–ice collapse on the Nepal side of Langtang Lirung. OLMoEarth can compare this window with its own history, but it cannot confirm cause or reconstruct the release volume by itself.",
     },
     {
         "id": "F",
         "name": "Trishuli Bazar / Bidur reach",
-        # 뉴스 실측: Trishuli Bazar 일대 가옥 ~60채 유실, 교량 2개 붕괴, Devighat 수력 피해.
         # 좌표는 OSM Trishuli Ganga way 27033466 하류 단부(강 위) — 시가지 중심이 아님.
         "coordinates": [85.1357, 27.9162],
         "role": "downstream_impact",
         "place": "Trishuli Bazar reach, Bidur, Nuwakot, Nepal",
-        "source": "onlinekhabar.com 2026-08-27; Wikipedia 2026 Nepal floods (72 km flood stretch)",
-        "story": "~60 houses reportedly swept away around Trishuli Bazar, two road bridges lost, Trishuli and Devighat hydropower damaged. The flood ran ~72 km down to Galchhi -- six plants and 431 MW knocked off the grid. This is why the flow line now continues past Betrawati.",
+        "source": "USGS public event map; OSM river reach",
+        "source_url": "https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map",
+        "evidence_level": "downstream_inspection_anchor",
+        "story": "A downstream inspection anchor on the Trishuli corridor. The event propagated far beyond the border, but this marker scopes where to seek corroboration rather than asserting damage at every intermediate reach.",
     },
     {
         "id": "C",
@@ -107,7 +117,47 @@ POINTS = [
         "role": "distant_reference",
         "place": "Rishing-03, Tanahun, Gandaki Province, Nepal",
         "source": "user coordinate + OSM Nominatim reverse lookup",
+        "evidence_level": "distant_placebo_reference",
         "story": "A deliberately distant, untouched window ~114 km away. It exists so the pipeline can prove what NO change looks like — the placebo and transfer reference, not an impact site.",
+    },
+]
+
+INCIDENT_UPDATES = [
+    {
+        "occurred_at_utc": "2026-08-26T02:52:10Z",
+        "status": "primary_event",
+        "relation": "same_event_sequence",
+        "title": "Langtang Lirung rock–ice collapse",
+        "summary": "USGS reclassified the initial earthquake-like signal as an M5.2-equivalent landslide/glacial-collapse signal at zero depth; the source is on the Nepal side of Langtang Lirung.",
+        "source": "USGS Landslide Hazards Program",
+        "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+    },
+    {
+        "occurred_at_utc": "2026-08-26T05:52:00Z",
+        "status": "secondary_signal",
+        "relation": "same_day_signal_not_new_27_aug_event",
+        "title": "Second seismic landslide signal",
+        "summary": "A second M4.2-equivalent signal followed roughly three hours later on 26 Aug. It is not evidence of a separate 27 Aug Tibet landslide.",
+        "source": "USGS Landslide Hazards Program",
+        "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+    },
+    {
+        "occurred_at_utc": "2026-08-27T05:59:00Z",
+        "status": "secondary_hazard_reported",
+        "relation": "aftermath_of_26_aug_event",
+        "title": "Debris-dammed lake reported",
+        "summary": "Authorities reported a new upstream barrier lake created in the aftermath of the collapse; its exact public coordinates remained unresolved.",
+        "source": "NDRRMA / AP",
+        "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
+    },
+    {
+        "occurred_at_utc": "2026-08-28T12:00:00Z",
+        "status": "monitoring_continues",
+        "relation": "aftermath_of_26_aug_event",
+        "title": "Barrier lake draining",
+        "summary": "Chinese authorities reported the lake was draining and its level had fallen, while monitoring for secondary hazards continued.",
+        "source": "State Council of the People's Republic of China",
+        "source_url": "https://english.www.gov.cn/news/202608/28/content_WS6a91259dc6d00ca5f9a0cd54.html",
     },
 ]
 
@@ -240,6 +290,25 @@ def fetch_hydrography(destination: Path) -> dict[str, Any]:
     return geojson
 
 
+def load_latest_coverage_audit() -> tuple[dict[str, Any] | None, dict[str, str]]:
+    """Read the immutable regional-footprint audit, if one has been sealed."""
+    latest_path = COVERAGE_ROOT / "LATEST"
+    if not latest_path.exists():
+        return None, {}
+    snapshot_id = latest_path.read_text().strip()
+    snapshot = COVERAGE_ROOT / snapshot_id
+    audit_path = snapshot / "coverage_audit.json"
+    seal_path = snapshot / "SHA256SUMS"
+    if not audit_path.exists() or not seal_path.exists():
+        return None, {"coverage_snapshot": snapshot_id, "coverage_error": "snapshot_incomplete"}
+    audit = json.loads(audit_path.read_text())
+    return audit, {
+        "coverage_snapshot": snapshot_id,
+        "coverage_audit_sha256": sha256(audit_path),
+        "coverage_seal_sha256": sha256(seal_path),
+    }
+
+
 def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]], dict[str, Any]]:
     """Join the immutable Copernicus snapshot to local rslearn readiness.
 
@@ -260,6 +329,7 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
     catalog = json.loads(catalog_path.read_text())
     status = json.loads(status_path.read_text())
     passes = status.get("passes", [])
+    coverage_audit, coverage_provenance = load_latest_coverage_audit()
 
     def find_product(expected_substring: str):
         return next((scene for scene in catalog.get("scenes", [])
@@ -334,7 +404,23 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
         state = row["status"]
         if state == "published":
             continue  # published는 live_observation/씬 쪽에서 다룸
-        scheduled.append({"sensor": row["sensor"], "acquired_at": row["start_utc"], "state": state})
+        detail = None
+        evidence_uri = None
+        # 점(point) 질의에서 제품이 없다는 사실은 publication delay와 missed swath를
+        # 구분하지 못한다. 넓은 지역 질의 뒤 product footprint containment를 검사한
+        # sealed coverage audit만이 missed_coverage로 상태를 승격할 수 있다.
+        if coverage_audit and coverage_audit.get("pass_id") == row.get("id"):
+            state = coverage_audit.get("status", state)
+            detail = coverage_audit.get("reason")
+            evidence_uri = f"artifacts/external_data/nepal_olmo_live_v1/coverage/{coverage_provenance.get('coverage_snapshot')}/coverage_audit.json"
+        scheduled.append({
+            "id": row.get("id"),
+            "sensor": row["sensor"],
+            "acquired_at": row["start_utc"],
+            "state": state,
+            "detail": detail,
+            "evidence_uri": evidence_uri,
+        })
     scheduled = scheduled[:3]
 
     provenance = {
@@ -343,6 +429,7 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
         "catalog_sha256": sha256(catalog_path),
         "acquisition_status_sha256": sha256(status_path),
         "catalog_seal_sha256": sha256(snapshot / "SHA256SUMS"),
+        **coverage_provenance,
     }
     for mode, path in PREFLIGHTS.items():
         if path.exists():
@@ -391,6 +478,22 @@ def build_ops_log() -> list[dict[str, Any]]:
                         "green", f"{r['sensor']} {r['id']} published "
                         f"(latency {r.get('publication_latency_minutes','?')} min)",
                         str(st.relative_to(WORK_ROOT)))
+
+    # 예정 궤도와 실제 AOI footprint를 분리하는 별도 감사. 이 레코드가 있으면
+    # acquired_pending_catalog를 publication wait로 오독하지 않는다.
+    coverage_audit, coverage_provenance = load_latest_coverage_audit()
+    if coverage_audit:
+        snapshot_id = coverage_provenance.get("coverage_snapshot")
+        evidence_uri = (f"artifacts/external_data/nepal_olmo_live_v1/coverage/"
+                        f"{snapshot_id}/coverage_audit.json")
+        status = coverage_audit.get("status")
+        add(coverage_audit.get("evaluated_at_utc"), "Copernicus footprint audit",
+            "COVERAGE_MISS" if status == "missed_coverage" else "COVERAGE_PASS",
+            "orange" if status == "missed_coverage" else "green",
+            (f"{coverage_audit.get('sensor')}: "
+             f"{coverage_audit.get('regional_product_count', 0)} nearby products, "
+             f"{coverage_audit.get('aoi_covering_product_count', 0)} cover the AOI — "
+             f"{status}"), evidence_uri)
 
     # preflight / manifest / 임베딩
     for mode_dir in sorted(MATERIALIZED_ROOT.iterdir()) if MATERIALIZED_ROOT.exists() else []:
@@ -460,12 +563,10 @@ def build_ops_log() -> list[dict[str, Any]]:
                 f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}",
                 str(rp.relative_to(WORK_ROOT)))
 
-    add("2026-08-28T12:00:00Z", "Barrier lake breached, drained gradually", "UPSTREAM_HAZARD_EASED", "green",
-        "Chinese authorities: the ~2M m3 barrier lake near the Chhochen/Purepu confluence breached 28 Aug and drained gradually; rescue operations resumed. Next S1 pass verifies the drained bed",
-        "en.wikipedia.org/wiki/2026_Nepal_floods (accessed 2026-08-28)")
-    add("2026-08-27T05:59:00Z", "Upstream barrier lake reported", "UPSTREAM_HAZARD", "orange",
-        "NDRRMA: lake ~0.11 km2, ~18 km upstream of Rasuwagadhi on the Lhende; China warns ~3M m3 inflow over 3 days; dam stability uncertain",
-        "kathmandupost.com 2026-08-27 / onlinekhabar.com")
+    for update in INCIDENT_UPDATES:
+        add(update["occurred_at_utc"], update["source"], update["status"].upper(),
+            "orange" if update["status"] in {"primary_event", "secondary_hazard_reported"} else "blue",
+            update["summary"], update["source_url"], "source_event_time")
     events.sort(key=lambda e: e["time_utc"], reverse=True)
     return events[:30]
 
@@ -498,7 +599,15 @@ def build_decision(live_observation: dict[str, Any] | None,
         reason = (f"Post-event scene selected, but cube seal failed: "
                   f"S1 {periods.get('sentinel1', '?')}/4; "
                   f"S2 {periods.get('sentinel2_l2a', '?')}/4 per anchor.")
-        next_scene = scheduled_scenes[0] if scheduled_scenes else None
+        # 놓친 swath는 기다릴 대상이 아니다. 다음 실제 acquisition gate로 건너뛴다.
+        missing_sensor = None
+        if periods.get("sentinel1", 0) < 4:
+            missing_sensor = "Sentinel-1"
+        elif periods.get("sentinel2_l2a", 0) < 4:
+            missing_sensor = "Sentinel-2"
+        next_scene = next((scene for scene in scheduled_scenes
+                           if scene.get("state") != "missed_coverage"
+                           and (missing_sensor is None or scene.get("sensor", "").startswith(missing_sensor))), None)
         next_gate = (f"Wait for {next_scene['sensor']} at {next_scene['acquired_at']}, materialize, then reseal 5/5 anchors."
                      if next_scene else "Acquire the missing modality period and reseal 5/5 anchors.")
         return {
@@ -554,6 +663,92 @@ def olmoearth_block() -> dict[str, Any]:
     else:
         block["post_event_delta"] = "blocked_until_olmo_ready_post_cube"
     return block
+
+
+def research_block() -> dict[str, Any]:
+    """Expose measured transfer evidence and the proposed physics boundary.
+
+    These fields deliberately separate a related historical-event pilot from
+    the current Nepal live cube. They may inform the method, but cannot be used
+    as if Nepal had already produced a post-event embedding verdict.
+    """
+    event_delta_path = WORK_ROOT / "artifacts/sen12_event_delta_pilot/report.json"
+    susceptibility_path = WORK_ROOT / "artifacts/sen12_susceptibility_probe/report.json"
+    event_delta = json.loads(event_delta_path.read_text()) if event_delta_path.exists() else None
+    susceptibility = (json.loads(susceptibility_path.read_text())
+                      if susceptibility_path.exists() else None)
+    transfer_rows = []
+    if event_delta:
+        for region, result in (event_delta.get("regions") or {}).items():
+            transfer_rows.append({
+                "region": region,
+                "auroc": result.get("pooled_auroc"),
+                "placebo_auroc": result.get("placebo_pooled_auroc"),
+                "patches": result.get("patches_used"),
+            })
+    susceptibility_rows = []
+    if susceptibility:
+        for region, result in (susceptibility.get("loco") or {}).items():
+            susceptibility_rows.append({
+                "region": region,
+                "olmo_auroc": (result.get("olmoearth") or {}).get("auroc"),
+                "raw_auroc": (result.get("raw") or {}).get("auroc"),
+                "verdict": result.get("verdict"),
+            })
+    return {
+        "integration_disclaimer": (
+            "Research integration of OlmoEarth representations with EarthRanger-style incident provenance "
+            "and Skylight-style observation awareness; not an official Ai2 disaster product."
+        ),
+        "nepal_embedding": {
+            "status": "blocked_until_full_post_event_s1_plus_s2_cube_is_sealed",
+            "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
+            "placebo_count": 2,
+            "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet.",
+        },
+        "historical_event_delta_pilot": {
+            "rows": transfer_rows,
+            "contract": "related S2-only pre4/post4 temporal-delta pilot",
+            "claim_boundary": (
+                "Strong in Hokkaido and Hiroshima; weak/borderline in Dominica with only 12 placebo patches. "
+                "This supports feasibility, not Nepal validation or a universal landslide detector."
+            ),
+            "artifact_sha256": sha256(event_delta_path) if event_delta_path.exists() else None,
+        },
+        "pre_event_susceptibility_probe": {
+            "rows": susceptibility_rows,
+            "overall": (susceptibility or {}).get("overall"),
+            "claim_boundary": (
+                "Leave-one-region-out pre-event susceptibility was not detected. "
+                "OlmoEarth is not being presented as a prospective landslide forecast model."
+            ),
+            "artifact_sha256": sha256(susceptibility_path) if susceptibility_path.exists() else None,
+        },
+        "physics": {
+            "current": "Rust/WASM particles animate a verified mapped drainage corridor only.",
+            "proposed_primary": "r.avaflow v4 ensemble for rock–ice–debris–water cascade runout",
+            "independent_check": "D-Claw 1.0",
+            "downstream_hydraulics": "LISFLOOD-FP or BASEMENT after a cross-section hydrograph is defined",
+            "coupling_rule": (
+                "OLMoEarth proposes source/change/material-zone evidence; a physics solver owns runout, "
+                "depth and arrival-time estimates. Embedding values never become friction or velocity directly."
+            ),
+        },
+        "evaluation_arms": [
+            {"id": "A0", "label": "raw EO only"},
+            {"id": "A1", "label": "classical pre/post change"},
+            {"id": "A2", "label": "OLMoEarth temporal delta"},
+            {"id": "A3", "label": "gate-aware OLMoEarth with abstention"},
+            {"id": "A4", "label": "A3 + independent sensor / physics corroboration"},
+            {"id": "A5", "label": "A4 + human/official review"},
+        ],
+        "evaluation_metrics": {
+            "observation": "coverage correctness, publication latency, invalid-action rate",
+            "change": "event-wise AUROC/AUPRC, source localization error, false changed area",
+            "runout": "runout IoU, false-inundated area, maximum-runout error, interval coverage",
+            "operations": "analyst minutes and invalid actions at matched recall",
+        },
+    }
 
 
 def build(refresh_osm: bool) -> None:
@@ -673,14 +868,18 @@ def build(refresh_osm: bool) -> None:
         evidence_status = "Post-event open satellite scene pending in this snapshot."
 
     manifest = {
-        "schema": "olmoearth-nepal-live-twin/v1",
+        "schema": "olmoearth-nepal-live-twin/v2",
         "generated_at": datetime.now(UTC).isoformat(),
         "event": {
             "name": "2026 Rasuwa–Bhote Koshi flash flood",
-            "occurred_at": "2026-08-26T03:15:00Z",
-            "cause_status": "Glacier/ice collapse and temporary debris blockage are under investigation; not an earthquake forecast.",
+            "occurred_at": "2026-08-26T02:52:10Z",
+            "cause_status": (
+                "A rock–ice/glacial collapse on the Nepal side of Langtang Lirung is the leading "
+                "assessment. It generated a cross-border debris-flow/flood; causal and field details remain under review."
+            ),
             "evidence_status": evidence_status,
         },
+        "incident_updates": INCIDENT_UPDATES,
         "points": POINTS,
         "scene_records": sorted(scene_records, key=lambda item: item["acquired_at"]),
         "scheduled_scenes": scheduled_scenes,
@@ -688,11 +887,13 @@ def build(refresh_osm: bool) -> None:
         "olmoearth": olmoearth,
         "decision": build_decision(live_observation, scheduled_scenes, olmoearth),
         "ops_log": build_ops_log(),
+        "research": research_block(),
         "simulation": {
             "engine": "Rust/WASM deterministic particle preview",
-            "route_source": "OSM ways 201928141, 809865767, 24624604",
+            "route_source": "verified OSM river-way chain from Bhote Koshi to Trishuli",
             "route_points": len(hydrography["simulation_route"]),
             "claim": "illustrative_kinematic_preview_not_hazard_forecast",
+            "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw",
         },
         "provenance": {
             "source_root": str(SOURCE_ROOT),

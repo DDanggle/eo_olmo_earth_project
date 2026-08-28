@@ -2681,3 +2681,41 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 다음 실행: GPU1이 비면 Presto 16/64/256픽셀+1타일 smoke(exact month·WGS84 lat/lon) →
   6,834 cache seal → 결과 관찰 전 recipe v3 → 8-region×3seed C1 → Korea recipe 동결 순이다.
   현재 두 GPU가 타 작업에 점유돼 있어 새 GPU 실행은 의도적으로 시작하지 않았다.
+
+### 2026-08-29 — Nepal live twin 재개: 사건·AI2·물리·스토리 검증 (진행 중)
+
+- 계획: 사용자가 갱신한 `apps/nepal-olmo-gis`의 MapTiler/스토리/포인트/flow/data 상태를 실물과
+  대조한다. 2026-08-26 Rasuwagadhi 사건과 08-27 전후 Tibet/HKH 추가 사건의 공식 보도·좌표·
+  원인 확정도를 다시 검색하고, glacier/landslide/flood corridor를 관측·추정·미확인으로 분리한다.
+  OLMoEarth가 수행할 수 있는 embedding extraction/change/retrieval과 할 수 없는 물리 예측을
+  구분하고, DEM·SAR·강우·빙하/호수 inventory·mass-flow simulation의 결합 계약과 평가표를 만든다.
+  마지막으로 Snow Fall/Upshot/Economist식 스크롤 서사를 실제 증거 상태에 맞춰 강화하고 배포한다.
+- 사전 판정 기준: ① 사건 날짜·좌표·원인은 2개 이상 독립 출처 또는 1차 기관 없이는 확정하지 않는다
+  ② OLMo embedding은 valid multimodal seal과 event/post mode 없이는 live 변화로 표시하지 않는다
+  ③ 물리 애니메이션은 calibrated runout이 아니면 route/illustrative simulation으로 명시한다
+  ④ Tibet 사건과 Nepal 본 사건은 공간·수계 연결이 입증되지 않으면 별도 event로 유지한다
+  ⑤ AI2 가치 평가는 탐지 성능뿐 아니라 latency, abstention, retrieval, spatial false alarm,
+  evidence-to-decision time을 포함한다 ⑥ 본 CVPR transfer queue의 GPU/확증 코드는 건드리지 않는다.
+- 예상 산출물: 최신 source ledger와 claim matrix, OLMo×physics 결합 평가 설계, 강화된 story sections,
+  데이터/앱 검증 결과, immutable handoff와 재개 조건. 외부 기사 문구를 시각 카피로 옮길 때는
+  사실과 편집적 해석을 분리하고 출처를 화면 가까이에 둔다.
+- 결과: USGS·CGS·ICIMOD·AP·중국 국무원 자료를 교차해 source를 Nepal-side Langtang Lirung으로
+  정정했다. 08-27 별도 Tibet landslide 근거는 없으며, 같은 26일 사건의 second signal과
+  barrier-lake aftermath로 분리했다. 속도·피해구조물·clear-AOI 등 출처 범위를 넘은 카피를 제거했다.
+- 최신 관측: catalog snapshot `20260828T151656Z`와 regional-footprint audit
+  `20260828T152324Z`를 봉인했다. 08-28 S1D 인접 제품 2개가 AOI를 사이에 두고 지나가
+  `aoi_covering=0`, `MISSED_COVERAGE`로 판정했다. 화면과 decision engine이 놓친 pass를 기다리지
+  않고 08-31 S1D를 다음 gate로 가리킨다.
+- OLMo 경계: Nepal event embedding은 S1 3/4·S2 4/4라 계속 `DO NOT EMBED`다. M66은 related
+  S2-only historical pilot, M67은 pre-event susceptibility `not detected`로 화면에서 분리했다.
+  OLMo는 source/change/analogue proposal, r.avaflow는 runout, D-Claw는 독립 확인,
+  LISFLOOD-FP/BASEMENT는 조건부 downstream stage를 맡도록 계약했다.
+- 제품/평가: storyboard를 evidence-now→event clock→optical/gaps→OLMo→physics→A0–A5 test→
+  next clock→ledger로 확장했다. 운영 주지표는 matched recall에서 invalid action·analyst minutes,
+  과학 지표는 event AUPRC·source error·runout IoU·maximum-runout error·interval coverage다.
+- 검증: Python compiler, asset verifier, TypeScript, ESLint(오류 0; 정적 image 권고 6), Rust/WASM
+  280 particles, vinext production build를 통과했다. 로컬 MapTiler 지도·MISSED evidence card·영/한
+  story를 브라우저에서 확인했고 스타일 reload race를 제거했다. 상세는
+  `docs/NEPAL_OLMO_PHYSICS_STORYBOARD_UPDATE_2026_08_29.md`와 handoff 재개 감사에 기록했다.
+- 상태: **완료 — live embedding은 의도적으로 미실행**. 08-31 실제 footprint→selection→4+4 seal이
+  통과하기 전까지 재계산하지 않으며 CVPR 본선 GPU queue는 변경하지 않았다.

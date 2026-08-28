@@ -7,7 +7,7 @@ const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const scenario = JSON.parse(await readFile(resolve(root, 'public/data/scenario.json'), 'utf8'));
 const hydrography = JSON.parse(await readFile(resolve(root, 'public/data/hydrography.geojson'), 'utf8'));
 
-assert.equal(scenario.schema, 'olmoearth-nepal-live-twin/v1');
+assert.equal(scenario.schema, 'olmoearth-nepal-live-twin/v2');
 assert.ok(scenario.scene_records.length >= 9);
 assert.ok(scenario.scene_records.some((scene) => scene.id === 's2-2026-08-27'));
 assert.equal(scenario.olmoearth.anchors, 5);
@@ -20,13 +20,16 @@ assert.equal(scenario.live_observation.materialization_status, 'partial_cube_con
 assert.deepEqual(scenario.live_observation.period_readiness, { sentinel1: 3, sentinel2_l2a: 4 });
 assert.equal(scenario.decision.action, 'DO NOT EMBED');
 assert.match(scenario.decision.reason, /S1 3\/4; S2 4\/4/);
+assert.match(scenario.decision.next_gate, /Sentinel-1D.*2026-08-31/);
 assert.ok(scenario.ops_log.some((event) => event.type === 'SEAL_INVALID'));
+assert.ok(scenario.ops_log.some((event) => event.type === 'COVERAGE_MISS'));
+assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's1d_20260828')?.state, 'missed_coverage');
 assert.equal(new Set(scenario.ops_log.map((event) => event.event_id)).size, scenario.ops_log.length);
 assert.ok(scenario.live_observation.cloud_cover_tile_pct > 0 && scenario.live_observation.cloud_cover_tile_pct <= 100);
 assert.match(scenario.live_observation.product_name, /^S2B_MSIL2A_20260827/);
 assert.equal(scenario.simulation.claim, 'illustrative_kinematic_preview_not_hazard_forecast');
 assert.ok(hydrography.simulation_route.length >= 40 && hydrography.simulation_route.length <= 96);
-assert.equal(hydrography.features.length, 3);
+assert.equal(hydrography.features.length, 11);
 
 for (const scene of scenario.scene_records) {
   const image = await readFile(resolve(root, 'public', scene.image.slice(1)));
