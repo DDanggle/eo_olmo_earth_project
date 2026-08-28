@@ -86,7 +86,9 @@ add_anchor dhunche 85.2960 28.1020
 # Live selection is cheap to inspect and expensive to materialize.  A provider
 # catalogue can lag the official Copernicus catalogue, so stop before any pixel
 # download unless every anchor actually selected the required post-event scene.
-if [[ "$MODE" != "baseline" ]]; then
+# preflight는 "특정 post-event 장면이 5/5 앵커에 선택됐는가" 검사이므로 live 모드 전용임.
+# placebo는 사건 전 창이라 그런 장면이 없어야 정상 — 대신 seal의 cutoff 규칙이 검증함.
+if [[ "$MODE" == "s1_live" || "$MODE" == "s2_live" ]]; then
   "$WORKSPACE_DIR/.venv/bin/python" "$SCRIPT_DIR/check_nepal_live_selection.py" \
     --dataset "$DATASET_ROOT" --mode "$MODE"
 fi
