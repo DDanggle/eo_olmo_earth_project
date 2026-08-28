@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-28T06:32:06.985575+00:00",
+  "generated_at": "2026-08-28T08:41:34.678699+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T03:15:00Z",
@@ -382,16 +382,56 @@
     "rasuwagadhi_baseline": "materialized_and_sealed",
     "embedding_status": "not_run_in_this_web_snapshot",
     "anchor_geojson": "/data/olmo-input-anchors.geojson",
-    "post_event_delta": "blocked_until_olmo_ready_post_cube"
+    "post_event_delta": {
+      "created_at_utc": "20260828T070505Z",
+      "live_mode": null,
+      "placebo_samples": 2,
+      "rasuwagadhi_live_mean": null,
+      "label": null,
+      "claim_boundary": "candidate change only; not damage probability"
+    }
   },
   "decision": {
-    "status": "hold",
-    "action": "DO NOT EMBED",
-    "reason": "Post-event scene selected, but cube seal failed: S1 3/4; S2 4/4 per anchor.",
-    "next_gate": "Wait for Sentinel-1D IW GRD at 2026-08-28T12:19:28Z, materialize, then reseal 5/5 anchors.",
-    "allowed_claim": "Post-event pixels exist; OLMoEarth evidence does not."
+    "status": "candidate_ready",
+    "action": "REVIEW CANDIDATE EVIDENCE",
+    "reason": "A sealed post-event cube and OLMoEarth delta report are available.",
+    "next_gate": "Seek independent sensor, physical, or human corroboration.",
+    "allowed_claim": "Candidate representation change; not damage probability or hazard extent."
   },
   "ops_log": [
+    {
+      "event_id": "e710b69e9f5d7451",
+      "time_utc": "20260828T070505Z",
+      "recorded_at_utc": "20260828T070505Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "OLMoEarth Δz",
+      "type": "DELTA_REPORT",
+      "priority": "green",
+      "summary": "live=None placebo n=2",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
+    },
+    {
+      "event_id": "54ec8ef7abbc028b",
+      "time_utc": "2026-08-28T08:40:35Z",
+      "recorded_at_utc": "2026-08-28T08:40:35Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "rslearn materialize",
+      "type": "SEAL_INVALID",
+      "priority": "orange",
+      "summary": "s2_live: 81 files, 45,754,625 B — contract failed (S1 3/4, S2 4/4)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/materialization_manifest.json"
+    },
+    {
+      "event_id": "de0e6fb2f83a63f7",
+      "time_utc": "2026-08-28T08:40:32.164260+00:00",
+      "recorded_at_utc": "2026-08-28T08:40:32.164260+00:00",
+      "time_basis": "artifact_field",
+      "source": "rslearn preflight",
+      "type": "PREFLIGHT_PASS",
+      "priority": "green",
+      "summary": "s2_live: 5/5 anchors selected required scene",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/selection_preflight.json"
+    },
     {
       "event_id": "9aed161d356f09cd",
       "time_utc": "2026-08-28T06:32:06Z",
@@ -404,17 +444,6 @@
       "evidence_uri": "artifacts/aoi_observability_20260827.json"
     },
     {
-      "event_id": "9e651620f0e34d58",
-      "time_utc": "2026-08-28T04:54:54Z",
-      "recorded_at_utc": "2026-08-28T04:54:54Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "rslearn materialize",
-      "type": "SEAL_INVALID",
-      "priority": "orange",
-      "summary": "s2_live: 81 files, 45,754,625 B — contract failed (S1 3/4, S2 4/4)",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/materialization_manifest.json"
-    },
-    {
       "event_id": "68f5968e349bbf84",
       "time_utc": "2026-08-28T04:53:12Z",
       "recorded_at_utc": "2026-08-28T04:53:12Z",
@@ -424,17 +453,6 @@
       "priority": "green",
       "summary": "placebo_b: 91 files, 48,680,635 B — sealed",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_b/materialization_manifest.json"
-    },
-    {
-      "event_id": "3b202838ea09ceed",
-      "time_utc": "2026-08-28T04:45:35.766771+00:00",
-      "recorded_at_utc": "2026-08-28T04:45:35.766771+00:00",
-      "time_basis": "artifact_field",
-      "source": "rslearn preflight",
-      "type": "PREFLIGHT_PASS",
-      "priority": "green",
-      "summary": "s2_live: 5/5 anchors selected required scene",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/selection_preflight.json"
     },
     {
       "event_id": "5e71b8fd4f3d1fcb",
@@ -530,7 +548,7 @@
     "catalog_sha256": "cf4b800534f8d5f8998342ed49b533197f27d03d57d961b09c410ac1cb285e0b",
     "acquisition_status_sha256": "a45f0ec3dccf6f60d408235309614f5f8c9c0cc102a7267b564c1da1aa08cee6",
     "catalog_seal_sha256": "1c3be74f71e6c43d99c5cbf2ec6eaaefd42314e781dd4cd2ecb9bcfe53934ba2",
-    "s2_live_selection_preflight_sha256": "5dbd0a5b65d056880eead964709dc9049147bd8584a1f989c91f2365fb15ebd6",
-    "s2_live_materialization_manifest_sha256": "6e60ebe0aa2368855a0c69af92cce1015676e1ce9f122a80b65e574622cb051f"
+    "s2_live_selection_preflight_sha256": "30f57460c5b212e2bf84c92853e936af12f7ef7d7cfbcf3e22207621ffff3db5",
+    "s2_live_materialization_manifest_sha256": "941844a101476bc7d50907c06ff980402d460c76382f6a925f7e307fdb1c4279"
   }
 }
