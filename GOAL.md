@@ -2591,3 +2591,27 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   `PR_DOSSIER.md`, `PR_REVIEW_NOTES.md`, PR body, README/CRITICAL_PATH/STUDY.
 - 다음: AI-Hub v2 eligibility를 닫은 뒤 세 task의 action ranking 이질성을 먼저 잰다. PR 축은
   Linux current replay→사용자 승인 후 fork/push 순서다.
+
+### 2026-08-28 — Nepal live data 갱신·검은 지도 원인 폐쇄
+
+- 계획: 배포 화면의 검은 배경을 브라우저에서 재현하고, 지도 렌더·타일·장면 데이터 상태를
+  분리 진단한다. Copernicus catalog를 새 immutable snapshot으로 갱신한 뒤, `게시됨`,
+  `provider가 선택함`, `OLMo 입력 물질화`, `임베딩 계산`을 서로 다른 게이트로 표시한다.
+- 배경 원인: OSM direct tile이 HTTP 200이지만 실제로는 동일 6,933-byte 차단 응답을 반환했다.
+  외부 raster/WebGL과 무관하게 최신 로컬 S2 PNG를 full-screen DOM backdrop으로 렌더하고,
+  MapLibre canvas resize와 WebGL2 fallback을 보강했다. 로컬 브라우저에서 전 화면 위성 배경,
+  패널·timeline·Rust/WASM flow를 함께 확인했고 console error 0이다.
+- 최신 catalog: snapshot `20260828T000910Z`, seal SHA-256
+  `1c3be74f71e6c43d99c5cbf2ec6eaaefd42314e781dd4cd2ecb9bcfe53934ba2`.
+  S1 GRD 15, S2 L2A 31 acquisitions. S2B 08/27 L2A는 18:33 KST 게시,
+  product `S2B_MSIL2A_20260827T045659_N0512_R119_T45RUM_20260827T084453.SAFE`,
+  tile cloud 78.471315%다. 이 수치는 AOI clear coverage가 아니다.
+- 실측 차단: official CDSE에는 제품이 있지만 Planetary Computer STAC가 아직 08/27 장면을
+  반환하지 않아 rslearn은 5/5 앵커에서 08/24를 선택했다. 따라서 post cube·embedding delta는
+  미측정이며 화면도 `CATALOG / CUBE WAIT`로 표시한다.
+- 개선: `check_nepal_live_selection.py`를 추가해 live item date가 5/5 앵커에 없으면
+  materialization 전에 exit 4로 중단한다. `prepare_nepal_olmo_live.sh`의 잘못된 materialize
+  `--force` 전달도 prepare 전용으로 분리했다. partial `s2_live`는 unsealed 상태로 유지한다.
+- 다음: 08/28 21:19 KST S1D 획득 뒤 official catalog와 provider STAC를 재조회한다. S2/S1
+  selection preflight가 5/5를 통과할 때만 materialize→seal→OLMo v1 embedding→placebo-calibrated
+  delta로 진행한다. 카탈로그 metadata만으로 damage/anomaly를 주장하지 않는다.

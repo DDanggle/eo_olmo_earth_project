@@ -14,7 +14,11 @@ html, body { margin: 0; min-height: 100%; background: var(--ink); color: #effff9
 body { font-family: var(--font-geist-sans), Arial, sans-serif; overflow: hidden; }
 button { font: inherit; }
 .app-shell { position: fixed; inset: 0; overflow: hidden; background: #10241e; }
-.map-stage { position: absolute; inset: 0; }
+.scene-backdrop { position: absolute; z-index: 0; inset: 0; overflow: hidden; background: #17382f; }
+.scene-backdrop-img { object-fit: cover !important; opacity: .96; filter: saturate(1.04) contrast(1.07) brightness(1.02); transform: scale(1.015); }
+.scene-backdrop::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(3,14,11,.2), transparent 28%, transparent 72%, rgba(3,14,11,.2)), linear-gradient(180deg, rgba(3,14,11,.18), transparent 25%, rgba(3,14,11,.16)); }
+.scene-backdrop-grid { position: absolute; inset: 0; opacity: .16; background-image: linear-gradient(rgba(177,255,229,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(177,255,229,.14) 1px, transparent 1px); background-size: 96px 96px; }
+.map-stage { position: absolute; z-index: 1; inset: 0; }
 .map-stage .maplibregl-canvas { filter: saturate(1.04) contrast(1.08) brightness(.98); }
 .flow-canvas { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .terrain-wash { position: absolute; z-index: 2; inset: 0; pointer-events: none; background: radial-gradient(circle at 50% 45%, transparent 34%, rgba(3,10,8,.06) 64%, rgba(3,10,8,.34) 100%), linear-gradient(180deg, rgba(3,14,11,.12), transparent 28%, rgba(3,14,11,.12)); }
@@ -77,6 +81,12 @@ input[type='range']::-webkit-slider-thumb { width: 10px; height: 10px; border: 2
 .waiting-cross::before { transform: translate(-50%,-50%) rotate(45deg); }.waiting-cross::after { transform: translate(-50%,-50%) rotate(-45deg); }
 .loading-grid { position: absolute; inset: 0; background: linear-gradient(90deg, transparent 49%, rgba(95,255,215,.1) 50%, transparent 51%), linear-gradient(transparent 49%, rgba(95,255,215,.1) 50%, transparent 51%); background-size: 18px 18px; }
 .compare-arrow { color: var(--amber); text-align: center; font: 700 12px var(--font-geist-mono); }
+.live-observation { margin-top: 10px; padding: 9px 10px; border-left: 2px solid var(--amber); background: rgba(255,180,95,.08); }
+.live-observation span, .live-observation strong, .live-observation small, .live-observation em { display: block; }
+.live-observation span { color: var(--amber); font: 700 8px var(--font-geist-mono); letter-spacing: .1em; }
+.live-observation strong { margin-top: 4px; font: 650 10px var(--font-geist-mono); }
+.live-observation small { margin-top: 3px; color: #c4d7d1; font: 8px var(--font-geist-mono); }
+.live-observation em { margin-top: 5px; color: var(--amber); font: 700 8px var(--font-geist-mono); font-style: normal; letter-spacing: .04em; }
 .pipeline-stack { margin-top: 11px; }
 .pipeline-row { display: grid; grid-template-columns: 31px 1fr auto; align-items: center; gap: 9px; padding: 9px 0; border-bottom: 1px solid rgba(156,255,224,.08); }
 .pipeline-row > span { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; color: var(--mint); border: 1px solid rgba(95,255,215,.3); font: 700 9px var(--font-geist-mono); }
@@ -94,8 +104,8 @@ input[type='range']::-webkit-slider-thumb { width: 10px; height: 10px; border: 2
 .truth-box p { margin: 6px 0 0; color: #c9d6d1; font-size: 10px; line-height: 1.45; }
 .timeline { position: absolute; z-index: 4; left: 50%; bottom: 20px; width: min(920px, calc(100vw - 690px)); min-width: 580px; padding: 14px 17px; transform: translateX(-50%); border-radius: 3px; }
 .timeline-title { border: 0; padding: 0 0 12px; }
-.scene-track { position: relative; display: grid; grid-template-columns: repeat(9, 1fr); }
-.scene-track::before { content: ''; position: absolute; top: 8px; left: 5%; right: 5%; height: 1px; background: linear-gradient(90deg, var(--mint) 0 69%, var(--amber) 69% 81%, #5b6c67 81%); }
+.scene-track { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; }
+.scene-track::before { content: ''; position: absolute; top: 8px; left: 5%; right: 5%; height: 1px; background: linear-gradient(90deg, var(--mint) 0 72%, var(--amber) 72% 82%, #5b6c67 82%); }
 .scene { position: relative; z-index: 1; display: flex; align-items: center; flex-direction: column; color: #91aaa2; border: 0; background: transparent; cursor: pointer; }
 .scene-node { width: 9px; height: 9px; margin: 4px 0 9px; border: 2px solid #07100e; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 1px rgba(95,255,215,.7); }
 .scene-node.impact { background: var(--amber); box-shadow: 0 0 0 1px var(--amber), 0 0 16px rgba(255,180,95,.7); }
@@ -133,7 +143,111 @@ input[type='range']::-webkit-slider-thumb { width: 10px; height: 10px; border: 2
   .right-rail, .map-legend { display: none; }
   .timeline { left: 10px; right: 10px; bottom: 10px; width: auto; min-width: 0; padding: 11px; transform: none; overflow: hidden; }
   .timeline-title { display: none; }
-  .scene-track { grid-template-columns: repeat(9, 68px); overflow-x: auto; padding-bottom: 4px; }
+  .scene-track { grid-auto-columns: 68px; overflow-x: auto; padding-bottom: 4px; }
   .scene-track::before { left: 34px; right: 34px; }
   .maplibregl-ctrl-bottom-right { display: none; }
 }
+
+
+/* ── 2026-08-27 UX 재작업 ─────────────────────────────────────── */
+
+/* 가독성: 최소 글자 크기 상향 (8px 계열 → 10px 계열) */
+.eyebrow, .panel-heading p, .timeline-title p { font-size: 10px; }
+.coordinate small, .pipeline-row small, .selected-place span,
+.layer-controls label, .flow-control label, .truth-box span,
+.scene strong, .pipeline-row b { font-size: 10px; }
+.coordinate strong, .pipeline-row strong { font-size: 12px; }
+.audit-note, .truth-box p, .selected-place strong { font-size: 11px; }
+.scene small { font-size: 9px; }
+.provenance-stamp { font-size: 9px; }
+
+/* 키보드 포커스 — 없던 것 */
+button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--mint); outline-offset: 2px; border-radius: 2px;
+}
+
+/* 패널 접기 토글 */
+.rail-toggle {
+  position: absolute; z-index: 6; top: 98px; display: flex; align-items: center; gap: 6px;
+  padding: 8px 9px; color: var(--mint); border: 1px solid rgba(95,255,215,.3);
+  background: rgba(5,18,14,.85); cursor: pointer; backdrop-filter: blur(8px);
+  font: 700 10px var(--font-geist-mono); letter-spacing: .08em;
+}
+.rail-toggle em { font-style: normal; color: #9db2ac; }
+.rail-toggle.left { left: 18px; }
+.rail-toggle.right { right: 18px; }
+.rail-toggle.left.open { left: 348px; }
+.rail-toggle.right.open { right: 348px; }
+.rail-toggle:hover { background: rgba(95,255,215,.1); }
+.rail-toggle.open em { display: none; }
+
+/* 데이터 오류 배너 — WASM 상태와 분리된 채널 */
+.data-error {
+  position: absolute; z-index: 7; top: 96px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+  color: #ffe3c2; border: 1px solid rgba(255,180,95,.5); background: rgba(40,20,5,.92);
+  font: 12px/1.4 var(--font-geist-sans, sans-serif); backdrop-filter: blur(8px);
+}
+.data-error strong { color: var(--amber); }
+.data-error button {
+  padding: 6px 12px; color: #10241e; border: 0; background: var(--amber);
+  font: 700 11px var(--font-geist-mono); cursor: pointer;
+}
+
+/* 범례를 좌측 패널 안으로 (떠다니는 조각 제거) */
+.map-legend-inline { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 13px;
+  padding-top: 11px; border-top: 1px solid rgba(156,255,224,.1);
+  color: #c0d0cb; font: 10px var(--font-geist-mono); }
+.map-legend-inline span { display: flex; align-items: center; gap: 6px; }
+.map-legend-inline i { width: 7px; height: 7px; border-radius: 50%; }
+.map-legend-inline .mint { background: var(--mint); }
+.map-legend-inline .amber { background: var(--amber); }
+.map-legend-inline .white { background: #dffdf3; }
+
+/* 타임라인: 선택 불가 항목은 버튼이 아니라 정적 표시 */
+.scene.static { cursor: default; opacity: .78; }
+.scene.static.event { opacity: 1; }
+.scene.static.event strong { color: var(--amber); }
+.scene.active strong { color: var(--mint); }
+.scene:not(.static):hover .scene-node { transform: scale(1.25); }
+.scene-node { transition: transform .15s ease; }
+
+.rail-empty { margin: 12px 2px; color: var(--muted); font: 11px var(--font-geist-mono); }
+
+/* 텍스트 라벨 버튼 (글리프 전용 제거) */
+.map-mode-switch button { font-size: 10px; padding: 10px 14px; }
+.map-mode-switch button:disabled { opacity: .4; cursor: default; }
+.flow-control > button { width: auto; min-width: 52px; padding: 0 8px; height: 29px;
+  font: 700 10px var(--font-geist-mono); letter-spacing: .06em; }
+
+/* 패널이 화면보다 길어질 때 내부 스크롤 (겹침 방지) */
+.left-rail, .right-rail { max-height: calc(100svh - 220px); overflow-y: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-node, .coordinate, .map-mode-switch button { transition: none; }
+}
+
+@media (max-width: 1100px) {
+  /* 이전: right-rail을 CSS로 숨겨서 토글과 어긋났다. 이제 토글이 진실이고
+     좁은 화면에서는 패널이 지도 위 드로어로 뜬다. */
+  .right-rail { display: block; right: 10px; left: auto; width: min(330px, calc(100vw - 20px)); }
+  .left-rail { width: min(330px, calc(100vw - 20px)); }
+  .rail-toggle.right.open { right: calc(min(330px, calc(100vw - 20px)) + 14px); }
+  .rail-toggle.left.open { left: calc(min(330px, calc(100vw - 20px)) + 14px); }
+  .timeline { width: calc(100vw - 36px); min-width: 0; left: 18px; right: 18px; transform: none; }
+}
+@media (max-width: 720px) {
+  .right-rail { display: block; top: 86px; }
+  .rail-toggle { top: 82px; padding: 7px 8px; }
+  .rail-toggle.left.open { left: calc(100vw - 74px); }
+  .rail-toggle.right.open { right: calc(100vw - 74px); }
+  .left-rail, .right-rail { left: 10px; right: 10px; width: auto; max-height: calc(100svh - 200px); }
+  .data-error { left: 10px; right: 10px; transform: none; flex-wrap: wrap; }
+}
+
+/* WebGL2 미지원 강등 모드 */
+.map-fallback { position: absolute; z-index: 3; inset: 0; pointer-events: none; }
+.map-fallback-note { position: absolute; left: 50%; bottom: 190px; transform: translateX(-50%);
+  max-width: 520px; padding: 12px 16px; border: 1px solid rgba(255,180,95,.5);
+  background: rgba(30,18,6,.92); color: #ffe3c2; font: 12px/1.5 var(--font-geist-sans, sans-serif); }
+.map-fallback-note strong { display: block; color: var(--amber); margin-bottom: 4px; }

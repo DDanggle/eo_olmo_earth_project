@@ -1,6 +1,6 @@
 # Nepal OLMo Live Twin — OLMoEarth 중심 실행 설계
 
-기준 시각: 2026-08-27 15:25 KST. 사건 원인은 아직 확정되지 않았다. ICIMOD와
+기준 시각: **2026-08-28 09:09 KST** (catalog snapshot `20260828T000910Z`). 사건 원인은 아직 확정되지 않았다. ICIMOD와
 International Charter가 쓰는 안전한 표현은 **Rasuwa flash flood, suspected rock–ice
 avalanche / rockslide mechanism under investigation**이다. 지진·빙하붕괴를 확정 사실처럼
 쓰지 않는다.
@@ -47,9 +47,15 @@ avalanche / rockslide mechanism under investigation**이다. 지진·빙하붕�
 
 - Sentinel-1 IW GRD: **15 physical acquisitions**. CDSE가 같은 획득을 SAFE/COG 두 표현으로
   노출한 15개 복제본은 acquisition 단위로 중복 제거했다.
-- Sentinel-2 L2A: **30 acquisitions**.
-- 오늘 S2B pass: 2026-08-27 04:56:52–05:17:15 UTC. 06:25 UTC snapshot에서는
-  `acquired_pending_catalog`.
+- Sentinel-2 L2A: **31 acquisitions**.
+- S2B post-event pass는 2026-08-27 04:56:59 UTC에 획득됐고 **09:33:39 UTC
+  (18:33 KST)에 L2A가 게시됐다**. 제품은
+  `S2B_MSIL2A_20260827T045659_N0512_R119_T45RUM_20260827T084453.SAFE`,
+  전체 45RUM tile cloud cover는 **78.471315%**다. 이는 AOI 구름률이 아니므로 아직
+  Rasuwagadhi가 보인다고 주장하지 않는다.
+- 공식 Copernicus OData에는 게시됐지만 rslearn이 사용하는 Planetary Computer STAC에는 같은
+  장면이 아직 선택되지 않았다. 5/5 앵커 모두 08/24 S2가 최신으로 남아 있어 `s2_live`는
+  **OLMo-ready가 아니다**. 카탈로그 게시와 입력 큐브 준비를 분리한다.
 
 전체 SAFE를 60일치 복제하지 않는다. 저장·재현성을 위해 5개 2.56 km 앵커의 COG cutout만
 물질화한다. 원 product UUID/S3 path/checksum은 catalog에 남는다.
@@ -86,8 +92,8 @@ swath edge, processing에 따라 달라진다.
 
 | 데이터 | NPT | KST | 현재/행동 |
 |---|---:|---:|---|
-| S2B 2026-08-27 | 10:41–11:02 | 13:56–14:17 | 획득 완료, L2A 게시 대기 |
-| S1D 2026-08-28 | 18:04–18:12 | 21:19–21:27 | 내일 핵심 SAR post-event pass |
+| S2B 2026-08-27 | 10:41–11:02 | 13:56–14:17 | L2A 게시 완료; tile cloud 78.47%, provider STAC 대기 |
+| S1D 2026-08-28 | 18:04–18:12 | 21:19–21:27 | 오늘 핵심 SAR post-event pass; 09:09 KST snapshot에는 planned |
 | S2C 2026-08-29 | 10:32–10:50 | 13:47–14:05 | 두 번째 optical post |
 | S1D 2026-08-31 | 05:52–05:58 | 09:07–09:13 | 다른 시각/궤도 보완 |
 | S2A 2026-08-31 | 10:37–10:50 | 13:52–14:05 | optical follow-up |
@@ -141,12 +147,14 @@ median **6.03 h** (4.28–8.01 h)다. 따라서:
 ## 내일 최종 행동 규칙
 
 1. `build_nepal_live_catalog.py` 재실행. 새 snapshot을 만들며 과거 것을 덮어쓰지 않는다.
-2. 오늘 S2B가 게시되면 cloud/coverage를 확인하고 `prepare_nepal_olmo_live.sh s2_live`.
+2. S2B는 게시됐지만 provider selection preflight가 실패했다. `dataset prepare` 뒤 5/5 앵커에
+   `20260827` item이 들어올 때만 materialize한다. 현재는 재시도 대기다.
 3. 08/28 S1D가 게시되면 Aug16 동일 상대궤도(예상) pair를 우선하고
    `prepare_nepal_olmo_live.sh s1_live`.
 4. exact-4 period, bands, CRS, completed marker, hashes gate 통과 전에는 OLMo inference 금지.
    live 모드는 period 수만 보지 않고 S2 `2026-08-27` 또는 S1 `2026-08-28` item이 5개
-   앵커 모두에 실제 포함됐는지 확인한다.
+   앵커 모두에 실제 포함됐는지 확인한다. 이 검사는 이제 materialize **전에** 실행되어 stale
+   provider index로 수십 GB를 내려받는 일을 막는다.
 5. Base v1 768-d를 primary로 추출. v1.2는 release sensitivity이며 결과를 같은 열에 섞지 않는다.
 6. placebo delta가 준비되기 전에는 heatmap 제목을 **candidate change**, damage probability로 쓰지
    않는다.

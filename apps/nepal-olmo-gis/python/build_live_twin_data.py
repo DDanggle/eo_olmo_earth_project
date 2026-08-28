@@ -31,6 +31,11 @@ SOURCE_ROOT = (
     / "artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi"
 )
 PUBLIC_DATA = APP_ROOT / "public/data"
+CATALOG_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/catalog"
+S2_PREFLIGHT = (
+    WORK_ROOT
+    / "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/selection_preflight.json"
+)
 ROUTE_WAY_IDS = [201928141, 809865767, 24624604]
 
 POINTS = [
@@ -171,6 +176,78 @@ def fetch_hydrography(destination: Path) -> dict[str, Any]:
     return geojson
 
 
+def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]], dict[str, Any]]:
+    """Join the immutable Copernicus snapshot to local rslearn readiness.
+
+    The official catalogue and the provider used by rslearn are different
+    systems.  Publication therefore never implies that OLMo input pixels have
+    been selected or materialized.
+    """
+    latest_path = CATALOG_ROOT / "LATEST"
+    if not latest_path.exists():
+        return None, [], {}
+    snapshot_id = latest_path.read_text().strip()
+    snapshot = CATALOG_ROOT / snapshot_id
+    catalog_path = snapshot / "catalog.json"
+    status_path = snapshot / "acquisition_status.json"
+    if not catalog_path.exists() or not status_path.exists():
+        return None, [], {"catalog_snapshot": snapshot_id, "catalog_error": "snapshot_incomplete"}
+
+    catalog = json.loads(catalog_path.read_text())
+    status = json.loads(status_path.read_text())
+    passes = status.get("passes", [])
+    s2_pass = next((row for row in passes if row.get("id") == "s2b_20260827"), None)
+    s2_product = next(
+        (scene for scene in catalog.get("scenes", []) if "S2B_MSIL2A_20260827" in scene.get("name", "")),
+        None,
+    )
+
+    preflight = json.loads(S2_PREFLIGHT.read_text()) if S2_PREFLIGHT.exists() else None
+    if preflight and preflight.get("valid"):
+        materialization_status = "provider_selection_ready"
+    elif preflight:
+        materialization_status = "blocked_provider_index_lag"
+    else:
+        materialization_status = "not_preflighted"
+
+    live_observation = None
+    if s2_pass:
+        live_observation = {
+            "sensor": s2_pass["sensor"],
+            "acquired_at": s2_product.get("sensing_start_utc", s2_pass["start_utc"]) if s2_product else s2_pass["start_utc"],
+            "catalog_status": s2_pass["status"],
+            "product_name": s2_product.get("name") if s2_product else None,
+            "product_id": s2_product.get("id") if s2_product else None,
+            "publication_utc": s2_product.get("publication_utc") if s2_product else None,
+            "cloud_cover_tile_pct": s2_product.get("cloud_cover") if s2_product else None,
+            "online": s2_product.get("online") if s2_product else None,
+            "relative_orbit": s2_product.get("relative_orbit") if s2_product else None,
+            "catalog_provider": "Copernicus Data Space OData",
+            "materialization_provider": "Microsoft Planetary Computer STAC via rslearn",
+            "materialization_status": materialization_status,
+            "olmo_ready": bool(preflight and preflight.get("valid")),
+            "claim_boundary": "Tile cloud percentage is not AOI clear-pixel coverage; no post-event embedding is claimed.",
+        }
+
+    scheduled = []
+    for row in passes[:2]:
+        state = row["status"]
+        if row.get("id") == "s2b_20260827" and state == "published":
+            state = "catalog_published_cloudy"
+        scheduled.append({"sensor": row["sensor"], "acquired_at": row["start_utc"], "state": state})
+
+    provenance = {
+        "catalog_snapshot": snapshot_id,
+        "catalog_generated_at_utc": catalog.get("generated_at_utc"),
+        "catalog_sha256": sha256(catalog_path),
+        "acquisition_status_sha256": sha256(status_path),
+        "catalog_seal_sha256": sha256(snapshot / "SHA256SUMS"),
+    }
+    if preflight:
+        provenance["s2_selection_preflight_sha256"] = sha256(S2_PREFLIGHT)
+    return live_observation, scheduled, provenance
+
+
 def build(refresh_osm: bool) -> None:
     if not SOURCE_ROOT.exists():
         raise FileNotFoundError(f"Missing materialized source: {SOURCE_ROOT}")
@@ -252,6 +329,13 @@ def build(refresh_osm: bool) -> None:
     for point in POINTS:
         point["distance_from_a_km"] = round(haversine_km(point_a, point["coordinates"]), 2)
 
+    live_observation, scheduled_scenes, live_provenance = load_live_observation()
+    evidence_status = (
+        "Post-event Sentinel-2B L2A is catalogued; AOI cutout and OLMo embedding remain gated."
+        if live_observation and live_observation["catalog_status"] == "published"
+        else "Post-event open satellite scene pending in this snapshot."
+    )
+
     manifest = {
         "schema": "olmoearth-nepal-live-twin/v1",
         "generated_at": datetime.now(UTC).isoformat(),
@@ -259,21 +343,19 @@ def build(refresh_osm: bool) -> None:
             "name": "2026 Rasuwa–Bhote Koshi flash flood",
             "occurred_at": "2026-08-26T03:15:00Z",
             "cause_status": "Glacier/ice collapse and temporary debris blockage are under investigation; not an earthquake forecast.",
-            "evidence_status": "Post-event open satellite scene pending in this snapshot.",
+            "evidence_status": evidence_status,
         },
         "points": POINTS,
         "scene_records": sorted(scene_records, key=lambda item: item["acquired_at"]),
-        "scheduled_scenes": [
-            {"sensor": "Sentinel-2", "acquired_at": "2026-08-27T04:56:52Z", "state": "catalog_pending"},
-            {"sensor": "Sentinel-1", "acquired_at": "2026-08-28T12:19:28Z", "state": "planned"},
-        ],
+        "scheduled_scenes": scheduled_scenes,
+        "live_observation": live_observation,
         "olmoearth": {
             "model": "OLMoEarth Base",
             "input_contract": "S1 RTC VV/VH + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
             "anchors": 5,
             "rasuwagadhi_baseline": "materialized_and_sealed",
             "embedding_status": "not_run_in_this_web_snapshot",
-            "post_event_delta": "blocked_until_post_scene",
+            "post_event_delta": "blocked_until_olmo_ready_post_cube",
             "anchor_geojson": "/data/olmo-input-anchors.geojson",
         },
         "simulation": {
@@ -287,6 +369,7 @@ def build(refresh_osm: bool) -> None:
             "metadata_sha256": sha256(SOURCE_ROOT / "metadata.json"),
             "items_sha256": sha256(SOURCE_ROOT / "items.json"),
             "hydrography_sha256": sha256(hydrography_path),
+            **live_provenance,
         },
     }
     (PUBLIC_DATA / "scenario.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")

@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 
-const root = resolve(import.meta.dirname, '..');
+const root = resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const scenario = JSON.parse(await readFile(resolve(root, 'public/data/scenario.json'), 'utf8'));
 const hydrography = JSON.parse(await readFile(resolve(root, 'public/data/hydrography.geojson'), 'utf8'));
 
@@ -10,6 +11,11 @@ assert.equal(scenario.schema, 'olmoearth-nepal-live-twin/v1');
 assert.equal(scenario.scene_records.length, 8);
 assert.equal(scenario.olmoearth.anchors, 5);
 assert.equal(scenario.olmoearth.embedding_status, 'not_run_in_this_web_snapshot');
+assert.equal(scenario.live_observation.catalog_status, 'published');
+assert.equal(scenario.live_observation.olmo_ready, false);
+assert.equal(scenario.live_observation.materialization_status, 'blocked_provider_index_lag');
+assert.ok(scenario.live_observation.cloud_cover_tile_pct > 0 && scenario.live_observation.cloud_cover_tile_pct <= 100);
+assert.match(scenario.live_observation.product_name, /^S2B_MSIL2A_20260827/);
 assert.equal(scenario.simulation.claim, 'illustrative_kinematic_preview_not_hazard_forecast');
 assert.ok(hydrography.simulation_route.length >= 40 && hydrography.simulation_route.length <= 96);
 assert.equal(hydrography.features.length, 3);

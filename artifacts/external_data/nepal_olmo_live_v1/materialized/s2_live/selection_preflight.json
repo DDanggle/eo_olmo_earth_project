@@ -1,0 +1,79 @@
+{
+  "anchor_count": 5,
+  "anchors": [
+    {
+      "anchor": "dhunche",
+      "layer": "sentinel2_l2a",
+      "required_matches": [],
+      "required_token": "20260827",
+      "selected_names": [
+        "S2A_MSIL2A_20260824T050231_R119_T45RUM_20260824T115710",
+        "S2C_MSIL2A_20260812T045701_R119_T45RUM_20260812T100317",
+        "S2C_MSIL2A_20260723T045701_R119_T45RUM_20260723T095515",
+        "S2C_MSIL2A_20260703T045701_R119_T45RUM_20260703T095511"
+      ],
+      "valid": false
+    },
+    {
+      "anchor": "rasuwagadhi",
+      "layer": "sentinel2_l2a",
+      "required_matches": [],
+      "required_token": "20260827",
+      "selected_names": [
+        "S2A_MSIL2A_20260824T050231_R119_T45RUM_20260824T115710",
+        "S2C_MSIL2A_20260812T045701_R119_T45RUM_20260812T100317",
+        "S2C_MSIL2A_20260723T045701_R119_T45RUM_20260723T095515",
+        "S2C_MSIL2A_20260703T045701_R119_T45RUM_20260703T095511"
+      ],
+      "valid": false
+    },
+    {
+      "anchor": "source_provisional",
+      "layer": "sentinel2_l2a",
+      "required_matches": [],
+      "required_token": "20260827",
+      "selected_names": [
+        "S2B_MSIL2A_20260824T044659_R076_T45RUM_20260824T083447",
+        "S2C_MSIL2A_20260812T045701_R119_T45RUM_20260812T100317",
+        "S2A_MSIL2A_20260722T045241_R076_T45RUM_20260722T095321",
+        "S2C_MSIL2A_20260703T045701_R119_T45RUM_20260703T095511"
+      ],
+      "valid": false
+    },
+    {
+      "anchor": "syabrubesi",
+      "layer": "sentinel2_l2a",
+      "required_matches": [],
+      "required_token": "20260827",
+      "selected_names": [
+        "S2A_MSIL2A_20260824T050231_R119_T45RUM_20260824T115710",
+        "S2C_MSIL2A_20260812T045701_R119_T45RUM_20260812T100317",
+        "S2C_MSIL2A_20260723T045701_R119_T45RUM_20260723T095515",
+        "S2C_MSIL2A_20260703T045701_R119_T45RUM_20260703T095511"
+      ],
+      "valid": false
+    },
+    {
+      "anchor": "timure",
+      "layer": "sentinel2_l2a",
+      "required_matches": [],
+      "required_token": "20260827",
+      "selected_names": [
+        "S2A_MSIL2A_20260824T050231_R119_T45RUM_20260824T115710",
+        "S2C_MSIL2A_20260812T045701_R119_T45RUM_20260812T100317",
+        "S2C_MSIL2A_20260723T045701_R119_T45RUM_20260723T095515",
+        "S2C_MSIL2A_20260703T045701_R119_T45RUM_20260703T095511"
+      ],
+      "valid": false
+    }
+  ],
+  "dataset": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/dataset",
+  "evaluated_at_utc": "2026-08-28T00:19:12.814943+00:00",
+  "expected_anchor_count": 5,
+  "mode": "s2_live",
+  "reason": "required_scene_missing_from_one_or_more_anchors",
+  "required_layer": "sentinel2_l2a",
+  "required_token": "20260827",
+  "schema": "nepal-olmo-live-selection-preflight-v1",
+  "valid": false
+}

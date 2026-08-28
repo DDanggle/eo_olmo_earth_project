@@ -3,7 +3,7 @@
 import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl, setWorkerUrl } from 'maplibre-gl';
 import type { Feature, FeatureCollection } from 'geojson';
 import Image from 'next/image';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 type SceneRecord = {
@@ -16,10 +16,34 @@ type SceneRecord = {
   source_sha256: string;
 };
 
+type ScenarioPoint = {
+  id: string;
+  name: string;
+  coordinates: [number, number];
+  role: string;
+  place: string;
+  distance_from_a_km: number;
+};
+
+type LiveObservation = {
+  sensor: string;
+  acquired_at: string;
+  catalog_status: string;
+  product_name: string | null;
+  publication_utc: string | null;
+  cloud_cover_tile_pct: number | null;
+  materialization_status: string;
+  olmo_ready: boolean;
+  claim_boundary: string;
+};
+
 type Scenario = {
   generated_at: string;
-  event: { name: string; cause_status: string; evidence_status: string };
+  event: { name: string; occurred_at: string; cause_status: string; evidence_status: string };
+  points: ScenarioPoint[];
   scene_records: SceneRecord[];
+  scheduled_scenes: { sensor: string; acquired_at: string; state: string }[];
+  live_observation: LiveObservation | null;
   olmoearth: { input_contract: string; anchors: number; embedding_status: string; post_event_delta: string };
   simulation: { route_points: number; claim: string };
 };
@@ -41,50 +65,80 @@ type FlowExports = WebAssembly.Exports & {
   abi_version: () => number;
 };
 
-const researchPoints: FeatureCollection = {
-  type: 'FeatureCollection',
-  features: [
-    { type: 'Feature', properties: { id: 'A', name: 'Rasuwagadhi impact AOI' }, geometry: { type: 'Point', coordinates: [85.3780644, 28.2786794] } },
-    { type: 'Feature', properties: { id: 'B', name: 'Gyirong border checkpoint' }, geometry: { type: 'Point', coordinates: [85.3763336, 28.2828546] } },
-    { type: 'Feature', properties: { id: 'C', name: 'Rishing reference' }, geometry: { type: 'Point', coordinates: [84.3103107, 27.8790412] } },
-  ],
+// 타임라인 항목은 scenario.json에서 파생한다. 이전 버전은 이 목록을 하드코딩해서
+// 실제 장면 8개 중 6개만 보였고 07-23의 센서를 잘못 표기했다.
+type TimelineItem = {
+  id: string;
+  kind: 'scene' | 'event' | 'scheduled';
+  date: string;      // "03 JUL"
+  iso: string;       // 정렬용
+  sensor: string;    // "S2" | "S1" | "EVENT"
+  state: string;     // READY | IMPACT | PENDING | PLANNED
+  selectable: boolean;
 };
 
-const pointCards = [
-  { id: 'A', name: 'Rasuwagadhi impact AOI', coordinates: [85.3780644, 28.2786794], distance: '0.00 km', role: 'FOCUS' },
-  { id: 'B', name: 'Gyirong border checkpoint', coordinates: [85.3763336, 28.2828546], distance: '0.49 km', role: 'BORDER' },
-  { id: 'C', name: 'Rishing reference', coordinates: [84.3103107, 27.8790412], distance: '113.79 km', role: 'SEPARATE' },
-];
+const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+const shortDate = (iso: string) => {
+  const d = new Date(iso);
+  return `${String(d.getUTCDate()).padStart(2, '0')} ${MONTHS[d.getUTCMonth()]}`;
+};
+const shortSensor = (sensor: string) => (sensor.includes('-2') || sensor.startsWith('S2') ? 'S2' : sensor.includes('-1') || sensor.startsWith('S1') ? 'S1' : sensor.toUpperCase());
+const kstStamp = (iso: string | null) => iso
+  ? new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Seoul', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(iso)).toUpperCase()
+  : '—';
 
-const timeline = [
-  { id: 's2-2026-07-03', date: '03 JUL', sensor: 'S2', state: 'READY' },
-  { id: 's1-2026-07-11', date: '11 JUL', sensor: 'S1', state: 'READY' },
-  { id: 's2-2026-07-23', date: '23 JUL', sensor: 'S2', state: 'READY' },
-  { id: 's1-2026-08-04', date: '04 AUG', sensor: 'S1', state: 'READY' },
-  { id: 's2-2026-08-12', date: '12 AUG', sensor: 'S2', state: 'READY' },
-  { id: 's1-2026-08-24', date: '24 AUG', sensor: 'S1', state: 'READY' },
-  { id: 'event-2026-08-26', date: '26 AUG', sensor: 'EVENT', state: 'IMPACT' },
-  { id: 's2-2026-08-27', date: '27 AUG', sensor: 'S2', state: 'PENDING' },
-  { id: 's1-2026-08-28', date: '28 AUG', sensor: 'S1', state: 'PLANNED' },
-];
+// 배경 지도 — 2026-08-28.
+//
+// 왜 OSM 직결을 못 쓰는가: tile.openstreetmap.org 는 앱 직접 사용을 금지함. 실측하면 모든
+// 줌의 타일이 동일한 6,933 B로 오고 헤더에 `x-blocked: Access denied` / `x-totp: INVALID`가
+// 붙음. **http 200으로 오는 것이 함정**이라 로그에 오류가 남지 않고 지도만 검게 남았음.
+//
+// 왜 벡터 대신 raster 인가: 이전 시도는 CARTO Dark Matter 벡터(93레이어) + 클라이언트
+// 음영기복(raster-dem 디코딩)이었고 화면이 심하게 버벅였음. raster는 사전 렌더라 레이어가
+// 2장이면 끝이고 GPU 부담이 훨씬 작음.
+//
+// 네팔 랑탕 z12 실측 (전부 200, 해시 상이 — 차단 함정 없음):
+//   CARTO dark_all        5.2 KB   가장 가벼움. 앱 톤(#10241e)과 맞음
+//   Esri World_Hillshade 24.3 KB   사전 렌더 음영기복 — 산악 입체감
+//   Esri World_Imagery   11.7 KB   위성영상. EO 연구 맥락에 주제적으로 맞음
+//   MapTiler outdoor-v2    403     키의 허용 도메인 설정이 맞아야 열림
+//
+// 배포 화면의 성립을 API key에 맡기지 않는다. 외부 raster는 지명/음영 context를 더할 뿐이고,
+// 실제 선택 S2 장면은 별도 DOM backdrop으로 항상 렌더한다.
 
-const rasterStyle = {
+const lightRasterStyle = {
   version: 8 as const,
   sources: {
-    osm: {
+    hillshade: {
       type: 'raster' as const,
-      tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+      tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}'],
       tileSize: 256,
-      attribution: '© OpenStreetMap contributors',
+      maxzoom: 16,
+      attribution: 'Hillshade © Esri',
+    },
+    labels: {
+      type: 'raster' as const,
+      tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
+      tileSize: 256,
+      maxzoom: 20,
+      attribution: '© OpenStreetMap contributors © CARTO',
     },
   },
   layers: [
-    { id: 'map-background', type: 'background' as const, paint: { 'background-color': '#10241e' } },
-    { id: 'osm', type: 'raster' as const, source: 'osm', paint: { 'raster-opacity': 0.88, 'raster-brightness-max': 0.9 } },
+    { id: 'map-background', type: 'background' as const, paint: { 'background-color': 'rgba(16, 36, 30, 0.18)' } },
+    { id: 'hillshade', type: 'raster' as const, source: 'hillshade',
+      paint: { 'raster-opacity': 0.85, 'raster-saturation': -0.6 } },
+    { id: 'labels', type: 'raster' as const, source: 'labels',
+      paint: { 'raster-opacity': 0.55 } },
   ],
 };
 
+const basemapStyle = lightRasterStyle;
+
 setWorkerUrl('/maplibre-gl-worker.mjs');
+
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 export default function Home() {
   const mapNode = useRef<HTMLDivElement>(null);
@@ -93,124 +147,250 @@ export default function Home() {
   const flowSpeedRef = useRef(0.034);
   const flowPlayingRef = useRef(true);
   const initialSceneFitRef = useRef(false);
+  const railsRef = useRef({ left: true, right: true });
+
   const [mapReady, setMapReady] = useState(false);
+  // WebGL2가 없는 브라우저에서 MapLibre 생성자가 던지는 예외가 앱 전체를 죽이던
+  // 결함의 방어. 'unsupported'면 지도 대신 정적 장면 이미지로 강등 표시한다.
+  const [mapStatus, setMapStatus] = useState<'init' | 'ready' | 'unsupported'>('init');
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [hydrography, setHydrography] = useState<Hydrography | null>(null);
-  const [activeSceneId, setActiveSceneId] = useState('s2-2026-08-12');
+  // 데이터 로드와 WASM은 별개 채널이다. 이전 버전은 scenario fetch 실패를
+  // wasmStatus='failed'로 표시해 "시뮬레이션이 죽었다"는 오보를 냈다.
+  const [dataStatus, setDataStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
+  const [wasmStatus, setWasmStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
+  const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
   const [selectedPoint, setSelectedPoint] = useState('A');
   const [overlayOpacity, setOverlayOpacity] = useState(0.78);
   const [showAnchors, setShowAnchors] = useState(true);
   const [flowPlaying, setFlowPlaying] = useState(true);
   const [flowSpeed, setFlowSpeed] = useState(0.034);
-  const [wasmStatus, setWasmStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
+  const [leftOpen, setLeftOpen] = useState(true);
+  const [rightOpen, setRightOpen] = useState(true);
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => { railsRef.current = { left: leftOpen, right: rightOpen }; }, [leftOpen, rightOpen]);
+
+  // 좁은 화면에서는 패널을 기본으로 접는다 (지도가 주인공).
+  // rAF로 페인트 뒤에 미룬다 — effect 내 동기 setState는 연쇄 렌더를 유발한다(lint).
+  useEffect(() => {
+    const id = requestAnimationFrame(() => {
+      if (window.innerWidth < 1100) { setLeftOpen(false); setRightOpen(false); }
+    });
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   useEffect(() => {
+    let cancelled = false;
     Promise.all([
-      fetch('/data/scenario.json').then((response) => response.json() as Promise<Scenario>),
-      fetch('/data/hydrography.geojson').then((response) => response.json() as Promise<Hydrography>),
+      fetch('/data/scenario.json').then((r) => { if (!r.ok) throw new Error(`scenario ${r.status}`); return r.json() as Promise<Scenario>; }),
+      fetch('/data/hydrography.geojson').then((r) => { if (!r.ok) throw new Error(`hydrography ${r.status}`); return r.json() as Promise<Hydrography>; }),
     ]).then(([nextScenario, nextHydrography]) => {
+      if (cancelled) return;
       setScenario(nextScenario);
       setHydrography(nextHydrography);
-    }).catch(() => setWasmStatus('failed'));
-  }, []);
+      setDataStatus('ready');
+      // 초기 장면 = 최신 **광학(S2)**. 최신 전체로 하면 S1 레이더(평균 밝기 35/255,
+      // 사실상 검은 이미지)가 화면을 덮어 "지도가 안 나온다"로 보인다 — 실제 발생한 문제.
+      const ready = [...nextScenario.scene_records].sort((a, b) => a.acquired_at.localeCompare(b.acquired_at));
+      const latestOptical = [...ready].reverse().find((s) => shortSensor(s.sensor) === 'S2');
+      setActiveSceneId((current) => current ?? latestOptical?.id ?? ready[ready.length - 1]?.id ?? null);
+    }).catch(() => { if (!cancelled) setDataStatus('failed'); });
+    return () => { cancelled = true; };
+  }, [reloadKey]);
+
+  // ── 타임라인: 전부 scenario.json에서 파생 ──
+  const timeline = useMemo<TimelineItem[]>(() => {
+    if (!scenario) return [];
+    const items: TimelineItem[] = scenario.scene_records.map((s) => ({
+      id: s.id, kind: 'scene', iso: s.acquired_at, date: shortDate(s.acquired_at),
+      sensor: shortSensor(s.sensor), state: 'READY', selectable: true,
+    }));
+    items.push({
+      id: 'event', kind: 'event', iso: scenario.event.occurred_at,
+      date: shortDate(scenario.event.occurred_at), sensor: 'EVENT', state: 'IMPACT', selectable: false,
+    });
+    scenario.scheduled_scenes.forEach((s, i) => items.push({
+      id: `scheduled-${i}`, kind: 'scheduled', iso: s.acquired_at, date: shortDate(s.acquired_at),
+      sensor: shortSensor(s.sensor),
+      state: s.state === 'planned' ? 'PLANNED' : s.state === 'catalog_published_cloudy' ? 'CATALOG' : 'PENDING',
+      selectable: false,
+    }));
+    return items.sort((a, b) => a.iso.localeCompare(b.iso));
+  }, [scenario]);
+
+  const points = useMemo(() => scenario?.points ?? [], [scenario]);
+  const researchPoints = useMemo<FeatureCollection>(() => ({
+    type: 'FeatureCollection',
+    features: points.map((p) => ({
+      type: 'Feature', properties: { id: p.id, name: p.name },
+      geometry: { type: 'Point', coordinates: p.coordinates },
+    })),
+  }), [points]);
 
   useEffect(() => {
     if (!mapNode.current || mapRef.current) return;
-    const map = new MapLibreMap({
-      container: mapNode.current,
-      style: rasterStyle,
-      center: [85.3779, 28.276],
-      zoom: 14.15,
-      pitch: 0,
-      bearing: 0,
-      attributionControl: false,
+    // 생성 전에 능력을 직접 조사한다 — MapLibre v6은 supported()가 없다.
+    const probe = document.createElement('canvas');
+    const gl = probe.getContext('webgl2');
+    // 진단 — 화면을 볼 수 없을 때 한 번의 새로고침으로 원인을 가리기 위한 로그.
+    const box = mapNode.current.getBoundingClientRect();
+    console.log('[diag] webgl2 =', !!gl,
+                '| container =', Math.round(box.width) + 'x' + Math.round(box.height),
+                '| style = local-scene-backdrop + lightRasterStyle');
+    if (!gl) { console.error('[diag] WebGL2 미지원 → 지도를 만들지 않고 종료함'); queueMicrotask(() => setMapStatus('unsupported')); return; }
+    try {
+      const map = new MapLibreMap({
+        container: mapNode.current,
+        style: basemapStyle,
+        center: [85.3779, 28.276],
+        zoom: 14.15,
+        pitch: 0,
+        bearing: 0,
+        attributionControl: false,
+      });
+      map.addControl(new NavigationControl({ showCompass: true }), 'bottom-right');
+      map.addControl(new AttributionControl({ compact: true }), 'bottom-right');
+      map.on('styledata', () => console.log('[diag] styledata — 레이어',
+        map.getStyle()?.layers?.length ?? 0, '개'));
+      map.on('load', () => {
+        const b = map.getCanvas();
+        console.log('[diag] load 완료 | canvas =', b.width + 'x' + b.height,
+                    '| 소스 =', Object.keys(map.getStyle()?.sources ?? {}).join(','));
+        setMapReady(true); setMapStatus('ready');
+      });
+      let tileCount = 0;
+      map.on('data', (e) => {
+        // e.tile 이 있으면 타일 한 장이 실제로 도착한 것이다.
+        if ((e as { tile?: unknown }).tile) {
+          tileCount += 1;
+          if (tileCount <= 3) console.log('[diag] tile 도착:', (e as { sourceId?: string }).sourceId);
+        }
+      });
+      map.on('idle', () => {
+        const c = map.getCanvas();
+        console.log('[diag] idle | 타일', tileCount, '장 | canvas =', c.width + 'x' + c.height,
+                    '| 레이어', map.getStyle()?.layers?.length ?? 0);
+      });
+      // 외부 context tile 실패는 진단만 남긴다. 실제 S2 backdrop과 로컬 evidence layer는 독립이다.
+      map.on('error', (e) => {
+        const msg = e?.error?.message ?? String(e);
+        console.error('[map] error:', msg);
+      });
+      mapRef.current = map;
+      // 컨테이너가 나중에 커지면 MapLibre는 스스로 캔버스를 늘리지 않는다.
+      // 실측: container 1440x813 인데 canvas 1440x300 이라 지도가 얇은 띠로만 그려졌다.
+      // 주의: 조건 없이 resize()를 호출하면 ResizeObserver가 자기 자신을 다시 깨워
+      // 무한 루프가 된다(실측: headless Chrome이 5분간 종료되지 않았음).
+      // 컨테이너 크기가 **실제로** 바뀐 경우에만 한 번 호출한다.
+      let lastW = 0, lastH = 0;
+      const ro = new ResizeObserver((entries) => {
+        const r = entries[0]?.contentRect;
+        if (!r) return;
+        const w = Math.round(r.width), h = Math.round(r.height);
+        if (w === lastW && h === lastH) return;
+        lastW = w; lastH = h;
+        if (w === 0 || h === 0) return;
+        map.resize();
+        const c = map.getCanvas();
+        console.log('[diag] resize', w + 'x' + h, '→ canvas =', c.width + 'x' + c.height);
+      });
+      ro.observe(mapNode.current);
+      return () => { ro.disconnect(); map.remove(); mapRef.current = null; };
+    } catch {
+      queueMicrotask(() => setMapStatus('unsupported'));
+      return;
+    }
+  }, []);
+
+  // 연구 지점 레이어 — points가 데이터에서 오므로 로드 후에 붙인다.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map || points.length === 0 || map.getSource('research-points')) return;
+    map.addSource('research-points', { type: 'geojson', data: researchPoints });
+    map.addLayer({
+      id: 'point-halo', type: 'circle', source: 'research-points',
+      paint: {
+        'circle-radius': ['case', ['==', ['get', 'id'], 'A'], 18, 12],
+        'circle-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
+        'circle-opacity': 0.16, 'circle-stroke-width': 1,
+        'circle-stroke-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
+      },
     });
-    map.addControl(new NavigationControl({ showCompass: true }), 'bottom-right');
-    map.addControl(new AttributionControl({ compact: true }), 'bottom-right');
-    map.on('load', () => {
-      map.addSource('research-points', { type: 'geojson', data: researchPoints });
-      map.addLayer({
-        id: 'point-halo', type: 'circle', source: 'research-points',
-        paint: {
-          'circle-radius': ['case', ['==', ['get', 'id'], 'A'], 18, 12],
-          'circle-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
-          'circle-opacity': 0.16, 'circle-stroke-width': 1,
-          'circle-stroke-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
-        },
-      });
-      map.addLayer({
-        id: 'point-core', type: 'circle', source: 'research-points',
-        paint: {
-          'circle-radius': ['case', ['==', ['get', 'id'], 'A'], 6, 4],
-          'circle-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
-          'circle-stroke-width': 2, 'circle-stroke-color': '#081411',
-        },
-      });
-      setMapReady(true);
+    map.addLayer({
+      id: 'point-core', type: 'circle', source: 'research-points',
+      paint: {
+        'circle-radius': ['case', ['==', ['get', 'id'], 'A'], 6, 4],
+        'circle-color': ['case', ['==', ['get', 'id'], 'C'], '#ffb45f', '#5fffd7'],
+        'circle-stroke-width': 2, 'circle-stroke-color': '#081411',
+      },
     });
     map.on('click', 'point-core', (event) => {
       const id = event.features?.[0]?.properties?.id;
-      if (id) setSelectedPoint(id);
+      if (id) setSelectedPoint(String(id));
     });
     map.on('mouseenter', 'point-core', () => { map.getCanvas().style.cursor = 'pointer'; });
     map.on('mouseleave', 'point-core', () => { map.getCanvas().style.cursor = ''; });
-    mapRef.current = map;
-    return () => { map.remove(); mapRef.current = null; };
-  }, []);
+  }, [mapReady, points, researchPoints]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!mapReady || !map || !hydrography || map.getSource('hydrography')) return;
+    const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('hydrography', { type: 'geojson', data: hydrography as FeatureCollection });
-    map.addLayer({ id: 'river-casing', type: 'line', source: 'hydrography', paint: { 'line-color': '#06100e', 'line-width': 8, 'line-opacity': 0.82 } }, 'point-halo');
-    map.addLayer({ id: 'river-route', type: 'line', source: 'hydrography', paint: { 'line-color': '#5fffd7', 'line-width': 2.2, 'line-opacity': 0.8, 'line-dasharray': [1.2, 1.6] } }, 'point-halo');
+    map.addLayer({ id: 'river-casing', type: 'line', source: 'hydrography', paint: { 'line-color': '#06100e', 'line-width': 8, 'line-opacity': 0.82 } }, before);
+    map.addLayer({ id: 'river-route', type: 'line', source: 'hydrography', paint: { 'line-color': '#5fffd7', 'line-width': 2.2, 'line-opacity': 0.8, 'line-dasharray': [1.2, 1.6] } }, before);
   }, [hydrography, mapReady]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!mapReady || !map) return;
-    fetch('/data/olmo-input-anchors.geojson').then((response) => response.json() as Promise<FeatureCollection>).then((anchors) => {
+    fetch('/data/olmo-input-anchors.geojson').then((r) => r.json() as Promise<FeatureCollection>).then((anchors) => {
       if (map.getSource('olmo-anchors')) return;
+      const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
       map.addSource('olmo-anchors', { type: 'geojson', data: anchors });
-      map.addLayer({ id: 'olmo-anchor-fill', type: 'fill', source: 'olmo-anchors', paint: { 'fill-color': '#5fffd7', 'fill-opacity': 0.045 } }, 'point-halo');
-      map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, 'point-halo');
+      map.addLayer({ id: 'olmo-anchor-fill', type: 'fill', source: 'olmo-anchors', paint: { 'fill-color': '#5fffd7', 'fill-opacity': 0.045 } }, before);
+      map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch(() => undefined);
   }, [mapReady]);
 
-  const fitScene = (scene: SceneRecord, duration = 900) => {
+  // fitBounds 패딩은 실제로 열려 있는 패널에 맞춘다.
+  // 이전 버전은 패널이 항상 보인다고 가정한 고정 패딩을 썼다.
+  const scenePadding = useCallback(() => {
+    const wide = window.innerWidth > 1100;
+    const { left, right } = railsRef.current;
+    return {
+      top: 96,
+      bottom: window.innerWidth > 720 ? 158 : 190,
+      left: wide && left ? 372 : 24,
+      right: wide && right ? 372 : 24,
+    };
+  }, []);
+
+  const fitScene = useCallback((scene: SceneRecord, duration = 900) => {
     const map = mapRef.current;
     if (!map) return;
     const [topLeft, , bottomRight] = scene.coordinates;
-    const southWest: [number, number] = [topLeft[0], bottomRight[1]];
-    const northEast: [number, number] = [bottomRight[0], topLeft[1]];
-    const wide = window.innerWidth > 1100;
     map.fitBounds(
-      new LngLatBounds(southWest, northEast),
-      {
-        padding: wide
-          ? { top: 118, right: 370, bottom: 154, left: 370 }
-          : { top: 94, right: 28, bottom: 142, left: window.innerWidth > 720 ? 350 : 18 },
-        maxZoom: 15.1,
-        pitch: 0,
-        bearing: 0,
-        duration,
-      },
+      new LngLatBounds([topLeft[0], bottomRight[1]], [bottomRight[0], topLeft[1]]),
+      { padding: scenePadding(), maxZoom: 15.1, pitch: 0, bearing: 0, duration: prefersReducedMotion() ? 0 : duration },
     );
-  };
+  }, [scenePadding]);
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !scenario) return;
+    if (!mapReady || !map || !scenario || !activeSceneId) return;
+    const scene = scenario.scene_records.find((item) => item.id === activeSceneId);
+    if (!scene) return;
     if (map.getLayer('satellite-scene')) map.removeLayer('satellite-scene');
     if (map.getSource('satellite-scene')) map.removeSource('satellite-scene');
-    const scene = scenario.scene_records.find((item) => item.id === activeSceneId)
-      ?? scenario.scene_records.find((item) => item.id === 's1-2026-08-24');
-    if (!scene) return;
+    const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('satellite-scene', { type: 'image', url: scene.image, coordinates: scene.coordinates });
-    map.addLayer({ id: 'satellite-scene', type: 'raster', source: 'satellite-scene', paint: { 'raster-opacity': 0.78, 'raster-fade-duration': 120, 'raster-saturation': 0.12, 'raster-contrast': 0.08 } }, 'point-halo');
+    map.addLayer({ id: 'satellite-scene', type: 'raster', source: 'satellite-scene', paint: { 'raster-opacity': overlayOpacity, 'raster-fade-duration': 120, 'raster-saturation': 0.12, 'raster-contrast': 0.08 } }, before);
     fitScene(scene, initialSceneFitRef.current ? 700 : 0);
     initialSceneFitRef.current = true;
-  }, [activeSceneId, mapReady, scenario]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSceneId, mapReady, scenario, fitScene]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -225,13 +405,8 @@ export default function Home() {
     map.setLayoutProperty('olmo-anchor-line', 'visibility', showAnchors ? 'visible' : 'none');
   }, [mapReady, showAnchors]);
 
-  useEffect(() => {
-    flowPlayingRef.current = flowPlaying;
-  }, [flowPlaying]);
-
-  useEffect(() => {
-    flowSpeedRef.current = flowSpeed;
-  }, [flowSpeed]);
+  useEffect(() => { flowPlayingRef.current = flowPlaying; }, [flowPlaying]);
+  useEffect(() => { flowSpeedRef.current = flowSpeed; }, [flowSpeed]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -295,112 +470,206 @@ export default function Home() {
     return () => { cancelled = true; cancelAnimationFrame(animationFrame); };
   }, [hydrography, mapReady]);
 
-  const activeTimeline = timeline.find((item) => item.id === activeSceneId) ?? timeline[4];
   const activeScene = scenario?.scene_records.find((item) => item.id === activeSceneId) ?? null;
-  const latestBaseline = scenario?.scene_records.find((item) => item.id === 's1-2026-08-24') ?? null;
-  const previewScene = activeScene ?? latestBaseline;
-  const selectedCard = pointCards.find((item) => item.id === selectedPoint) ?? pointCards[0];
-
-  const selectedPlace = useMemo(() => {
-    if (selectedPoint === 'A') return 'Rasuwa, Nepal · Pasang Lhamu Hwy';
-    if (selectedPoint === 'B') return 'Gyirong, Tibet · G216';
-    return 'Rishing-03, Tanahun · separate basin audit';
-  }, [selectedPoint]);
+  const latestOpticalScene = useMemo(() => {
+    const optical = scenario?.scene_records.filter((scene) => shortSensor(scene.sensor) === 'S2') ?? [];
+    return [...optical].sort((a, b) => b.acquired_at.localeCompare(a.acquired_at))[0] ?? null;
+  }, [scenario]);
+  const backdropScene = activeScene && shortSensor(activeScene.sensor) === 'S2' ? activeScene : latestOpticalScene;
+  const nextScheduled = scenario?.scheduled_scenes[0] ?? null;
+  const liveObservation = scenario?.live_observation ?? null;
+  const selectedCard = points.find((item) => item.id === selectedPoint) ?? points[0] ?? null;
 
   const focusPoint = (id: string) => {
     setSelectedPoint(id);
-    const card = pointCards.find((item) => item.id === id);
+    const card = points.find((item) => item.id === id);
     if (!card) return;
-    mapRef.current?.flyTo({ center: card.coordinates as [number, number], zoom: id === 'C' ? 10 : 14, pitch: id === 'C' ? 20 : 50, duration: 1300 });
+    mapRef.current?.flyTo({
+      center: card.coordinates, zoom: id === 'C' ? 10.5 : 14, pitch: 0, bearing: 0,
+      duration: prefersReducedMotion() ? 0 : 1100,
+    });
   };
 
   const fitCorridor = () => {
-    mapRef.current?.fitBounds(new LngLatBounds([85.302, 28.135], [85.386, 28.288]), { padding: { top: 110, right: 350, bottom: 150, left: 350 }, pitch: 22, bearing: -12, duration: 1200 });
+    mapRef.current?.fitBounds(new LngLatBounds([85.302, 28.135], [85.386, 28.288]), {
+      padding: scenePadding(), pitch: 0, bearing: 0, duration: prefersReducedMotion() ? 0 : 1100,
+    });
   };
 
-  const focusActiveScene = () => {
-    if (previewScene) fitScene(previewScene, 900);
+  // 타임라인 키보드 탐색: ←/→ 로 READY 장면 사이 이동.
+  const readyIds = useMemo(() => timeline.filter((t) => t.selectable).map((t) => t.id), [timeline]);
+  const onTimelineKey = (event: React.KeyboardEvent) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    if (!activeSceneId || readyIds.length === 0) return;
+    const at = readyIds.indexOf(activeSceneId);
+    const next = event.key === 'ArrowRight' ? Math.min(at + 1, readyIds.length - 1) : Math.max(at - 1, 0);
+    setActiveSceneId(readyIds[next]);
   };
 
   return (
     <main className="app-shell">
+      <div className="scene-backdrop" aria-hidden="true">
+        {backdropScene && <Image src={backdropScene.image} alt="" fill unoptimized priority className="scene-backdrop-img" />}
+        <div className="scene-backdrop-grid" />
+      </div>
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
-      <canvas ref={canvasRef} className="flow-canvas" aria-hidden="true" />
+      {mapStatus !== 'unsupported' && <canvas ref={canvasRef} className="flow-canvas" aria-hidden="true" />}
       <div className="terrain-wash" aria-hidden="true" />
+      {mapStatus === 'unsupported' && (
+        <div className="map-fallback">
+          <div className="map-fallback-note" role="status">
+            <strong>Interactive map unavailable — WebGL2 is off in this browser.</strong>
+            <span>Showing the selected scene as a static image. Timeline and panels still work.
+            Enable hardware acceleration (chrome://settings/system) or try another browser for the full map.</span>
+          </div>
+        </div>
+      )}
 
       <header className="topbar">
         <div className="brand-lockup">
           <div className="brand-mark"><span /></div>
           <div><p className="eyebrow">AI2 / PLANETARY INTELLIGENCE PROTOTYPE</p><h1>OLMoEarth <span>Live Twin</span></h1></div>
         </div>
-        <div className="map-mode-switch">
-          <button onClick={focusActiveScene}>▣ FOCUS SATELLITE</button>
-          <button onClick={fitCorridor}>⌖ RIVER CORRIDOR</button>
+        <div className="map-mode-switch" role="group" aria-label="Map focus">
+          <button onClick={() => activeScene && fitScene(activeScene, 900)} disabled={!activeScene || mapStatus !== 'ready'}>SATELLITE FRAME</button>
+          <button onClick={fitCorridor} disabled={mapStatus !== 'ready'}>RIVER CORRIDOR</button>
         </div>
-        <div className="event-status"><span className="live-dot" /><div><strong>RASUWA · NEPAL</strong><small>26 AUG 2026 · INVESTIGATION</small></div></div>
+        <div className="event-status"><span className="live-dot" /><div><strong>RASUWA · NEPAL</strong><small>{scenario ? `${shortDate(scenario.event.occurred_at)} 2026 · INVESTIGATION` : 'LOADING'}</small></div></div>
       </header>
 
-      <div className="map-readout">
-        <span>VISIBLE MAP LAYER</span>
-        <strong>{previewScene?.sensor ?? 'Loading satellite'} · {previewScene?.acquired_at.slice(0, 10) ?? '—'}</strong>
-        <small>{activeScene ? 'Georeferenced local scene · click another date below' : 'Post-event scene pending · latest baseline remains visible'}</small>
-      </div>
+      {dataStatus === 'failed' && (
+        <div className="data-error" role="alert">
+          <strong>Snapshot data failed to load.</strong>
+          <span>scenario.json / hydrography.geojson could not be fetched.</span>
+          <button onClick={() => { setDataStatus('loading'); setReloadKey((k) => k + 1); }}>Retry</button>
+        </div>
+      )}
 
+      <button
+        className={`rail-toggle left ${leftOpen ? 'open' : ''}`}
+        aria-expanded={leftOpen}
+        aria-label={leftOpen ? 'Hide area panel' : 'Show area panel'}
+        onClick={() => setLeftOpen((v) => !v)}
+      >{leftOpen ? '⟨' : '⟩'}<em>AOI</em></button>
+
+      <button
+        className={`rail-toggle right ${rightOpen ? 'open' : ''}`}
+        aria-expanded={rightOpen}
+        aria-label={rightOpen ? 'Hide evidence panel' : 'Show evidence panel'}
+        onClick={() => setRightOpen((v) => !v)}
+      ><em>EVIDENCE</em>{rightOpen ? '⟩' : '⟨'}</button>
+
+      {leftOpen && (
       <aside className="left-rail glass-panel">
         <div className="panel-heading"><span>01</span><div><p>AREA OF INTEREST</p><strong>Coordinate audit</strong></div></div>
         <div className="coordinate-list">
-          {pointCards.map((point) => (
+          {points.map((point) => (
             <button key={point.id} className={selectedPoint === point.id ? 'coordinate active' : 'coordinate'} onClick={() => focusPoint(point.id)}>
-              <span>{point.id}</span><div><strong>{point.name}</strong><small>{point.coordinates[1].toFixed(6)}, {point.coordinates[0].toFixed(6)}</small></div><em>{point.role}</em>
+              <span>{point.id}</span>
+              <div><strong>{point.name}</strong><small>{point.coordinates[1].toFixed(6)}, {point.coordinates[0].toFixed(6)}</small></div>
+              <em>{point.role.split('_')[0].toUpperCase()}</em>
             </button>
           ))}
+          {points.length === 0 && <p className="rail-empty">{dataStatus === 'loading' ? 'Loading points…' : 'No points in snapshot.'}</p>}
         </div>
-        <div className="selected-place"><span>{selectedCard.distance} FROM A</span><strong>{selectedPlace}</strong></div>
+        {selectedCard && (
+          <div className="selected-place">
+            <span>{selectedCard.distance_from_a_km.toFixed(2)} km FROM A</span>
+            <strong>{selectedCard.place}</strong>
+          </div>
+        )}
         <p className="audit-note"><b>C is 113.79 km away.</b> It is not used as the event flow endpoint; it remains a separate transfer/reference AOI.</p>
         <div className="layer-controls">
-          <label><span>Satellite overlay</span><b>{Math.round(overlayOpacity * 100)}%</b></label>
-          <input type="range" min="0" max="1" step="0.02" value={overlayOpacity} onChange={(event) => setOverlayOpacity(Number(event.target.value))} />
-          <button className={showAnchors ? 'toggle active' : 'toggle'} onClick={() => setShowAnchors((value) => !value)}><i /> OLMo input windows</button>
+          <label htmlFor="overlay-opacity"><span>Satellite overlay</span><b>{Math.round(overlayOpacity * 100)}%</b></label>
+          <input id="overlay-opacity" type="range" min="0" max="1" step="0.02" value={overlayOpacity} onChange={(event) => setOverlayOpacity(Number(event.target.value))} />
+          <button className={showAnchors ? 'toggle active' : 'toggle'} onClick={() => setShowAnchors((value) => !value)} aria-pressed={showAnchors}><i /> OLMo input windows</button>
+        </div>
+        <div className="map-legend-inline">
+          <span><i className="mint" />Verified river route</span>
+          <span><i className="white" />OLMo input 2.56 km</span>
+          <span><i className="amber" />Unverified / pending</span>
         </div>
       </aside>
+      )}
 
+      {rightOpen && (
       <aside className="right-rail glass-panel">
         <div className="panel-heading"><span>02</span><div><p>EVIDENCE LENS</p><strong>Before → after contract</strong></div></div>
         <div className="compare-strip">
           <div className="scene-preview">
-            {previewScene ? <Image src={previewScene.image} alt={`${previewScene.sensor} pre-event observation`} fill unoptimized sizes="150px" /> : <span className="loading-grid" />}
-            <span>PRE · {previewScene?.acquired_at.slice(0, 10) ?? 'LOADING'}</span>
+            {activeScene ? <Image src={activeScene.image} alt={`${activeScene.sensor} pre-event observation`} fill unoptimized sizes="150px" /> : <span className="loading-grid" />}
+            <span>PRE · {activeScene?.acquired_at.slice(0, 10) ?? (dataStatus === 'loading' ? 'LOADING' : '—')}</span>
           </div>
-          <div className="compare-arrow">→</div>
-          <div className="scene-preview pending-preview"><span className="waiting-cross" /><span>POST · PENDING</span></div>
+          <div className="compare-arrow" aria-hidden="true">→</div>
+          <div className="scene-preview pending-preview">
+            <span className="waiting-cross" />
+            <span>POST · {liveObservation?.catalog_status === 'published' ? 'CATALOG / CUBE WAIT' : nextScheduled ? `${shortSensor(nextScheduled.sensor)} ${nextScheduled.acquired_at.slice(5, 10)}` : 'PENDING'}</span>
+          </div>
         </div>
+        {liveObservation && (
+          <div className="live-observation" role="status">
+            <span>LIVE CATALOG UPDATE</span>
+            <strong>S2B 27 AUG · {liveObservation.catalog_status.toUpperCase()}</strong>
+            <small>{kstStamp(liveObservation.publication_utc)} KST · TILE CLOUD {liveObservation.cloud_cover_tile_pct?.toFixed(2) ?? '—'}%</small>
+            <em>{liveObservation.olmo_ready ? 'OLMo INPUT READY' : 'OLMo INPUT WAITING FOR PROVIDER INDEX'}</em>
+          </div>
+        )}
         <div className="pipeline-stack">
-          <div className="pipeline-row ready"><span>S1</span><div><strong>Radar baseline</strong><small>4 acquisitions · local GeoTIFF</small></div><b>READY</b></div>
-          <div className="pipeline-row ready"><span>S2</span><div><strong>Optical baseline</strong><small>4 acquisitions · true color from 12 bands</small></div><b>READY</b></div>
-          <div className="pipeline-row ready"><span>OE</span><div><strong>OLMoEarth contract</strong><small>5 anchors · S1+S2 · 4 periods</small></div><b>INPUT</b></div>
-          <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>post-event scene required</small></div><b>BLOCKED</b></div>
-          <div className={`pipeline-row ${wasmStatus === 'ready' ? 'ready' : 'preview'}`}><span>W</span><div><strong>Flow layer</strong><small>Rust/WASM · {scenario?.simulation.route_points ?? '—'} route nodes</small></div><b>{wasmStatus.toUpperCase()}</b></div>
+          <div className={`pipeline-row ${dataStatus === 'ready' ? 'ready' : dataStatus === 'failed' ? 'pending' : 'preview'}`}><span>DS</span><div><strong>Snapshot data</strong><small>scenario · hydrography · anchors</small></div><b>{dataStatus.toUpperCase()}</b></div>
+          <div className="pipeline-row ready"><span>S1</span><div><strong>Radar baseline</strong><small>{scenario ? `${scenario.scene_records.filter((s) => shortSensor(s.sensor) === 'S1').length} acquisitions · local GeoTIFF` : '—'}</small></div><b>READY</b></div>
+          <div className="pipeline-row ready"><span>S2</span><div><strong>Optical baseline</strong><small>{scenario ? `${scenario.scene_records.filter((s) => shortSensor(s.sensor) === 'S2').length} acquisitions · true color from 12 bands` : '—'}</small></div><b>READY</b></div>
+          <div className="pipeline-row ready"><span>OE</span><div><strong>OLMoEarth contract</strong><small>{scenario ? `${scenario.olmoearth.anchors} anchors · S1+S2 · 4 periods` : '—'}</small></div><b>INPUT</b></div>
+          <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>{liveObservation?.catalog_status === 'published' ? 'catalogued ≠ materialized OLMo cube' : 'post-event scene required'}</small></div><b>{liveObservation?.olmo_ready ? 'READY' : 'BLOCKED'}</b></div>
+          <div className={`pipeline-row ${wasmStatus === 'ready' ? 'ready' : wasmStatus === 'failed' ? 'pending' : 'preview'}`}><span>W</span><div><strong>Flow layer</strong><small>Rust/WASM · {scenario?.simulation.route_points ?? '—'} route nodes</small></div><b>{wasmStatus.toUpperCase()}</b></div>
         </div>
         <div className="flow-control">
-          <button onClick={() => setFlowPlaying((value) => !value)}>{flowPlaying ? 'Ⅱ' : '▶'}</button>
-          <div><label><span>ILLUSTRATIVE FLOW</span><b>{(flowSpeed / 0.034).toFixed(1)}×</b></label><input type="range" min="0.012" max="0.09" step="0.002" value={flowSpeed} onChange={(event) => setFlowSpeed(Number(event.target.value))} /></div>
+          <button onClick={() => setFlowPlaying((value) => !value)} aria-label={flowPlaying ? 'Pause flow animation' : 'Play flow animation'}>{flowPlaying ? 'PAUSE' : 'PLAY'}</button>
+          <div>
+            <label htmlFor="flow-speed"><span>ILLUSTRATIVE FLOW</span><b>{(flowSpeed / 0.034).toFixed(1)}×</b></label>
+            <input id="flow-speed" type="range" min="0.012" max="0.09" step="0.002" value={flowSpeed} onChange={(event) => setFlowSpeed(Number(event.target.value))} />
+          </div>
         </div>
         <div className="truth-box"><span>CLAIM BOUNDARY</span><p>Particles follow the verified OSM Bhote Koshi→Trishuli centerline. They show interface flow, not flood depth, arrival time, or hazard.</p></div>
       </aside>
+      )}
 
-      <section className="timeline glass-panel" aria-label="Satellite acquisition timeline">
-        <div className="timeline-title"><span>03</span><div><p>SCENE TIMELINE</p><strong>{activeTimeline.date} · {activeTimeline.sensor} · {activeTimeline.state}</strong></div></div>
+      <section className="timeline glass-panel" aria-label="Satellite acquisition timeline" onKeyDown={onTimelineKey}>
+        <div className="timeline-title">
+          <span>03</span>
+          <div>
+            <p>SCENE TIMELINE · ←/→</p>
+            <strong>
+              {activeScene
+                ? `${shortDate(activeScene.acquired_at)} · ${shortSensor(activeScene.sensor)} · ON MAP${shortSensor(activeScene.sensor) === 'S1' ? ' · RADAR IS DARK BY NATURE' : ''}`
+                : dataStatus === 'loading' ? 'LOADING SNAPSHOT' : 'NO SCENE SELECTED'}
+            </strong>
+          </div>
+        </div>
         <div className="scene-track">
-          {timeline.map((scene) => (
-            <button key={scene.id} className={scene.id === activeSceneId ? 'scene active' : 'scene'} onClick={() => setActiveSceneId(scene.id)}>
+          {timeline.map((scene) => scene.selectable ? (
+            <button
+              key={scene.id}
+              className={scene.id === activeSceneId ? 'scene active' : 'scene'}
+              onClick={() => setActiveSceneId(scene.id)}
+              aria-pressed={scene.id === activeSceneId}
+            >
               <span className={`scene-node ${scene.state.toLowerCase()}`} /><strong>{scene.date}</strong><small>{scene.sensor}</small><em>{scene.state}</em>
             </button>
+          ) : (
+            <div
+              key={scene.id}
+              className={`scene static ${scene.kind}`}
+              title={scene.kind === 'event' ? scenario?.event.name : 'Not yet acquirable — cannot be shown on the map'}
+            >
+              <span className={`scene-node ${scene.state.toLowerCase()}`} /><strong>{scene.date}</strong><small>{scene.sensor}</small><em>{scene.state}</em>
+            </div>
           ))}
+          {timeline.length === 0 && <p className="rail-empty">{dataStatus === 'failed' ? 'Timeline unavailable.' : 'Loading acquisitions…'}</p>}
         </div>
       </section>
 
-      <div className="map-legend"><span><i className="mint" />Verified river route</span><span><i className="white" />OLMo input 2.56 km</span><span><i className="amber" />Unverified / pending</span></div>
-      <div className="provenance-stamp">DATA SNAPSHOT {scenario?.generated_at.slice(0, 16).replace('T', ' ') ?? 'LOADING'} UTC · OSM ODbL · ESA COPERNICUS</div>
+      <div className="provenance-stamp">DATA SNAPSHOT {scenario?.generated_at.slice(0, 16).replace('T', ' ') ?? '—'} UTC · OSM ODbL · ESA COPERNICUS</div>
     </main>
   );
 }

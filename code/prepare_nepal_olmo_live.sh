@@ -13,17 +13,17 @@ case "$MODE" in
   baseline)
     START="2026-07-01T00:00:00+00:00"
     END="2026-08-26T00:00:00+00:00"
-    FORCE_ARGS=()
+    PREPARE_FORCE_ARGS=()
     ;;
   s2_live)
     START="2026-07-03T00:00:00+00:00"
     END="2026-08-28T00:00:00+00:00"
-    FORCE_ARGS=(--force)
+    PREPARE_FORCE_ARGS=(--force)
     ;;
   s1_live)
     START="2026-07-05T00:00:00+00:00"
     END="2026-08-30T00:00:00+00:00"
-    FORCE_ARGS=(--force)
+    PREPARE_FORCE_ARGS=(--force)
     ;;
   *)
     echo "mode must be baseline, s2_live, or s1_live" >&2
@@ -68,12 +68,19 @@ add_anchor dhunche 85.2960 28.1020
 
 "$RSLEARN_BIN" dataset prepare \
   --root "$DATASET_ROOT" --group nepal --workers 2 \
-  "${FORCE_ARGS[@]}" \
+  "${PREPARE_FORCE_ARGS[@]}" \
   --disabled-layers embeddings --retry-max-attempts 5 --retry-backoff-seconds 5
+
+# Live selection is cheap to inspect and expensive to materialize.  A provider
+# catalogue can lag the official Copernicus catalogue, so stop before any pixel
+# download unless every anchor actually selected the required post-event scene.
+if [[ "$MODE" != "baseline" ]]; then
+  "$WORKSPACE_DIR/.venv/bin/python" "$SCRIPT_DIR/check_nepal_live_selection.py" \
+    --dataset "$DATASET_ROOT" --mode "$MODE"
+fi
 
 "$RSLEARN_BIN" dataset materialize \
   --root "$DATASET_ROOT" --group nepal --workers 2 --no-use-initial-job \
-  "${FORCE_ARGS[@]}" \
   --disabled-layers embeddings --retry-max-attempts 5 --retry-backoff-seconds 5
 
 "$WORKSPACE_DIR/.venv/bin/python" "$SCRIPT_DIR/seal_nepal_olmo_dataset.py" \

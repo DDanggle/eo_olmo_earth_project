@@ -272,7 +272,7 @@ def main() -> None:
         "platform", "tile_id", "cloud_cover", "relative_orbit", "orbit_direction", "product_type",
     ]
     with csv_path.open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=fields, extrasaction="ignore")
+        writer = csv.DictWriter(stream, fieldnames=fields, extrasaction="ignore", lineterminator="\n")
         writer.writeheader()
         writer.writerows(scenes)
 

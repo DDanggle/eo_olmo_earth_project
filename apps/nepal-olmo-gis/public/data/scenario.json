@@ -1,11 +1,11 @@
 {
   "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-27T09:07:12.333548+00:00",
+  "generated_at": "2026-08-28T00:20:51.152416+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T03:15:00Z",
     "cause_status": "Glacier/ice collapse and temporary debris blockage are under investigation; not an earthquake forecast.",
-    "evidence_status": "Post-event open satellite scene pending in this snapshot."
+    "evidence_status": "Post-event Sentinel-2B L2A is catalogued; AOI cutout and OLMo embedding remain gated."
   },
   "points": [
     {
@@ -305,23 +305,39 @@
   ],
   "scheduled_scenes": [
     {
-      "sensor": "Sentinel-2",
+      "sensor": "Sentinel-2B L2A",
       "acquired_at": "2026-08-27T04:56:52Z",
-      "state": "catalog_pending"
+      "state": "catalog_published_cloudy"
     },
     {
-      "sensor": "Sentinel-1",
+      "sensor": "Sentinel-1D IW GRD",
       "acquired_at": "2026-08-28T12:19:28Z",
       "state": "planned"
     }
   ],
+  "live_observation": {
+    "sensor": "Sentinel-2B L2A",
+    "acquired_at": "2026-08-27T04:56:59.024000Z",
+    "catalog_status": "published",
+    "product_name": "S2B_MSIL2A_20260827T045659_N0512_R119_T45RUM_20260827T084453.SAFE",
+    "product_id": "76de2c15-9281-45e3-8f0b-e97085fa6d69",
+    "publication_utc": "2026-08-27T09:33:39.699540Z",
+    "cloud_cover_tile_pct": 78.471315,
+    "online": true,
+    "relative_orbit": 119,
+    "catalog_provider": "Copernicus Data Space OData",
+    "materialization_provider": "Microsoft Planetary Computer STAC via rslearn",
+    "materialization_status": "blocked_provider_index_lag",
+    "olmo_ready": false,
+    "claim_boundary": "Tile cloud percentage is not AOI clear-pixel coverage; no post-event embedding is claimed."
+  },
   "olmoearth": {
     "model": "OLMoEarth Base",
     "input_contract": "S1 RTC VV/VH + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
     "anchors": 5,
     "rasuwagadhi_baseline": "materialized_and_sealed",
     "embedding_status": "not_run_in_this_web_snapshot",
-    "post_event_delta": "blocked_until_post_scene",
+    "post_event_delta": "blocked_until_olmo_ready_post_cube",
     "anchor_geojson": "/data/olmo-input-anchors.geojson"
   },
   "simulation": {
@@ -334,6 +350,12 @@
     "source_root": "/Users/dgyi/dong/ai_projects/olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
     "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
     "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
-    "hydrography_sha256": "17215dc5fe9adb009b904c85865d5ce66da4ebed1fbaeae119fc4f74826dd43a"
+    "hydrography_sha256": "17215dc5fe9adb009b904c85865d5ce66da4ebed1fbaeae119fc4f74826dd43a",
+    "catalog_snapshot": "20260828T000910Z",
+    "catalog_generated_at_utc": "2026-08-28T00:09:10Z",
+    "catalog_sha256": "cf4b800534f8d5f8998342ed49b533197f27d03d57d961b09c410ac1cb285e0b",
+    "acquisition_status_sha256": "a45f0ec3dccf6f60d408235309614f5f8c9c0cc102a7267b564c1da1aa08cee6",
+    "catalog_seal_sha256": "1c3be74f71e6c43d99c5cbf2ec6eaaefd42314e781dd4cd2ecb9bcfe53934ba2",
+    "s2_selection_preflight_sha256": "3fcbfe74637c96a665aa52a00db6036ca0234a1a4d9465ccc970a1d5c94be3a0"
   }
 }
