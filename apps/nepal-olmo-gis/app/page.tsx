@@ -1,6 +1,6 @@
 'use client';
 
-import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl, setWorkerUrl } from 'maplibre-gl';
+import { AttributionControl, LngLatBounds, Map as MapLibreMap, NavigationControl, Popup, setWorkerUrl } from 'maplibre-gl';
 import type { Feature, FeatureCollection } from 'geojson';
 import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -22,6 +22,8 @@ type ScenarioPoint = {
   coordinates: [number, number];
   role: string;
   place: string;
+  source?: string;
+  story?: string;
   distance_from_a_km: number;
 };
 
@@ -158,9 +160,24 @@ const lightRasterStyle = {
   ],
 };
 
+// MapTiler 벡터 — 2026-08-28 사용자가 origin 제한을 고쳐 키가 열림 (localhost origin → 200 실측).
+// 키가 없거나 스타일 로드가 실패하면 Esri raster 폴백으로 자동 강등함 (성립을 키에 맡기지 않음).
+const MAPTILER_KEY = process.env.NEXT_PUBLIC_MAPTILER_KEY;
+const maptilerStyleUrl = MAPTILER_KEY
+  ? `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${MAPTILER_KEY}`
+  : null;
 const basemapStyle = lightRasterStyle;
 // 3D 지형 시점 — S2 장면(image source)은 terrain 위에 드레이프되므로 pitch 와 정합함.
 const TERRAIN_PITCH = 52;
+// MapTiler 스타일에는 우리 DEM 소스가 없으므로 3D 전환 시 동적으로 주입함.
+const TERRAIN_DEM_SPEC = {
+  type: 'raster-dem' as const,
+  tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+  tileSize: 256,
+  encoding: 'terrarium' as const,
+  maxzoom: 14,
+  attribution: 'DEM: Mapzen/AWS Terrain Tiles',
+};
 
 setWorkerUrl('/maplibre-gl-worker.mjs');
 
@@ -189,6 +206,8 @@ export default function Home() {
   const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
   // 2D(수직 정사영 — 판독·비교용) / 3D(지형 드레이프 — 회랑 실감용) 전환.
   const [viewDim, setViewDim] = useState<'2d' | '3d'>('2d');
+  const [storyOpen, setStoryOpen] = useState(false);
+  const [swipe, setSwipe] = useState(52);
   const viewDimRef = useRef<'2d' | '3d'>('2d');
   const [selectedPoint, setSelectedPoint] = useState('A');
   const [overlayOpacity, setOverlayOpacity] = useState(0.78);
@@ -289,7 +308,7 @@ export default function Home() {
     try {
       const map = new MapLibreMap({
         container: mapNode.current,
-        style: basemapStyle,
+        style: maptilerStyleUrl ?? basemapStyle,
         center: [85.3779, 28.276],
         zoom: 14.15,
         pitch: 0,
@@ -305,12 +324,25 @@ export default function Home() {
       map.addControl(new AttributionControl({ compact: true }), 'bottom-right');
       map.on('styledata', () => console.log('[diag] styledata — 레이어',
         map.getStyle()?.layers?.length ?? 0, '개'));
+      // MapTiler 스타일이 죽으면(403/네트워크) Esri raster 로 강등 — 화면 성립을 키에 맡기지 않음.
+      let fellBack = false;
+      map.on('error', (e) => {
+        const msg = String((e as { error?: { message?: string } }).error?.message ?? '');
+        if (!fellBack && maptilerStyleUrl && /style|403|Forbidden|Failed to fetch/i.test(msg)) {
+          fellBack = true;
+          console.warn('[diag] MapTiler 스타일 실패 → Esri 폴백:', msg);
+          map.setStyle(basemapStyle as unknown as Parameters<typeof map.setStyle>[0]);
+        }
+      });
       map.on('load', () => {
         // 초기 캔버스가 컨테이너보다 작게 잡히는 버그(실측 1440x300 vs 1440x813) 방지.
         map.resize();
         // WebGL 3D 지형 — Terrarium DEM. 기본은 2D(판독·비교 좌표계), 3D는 토글로 켬.
         if (viewDimRef.current === '3d') {
-          try { map.setTerrain({ source: 'terrainDem', exaggeration: 1.3 }); }
+          try {
+            if (!map.getSource('terrainDem')) map.addSource('terrainDem', TERRAIN_DEM_SPEC);
+            map.setTerrain({ source: 'terrainDem', exaggeration: 1.3 });
+          }
           catch (e) { console.warn('[diag] terrain 활성화 실패 — 평면 유지', e); }
         }
         // 진단: MapLibre가 실제로 무엇을 재는지 — private이지만 원인 확정용.
@@ -391,7 +423,18 @@ export default function Home() {
     });
     map.on('click', 'point-core', (event) => {
       const id = event.features?.[0]?.properties?.id;
-      if (id) setSelectedPoint(String(id));
+      if (!id) return;
+      setSelectedPoint(String(id));
+      const pt = points.find((x) => x.id === String(id));
+      if (pt) {
+        new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' })
+          .setLngLat(pt.coordinates)
+          .setHTML(`<p class="pp-eyebrow">${pt.id} · ${pt.role.replace(/_/g, ' ').toUpperCase()}</p>`
+            + `<h3>${pt.name}</h3><p class="pp-place">${pt.place}</p>`
+            + (pt.story ? `<p class="pp-story">${pt.story}</p>` : '')
+            + `<p class="pp-src">${pt.source ?? ''}</p>`)
+          .addTo(map);
+      }
     });
     map.on('mouseenter', 'point-core', () => { map.getCanvas().style.cursor = 'pointer'; });
     map.on('mouseleave', 'point-core', () => { map.getCanvas().style.cursor = ''; });
@@ -545,6 +588,7 @@ export default function Home() {
     if (!map) return;
     try {
       if (dim === '3d') {
+        if (!map.getSource('terrainDem')) map.addSource('terrainDem', TERRAIN_DEM_SPEC);
         map.setTerrain({ source: 'terrainDem', exaggeration: 1.3 });
         map.easeTo({ pitch: TERRAIN_PITCH, bearing: -18, duration: prefersReducedMotion() ? 0 : 800 });
       } else {
@@ -619,6 +663,35 @@ export default function Home() {
     return { W, H, path, dots };
   }, [hydrography]);
 
+  // STORY 오버레이 — Snow Fall식 스크롤리텔링: IntersectionObserver로 섹션 표시,
+  // 진행 바는 스크롤 비율. prefers-reduced-motion 이면 항상 표시 상태로 시작함.
+  const storyRef = useRef<HTMLDivElement>(null);
+  // #story 딥링크 — 공유 시 스토리부터 열림.
+  useEffect(() => { if (window.location.hash === '#story') setStoryOpen(true); }, []);
+  const [storyProgress, setStoryProgress] = useState(0);
+  useEffect(() => {
+    if (!storyOpen) return;
+    const root = storyRef.current;
+    if (!root) return;
+    const reduced = prefersReducedMotion();
+    const sections = Array.from(root.querySelectorAll<HTMLElement>('.story-step'));
+    if (reduced) { sections.forEach((s) => s.classList.add('in-view')); }
+    const io = reduced ? null : new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+    }, { root, threshold: 0.25 });
+    if (io) sections.forEach((s) => io.observe(s));
+    const onScroll = () => {
+      const max = root.scrollHeight - root.clientHeight;
+      setStoryProgress(max > 0 ? Math.min(1, root.scrollTop / max) : 0);
+    };
+    root.addEventListener('scroll', onScroll, { passive: true });
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setStoryOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => { io?.disconnect(); root.removeEventListener('scroll', onScroll); window.removeEventListener('keydown', onKey); };
+  }, [storyOpen]);
+
+  const sceneById = useCallback((id: string) => scenario?.scene_records.find((s) => s.id === id) ?? null, [scenario]);
+
   const readyIds = useMemo(() => timeline.filter((t) => t.selectable).map((t) => t.id), [timeline]);
   const onTimelineKey = (event: React.KeyboardEvent) => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
@@ -658,6 +731,7 @@ export default function Home() {
           <button onClick={() => activeScene && fitScene(activeScene, 900)} disabled={!activeScene || mapStatus !== 'ready'}>SATELLITE FRAME</button>
           <button onClick={fitCorridor} disabled={mapStatus !== 'ready'}>RIVER CORRIDOR</button>
         </div>
+        <button className="story-launch" onClick={() => setStoryOpen(true)}>STORY</button>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
           <button className={viewDim === '3d' ? 'is-active' : ''} onClick={() => setDimension('3d')} disabled={mapStatus !== 'ready'}>3D</button>
@@ -694,7 +768,10 @@ export default function Home() {
           {points.map((point) => (
             <button key={point.id} className={selectedPoint === point.id ? 'coordinate active' : 'coordinate'} onClick={() => focusPoint(point.id)}>
               <span>{point.id}</span>
-              <div><strong>{point.name}</strong><small>{point.coordinates[1].toFixed(6)}, {point.coordinates[0].toFixed(6)}</small></div>
+              <div>
+                <strong>{point.name}</strong><small>{point.coordinates[1].toFixed(6)}, {point.coordinates[0].toFixed(6)}</small>
+                {selectedPoint === point.id && point.story && <p className="point-story">{point.story}</p>}
+              </div>
               <em>{point.role.split('_')[0].toUpperCase()}</em>
             </button>
           ))}
@@ -854,6 +931,132 @@ export default function Home() {
           {timeline.length === 0 && <p className="rail-empty">{dataStatus === 'failed' ? 'Timeline unavailable.' : 'Loading acquisitions…'}</p>}
         </div>
       </section>
+
+      {storyOpen && (
+        <div className="story-overlay" ref={storyRef} role="dialog" aria-label="How to read this service">
+          <div className="story-progress" style={{ width: `${storyProgress * 100}%` }} />
+          <button className="story-close" onClick={() => setStoryOpen(false)} aria-label="Close story">×</button>
+
+          <section className="story-hero story-step">
+            <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · INVESTIGATION ONGOING</p>
+            <h1>The valley stopped looking like itself.</h1>
+            <p className="story-lede">
+              Before dawn on 26 August, a flash flood tore down the Bhote Koshi valley on the
+              Nepal–China border — a suspected rock–ice avalanche, still under investigation.
+              The surge covered its first 22 kilometres at roughly 193 km/h. This page explains
+              how an open-data pipeline watches that valley: what the river tells us, what the
+              satellites see, and what a frozen Earth-observation model can — and refuses to — say.
+            </p>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">01 · THE RIVER — <em>where to look</em></p>
+            <h2>One corridor, drawn by water</h2>
+            <div className="story-corridor">
+              {corridorSketch && (
+                <svg viewBox={`0 0 ${corridorSketch.W} ${corridorSketch.H}`} role="img" aria-label="River corridor">
+                  <path d={corridorSketch.path} fill="none" stroke="var(--blue)" strokeWidth="1.8"
+                        strokeLinecap="round" strokeLinejoin="round" />
+                  {corridorSketch.dots.map((d, i) => (
+                    <g key={d.name}>
+                      <circle cx={d.x} cy={d.y} r="3.4" fill={i === 0 ? 'var(--orange)' : 'var(--surface)'}
+                              stroke={i === 0 ? 'var(--orange)' : 'var(--blue)'} strokeWidth="1.6" />
+                      <text x={d.x + 7} y={d.y + 3.5} fontSize="8.5" fontFamily="var(--font-geist-mono)" fill="var(--muted)">{d.name}</text>
+                    </g>
+                  ))}
+                </svg>
+              )}
+            </div>
+            <p>
+              The hydrography layer is not decoration: it is the OSM river centreline the flood
+              actually used. Everything upstream of Rasuwagadhi is the Lhende basin in Tibet —
+              the suspected detachment source (E, ~5,200 m) and, since 27 August, a newly formed
+              barrier lake (D, ~0.11 km²) that could send a second surge down the same line.
+              The river answers the first question of any disaster pipeline: <strong>where to look.</strong>
+            </p>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">02 · THE SATELLITES — <em>what is seen</em></p>
+            <h2>Two pictures, fifteen days apart</h2>
+            <p>
+              Below are the last cloud-usable Sentinel-2 view before the event and the first one
+              after it — drag the handle to compare.
+            </p>
+            {sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && (
+              <div className="story-swipe" style={{ ['--swipe' as string]: `${swipe}%` }}>
+                <img src={sceneById('s2-2026-08-27')!.image} alt="Sentinel-2 2026-08-27, one day after the event" />
+                <div className="swipe-clip">
+                  <img src={sceneById('s2-2026-08-12')!.image} alt="Sentinel-2 2026-08-12, before the event" />
+                </div>
+                <div className="swipe-bar" />
+                <span className="swipe-label pre">PRE · 08-12</span>
+                <span className="swipe-label post">POST · 08-27</span>
+                <input type="range" min={0} max={100} value={swipe} aria-label="Compare before and after"
+                       onChange={(e) => setSwipe(Number(e.target.value))} />
+              </div>
+            )}
+            <p className="story-caption">
+              Sentinel-2 L2A true color · 10 m · 2.56 km window (Rasuwagadhi anchor) ·
+              left 2026-08-12 (S2C) · right 2026-08-27 04:56 UTC (S2B, event +1 day; this window
+              clear inside a 78%-cloud tile). Grey debris widens along the valley floor.
+              © Copernicus Sentinel data 2026.
+            </p>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">03 · THE MODEL — <em>whether the place stopped looking like its own past</em></p>
+            <h2>What a machine sees</h2>
+            <p>
+              A frozen OlmoEarth v1 model reads eight weeks of radar (Sentinel-1) and optical
+              (Sentinel-2) history and compresses every 40 m patch into 768 numbers — a
+              <strong> state signature</strong> of how that place looks and behaves. No labels,
+              no training on this event.
+            </p>
+            <div className="story-diagram" aria-hidden="true">
+              <div className="sd-box">40 m patch<br /><small>8 weeks · S1+S2</small></div>
+              <div className="sd-arrow">→</div>
+              <div className="sd-box sd-vec">768-d signature<br /><small>frozen OlmoEarth v1</small></div>
+              <div className="sd-arrow">→</div>
+              <div className="sd-box sd-delta">Δz vs its own past<br /><small>judged against placebo weeks</small></div>
+            </div>
+            <p>
+              Change is declared only when the pre/post distance Δz exceeds what ordinary,
+              uneventful weeks produce (the placebo windows). The same protocol, replayed on three
+              past disasters with mapped landslides — Hokkaido 2018, Hiroshima 2018, Dominica 2017 —
+              localized damage with AUROC <strong>0.85 / 0.95 / 0.61</strong>. That is why a single
+              anchor in Nepal is not an anecdote: the recipe travels.
+            </p>
+          </section>
+
+          <section className="story-section story-step story-boundary">
+            <p className="story-kicker">04 · THE BOUNDARY — <em>what we refuse to say</em></p>
+            <h2>Claim boundary</h2>
+            <p>
+              This comparison supports <strong>“candidate change”</strong> — nothing more.
+              It does not claim damage probability, casualty figures, cause, or depth.
+              The avalanche attribution stays “suspected, under investigation.”
+              The embedding verdict is computed only after every gate passes:
+              scene selection sealed, exactly four 14-day periods per sensor, code snapshot
+              hashed, placebo distribution on file. Where the sky is not observable, the honest
+              output is abstention, not a guess.
+            </p>
+          </section>
+
+          <section className="story-section story-step">
+            <p className="story-kicker">05 · TONIGHT — <em>the next observation</em></p>
+            <h2>What tonight’s radar pass settles</h2>
+            <p>
+              Sentinel-1D crosses this valley at 21:19 KST tonight, cloud-blind. It fills the last
+              missing 14-day radar period — unlocking the sealed post-event cube and the first live
+              Δz verdict — and it should image the reported barrier lake as a dark, low-backscatter
+              patch, fixing its true position. Every step lands in the operations log on the main
+              screen, in the same event-record grammar rangers use in the field.
+            </p>
+            <p className="story-outro">Close this story and watch the log. The valley is still moving.</p>
+          </section>
+        </div>
+      )}
 
       <div className="provenance-stamp">DATA SNAPSHOT {scenario?.generated_at.slice(0, 16).replace('T', ' ') ?? '—'} UTC · OSM ODbL · ESA COPERNICUS</div>
     </main>
