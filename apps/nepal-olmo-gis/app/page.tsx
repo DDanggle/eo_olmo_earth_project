@@ -116,12 +116,14 @@ const lightRasterStyle = {
       maxzoom: 16,
       attribution: 'Hillshade © Esri',
     },
+    // CARTO 무료 raster는 2026-08 현재 "API KEY REQUIRED" 워터마크 타일을 반환함(실측).
+    // 키 없이 쓸 수 있는 Esri 참조 라벨로 교체함.
     labels: {
       type: 'raster' as const,
-      tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
+      tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'],
       tileSize: 256,
-      maxzoom: 20,
-      attribution: '© OpenStreetMap contributors © CARTO',
+      maxzoom: 19,
+      attribution: 'Labels © Esri',
     },
   },
   layers: [
@@ -235,10 +237,25 @@ export default function Home() {
     const gl = probe.getContext('webgl2');
     // 진단 — 화면을 볼 수 없을 때 한 번의 새로고침으로 원인을 가리기 위한 로그.
     const box = mapNode.current.getBoundingClientRect();
+    const cs = getComputedStyle(mapNode.current);
+    console.log('[diag] container layout | client =', mapNode.current.clientWidth + 'x' + mapNode.current.clientHeight,
+                '| rect =', Math.round(box.width) + 'x' + Math.round(box.height),
+                '| position =', cs.position, '| inset =', cs.inset,
+                '| maplibreCss =', !!Array.from(document.styleSheets).find((sh) => {
+                  try { return Array.from(sh.cssRules).some((r) => (r as CSSStyleRule).selectorText?.includes('maplibregl-canvas')); }
+                  catch { return false; }
+                }));
     console.log('[diag] webgl2 =', !!gl,
                 '| container =', Math.round(box.width) + 'x' + Math.round(box.height),
                 '| style = local-scene-backdrop + lightRasterStyle');
     if (!gl) { console.error('[diag] WebGL2 미지원 → 지도를 만들지 않고 종료함'); queueMicrotask(() => setMapStatus('unsupported')); return; }
+    // CSS 시트 순서와 무관하게 컨테이너 크기를 보장한다 (인라인 = 최우선).
+    // 실측: maplibre-gl.css 의 .maplibregl-map { position:relative } 가 로드 순서에 따라
+    // .map-stage { position:absolute; inset:0 } 를 덮어 clientHeight 가 0 이 됐음.
+    Object.assign(mapNode.current.style, {
+      position: 'absolute', top: '0', right: '0', bottom: '0', left: '0',
+      width: '100%', height: '100%',
+    });
     try {
       const map = new MapLibreMap({
         container: mapNode.current,
@@ -254,6 +271,13 @@ export default function Home() {
       map.on('styledata', () => console.log('[diag] styledata — 레이어',
         map.getStyle()?.layers?.length ?? 0, '개'));
       map.on('load', () => {
+        // 초기 캔버스가 컨테이너보다 작게 잡히는 버그(실측 1440x300 vs 1440x813) 방지.
+        map.resize();
+        // 진단: MapLibre가 실제로 무엇을 재는지 — private이지만 원인 확정용.
+        const anyMap = map as unknown as { _container?: HTMLElement; _containerDimensions?: () => [number, number] };
+        console.log('[diag] maplibre 내부 | sameContainer =', anyMap._container === mapNode.current,
+                    '| _containerDimensions =', JSON.stringify(anyMap._containerDimensions?.()),
+                    '| container.clientWH =', (anyMap._container?.clientWidth ?? -1) + 'x' + (anyMap._container?.clientHeight ?? -1));
         const b = map.getCanvas();
         console.log('[diag] load 완료 | canvas =', b.width + 'x' + b.height,
                     '| 소스 =', Object.keys(map.getStyle()?.sources ?? {}).join(','));
@@ -386,7 +410,7 @@ export default function Home() {
     if (map.getSource('satellite-scene')) map.removeSource('satellite-scene');
     const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('satellite-scene', { type: 'image', url: scene.image, coordinates: scene.coordinates });
-    map.addLayer({ id: 'satellite-scene', type: 'raster', source: 'satellite-scene', paint: { 'raster-opacity': overlayOpacity, 'raster-fade-duration': 120, 'raster-saturation': 0.12, 'raster-contrast': 0.08 } }, before);
+    map.addLayer({ id: 'satellite-scene', type: 'raster', source: 'satellite-scene', paint: { 'raster-opacity': overlayOpacity, 'raster-fade-duration': 120, 'raster-saturation': 0.12, 'raster-contrast': 0.08, 'raster-resampling': 'nearest' } }, before);
     fitScene(scene, initialSceneFitRef.current ? 700 : 0);
     initialSceneFitRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -509,15 +533,16 @@ export default function Home() {
 
   return (
     <main className="app-shell">
-      <div className="scene-backdrop" aria-hidden="true">
-        {backdropScene && <Image src={backdropScene.image} alt="" fill unoptimized priority className="scene-backdrop-img" />}
-        <div className="scene-backdrop-grid" />
-      </div>
+      {/* 장면은 지도 안의 지리참조 레이어('satellite-scene' image source)로만 그린다.
+          이전의 DOM 고정 backdrop은 ① 드래그해도 움직이지 않고 ② WASM flow(지도 좌표)와
+          어긋나며 ③ 지도 캔버스와 basemap을 가렸다. WebGL2가 없을 때만 정적 이미지로
+          내려간다(아래 map-fallback). */}
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
       {mapStatus !== 'unsupported' && <canvas ref={canvasRef} className="flow-canvas" aria-hidden="true" />}
       <div className="terrain-wash" aria-hidden="true" />
       {mapStatus === 'unsupported' && (
         <div className="map-fallback">
+          {backdropScene && <Image src={backdropScene.image} alt="" fill unoptimized className="map-fallback-img" />}
           <div className="map-fallback-note" role="status">
             <strong>Interactive map unavailable — WebGL2 is off in this browser.</strong>
             <span>Showing the selected scene as a static image. Timeline and panels still work.
