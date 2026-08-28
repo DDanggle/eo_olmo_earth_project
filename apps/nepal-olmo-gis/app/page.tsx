@@ -138,6 +138,16 @@ const lightRasterStyle = {
       maxzoom: 19,
       attribution: 'Labels © Esri',
     },
+    // 3D 지형 — AWS 공개 Terrarium DEM (키 불필요). 이전에 버벅였던 것은 93레이어 벡터
+    // 스타일 + 클라이언트 음영기복 디코딩 조합이었음. raster 2장 + terrain 은 부담이 다름.
+    terrainDem: {
+      type: 'raster-dem' as const,
+      tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+      tileSize: 256,
+      encoding: 'terrarium' as const,
+      maxzoom: 14,
+      attribution: 'DEM: Mapzen/AWS Terrain Tiles',
+    },
   },
   layers: [
     { id: 'map-background', type: 'background' as const, paint: { 'background-color': 'rgba(16, 36, 30, 0.18)' } },
@@ -149,6 +159,8 @@ const lightRasterStyle = {
 };
 
 const basemapStyle = lightRasterStyle;
+// 3D 지형 시점 — S2 장면(image source)은 terrain 위에 드레이프되므로 pitch 와 정합함.
+const TERRAIN_PITCH = 52;
 
 setWorkerUrl('/maplibre-gl-worker.mjs');
 
@@ -277,8 +289,13 @@ export default function Home() {
         style: basemapStyle,
         center: [85.3779, 28.276],
         zoom: 14.15,
-        pitch: 0,
-        bearing: 0,
+        pitch: TERRAIN_PITCH,
+        bearing: -18,
+        maxPitch: 72,
+        // 서비스 범위를 네팔·티베트 국경 회랑으로 잠금 — Trishuli 하류(Galchhi)에서
+        // Kyirong(티베트) 상류까지. 언색호 lake_watch 회랑(국경 북쪽 ~20km)을 포함함.
+        maxBounds: [[83.2, 26.6], [87.8, 29.8]],
+        minZoom: 7,
         attributionControl: false,
       });
       map.addControl(new NavigationControl({ showCompass: true }), 'bottom-right');
@@ -288,6 +305,9 @@ export default function Home() {
       map.on('load', () => {
         // 초기 캔버스가 컨테이너보다 작게 잡히는 버그(실측 1440x300 vs 1440x813) 방지.
         map.resize();
+        // WebGL 3D 지형 — Terrarium DEM. 과장 1.3은 히말라야 계곡 스케일에서 안 깨지는 값.
+        try { map.setTerrain({ source: 'terrainDem', exaggeration: 1.3 }); }
+        catch (e) { console.warn('[diag] terrain 활성화 실패 — 평면 유지', e); }
         // 진단: MapLibre가 실제로 무엇을 재는지 — private이지만 원인 확정용.
         const anyMap = map as unknown as { _container?: HTMLElement; _containerDimensions?: () => [number, number] };
         console.log('[diag] maplibre 내부 | sameContainer =', anyMap._container === mapNode.current,
@@ -412,7 +432,7 @@ export default function Home() {
     const [topLeft, , bottomRight] = scene.coordinates;
     map.fitBounds(
       new LngLatBounds([topLeft[0], bottomRight[1]], [bottomRight[0], topLeft[1]]),
-      { padding: scenePadding(), maxZoom: 15.1, pitch: 0, bearing: 0, duration: prefersReducedMotion() ? 0 : duration },
+      { padding: scenePadding(), maxZoom: 15.1, pitch: TERRAIN_PITCH, bearing: -18, duration: prefersReducedMotion() ? 0 : duration },
     );
   }, [scenePadding]);
 
@@ -537,14 +557,14 @@ export default function Home() {
     const card = points.find((item) => item.id === id);
     if (!card) return;
     mapRef.current?.flyTo({
-      center: card.coordinates, zoom: id === 'C' ? 10.5 : 14, pitch: 0, bearing: 0,
+      center: card.coordinates, zoom: id === 'C' ? 10.5 : 14, pitch: TERRAIN_PITCH, bearing: -18,
       duration: prefersReducedMotion() ? 0 : 1100,
     });
   };
 
   const fitCorridor = () => {
     mapRef.current?.fitBounds(new LngLatBounds([85.302, 28.135], [85.386, 28.288]), {
-      padding: scenePadding(), pitch: 0, bearing: 0, duration: prefersReducedMotion() ? 0 : 1100,
+      padding: scenePadding(), pitch: TERRAIN_PITCH, bearing: -18, duration: prefersReducedMotion() ? 0 : 1100,
     });
   };
 
