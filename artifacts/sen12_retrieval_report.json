@@ -1,0 +1,261 @@
+{
+  "cache": "/home/work/data/olmoearth/sen12_pilot_full128/holdout_chimanimani",
+  "limitations": [
+    "12 timestep 전체 인코딩이라 변화 벡터가 아니라 상태 서명 검색임",
+    "mask 저자는 지역별 동일(Höhn) — annotation 교락은 통제되나 라벨 정확도는 미검증",
+    "positive 임계 0.5%는 사전 등록값이며 민감도 분석은 후속"
+  ],
+  "olmo_masked": {
+    "macro_base_rate": 0.3704,
+    "macro_lift": 1.45,
+    "macro_p_at_10": 0.5385,
+    "per_region": {
+      "chimanimani": {
+        "base_rate": 0.3894,
+        "gallery": 5701,
+        "lift": 1.01,
+        "n_query": 312,
+        "p_at_10": 0.3929
+      },
+      "china": {
+        "base_rate": 0.3714,
+        "gallery": 6675,
+        "lift": 1.43,
+        "n_query": 53,
+        "p_at_10": 0.5302
+      },
+      "hiroshima": {
+        "base_rate": 0.3786,
+        "gallery": 5972,
+        "lift": 2.0,
+        "n_query": 271,
+        "p_at_10": 0.7565
+      },
+      "hokkaido": {
+        "base_rate": 0.366,
+        "gallery": 6544,
+        "lift": 1.62,
+        "n_query": 137,
+        "p_at_10": 0.5927
+      },
+      "indonesia": {
+        "base_rate": 0.367,
+        "gallery": 6261,
+        "lift": 1.34,
+        "n_query": 234,
+        "p_at_10": 0.4932
+      },
+      "itogon": {
+        "base_rate": 0.3734,
+        "gallery": 6599,
+        "lift": 1.37,
+        "n_query": 68,
+        "p_at_10": 0.5103
+      },
+      "kyrgyzstan1": {
+        "base_rate": 0.3584,
+        "gallery": 5268,
+        "lift": 1.31,
+        "n_query": 644,
+        "p_at_10": 0.4679
+      },
+      "kyrgyzstan2": {
+        "base_rate": 0.373,
+        "gallery": 6418,
+        "lift": 1.44,
+        "n_query": 138,
+        "p_at_10": 0.5362
+      },
+      "newzealand": {
+        "base_rate": 0.3579,
+        "gallery": 5661,
+        "lift": 2.06,
+        "n_query": 506,
+        "p_at_10": 0.7358
+      },
+      "thrissur": {
+        "base_rate": 0.3688,
+        "gallery": 6407,
+        "lift": 1.0,
+        "n_query": 169,
+        "p_at_10": 0.3692
+      }
+    }
+  },
+  "olmo_whole": {
+    "macro_base_rate": 0.3704,
+    "macro_lift": 1.22,
+    "macro_p_at_10": 0.4521,
+    "per_region": {
+      "chimanimani": {
+        "base_rate": 0.3894,
+        "gallery": 5701,
+        "lift": 0.89,
+        "n_query": 312,
+        "p_at_10": 0.3455
+      },
+      "china": {
+        "base_rate": 0.3714,
+        "gallery": 6675,
+        "lift": 1.33,
+        "n_query": 53,
+        "p_at_10": 0.4943
+      },
+      "hiroshima": {
+        "base_rate": 0.3786,
+        "gallery": 5972,
+        "lift": 0.78,
+        "n_query": 271,
+        "p_at_10": 0.297
+      },
+      "hokkaido": {
+        "base_rate": 0.366,
+        "gallery": 6544,
+        "lift": 1.48,
+        "n_query": 137,
+        "p_at_10": 0.5416
+      },
+      "indonesia": {
+        "base_rate": 0.367,
+        "gallery": 6261,
+        "lift": 0.95,
+        "n_query": 234,
+        "p_at_10": 0.3479
+      },
+      "itogon": {
+        "base_rate": 0.3734,
+        "gallery": 6599,
+        "lift": 1.5,
+        "n_query": 68,
+        "p_at_10": 0.5603
+      },
+      "kyrgyzstan1": {
+        "base_rate": 0.3584,
+        "gallery": 5268,
+        "lift": 1.2,
+        "n_query": 644,
+        "p_at_10": 0.4318
+      },
+      "kyrgyzstan2": {
+        "base_rate": 0.373,
+        "gallery": 6418,
+        "lift": 1.28,
+        "n_query": 138,
+        "p_at_10": 0.4761
+      },
+      "newzealand": {
+        "base_rate": 0.3579,
+        "gallery": 5661,
+        "lift": 2.05,
+        "n_query": 506,
+        "p_at_10": 0.7326
+      },
+      "thrissur": {
+        "base_rate": 0.3688,
+        "gallery": 6407,
+        "lift": 0.8,
+        "n_query": 169,
+        "p_at_10": 0.2941
+      }
+    }
+  },
+  "patches": 6834,
+  "positive_count": 2532,
+  "positive_def": "mask>0 pixels >= 82",
+  "preregistered_verdict": {
+    "label": "not detected above baselines",
+    "pass": false,
+    "rule": "olmo_masked macro P@10 > raw_spectral AND > 2x base rate"
+  },
+  "protocol": "leave-region-out cosine top-10",
+  "raw_spectral": {
+    "macro_base_rate": 0.3704,
+    "macro_lift": 1.17,
+    "macro_p_at_10": 0.4317,
+    "per_region": {
+      "chimanimani": {
+        "base_rate": 0.3894,
+        "gallery": 5701,
+        "lift": 0.86,
+        "n_query": 312,
+        "p_at_10": 0.334
+      },
+      "china": {
+        "base_rate": 0.3714,
+        "gallery": 6675,
+        "lift": 1.49,
+        "n_query": 53,
+        "p_at_10": 0.5528
+      },
+      "hiroshima": {
+        "base_rate": 0.3786,
+        "gallery": 5972,
+        "lift": 0.8,
+        "n_query": 271,
+        "p_at_10": 0.3022
+      },
+      "hokkaido": {
+        "base_rate": 0.366,
+        "gallery": 6544,
+        "lift": 1.65,
+        "n_query": 137,
+        "p_at_10": 0.6029
+      },
+      "indonesia": {
+        "base_rate": 0.367,
+        "gallery": 6261,
+        "lift": 1.42,
+        "n_query": 234,
+        "p_at_10": 0.5218
+      },
+      "itogon": {
+        "base_rate": 0.3734,
+        "gallery": 6599,
+        "lift": 0.74,
+        "n_query": 68,
+        "p_at_10": 0.2779
+      },
+      "kyrgyzstan1": {
+        "base_rate": 0.3584,
+        "gallery": 5268,
+        "lift": 1.23,
+        "n_query": 644,
+        "p_at_10": 0.441
+      },
+      "kyrgyzstan2": {
+        "base_rate": 0.373,
+        "gallery": 6418,
+        "lift": 1.2,
+        "n_query": 138,
+        "p_at_10": 0.4478
+      },
+      "newzealand": {
+        "base_rate": 0.3579,
+        "gallery": 5661,
+        "lift": 1.37,
+        "n_query": 506,
+        "p_at_10": 0.4903
+      },
+      "thrissur": {
+        "base_rate": 0.3688,
+        "gallery": 6407,
+        "lift": 0.94,
+        "n_query": 169,
+        "p_at_10": 0.3462
+      }
+    }
+  },
+  "regions": [
+    "chimanimani",
+    "china",
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+  ],
+  "schema": "sen12-crossregion-retrieval-v1"
+}

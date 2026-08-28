@@ -29,6 +29,7 @@
 | M14 | OlmoEarth modality 전수 조사 | **15개. 기상용 비공간 슬롯 `era5_10`이 이미 있음** | 완료 |
 | M15 | GK2A 2km 격자 좌표계 역공학 | **4-point in-sample fit 0.896 — 좌표계 확인 주장 철회, 공식 KMA grid로 대체** | 종결/폐기 |
 | M16 | KMA API Hub 공식 격자 접근·봉인 | **승인됨. Seal A 완료(격자 파일) / Seal B 미결(창 오프셋)** | 진행 |
+| M17 | cross-region 산사태 검색 (OlmoEarth 임베딩) | **사전등록 판정 미검출 — 단 raw 대비 명확 우위(P@10 .538 vs .432)** | 완료 |
 | M17 | ASOS 일자료로 `era5_10` 6변수 소급 확보 | **가능. 2022-04-17 실측 성공** | 완료 |
 | M18 | apihub 활용신청 5건 실측 | **필요한 격자 API는 아직 403. ASOS 시간자료 열림** | 진행 |
 | M19 | apihub 활용신청의 실제 단위 | **서비스가 아니라 개별 API 단위. 필요 목록 확정** | 완료 |
@@ -3282,6 +3283,46 @@ M9에서 확정한 좌표 해석(좌상단, 중위 4.2e-05 m)과 촬영일이 ST
      (원 C2-C의 통과조건 3·4). RGB 렌더링과 반사도를 직접 비교할 수는 없으므로
      **공간 격자·transform 일치와 platform·날짜 일치까지만** 확인 가능하다.
   4. 예상 용량: 2,699쌍 × 12밴드 × 1024² × 2 B ≈ **68 GB** (여유 7.8 TB이므로 문제 아님).
+
+## M17. cross-region 산사태 검색 — 사전등록 판정은 미검출, raw 대비 우위는 실재함
+
+**근거**: `artifacts/sen12_retrieval_report.json`, `code/sen12_retrieval_probe.py`,
+캐시 `sen12_pilot_full128/holdout_chimanimani` (확증 실행 부산물, 읽기 전용 재사용)
+**질문 (RQ-N2 계열)**: OlmoEarth v1 임베딩으로 "이 산사태와 비슷한 곳"을 **다른 지역**에서
+검색할 수 있는가?
+
+### 설계 (사전 등록)
+
+10지역 6,834패치(저자 고정 Höhn 셋), positive = mask ≥ 0.5%(2,532개, base 37.1%).
+query = 각 지역 positive 패치(whole / masked-token 두 변형), gallery = **그 지역 제외** 전체.
+지표 P@10. baseline = base rate, raw-spectral 120-d 동일 프로토콜.
+판정: `masked P@10 > raw AND > 2×base` 일 때만 서명 존재를 주장.
+
+### 결과 (region-macro)
+
+| | P@10 | lift |
+|---|---|---|
+| base rate | 0.370 | 1.00× |
+| raw-spectral | 0.432 | 1.17× |
+| OLMo whole-pool | 0.452 | 1.22× |
+| **OLMo masked-pool** | **0.538** | **1.45×** |
+
+**사전등록 판정: 미검출** — raw는 이겼으나(0.538 > 0.432) `2×base(0.741)` 기준 미달.
+규칙은 사후에 움직이지 않는다(L4). 다만 두 가지를 함께 기록한다.
+
+1. **기준 보정 실패의 교훈**: base rate가 37%인 갤러리에서 2×base(74%)는 사실상
+   ceiling(100%)에 가까운 기준이었다. **임계값을 base rate를 모른 채 등록**한 것이 원인.
+   다음 사전등록부터 임계는 base-rate 조건부(예: lift ≥ 1.5 또는 정규화 지표 AP)로 정의한다.
+2. **부차 관찰(주장 아님)**: masked-pool이 whole-pool보다 +0.086, raw보다 +0.107 높다.
+   특히 Hiroshima(0.756 vs raw 0.302)·Newzealand(0.736 vs 0.490)에서 크게 벌어지고,
+   Chimanimani·Thrissur에서는 base 수준이다 — **지역 간 이질성이 크다**(M12의 annotation
+   구도와 대조할 가치).
+
+- **말할 수 있는 것**: masked 토큰 풀링이 raw-spectral 검색을 10개 중 7개 지역에서 이겼고
+  macro +0.107. 계산은 CPU 62초(전 과정 캐시 재사용, GPU 0).
+- **말할 수 없는 것**: 이 캐시는 12 timestep 전체 인코딩이라 **변화 벡터가 아니라 상태
+  서명** 검색임. "산사태 발생을 찾았다"가 아니라 "산사태가 포함된 패치의 상태가 비슷한
+  패치를 찾았다"임. 라벨 정확도 미검증, positive 임계 민감도 미실시.
 
 ## 이 장부에 없는 것 (혼동 방지)
 
