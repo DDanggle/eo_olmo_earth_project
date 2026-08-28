@@ -1,4 +1,4 @@
-# 보유 자산 — 2026-08-26 실측
+# 보유 자산 — 2026-08-28 실측
 
 `docs/CRITICAL_PATH.md`의 측정 사슬 1~7에 매핑함. **"있다"가 아니라 "어느 단계에 쓰이는가"로 정리함.**
 
@@ -82,6 +82,28 @@
 2026-08-25 재확인: GPU0은 다른 프로젝트가 62,585 MiB를 사용 중이므로 건드리지 않는다.
 **GPU1은 0 MiB로 가용**했다. 이는 영구 자산 상태가 아니므로 모든 실행 직전 `nvidia-smi`와
 `CUDA_VISIBLE_DEVICES=1`을 다시 확인한다.
+
+### Nepal OLMoEarth live event — 입력 자산과 차단 상태
+
+이 자산은 Sen12 8-region 확증을 대체하는 headline dataset이 아니라 prospective operations
+sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치해야 한다.
+
+| cube | 앵커 | S1/S2 기간 | 파일 / bytes | seal | 용도 |
+|---|---:|---:|---:|---|---|
+| baseline | 5/5 | 4/4 | 91 / 48,859,900 | valid | pre-event memory |
+| placebo A | 5/5 | 4/4 | 91 / 49,313,623 | valid | descriptive control 1 |
+| placebo B | 5/5 | 4/4 | 91 / 48,680,635 | valid | descriptive control 2 |
+| S2 live | 5/5 | **3/4** | 81 / 45,754,625 | **invalid** | 08/27 S2 pixels only; embedding 금지 |
+
+- live selection preflight는 5/5를 통과했지만 materialization seal은 S1 3/4 때문에 실패했다.
+- OLMo v1 embedding·pre/post delta 산출물은 **0건**이다.
+- placebo 두 개는 95 percentile anomaly를 정의하기에 부족하다. 최소 20개, 권장 30개 이상의
+  label-independent historical windows를 동결하기 전에는 descriptive rank만 허용한다.
+- AOI 관측성 산출물은 `B02 > 2600 DN` 밝기 진단이며 cloud classifier가 아니다. SCL/CLD
+  sidecar 전에는 cloud-free coverage를 주장하지 않는다.
+- M17 기존 AP@100 세 수치는 비표준 분모 결함으로 철회했다. P@10과 사전 gate 실패는 유지하며,
+  표준 AP@K·Recall@K 재실행은 아직 없다.
+- 운영·연구 승격 설계: `docs/NEPAL_EVIDENCE_OPERATIONS_REVIEW_2026_08_28.md`.
 
 ## 2. 사슬 6(E_live)용 — 1~5가 닫힌 뒤 씀
 

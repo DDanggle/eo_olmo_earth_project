@@ -44,6 +44,25 @@ def region_of(name: str) -> str:
     return name.split("_s2_")[0]
 
 
+def average_precision_at_k(hit_sorted: np.ndarray, total_relevant: int, k: int) -> float:
+    """Standard AP@k with denominator min(total relevant in gallery, k).
+
+    Dividing by only the positives retrieved inside k is not AP@k: it rewards a
+    query that retrieves very few positives as long as those few appear early.
+    """
+    hit = np.asarray(hit_sorted, dtype=bool)[:k]
+    denominator = min(int(total_relevant), int(k))
+    if denominator <= 0 or not hit.any():
+        return 0.0
+    precision_at_rank = np.cumsum(hit) / np.arange(1, len(hit) + 1)
+    return float((precision_at_rank * hit).sum() / denominator)
+
+
+def recall_at_k(hit_sorted: np.ndarray, total_relevant: int, k: int) -> float:
+    hit = np.asarray(hit_sorted, dtype=bool)[:k]
+    return float(hit.sum() / total_relevant) if total_relevant > 0 else 0.0
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
@@ -82,15 +101,6 @@ def main() -> None:
     def normalize(x):
         return x / np.clip(np.linalg.norm(x, axis=1, keepdims=True), 1e-9, None)
 
-    def average_precision(hit_sorted):
-        """정렬된 hit(bool 배열)의 AP. base-rate에 덜 민감한 보조지표 —
-        P@10의 2x base 기준이 base 37%에서 천장이었던 보정 실패(M17)의 후속임."""
-        idx = np.where(hit_sorted)[0]
-        if len(idx) == 0:
-            return 0.0
-        prec = (np.arange(len(idx)) + 1) / (idx + 1)
-        return float(prec.mean())
-
     def run(query_mat, gallery_mat, tag):
         Q, G = normalize(query_mat), normalize(gallery_mat)
         per_region = {}
@@ -105,20 +115,26 @@ def main() -> None:
             top = order[:, :TOPK]
             hit = positives[g_idx][top]                 # (nq, k)
             p10 = float(hit.mean())
-            # AP@100: 상위 100까지의 정렬 hit로 계산 (전체 갤러리 AP는 base-rate 지배적)
+            # AP@100/Recall@100: 상위 100 밖을 평가하지 않는 명시적 truncated metric.
             hit100 = positives[g_idx][order[:, :100]]
-            ap = float(np.mean([average_precision(h) for h in hit100]))
+            total_relevant = int(positives[g_idx].sum())
+            ap = float(np.mean([average_precision_at_k(h, total_relevant, 100) for h in hit100]))
+            recall = float(np.mean([recall_at_k(h, total_relevant, 100) for h in hit100]))
             per_region[reg] = {"n_query": int(len(q_idx)), "gallery": int(len(g_idx)),
                                "base_rate": round(base, 4), "p_at_10": round(p10, 4),
                                "ap_at_100": round(ap, 4),
+                               "recall_at_100": round(recall, 4),
                                "lift": round(p10 / base, 2) if base > 0 else None}
         macro = float(np.mean([v["p_at_10"] for v in per_region.values()]))
         macro_ap = float(np.mean([v["ap_at_100"] for v in per_region.values()]))
+        macro_recall = float(np.mean([v["recall_at_100"] for v in per_region.values()]))
         macro_base = float(np.mean([v["base_rate"] for v in per_region.values()]))
         print(f"[{tag}] region-macro P@10={macro:.4f} AP@100={macro_ap:.4f} "
+              f"R@100={macro_recall:.4f} "
               f"(base {macro_base:.4f}, lift {macro/macro_base:.2f}x)")
         return {"per_region": per_region, "macro_p_at_10": round(macro, 4),
                 "macro_ap_at_100": round(macro_ap, 4),
+                "macro_recall_at_100": round(macro_recall, 4),
                 "macro_base_rate": round(macro_base, 4),
                 "macro_lift": round(macro / macro_base, 2)}
 
@@ -129,7 +145,7 @@ def main() -> None:
     verdict_pass = (res_masked["macro_p_at_10"] > res_raw["macro_p_at_10"]
                     and res_masked["macro_p_at_10"] > 2 * res_masked["macro_base_rate"])
     report = {
-        "schema": "sen12-crossregion-retrieval-v1",
+        "schema": "sen12-crossregion-retrieval-v2",
         "cache": str(D), "patches": n, "regions": region_list,
         "positive_def": f"mask>0 pixels >= {POS_PIXELS}",
         "positive_count": int(positives.sum()),

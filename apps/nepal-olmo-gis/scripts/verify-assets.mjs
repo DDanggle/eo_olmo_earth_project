@@ -8,12 +8,20 @@ const scenario = JSON.parse(await readFile(resolve(root, 'public/data/scenario.j
 const hydrography = JSON.parse(await readFile(resolve(root, 'public/data/hydrography.geojson'), 'utf8'));
 
 assert.equal(scenario.schema, 'olmoearth-nepal-live-twin/v1');
-assert.equal(scenario.scene_records.length, 8);
+assert.ok(scenario.scene_records.length >= 9);
+assert.ok(scenario.scene_records.some((scene) => scene.id === 's2-2026-08-27'));
 assert.equal(scenario.olmoearth.anchors, 5);
 assert.equal(scenario.olmoearth.embedding_status, 'not_run_in_this_web_snapshot');
 assert.equal(scenario.live_observation.catalog_status, 'published');
 assert.equal(scenario.live_observation.olmo_ready, false);
-assert.equal(scenario.live_observation.materialization_status, 'blocked_provider_index_lag');
+assert.equal(scenario.live_observation.selection_preflight_valid, true);
+assert.equal(scenario.live_observation.materialization_seal_valid, false);
+assert.equal(scenario.live_observation.materialization_status, 'partial_cube_contract_failed');
+assert.deepEqual(scenario.live_observation.period_readiness, { sentinel1: 3, sentinel2_l2a: 4 });
+assert.equal(scenario.decision.action, 'DO NOT EMBED');
+assert.match(scenario.decision.reason, /S1 3\/4; S2 4\/4/);
+assert.ok(scenario.ops_log.some((event) => event.type === 'SEAL_INVALID'));
+assert.equal(new Set(scenario.ops_log.map((event) => event.event_id)).size, scenario.ops_log.length);
 assert.ok(scenario.live_observation.cloud_cover_tile_pct > 0 && scenario.live_observation.cloud_cover_tile_pct <= 100);
 assert.match(scenario.live_observation.product_name, /^S2B_MSIL2A_20260827/);
 assert.equal(scenario.simulation.claim, 'illustrative_kinematic_preview_not_hazard_forecast');

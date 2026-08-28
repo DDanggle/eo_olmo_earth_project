@@ -125,6 +125,19 @@ input[type='range']::-webkit-slider-thumb { width: 12px; height: 12px; border: 2
 .toggle.active i { border-color: var(--blue); background: var(--blue); box-shadow: inset -8px 0 var(--surface); }
 
 /* ── evidence lens ── */
+.decision-card { margin-top: 12px; padding: 11px; border: 1px solid var(--line);
+  border-left: 4px solid var(--orange); background: var(--surface); }
+.decision-card.candidate_ready, .decision-card.embed_ready { border-left-color: var(--green); }
+.decision-card > span, .decision-card > strong, .decision-card > small, .decision-card > em { display: block; }
+.decision-card > span { color: var(--muted); font: 700 9px var(--font-geist-mono); letter-spacing: .12em; }
+.decision-card > strong { margin-top: 5px; color: var(--orange); font: 750 13px var(--font-geist-mono); letter-spacing: .035em; }
+.decision-card.candidate_ready > strong, .decision-card.embed_ready > strong { color: var(--green); }
+.decision-card > p { margin: 6px 0 0; color: var(--ink); font-size: 11px; line-height: 1.45; }
+.decision-card > small { margin-top: 8px; padding-top: 7px; border-top: 1px dashed var(--line);
+  color: var(--muted); font: 9px/1.45 var(--font-geist-mono); }
+.decision-card > small b { display: block; margin-bottom: 2px; color: var(--blue); letter-spacing: .08em; }
+.decision-card > em { margin-top: 6px; color: var(--orange); font: 700 9px/1.4 var(--font-geist-mono); font-style: normal; }
+
 .compare-strip { display: grid; grid-template-columns: 1fr 20px 1fr; align-items: center; gap: 5px; margin-top: 12px; }
 .scene-preview { position: relative; height: 84px; overflow: hidden; border: 1px solid var(--line); background: #101a17; }
 .scene-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }

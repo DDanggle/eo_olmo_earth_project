@@ -33,8 +33,19 @@ type LiveObservation = {
   publication_utc: string | null;
   cloud_cover_tile_pct: number | null;
   materialization_status: string;
+  selection_preflight_valid: boolean;
+  materialization_seal_valid: boolean;
+  period_readiness: { sentinel1?: number; sentinel2_l2a?: number };
   olmo_ready: boolean;
   claim_boundary: string;
+};
+
+type CurrentDecision = {
+  status: 'candidate_ready' | 'embed_ready' | 'hold' | 'wait_observation';
+  action: string;
+  reason: string;
+  next_gate: string;
+  allowed_claim: string;
 };
 
 type Scenario = {
@@ -45,7 +56,8 @@ type Scenario = {
   scheduled_scenes: { sensor: string; acquired_at: string; state: string }[];
   live_observation: LiveObservation | null;
   olmoearth: { input_contract: string; anchors: number; embedding_status: string; post_event_delta: string | Record<string, unknown> };
-  ops_log?: { time_utc: string; source: string; type: string; priority: 'green' | 'orange' | 'blue'; summary: string }[];
+  decision: CurrentDecision;
+  ops_log?: { event_id?: string; time_utc: string; source: string; type: string; priority: 'green' | 'orange' | 'blue'; summary: string }[];
   simulation: { route_points: number; claim: string };
 };
 
@@ -505,6 +517,19 @@ export default function Home() {
   const backdropScene = activeScene && shortSensor(activeScene.sensor) === 'S2' ? activeScene : latestOpticalScene;
   const nextScheduled = scenario?.scheduled_scenes[0] ?? null;
   const liveObservation = scenario?.live_observation ?? null;
+  const decision = scenario?.decision ?? null;
+  const livePeriodText = liveObservation
+    ? `S1 ${liveObservation.period_readiness?.sentinel1 ?? '?'}⁄4 · S2 ${liveObservation.period_readiness?.sentinel2_l2a ?? '?'}⁄4`
+    : '—';
+  const liveReadinessLabel = !liveObservation
+    ? 'NO LIVE OBSERVATION'
+    : liveObservation.olmo_ready
+      ? 'OLMo INPUT SEALED'
+      : liveObservation.materialization_status === 'partial_cube_contract_failed'
+        ? 'PIXELS READY · CUBE INCOMPLETE'
+        : liveObservation.materialization_status === 'selected_not_materialized'
+          ? 'SCENE SELECTED · MATERIALIZE WAIT'
+          : 'INPUT CONTRACT BLOCKED';
   const selectedCard = points.find((item) => item.id === selectedPoint) ?? points[0] ?? null;
 
   const focusPoint = (id: string) => {
@@ -614,7 +639,7 @@ export default function Home() {
           <button className={showAnchors ? 'toggle active' : 'toggle'} onClick={() => setShowAnchors((value) => !value)} aria-pressed={showAnchors}><i /> OLMo input windows</button>
         </div>
         {/* EarthRanger식 이벤트 피드 — 파이프라인이 한 일과 거부한 일의 감사 로그.
-            모든 레코드는 실제 산출물(catalog/preflight/manifest/report) 타임스탬프에서 옴. */}
+            레코드는 catalog/preflight/manifest/report의 시간 기준과 evidence URI에서 파생함. */}
         {scenario?.ops_log && scenario.ops_log.length > 0 && (
           <div className="ops-log">
             <span className="ops-title">OPERATIONS LOG</span>
@@ -642,6 +667,15 @@ export default function Home() {
       {rightOpen && (
       <aside className="right-rail glass-panel">
         <div className="panel-heading"><span>02</span><div><p>EVIDENCE LENS</p><strong>Before → after contract</strong></div></div>
+        {decision && (
+          <div className={`decision-card ${decision.status}`} role="status">
+            <span>CURRENT DECISION</span>
+            <strong>{decision.action}</strong>
+            <p>{decision.reason}</p>
+            <small><b>NEXT GATE</b>{decision.next_gate}</small>
+            <em>{decision.allowed_claim}</em>
+          </div>
+        )}
         <div className="compare-strip">
           <div className="scene-preview">
             {activeScene ? <Image src={activeScene.image} alt={`${activeScene.sensor} pre-event observation`} fill unoptimized sizes="150px" /> : <span className="loading-grid" />}
@@ -658,15 +692,15 @@ export default function Home() {
             <span>LIVE CATALOG UPDATE</span>
             <strong>S2B 27 AUG · {liveObservation.catalog_status.toUpperCase()}</strong>
             <small>{kstStamp(liveObservation.publication_utc)} KST · TILE CLOUD {liveObservation.cloud_cover_tile_pct?.toFixed(2) ?? '—'}%</small>
-            <em>{liveObservation.olmo_ready ? 'OLMo INPUT READY' : 'OLMo INPUT WAITING FOR PROVIDER INDEX'}</em>
+            <em>{liveReadinessLabel} · {livePeriodText}</em>
           </div>
         )}
         <div className="pipeline-stack">
           <div className={`pipeline-row ${dataStatus === 'ready' ? 'ready' : dataStatus === 'failed' ? 'pending' : 'preview'}`}><span>DS</span><div><strong>Snapshot data</strong><small>scenario · hydrography · anchors</small></div><b>{dataStatus.toUpperCase()}</b></div>
           <div className="pipeline-row ready"><span>S1</span><div><strong>Radar baseline</strong><small>{scenario ? `${scenario.scene_records.filter((s) => shortSensor(s.sensor) === 'S1').length} acquisitions · local GeoTIFF` : '—'}</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>S2</span><div><strong>Optical baseline</strong><small>{scenario ? `${scenario.scene_records.filter((s) => shortSensor(s.sensor) === 'S2').length} acquisitions · true color from 12 bands` : '—'}</small></div><b>READY</b></div>
-          <div className="pipeline-row ready"><span>OE</span><div><strong>OLMoEarth contract</strong><small>{scenario ? `${scenario.olmoearth.anchors} anchors · S1+S2 · 4 periods` : '—'}</small></div><b>INPUT</b></div>
-          <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>{liveObservation?.catalog_status === 'published' ? 'catalogued ≠ materialized OLMo cube' : 'post-event scene required'}</small></div><b>{typeof scenario?.olmoearth?.post_event_delta === 'object' ? 'READY' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'BLOCKED'}</b></div>
+          <div className={`pipeline-row ${liveObservation?.olmo_ready ? 'ready' : 'pending'}`}><span>OE</span><div><strong>OLMoEarth contract</strong><small>{scenario ? `${scenario.olmoearth.anchors} anchors · ${livePeriodText}` : '—'}</small></div><b>{liveObservation?.olmo_ready ? 'SEALED' : 'HOLD'}</b></div>
+          <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>{liveObservation?.olmo_ready ? 'sealed cube ready; embedding not run' : 'catalogued pixels ≠ sealed OLMo cube'}</small></div><b>{typeof scenario?.olmoearth?.post_event_delta === 'object' ? 'READY' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'BLOCKED'}</b></div>
           <div className={`pipeline-row ${wasmStatus === 'ready' ? 'ready' : wasmStatus === 'failed' ? 'pending' : 'preview'}`}><span>W</span><div><strong>Flow layer</strong><small>Rust/WASM · {scenario?.simulation.route_points ?? '—'} route nodes</small></div><b>{wasmStatus.toUpperCase()}</b></div>
         </div>
         {/* O/E/P/H 4-layer 계약 — 설계 문서의 관측/증거/물리/공식 분리를 UI에 명시함.

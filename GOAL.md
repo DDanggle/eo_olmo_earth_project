@@ -2615,3 +2615,35 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 다음: 08/28 21:19 KST S1D 획득 뒤 official catalog와 provider STAC를 재조회한다. S2/S1
   selection preflight가 5/5를 통과할 때만 materialize→seal→OLMo v1 embedding→placebo-calibrated
   delta로 진행한다. 카탈로그 metadata만으로 damage/anomaly를 주장하지 않는다.
+
+### 2026-08-28 — Nepal evidence operations 독립 재감사 (완료)
+
+- 계획: `c5872b6`의 OPERATIONS LOG·AOI 관측성·M17 검색 보조지표를 원 산출물과 독립 대조한다.
+  EarthRanger·Skylight·Copernicus EMS·FIRMS·Global Forest Watch의 공식 운영 문법을 비교해,
+  단순 이벤트 피드가 아니라 `관측 → 계약 게이트 → 후보 → 독립 증거 → 사람 검토 → incident`로
+  승격할 최소 기능과 연구 평가를 고정한다.
+- 사전 판정 기준: ① UI의 `OLMo READY`는 selection preflight뿐 아니라 5/5 materialization seal과
+  4기간×모달리티 계약을 모두 요구한다 ② `bright pixel`을 cloud-free로 해석하지 않는다
+  ③ 검색 AP는 표준 AP@K 정의와 단위 테스트를 통과해야 한다 ④ 두 placebo만으로 95% 이상치나
+  재해 탐지를 주장하지 않는다 ⑤ 모든 이벤트는 관측시각·기록시각·근거 URI를 분리한다.
+- 현재 발견: `s2_live`는 S2 4/4지만 S1 3/4라 seal invalid인데 scenario가 preflight만 보고
+  `olmo_ready=true`를 냈다. 또한 M17의 기존 `AP@100`은 top-100 안에서 찾은 양성 수를 분모로 써
+  표준 AP@100이 아니다. 두 값은 교정 전까지 주장·판정에서 제외한다.
+- 구현: scenario compiler의 readiness를 selection+materialization seal로 묶고, 화면 상단에
+  `DO NOT EMBED / S1 3/4 · S2 4/4` 결정·다음 gate·허용 claim을 표시했다. ops event마다
+  event ID·관측/기록 시각·evidence URI를 넣었고 site verifier가 invalid seal과 중복 ID를 막는다.
+- 관측성 정정: B02 임계의 보완값을 `clear_dark_frac`에서 `not_bright_frac_of_valid`로 바꾸고
+  threshold·scene·raster SHA·“cloud classifier가 아님”을 schema v2에 봉인했다. Rasuwagadhi
+  2.52% bright는 재현되지만 cloud-free 97.48%라는 뜻이 아니다.
+- 검색 정정: 기존 AP@100 세 수치를 철회하고 표준 AP@K(분모 `min(total_relevant,k)`)와
+  Recall@100을 구현했다. 이전 오류를 재현하는 회귀 테스트를 포함해 4/4 통과했다. P@10과
+  preregistered gate 실패는 영향 없음; 새 AP 수치는 동일 산출물 재실행 전까지 공란이다.
+- 제품 승격: EarthRanger incident/history, Skylight schedule/review/feedback, CEMS 제품 버전,
+  Global Nature Watch 다중증거 confidence를 `SCHEDULED→CATALOGUED→SELECTED→SEALED→EMBEDDED→
+  CANDIDATE→CORROBORATED→REVIEWED` 상태기계로 결합했다. 상세는
+  `docs/NEPAL_EVIDENCE_OPERATIONS_REVIEW_2026_08_28.md`.
+- 실험 경계: materialized placebo가 A/B 두 개뿐이므로 95 percentile anomaly는 금지했다.
+  첫 sealed delta는 descriptive candidate change만 허용하고, 최소 20개(권장 30개+) historical
+  placebo와 multi-event A0–A4 비교 전에는 CVPR method claim으로 승격하지 않는다.
+- 검증: retrieval metric pytest 4 passed, site `verify`·`lint`·production build 통과. 현재 서버
+  `./bin/nx status` 조회가 실패해 GPU/queue 순간 상태는 확인되지 않았으며 추정하지 않는다.

@@ -1,7 +1,14 @@
 # 임계경로 한 장 — transferable · refreshable Earth embedding
 
-갱신 2026-08-26. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
+갱신 2026-08-28. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
 `docs/ASSET_INVENTORY.md`, arm·통계의 상세는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`를 따른다.
+
+> **2026-08-28 상태 정정:** 동결 recipe의 첫 확증 세 지역 Thrissur·Hiroshima·Hokkaido에서
+> P4 reuse가 P2 raw-strong보다 3/3 per-region win을 얻었다. Thrissur·Hiroshima는 공간 블록
+> strong-win, Hokkaido는 10.24 km 블록이 정의되지 않아 strong-win은 아니다. 이것은 frozen
+> OLMoEarth의 **viability와 지역별 gain 편차**를 지지하지만 OLMo 고유 우월성은 아니다. 8-region
+> macro와 Presto 대조 전에는 headline을 닫지 않는다. 별도 Nepal live event는 prospective
+> operations sidecar이며 이 확증 사슬을 대체하지 않는다.
 
 ## 북극성
 
@@ -66,19 +73,23 @@ exact date/gap 정렬 실험은 없는 문제를 고치는 것이므로 하지 �
 |---|---|---|---|
 | **0** | **C0 data contract** | 13,628파일 shape/band/time/static-mask/pre-post/SCL + LOCO 해시 | **통과** |
 | **1a** | **G-P smoke** | GPU1, 64표본에서 OLMo 입력·메모리·cache runtime | **통과** |
-| **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model의 95%에 닿는가 | Chimanimani 개발 fold **FAIL(82.0%)** / 지역 확증 미개봉 |
-| **1c** | **R-event probe** | 같은 cache가 retrieval에도 raw spectral보다 나은가 | 0% |
+| **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model의 95%에 닿는가 | 개발 gate **FAIL(82.0%)** 유지; 확증 첫 3지역 per-region win 3/3, 8-region macro·Presto 미완 |
+| **1c** | **R-event probe** | 같은 cache가 retrieval에도 raw spectral보다 나은가 | P@10 masked .538 > raw .432이나 사전 2×-base gate **FAIL**; 기존 AP@100 철회·재실행 대기 |
 | **2** | **T-m** Höhn task-eligible 10지역 → Korea | annotation-matched zero/1/5/10% transfer | 0% |
 | **3** | **T-x** Italy → Korea | annotation-mismatched transfer | 0% |
 | **4** | **E_annotation** = T-m − T-x | 도화 기준 차이의 손실 | 0% |
 | **5** | **E_static** | DEM/slope/기후평년을 더한 transfer 변화 | 0% |
 | **6** | **E_live** | cutoff-valid 관측조건·강수 residual | 배관만 있음 |
 | **7** | **R-cache** | task별 action 가치와 cost를 예측하는 router | 설계 후보 |
-| **8** | external stress | 한국 + 접근·label provenance 통과 시 Nepal/Swiss | 한국 split만 봉인 |
+| **8** | external stress | 한국 + 접근·label provenance 통과 시 Nepal/Swiss | 한국 split 봉인; Nepal prospective input은 live seal **HOLD(S1 3/4)** |
 
 0~1b 전에는 Italy/Korea 성능을 돌리지 않는다. **GeoFM 자체가 task에 부적합하면 residual의
 성공도 실패도 해석할 수 없기 때문이다.** 5 전에는 6을 확장하지 않는다. 다만 GK2A는 2일만
 보존되므로 `DAILY_OPS.md`의 최소 수집만 예외적으로 계속한다.
+
+Nepal 2026 live event는 새 데이터의 publication/selection/seal 지연을 prospectively 기록하는
+시간 제한 sidecar이므로 수집·gate까지만 병행한다. 단, sealed embedding이 생겨도 8-region macro,
+Presto 대조, 한국 transfer의 자리를 대신하거나 single-event 성능 주장으로 승격하지 않는다.
 
 ## C0와 G-P의 동결 계약
 

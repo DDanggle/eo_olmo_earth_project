@@ -38,6 +38,10 @@ PREFLIGHTS = {
     "s2_live": MATERIALIZED_ROOT / "s2_live/selection_preflight.json",
     "s1_live": MATERIALIZED_ROOT / "s1_live/selection_preflight.json",
 }
+MANIFESTS = {
+    mode: MATERIALIZED_ROOT / mode / "materialization_manifest.json"
+    for mode in PREFLIGHTS
+}
 DELTA_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta"
 ROUTE_WAY_IDS = [201928141, 809865767, 24624604]
 
@@ -222,15 +226,20 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
         return next((scene for scene in catalog.get("scenes", [])
                      if expected_substring and expected_substring in scene.get("name", "")), None)
 
-    def preflight_for(sensor_name: str):
-        """센서에 해당하는 live 모드의 preflight를 읽음 (S2→s2_live, S1→s1_live)."""
+    def readiness_for(sensor_name: str):
+        """센서 live 모드의 selection과 완성된 OLMo 입력 seal을 함께 읽는다."""
         mode = "s1_live" if "1" in sensor_name.split()[0].replace("Sentinel-", "S") else "s2_live"
         if sensor_name.startswith("Sentinel-1"):
             mode = "s1_live"
         elif sensor_name.startswith("Sentinel-2"):
             mode = "s2_live"
-        path = PREFLIGHTS.get(mode)
-        return (mode, json.loads(path.read_text())) if path and path.exists() else (mode, None)
+        preflight_path = PREFLIGHTS.get(mode)
+        manifest_path = MANIFESTS.get(mode)
+        preflight = (json.loads(preflight_path.read_text())
+                     if preflight_path and preflight_path.exists() else None)
+        manifest = (json.loads(manifest_path.read_text())
+                    if manifest_path and manifest_path.exists() else None)
+        return mode, preflight, manifest
 
     # published인 pass들 중 가장 최근을 대표 live 관측으로 삼음. 이전에는 s2b_20260827이
     # 하드코딩돼 있어 S1D 등 이후 관측을 표시할 수 없었음.
@@ -240,13 +249,26 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
     if published:
         row = published[0]
         product = find_product(row.get("expected_product_substring", ""))
-        mode, preflight = preflight_for(row.get("sensor", ""))
-        if preflight and preflight.get("valid"):
-            materialization_status = "provider_selection_ready"
+        mode, preflight, materialization = readiness_for(row.get("sensor", ""))
+        selection_ready = bool(preflight and preflight.get("valid"))
+        seal_ready = bool(materialization and materialization.get("valid"))
+        if selection_ready and seal_ready:
+            materialization_status = "sealed_olmo_input"
+        elif selection_ready and materialization:
+            materialization_status = "partial_cube_contract_failed"
+        elif selection_ready:
+            materialization_status = "selected_not_materialized"
         elif preflight:
-            materialization_status = "blocked_provider_index_lag"
+            materialization_status = "blocked_provider_selection"
         else:
             materialization_status = "not_preflighted"
+        period_readiness: dict[str, int] = {}
+        period_audit = (materialization or {}).get("period_audit") or {}
+        for layer_name in ("sentinel1", "sentinel2_l2a"):
+            counts = [len((audit.get("completed_layers") or {}).get(layer_name, []))
+                      for audit in period_audit.values()]
+            if counts:
+                period_readiness[layer_name] = min(counts)
         live_observation = {
             "sensor": row["sensor"],
             "acquired_at": (product or {}).get("sensing_start_utc", row["start_utc"]),
@@ -261,8 +283,11 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
             "materialization_provider": "Microsoft Planetary Computer STAC via rslearn",
             "materialization_mode": mode,
             "materialization_status": materialization_status,
-            "olmo_ready": bool(preflight and preflight.get("valid")),
-            "claim_boundary": "Tile cloud percentage is not AOI clear-pixel coverage; no post-event embedding is claimed.",
+            "selection_preflight_valid": selection_ready,
+            "materialization_seal_valid": seal_ready,
+            "period_readiness": period_readiness,
+            "olmo_ready": selection_ready and seal_ready,
+            "claim_boundary": "Tile cloud and B02-bright fractions are not AOI cloud-free coverage; no post-event embedding is claimed.",
         }
 
     scheduled = []
@@ -283,6 +308,9 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
     for mode, path in PREFLIGHTS.items():
         if path.exists():
             provenance[f"{mode}_selection_preflight_sha256"] = sha256(path)
+    for mode, path in MANIFESTS.items():
+        if path.exists():
+            provenance[f"{mode}_materialization_manifest_sha256"] = sha256(path)
     return live_observation, scheduled, provenance
 
 
@@ -297,10 +325,15 @@ def build_ops_log() -> list[dict[str, Any]]:
     """
     events: list[dict[str, Any]] = []
 
-    def add(t, source, etype, priority, summary):
+    def add(t, source, etype, priority, summary, evidence_uri=None, time_basis="artifact_recorded_at"):
         if t:
-            events.append({"time_utc": t, "source": source, "type": etype,
-                           "priority": priority, "summary": summary})
+            identity = hashlib.sha256(
+                f"{t}|{source}|{etype}|{summary}|{evidence_uri or ''}".encode()
+            ).hexdigest()[:16]
+            events.append({"event_id": identity, "time_utc": t, "recorded_at_utc": t,
+                           "time_basis": time_basis, "source": source, "type": etype,
+                           "priority": priority, "summary": summary,
+                           "evidence_uri": evidence_uri})
 
     # 카탈로그 스냅샷들
     if CATALOG_ROOT.exists():
@@ -311,12 +344,14 @@ def build_ops_log() -> list[dict[str, Any]]:
             d = json.loads(st.read_text())
             add(d.get("evaluated_at_utc"), "Copernicus OData", "CATALOG_SNAPSHOT", "blue",
                 f"snapshot {snap.name}: " + ", ".join(
-                    f"{r['id']}={r['status']}" for r in d.get("passes", [])[:3]))
+                    f"{r['id']}={r['status']}" for r in d.get("passes", [])[:3]),
+                str(st.relative_to(WORK_ROOT)))
             for r in d.get("passes", []):
                 if r.get("status") == "published" and r.get("catalog_matches"):
                     add(d.get("evaluated_at_utc"), "Copernicus OData", "SCENE_PUBLISHED",
                         "green", f"{r['sensor']} {r['id']} published "
-                        f"(latency {r.get('publication_latency_minutes','?')} min)")
+                        f"(latency {r.get('publication_latency_minutes','?')} min)",
+                        str(st.relative_to(WORK_ROOT)))
 
     # preflight / manifest / 임베딩
     for mode_dir in sorted(MATERIALIZED_ROOT.iterdir()) if MATERIALIZED_ROOT.exists() else []:
@@ -327,48 +362,111 @@ def build_ops_log() -> list[dict[str, Any]]:
         if pf.exists():
             d = json.loads(pf.read_text())
             ok = bool(d.get("valid"))
-            add(d.get("checked_at_utc") or datetime.fromtimestamp(
+            found = d.get("anchor_count", len(d.get("anchors") or []))
+            expected = d.get("expected_anchor_count", "?")
+            event_time = d.get("checked_at_utc") or d.get("evaluated_at_utc")
+            add(event_time or datetime.fromtimestamp(
                     pf.stat().st_mtime, UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
                 "rslearn preflight", "PREFLIGHT_PASS" if ok else "PREFLIGHT_BLOCK",
                 "green" if ok else "orange",
-                f"{name}: 5/5 anchors " + ("selected required scene" if ok
-                 else "missing required scene — download refused"))
+                f"{name}: {found}/{expected} anchors " + ("selected required scene" if ok
+                 else "missing required scene — download refused"),
+                str(pf.relative_to(WORK_ROOT)),
+                "artifact_field" if event_time else "filesystem_mtime")
         mf = mode_dir / "materialization_manifest.json"
         if mf.exists():
             d = json.loads(mf.read_text())
             ok = bool(d.get("valid"))
+            period_audit = d.get("period_audit") or {}
+            layer_counts = {}
+            for layer_name in ("sentinel1", "sentinel2_l2a"):
+                counts = [len((audit.get("completed_layers") or {}).get(layer_name, []))
+                          for audit in period_audit.values()]
+                if counts:
+                    layer_counts[layer_name] = min(counts)
+            period_summary = (f"S1 {layer_counts.get('sentinel1', '?')}/4, "
+                              f"S2 {layer_counts.get('sentinel2_l2a', '?')}/4")
             add(d.get("created_at_utc"), "rslearn materialize",
                 "SEALED" if ok else "SEAL_INVALID", "green" if ok else "orange",
                 f"{name}: {d.get('file_count','?')} files, "
                 f"{d.get('total_bytes',0):,} B — " + ("sealed" if ok else
-                 f"invalid ({d.get('required_scene_rule','')[:40]}…)"))
+                 f"contract failed ({period_summary})"),
+                str(mf.relative_to(WORK_ROOT)))
         emb = list(mode_dir.glob("dataset/windows/nepal/*/layers/embeddings/**/*.tif"))
         if len(emb) >= 5:
             t = datetime.fromtimestamp(max(e.stat().st_mtime for e in emb), UTC)
             add(t.isoformat(timespec="seconds").replace("+00:00", "Z"),
                 "OLMoEarth v1", "EMBEDDED", "green",
-                f"{name}: 5 anchors × 768-d cube")
+                f"{name}: 5 anchors × 768-d cube",
+                str(mode_dir.relative_to(WORK_ROOT)), "filesystem_mtime")
 
     # AOI 관측성 (밝기 휴리스틱 — SCL 없음을 명시)
     if AOI_OBS.exists():
         d = json.loads(AOI_OBS.read_text())
         ras = (d.get("anchors") or {}).get("rasuwagadhi")
         if ras:
-            add(datetime.fromtimestamp(AOI_OBS.stat().st_mtime, UTC)
+            add(d.get("created_at_utc") or datetime.fromtimestamp(AOI_OBS.stat().st_mtime, UTC)
                     .isoformat(timespec="seconds").replace("+00:00", "Z"),
                 "AOI heuristic", "OBSERVABILITY", "blue",
                 f"8/27 S2: Rasuwagadhi AOI bright {ras['bright_frac_of_valid']*100:.1f}% "
-                f"(tile cloud 78.5% ≠ AOI; brightness heuristic, no SCL)")
+                f"(tile cloud 78.5% ≠ AOI; not a cloud-free estimate)",
+                str(AOI_OBS.relative_to(WORK_ROOT)),
+                "artifact_field" if d.get("created_at_utc") else "filesystem_mtime")
 
     # Δz 리포트
     if DELTA_ROOT.exists():
         for rp in sorted(DELTA_ROOT.glob("*/nepal_delta_report.json")):
             d = json.loads(rp.read_text())
             add(d.get("created_at_utc"), "OLMoEarth Δz", "DELTA_REPORT", "green",
-                f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}")
+                f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}",
+                str(rp.relative_to(WORK_ROOT)))
 
     events.sort(key=lambda e: e["time_utc"], reverse=True)
     return events[:30]
+
+
+def build_decision(live_observation: dict[str, Any] | None,
+                   scheduled_scenes: list[dict[str, Any]],
+                   olmoearth: dict[str, Any]) -> dict[str, str]:
+    """현재 허용되는 다음 action을 UI가 한 문장으로 답하게 한다."""
+    if isinstance(olmoearth.get("post_event_delta"), dict):
+        return {
+            "status": "candidate_ready",
+            "action": "REVIEW CANDIDATE EVIDENCE",
+            "reason": "A sealed post-event cube and OLMoEarth delta report are available.",
+            "next_gate": "Seek independent sensor, physical, or human corroboration.",
+            "allowed_claim": "Candidate representation change; not damage probability or hazard extent.",
+        }
+    if live_observation and live_observation.get("olmo_ready"):
+        return {
+            "status": "embed_ready",
+            "action": "QUEUE SEALED EMBEDDING",
+            "reason": "Scene selection and the full 5-anchor input seal both passed.",
+            "next_gate": "Run one immutable OLMoEarth recipe, then compare against placebo windows.",
+            "allowed_claim": "Input contract ready; no representation change result yet.",
+        }
+    if live_observation:
+        periods = live_observation.get("period_readiness") or {}
+        reason = (f"Post-event scene selected, but cube seal failed: "
+                  f"S1 {periods.get('sentinel1', '?')}/4; "
+                  f"S2 {periods.get('sentinel2_l2a', '?')}/4 per anchor.")
+        next_scene = scheduled_scenes[0] if scheduled_scenes else None
+        next_gate = (f"Wait for {next_scene['sensor']} at {next_scene['acquired_at']}, materialize, then reseal 5/5 anchors."
+                     if next_scene else "Acquire the missing modality period and reseal 5/5 anchors.")
+        return {
+            "status": "hold",
+            "action": "DO NOT EMBED",
+            "reason": reason,
+            "next_gate": next_gate,
+            "allowed_claim": "Post-event pixels exist; OLMoEarth evidence does not.",
+        }
+    return {
+        "status": "wait_observation",
+        "action": "WAIT FOR OBSERVATION",
+        "reason": "No published post-event scene is joined to this snapshot.",
+        "next_gate": "Refresh the immutable catalog snapshot after the next acquisition.",
+        "allowed_claim": "Pre-event baseline only.",
+    }
 
 
 def olmoearth_block() -> dict[str, Any]:
@@ -516,11 +614,15 @@ def build(refresh_osm: bool) -> None:
         point["distance_from_a_km"] = round(haversine_km(point_a, point["coordinates"]), 2)
 
     live_observation, scheduled_scenes, live_provenance = load_live_observation()
-    evidence_status = (
-        "Post-event Sentinel-2B L2A is catalogued; AOI cutout and OLMo embedding remain gated."
-        if live_observation and live_observation["catalog_status"] == "published"
-        else "Post-event open satellite scene pending in this snapshot."
-    )
+    olmoearth = olmoearth_block()
+    if live_observation and live_observation["catalog_status"] == "published":
+        evidence_status = (
+            "Post-event pixels and the full OLMoEarth input seal are ready; embedding has not run."
+            if live_observation.get("olmo_ready")
+            else "Post-event pixels exist, but the full OLMoEarth input contract is not sealed."
+        )
+    else:
+        evidence_status = "Post-event open satellite scene pending in this snapshot."
 
     manifest = {
         "schema": "olmoearth-nepal-live-twin/v1",
@@ -535,7 +637,8 @@ def build(refresh_osm: bool) -> None:
         "scene_records": sorted(scene_records, key=lambda item: item["acquired_at"]),
         "scheduled_scenes": scheduled_scenes,
         "live_observation": live_observation,
-        "olmoearth": olmoearth_block(),
+        "olmoearth": olmoearth,
+        "decision": build_decision(live_observation, scheduled_scenes, olmoearth),
         "ops_log": build_ops_log(),
         "simulation": {
             "engine": "Rust/WASM deterministic particle preview",

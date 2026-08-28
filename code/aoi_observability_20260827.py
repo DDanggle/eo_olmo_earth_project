@@ -7,23 +7,38 @@
 zero = nodata(스와스 밖)도 따로 셈.
 """
 from __future__ import annotations
+import hashlib
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 import numpy as np
 import rasterio
 
 ROOT = Path(__file__).resolve().parents[1] / "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/dataset/windows/nepal"
 BAND_DIR = "B01_B02_B03_B04_B05_B06_B07_B08_B8A_B09_B11_B12"
-BRIGHT_DN = 2600   # L2A DN(0-10000), 대략 반사도 0.26 — 사전 고정
+BRIGHT_DN = 2600   # 진단용 threshold. cloud classifier나 사전등록 지표가 아님.
 OUT = Path(__file__).resolve().parents[1] / "artifacts/aoi_observability_20260827.json"
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 def latest_layer(anchor: Path) -> Path | None:
     # 8/27이 든 레이어 = items.json 그룹 0 (최신). 레이어 디렉터리는 무접미사.
     p = anchor / "layers/sentinel2_l2a" / BAND_DIR / "geotiff.tif"
     return p if p.exists() else None
 
-res = {"schema": "aoi-observability-20260827-v1",
+res = {"schema": "aoi-observability-20260827-v2",
+       "created_at_utc": datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
+       "scene_id": "S2B_MSIL2A_20260827T045659_R119_T45RUM_20260827T084453",
+       "metric": "b02_bright_pixel_fraction",
+       "threshold_dn": BRIGHT_DN,
        "method": f"B02 > {BRIGHT_DN} DN → bright(cloud OR snow); zero-all-bands → nodata. SCL 없음 — 휴리스틱임",
+       "claim_boundary": "bright fraction is not cloud fraction; not-bright pixels are not necessarily cloud-free",
        "anchors": {}}
 for a in sorted(ROOT.iterdir()):
     if not a.is_dir():
@@ -43,7 +58,8 @@ for a in sorted(ROOT.iterdir()):
         "pixels": int(valid.size),
         "nodata_frac": round(float(nodata.mean()), 4),
         "bright_frac_of_valid": round(float(bright.sum() / max(1, valid.sum())), 4),
-        "clear_dark_frac_of_valid": round(float(1 - bright.sum() / max(1, valid.sum())), 4),
+        "not_bright_frac_of_valid": round(float(1 - bright.sum() / max(1, valid.sum())), 4),
+        "source_raster_sha256": sha256(tif),
     }
 OUT.write_text(json.dumps(res, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 print(json.dumps(res, ensure_ascii=False, indent=1))
