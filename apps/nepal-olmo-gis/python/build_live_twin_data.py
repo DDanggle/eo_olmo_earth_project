@@ -53,6 +53,7 @@ POINTS = [
         "role": "impact_focus",
         "place": "Pasang Lhamu Highway, Rasuwagadhi, Rasuwa, Nepal",
         "source": "user coordinate + OSM Nominatim reverse lookup",
+        "story": "Where the surge crossed the border highway. The 26 Aug flood descended the first 22 km at ~193 km/h; this anchor is the primary impact AOI and the reference window for every PRE/POST comparison.",
     },
     {
         "id": "B",
@@ -61,6 +62,7 @@ POINTS = [
         "role": "border_checkpoint",
         "place": "G216, Gyirong Town, Tibet, China",
         "source": "user coordinate + OSM Nominatim reverse lookup",
+        "story": "The Nepal–China crossing on the Kathmandu–Kerung trade route. Bridges and road sections around this point were destroyed; it anchors the human-exposure side of the corridor.",
     },
     {
         "id": "D",
@@ -71,6 +73,7 @@ POINTS = [
         "role": "upstream_hazard_provisional",
         "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
         "source": "NDRRMA satellite analysis 2026-08-27 (exact coords unpublished; position illustrative)",
+        "story": "A new barrier lake (~0.11 km2) reported by NDRRMA on 27 Aug, ~18 km up the Lhende. Position here is provisional; tonight's Sentinel-1 radar pass is expected to fix its true location as a dark low-backscatter patch.",
     },
     {
         "id": "E",
@@ -81,6 +84,7 @@ POINTS = [
         "role": "source_provisional",
         "place": "Upper Lhende basin, Gyirong County, Tibet (provisional)",
         "source": "ICIMOD press assessment 2026-08-27; same as source_provisional search anchor",
+        "story": "ICIMOD's provisional source: at ~5,200 m a glacier section detached and fell ~1,200 m into the Lhende. Same coordinates as the pipeline's source_provisional embedding anchor — the machine was already watching this window.",
     },
     {
         "id": "C",
@@ -89,6 +93,7 @@ POINTS = [
         "role": "distant_reference",
         "place": "Rishing-03, Tanahun, Gandaki Province, Nepal",
         "source": "user coordinate + OSM Nominatim reverse lookup",
+        "story": "A deliberately distant, untouched window ~114 km away. It exists so the pipeline can prove what NO change looks like — the placebo and transfer reference, not an impact site.",
     },
 ]
 
