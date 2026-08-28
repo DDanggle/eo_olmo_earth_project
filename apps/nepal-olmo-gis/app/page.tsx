@@ -45,6 +45,7 @@ type Scenario = {
   scheduled_scenes: { sensor: string; acquired_at: string; state: string }[];
   live_observation: LiveObservation | null;
   olmoearth: { input_contract: string; anchors: number; embedding_status: string; post_event_delta: string | Record<string, unknown> };
+  ops_log?: { time_utc: string; source: string; type: string; priority: 'green' | 'orange' | 'blue'; summary: string }[];
   simulation: { route_points: number; claim: string };
 };
 
@@ -612,6 +613,24 @@ export default function Home() {
           <input id="overlay-opacity" type="range" min="0" max="1" step="0.02" value={overlayOpacity} onChange={(event) => setOverlayOpacity(Number(event.target.value))} />
           <button className={showAnchors ? 'toggle active' : 'toggle'} onClick={() => setShowAnchors((value) => !value)} aria-pressed={showAnchors}><i /> OLMo input windows</button>
         </div>
+        {/* EarthRanger식 이벤트 피드 — 파이프라인이 한 일과 거부한 일의 감사 로그.
+            모든 레코드는 실제 산출물(catalog/preflight/manifest/report) 타임스탬프에서 옴. */}
+        {scenario?.ops_log && scenario.ops_log.length > 0 && (
+          <div className="ops-log">
+            <span className="ops-title">OPERATIONS LOG</span>
+            <div className="ops-scroll">
+              {scenario.ops_log.map((e, i) => (
+                <div key={i} className={`ops-row ${e.priority}`}>
+                  <i aria-hidden="true" />
+                  <div>
+                    <b>{e.type}</b> <em>{e.time_utc.slice(5, 16).replace('T', ' ')}Z · {e.source}</em>
+                    <small>{e.summary}</small>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="map-legend-inline">
           <span><i className="mint" />Verified river route</span>
           <span><i className="white" />OLMo input 2.56 km</span>

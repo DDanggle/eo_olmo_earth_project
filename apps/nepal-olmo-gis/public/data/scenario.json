@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-28T04:57:05.305463+00:00",
+  "generated_at": "2026-08-28T06:09:17.124004+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T03:15:00Z",
@@ -378,6 +378,85 @@
     "anchor_geojson": "/data/olmo-input-anchors.geojson",
     "post_event_delta": "blocked_until_olmo_ready_post_cube"
   },
+  "ops_log": [
+    {
+      "time_utc": "2026-08-28T06:06:08Z",
+      "source": "AOI heuristic",
+      "type": "OBSERVABILITY",
+      "priority": "blue",
+      "summary": "8/27 S2: Rasuwagadhi AOI bright 2.5% (tile cloud 78.5% ≠ AOI; brightness heuristic, no SCL)"
+    },
+    {
+      "time_utc": "2026-08-28T04:54:54Z",
+      "source": "rslearn materialize",
+      "type": "SEAL_INVALID",
+      "priority": "orange",
+      "summary": "s2_live: 81 files, 45,754,625 B — invalid (every anchor includes Sentinel-2 2026-08…)"
+    },
+    {
+      "time_utc": "2026-08-28T04:53:12Z",
+      "source": "rslearn materialize",
+      "type": "SEALED",
+      "priority": "green",
+      "summary": "placebo_b: 91 files, 48,680,635 B — sealed"
+    },
+    {
+      "time_utc": "2026-08-28T04:45:35Z",
+      "source": "rslearn preflight",
+      "type": "PREFLIGHT_PASS",
+      "priority": "green",
+      "summary": "s2_live: 5/5 anchors selected required scene"
+    },
+    {
+      "time_utc": "2026-08-28T04:42:16Z",
+      "source": "rslearn materialize",
+      "type": "SEALED",
+      "priority": "green",
+      "summary": "placebo_a: 91 files, 49,313,623 B — sealed"
+    },
+    {
+      "time_utc": "2026-08-28T04:42:09Z",
+      "source": "rslearn preflight",
+      "type": "PREFLIGHT_BLOCK",
+      "priority": "orange",
+      "summary": "s2_live_failed_period_alignment_20260828: 5/5 anchors missing required scene — download refused"
+    },
+    {
+      "time_utc": "2026-08-28T00:09:10Z",
+      "source": "Copernicus OData",
+      "type": "CATALOG_SNAPSHOT",
+      "priority": "blue",
+      "summary": "snapshot 20260828T000910Z: s2b_20260827=published, s1d_20260828=planned, s2c_20260829=planned"
+    },
+    {
+      "time_utc": "2026-08-28T00:09:10Z",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)"
+    },
+    {
+      "time_utc": "2026-08-27T06:50:49Z",
+      "source": "rslearn materialize",
+      "type": "SEALED",
+      "priority": "green",
+      "summary": "baseline: 91 files, 48,859,900 B — sealed"
+    },
+    {
+      "time_utc": "2026-08-27T06:25:06Z",
+      "source": "Copernicus OData",
+      "type": "CATALOG_SNAPSHOT",
+      "priority": "blue",
+      "summary": "snapshot 20260827T062506Z: s2b_20260827=acquired_pending_catalog, s1d_20260828=planned, s2c_20260829=planned"
+    },
+    {
+      "time_utc": "2026-08-27T06:24:09Z",
+      "source": "Copernicus OData",
+      "type": "CATALOG_SNAPSHOT",
+      "priority": "blue",
+      "summary": "snapshot 20260827T062409Z: s2b_20260827=acquired_pending_catalog, s1d_20260828=planned, s2c_20260829=planned"
+    }
+  ],
   "simulation": {
     "engine": "Rust/WASM deterministic particle preview",
     "route_source": "OSM ways 201928141, 809865767, 24624604",

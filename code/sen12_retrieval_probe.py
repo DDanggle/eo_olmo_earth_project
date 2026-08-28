@@ -82,6 +82,15 @@ def main() -> None:
     def normalize(x):
         return x / np.clip(np.linalg.norm(x, axis=1, keepdims=True), 1e-9, None)
 
+    def average_precision(hit_sorted):
+        """정렬된 hit(bool 배열)의 AP. base-rate에 덜 민감한 보조지표 —
+        P@10의 2x base 기준이 base 37%에서 천장이었던 보정 실패(M17)의 후속임."""
+        idx = np.where(hit_sorted)[0]
+        if len(idx) == 0:
+            return 0.0
+        prec = (np.arange(len(idx)) + 1) / (idx + 1)
+        return float(prec.mean())
+
     def run(query_mat, gallery_mat, tag):
         Q, G = normalize(query_mat), normalize(gallery_mat)
         per_region = {}
@@ -92,17 +101,24 @@ def main() -> None:
                 continue
             base = float(positives[g_idx].mean())
             sims = Q[q_idx] @ G[g_idx].T                # (nq, ng)
-            top = np.argsort(-sims, axis=1)[:, :TOPK]
+            order = np.argsort(-sims, axis=1)
+            top = order[:, :TOPK]
             hit = positives[g_idx][top]                 # (nq, k)
             p10 = float(hit.mean())
+            # AP@100: 상위 100까지의 정렬 hit로 계산 (전체 갤러리 AP는 base-rate 지배적)
+            hit100 = positives[g_idx][order[:, :100]]
+            ap = float(np.mean([average_precision(h) for h in hit100]))
             per_region[reg] = {"n_query": int(len(q_idx)), "gallery": int(len(g_idx)),
                                "base_rate": round(base, 4), "p_at_10": round(p10, 4),
+                               "ap_at_100": round(ap, 4),
                                "lift": round(p10 / base, 2) if base > 0 else None}
         macro = float(np.mean([v["p_at_10"] for v in per_region.values()]))
+        macro_ap = float(np.mean([v["ap_at_100"] for v in per_region.values()]))
         macro_base = float(np.mean([v["base_rate"] for v in per_region.values()]))
-        print(f"[{tag}] region-macro P@10={macro:.4f} (base {macro_base:.4f}, "
-              f"lift {macro/macro_base:.2f}x)")
+        print(f"[{tag}] region-macro P@10={macro:.4f} AP@100={macro_ap:.4f} "
+              f"(base {macro_base:.4f}, lift {macro/macro_base:.2f}x)")
         return {"per_region": per_region, "macro_p_at_10": round(macro, 4),
+                "macro_ap_at_100": round(macro_ap, 4),
                 "macro_base_rate": round(macro_base, 4),
                 "macro_lift": round(macro / macro_base, 2)}
 

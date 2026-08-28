@@ -286,6 +286,91 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
     return live_observation, scheduled, provenance
 
 
+AOI_OBS = WORK_ROOT / "artifacts/aoi_observability_20260827.json"
+
+
+def build_ops_log() -> list[dict[str, Any]]:
+    """EarthRanger식 이벤트 레코드 피드 — 전부 실제 산출물의 타임스탬프에서 옴.
+
+    이벤트 = {time_utc, source, type, priority(green|orange|blue), summary}.
+    파이프라인이 한 일(그리고 거부한 일)을 감사 가능한 로그로 노출함.
+    """
+    events: list[dict[str, Any]] = []
+
+    def add(t, source, etype, priority, summary):
+        if t:
+            events.append({"time_utc": t, "source": source, "type": etype,
+                           "priority": priority, "summary": summary})
+
+    # 카탈로그 스냅샷들
+    if CATALOG_ROOT.exists():
+        for snap in sorted(CATALOG_ROOT.iterdir()):
+            st = snap / "acquisition_status.json"
+            if not st.exists():
+                continue
+            d = json.loads(st.read_text())
+            add(d.get("evaluated_at_utc"), "Copernicus OData", "CATALOG_SNAPSHOT", "blue",
+                f"snapshot {snap.name}: " + ", ".join(
+                    f"{r['id']}={r['status']}" for r in d.get("passes", [])[:3]))
+            for r in d.get("passes", []):
+                if r.get("status") == "published" and r.get("catalog_matches"):
+                    add(d.get("evaluated_at_utc"), "Copernicus OData", "SCENE_PUBLISHED",
+                        "green", f"{r['sensor']} {r['id']} published "
+                        f"(latency {r.get('publication_latency_minutes','?')} min)")
+
+    # preflight / manifest / 임베딩
+    for mode_dir in sorted(MATERIALIZED_ROOT.iterdir()) if MATERIALIZED_ROOT.exists() else []:
+        if not mode_dir.is_dir():
+            continue
+        name = mode_dir.name
+        pf = mode_dir / "selection_preflight.json"
+        if pf.exists():
+            d = json.loads(pf.read_text())
+            ok = bool(d.get("valid"))
+            add(d.get("checked_at_utc") or datetime.fromtimestamp(
+                    pf.stat().st_mtime, UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
+                "rslearn preflight", "PREFLIGHT_PASS" if ok else "PREFLIGHT_BLOCK",
+                "green" if ok else "orange",
+                f"{name}: 5/5 anchors " + ("selected required scene" if ok
+                 else "missing required scene — download refused"))
+        mf = mode_dir / "materialization_manifest.json"
+        if mf.exists():
+            d = json.loads(mf.read_text())
+            ok = bool(d.get("valid"))
+            add(d.get("created_at_utc"), "rslearn materialize",
+                "SEALED" if ok else "SEAL_INVALID", "green" if ok else "orange",
+                f"{name}: {d.get('file_count','?')} files, "
+                f"{d.get('total_bytes',0):,} B — " + ("sealed" if ok else
+                 f"invalid ({d.get('required_scene_rule','')[:40]}…)"))
+        emb = list(mode_dir.glob("dataset/windows/nepal/*/layers/embeddings/**/*.tif"))
+        if len(emb) >= 5:
+            t = datetime.fromtimestamp(max(e.stat().st_mtime for e in emb), UTC)
+            add(t.isoformat(timespec="seconds").replace("+00:00", "Z"),
+                "OLMoEarth v1", "EMBEDDED", "green",
+                f"{name}: 5 anchors × 768-d cube")
+
+    # AOI 관측성 (밝기 휴리스틱 — SCL 없음을 명시)
+    if AOI_OBS.exists():
+        d = json.loads(AOI_OBS.read_text())
+        ras = (d.get("anchors") or {}).get("rasuwagadhi")
+        if ras:
+            add(datetime.fromtimestamp(AOI_OBS.stat().st_mtime, UTC)
+                    .isoformat(timespec="seconds").replace("+00:00", "Z"),
+                "AOI heuristic", "OBSERVABILITY", "blue",
+                f"8/27 S2: Rasuwagadhi AOI bright {ras['bright_frac_of_valid']*100:.1f}% "
+                f"(tile cloud 78.5% ≠ AOI; brightness heuristic, no SCL)")
+
+    # Δz 리포트
+    if DELTA_ROOT.exists():
+        for rp in sorted(DELTA_ROOT.glob("*/nepal_delta_report.json")):
+            d = json.loads(rp.read_text())
+            add(d.get("created_at_utc"), "OLMoEarth Δz", "DELTA_REPORT", "green",
+                f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}")
+
+    events.sort(key=lambda e: e["time_utc"], reverse=True)
+    return events[:30]
+
+
 def olmoearth_block() -> dict[str, Any]:
     """임베딩·Δz 산출물이 실재하면 실측값으로, 없으면 정직한 대기 문구로 채움."""
     embedded_modes = []
@@ -451,6 +536,7 @@ def build(refresh_osm: bool) -> None:
         "scheduled_scenes": scheduled_scenes,
         "live_observation": live_observation,
         "olmoearth": olmoearth_block(),
+        "ops_log": build_ops_log(),
         "simulation": {
             "engine": "Rust/WASM deterministic particle preview",
             "route_source": "OSM ways 201928141, 809865767, 24624604",

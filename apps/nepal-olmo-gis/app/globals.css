@@ -296,3 +296,18 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
   background: var(--surface); color: var(--ink); font: 12px/1.5 var(--font-geist-sans, sans-serif);
   box-shadow: var(--card-shadow); pointer-events: auto; }
 .map-fallback-note strong { display: block; color: var(--orange); margin-bottom: 4px; }
+
+/* ── OPERATIONS LOG (EarthRanger식 이벤트 피드, 2026-08-28) ── */
+.ops-log { margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--line); }
+.ops-title { color: var(--muted); font: 700 10px var(--font-geist-mono); letter-spacing: .12em; }
+.ops-scroll { max-height: 190px; overflow-y: auto; margin-top: 8px; display: grid; gap: 2px; }
+.ops-row { display: grid; grid-template-columns: 10px 1fr; gap: 8px; padding: 6px 2px;
+  border-bottom: 1px dashed var(--line); }
+.ops-row:last-child { border-bottom: 0; }
+.ops-row i { width: 7px; height: 7px; margin-top: 4px; border-radius: 50%; }
+.ops-row.green i { background: var(--green); }
+.ops-row.orange i { background: var(--orange); }
+.ops-row.blue i { background: var(--blue); }
+.ops-row b { font: 700 10px var(--font-geist-mono); letter-spacing: .04em; }
+.ops-row em { font: 9px var(--font-geist-mono); color: var(--muted); font-style: normal; margin-left: 6px; }
+.ops-row small { display: block; margin-top: 2px; color: var(--muted); font: 10px/1.45 var(--font-geist-mono); }

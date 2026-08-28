@@ -1,0 +1,36 @@
+{
+  "anchors": {
+    "dhunche": {
+      "bright_frac_of_valid": 0.5416,
+      "clear_dark_frac_of_valid": 0.4584,
+      "nodata_frac": 0.0,
+      "pixels": 65536
+    },
+    "rasuwagadhi": {
+      "bright_frac_of_valid": 0.0252,
+      "clear_dark_frac_of_valid": 0.9748,
+      "nodata_frac": 0.0,
+      "pixels": 65536
+    },
+    "source_provisional": {
+      "bright_frac_of_valid": 0.5648,
+      "clear_dark_frac_of_valid": 0.4352,
+      "nodata_frac": 0.0,
+      "pixels": 65536
+    },
+    "syabrubesi": {
+      "bright_frac_of_valid": 0.0863,
+      "clear_dark_frac_of_valid": 0.9137,
+      "nodata_frac": 0.0,
+      "pixels": 65536
+    },
+    "timure": {
+      "bright_frac_of_valid": 0.0566,
+      "clear_dark_frac_of_valid": 0.9434,
+      "nodata_frac": 0.0,
+      "pixels": 65536
+    }
+  },
+  "method": "B02 > 2600 DN → bright(cloud OR snow); zero-all-bands → nodata. SCL 없음 — 휴리스틱임",
+  "schema": "aoi-observability-20260827-v1"
+}
