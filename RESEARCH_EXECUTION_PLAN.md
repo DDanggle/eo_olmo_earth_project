@@ -1,8 +1,44 @@
 # 연구 실행계획 — MountainShift 우선순위 교정
 
-갱신일: 2026-08-25
+갱신일: 2026-08-28
 실행 자원: **H200 GPU1 전용** (2026-08-25 사용자 지시로 변경. 이전 표기는 GPU0였음).
 모든 학습·추론은 `CUDA_VISIBLE_DEVICES=1`. GPU0은 건드리지 않는다.
+
+## 2026-08-28 실행 queue — transfer 본선 복귀
+
+> **현재 질문:** 8-region에서 확인된 frozen OLMoEarth의 지역 전이 이득이 일반 frozen GeoFM
+> 효과인지 OLMo 고유 효과인지 matched Presto 대조로 분리하고, 같은 recipe를 한국 spatial
+> holdout에 처음 적용했을 때 유지되는가?
+
+완료된 전제:
+
+- frozen-v2 8-region 72실행·post gate 완료: P4/P2/P3 region-macro .2722/.1966/.1834,
+  P4−P2 +.0756, per-region win 6/8(M65).
+- Presto feasibility 8/8, upstream commit·code·weight·normalization `/10000` byte match, exact 12-month
+  vector API 확인. `config/presto_c1_contract.json`으로 봉인.
+- Nepal live work는 `docs/NEPAL_SIDECAR_HANDOFF_2026_08_28.md`에 주차. `live_mode=null`이며
+  CVPR queue를 대체하거나 선점하지 않는다.
+
+| 순서 | 산출물 | 사전 gate / 중단 조건 |
+|---|---|---|
+| **R0 완료** | 8-region aggregate + M65 | 8 post manifest PASS, recipe SHA 일치, equal-region macro |
+| **R1 준비** | Presto 16/64/256픽셀 + 1타일 cache smoke | GPU1 가용; exact month·WGS84 lat/lon; deterministic; finite; peak memory·pixels/s 기록 |
+| **R2** | 6,834 sample Presto fp16 cache | same S12q IDs 100%, file/content seal, 예상 용량은 실측 후에만 확정 |
+| **R3** | P4/P2/P3/C1, 8지역×3seed matched retrospective table | 결과 보기 전 recipe v3; 같은 decoder topology·metric·selection; C1은 confirmatory라 부르지 않음 |
+| **R4** | {1,5,10,100%} label-budget curve | C1 cache·head audit 통과 후에만; seed별 같은 stratified subset |
+| **R5** | Korea input/split preflight + untouched recipe | v2/대체 canonical S2 계약, M10 split seal, P4/P2/P3/C1 모두 등록 후 test 개봉 |
+| **R6** | Korea transfer + cost table | cluster-macro/LOCO/CI, cold cache·warm head·deployment 비용 분리 |
+
+현재 GPU0/1은 다른 프로세스가 각각 약 34.8 GiB를 쓰므로 R1은 시작하지 않았다. 점유가 풀리기
+전에는 extractor·audit·recipe만 준비한다. 실행 중 confirmatory 네 코드 경로는 수정하지 않는다.
+
+**논문 경계:** R3까지는 “OLMo가 일반 GeoFM보다 낫다”를 금지한다. R5 전에는 한국 전이를
+주장하지 않는다. 지역별 P4 gain 편차는 보였지만 label-free winner predictor가 없으므로 router는
+method headline이 아니라 보류된 후속 질문이다.
+
+---
+
+## [이전 계획 보존] 2026-08-25 MountainShift 우선순위 교정
 
 ## 2026-08-25 현재 임계경로
 

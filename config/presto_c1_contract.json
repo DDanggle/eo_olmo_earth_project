@@ -1,0 +1,80 @@
+{
+  "schema": "presto-c1-input-contract-v1",
+  "status": "PINNED_NOT_EXECUTED",
+  "purpose": "Second frozen GeoFM control for the completed Sen12 S12q OLMo/raw benchmark",
+  "upstream": {
+    "repository": "https://github.com/nasaharvest/presto",
+    "commit": "11e207a668a34336ced1d8e492a1bd5849b96c4a",
+    "single_file_presto_sha256": "fb487a3a9ceb6040eaa8e97b9cd2dd9df8cb6c650ab889ac0868944ed55700df",
+    "normalization_source_sha256": "7f371255202450ba4a63a39c90665579252976d8cd127aa866f7391c2607aaf4",
+    "default_model_pt_sha256": "559c9d76f525bdf2dd3774da8b1e7f1510769b73baacac12e9e4d8d5c67fbe65"
+  },
+  "model": {
+    "checkpoint": "default_model.pt",
+    "frozen": true,
+    "embedding_dim": 128,
+    "parameter_count_probe": 822682
+  },
+  "input": {
+    "cohort": "Sen12 S12q: the same 12 label-independent selected observations used by P2/P3/P4",
+    "source_shape": "10 bands x 12 timesteps x 128 x 128 pixels",
+    "source_band_order": [
+      "B02",
+      "B03",
+      "B04",
+      "B08",
+      "B05",
+      "B06",
+      "B07",
+      "B8A",
+      "B11",
+      "B12"
+    ],
+    "presto_mapping": {
+      "B02": 2,
+      "B03": 3,
+      "B04": 4,
+      "B05": 5,
+      "B06": 6,
+      "B07": 7,
+      "B08": 8,
+      "B8A": 9,
+      "B11": 10,
+      "B12": 11,
+      "NDVI_derived_from_B08_B04": 16
+    },
+    "masked_groups": [
+      "S1",
+      "ERA5",
+      "SRTM",
+      "dynamic_world"
+    ],
+    "normalization": "Each S2 digital number is divided by 10000 with zero shift, exactly as pinned upstream source.",
+    "month_encoding": "Pass the exact selected calendar-month vector with shape [pixel_batch, 12]. Upstream month_to_tensor preserves a 2-D month tensor; do not pass a scalar start month.",
+    "latlon": "Derive WGS84 pixel coordinates from each NetCDF CRS and x/y coordinates. Do not use center_lat/center_lon attributes directly because the contract audit found projected values.",
+    "spatial_output": "128 channels x 128 x 128 native pixel grid"
+  },
+  "decoder_and_evaluation": {
+    "decoder": "Same small decoder block topology as P4, with only input channels changed from 768 to 128 and native-grid upsampling adjusted.",
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "primary_metric": "positive-tile macro IoU",
+    "same_splits": true,
+    "same_label_subsets": true,
+    "report_encoder_cache_and_head_cost_separately": true
+  },
+  "evidence_boundary": {
+    "probe": "8/8 feasibility checks passed, including deterministic 16-pixel encode.",
+    "normalization_and_commit": "Resolved by byte-identical comparison with the pinned upstream commit.",
+    "remaining_before_full_run": [
+      "Implement and audit the 128x128 per-pixel cache extractor.",
+      "Measure a small GPU1 throughput/memory smoke before extrapolating the approximately 28.7 GB fp16 cache.",
+      "Verify exact per-timestep months and WGS84 pixel coordinates on sampled NetCDF files.",
+      "Seal cache file sets and sample IDs before decoder training."
+    ],
+    "interpretation": "Because P2/P3/P4 outcomes on all eight regions are already open, C1 is a frozen retrospective matched control, not a newly untouched confirmatory release. The first untouched OLMo-vs-Presto transfer must be Korea or another unopened external cohort."
+  }
+}

@@ -1,6 +1,6 @@
 # 측정 장부 — 실제로 잰 것만
 
-최종 갱신: 2026-08-26
+최종 갱신: 2026-08-28
 
 이 파일에는 **실행해서 나온 수치만** 넣는다. 계획·설계·문헌 판단은 넣지 않는다
 (그건 `K_ALIGN_PROGRAM_NOTE.md`, `K_ALIGN_CVPR_READINESS_AUDIT.md`, `K_GAIN_AXES.md`가 맡는다).
@@ -42,10 +42,11 @@
 | M26 | 결정성 × 공식성 충돌 범위 실측 | **pooling backward 3개만 막힘. conv3d로 대체 가능** | 완료 |
 | M27 | 공식 구조는 이미 결정적 — 치환 1개가 수학적으로 동일 | **구조 변경 0. diff 3.3e-16** | 완료 |
 | M28 | AI-Hub 원천 영상 정체 + STAC 물질화 게이트 | **RGB uint8 3밴드였음. STAC 게이트 4/4 통과** | 완료 |
+| M65 | frozen-v2 확증 8-region region-macro | **P4 .2722 > P2 .1966 > P3 .1834; P4−P2 +.0756, 지역 승리 6/8** | 봉인 집계 완료 |
 
-**아직 confirmatory하게 측정하지 않은 것**: frozen OLMo의 full region-macro downstream 자격,
+**아직 confirmatory하게 측정하지 않은 것**: 두 번째 frozen GeoFM과의 matched 비교,
 한국 공공데이터의 **표현 기여**(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 0),
-스위스·네팔 산악 데이터, 압축(PQ/int8) 하에서의 거동, ADC baseline.
+스위스·네팔 산악 데이터, 압축(PQ/int8) 하에서의 거동, label-free region action prediction.
 
 ---
 
@@ -3232,6 +3233,54 @@ NaN-내성 처리(nan 표본 제외 + 유효 표본 수 보고)는 **수정안�
 
 - 290타일 소지역 — CI 블록 수가 적음(29~158).
 - M61 그대로: scratch 대비 승리는 viability임.
+
+## M65. frozen-v2 8-region 확증 완결 — **region-macro +0.0756, 승리 6/8**
+
+**근거**: `artifacts/confirmatory_8region_summary.json`,
+`code/summarize_confirmatory_8region.py`, 8개 `read_summary.json`과 post-release manifest
+
+**계약**: `evidence/recipe_frozen_v2.json` self SHA-256
+`95becb32ab2df2c73537a4d19550dfd2c93d426671c15703e59cf4d8d44d2f5a`
+
+**집계**: 사전등록대로 held-out 지역 8개를 같은 가중치로 평균. 타일 수 가중 평균이 아니다.
+
+집계기는 8지역 각각에서 9실행 완결, 동일 sample/split, seed 1/2/3, probability map,
+봉인 test SHA, recipe self-hash, post gate PASS를 다시 확인했다. Thrissur는 M57의 공개된
+source-snapshot 예외를 유지하고, 이후 7지역은 실행 전 code snapshot 3검사를 의무화했다.
+
+| held-out region | P4 reuse | P2 raw strong | P3 raw efficient | P4−P2 | 사전 win | strong win |
+|---|---:|---:|---:|---:|:---:|:---:|
+| Thrissur | .358835 | .231513 | .232495 | +.127322 | ✓ | ✓ |
+| Hiroshima | .278199 | .216018 | .178185 | +.062182 | ✓ | ✓ |
+| Hokkaido | .385637 | .215442 | .221120 | +.170195 | ✓ | — |
+| Indonesia | .272350 | **.283644** | .265142 | **−.011294** | — | — |
+| Itogon | .151709 | .147695 | .105182 | +.004014 | — | — |
+| Kyrgyzstan 1 | .281321 | .192479 | .173252 | +.088842 | ✓ | ✓ |
+| Kyrgyzstan 2 | .207763 | .106922 | .104170 | +.100841 | ✓ | ✓ |
+| New Zealand | .241512 | .178754 | .187939 | +.062758 | ✓ | ✓ |
+| **region-macro** | **.272166** | **.196558** | **.183436** | **+.075608** | **6/8** | **5/8** |
+
+Thrissur provenance 예외를 통째로 빼도 P4/P2/P3는 .259784/.191565/.176427이고
+P4−P2는 **+.068220**이다. 결과의 방향이 그 예외 하나에 의존하지 않는다.
+
+### 판정
+
+- frozen OLMoEarth v1 last-layer cache + small decoder는 이 공개 산사태 LOCO에서 **실제로 쓸 만하다**.
+  개발 fold의 95% gate 실패만으로 강등했던 판단은 8개 외부 지역 평균에는 일반화되지 않았다.
+- 동시에 `8/8 우월`은 아니다. Indonesia에서는 P2가 이겼고, Itogon은 평균 +.0040이나 seed 하나가
+  음수여서 사전등록 승리 규칙을 실패했다. 지역에 따른 gain 편차는 실재한다.
+- Hokkaido의 strong-win False는 10.24 km bootstrap NaN을 사후 수정하지 않은 엄격 판정이다.
+  따라서 strong-win은 기록상 5/8로 유지한다.
+
+### 아직 말할 수 없는 것
+
+1. **OLMo 고유 효과**: frozen Presto/Clay 같은 두 번째 GeoFM을 같은 decoder·split에서 돌리지 않았다.
+2. **라우팅 가능성**: 지역별 승자가 다르다는 oracle heterogeneity만 생겼다. target label 없이
+   Indonesia/Itogon을 미리 식별하는 predictor는 아직 없고, 기존 label-free winner gate는 실패했다.
+3. **한국 전이**: Sen12 내부 LOCO 결과다. AI-Hub/Korea는 recipe를 다시 고정한 뒤 처음 열어야 한다.
+4. **새 C1의 confirmatory 지위**: P2/P3/P4의 8지역 결과를 이미 본 뒤 Presto를 추가하므로,
+   같은 8지역 C1은 frozen retrospective matched control이다. 최초 untouched OLMo-vs-Presto 주장은
+   한국 또는 별도 미개봉 외부 cohort에서만 가능하다.
 
 ## M28. AI-Hub 원천 Sentinel-2는 **3밴드 RGB**였다 — RQ2는 STAC 물질화가 전제다
 

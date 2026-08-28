@@ -79,9 +79,9 @@
 
 ### 계산 자원 — 순간 상태와 자산을 분리함
 
-2026-08-25 재확인: GPU0은 다른 프로젝트가 62,585 MiB를 사용 중이므로 건드리지 않는다.
-**GPU1은 0 MiB로 가용**했다. 이는 영구 자산 상태가 아니므로 모든 실행 직전 `nvidia-smi`와
-`CUDA_VISIBLE_DEVICES=1`을 다시 확인한다.
+2026-08-28 재확인: GPU0·GPU1 모두 약 34.8 GiB를 쓰는 다른 Python 작업이 있었다. Sen12/
+confirmatory/Nepal 프로세스는 아니었고 새 GPU 작업을 시작하지 않았다. 이는 영구 자산 상태가
+아니므로 모든 실행 직전 `./bin/nx status`와 `nvidia-smi`를 다시 확인하고 GPU1만 사용한다.
 
 ### Nepal OLMoEarth live event — 입력 자산과 차단 상태
 
@@ -93,10 +93,11 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 | baseline | 5/5 | 4/4 | 91 / 48,859,900 | valid | pre-event memory |
 | placebo A | 5/5 | 4/4 | 91 / 49,313,623 | valid | descriptive control 1 |
 | placebo B | 5/5 | 4/4 | 91 / 48,680,635 | valid | descriptive control 2 |
-| S2 live | 5/5 | **3/4** | 81 / 45,754,625 | **invalid** | 08/27 S2 pixels only; embedding 금지 |
+| S2 live | 5/5 | **S1 3/4 · S2 4/4** | 81 / 45,754,625 | **invalid** | 08/27 S2 pixels only; live embedding 금지 |
 
 - live selection preflight는 5/5를 통과했지만 materialization seal은 S1 3/4 때문에 실패했다.
-- OLMo v1 embedding·pre/post delta 산출물은 **0건**이다.
+- OLMo v1 baseline/placebo embedding은 **3 mode × 5앵커**가 valid manifest로 봉인됐다.
+  `nepal_delta_report.json`의 `live_mode=null`이므로 **event pre/post embedding·delta는 0건**이다.
 - placebo 두 개는 95 percentile anomaly를 정의하기에 부족하다. 최소 20개, 권장 30개 이상의
   label-independent historical windows를 동결하기 전에는 descriptive rank만 허용한다.
 - AOI 관측성 산출물은 `B02 > 2600 DN` 밝기 진단이며 cloud classifier가 아니다. SCL/CLD
@@ -127,7 +128,7 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 
 | | 수 |
 |---|---|
-| 측정 M-항목 | **37** |
+| 측정 장부 | **M1–M65** (legacy M17 번호 중복은 보존) |
 | 코드 파일 | 123 |
 | 테스트 파일 / 통과 | 19 / **164 passed, 1 skipped, 10 subtests** |
 | artifacts | 19 |
@@ -145,7 +146,8 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 | 없는 것 | 막는 단계 | 비고 |
 |---|---|---|
 | **Sen12 전수 task contract** | **0 (C0)** | **통과** — 13,628 readable, retrospective 2건 fail-closed 제외, 10-region LOCO 봉인 |
-| **full frozen OLMo probe 결과** | **1 (G-P)** | frozen-small gate FAIL. E1 tiled-large 0.1777/0.2136 회복, full-context 악화. positive-macro·비용 Pareto·공통 seed·unseen region은 미완 |
+| **full frozen OLMo probe 결과** | **1 (G-P)** | **완료** — 8-region P4/P2/P3 .2722/.1966/.1834, P4−P2 +.0756, 6/8 win |
+| **두 번째 frozen GeoFM full 결과** | **1c (C1)** | Presto 계약·probe는 닫힘. 128×128 cache smoke·seal·matched 3-seed가 미실행 |
 | **matched head/baseline 1 run 시간** | **G-C** | fixed 40-epoch: P2 1,491초; E1 tiled small/large 866.6/1,596.2초 + cache 1,130초. practical early-stop·deployment inference 미측정 |
 | 71363의 12밴드 물질화 | 2·3의 대안 경로 | v1 2,539 파일은 M35에서 철회. 624개 severe zero hole; <1% zero 1,912도 후보일 뿐. v2 mosaic/coverage contract 필요 |
 | Sen12 ↔ 71363 공통 입력 계약 | 2·3 | 양쪽 다 B02–B12 10밴드라 **같은 결측 구조**임 — 유리함 |
@@ -154,10 +156,9 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 
 ## 7. 한 줄 판정
 
-> **사슬 1~4에 필요한 데이터는 전부 손에 있음** (Sen12 13,628패치 + 한국 2,699쌍 + 체크포인트
-> + 동결된 split). C0·cache audit·공식 4-arm·E1 개발 진단은 닫혔다. 현재 병목은 **exact
-> timestamp parity → tiled-large/P2 공통-seed 검증 → recipe 동결 → 미열람 지역 평가**다. 개발 fold의 frozen-small
-> recipe는 95% gate에 실패했고 confirmatory 성능은 여전히 0이다.
+> **Sen12 확증은 8/8 지역으로 닫혔다.** 현재 병목은 **Presto 128×128 cache smoke·matched
+> 3-seed control → 그 결과를 포함한 Korea recipe 동결 → 한국 untouched transfer**다. Nepal은
+> baseline/placebo만 봉인된 parked sidecar이며 본 경로를 막지 않는다.
 
 ---
 
@@ -170,8 +171,8 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 | AI-Hub 대응 12밴드 S2 큐브 **v1** | `olmoearth/aihub/s2_12band` | **63.9 GB**, 2,539큐브 | **오염 판정** — 24.6%가 격자 밖 0 채움(M35). v2(모자이크) 재물질화 전까지 사용 금지 |
 | OLMo v1 캐시 — 9개 LOCO fold 전부 | `olmoearth/sen12_pilot/holdout_*` | fold당 emb 10.75 GB + raw/mask (chimanimani 실측 36 GB) | prefetch 완료. 확증 sweep의 기반 |
 | full-context(1×128) 캐시 | `sen12_pilot_full128` | 10.3 GB | 보유하되 **비채택**(M37·M52) |
-| 확증 산출물 3지역 | `olmoearth/confirmatory/` | 지역당 pilot JSON·per-sample·체크포인트·확률맵·코드 스냅샷 | thrissur(예외 공개)·hiroshima·hokkaido — post gate 통과, 로컬 `evidence/`에 회수 |
-| Presto 코드+가중치 | `olmoearth/models/presto` | 3.3 MB, 822K 파라미터 | probe 8/8 통과(M62). 정규화 상수 확정 전 캐시 생성 금지 |
+| 확증 산출물 8지역 | `olmoearth/confirmatory/` | 72 arm×seed 실행, 지역당 pilot JSON·per-sample·체크포인트·확률맵·코드 스냅샷 | **8/8 post gate PASS**. compact 집계 `artifacts/confirmatory_8region_summary.json` |
+| Presto 코드+가중치 | `olmoearth/models/presto` | 3.3 MB, 822K 파라미터 | probe 8/8 통과(M62), upstream commit·code·weight·정규화 byte match 완료. full cache 미실행 |
 | 증거 번들 | 로컬 `evidence/` | ~10 MB, 90+ 파일 | per-sample 재계산 검증 통과분만 |
 
 ## B. 사용자 제공·신청으로 확보한 원천 (변동 없음 — 08-26 실사 유지)
@@ -186,7 +187,8 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 
 ## C. 사용 판정 요약
 
-- **지금 쓰는 것**: Sen12 38 GB + OLMo 캐시 9 fold + 확증 산출물
-- **대기**: Presto(정규화 확정 후), Clay(미착수), AI-Hub 라벨(큐브 v2 후)
+- **지금 쓰는 것**: Sen12 38 GB + OLMo 캐시 9 fold + 8지역 확증 산출물
+- **다음**: Presto full cache smoke→matched decoder, 그 뒤 AI-Hub/Korea untouched transfer
+- **대기**: Clay(Presto 뒤), AI-Hub 라벨(큐브 v2/입력계약 gate 뒤)
 - **폐기·비채택**: s2_12band v1(오염), full-context 캐시(성능 열세), P2_tiny stand-in
 - **기상(GK2A·ASOS)**: 아직 성능 기여로 세지 않음 — E_live는 static transfer(사슬 5) 뒤 순서 유지

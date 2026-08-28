@@ -2647,3 +2647,37 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   placebo와 multi-event A0–A4 비교 전에는 CVPR method claim으로 승격하지 않는다.
 - 검증: retrieval metric pytest 4 passed, site `verify`·`lint`·production build 통과. 현재 서버
   `./bin/nx status` 조회가 실패해 GPU/queue 순간 상태는 확인되지 않았으며 추정하지 않는다.
+
+### 2026-08-28 — Nepal sidecar 주차·CVPR transfer 임계경로 복귀 (완료)
+
+- 계획: Nepal live event는 현재 산출물·금지 주장·재개 조건을 immutable handoff로 남기고 주
+  실험 queue에서 제거한다. Sen12 confirmatory 8-region, 두 번째 GeoFM(Presto), 한국 transfer의
+  실물 폴더·manifest·서버 상태를 대조해 정확한 재개점을 고정한다.
+- 사전 판정 기준: ① 실행 중인 확증 작업이나 다른 GPU 프로세스를 건드리지 않는다 ② 서버 결과는
+  post gate·snapshot·sample-set seal을 통과하기 전 로컬 측정 장부로 승격하지 않는다 ③ 8-region
+  headline을 닫기 전 Nepal 단일-event 결과나 새 adapter/physics 실험을 열지 않는다 ④ OLMo 고유
+  주장은 Presto 정규화·commit·동일 decoder 비교 전 금지 ⑤ Korea transfer는 8-region aggregate와
+  C-arm 결과를 읽은 뒤 사전등록한다.
+- 첫 상태 확인: 로컬은 Thrissur·Hiroshima·Hokkaido 3지역만 판독된 것으로 보였으나, 서버에는
+  **8/8 confirmatory 지역 디렉터리와 각 9개 arm×seed 로그·read_summary가 모두 존재**한다.
+  현재 학습 프로세스는 grep상 없지만 GPU0/1은 각각 34.8/34.9 GiB를 사용 중이므로 새 GPU 작업은
+  금지한다. 남은 일은 실행이 아니라 원격 5지역의 post-gate·출처 검증과 안전한 회수다.
+- 확증 회수·판정: 8지역 모두 post manifest PASS. Thrissur는 공개된 M57 snapshot 예외를 유지하고,
+  나머지 7지역은 snapshot timing/required files/SHA를 포함한 13/13 gate를 통과했다. 8-region
+  region-macro P4/P2/P3는 **.272166/.196558/.183436**, P4−P2 **+.075608**. 사전등록 win 6/8,
+  strong-win 5/8이며 Indonesia는 −.011294, Itogon은 +.004014이나 seed 3 음수로 non-win이다.
+  Thrissur 제외 sensitivity도 +.068220으로 방향이 유지된다.
+- 봉인: `code/summarize_confirmatory_8region.py`가 recipe SHA·arm/seed·gap arithmetic·post gate·
+  snapshot을 검증하고 `artifacts/confirmatory_8region_summary.json`을 생성한다. M65와 README,
+  CRITICAL_PATH, ASSET_INVENTORY, 실행계획을 같은 수치로 동기화했다.
+- Presto 감사: 공식 upstream commit `11e207a…`와 서버 code/weight/normalization이 byte-identical이고
+  S2는 shift 0, `/10000`이 맞다. 2-D month tensor로 S12q 실제 월 벡터를 넣을 수 있음도 확인했다.
+  `config/presto_c1_contract.json`에 commit·세 SHA·band/month/latlon/decoder 계약을 고정했다.
+  기존 8지역은 이미 P2/P3/P4 결과가 열렸으므로 C1은 matched retrospective control로 강등하고,
+  최초 untouched OLMo-vs-Presto 비교는 한국이 맡는다.
+- Nepal 주차: baseline/placebo 3 mode×5앵커 embedding은 봉인됐지만 event `live_mode=null`이고
+  S2 live cube는 S1 3/4라 invalid다. 금지 주장과 네 재개 조건을
+  `docs/NEPAL_SIDECAR_HANDOFF_2026_08_28.md`에 고정했다.
+- 다음 실행: GPU1이 비면 Presto 16/64/256픽셀+1타일 smoke(exact month·WGS84 lat/lon) →
+  6,834 cache seal → 결과 관찰 전 recipe v3 → 8-region×3seed C1 → Korea recipe 동결 순이다.
+  현재 두 GPU가 타 작업에 점유돼 있어 새 GPU 실행은 의도적으로 시작하지 않았다.

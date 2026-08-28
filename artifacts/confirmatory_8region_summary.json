@@ -1,0 +1,314 @@
+{
+  "aggregation": "equal-weight mean across the 8 preregistered held-out regions",
+  "claim_boundary": [
+    "This closes the frozen v2 OLMo-vs-raw eight-region headline only.",
+    "It does not establish OLMo-specific superiority before a second frozen GeoFM control.",
+    "It does not establish label-free region routing; Indonesia loses and Itogon fails the all-seed win rule.",
+    "Strong-win count uses the stored multiscale spatial-CI rule; Hokkaido is not strong because its 10.24 km CI is undefined."
+  ],
+  "content_sha256_without_this_field": "238191f73adea75916aa6a8ff762d6965f647326f54ec8cbfb534f1f8a627fa0",
+  "headline": {
+    "n_regions": 8,
+    "negative_mean_gap_regions": [
+      "holdout_indonesia"
+    ],
+    "non_win_regions": [
+      "holdout_indonesia",
+      "holdout_itogon"
+    ],
+    "per_region_wins_reuse_vs_raw_strong": 6,
+    "region_macro_primary_mean": {
+      "raw_efficient": 0.183435625,
+      "raw_strong": 0.196558375,
+      "reuse": 0.27216575,
+      "reuse_minus_raw_strong": 0.0756075
+    },
+    "strong_wins_reuse_vs_raw_strong": 5
+  },
+  "primary_metric": "positive-tile macro IoU",
+  "recipe_self_sha256": "95becb32ab2df2c73537a4d19550dfd2c93d426671c15703e59cf4d8d44d2f5a",
+  "regions": [
+    {
+      "fold": "holdout_thrissur",
+      "n_positive_tiles": 221,
+      "n_tiles": 427,
+      "per_region_win": true,
+      "per_seed_gap": [
+        0.109017,
+        0.150135,
+        0.122815
+      ],
+      "primary_mean": {
+        "raw_efficient": 0.232495,
+        "raw_strong": 0.231513,
+        "reuse": 0.358835
+      },
+      "protocol_deviation": {
+        "policy": "사후 snapshot을 만들어 통과시키지 않는다. 그것은 pre-run snapshot이 아니라 retrospective copy다",
+        "pre_run_code_snapshot": false,
+        "reason": "이 실행은 snapshot 도입(M57) 이전에 시작됐다"
+      },
+      "reuse_minus_raw_strong": 0.127322,
+      "strong_win": true
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "n_positive_tiles": 457,
+      "n_tiles": 862,
+      "per_region_win": true,
+      "per_seed_gap": [
+        0.084751,
+        0.02048,
+        0.081314
+      ],
+      "primary_mean": {
+        "raw_efficient": 0.178185,
+        "raw_strong": 0.216018,
+        "reuse": 0.278199
+      },
+      "protocol_deviation": null,
+      "reuse_minus_raw_strong": 0.062182,
+      "strong_win": true
+    },
+    {
+      "fold": "holdout_hokkaido",
+      "n_positive_tiles": 150,
+      "n_tiles": 290,
+      "per_region_win": true,
+      "per_seed_gap": [
+        0.231033,
+        0.123313,
+        0.15624
+      ],
+      "primary_mean": {
+        "raw_efficient": 0.22112,
+        "raw_strong": 0.215442,
+        "reuse": 0.385637
+      },
+      "protocol_deviation": null,
+      "reuse_minus_raw_strong": 0.170195,
+      "strong_win": false
+    },
+    {
+      "fold": "holdout_indonesia",
+      "n_positive_tiles": 300,
+      "n_tiles": 573,
+      "per_region_win": false,
+      "per_seed_gap": [
+        -0.001141,
+        -0.035025,
+        0.002284
+      ],
+      "primary_mean": {
+        "raw_efficient": 0.265142,
+        "raw_strong": 0.283644,
+        "reuse": 0.27235
+      },
+      "protocol_deviation": null,
+      "reuse_minus_raw_strong": -0.011294,
+      "strong_win": false
+    },
+    {
+      "fold": "holdout_itogon",
+      "n_positive_tiles": 125,
+      "n_tiles": 235,
+      "per_region_win": false,
+      "per_seed_gap": [
+        0.005678,
+        0.009869,
+        -0.003506
+      ],
+      "primary_mean": {
+        "raw_efficient": 0.105182,
+        "raw_strong": 0.147695,
+        "reuse": 0.151709
+      },
+      "protocol_deviation": null,
+      "reuse_minus_raw_strong": 0.004014,
+      "strong_win": false
+    },
+    {
+      "fold": "holdout_kyrgyzstan1",
+      "n_positive_tiles": 786,
+      "n_tiles": 1566,
+      "per_region_win": true,
+      "per_seed_gap": [
+        0.099376,
+        0.068201,
+        0.098949
+      ],
+      "primary_mean": {
+        "raw_efficient": 0.173252,
+        "raw_strong": 0.192479,
+        "reuse": 0.281321
+      },
+      "protocol_deviation": null,
+      "reuse_minus_raw_strong": 0.088842,
+      "strong_win": true
+    },
+    {
+      "fold": "holdout_kyrgyzstan2",
+      "n_positive_tiles": 215,
+      "n_tiles": 416,
+      "per_region_win": true,
+      "per_seed_gap": [
+        0.143513,
+        0.057996,
+        0.101015
+      ],
+      "primary_mean": {
+        "raw_efficient": 0.10417,
+        "raw_strong": 0.106922,
+        "reuse": 0.207763
+      },
+      "protocol_deviation": null,
+      "reuse_minus_raw_strong": 0.100841,
+      "strong_win": true
+    },
+    {
+      "fold": "holdout_newzealand",
+      "n_positive_tiles": 584,
+      "n_tiles": 1173,
+      "per_region_win": true,
+      "per_seed_gap": [
+        0.052915,
+        0.106431,
+        0.028927
+      ],
+      "primary_mean": {
+        "raw_efficient": 0.187939,
+        "raw_strong": 0.178754,
+        "reuse": 0.241512
+      },
+      "protocol_deviation": null,
+      "reuse_minus_raw_strong": 0.062758,
+      "strong_win": true
+    }
+  ],
+  "schema": "confirmatory-8region-aggregate-v1",
+  "sensitivity_excluding_disclosed_thrissur_provenance_deviation": {
+    "n_regions": 7,
+    "region_macro_primary_mean": {
+      "raw_efficient": 0.176427143,
+      "raw_strong": 0.191564857,
+      "reuse": 0.259784429,
+      "reuse_minus_raw_strong": 0.068219714
+    }
+  },
+  "source_files": [
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/read_summary.json",
+      "fold": "holdout_thrissur",
+      "kind": "read_summary",
+      "retrieved_from": "evidence/confirmatory/holdout_thrissur/read_summary.json",
+      "sha256": "dac291deb60572f2915bb71bd29380fb31ac2499ab6cc4695cfbccf38bfef4df"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory_manifests/holdout_thrissur_post.json",
+      "fold": "holdout_thrissur",
+      "kind": "post_manifest",
+      "retrieved_from": "evidence/confirmatory_manifests/holdout_thrissur_post.json",
+      "sha256": "a9e2c2cbad5e7353036a7a5d6fc769a01073fd49a627d0a20840d197f18bda4f"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/read_summary.json",
+      "fold": "holdout_hiroshima",
+      "kind": "read_summary",
+      "retrieved_from": "evidence/confirmatory/holdout_hiroshima/read_summary.json",
+      "sha256": "3b2ecb5e68564169903af9bbe5228c5f0c38b019d17a80720ea6cc8328d1cb1f"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory_manifests/holdout_hiroshima_post.json",
+      "fold": "holdout_hiroshima",
+      "kind": "post_manifest",
+      "retrieved_from": "evidence/confirmatory_manifests/holdout_hiroshima_post.json",
+      "sha256": "26e6b007adb40dc105286915b4e7d32c9365aeafdc0e9030fb4fe2c040a1e7b2"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/read_summary.json",
+      "fold": "holdout_hokkaido",
+      "kind": "read_summary",
+      "retrieved_from": "evidence/confirmatory/holdout_hokkaido/read_summary.json",
+      "sha256": "d4d64652a17f3f116bbb1e3ce040e904a6151f6e1047d570579c4a173e3e91c7"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory_manifests/holdout_hokkaido_post.json",
+      "fold": "holdout_hokkaido",
+      "kind": "post_manifest",
+      "retrieved_from": "evidence/confirmatory_manifests/holdout_hokkaido_post.json",
+      "sha256": "ab4af3ccc577c23e4b23f066453a8cba24aeb2440537f13ecb6ddc6654c68831"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/read_summary.json",
+      "fold": "holdout_indonesia",
+      "kind": "read_summary",
+      "retrieved_from": "recovered_bundle://summaries/holdout_indonesia/read_summary.json",
+      "sha256": "5f875cc985a10cfc9eb18805cea4a878c3d25dbe7e7a0f3001d3511c16363640"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory_manifests/holdout_indonesia_post.json",
+      "fold": "holdout_indonesia",
+      "kind": "post_manifest",
+      "retrieved_from": "recovered_bundle://confirmatory_manifests/holdout_indonesia_post.json",
+      "sha256": "906b524d3ba5643c7e997bda368cca0a97aafabee233f812ccbcb50761b13847"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/read_summary.json",
+      "fold": "holdout_itogon",
+      "kind": "read_summary",
+      "retrieved_from": "recovered_bundle://summaries/holdout_itogon/read_summary.json",
+      "sha256": "277877618951048a1113a3f783bdb738a4c47c4a2a08df28ac980d2aa238749f"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory_manifests/holdout_itogon_post.json",
+      "fold": "holdout_itogon",
+      "kind": "post_manifest",
+      "retrieved_from": "recovered_bundle://confirmatory_manifests/holdout_itogon_post.json",
+      "sha256": "b768a7cfbc95cbc32792b0ab3d9cde54d5e12cc3456b74499d6042525ecbcf3f"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/read_summary.json",
+      "fold": "holdout_kyrgyzstan1",
+      "kind": "read_summary",
+      "retrieved_from": "recovered_bundle://summaries/holdout_kyrgyzstan1/read_summary.json",
+      "sha256": "90a62bf7811e9761bc4be9daffd7d9cd9401d3ef1e9ae6720b4ef6dc47775b58"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory_manifests/holdout_kyrgyzstan1_post.json",
+      "fold": "holdout_kyrgyzstan1",
+      "kind": "post_manifest",
+      "retrieved_from": "recovered_bundle://confirmatory_manifests/holdout_kyrgyzstan1_post.json",
+      "sha256": "34305a3effb222443b81e56549cd1af341a52697f763061576f09effbe66e246"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/read_summary.json",
+      "fold": "holdout_kyrgyzstan2",
+      "kind": "read_summary",
+      "retrieved_from": "recovered_bundle://summaries/holdout_kyrgyzstan2/read_summary.json",
+      "sha256": "80c4417aa621216f0626cd5d6216fe5394a99c0cc99a0832ccada6fa52f07de0"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory_manifests/holdout_kyrgyzstan2_post.json",
+      "fold": "holdout_kyrgyzstan2",
+      "kind": "post_manifest",
+      "retrieved_from": "recovered_bundle://confirmatory_manifests/holdout_kyrgyzstan2_post.json",
+      "sha256": "a60564ab404bc8dd0bed55dc9289b2cb2ad43bc6cee473cb87833fd7b22a27c4"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/read_summary.json",
+      "fold": "holdout_newzealand",
+      "kind": "read_summary",
+      "retrieved_from": "recovered_bundle://summaries/holdout_newzealand/read_summary.json",
+      "sha256": "14bdb89ef499a4958a161c7b2060132acf7fdd44033ae608981d4cf58403abe3"
+    },
+    {
+      "canonical_server_path": "/home/work/data/olmoearth/confirmatory_manifests/holdout_newzealand_post.json",
+      "fold": "holdout_newzealand",
+      "kind": "post_manifest",
+      "retrieved_from": "recovered_bundle://confirmatory_manifests/holdout_newzealand_post.json",
+      "sha256": "a316da5835cf28be2618d329bea9ab26a3112dcc8082f2949f854cd3ea01b3ba"
+    }
+  ],
+  "source_precision_note": "aggregate is computed from six-decimal per-region read summaries",
+  "status": "COMPLETE_VALIDATED"
+}

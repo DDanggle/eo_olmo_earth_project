@@ -1,7 +1,11 @@
 # 실험 C — 두 번째 frozen GeoFM: "OLMo 고유 효과인가, 일반 GeoFM 효과인가"
 
-작성 2026-08-27. M61의 최우선 미착수 축임. **thrissur 결과는 이미 봤으므로 이 설계는
-thrissur에 대해 exploratory, hiroshima 이후 미열람 지역에 대해 confirmatory임.**
+작성 2026-08-27, 상태 갱신 2026-08-28. M61의 최우선 미착수 축이다.
+
+> **지위 정정:** P2/P3/P4의 8-region 결과가 모두 개봉된 뒤 C1을 실행하게 됐다. 따라서 같은
+> 8지역의 Presto 비교는 설정을 지금 봉인한 **matched retrospective control**이지 untouched
+> confirmatory가 아니다. C1 결과를 보기 전에 계약·decoder·seed를 동결하는 가치는 남지만,
+> 최초 untouched OLMo-vs-Presto 주장은 한국 또는 별도 미개봉 cohort가 맡는다.
 
 ## 답하려는 질문 (하나만)
 
@@ -27,6 +31,19 @@ thrissur에 대해 exploratory, hiroshima 이후 미열람 지역에 대해 conf
 Presto가 이례적으로 잘 맞음: **S2 밴드 10개(B01·B09 제외)가 Sen12 실관측과 정확히 같고**,
 12 timestep이 S12q와 같고, 결측 그룹 마스킹이 우리 MISSING 계약과 같은 사상임.
 단 **픽셀 시계열 모델**이라 공간 문맥이 없음 — 이 차이 자체가 비교 축임(공간 문맥의 기여).
+
+### 2026-08-28 계약 감사로 닫힌 것
+
+- 공식 upstream `nasaharvest/presto` commit을 `11e207a…`로 고정했고, 서버의 single-file code,
+  normalization source, 3.3 MB weight가 upstream과 byte-identical임을 확인했다.
+- 공식 normalization은 S2 전 밴드 `shift=0`, `divide=1e4`다. 기존 probe의 `/10000`은 맞았다.
+- `month_to_tensor`는 2-D `[batch, 12]` tensor를 그대로 보존한다. S12q의 실제 선택 월 12개를
+  넣을 수 있으므로 scalar 시작월을 쓸 이유가 없다.
+- `center_lat/lon` 속성은 projected 값이므로 그대로 넣지 않는다. NetCDF CRS와 x/y로 각 픽셀의
+  WGS84 좌표를 계산한다.
+
+기계 판독 계약은 `config/presto_c1_contract.json`이다. 아직 안 닫힌 것은 full 128×128 cache
+추출기·throughput/memory smoke·cache seal·matched decoder 실행이다.
 
 ## Arm 정의 (동일 fold·동일 S12q·동일 seed 1/2/3·동일 선택 규칙)
 
@@ -65,10 +82,15 @@ seed별 동일 서브셋 — 서브셋 선정 seed는 20260827로 고정).
 - C1·C2 모두 A 이하이면 → "frozen GeoFM 일반 효과" 주장 기각, OLMo 결과는 고유 효과로 격상하되 원인 분해 실험 필수
 - B−C1 격차가 seed 폭 이내이면 → "OLMo 고유" 주장 금지, 일반 GeoFM 효과로 서술
 
-## 실행 순서
+## 실행 순서 — 2026-08-28 현재
 
-1. **probe (CPU, 지금)**: Presto vendoring → Sen12 5샘플 인코딩 → 형태·결정성·결측 처리 검증
-2. Clay probe (동일)
-3. hiroshima 확증 종료 후 GPU1에서 C1 캐시 추출 → 3 seed 학습 (개발 fold=chimanimani에서만)
-4. label budget은 C1 통과 후
-5. 미열람 지역 적용은 **recipe v3 등록 후** (v2는 arm 3개로 동결돼 있음 — C축은 별도 트랙)
+1. ~~Presto 5샘플 feasibility probe~~ — **8/8 통과**.
+2. ~~정규화·upstream commit·month API 확인~~ — **완료**, contract v1 봉인.
+3. GPU1이 비면 16/64/256픽셀 smoke로 peak memory와 pixels/s를 재고, 128×128 한 타일을
+   exact-month·WGS84 lat/lon으로 인코딩해 determinism·shape·finite를 감사한다.
+4. 6,834 sample 전체 Presto fp16 cache를 한 번 만들고 file set·sample SHA·입력 계약을 봉인한다.
+5. **새 C1 결과를 보기 전에** 동일 small decoder, seed 1/2/3, model selection, primary metric을
+   `recipe_frozen_v3`로 등록한다. 8지역은 retrospective matched comparison으로 전부 보고한다.
+6. C1이 학습·비용 gate를 통과한 뒤 label budget {1,5,10,100%}을 연다.
+7. 한국 external transfer recipe에는 P4/P2/P3/C1을 함께 등록하고, test를 처음 열어
+   OLMo-vs-Presto의 untouched 비교를 만든다.

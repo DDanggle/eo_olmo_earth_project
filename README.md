@@ -1,18 +1,19 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-08-26
+최종 갱신: 2026-08-28
 
 > ## 북극성 — 우선순위가 헷갈리면 이것부터
-> **모델·지역·시점·센서가 변했을 때, target label 없이 task별 maintenance action의 gain을
-> 예측해 shared embedding cache를 언제 갱신하는가.** 실험 질문은 RQ1~RQ5로 고정했고
-> **RQ2(위험이 정말 task별로 다른가)가
-> 사슬의 하중을 진다** — 여기서 이질성이 없으면 router 논문은 중단한다.
-> → **`docs/CRITICAL_PATH.md`**, **`docs/PAPER_CLAIM_EXPANSION_2026_08_26.md`**
+> **frozen OLMoEarth embedding이 산사태 표현으로 여러 지역에 전이되고, raw task model 및 다른
+> frozen GeoFM보다 언제 유리한지를 공정한 입력·비용 계약에서 밝힌 뒤 한국으로 옮긴다.**
+> label-free action router는 현재 주장이 아니라, 지역별 action 이질성과 예측 가능성이 모두
+> 확인될 때만 다시 여는 후속 방법이다.
+> → **`docs/CRITICAL_PATH.md`**, **`docs/EXPERIMENT_C_SECOND_GEOFM.md`**
 >
-> 공식 P2/P3 정렬은 끝났고 frozen-small P4는 첫 개발 fold에서 95% gate에 실패했다(82.0%).
-> E1은 full-context의 음의 효과와 decoder×context 상호작용으로 완결됐다(M37).
-> 현재 병목은 **exact-time parity → tiled-large recipe 공통-seed 검증 → recipe 동결 →
-> unseen-region 평가**다. 감사 예산 규칙: **main claim을 막지 않는 감사 항목은 새로 열지 않는다.**
+> 공식 P2/P3와 frozen-small P4의 8-region 확증이 끝났다. P4/P2/P3 region-macro는
+> **.2722/.1966/.1834**, P4−P2 **+.0756**, 사전등록 지역 승리 **6/8**이다(M65).
+> 현재 병목은 **Presto cache smoke → 동일 decoder 3-seed 비교 → 한국 untouched transfer**다.
+> Nepal live demo는 별도 sidecar로 주차했다. 감사 예산 규칙: **main claim을 막지 않는 감사
+> 항목은 새로 열지 않는다.**
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에
@@ -53,7 +54,7 @@
 | `RESEARCH_STRATEGY.md` | 박사 연구 프로그램 — WorldShift × ModelShift, 가설·베이스라인·12주 실행 |
 | `RESEARCH_EXECUTION_PLAN.md` | **현재 7일 실행 queue** — MountainShift public spine·3국 access·probe/residual/transfer gate; 아래에는 과거 K-ALIGN 계획 보존 |
 | `K_CONTEXT_FUSION_EXPERIMENT.md` | K-ALIGN 보존 branch — 동적 공공 context, EO-only privileged distillation, simple/native baseline, 3지역 split·kill gate |
-| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** 최신 M37은 E1 2×2의 음의 context 효과와 decoder×context 부호 반전을 기록 |
+| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** 최신 M65는 8-region frozen-v2 확증 집계와 금지 주장을 기록 |
 | `docs/E1_CONTEXT_DECODER_ANALYSIS_PLAN.md` | E1 2×2 cell·contrast·공간 CI·95% 참고선·비용 판정 계약 |
 | `docs/RECENT_LITERATURE_DECISION_2026_08_26.md` | OLMo/PANGAEA/PEFT/TESSERA/RALF 대비 선점 주장과 CVPR 잔여 gap |
 | `docs/PAPER_CLAIM_EXPANSION_2026_08_26.md` | M37 이후 claim ladder, label-free action utility, 최신 baseline, CVPR kill path |
@@ -99,7 +100,23 @@ kt cloud AI Nexus의 **H200 ×2**.
   최대 ×26 리프트의 유사지 검색이 가능함을 정량 검증. few-shot 프로토타입은 지역·유형을
   건너뛰어 전이됨(완도 해상 김양식 → 제주 육상 수조, 9/9가 상위 4% 내).
 
-### 2026-08-26 현재판 — 개발 downstream은 나왔고, confirmatory downstream은 여전히 0%
+### 2026-08-28 현재판 — 8-region 확증 완료, 두 번째 GeoFM·한국 transfer가 남음
+
+동결 recipe v2의 8개 held-out 지역 72실행이 모두 끝났고 release post-gate를 통과했다.
+주지표인 positive-tile macro IoU의 region-macro는 **P4 frozen OLMoEarth .272166**, P2 UNet3D
+.196558, P3 U-TAE .183436이다. P4−P2는 +.075608이며 Thrissur provenance 예외를 빼도
++.068220이다. P4는 6/8 지역에서 사전등록 승리했고 Indonesia에서는 패배, Itogon에서는 seed
+일관성 규칙을 실패했다. 결과와 출처 검증은 `artifacts/confirmatory_8region_summary.json`과 M65에 있다.
+
+이 결과는 “frozen OLMoEarth가 지역 전이에 쓸 만하다”를 지지한다. 아직 “OLMo 고유 효과”는 아니다.
+Presto의 upstream commit·weight·정규화(`/10000`)·exact-month API를 봉인했지만 full 128×128 cache와
+동일 decoder 비교는 미실행이다. 기존 8지역은 이미 열렸으므로 Presto C1은 retrospective matched
+control이고, 최초 untouched OLMo-vs-Presto 비교는 한국 test에서 만든다.
+
+Nepal은 baseline/placebo 3세트 임베딩만 존재하고 event `live_mode=null`; S2 live cube는 S1 3/4라
+invalid다. `docs/NEPAL_SIDECAR_HANDOFF_2026_08_28.md`에 주차했으며 CVPR queue를 막지 않는다.
+
+### [과거 상태] 2026-08-26 — 개발 downstream은 나왔고, confirmatory downstream은 0%였음
 
 Chimanimani 개발 fold의 공식 P2 UNet3D는 IoU/AUPRC 0.1593/0.1746, frozen OLMoEarth
 last-layer + small decoder는 0.1306/0.1513으로 원래 95% gate에 실패했다. E1 2×2를 동일 SHA로
