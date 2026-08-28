@@ -528,3 +528,12 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
   .story-schedule > div { grid-template-columns: 44px 1fr; }
   .story-schedule em { grid-column: 2; text-align: left; }
 }
+
+/* 스펙트럼 3연 패널 */
+.story-spectra { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 14px; }
+.story-spectra figure { margin: 0; }
+.story-spectra img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
+  border: 1px solid var(--line-strong, #d5d1c6); }
+.story-spectra figcaption { font-family: var(--font-geist-mono); font-size: 9.5px;
+  color: var(--muted, #6f6c64); padding-top: 4px; letter-spacing: 0.06em; }
+@media (max-width: 640px) { .story-spectra { grid-template-columns: 1fr; } }

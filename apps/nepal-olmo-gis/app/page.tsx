@@ -1082,6 +1082,25 @@ export default function Home() {
           </section>
 
           <section className="story-section story-step">
+            <p className="story-kicker">04b · {ko ? '스펙트럼' : 'THE SPECTRA'} — <em>{ko ? '같은 계곡, 다른 눈' : 'same valley, different eyes'}</em></p>
+            <h2>{ko ? '트루컬러가 놓치는 것' : 'What true colour misses'}</h2>
+            <p>{ko
+              ? '위성은 사람 눈이 보는 세 밴드만 찍지 않음. 같은 8월 27일 Rasuwagadhi 창을 세 가지로 다시 그리면 — 트루컬러(사람 눈), SWIR 합성(B12·B8A·B04: 식생은 초록, 젖은 퇴적물은 분홍-갈색, 물은 짙은 청색), NDWI(물 지수: 밝은 청색일수록 물) — debris 판 안에 아직 흐르는 물길이 어디인지가 트루컬러보다 훨씬 명확해짐. OlmoEarth 임베딩이 12개 밴드를 전부 먹는 이유가 이것임: 사람 눈에 같아 보이는 픽셀도 스펙트럼에서는 다름.'
+              : 'A satellite does not only capture the three bands a human eye sees. Re-rendering the same 27 August Rasuwagadhi window three ways — true colour (human eye), a SWIR composite (B12·B8A·B04: vegetation green, wet sediment pink-brown, water deep blue), and NDWI (a water index: brighter blue means water) — makes the still-flowing channel inside the debris sheet far clearer than true colour alone. This is why the OlmoEarth embedding ingests all twelve bands: pixels that look identical to the eye differ in spectrum.'}</p>
+            <div className="story-spectra">
+              <figure><img src="/data/story/spec_true_post0827.png" alt="True colour, 27 August" /><figcaption>{ko ? '트루컬러 · 08-27' : 'TRUE COLOUR · 08-27'}</figcaption></figure>
+              <figure><img src="/data/story/spec_swir_post0827.png" alt="SWIR false colour, 27 August" /><figcaption>{ko ? 'SWIR 합성 · 08-27' : 'SWIR COMPOSITE · 08-27'}</figcaption></figure>
+              <figure><img src="/data/story/spec_ndwi_post0827.png" alt="NDWI water index, 27 August" /><figcaption>{ko ? 'NDWI 물 지수 · 08-27' : 'NDWI WATER INDEX · 08-27'}</figcaption></figure>
+            </div>
+            <figure className="story-figure">
+              <img src="/data/story/spec_swir_pre0812.png" alt="SWIR false colour before the event, 12 August" />
+              <figcaption className="story-caption">{ko
+                ? '비교용: 사건 전 8/12의 같은 창 SWIR 합성 — debris 회랑의 분홍-갈색 면이 훨씬 좁음. © Copernicus Sentinel data 2026.'
+                : 'For comparison: the same window in SWIR on 12 Aug, before the event — the pink-brown debris corridor is far narrower. © Copernicus Sentinel data 2026.'}</figcaption>
+            </figure>
+          </section>
+
+          <section className="story-section story-step">
             <p className="story-kicker">05 · {ko ? '공백' : 'THE GAPS'} — <em>{ko ? '보이지 않는 곳도 결과다' : 'not seeing is also a result'}</em></p>
             <h2>{ko ? '같은 영상, 서로 다른 관측성' : 'One scene, uneven observability'}</h2>
             <figure className="story-figure"><img src="/data/story/corridor_post_grid.png" alt="Four corridor windows from the 27 August Sentinel-2 scene" /><figcaption className="story-caption">{ko ? 'Rasuwagadhi · Timure · Syabrubesi · Dhunche. 밝은 구름·눈이 앵커마다 다르게 나타나며 Dhunche 판독은 제한됨.' : 'Rasuwagadhi · Timure · Syabrubesi · Dhunche. Bright cloud/snow varies by anchor and limits interpretation at Dhunche.'}</figcaption></figure>
