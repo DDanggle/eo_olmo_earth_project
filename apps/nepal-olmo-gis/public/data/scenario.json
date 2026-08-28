@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-28T08:41:34.678699+00:00",
+  "generated_at": "2026-08-28T09:00:32.938115+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T03:15:00Z",
@@ -392,11 +392,11 @@
     }
   },
   "decision": {
-    "status": "candidate_ready",
-    "action": "REVIEW CANDIDATE EVIDENCE",
-    "reason": "A sealed post-event cube and OLMoEarth delta report are available.",
-    "next_gate": "Seek independent sensor, physical, or human corroboration.",
-    "allowed_claim": "Candidate representation change; not damage probability or hazard extent."
+    "status": "hold",
+    "action": "DO NOT EMBED",
+    "reason": "Post-event scene selected, but cube seal failed: S1 3/4; S2 4/4 per anchor.",
+    "next_gate": "Wait for Sentinel-1D IW GRD at 2026-08-28T12:19:28Z, materialize, then reseal 5/5 anchors.",
+    "allowed_claim": "Post-event pixels exist; OLMoEarth evidence does not."
   },
   "ops_log": [
     {

@@ -187,6 +187,9 @@ export default function Home() {
   const [dataStatus, setDataStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
   const [wasmStatus, setWasmStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
   const [activeSceneId, setActiveSceneId] = useState<string | null>(null);
+  // 2D(수직 정사영 — 판독·비교용) / 3D(지형 드레이프 — 회랑 실감용) 전환.
+  const [viewDim, setViewDim] = useState<'2d' | '3d'>('3d');
+  const viewDimRef = useRef<'2d' | '3d'>('3d');
   const [selectedPoint, setSelectedPoint] = useState('A');
   const [overlayOpacity, setOverlayOpacity] = useState(0.78);
   const [showAnchors, setShowAnchors] = useState(true);
@@ -432,7 +435,7 @@ export default function Home() {
     const [topLeft, , bottomRight] = scene.coordinates;
     map.fitBounds(
       new LngLatBounds([topLeft[0], bottomRight[1]], [bottomRight[0], topLeft[1]]),
-      { padding: scenePadding(), maxZoom: 15.1, pitch: TERRAIN_PITCH, bearing: -18, duration: prefersReducedMotion() ? 0 : duration },
+      { padding: scenePadding(), maxZoom: 15.1, pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0, bearing: viewDimRef.current === '3d' ? -18 : 0, duration: prefersReducedMotion() ? 0 : duration },
     );
   }, [scenePadding]);
 
@@ -534,6 +537,21 @@ export default function Home() {
     const optical = scenario?.scene_records.filter((scene) => shortSensor(scene.sensor) === 'S2') ?? [];
     return [...optical].sort((a, b) => b.acquired_at.localeCompare(a.acquired_at))[0] ?? null;
   }, [scenario]);
+  const setDimension = (dim: '2d' | '3d') => {
+    setViewDim(dim); viewDimRef.current = dim;
+    const map = mapRef.current;
+    if (!map) return;
+    try {
+      if (dim === '3d') {
+        map.setTerrain({ source: 'terrainDem', exaggeration: 1.3 });
+        map.easeTo({ pitch: TERRAIN_PITCH, bearing: -18, duration: prefersReducedMotion() ? 0 : 800 });
+      } else {
+        map.setTerrain(null);
+        map.easeTo({ pitch: 0, bearing: 0, duration: prefersReducedMotion() ? 0 : 800 });
+      }
+    } catch (e) { console.warn('[diag] terrain 전환 실패', e); }
+  };
+
   const backdropScene = activeScene && shortSensor(activeScene.sensor) === 'S2' ? activeScene : latestOpticalScene;
   const nextScheduled = scenario?.scheduled_scenes[0] ?? null;
   const liveObservation = scenario?.live_observation ?? null;
@@ -557,14 +575,14 @@ export default function Home() {
     const card = points.find((item) => item.id === id);
     if (!card) return;
     mapRef.current?.flyTo({
-      center: card.coordinates, zoom: id === 'C' ? 10.5 : 14, pitch: TERRAIN_PITCH, bearing: -18,
+      center: card.coordinates, zoom: id === 'C' ? 10.5 : 14, pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0, bearing: viewDimRef.current === '3d' ? -18 : 0,
       duration: prefersReducedMotion() ? 0 : 1100,
     });
   };
 
   const fitCorridor = () => {
     mapRef.current?.fitBounds(new LngLatBounds([85.302, 28.135], [85.386, 28.288]), {
-      padding: scenePadding(), pitch: TERRAIN_PITCH, bearing: -18, duration: prefersReducedMotion() ? 0 : 1100,
+      padding: scenePadding(), pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0, bearing: viewDimRef.current === '3d' ? -18 : 0, duration: prefersReducedMotion() ? 0 : 1100,
     });
   };
 
@@ -637,6 +655,10 @@ export default function Home() {
         <div className="map-mode-switch" role="group" aria-label="Map focus">
           <button onClick={() => activeScene && fitScene(activeScene, 900)} disabled={!activeScene || mapStatus !== 'ready'}>SATELLITE FRAME</button>
           <button onClick={fitCorridor} disabled={mapStatus !== 'ready'}>RIVER CORRIDOR</button>
+        </div>
+        <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
+          <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>
+          <button className={viewDim === '3d' ? 'is-active' : ''} onClick={() => setDimension('3d')} disabled={mapStatus !== 'ready'}>3D</button>
         </div>
         <div className="event-status"><span className="live-dot" /><div><strong>RASUWA · NEPAL</strong><small>{scenario ? `${shortDate(scenario.event.occurred_at)} 2026 · INVESTIGATION` : 'LOADING'}</small></div></div>
       </header>
@@ -773,7 +795,7 @@ export default function Home() {
           <div className="pipeline-row ready"><span>S1</span><div><strong>Radar baseline</strong><small>{scenario ? `${scenario.scene_records.filter((s) => shortSensor(s.sensor) === 'S1').length} acquisitions · local GeoTIFF` : '—'}</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>S2</span><div><strong>Optical baseline</strong><small>{scenario ? `${scenario.scene_records.filter((s) => shortSensor(s.sensor) === 'S2').length} acquisitions · true color from 12 bands` : '—'}</small></div><b>READY</b></div>
           <div className={`pipeline-row ${liveObservation?.olmo_ready ? 'ready' : 'pending'}`}><span>OE</span><div><strong>OLMoEarth contract</strong><small>{scenario ? `${scenario.olmoearth.anchors} anchors · ${livePeriodText}` : '—'}</small></div><b>{liveObservation?.olmo_ready ? 'SEALED' : 'HOLD'}</b></div>
-          <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>{liveObservation?.olmo_ready ? 'sealed cube ready; embedding not run' : 'catalogued pixels ≠ sealed OLMo cube'}</small></div><b>{typeof scenario?.olmoearth?.post_event_delta === 'object' ? 'READY' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'BLOCKED'}</b></div>
+          <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>{liveObservation?.olmo_ready ? 'sealed cube ready; embedding not run' : 'catalogued pixels ≠ sealed OLMo cube'}</small></div><b>{(typeof scenario?.olmoearth?.post_event_delta === 'object' && (scenario.olmoearth.post_event_delta as Record<string, unknown>).live_mode) ? 'READY' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'BLOCKED'}</b></div>
           <div className={`pipeline-row ${wasmStatus === 'ready' ? 'ready' : wasmStatus === 'failed' ? 'pending' : 'preview'}`}><span>W</span><div><strong>Flow layer</strong><small>Rust/WASM · {scenario?.simulation.route_points ?? '—'} route nodes</small></div><b>{wasmStatus.toUpperCase()}</b></div>
         </div>
         {/* O/E/P/H 4-layer 계약 — 설계 문서의 관측/증거/물리/공식 분리를 UI에 명시함.
@@ -781,7 +803,7 @@ export default function Home() {
         <div className="layer-contract">
           <span>LAYER CONTRACT</span>
           <div className="layer-contract-row on"><b>O</b><span>Observation — S1 VV/VH · S2 12-band · masks</span><em>ACTIVE</em></div>
-          <div className={`layer-contract-row ${typeof scenario?.olmoearth?.post_event_delta === 'object' ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · Δz · neighbours</span><em>{typeof scenario?.olmoearth?.post_event_delta === 'object' ? 'ACTIVE' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'PENDING'}</em></div>
+          <div className={`layer-contract-row ${(typeof scenario?.olmoearth?.post_event_delta === 'object' && (scenario.olmoearth.post_event_delta as Record<string, unknown>).live_mode) ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · Δz · neighbours</span><em>{(typeof scenario?.olmoearth?.post_event_delta === 'object' && (scenario.olmoearth.post_event_delta as Record<string, unknown>).live_mode) ? 'ACTIVE' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'PENDING'}</em></div>
           <div className="layer-contract-row off"><b>P</b><span>Physics — r.avaflow runout · SFINCS envelope</span><em>NOT YET</em></div>
           <div className="layer-contract-row off"><b>H</b><span>Human/official — Charter · ICIMOD polygons</span><em>NOT YET</em></div>
         </div>

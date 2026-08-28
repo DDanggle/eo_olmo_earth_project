@@ -329,3 +329,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .corridor-sketch { margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--line); }
 .corridor-sketch svg { display: block; width: 100%; height: auto; margin-top: 8px;
   background: var(--bg); border: 1px solid var(--line); border-radius: 3px; }
+
+/* 2D/3D 전환 — map-mode-switch 재사용, 활성 버튼만 구분함 */
+.dim-switch { left: calc(50% + 158px); transform: none; }
+.dim-switch button.is-active { background: var(--accent, #eb6834); color: #fffefb; }

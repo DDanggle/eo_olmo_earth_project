@@ -429,7 +429,10 @@ def build_decision(live_observation: dict[str, Any] | None,
                    scheduled_scenes: list[dict[str, Any]],
                    olmoearth: dict[str, Any]) -> dict[str, str]:
     """현재 허용되는 다음 action을 UI가 한 문장으로 답하게 한다."""
-    if isinstance(olmoearth.get("post_event_delta"), dict):
+    ped = olmoearth.get("post_event_delta")
+    # placebo 전용 리포트(live_mode=None)를 "post-event delta 있음"으로 승격하면 안 됨 —
+    # 2026-08-28 실측: 그 오독으로 카드가 REVIEW CANDIDATE EVIDENCE 를 잘못 표시했음.
+    if isinstance(ped, dict) and ped.get("live_mode") and ped.get("rasuwagadhi_live_mean") is not None:
         return {
             "status": "candidate_ready",
             "action": "REVIEW CANDIDATE EVIDENCE",
