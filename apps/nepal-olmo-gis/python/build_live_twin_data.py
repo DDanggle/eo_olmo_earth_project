@@ -43,7 +43,10 @@ MANIFESTS = {
     for mode in PREFLIGHTS
 }
 DELTA_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta"
-ROUTE_WAY_IDS = [201928141, 809865767, 24624604]
+# 2026-08-29 연장: 뉴스 실측(72km 구간, Trishuli Bazar 60채·Devighat 피해)에 따라
+# Bidur/Devighat 하류까지 OSM way 체인을 이어붙임 (endpoint 연속성 Overpass로 확인함).
+ROUTE_WAY_IDS = [201928141, 809865767, 24624604, 928822514, 119684552,
+                 84953861, 321548891, 343007937, 343007938, 27033466, 915399520]
 
 POINTS = [
     {
@@ -73,7 +76,7 @@ POINTS = [
         "role": "upstream_hazard_provisional",
         "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
         "source": "NDRRMA satellite analysis 2026-08-27 (exact coords unpublished; position illustrative)",
-        "story": "A new barrier lake (~0.11 km2) reported by NDRRMA on 27 Aug, ~18 km up the Lhende. Position here is provisional; tonight's Sentinel-1 radar pass is expected to fix its true location as a dark low-backscatter patch.",
+        "story": "Barrier lake reported by NDRRMA on 27 Aug (~0.11 km2, ~18 km up the Lhende). Chinese authorities state it breached on 28 Aug and drained gradually, easing the second-surge threat. Position provisional; the next Sentinel-1 pass verifies the drained bed.",
     },
     {
         "id": "E",
@@ -85,6 +88,17 @@ POINTS = [
         "place": "Upper Lhende basin, Gyirong County, Tibet (provisional)",
         "source": "ICIMOD press assessment 2026-08-27; same as source_provisional search anchor",
         "story": "ICIMOD's provisional source: at ~5,200 m a glacier section detached and fell ~1,200 m into the Lhende. Same coordinates as the pipeline's source_provisional embedding anchor — the machine was already watching this window.",
+    },
+    {
+        "id": "F",
+        "name": "Trishuli Bazar / Bidur reach",
+        # 뉴스 실측: Trishuli Bazar 일대 가옥 ~60채 유실, 교량 2개 붕괴, Devighat 수력 피해.
+        # 좌표는 OSM Trishuli Ganga way 27033466 하류 단부(강 위) — 시가지 중심이 아님.
+        "coordinates": [85.1357, 27.9162],
+        "role": "downstream_impact",
+        "place": "Trishuli Bazar reach, Bidur, Nuwakot, Nepal",
+        "source": "onlinekhabar.com 2026-08-27; Wikipedia 2026 Nepal floods (72 km flood stretch)",
+        "story": "~60 houses reportedly swept away around Trishuli Bazar, two road bridges lost, Trishuli and Devighat hydropower damaged. The flood ran ~72 km down to Galchhi -- six plants and 431 MW knocked off the grid. This is why the flow line now continues past Betrawati.",
     },
     {
         "id": "C",
@@ -446,6 +460,9 @@ def build_ops_log() -> list[dict[str, Any]]:
                 f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}",
                 str(rp.relative_to(WORK_ROOT)))
 
+    add("2026-08-28T12:00:00Z", "Barrier lake breached, drained gradually", "UPSTREAM_HAZARD_EASED", "green",
+        "Chinese authorities: the ~2M m3 barrier lake near the Chhochen/Purepu confluence breached 28 Aug and drained gradually; rescue operations resumed. Next S1 pass verifies the drained bed",
+        "en.wikipedia.org/wiki/2026_Nepal_floods (accessed 2026-08-28)")
     add("2026-08-27T05:59:00Z", "Upstream barrier lake reported", "UPSTREAM_HAZARD", "orange",
         "NDRRMA: lake ~0.11 km2, ~18 km upstream of Rasuwagadhi on the Lhende; China warns ~3M m3 inflow over 3 days; dam stability uncertain",
         "kathmandupost.com 2026-08-27 / onlinekhabar.com")

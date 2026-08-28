@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-28T14:28:16.082344+00:00",
+  "generated_at": "2026-08-28T14:51:16.382106+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T03:15:00Z",
@@ -44,7 +44,7 @@
       "role": "upstream_hazard_provisional",
       "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
       "source": "NDRRMA satellite analysis 2026-08-27 (exact coords unpublished; position illustrative)",
-      "story": "A new barrier lake (~0.11 km2) reported by NDRRMA on 27 Aug, ~18 km up the Lhende. Position here is provisional; tonight's Sentinel-1 radar pass is expected to fix its true location as a dark low-backscatter patch.",
+      "story": "Barrier lake reported by NDRRMA on 27 Aug (~0.11 km2, ~18 km up the Lhende). Chinese authorities state it breached on 28 Aug and drained gradually, easing the second-surge threat. Position provisional; the next Sentinel-1 pass verifies the drained bed.",
       "distance_from_a_km": 10.01
     },
     {
@@ -59,6 +59,19 @@
       "source": "ICIMOD press assessment 2026-08-27; same as source_provisional search anchor",
       "story": "ICIMOD's provisional source: at ~5,200 m a glacier section detached and fell ~1,200 m into the Lhende. Same coordinates as the pipeline's source_provisional embedding anchor — the machine was already watching this window.",
       "distance_from_a_km": 13.84
+    },
+    {
+      "id": "F",
+      "name": "Trishuli Bazar / Bidur reach",
+      "coordinates": [
+        85.1357,
+        27.9162
+      ],
+      "role": "downstream_impact",
+      "place": "Trishuli Bazar reach, Bidur, Nuwakot, Nepal",
+      "source": "onlinekhabar.com 2026-08-27; Wikipedia 2026 Nepal floods (72 km flood stretch)",
+      "story": "~60 houses reportedly swept away around Trishuli Bazar, two road bridges lost, Trishuli and Devighat hydropower damaged. The flood ran ~72 km down to Galchhi -- six plants and 431 MW knocked off the grid. This is why the flow line now continues past Betrawati.",
+      "distance_from_a_km": 46.79
     },
     {
       "id": "C",
@@ -440,6 +453,17 @@
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
     },
     {
+      "event_id": "f2829000b2f13f44",
+      "time_utc": "2026-08-28T12:00:00Z",
+      "recorded_at_utc": "2026-08-28T12:00:00Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Barrier lake breached, drained gradually",
+      "type": "UPSTREAM_HAZARD_EASED",
+      "priority": "green",
+      "summary": "Chinese authorities: the ~2M m3 barrier lake near the Chhochen/Purepu confluence breached 28 Aug and drained gradually; rescue operations resumed. Next S1 pass verifies the drained bed",
+      "evidence_uri": "en.wikipedia.org/wiki/2026_Nepal_floods (accessed 2026-08-28)"
+    },
+    {
       "event_id": "54ec8ef7abbc028b",
       "time_utc": "2026-08-28T08:40:35Z",
       "recorded_at_utc": "2026-08-28T08:40:35Z",
@@ -575,14 +599,14 @@
   "simulation": {
     "engine": "Rust/WASM deterministic particle preview",
     "route_source": "OSM ways 201928141, 809865767, 24624604",
-    "route_points": 78,
+    "route_points": 79,
     "claim": "illustrative_kinematic_preview_not_hazard_forecast"
   },
   "provenance": {
     "source_root": "/Users/dgyi/dong/ai_projects/olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
     "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
     "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
-    "hydrography_sha256": "17215dc5fe9adb009b904c85865d5ce66da4ebed1fbaeae119fc4f74826dd43a",
+    "hydrography_sha256": "005691a26c482012d3736d2191c0ee50a26761c8db44d1512730dc58ab66845c",
     "catalog_snapshot": "20260828T000910Z",
     "catalog_generated_at_utc": "2026-08-28T00:09:10Z",
     "catalog_sha256": "cf4b800534f8d5f8998342ed49b533197f27d03d57d961b09c410ac1cb285e0b",

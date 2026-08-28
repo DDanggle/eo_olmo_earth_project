@@ -428,10 +428,20 @@ export default function Home() {
       setSelectedPoint(String(id));
       const pt = points.find((x) => x.id === String(id));
       if (pt) {
-        new Popup({ closeButton: true, maxWidth: '300px', className: 'story-popup' })
+        // 점별 실측 위성 창 — A/B는 rasuwagadhi 앵커 창, D/E는 발원 수색 창.
+        // C(원거리 참조)는 물질화 창이 없어 썸네일 없음.
+        const win = ({ A: 'rasuwagadhi', B: 'rasuwagadhi', D: 'source', E: 'source' } as Record<string, string>)[pt.id];
+        const thumbs = win
+          ? `<div class="pp-thumbs">`
+            + `<figure><img src="/data/story/anchors/${win}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
+            + `<figure><img src="/data/story/anchors/${win}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
+            + `</div>`
+          : '';
+        new Popup({ closeButton: true, maxWidth: '320px', className: 'story-popup' })
           .setLngLat(pt.coordinates)
           .setHTML(`<p class="pp-eyebrow">${pt.id} · ${pt.role.replace(/_/g, ' ').toUpperCase()}</p>`
             + `<h3>${pt.name}</h3><p class="pp-place">${pt.place}</p>`
+            + thumbs
             + (pt.story ? `<p class="pp-story">${pt.story}</p>` : '')
             + `<p class="pp-src">${pt.source ?? ''}</p>`)
           .addTo(map);
@@ -651,6 +661,7 @@ export default function Home() {
       { name: 'Timure', lon: 85.363, lat: 28.235 },
       { name: 'Syabrubesi', lon: 85.347, lat: 28.164 },
       { name: 'Dhunche', lon: 85.296, lat: 28.102 },
+      { name: 'Trishuli Bazar', lon: 85.1357, lat: 27.9162 },
     ];
     // route 위 최근접점에 스냅해 앵커가 강 선 위에 앉게 함
     const dots = anchors.map((a) => {
@@ -971,8 +982,8 @@ export default function Home() {
               )}
             </div>
             <p>{ko
-              ? '수계 레이어는 장식이 아님 — 급류가 실제로 사용한 OSM 강 중심선임. Rasuwagadhi 상류는 전부 티베트의 Lhende 유역이고, 그곳에 이탈 추정 발원(E, 약 5,200m)과 8월 27일부터 새로 생긴 언색호(D, 약 0.11km²)가 있음. 언색호가 무너지면 2차 급류가 같은 선을 따라 내려옴. 강은 재해 파이프라인의 첫 질문에 답함: 어디를 볼 것인가.'
-              : 'The hydrography layer is not decoration: it is the OSM river centreline the flood actually used. Everything upstream of Rasuwagadhi is the Lhende basin in Tibet — the suspected detachment source (E, ~5,200 m) and, since 27 August, a newly formed barrier lake (D, ~0.11 km²) that could send a second surge down the same line. The river answers the first question of any disaster pipeline: '}<strong>{ko ? '' : 'where to look.'}</strong></p>
+              ? '수계 레이어는 장식이 아님 — 급류가 실제로 사용한 OSM 강 중심선임. Rasuwagadhi 상류는 전부 티베트의 Lhende 유역이고, 그곳에 이탈 추정 발원(E, 약 5,200m)과 8월 27일 생긴 언색호(D, 약 0.11km²)가 있음 — 중국 당국 발표로는 28일에 붕괴해 점진 배수됐고, 계곡은 2차 급류를 가까스로 피했음. 강은 재해 파이프라인의 첫 질문에 답함: 어디를 볼 것인가.'
+              : 'The hydrography layer is not decoration: it is the OSM river centreline the flood actually used. Everything upstream of Rasuwagadhi is the Lhende basin in Tibet — the suspected detachment source (E, ~5,200 m) and, a barrier lake (D, ~0.11 km²) that formed on 27 August and, per Chinese authorities, breached and drained gradually on the 28th — a second surge the valley narrowly avoided. The river answers the first question of any disaster pipeline: '}<strong>{ko ? '' : 'where to look.'}</strong></p>
           </section>
 
           <section className="story-section story-step">
