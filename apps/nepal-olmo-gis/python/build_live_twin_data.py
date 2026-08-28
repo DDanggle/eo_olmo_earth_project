@@ -339,9 +339,16 @@ def build(refresh_osm: bool) -> None:
         manifest_path = MATERIALIZED_ROOT / mode / "materialization_manifest.json"
         if not window_root.exists() or not manifest_path.exists():
             continue
-        if not json.loads(manifest_path.read_text()).get("valid"):
-            continue
-        state = "baseline_ready" if mode == "baseline" else "live_ready"
+        manifest = json.loads(manifest_path.read_text())
+        if mode == "baseline":
+            if not manifest.get("valid"):
+                continue
+            state = "baseline_ready"
+        else:
+            # live 모드는 부분 완성도 보여줌 — 예: 8/27 S2는 물질화됐지만 S1 4기간이
+            # 아직 안 차서 seal invalid인 상태. 장면 자체는 실측이므로 표시하되
+            # state로 정직하게 구분함 (live_partial = 임베딩 게이트 미통과).
+            state = "live_ready" if manifest.get("valid") else "live_partial"
         layers = discover_layers(window_root)
         for layer, timestamp in layers.get("sentinel2_l2a", []):
             scene_id = f"s2-{timestamp[:10]}"
@@ -351,7 +358,7 @@ def build(refresh_osm: bool) -> None:
             if scene_id in seen_scene_ids:
                 # live 모드가 같은 관측을 다시 담으면 state만 승격함
                 for rec in scene_records:
-                    if rec["id"] == scene_id and state == "live_ready":
+                    if rec["id"] == scene_id and state.startswith("live"):
                         rec["state"] = state
                 continue
             seen_scene_ids.add(scene_id)
@@ -370,7 +377,7 @@ def build(refresh_osm: bool) -> None:
                 continue
             if scene_id in seen_scene_ids:
                 for rec in scene_records:
-                    if rec["id"] == scene_id and state == "live_ready":
+                    if rec["id"] == scene_id and state.startswith("live"):
                         rec["state"] = state
                 continue
             seen_scene_ids.add(scene_id)

@@ -44,7 +44,7 @@ type Scenario = {
   scene_records: SceneRecord[];
   scheduled_scenes: { sensor: string; acquired_at: string; state: string }[];
   live_observation: LiveObservation | null;
-  olmoearth: { input_contract: string; anchors: number; embedding_status: string; post_event_delta: string };
+  olmoearth: { input_contract: string; anchors: number; embedding_status: string; post_event_delta: string | Record<string, unknown> };
   simulation: { route_points: number; claim: string };
 };
 
@@ -206,7 +206,9 @@ export default function Home() {
     if (!scenario) return [];
     const items: TimelineItem[] = scenario.scene_records.map((s) => ({
       id: s.id, kind: 'scene', iso: s.acquired_at, date: shortDate(s.acquired_at),
-      sensor: shortSensor(s.sensor), state: 'READY', selectable: true,
+      sensor: shortSensor(s.sensor),
+      state: s.state === 'live_partial' ? 'LIVE·PART' : s.state === 'live_ready' ? 'LIVE' : 'READY',
+      selectable: true,
     }));
     items.push({
       id: 'event', kind: 'event', iso: scenario.event.occurred_at,
@@ -624,7 +626,7 @@ export default function Home() {
         <div className="compare-strip">
           <div className="scene-preview">
             {activeScene ? <Image src={activeScene.image} alt={`${activeScene.sensor} pre-event observation`} fill unoptimized sizes="150px" /> : <span className="loading-grid" />}
-            <span>PRE · {activeScene?.acquired_at.slice(0, 10) ?? (dataStatus === 'loading' ? 'LOADING' : '—')}</span>
+            <span>{activeScene && scenario && activeScene.acquired_at >= scenario.event.occurred_at ? 'POST' : 'PRE'} · {activeScene?.acquired_at.slice(0, 10) ?? (dataStatus === 'loading' ? 'LOADING' : '—')}</span>
           </div>
           <div className="compare-arrow" aria-hidden="true">→</div>
           <div className="scene-preview pending-preview">
@@ -645,7 +647,7 @@ export default function Home() {
           <div className="pipeline-row ready"><span>S1</span><div><strong>Radar baseline</strong><small>{scenario ? `${scenario.scene_records.filter((s) => shortSensor(s.sensor) === 'S1').length} acquisitions · local GeoTIFF` : '—'}</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>S2</span><div><strong>Optical baseline</strong><small>{scenario ? `${scenario.scene_records.filter((s) => shortSensor(s.sensor) === 'S2').length} acquisitions · true color from 12 bands` : '—'}</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>OE</span><div><strong>OLMoEarth contract</strong><small>{scenario ? `${scenario.olmoearth.anchors} anchors · S1+S2 · 4 periods` : '—'}</small></div><b>INPUT</b></div>
-          <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>{liveObservation?.catalog_status === 'published' ? 'catalogued ≠ materialized OLMo cube' : 'post-event scene required'}</small></div><b>{liveObservation?.olmo_ready ? 'READY' : 'BLOCKED'}</b></div>
+          <div className="pipeline-row pending"><span>Δ</span><div><strong>Embedding delta</strong><small>{liveObservation?.catalog_status === 'published' ? 'catalogued ≠ materialized OLMo cube' : 'post-event scene required'}</small></div><b>{typeof scenario?.olmoearth?.post_event_delta === 'object' ? 'READY' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'BLOCKED'}</b></div>
           <div className={`pipeline-row ${wasmStatus === 'ready' ? 'ready' : wasmStatus === 'failed' ? 'pending' : 'preview'}`}><span>W</span><div><strong>Flow layer</strong><small>Rust/WASM · {scenario?.simulation.route_points ?? '—'} route nodes</small></div><b>{wasmStatus.toUpperCase()}</b></div>
         </div>
         {/* O/E/P/H 4-layer 계약 — 설계 문서의 관측/증거/물리/공식 분리를 UI에 명시함.
@@ -653,7 +655,7 @@ export default function Home() {
         <div className="layer-contract">
           <span>LAYER CONTRACT</span>
           <div className="layer-contract-row on"><b>O</b><span>Observation — S1 VV/VH · S2 12-band · masks</span><em>ACTIVE</em></div>
-          <div className={`layer-contract-row ${liveObservation?.olmo_ready ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · Δz · neighbours</span><em>{liveObservation?.olmo_ready ? 'ACTIVE' : 'PENDING'}</em></div>
+          <div className={`layer-contract-row ${typeof scenario?.olmoearth?.post_event_delta === 'object' ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · Δz · neighbours</span><em>{typeof scenario?.olmoearth?.post_event_delta === 'object' ? 'ACTIVE' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'PENDING'}</em></div>
           <div className="layer-contract-row off"><b>P</b><span>Physics — r.avaflow runout · SFINCS envelope</span><em>NOT YET</em></div>
           <div className="layer-contract-row off"><b>H</b><span>Human/official — Charter · ICIMOD polygons</span><em>NOT YET</em></div>
         </div>

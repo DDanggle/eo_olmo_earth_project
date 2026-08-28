@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v1",
-  "generated_at": "2026-08-28T03:06:40.448313+00:00",
+  "generated_at": "2026-08-28T04:57:05.305463+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T03:15:00Z",
@@ -114,7 +114,7 @@
       "id": "s2-2026-07-23",
       "sensor": "Sentinel-2 L2A",
       "acquired_at": "2026-07-23T04:57:01Z",
-      "state": "baseline_ready",
+      "state": "live_partial",
       "image": "/data/scenes/s2-2026-07-23.png",
       "coordinates": [
         [
@@ -146,7 +146,7 @@
       "id": "s1-2026-07-23",
       "sensor": "Sentinel-1 RTC VV/VH",
       "acquired_at": "2026-07-23T12:21:40Z",
-      "state": "baseline_ready",
+      "state": "live_partial",
       "image": "/data/scenes/s1-2026-07-23.png",
       "coordinates": [
         [
@@ -178,7 +178,7 @@
       "id": "s1-2026-08-04",
       "sensor": "Sentinel-1 RTC VV/VH",
       "acquired_at": "2026-08-04T12:21:40Z",
-      "state": "baseline_ready",
+      "state": "live_partial",
       "image": "/data/scenes/s1-2026-08-04.png",
       "coordinates": [
         [
@@ -210,7 +210,7 @@
       "id": "s2-2026-08-07",
       "sensor": "Sentinel-2 L2A",
       "acquired_at": "2026-08-07T04:56:59Z",
-      "state": "baseline_ready",
+      "state": "live_partial",
       "image": "/data/scenes/s2-2026-08-07.png",
       "coordinates": [
         [
@@ -242,7 +242,7 @@
       "id": "s2-2026-08-12",
       "sensor": "Sentinel-2 L2A",
       "acquired_at": "2026-08-12T04:57:01Z",
-      "state": "baseline_ready",
+      "state": "live_partial",
       "image": "/data/scenes/s2-2026-08-12.png",
       "coordinates": [
         [
@@ -274,7 +274,7 @@
       "id": "s1-2026-08-24",
       "sensor": "Sentinel-1 RTC VV/VH",
       "acquired_at": "2026-08-24T00:18:44Z",
-      "state": "baseline_ready",
+      "state": "live_partial",
       "image": "/data/scenes/s1-2026-08-24.png",
       "coordinates": [
         [
@@ -297,6 +297,38 @@
       "source_sha256": "063a0acd39575aaee3c736cf409bc9077b8ad07494742257ebb478d4f262729a",
       "shape": [
         2,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s2-2026-08-27",
+      "sensor": "Sentinel-2 L2A",
+      "acquired_at": "2026-08-27T04:56:59Z",
+      "state": "live_partial",
+      "image": "/data/scenes/s2-2026-08-27.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "586c4d7e9b90644f532bb540c5194c9401510fe3e0c22f867d94d11824f15985",
+      "shape": [
+        12,
         256,
         256
       ],
@@ -333,8 +365,8 @@
     "catalog_provider": "Copernicus Data Space OData",
     "materialization_provider": "Microsoft Planetary Computer STAC via rslearn",
     "materialization_mode": "s2_live",
-    "materialization_status": "blocked_provider_index_lag",
-    "olmo_ready": false,
+    "materialization_status": "provider_selection_ready",
+    "olmo_ready": true,
     "claim_boundary": "Tile cloud percentage is not AOI clear-pixel coverage; no post-event embedding is claimed."
   },
   "olmoearth": {
@@ -362,6 +394,6 @@
     "catalog_sha256": "cf4b800534f8d5f8998342ed49b533197f27d03d57d961b09c410ac1cb285e0b",
     "acquisition_status_sha256": "a45f0ec3dccf6f60d408235309614f5f8c9c0cc102a7267b564c1da1aa08cee6",
     "catalog_seal_sha256": "1c3be74f71e6c43d99c5cbf2ec6eaaefd42314e781dd4cd2ecb9bcfe53934ba2",
-    "s2_live_selection_preflight_sha256": "3fcbfe74637c96a665aa52a00db6036ca0234a1a4d9465ccc970a1d5c94be3a0"
+    "s2_live_selection_preflight_sha256": "5dbd0a5b65d056880eead964709dc9049147bd8584a1f989c91f2365fb15ebd6"
   }
 }
