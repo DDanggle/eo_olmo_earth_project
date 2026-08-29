@@ -243,7 +243,9 @@ export default function Home() {
   const flowSpeedRef = useRef(0.034);
   const flowPlayingRef = useRef(true);
   const wasmRef = useRef<FlowExports | null>(null);
-  const initialSceneFitRef = useRef(false);
+  // 첫 화면은 사건 전체다. style reload가 전체 회랑을 다시 A/B 2.56 km
+  // 장면으로 덮어쓰지 못하게, 사용자의 scene-focus 의도를 별도로 기억한다.
+  const userSelectedSceneRef = useRef(false);
   const railsRef = useRef({ left: true, right: true });
 
   const [mapReady, setMapReady] = useState(false);
@@ -367,8 +369,10 @@ export default function Home() {
       const map = new MapLibreMap({
         container: mapNode.current,
         style: maptilerStyleUrl ?? basemapStyle,
-        center: [85.3779, 28.276],
-        zoom: 14.15,
+        // 첫 인상은 A/B 한 점이 아니라 E→F 전체 사건 사슬이다. 이후 사용자가
+        // SATELLITE FRAME/타임라인을 고를 때만 2.56 km 장면으로 들어간다.
+        center: [85.33, 28.10],
+        zoom: 9.35,
         pitch: 0,
         bearing: 0,
         maxPitch: 72,
@@ -583,7 +587,7 @@ export default function Home() {
     const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('satellite-scene', { type: 'image', url: scene.image, coordinates: scene.coordinates });
     map.addLayer({ id: 'satellite-scene', type: 'raster', source: 'satellite-scene', paint: { 'raster-opacity': overlayOpacity, 'raster-fade-duration': 120, 'raster-saturation': 0.12, 'raster-contrast': 0.08, 'raster-resampling': 'nearest' } }, before);
-    if (!initialSceneFitRef.current) {
+    if (!userSelectedSceneRef.current) {
       // 첫 화면은 단일 A/B 위성창이 아니라 SOURCE→DOWNSTREAM 사건 전체를 보여준다.
       // 사용자가 A/B를 붕괴 원점으로 오독한 직접 원인이 초기 2.56 km 자동 줌이었다.
       map.fitBounds(new LngLatBounds([85.105, 27.885], [85.55, 28.31]), {
@@ -592,7 +596,6 @@ export default function Home() {
     } else {
       fitScene(scene, 700);
     }
-    initialSceneFitRef.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSceneId, mapReady, scenario, fitScene, styleRevision]);
 
@@ -733,6 +736,7 @@ export default function Home() {
   };
 
   const fitCorridor = () => {
+    userSelectedSceneRef.current = false;
     mapRef.current?.fitBounds(new LngLatBounds([85.105, 27.885], [85.55, 28.31]), {
       padding: scenePadding(), pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0, bearing: viewDimRef.current === '3d' ? -18 : 0, duration: prefersReducedMotion() ? 0 : 1100,
     });
@@ -809,6 +813,7 @@ export default function Home() {
     if (!activeSceneId || readyIds.length === 0) return;
     const at = readyIds.indexOf(activeSceneId);
     const next = event.key === 'ArrowRight' ? Math.min(at + 1, readyIds.length - 1) : Math.max(at - 1, 0);
+    userSelectedSceneRef.current = true;
     setActiveSceneId(readyIds[next]);
   };
 
@@ -838,7 +843,7 @@ export default function Home() {
           <div><p className="eyebrow">AI2 / PLANETARY INTELLIGENCE PROTOTYPE</p><h1>OLMoEarth <span>Live Twin</span></h1></div>
         </div>
         <div className="map-mode-switch" role="group" aria-label="Map focus">
-          <button onClick={() => activeScene && fitScene(activeScene, 900)} disabled={!activeScene || mapStatus !== 'ready'}>SATELLITE FRAME</button>
+          <button onClick={() => { userSelectedSceneRef.current = true; if (activeScene) fitScene(activeScene, 900); }} disabled={!activeScene || mapStatus !== 'ready'}>SATELLITE FRAME</button>
           <button onClick={fitCorridor} disabled={mapStatus !== 'ready'}>EVENT CHAIN</button>
         </div>
         <button className="story-launch" onClick={() => setStoryOpen(true)}>STORY</button>
@@ -1042,7 +1047,7 @@ export default function Home() {
             <button
               key={scene.id}
               className={scene.id === activeSceneId ? 'scene active' : 'scene'}
-              onClick={() => setActiveSceneId(scene.id)}
+              onClick={() => { userSelectedSceneRef.current = true; setActiveSceneId(scene.id); }}
               aria-pressed={scene.id === activeSceneId}
             >
               <span className={`scene-node ${scene.state.toLowerCase()}`} /><strong>{scene.date}</strong><small>{scene.sensor}</small><em>{scene.state}</em>
