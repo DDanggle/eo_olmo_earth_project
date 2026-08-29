@@ -26,7 +26,7 @@ assert.ok(scenario.points.find((point) => point.id === 'E')?.display_label === '
 assert.ok(scenario.points.find((point) => point.id === 'E')?.map_label === 'E · SOURCE');
 assert.ok(scenario.points.find((point) => point.id === 'C')?.in_event_chain === false);
 assert.ok(scenario.points.find((point) => point.id === 'C')?.map_label === 'C · CONTROL');
-assert.equal(scenario.olmoearth.embedding_status, 'not_run_in_this_web_snapshot');
+assert.ok(['not_run_in_this_web_snapshot', 'executed_offline_with_delta_provenance'].includes(scenario.olmoearth.embedding_status));
 assert.ok(['published', 'selected', 'materialized', 'sealed'].includes(scenario.live_observation.catalog_status));
 // 2026-08-29: 라이브 판정 전/후 두 상태 모두 검증함 (판정 전 = 대기 불변식, 판정 후 = 봉인 불변식)
 if (liveVerdict) {

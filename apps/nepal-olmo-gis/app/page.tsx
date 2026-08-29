@@ -126,7 +126,15 @@ type Scenario = {
     purpose: string;
     records: { label: string; acquired_at: string; item_id: string; mgrs_tile: string; tile_cloud_pct: number; image: string; image_sha256: string }[];
   };
-  simulation: { route_points: number; claim: string; scientific_upgrade?: string };
+  simulation: { route_points: number; mapped_route_km_from_border?: number; reported_total_travel_km?: number;
+    reported_reach_source?: string; trace_endpoint?: { name: string; coordinates: [number, number] };
+    trace_endpoint_boundary?: string; claim: string; scientific_upgrade?: string };
+  corridor_contract?: {
+    expected_windows: number; expected_layers_per_window: number; contract: string; stage: string; next_step: string;
+    baseline: { complete_windows: number; partial_windows: string[]; missing_windows: string[]; completed_layers: number; total_layers: number; materialization_sealed: boolean; embedded_windows: number; embedding_sealed: boolean; updated_at_utc: string | null };
+    s1_live: { complete_windows: number; partial_windows: string[]; missing_windows: string[]; completed_layers: number; total_layers: number; materialization_sealed: boolean; embedded_windows: number; embedding_sealed: boolean; updated_at_utc: string | null };
+    claim_boundary: string;
+  };
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
   ai_vs_classical?: { rows: { region: string; patches: number; classical_best: number; ai: number | null; gain: number | null }[]; regions: number; ahead: number; wins_at_005: number; pre_registered_margin: number; corridor?: { spearman: number; top10_overlap: number; reported_hits: { ai: number; classical: number } } | null } | null;
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
@@ -322,6 +330,7 @@ export default function Home() {
   const [visibleParticles, setVisibleParticles] = useState<number | null>(null);
   const visibleLogRef = useRef(0);
   const [flowSpeed, setFlowSpeed] = useState(0.034);
+  const [candidateScope, setCandidateScope] = useState<'all' | 'river' | 'hillslope'>('all');
   const [leftOpen, setLeftOpen] = useState(true);
   const [rightOpen, setRightOpen] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
@@ -433,8 +442,8 @@ export default function Home() {
         style: maptilerStyleUrl ?? basemapStyle,
         // 첫 인상은 A/B 한 점이 아니라 E→F 전체 사건 사슬이다. 이후 사용자가
         // SATELLITE FRAME/타임라인을 고를 때만 2.56 km 장면으로 들어간다.
-        center: [85.33, 28.10],
-        zoom: 9.35,
+        center: [85.27, 28.06],
+        zoom: 8.95,
         pitch: 0,
         bearing: 0,
         maxPitch: 72,
@@ -606,7 +615,13 @@ export default function Home() {
     const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('hydrography', { type: 'geojson', data: hydrography as FeatureCollection });
     map.addLayer({ id: 'river-casing', type: 'line', source: 'hydrography', paint: { 'line-color': '#06100e', 'line-width': 8, 'line-opacity': 0.82 } }, before);
-    map.addLayer({ id: 'river-route', type: 'line', source: 'hydrography', paint: { 'line-color': '#5fffd7', 'line-width': 2.2, 'line-opacity': 0.8, 'line-dasharray': [1.2, 1.6] } }, before);
+    map.addLayer({ id: 'river-route', type: 'line', source: 'hydrography', paint: { 'line-color': '#0f5fd7', 'line-width': 2.4, 'line-opacity': 0.9 } }, before);
+    // 파란 실선 = OSM 하천, 빨간 점선 = USGS 잠정 이동 보고를 따라 검사 중인 회랑.
+    // 빨간 선은 침수 폭이나 최종 퇴적 경계를 뜻하지 않는다.
+    map.addLayer({ id: 'reported-reach', type: 'line', source: 'hydrography', paint: {
+      'line-color': '#d9363e', 'line-width': 2.6, 'line-opacity': 0.82,
+      'line-dasharray': [2.4, 1.4], 'line-offset': 4,
+    } }, before);
   }, [hydrography, mapReady, styleRevision]);
 
   useEffect(() => {
@@ -679,7 +694,7 @@ export default function Home() {
       // GO/확대 뒤 화면이 원위치로 튀는 결함이 생김 (2026-08-29 사용자 보고).
       if (!initialCorridorFitRef.current) {
         initialCorridorFitRef.current = true;
-        map.fitBounds(new LngLatBounds([85.105, 27.885], [85.55, 28.31]), {
+        map.fitBounds(new LngLatBounds([84.96, 27.77], [85.55, 28.36]), {
           padding: scenePadding(), maxZoom: 10.8, duration: 0,
         });
       }
@@ -865,7 +880,7 @@ export default function Home() {
 
   const fitCorridor = () => {
     userSelectedSceneRef.current = false;
-    mapRef.current?.fitBounds(new LngLatBounds([85.105, 27.885], [85.55, 28.31]), {
+    mapRef.current?.fitBounds(new LngLatBounds([84.96, 27.77], [85.55, 28.36]), {
       padding: scenePadding(), pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0, bearing: viewDimRef.current === '3d' ? -18 : 0, duration: prefersReducedMotion() ? 0 : 1100,
     });
   };
@@ -894,6 +909,7 @@ export default function Home() {
       { name: 'Syabrubesi', lon: 85.347, lat: 28.164 },
       { name: 'Dhunche', lon: 85.296, lat: 28.102 },
       { name: 'Trishuli Bazar', lon: 85.1357, lat: 27.9162 },
+      { name: 'Galchhi · trace end', lon: 84.9883, lat: 27.8055 },
     ];
     // route 위 최근접점에 스냅해 앵커가 강 선 위에 앉게 함
     const dots = anchors.map((a) => {
