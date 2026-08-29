@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T11:57:59.692186+00:00",
+  "generated_at": "2026-08-29T12:12:22.993594+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -563,11 +563,11 @@
     }
   },
   "decision": {
-    "status": "not_detected",
-    "action": "NOT DETECTED ABOVE VARIABILITY",
-    "reason": "Sealed post-event cube and delta computed; anchor-mean Δz does not exceed the pre-event placebo set (n=10). Matched 1-period pairs (n=9): only rasuwagadhi ranks 1/10, by 0.0002.",
-    "next_gate": "Anchor-mean Δz is too blunt; use token-level evidence (corridor scan) and the next S1/S2 pass.",
-    "allowed_claim": "No candidate change claimed at anchor scale; observation chain intact."
+    "status": "candidate_ready",
+    "action": "REVIEW CANDIDATE EVIDENCE",
+    "reason": "Token-level matched test: rasuwagadhi — 9.8% of 40 m tokens exceed the matched placebo p99 vs at most 2.7% in any ordinary fortnight (n=9). Anchor-mean Δz alone does not separate.",
+    "next_gate": "Independent corroboration (field, high-res optical, physics runout) for the flagged tokens.",
+    "allowed_claim": "Candidate representation change at token scale; not damage probability or hazard extent."
   },
   "ops_log": [
     {
@@ -5919,7 +5919,42 @@
         "syabrubesi": "4/10",
         "dhunche": "9/10"
       },
-      "report_sha256": "60100c4b74f2de0b5abbfe7a8d74a9996f6a9c7e754a7132f642bd40786b23d9"
+      "token": {
+        "source_provisional": {
+          "event_frac": 0.000732421875,
+          "placebo_max": 0.0576171875,
+          "rank": 4,
+          "candidate": false
+        },
+        "rasuwagadhi": {
+          "event_frac": 0.098388671875,
+          "placebo_max": 0.026611328125,
+          "rank": 1,
+          "candidate": true
+        },
+        "timure": {
+          "event_frac": 0.0029296875,
+          "placebo_max": 0.0478515625,
+          "rank": 7,
+          "candidate": false
+        },
+        "syabrubesi": {
+          "event_frac": 0.005859375,
+          "placebo_max": 0.028076171875,
+          "rank": 6,
+          "candidate": false
+        },
+        "dhunche": {
+          "event_frac": 0.0,
+          "placebo_max": 0.0546875,
+          "rank": 10,
+          "candidate": false
+        }
+      },
+      "token_candidates": [
+        "rasuwagadhi"
+      ],
+      "report_sha256": "132557c209bfaf1bbc25addec0dffe1f3f6e7f4fd7143ae9e85ca0a17b4f16c9"
     },
     "corridor_windows": 100
   },

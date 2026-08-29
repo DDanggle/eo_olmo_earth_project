@@ -53,12 +53,27 @@ def main():
             ca, cb = get(a), get(b)
             if ca is None or cb is None: continue
             pl.append({"pair": [a, b], "mean": float(cosine_delta(ca, cb).mean())})
+        # 토큰 수준(사전 등록): 매칭 placebo 쌍의 모든 토큰 Δ 풀 → p99 임계 → 사건 토큰 중 초과 비율.
+        # placebo 쌍 각각에 같은 임계를 적용한 초과 비율 분포와 rank 로 판정 (평균 Δ보다 국소 변화에 민감).
+        pl_tok = []
+        for a, b in pairs:
+            ca, cb = get(a), get(b)
+            if ca is None or cb is None: continue
+            pl_tok.append(cosine_delta(ca, cb))
+        thr99 = float(np.quantile(np.concatenate([x.ravel() for x in pl_tok]), 0.99)) if pl_tok else None
+        ev_frac = float((ev > thr99).mean()) if thr99 is not None else None
+        pl_fracs = [float((x > thr99).mean()) for x in pl_tok] if thr99 is not None else []
+        tok_rank = 1 + sum(1 for f in pl_fracs if f >= ev_frac) if ev_frac is not None else None
         ev_mean = float(ev.mean()); pl_means = [x["mean"] for x in pl]
         rank = 1 + sum(1 for m in pl_means if m >= ev_mean)
         label = "candidate change (matched)" if pl_means and rank == 1 else "not detected above matched variability"
+        tok_label = ("candidate change (token-level, matched)" if tok_rank == 1 and ev_frac and ev_frac > 0.01
+                     else "not detected (token-level)")
         out["anchors"][anchor] = {"event_mean": ev_mean, "event_p95": float(np.quantile(ev, 0.95)), "placebo_pairs": pl,
-                                  "rank_of_event": rank, "n_placebo": len(pl), "label": label}
-        print(f"  {anchor:20s} event={ev_mean:.4f} rank {rank}/{len(pl)+1} placebo_means={[round(m,4) for m in pl_means]} → {label}", flush=True)
+                                  "rank_of_event": rank, "n_placebo": len(pl), "label": label,
+                                  "token": {"threshold_p99": thr99, "event_frac_above": ev_frac, "placebo_fracs_above": pl_fracs,
+                                            "rank_of_event": tok_rank, "label": tok_label}}
+        print(f"  {anchor:20s} mean-rank {rank}/{len(pl)+1} → {label} | token: event {100*(ev_frac or 0):.1f}% vs placebo {[round(100*f,1) for f in pl_fracs]} rank {tok_rank} → {tok_label}", flush=True)
     stamp = __import__("datetime").datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
     od = ROOT.parent / "delta_matched" / stamp; od.mkdir(parents=True, exist_ok=True)
     (od / "nepal_delta_matched_report.json").write_text(json.dumps(out, indent=1, ensure_ascii=False))

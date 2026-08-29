@@ -627,6 +627,21 @@ def build_decision(live_observation: dict[str, Any] | None,
     ped = olmoearth.get("post_event_delta")
     # placebo 전용 리포트(live_mode=None)를 "post-event delta 있음"으로 승격하면 안 됨 —
     # 2026-08-28 실측: 그 오독으로 카드가 REVIEW CANDIDATE EVIDENCE 를 잘못 표시했음.
+    matched_tok = []
+    _m = sorted((WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta_matched").glob("*/nepal_delta_matched_report.json"))
+    if _m:
+        _mj = json.loads(_m[-1].read_text())
+        matched_tok = [(a, v["token"]) for a, v in _mj.get("anchors", {}).items() if "candidate" in ((v.get("token") or {}).get("label") or "")]
+    if isinstance(ped, dict) and ped.get("live_mode") and matched_tok:
+        names = ", ".join(a for a, _ in matched_tok)
+        a0, t0 = matched_tok[0]
+        return {
+            "status": "candidate_ready",
+            "action": "REVIEW CANDIDATE EVIDENCE",
+            "reason": f"Token-level matched test: {names} — {100*t0['event_frac_above']:.1f}% of 40 m tokens exceed the matched placebo p99 vs at most {100*max(t0['placebo_fracs_above']):.1f}% in any ordinary fortnight (n={len(t0['placebo_fracs_above'])}). Anchor-mean Δz alone does not separate.",
+            "next_gate": "Independent corroboration (field, high-res optical, physics runout) for the flagged tokens.",
+            "allowed_claim": "Candidate representation change at token scale; not damage probability or hazard extent.",
+        }
     if isinstance(ped, dict) and ped.get("live_mode") and ped.get("rasuwagadhi_live_mean") is not None and (ped.get("label") or "").startswith("not detected"):
         return {
             "status": "not_detected",
@@ -1017,6 +1032,11 @@ def headline_block() -> dict[str, Any]:
         out["matched"] = {"n_pairs": len(mj.get("placebo_pairs", [])),
                           "candidates": [a for a, v in ma.items() if "candidate" in v.get("label", "")],
                           "ranks": {a: f"{v['rank_of_event']}/{v['n_placebo'] + 1}" for a, v in ma.items()},
+                          "token": {a: {"event_frac": (v.get("token") or {}).get("event_frac_above"),
+                                        "placebo_max": max((v.get("token") or {}).get("placebo_fracs_above") or [0]),
+                                        "rank": (v.get("token") or {}).get("rank_of_event"),
+                                        "candidate": "candidate" in ((v.get("token") or {}).get("label") or "")} for a, v in ma.items()},
+                          "token_candidates": [a for a, v in ma.items() if "candidate" in ((v.get("token") or {}).get("label") or "")],
                           "report_sha256": sha256(matched[-1])}
     cand = candidates_block()
     if cand:
