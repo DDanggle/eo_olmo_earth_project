@@ -26,6 +26,7 @@ assert.ok(scenario.points.find((point) => point.id === 'E')?.display_label === '
 assert.ok(scenario.points.find((point) => point.id === 'E')?.map_label === 'E · SOURCE');
 assert.ok(scenario.points.find((point) => point.id === 'C')?.in_event_chain === false);
 assert.ok(scenario.points.find((point) => point.id === 'C')?.map_label === 'C · CONTROL');
+assert.ok(scenario.points.find((point) => point.id === 'G')?.map_label === 'G · GALCHHI');
 assert.ok(['not_run_in_this_web_snapshot', 'executed_offline_with_delta_provenance'].includes(scenario.olmoearth.embedding_status));
 assert.ok(['published', 'selected', 'materialized', 'sealed'].includes(scenario.live_observation.catalog_status));
 // 2026-08-29: 라이브 판정 전/후 두 상태 모두 검증함 (판정 전 = 대기 불변식, 판정 후 = 봉인 불변식)
@@ -35,6 +36,8 @@ if (liveVerdict) {
   assert.equal(scenario.live_observation.materialization_seal_valid, true);
   assert.equal(scenario.headline?.sealed_total, 5);
   assert.ok(scenario.candidates && scenario.candidates.windows >= 27);
+  assert.equal(scenario.research.nepal_embedding.status, 'post_event_delta_executed');
+  assert.match(scenario.event.evidence_status, /OLMoEarth Δz executed/);
 } else {
   assert.equal(scenario.live_observation.olmo_ready, false);
   assert.equal(scenario.live_observation.selection_preflight_valid, false);
@@ -58,6 +61,13 @@ assert.equal(new Set(scenario.ops_log.map((event) => event.event_id)).size, scen
 assert.equal(scenario.live_observation.cloud_cover_tile_pct, null);
 assert.match(scenario.live_observation.product_name, /^S1D_IW_GRDH_1SDV_20260828/);
 assert.equal(scenario.simulation.claim, 'illustrative_kinematic_preview_not_hazard_forecast');
+assert.ok(scenario.simulation.mapped_route_km_from_border > 70);
+assert.equal(scenario.simulation.reported_total_travel_km, 100);
+assert.equal(scenario.simulation.trace_endpoint.name, 'Galchhi reach-search endpoint');
+assert.equal(scenario.corridor_contract.expected_windows, 27);
+assert.equal(scenario.corridor_contract.expected_layers_per_window, 8);
+assert.equal(scenario.corridor_contract.baseline.total_layers, 216);
+assert.equal(scenario.corridor_contract.s1_live.total_layers, 216);
 assert.ok(hydrography.simulation_route.length >= 40 && hydrography.simulation_route.length <= 96);
 assert.ok(hydrography.features.length >= 11 && hydrography.features.length <= 20); // 2026-08-29: Galchhi 방향 연장으로 15
 

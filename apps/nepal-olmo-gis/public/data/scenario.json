@@ -1,11 +1,11 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T12:18:35.670191+00:00",
+  "generated_at": "2026-08-29T12:25:14.305421+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
     "cause_status": "A rock–ice/glacial collapse on the Nepal side of Langtang Lirung is the leading assessment. It generated a cross-border debris-flow/flood; causal and field details remain under review.",
-    "evidence_status": "Post-event pixels and the full OLMoEarth input seal are ready; embedding has not run."
+    "evidence_status": "Post-event S1+S2 cube sealed and OLMoEarth Δz executed. The five-anchor mean did not separate from pre-event variability; a matched token-level review candidate remains at Rasuwagadhi."
   },
   "incident_updates": [
     {
@@ -65,7 +65,9 @@
       "evidence_level": "source_estimate_not_release_polygon",
       "story": "The rock–ice collapse began on the Nepal side of Langtang Lirung. This red marker is the best public source-search estimate—not a surveyed release polygon. It is the event origin; A and B are downstream impact/checkpoint windows.",
       "story_ko": "암반–빙하 붕괴는 네팔 영내 Langtang Lirung에서 시작했다. 이 빨간 점은 공개자료상 최선의 발원 수색점이며 현장 측량 방출 폴리곤은 아니다. 사건 원점은 여기이고 A·B는 하류 충격/검문소 창이다.",
-      "distance_from_a_km": 13.84
+      "distance_from_a_km": 13.84,
+      "nearest_window": "v050",
+      "nearest_window_km": 0.0
     },
     {
       "id": "D",
@@ -86,7 +88,9 @@
       "evidence_level": "reported_hazard_position_illustrative",
       "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary.",
       "story_ko": "여파 과정에서 토석에 막힌 호수가 생겼다고 보고됐다. 공개 footprint가 없어 보라색 점은 근사 수색구역일 뿐이며, 두 번째 붕괴 원점이나 시뮬레이션 호수 경계가 아니다.",
-      "distance_from_a_km": 10.01
+      "distance_from_a_km": 10.01,
+      "nearest_window": "v047",
+      "nearest_window_km": 1.0
     },
     {
       "id": "A",
@@ -107,7 +111,9 @@
       "evidence_level": "verified_aoi_reported_impact_corridor",
       "story": "The principal before/after inspection window at the Nepal–China crossing. A is not the collapse origin: it is where the upstream cascade reached infrastructure and where the current satellite time series is centered.",
       "story_ko": "네팔–중국 국경의 핵심 전후 비교창이다. A는 붕괴 원점이 아니라 상류 연쇄가 기반시설에 도달한 곳이며 현재 위성 시계열의 중심이다.",
-      "distance_from_a_km": 0.0
+      "distance_from_a_km": 0.0,
+      "nearest_window": "v000",
+      "nearest_window_km": 0.1
     },
     {
       "id": "B",
@@ -128,7 +134,9 @@
       "evidence_level": "verified_coordinate_reported_impact_corridor",
       "story": "The cross-border checkpoint beside the impact AOI. It anchors human-exposure review without treating every bright or dark satellite pixel as confirmed infrastructure damage.",
       "story_ko": "충격 관찰창 옆의 국경 검문소다. 모든 밝고 어두운 픽셀을 피해로 단정하지 않으면서 사람·기반시설 노출을 검토하는 기준점이다.",
-      "distance_from_a_km": 0.49
+      "distance_from_a_km": 0.49,
+      "nearest_window": "v000",
+      "nearest_window_km": 0.5
     },
     {
       "id": "F",
@@ -149,7 +157,9 @@
       "evidence_level": "downstream_inspection_anchor",
       "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is strong observation evidence, not yet a damage label or part of the sealed five-anchor OLMo contract.",
       "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만, 아직 피해 라벨도 봉인된 OLMo 5-anchor 계약의 일부도 아니다.",
-      "distance_from_a_km": 46.79
+      "distance_from_a_km": 46.79,
+      "nearest_window": "v029",
+      "nearest_window_km": 0.5
     },
     {
       "id": "G",
@@ -170,7 +180,9 @@
       "evidence_level": "current_trace_endpoint_not_confirmed_event_terminus",
       "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here.",
       "story_ko": "현재 지도 추적선은 Rasuwagadhi에서 하천을 따라 73.7 km 내려온 이 지점에서 끝난다. USGS는 발원지부터 총 약 100 km 이동을 잠정 보고했지만 최종 퇴적 종점 폴리곤은 아직 공개하지 않았다. G는 이 화면의 추적 종점이지 홍수·토석류가 정확히 여기서 끝났다는 증거가 아니다.",
-      "distance_from_a_km": 65.05
+      "distance_from_a_km": 65.05,
+      "nearest_window": "v040",
+      "nearest_window_km": 0.0
     },
     {
       "id": "C",
@@ -190,7 +202,9 @@
       "evidence_level": "distant_placebo_reference",
       "story": "C is deliberately outside the flood corridor, about 114 km from Rasuwagadhi. It is a negative-control/placebo window used to estimate ordinary change. It is not an event site, endpoint, or claimed affected area.",
       "story_ko": "C는 Rasuwagadhi에서 약 114 km 떨어져 의도적으로 홍수 회랑 밖에 둔 음성 대조/placebo 창이다. 일상 변화를 추정할 뿐 사건 지점·종점·피해 주장 지역이 아니다.",
-      "distance_from_a_km": 113.79
+      "distance_from_a_km": 113.79,
+      "nearest_window": null,
+      "nearest_window_km": 67.2
     }
   ],
   "scene_records": [
@@ -6049,6 +6063,69 @@
       ]
     }
   },
+  "corridor_contract": {
+    "schema": "nepal-corridor-contract-progress/v1",
+    "expected_windows": 27,
+    "expected_layers_per_window": 8,
+    "contract": "S1 RTC VV/VH + S2 L2A 12-band × 4 periods; same 2.56 km windows in baseline and s1_live",
+    "stage": "baseline_materialization",
+    "next_step": "Finish and seal all 27 baseline windows before live materialization.",
+    "baseline": {
+      "mode": "baseline",
+      "complete_windows": 26,
+      "partial_windows": [
+        "w17"
+      ],
+      "missing_windows": [],
+      "completed_layers": 212,
+      "total_layers": 216,
+      "materialization_sealed": false,
+      "embedded_windows": 0,
+      "embedding_sealed": false,
+      "updated_at_utc": "2026-08-29T12:24:21.101228+00:00"
+    },
+    "s1_live": {
+      "mode": "s1_live",
+      "complete_windows": 0,
+      "partial_windows": [],
+      "missing_windows": [
+        "w00",
+        "w01",
+        "w02",
+        "w03",
+        "w04",
+        "w05",
+        "w06",
+        "w07",
+        "w08",
+        "w09",
+        "w10",
+        "w11",
+        "w12",
+        "w13",
+        "w14",
+        "w15",
+        "w16",
+        "w17",
+        "w18",
+        "w19",
+        "w20",
+        "w21",
+        "w22",
+        "w23",
+        "w24",
+        "w25",
+        "w26"
+      ],
+      "completed_layers": 0,
+      "total_layers": 216,
+      "materialization_sealed": false,
+      "embedded_windows": 0,
+      "embedding_sealed": false,
+      "updated_at_utc": null
+    },
+    "claim_boundary": "Progress only. No corridor damage or reach claim exists until both modes are sealed and the matched delta is evaluated."
+  },
   "headline": {
     "sealed_candidates": 0,
     "sealed_total": 5,
@@ -6284,6 +6361,17 @@
     "engine": "Rust/WASM deterministic particle preview",
     "route_source": "verified OSM river-way chain from Bhote Koshi to Trishuli",
     "route_points": 78,
+    "mapped_route_km_from_border": 73.7,
+    "reported_total_travel_km": 100,
+    "reported_reach_source": "USGS preliminary findings as of 2026-08-27",
+    "trace_endpoint": {
+      "name": "Galchhi reach-search endpoint",
+      "coordinates": [
+        84.9883085,
+        27.805496
+      ]
+    },
+    "trace_endpoint_boundary": "Current mapped inspection endpoint; not a confirmed terminal deposit or inundation boundary.",
     "claim": "illustrative_kinematic_preview_not_hazard_forecast",
     "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw"
   },

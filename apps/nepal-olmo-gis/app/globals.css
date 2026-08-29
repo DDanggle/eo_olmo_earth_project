@@ -257,6 +257,8 @@ input[type='range']::-webkit-slider-thumb { width: 12px; height: 12px; border: 2
 .map-legend-inline span { display: flex; align-items: center; gap: 6px; }
 .map-legend-inline i { width: 7px; height: 7px; border-radius: 50%; }
 .map-legend-inline .mint { background: #12b5b0; }
+.map-legend-inline .blue { background: #0f5fd7; }
+.map-legend-inline .red { background: #d9363e; }
 .map-legend-inline .amber { background: var(--orange); }
 .map-legend-inline .white { background: #8fa8a0; }
 .provenance-stamp { position: absolute; z-index: 3; right: 22px; bottom: 26px;
@@ -761,6 +763,10 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
   .distance-matrix > div { grid-template-columns: 24px 1fr 64px 15px 64px; }
   .distance-matrix img { width: 64px; height: 64px; }
 }
+.reach-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+.reach-facts span { border: 1px solid var(--line); padding: 6px; color: var(--muted); font: 8.5px/1.35 var(--font-geist-mono); }
+.reach-facts b { display: block; color: var(--ink); font-size: 11px; }
+.reach-facts em { grid-column: 1 / -1; color: #a12b34; font: 8.5px/1.45 var(--font-geist-mono); font-style: normal; }
 
 /* 스펙트럼 3연 패널 */
 .story-spectra { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0 14px; }
@@ -806,6 +812,9 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 
 /* 후보 카드 */
 .candidate-cards { display: grid; gap: 8px; margin: 6px 0 12px; }
+.candidate-scopes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.candidate-scopes button { border: 1px solid var(--line-strong); background: transparent; color: var(--muted); padding: 6px 4px; cursor: pointer; font: 700 9px var(--font-geist-mono); }
+.candidate-scopes button.is-active { background: var(--ink); border-color: var(--ink); color: var(--surface); }
 .cand-help { font-family: var(--font-geist-mono); font-size: 10px; line-height: 1.5; color: var(--muted); margin: 0 0 4px; }
 .cand-card { border: 1px solid var(--line, #e3e0d8); background: var(--surface, #fffefb); padding: 8px; }
 .cand-card header { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: baseline; margin-bottom: 6px; }
@@ -857,3 +866,28 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .ai-vs-table td { padding: 2px 4px; border-bottom: 1px dashed var(--line); }
 .ai-vs-table tr.win td:last-child { color: var(--green, #1baf7a); font-weight: 700; }
 .ai-vs-card small { font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--muted); line-height: 1.5; }
+
+/* 27창 canonical OLMo 계약 — 후보 스캔과 분리된 실제 실행 진척 */
+.corridor-progress { border: 1px solid var(--blue); background: var(--surface); padding: 10px 12px; margin-bottom: 10px; display: grid; gap: 7px; }
+.corridor-progress header { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font: 9px var(--font-geist-mono); }
+.corridor-progress header b { color: var(--blue); font-size: 9px; }
+.corridor-progress-row { display: grid; grid-template-columns: 54px 1fr 34px 76px; gap: 6px; align-items: center; font: 9px var(--font-geist-mono); }
+.corridor-progress-row > span { color: var(--ink); font-weight: 700; }
+.corridor-progress-row > i { height: 6px; background: var(--line); overflow: hidden; }
+.corridor-progress-row > i > u { display: block; height: 100%; background: var(--blue); text-decoration: none; }
+.corridor-progress-row strong { text-align: right; color: var(--ink); }
+.corridor-progress-row small { color: var(--muted); text-align: right; }
+.corridor-progress p { margin: 1px 0 0; color: var(--ink); font: 10px/1.45 var(--font-geist-sans); }
+.corridor-progress em { color: var(--muted); font: 8.5px/1.45 var(--font-geist-mono); font-style: normal; }
+
+.field-review-links { display: grid; grid-template-columns: 1fr; gap: 4px; margin: 8px 0 12px; padding: 9px 10px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 92%, var(--blue) 8%); }
+.field-review-links > span { color: var(--muted); font: 8.5px var(--font-geist-mono); }
+.field-review-links a { color: var(--blue); font: 10px/1.4 var(--font-geist-mono); text-decoration: none; }
+.field-review-links a:hover { text-decoration: underline; }
+.map-legend { position: absolute; z-index: 6; left: 352px; bottom: 132px; display: grid; gap: 3px; padding: 8px 10px; background: rgba(255,254,251,.92); border: 1px solid var(--line-strong, #d5d1c6); font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--muted, #6f6c64); max-width: 320px; }
+.map-legend span { display: flex; align-items: center; gap: 6px; }
+.map-legend .sw { width: 12px; height: 10px; border: 1px solid rgba(0,0,0,.25); flex: 0 0 auto; }
+.map-legend .sw.orange { background: rgba(235,104,52,.55); } .map-legend .sw.purple { background: rgba(123,63,191,.55); }
+.map-legend .sw.blue { background: transparent; border: 2px dashed #2a78d6; } .map-legend .sw.grey { background: rgba(120,120,120,.4); }
+.map-legend .sw.teal { background: #5fffd7; border-radius: 50%; }
+@media (max-width: 900px) { .map-legend { display: none; } }

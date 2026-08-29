@@ -866,13 +866,20 @@ export default function Home() {
   const bidurPre = scenario?.downstream_visual.records.find((record) => record.label === 'pre') ?? null;
   const bidurPost = scenario?.downstream_visual.records.find((record) => record.label === 'post') ?? null;
   const providerSyncBlocked = liveObservation?.materialization_status === 'blocked_provider_selection';
+  const corridorContract = scenario?.corridor_contract ?? null;
+  const candidateRows = !scenario?.candidates ? []
+    : candidateScope === 'hillslope'
+      ? (scenario.candidates.hillslope_top ?? [])
+      : candidateScope === 'river'
+        ? scenario.candidates.top10.filter((candidate) => candidate.kind !== 'hillslope')
+        : scenario.candidates.top10;
 
   const focusPoint = (id: string) => {
     setSelectedPoint(id);
     const card = points.find((item) => item.id === id);
     if (!card) return;
     mapRef.current?.flyTo({
-      center: card.coordinates, zoom: id === 'C' ? 10.5 : id === 'F' ? 13.2 : 14,
+      center: card.coordinates, zoom: id === 'C' ? 10.5 : id === 'F' ? 13.2 : id === 'G' ? 12.2 : 14,
       pitch: viewDimRef.current === '3d' ? TERRAIN_PITCH : 0, bearing: viewDimRef.current === '3d' ? -18 : 0,
       duration: prefersReducedMotion() ? 0 : 1100,
     });
@@ -1066,7 +1073,7 @@ export default function Home() {
             선은 검증된 OSM centerline 그대로이고 개형/모식도가 아님. */}
         {corridorSketch && (
           <div className="corridor-sketch">
-            <span className="ops-title">RIVER CORRIDOR · Bhote Koshi → Trishuli</span>
+            <span className="ops-title">RIVER CORRIDOR · Bhote Koshi → Trishuli → Galchhi</span>
             <svg viewBox={`0 0 ${corridorSketch.W} ${corridorSketch.H}`} role="img"
                  aria-label="Bhote Koshi to Trishuli corridor with four anchors from Rasuwagadhi down to Dhunche">
               <path d={corridorSketch.path} fill="none" stroke="var(--blue)" strokeWidth="1.8"
@@ -1083,6 +1090,11 @@ export default function Home() {
               <text x={corridorSketch.W - 8} y={corridorSketch.H - 6} textAnchor="end"
                     fontSize="8" fontFamily="var(--font-geist-mono)" fill="var(--muted)">▼ downstream</text>
             </svg>
+            <div className="reach-facts">
+              <span><b>{scenario?.simulation.mapped_route_km_from_border?.toFixed(1) ?? '73.7'} km</b>mapped river trace below Rasuwagadhi</span>
+              <span><b>≈{scenario?.simulation.reported_total_travel_km ?? 100} km</b>USGS preliminary total travel from source</span>
+              <em>G · Galchhi is this map&apos;s trace end, not a confirmed terminal deposit.</em>
+            </div>
           </div>
         )}
         {/* EarthRanger식 이벤트 피드 — 파이프라인이 한 일과 거부한 일의 감사 로그.
@@ -1104,7 +1116,8 @@ export default function Home() {
           </div>
         )}
         <div className="map-legend-inline">
-          <span><i className="mint" />Verified river route</span>
+          <span><i className="blue" />Mapped river centerline</span>
+          <span><i className="red" />Preliminary reported reach corridor</span>
           <span><i className="white" />OLMo input 2.56 km</span>
           <span><i className="amber" />Unverified / pending</span>
         </div>
@@ -1146,6 +1159,19 @@ export default function Home() {
           <article className="win"><span>TRANSFER EVIDENCE</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} REGIONS WON` : 'LOADING'}</strong><small>{transfer ? `region-macro ${transfer.reuse_region_macro.toFixed(3)} vs ${transfer.raw_strong_region_macro.toFixed(3)} · +${transfer.absolute_gap.toFixed(3)}` : 'confirmatory summary'}</small></article>
           <article className={liveDelta ? 'ready' : 'wait'}><span>NEPAL LIVE CHANGE</span><strong>{liveDelta ? (scenario?.headline?.matched?.token_candidates?.length ? `TOKEN-LEVEL CANDIDATE · ${scenario.headline.matched.token_candidates.length}/5` : scenario?.headline?.sealed_candidates ? `CANDIDATE CHANGE · ${scenario.headline.sealed_candidates}/${scenario.headline.sealed_total}` : 'SEALED Δz · NOT DETECTED') : providerSyncBlocked ? 'S1 COVERS 5/5' : 'WAITING FOR S1'}</strong><small>{liveDelta ? `${String(liveDelta.live_mode)} sealed · rasuwagadhi Δ ${Number(liveDelta.rasuwagadhi_live_mean).toFixed(4)} vs placebo n=${String(liveDelta.placebo_samples)} · anchor-mean is blunt; see corridor scan` : providerSyncBlocked ? 'Copernicus ready · Planetary Computer index sync pending' : `${livePeriodText} · baseline value remains usable`}</small></article>
         </div>
+        {corridorContract && (
+          <div className="corridor-progress" role="status">
+            <header><span>SEALED CORRIDOR · 27 WINDOWS</span><b>{corridorContract.stage.replace(/_/g, ' ').toUpperCase()}</b></header>
+            {([['BASELINE', corridorContract.baseline], ['LIVE', corridorContract.s1_live]] as const).map(([label, mode]) => {
+              const pct = Math.round(100 * mode.completed_layers / mode.total_layers);
+              return <div className="corridor-progress-row" key={label}>
+                <span>{label}</span><i><u style={{ width: `${pct}%` }} /></i>
+                <strong>{mode.complete_windows}/{corridorContract.expected_windows}</strong><small>{pct}% · {mode.partial_windows.length} partial</small>
+              </div>;
+            })}
+            <p>{corridorContract.next_step}</p><em>{corridorContract.claim_boundary}</em>
+          </div>
+        )}
         {decision && (
           <div className={`decision-card compact ${decision.status}`} role="status">
             <span>LIVE NEPAL GATE · NOT THE WHOLE MODEL</span>
@@ -1196,7 +1222,10 @@ export default function Home() {
           {scenario?.candidates && (
             <div className="candidate-cards">
               <p className="cand-help">{scenario.candidates.windows} auto windows{scenario.candidates.judged_by_kind ? ` · judged: river ${scenario.candidates.judged_by_kind.river ?? 0}, hillslope ${scenario.candidates.judged_by_kind.hillslope ?? 0}, lhende ${scenario.candidates.judged_by_kind.lhende ?? 0}` : ''}{scenario.candidates.unobservable_by_kind ? ` · cloud/snow (not judged): ${Object.values(scenario.candidates.unobservable_by_kind).reduce((a, b) => a + b, 0)}` : ''} · orange = changed more than any ordinary fortnight (placebo p99) · purple = off-river hillslope window</p>
-              {scenario.candidates.top10.slice(0, 6).map((c) => (
+              <div className="candidate-scopes" role="group" aria-label="Filter AI candidate windows">
+                {(['all', 'river', 'hillslope'] as const).map((scope) => <button key={scope} className={candidateScope === scope ? 'is-active' : ''} onClick={() => setCandidateScope(scope)}>{scope === 'all' ? 'TOP ALL' : scope === 'river' ? 'RIVER' : 'OFF-RIVER'}</button>)}
+              </div>
+              {candidateRows.slice(0, 6).map((c) => (
                 <article key={c.id} className="cand-card">
                   <header><b>#{c.rank}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{c.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE · ' : c.kind === 'lhende' ? 'LHENDE UPSTREAM · ' : ''}{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
                   <div className="cand-strip" role="button" tabIndex={0}
@@ -1223,7 +1252,7 @@ export default function Home() {
               )}
               {scenario.candidates.retrieval && (
                 <div className="retrieval-box">
-                  <p className="cand-help"><b>SEARCH · same kind of change</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} candidate tokens; every window's tokens scored by cosine to that query, threshold = placebo p99.</p>
+                  <p className="cand-help"><b>SEARCH · same kind of change</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} candidate tokens; every window&apos;s tokens scored by cosine to that query, threshold = placebo p99.</p>
                   <ol>
                     {scenario.candidates.retrieval.top10.slice(0, 8).map((r) => (
                       <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.similar_token_frac * 100).toFixed(0)}% similar{r.delta_rank ? ` · Δ rank #${r.delta_rank}` : ''}</em>
@@ -1237,8 +1266,14 @@ export default function Home() {
           <div className="pipeline-row ready"><span>OE</span><div><strong>Frozen representation</strong><small>sealed baseline · retrieval · downstream probes</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>DV</span><div><strong>Bidur downstream pair</strong><small>{bidurPost ? `S2 ${bidurPost.acquired_at.slice(0, 10)} · tile ${bidurPost.mgrs_tile}` : 'visual audit'}</small></div><b>{bidurPost ? 'READY' : 'AUDIT'}</b></div>
           <div className="pipeline-row ready"><span>8R</span><div><strong>Cross-region transfer</strong><small>{transfer ? `${transfer.strong_wins} strong wins · ${transfer.non_win_regions.length} non-wins` : 'confirmatory'}</small></div><b>MEASURED</b></div>
-          <div className="pipeline-row pending"><span>ΔN</span><div><strong>Nepal live embedding delta</strong><small>{providerSyncBlocked ? 'official S1 covers 5/5 · rslearn provider has not indexed 08-28' : 'post S2 exists · final S1 period absent'}</small></div><b>{providerSyncBlocked ? 'SYNC WAIT' : 'WAIT S1'}</b></div>
+          <div className={`pipeline-row ${liveDelta ? 'ready' : 'pending'}`}><span>ΔN</span><div><strong>Nepal live embedding delta</strong><small>{liveDelta ? `sealed S1+S2 · placebo n=${String(liveDelta.placebo_samples)} · anchor mean not detected, token review open` : providerSyncBlocked ? 'official S1 covers 5/5 · rslearn provider has not indexed 08-28' : 'post S2 exists · final S1 period absent'}</small></div><b>{liveDelta ? 'EXECUTED' : providerSyncBlocked ? 'SYNC WAIT' : 'WAIT S1'}</b></div>
           <div className={`pipeline-row ${wasmStatus === 'ready' ? 'preview' : 'pending'}`}><span>Φ</span><div><strong>Physics ensemble</strong><small>r.avaflow primary · D-Claw check · satellite likelihood</small></div><b>NEXT BUILD</b></div>
+        </div>
+        <div className="field-review-links">
+          <span>FIELD / OFFICIAL REVIEW · OPENS SEPARATELY</span>
+          <a href="https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map" target="_blank" rel="noreferrer">USGS extent map ↗</a>
+          <a href="https://www.unosat.org/products/" target="_blank" rel="noreferrer">UNOSAT Rasuwa / Nuwakot products ↗</a>
+          <a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noreferrer">Planet crisis imagery ↗</a>
         </div>
         {/* O/E/P/H 4-layer 계약 — 설계 문서의 관측/증거/물리/공식 분리를 UI에 명시함.
             P·H는 아직 산출물이 없으므로 회색 placeholder로 정직하게 표시함. */}
@@ -1257,7 +1292,7 @@ export default function Home() {
           </div>
         </div>
         <button className="flow-pause" onClick={() => setFlowPlaying((value) => !value)}>{flowPlaying ? 'PAUSE PARTICLES' : 'RESUME PARTICLES'}</button>
-        <div className="truth-box"><span>CLAIM BOUNDARY</span><p>Particles follow the verified OSM Bhote Koshi→Trishuli centerline. They show interface flow, not flood depth, arrival time, or hazard.</p></div>
+        <div className="truth-box"><span>CLAIM BOUNDARY</span><p>Particles follow the mapped OSM Bhote Koshi→Trishuli→Galchhi centerline. Blue is river geometry; the offset red dash is a preliminary reach-inspection corridor informed by USGS&apos;s ≈100 km report. Neither shows flood width, depth, arrival time, nor a confirmed terminal deposit.</p></div>
       </aside>
       )}
 
@@ -1313,7 +1348,9 @@ export default function Home() {
             <p className="story-lede">{ko
               ? '8월 26일 오전 8시 40분, 네팔 라수와 군의 랑탕 리룽 북사면에서 바위와 얼음이 함께 무너졌다. 토사와 물은 렌데 계곡을 타고 국경 마을 라수와가디를 덮친 뒤 트리슐리 강을 따라 72km를 내려가 비두르까지 닿았다. 사망자는 사흘 만에 600명을 넘었다. 이 페이지는 그 사흘 동안 유럽우주국의 무료 위성 두 대가 이 계곡을 어떻게 지켜봤는지, 그리고 인공지능이 그 관측으로 무엇을 계산했고 무엇을 계산하지 않았는지를 기록한다. 결론부터 말하면 인공지능은 아직 이 사건을 판정하지 않았다. 판정에 필요한 레이더 관측 한 장이 파이프라인에 도착하지 않았기 때문이다. 이 시스템은 그 공백을 메우지 않고 기다린다. 그것이 설계다.'
               : 'This system links the Langtang Lirung rock–ice collapse, the Rasuwagadhi border impact and a measured Sentinel-2 change about 47 km downstream at Bidur. The question is not whether AI foretold the disaster. It is whether OlmoEarth can place different sensors and locations in one representation space—and help select which physical explanations agree with observation.'}</p>
-            <div className="hero-answer"><span>{ko ? '현재 답' : 'CURRENT ANSWER'}</span><strong>{ko ? (providerSyncBlocked ? '광학 관측은 사건 전후 모두 확보됐다. 레이더 8월 28일 제품은 공식 카탈로그에 올라왔으나 지형보정본이 아직 없어 판정은 보류 중이다.' : '광학 관측은 사건 전후 모두 확보됐다. 레이더 마지막 한 장이 도착하면 판정이 시작된다.') : (providerSyncBlocked ? 'OBSERVATION + OFFICIAL S1 5/5 READY · EMBEDDING WAITS FOR PROVIDER SYNC' : 'OBSERVATION CHAIN CLOSED · NEPAL LIVE EMBEDDING WAITS FOR S1')}</strong></div>
+            <div className="hero-answer"><span>{ko ? '현재 답' : 'CURRENT ANSWER'}</span><strong>{liveDelta
+              ? (ko ? 'S1+S2 라이브 임베딩은 실행됐다. 5개 앵커 평균에서는 탐지되지 않았고, Rasuwagadhi의 40 m 토큰만 대조기간을 넘는 검토 후보로 남았다. 이제 27창 동일계약 회랑 검증이 진행 중이다.' : 'SEALED S1+S2 EMBEDDING EXECUTED · ANCHOR MEAN NOT DETECTED · RASUWAGADHI TOKEN REVIEW OPEN · 27-WINDOW CORRIDOR RUN IN PROGRESS')
+              : ko ? (providerSyncBlocked ? '광학 관측은 사건 전후 모두 확보됐다. 레이더 8월 28일 제품은 공식 카탈로그에 올라왔으나 지형보정본이 아직 없어 판정은 보류 중이다.' : '광학 관측은 사건 전후 모두 확보됐다. 레이더 마지막 한 장이 도착하면 판정이 시작된다.') : (providerSyncBlocked ? 'OBSERVATION + OFFICIAL S1 5/5 READY · EMBEDDING WAITS FOR PROVIDER SYNC' : 'OBSERVATION CHAIN CLOSED · NEPAL LIVE EMBEDDING WAITS FOR S1')}</strong></div>
           </section>
 
           <section className="story-section story-step story-wide">
@@ -1321,7 +1358,7 @@ export default function Home() {
             <h2>{ko ? '무너진 곳과 덮친 곳은 20km 떨어져 있다' : 'The collapse source is not the impact window'}</h2>
             <div className="event-chain-cards">{eventPoints.map((point) => <article key={point.id} style={{ '--point-color': point.marker_color } as CSSProperties}><b>{point.stage}</b><span>{point.display_label}</span><strong>{point.name}</strong><small>{point.id} · {point.distance_from_a_km.toFixed(1)} km from impact A</small><p>{ko ? point.story_ko : point.story}</p></article>)}</div>
             <div className="control-explainer"><b>Ø · C · NEGATIVE CONTROL</b><p>{ko ? controlPoints[0]?.story_ko : controlPoints[0]?.story}</p></div>
-            <p className="story-caption">{ko ? '지도 위 점 여섯 개는 인공지능이 찾아낸 곳이 아니다. 공식 발표와 보도를 근거로 사람이 지정한 관찰창이다. E(빨강)는 미국지질조사국이 지목한 붕괴 지점 부근이고, D(보라)는 위치가 공개되지 않은 언색호의 추정 구역이다. A와 B는 국경 마을, F는 47km 하류의 비두르, C는 사건과 무관한 대조용 지점이다. 인공지능의 역할은 이 창 안에서 무엇이 달라졌는지를 재는 것이지, 창을 고르는 것이 아니다.' : 'E (red) is a public-evidence source-search estimate, not a surveyed release polygon. D (purple) is a provisional lake search zone. A (orange) and B (yellow) are border impact/exposure windows. F (blue) is downstream observation. C (grey) is outside the event chain.'}</p>
+            <p className="story-caption">{ko ? 'E(빨강)는 발원 수색점, D(보라)는 위치 미공개 언색호 수색구역, A·B는 국경 충격창, F는 비두르 실측창이다. G는 Rasuwagadhi 아래 73.7 km를 이은 현재 지도 추적 종점이며 재해의 확정 종점이 아니다. C는 사건 밖 대조군이다. 이 점들은 사람이 근거로 지정했고, AI가 새로 제안한 후보는 주황/보라 2.56 km 격자로 따로 표시된다.' : 'E is the source-search estimate; D is the unresolved lake search zone; A/B are border impact windows; F is the Bidur observation. G is the current map-trace endpoint 73.7 river-km below Rasuwagadhi—not a confirmed disaster terminus. C is outside the chain. AI-proposed candidates are the separate orange/purple 2.56 km grids.'}</p>
           </section>
 
           <section className="story-section story-step story-wide">
@@ -1465,7 +1502,7 @@ export default function Home() {
             <p className="story-kicker">08 · {ko ? 'AI 엔지니어 우선순위' : 'ENGINEERING PRIORITIES'} — <em>{ko ? '영향으로 이어지는 경로' : 'the path to impact'}</em></p>
             <h2>{ko ? '지금 만들어야 할 네 가지' : 'The four builds that matter next'}</h2>
             <div className="priority-stack">
-              <article><b>P0 · NOW</b><strong>{ko ? '관측 사슬과 라벨 확보' : 'Close evidence + labels'}</strong><p>{ko ? (providerSyncBlocked ? 'Bidur/Rasuwagadhi mask를 동결하고 8/28 S1 provider 선택을 재검사. 5/5 선택 전에는 download·embed 금지.' : 'Bidur/Rasuwagadhi 전후 mask를 CEMS·Charter·수동 판독으로 동결. S1 footprint 통과 시 Nepal live cube 봉인.') : (providerSyncBlocked ? 'Freeze Bidur/Rasuwagadhi masks and refresh the 28 Aug S1 provider selection. Do not download or embed before a 5/5 selection.' : 'Freeze Bidur/Rasuwagadhi pre/post masks with CEMS, Charter and blinded manual review; seal the live cube only after the S1 footprint passes.')}</p><em>VALUE · ground truth, reproducibility</em></article>
+              <article><b>P0 · NOW</b><strong>{ko ? '27창 회랑과 공식 범위 닫기' : 'Close 27-window corridor + official extent'}</strong><p>{liveDelta ? (ko ? '동일 27개 창의 baseline/live S1+S2를 모두 봉인해 토큰 Δ를 비교하고, USGS·UNOSAT 침수/토석 범위와 블라인드 대조한다. 100창 S2 후보는 수색 큐로만 유지한다.' : 'Seal matched baseline/live S1+S2 across the same 27 windows, compare token deltas, then blind-check against USGS/UNOSAT extent. Keep the 100-window S2 scan as a search queue only.') : ko ? 'Bidur/Rasuwagadhi mask를 동결하고 5/5 live cube를 봉인한다.' : 'Freeze Bidur/Rasuwagadhi masks and seal the 5/5 live cube.'}</p><em>VALUE · ground truth, reproducibility</em></article>
               <article><b>P1 · 1 WEEK</b><strong>{ko ? 'OLMo change + retrieval 본실험' : 'Olmo change + retrieval experiment'}</strong><p>{ko ? '고전 NDWI/SAR 변화탐지, OLMo Δz, gate-aware abstention을 동일 recall에서 비교. Nepal query로 SEN12 6,834 patch 유사사건 검색.' : 'Compare classical NDWI/SAR change, Olmo Δz and gate-aware abstention at matched recall; query 6,834 SEN12 patches with the Nepal representation.'}</p><em>VALUE · AI2 relevance, triage speed</em></article>
               <article><b>P2 · 2–3 WEEKS</b><strong>{ko ? '물리–관측 앙상블' : 'Physics–observation ensemble'}</strong><p>{ko ? 'Copernicus DEM/GLO-30에서 r.avaflow 파라미터 sweep, D-Claw 소수 독립 run, S1/S2 semantic operator로 실측 일치도 순위화.' : 'Sweep r.avaflow over Copernicus DEM/GLO-30, run a small independent D-Claw check and rank outputs through S1/S2 semantic observation operators.'}</p><em>VALUE · causal plausibility, uncertainty</em></article>
               <article><b>P3 · 4–6 WEEKS</b><strong>{ko ? '빠른 surrogate + 운영 UI' : 'Fast surrogate + operations UI'}</strong><p>{ko ? '물리 앙상블로 neural operator/emulator를 학습해 웹에서 scenario를 재생. 실제 OSM 경로·위성 pass·OLMo evidence를 EarthRanger식 incident ledger와 연결.' : 'Train a neural operator/emulator on the physics ensemble for interactive scenarios; join OSM routes, satellite passes and Olmo evidence into an EarthRanger-style incident ledger.'}</p><em>VALUE · scalable decision support</em></article>
@@ -1474,8 +1511,8 @@ export default function Home() {
 
           <section className="story-section story-step story-boundary">
             <p className="story-kicker">09 · {ko ? '다음 게이트와 출처' : 'NEXT GATE + SOURCES'} — <em>{ko ? '기다림의 기록' : 'progress with boundaries'}</em></p>
-            <h2>{ko ? (providerSyncBlocked ? '다음 판정을 막고 있는 것은 위성이 아니라 지형보정본 한 장이다' : '다음 레이더가 판정을 연다') : (providerSyncBlocked ? 'The next gate is provider sync—not another satellite' : 'The next S1 pass opens the live decision')}</h2>
-            <p>{ko ? (providerSyncBlocked ? '8월 28일 밤, 센티넬-1D 위성이 계곡 위를 지나갔다. 유럽 공식 카탈로그에는 다섯 관찰창을 모두 덮는 제품이 올라왔고, 원본 영상은 마이크로소프트의 무료 배포 창구에도 도착했다. 그런데 이 파이프라인이 쓰는 것은 산악 지형의 왜곡을 바로잡은 “지형보정본”이고, 그것은 아직 만들어지지 않았다. 원본으로 대신 계산할 수도 있지만 그러면 사건 전 자료와 조건이 달라져 비교가 무너진다. 그래서 기다린다. 8월 31일 새벽의 다음 레이더 관측이 예비 관문이다.' : '다음 후보도 예정표가 아니라 실제 footprint containment로 통과시킨다. baseline embedding과 Bidur 전후관측은 이미 유효하다.') : (providerSyncBlocked ? 'The 28 Aug S1 was indexed late and its footprint covers all five anchors, but the rslearn provider still selects the 24 Aug scene. Materialization starts only after 28 Aug is selected for 5/5; the 31 Aug pass is backup.' : 'The next candidate must pass actual footprint containment. Baseline embeddings and the Bidur before/after observation already remain valid.')}</p>
+            <h2>{liveDelta ? (ko ? '다음 관문은 새 위성이 아니라 27개 창의 공정한 비교다' : 'The next gate is a matched 27-window test—not another satellite') : ko ? (providerSyncBlocked ? '다음 판정을 막고 있는 것은 위성이 아니라 지형보정본 한 장이다' : '다음 레이더가 판정을 연다') : (providerSyncBlocked ? 'The next gate is provider sync—not another satellite' : 'The next S1 pass opens the live decision')}</h2>
+            <p>{liveDelta ? (ko ? '8월 28일 레이더까지 포함한 5개 앵커 임베딩은 이미 끝났다. 평균 Δz는 일상 변동을 넘지 못했고 Rasuwagadhi의 토큰 일부만 후보로 남았다. 그래서 이제 같은 27개 하천 창에 사건 전후 동일 S1+S2 계약을 적용한다. 여기서도 살아남고 USGS·UNOSAT 범위와 맞아야 비로소 회랑 변화탐지 기여가 된다.' : 'The five-anchor embedding including the 28 Aug radar is complete. Mean Δz did not beat ordinary variability; only a subset of Rasuwagadhi tokens remains a review candidate. The same pre/post S1+S2 contract is now being applied to 27 river windows. It must survive that test and agree with independent USGS/UNOSAT extent before becoming a corridor-change result.') : ko ? '다음 후보도 실제 footprint와 봉인 계약을 통과해야 한다.' : 'The next candidate must pass actual footprint containment and the sealed input contract.'}</p>
             <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}</em></div>)}</div>
             <div className="story-sources"><a href="https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood" target="_blank" rel="noreferrer">USGS event assessment ↗</a><a href="https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods" target="_blank" rel="noreferrer">WHO health response ↗</a><a href="https://allenai.org/blog/olmoearth-embeddings" target="_blank" rel="noreferrer">Ai2 embedding workflow ↗</a><a href="https://research.google/blog/planetary-prediction-engine-automating-global-models-via-earth-ai/" target="_blank" rel="noreferrer">Planetary Prediction Engine ↗</a><a href="https://doi.org/10.5194/gmd-18-9879-2025" target="_blank" rel="noreferrer">r.avaflow v4 ↗</a><a href="https://claw.code-pages.usgs.gov/dclaw/" target="_blank" rel="noreferrer">USGS D-Claw ↗</a><a href="https://planetarycomputer.microsoft.com/docs/quickstarts/using-the-data-api/" target="_blank" rel="noreferrer">Planetary Computer STAC ↗</a><a href="https://mapping.emergency.copernicus.eu/activations/EMSR927/" target="_blank" rel="noreferrer">CEMS EMSR927 ↗</a></div>
             <p className="story-outro">{scenario?.research.integration_disclaimer}</p>

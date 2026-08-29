@@ -1142,6 +1142,23 @@ def ai_vs_classical_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp)}
 
 
+def nearest_windows_for_points(points: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """포인트마다 3 km 이내 가장 가까운 스캔 창 id를 붙임 (팝업 위성 썸네일용)."""
+    wm = WORK_ROOT / "artifacts/corridor_s2_candidates/prepare_v2/windows_manifest.json"
+    if not wm.exists():
+        return points
+    wins = json.loads(wm.read_text())["windows"]
+    out = []
+    for pt in points:
+        best, bd = None, 9e9
+        for w in wins:
+            d = haversine_km(pt["coordinates"], w["center_lonlat"])
+            if d < bd:
+                best, bd = w["id"], d
+        out.append({**pt, "nearest_window": best if bd <= 3.0 else None, "nearest_window_km": round(bd, 1)})
+    return out
+
+
 def headline_block() -> dict[str, Any]:
     """한눈에 읽히는 요약: 봉인 판정 앵커 수 + 회랑 후보 상위 지명. 값이 없으면 정직하게 None."""
     out: dict[str, Any] = {"sealed_candidates": None, "sealed_total": None, "sealed_not_detected": [], "corridor_ranked": None, "corridor_top": []}
@@ -1320,7 +1337,7 @@ def build(refresh_osm: bool) -> None:
             "evidence_status": evidence_status,
         },
         "incident_updates": INCIDENT_UPDATES,
-        "points": POINTS,
+        "points": nearest_windows_for_points(POINTS),
         "scene_records": sorted(scene_records, key=lambda item: item["acquired_at"]),
         "scheduled_scenes": scheduled_scenes,
         "live_observation": live_observation,
