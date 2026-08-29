@@ -53,7 +53,8 @@ def main():
     def delta(za, zb):
         num = (za*zb).sum(0); return (1 - num/(za.norm(dim=0).clamp(min=1e-8)*zb.norm(dim=0).clamp(min=1e-8))).numpy()
 
-    files = sorted(a.inp.glob("w*.npz")); print("windows", len(files), flush=True)
+    files = sorted(f for f in a.inp.glob("*.npz") if f.stem[0] in "wv"); print("windows", len(files), flush=True)
+    if not files: raise SystemExit("no window cubes found in " + str(a.inp))
     rows = []; ev_all=[]; pl_all=[]
     t0=time.time()
     for f in files:
