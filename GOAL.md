@@ -2778,3 +2778,5 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   0/5였다. `PREPARE_ONLY=1` preflight에서 대용량 다운로드를 중단했고 UI gate를
   `WAIT FOR S1`에서 `WAIT FOR PROVIDER SYNC`로 정정했다. 08-29 S2C는
   `acquired_pending_catalog` 상태다.
+- 앱 소스 `c198aa5`를 Sites 저장소에 push하고 production build archive로 version 8을 저장했다.
+  기존 사이트가 public이므로 새 version의 공개 배포는 사용자 명시 승인 전까지 시작하지 않았다.
