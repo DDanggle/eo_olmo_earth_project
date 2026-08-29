@@ -9,7 +9,7 @@
   - 이 산출물은 "S2-only 후보 지도"이며 봉인된 S1+S2 계약이 아님. 라벨은 candidate까지만.
 """
 from __future__ import annotations
-import json, math, hashlib, sys, time
+import json, math, hashlib, sys, time, os
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import numpy as np
