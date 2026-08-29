@@ -3798,6 +3798,22 @@ S1만(dB)으로 27창을 재임베딩해 baseline↔s1_live Δ를 잼. **차용 
 결론: w24는 "다른 창보다 튀는 창"이지 "자기 과거보다 튀는 창"은 아님 → lead로만 유지, 후보 아님.
 봉인: `corridor_sealed_s1only/`, `corridor_matched_s1only/` (dB).
 
+## M77. 대조군 창 — Rishing(구름 100%) 대신 Tadi Khola: "변화 없음"의 실측 (2026-08-30)
+
+사건 없는 지역 4곳(Melamchi·Tadi Khola·Ankhu Khola·Rishing)을 스캔과 같은 5날짜·12밴드 계약으로 받아
+같은 3:1 Δ 프로토콜(GPU 임베딩)로 잼. 08-27 관측성: Tadi 84% > Melamchi 35% > Ankhu 15% > Rishing 0%.
+
+| 창 | 관측성(08-27) | Δ_event | Δ_placebo | 후보 토큰(스캔 임계 0.282) |
+|---|---|---|---|---|
+| **Tadi Khola (새 C)** | **0.84** | 0.129 | 0.125 | **0.5%** |
+| Melamchi | 0.35 | 0.172 | 0.161 | ~0 |
+| Ankhu Khola | 0.15 | 0.201 | 0.199 | (관측 부족) |
+| Rishing (구 C) | 0.00 | — | — | 판정 불가 |
+
+**읽기**: 사건 없는 맑은 창에서 사건 Δ와 평소 Δ가 같음(0.129≈0.125) — 프로토콜이 "아무 일 없음"을
+정직하게 0.5%로 냄. 회랑 1위(Dalphedi 25%)와 대비되는 음성 대조. Rishing은 대조군으로 부적격이었음(교체).
+봉인: `artifacts/corridor_s2_candidates/prepare_ctrl/`, `embed_ctrl/report.json`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
