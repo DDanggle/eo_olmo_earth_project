@@ -634,10 +634,11 @@ export default function Home() {
             + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '')
             + `</div><p class="pp-hint">▲ nearest scan window ${cw} (${pt.nearest_window_km} km) · click to open the large slider</p>`
           : pt.id === 'C'
-          ? `<div class="pp-thumbs" data-ptc="1" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
-            + `<figure><img src="/data/candidates/ptC_pre.png" alt="pre"/><figcaption>PRE 08-12 (41% bright)</figcaption></figure>`
-            + `<figure><img src="/data/candidates/ptC_post.png" alt="post"/><figcaption>POST 08-27 (100% cloud)</figcaption></figure>`
-            + `</div><p class="pp-hint">▲ control window · 27 Aug is fully cloud-covered here — that is why C is a placebo/reference, not a judged site</p>`
+          ? `<div class="pp-thumbs" data-cand="x001" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
+            + `<figure><img src="/data/candidates/x001_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
+            + `<figure><img src="/data/candidates/x001_post.png" alt="post"/><figcaption>POST 08-27 (84% clear)</figcaption></figure>`
+            + `<figure><img src="/data/candidates/x001_delta.png" alt="AI change"/><figcaption>AI Δ · 3.6% tokens</figcaption></figure>`
+            + `</div><p class="pp-hint">▲ control: AI change 0.129 ≈ ordinary fortnight 0.125 — what "no change" looks like · click to open the large slider</p>`
           : win
           ? `<div class="pp-thumbs" data-win="${win}" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/story/anchors/${win}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`

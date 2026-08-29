@@ -170,20 +170,22 @@ POINTS = [
     },
     {
         "id": "C",
+        "name": "Control window · no event (Tadi Khola)",
         "display_label": "NEGATIVE CONTROL",
         "map_label": "C · CONTROL",
         "stage": 99,
         "marker_color": "#9aa3a0",
         "in_event_chain": False,
-        "name": "Control window · no event (Rishing)",
-        "coordinates": [84.3103107, 27.8790412],
+        # 2026-08-30 교체: Rishing 은 08-27 구름 100%라 대조군 역할을 못 함. Tadi Khola 는 08-27 관측 84%,
+        # 사건 Δ 0.129 ≈ 평소 Δ 0.125, 후보 토큰 3.6%(스캔 임계) → "변화 없음"을 실제로 보여주는 대조군.
+        "coordinates": [85.290, 27.930],
         "role": "distant_reference",
-        "place": "Rishing-03, Tanahun, Gandaki Province, Nepal",
-        "source": "user coordinate + OSM Nominatim reverse lookup",
-        "evidence_level": "distant_placebo_reference",
-        "story": "C is deliberately outside the flood corridor, about 114 km from Rasuwagadhi. It is a negative-control/placebo window used to estimate ordinary change. It is not an event site, endpoint, or claimed affected area.",
-        "story_ko": "C는 Rasuwagadhi에서 약 114 km 떨어져 의도적으로 홍수 회랑 밖에 둔 음성 대조/placebo 창이다. 일상 변화를 추정할 뿐 사건 지점·종점·피해 주장 지역이 아니다.",
-    },
+        "place": "Tadi Khola valley, Nuwakot (east of the corridor), Nepal",
+        "source": "control window chosen by 27 Aug observability among 4 candidates (Melamchi, Tadi, Ankhu, Rishing)",
+        "control_window": "x001",
+        "control_stats": {"observable_0827": 0.84, "delta_event_mean": 0.1287, "delta_placebo_mean": 0.1245, "candidate_token_frac_scan_threshold": 0.036},
+        "story": "A deliberately quiet valley ~20 km east of the flood corridor with no reported event. On 27 Aug it is 84% cloud-free, and the AI change score equals its ordinary fortnight (0.129 vs 0.125; 3.6% candidate tokens under the corridor scan threshold vs 25% at the top corridor window). This is what 'no change' looks like under the same recipe.",
+        },
 ]
 
 INCIDENT_UPDATES = [
