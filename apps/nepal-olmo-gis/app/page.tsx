@@ -317,6 +317,10 @@ export default function Home() {
       const el = (e.target as HTMLElement).closest('.pp-thumbs') as HTMLElement | null;
       if (!el) return;
       const win = el.dataset.win; const name = el.dataset.name ?? ''; const place = el.dataset.place ?? '';
+      if (el.dataset.ptc) {
+        openLightbox({ title: name, sub: `${place} · negative-control window, 114 km from Rasuwagadhi`, before: '/data/candidates/ptC_pre.png', after: '/data/candidates/ptC_post.png', beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27 (cloud)' });
+        return;
+      }
       const cand = el.dataset.cand;
       if (cand) {
         openLightbox({ title: name, sub: `${place} · scan window ${cand}`, before: `/data/candidates/${cand}_pre.png`, after: `/data/candidates/${cand}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
@@ -463,8 +467,12 @@ export default function Home() {
       });
       map.addControl(new NavigationControl({ showCompass: true }), 'bottom-right');
       map.addControl(new AttributionControl({ compact: true }), 'bottom-right');
-      map.on('styledata', () => console.log('[diag] styledata — 레이어',
-        map.getStyle()?.layers?.length ?? 0, '개'));
+      // styledata는 style 객체가 붙기 전에도 한 번 발생할 수 있다. 그 시점의 getStyle()은
+      // 화면에는 무해하지만 MapLibre 경고를 남기므로 완성된 style에서만 진단한다.
+      map.on('styledata', () => {
+        if (!map.isStyleLoaded()) return;
+        console.log('[diag] styledata — 레이어', map.getStyle()?.layers?.length ?? 0, '개');
+      });
       map.on('style.load', () => setStyleRevision((revision) => revision + 1));
       // MapTiler 스타일이 죽으면(403/네트워크) Esri raster 로 강등 — 화면 성립을 키에 맡기지 않음.
       let fellBack = false;
@@ -569,8 +577,16 @@ export default function Home() {
       map.addLayer({
         id: 'point-label', type: 'symbol', source: 'research-points',
         layout: {
-          'text-field': ['get', 'map_label'], 'text-size': 11, 'text-offset': [0, 1.55],
-          'text-anchor': 'top', 'text-font': ['Noto Sans Regular'], 'text-allow-overlap': true,
+          'text-field': ['get', 'map_label'], 'text-size': 11,
+          // E/D와 A/B는 수백 m 이내라 같은 anchor를 쓰면 모바일에서 한 덩어리로 겹친다.
+          // 점 자체는 유지하되 서로 반대 방향으로 라벨을 밀어 사건 순서를 읽을 수 있게 한다.
+          'text-offset': ['match', ['get', 'id'],
+            'E', ['literal', [1.15, 0]], 'D', ['literal', [-1.15, 0]],
+            'A', ['literal', [0, 1.8]], 'B', ['literal', [0, -1.8]],
+            'G', ['literal', [0, 1.8]], ['literal', [0, 1.55]]],
+          'text-anchor': ['match', ['get', 'id'],
+            'E', 'left', 'D', 'right', 'A', 'top', 'B', 'bottom', 'top'],
+          'text-font': ['Noto Sans Regular'], 'text-allow-overlap': true,
         },
         paint: {
           'text-color': ['get', 'marker_color'], 'text-halo-color': '#071713', 'text-halo-width': 1.4,
@@ -594,6 +610,11 @@ export default function Home() {
             + `<figure><img src="/data/candidates/${cw}_delta.png" alt="AI change"/><figcaption>AI Δ · win ${cw}</figcaption></figure>`
             + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '')
             + `</div><p class="pp-hint">▲ nearest scan window ${cw} (${pt.nearest_window_km} km) · click to open the large slider</p>`
+          : pt.id === 'C'
+          ? `<div class="pp-thumbs" data-ptc="1" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
+            + `<figure><img src="/data/candidates/ptC_pre.png" alt="pre"/><figcaption>PRE 08-12 (41% bright)</figcaption></figure>`
+            + `<figure><img src="/data/candidates/ptC_post.png" alt="post"/><figcaption>POST 08-27 (100% cloud)</figcaption></figure>`
+            + `</div><p class="pp-hint">▲ control window · 27 Aug is fully cloud-covered here — that is why C is a placebo/reference, not a judged site</p>`
           : win
           ? `<div class="pp-thumbs" data-win="${win}" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/story/anchors/${win}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
@@ -607,7 +628,7 @@ export default function Home() {
             + `<h3>${pt.name}</h3><p class="pp-place">${pt.place}</p>`
             + thumbs
             + (pt.story ? `<p class="pp-story">${pt.story}</p>` : '')
-            + `<p class="pp-src">${pt.source_url ? `<a href="${pt.source_url}" target="_blank" rel="noreferrer">${pt.source ?? 'source'} ↗</a>` : (pt.source ?? '')}</p>`)
+            + `<p class="pp-src">coordinate source: ${(pt.source ?? '').replace('user coordinate + OSM Nominatim reverse lookup', 'user-specified point · place name from OSM reverse geocoding')}</p>`<a href="${pt.source_url}" target="_blank" rel="noreferrer">${pt.source ?? 'source'} ↗</a>` : (pt.source ?? '')}</p>`)
           .addTo(map);
       }
     };
@@ -653,6 +674,10 @@ export default function Home() {
       // AI 후보 창 (S2-only, 미봉인) — 후보 토큰 비율로 채움 농도.
       if (scenario?.candidates?.geojson && !map.getSource('ai-candidates')) {
         map.addSource('ai-candidates', { type: 'geojson', data: scenario.candidates.geojson });
+        // 모든 스캔 창 중심: 작은 청록 점 (위성이 찍힌 모든 자리)
+        map.addSource('scan-centers', { type: 'geojson', data: { type: 'FeatureCollection', features: scenario.candidates.geojson.features.map((f) => ({ type: 'Feature', properties: f.properties, geometry: { type: 'Point', coordinates: (f.properties?.center_lonlat as [number, number]) } })) } });
+        map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers',
+          paint: { 'circle-radius': 3.2, 'circle-color': '#5fffd7', 'circle-stroke-color': '#0b3d33', 'circle-stroke-width': 1.2, 'circle-opacity': 0.95 } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
           paint: { 'fill-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#eb6834'],
                    'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.02, 0.05, 0.18, 0.2, 0.42, 0.5, 0.6] } }, before);
@@ -681,6 +706,19 @@ export default function Home() {
               + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure></div>`
               + `<p class="pp-hint">▲ click to open the large slider · orange = changed more than any ordinary fortnight · grey = cloud/snow</p>`).addTo(map);
         });
+        map.on('click', 'scan-center-dot', (e) => {
+          const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
+          const id = String(pr.id);
+          new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
+            .setHTML(`<p class="pp-eyebrow">SCAN WINDOW · ${pr.rank ? '#' + pr.rank : 'not judged'}</p><h3>${id}</h3>`
+              + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="" title="Click to compare large">`
+              + `<figure><img src="/data/candidates/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
+              + `<figure><img src="/data/candidates/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
+              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure></div>`
+              + `<p class="pp-hint">▲ click to open the large slider</p>`).addTo(map);
+        });
+        map.on('mouseenter', 'scan-center-dot', () => { map.getCanvas().style.cursor = 'pointer'; });
+        map.on('mouseleave', 'scan-center-dot', () => { map.getCanvas().style.cursor = ''; });
         map.on('mouseenter', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
@@ -688,7 +726,7 @@ export default function Home() {
       }
       map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch(() => undefined);
-  }, [mapReady, styleRevision, scenario?.candidates?.geojson]);
+  }, [mapReady, styleRevision, scenario?.candidates?.geojson, scenario?.candidates?.retrieval?.top10]);
 
   // fitBounds 패딩은 실제로 열려 있는 패널에 맞춘다.
   // 이전 버전은 패널이 항상 보인다고 가정한 고정 패딩을 썼다.
@@ -834,6 +872,7 @@ export default function Home() {
     return typeof ped === 'object' && ped && (ped as Record<string, unknown>).live_mode ? (ped as Record<string, unknown>) : null;
   }, [scenario]);
   // GO TO MAP: 후보 창의 위성 사진(전/후/AI Δ)을 지도 위에 실제 좌표로 깔아 보여줌.
+  const [satTiles, setSatTiles] = useState(false);
   const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const showCandidate = useCallback((id: string, mode: 'pre' | 'post' | 'delta', meta?: { rank?: number; place?: string; center?: [number, number] }) => {
     const map = mapRef.current; const fc = scenario?.candidates?.geojson;
@@ -854,6 +893,24 @@ export default function Home() {
   const clearCandidate = useCallback(() => {
     const map = mapRef.current; if (map?.getLayer('cand-scene')) map.removeLayer('cand-scene'); if (map?.getSource('cand-scene')) map.removeSource('cand-scene'); setCandView(null);
   }, []);
+
+  // 위성 타일 토글: 모든 스캔 창의 08-27 128px 썸네일을 실제 좌표에 드레이프
+  useEffect(() => {
+    const map = mapRef.current; const fc = scenario?.candidates?.geojson;
+    if (!mapReady || !map || !fc) return;
+    const ids = fc.features.map((f) => String(f.properties?.id));
+    if (!satTiles) {
+      ids.forEach((id) => { if (map.getLayer(`tile-${id}`)) map.removeLayer(`tile-${id}`); if (map.getSource(`tile-${id}`)) map.removeSource(`tile-${id}`); });
+      return;
+    }
+    const before = map.getLayer('ai-candidate-fill') ? 'ai-candidate-fill' : undefined;
+    fc.features.forEach((f) => {
+      const id = String(f.properties?.id); if (map.getSource(`tile-${id}`) || f.geometry.type !== 'Polygon') return;
+      const ring = f.geometry.coordinates[0] as [number, number][];
+      map.addSource(`tile-${id}`, { type: 'image', url: `/data/candidates/thumbs/${id}_post128.png`, coordinates: [ring[3], ring[2], ring[1], ring[0]] });
+      map.addLayer({ id: `tile-${id}`, type: 'raster', source: `tile-${id}`, paint: { 'raster-opacity': 0.92, 'raster-fade-duration': 0 } }, before);
+    });
+  }, [satTiles, mapReady, scenario]);
 
   const activeScene = scenario?.scene_records.find((item) => item.id === activeSceneId) ?? null;
   const latestOpticalScene = useMemo(() => {
@@ -1052,6 +1109,7 @@ export default function Home() {
           <button onClick={() => { userSelectedSceneRef.current = true; if (activeScene) fitScene(activeScene, 900); }} disabled={!activeScene || mapStatus !== 'ready'}>SATELLITE FRAME</button>
           <button onClick={fitCorridor} disabled={mapStatus !== 'ready'}>EVENT CHAIN</button>
         </div>
+        <button className={`sat-tiles-toggle ${satTiles ? 'is-active' : ''}`} onClick={() => setSatTiles((v) => !v)} title="Drape every scan window's 27 Aug Sentinel-2 thumbnail on the map">{satTiles ? 'SATELLITE TILES ON' : 'SATELLITE TILES'}</button>
         <button className="story-launch" onClick={() => setStoryOpen(true)}>STORY</button>
         <div className="map-mode-switch dim-switch" role="group" aria-label="View dimension">
           <button className={viewDim === '2d' ? 'is-active' : ''} onClick={() => setDimension('2d')} disabled={mapStatus !== 'ready'}>2D</button>

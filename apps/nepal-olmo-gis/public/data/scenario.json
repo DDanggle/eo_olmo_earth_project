@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T12:26:02.591962+00:00",
+  "generated_at": "2026-08-29T13:30:22.014408+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -589,10 +589,10 @@
     "embedding_status": "executed_offline_with_delta_provenance",
     "anchor_geojson": "/data/olmo-input-anchors.geojson",
     "post_event_delta": {
-      "created_at_utc": "20260829T115424Z",
+      "created_at_utc": "20260829T130711Z",
       "live_mode": "s1_live",
       "placebo_samples": 10,
-      "rasuwagadhi_live_mean": 0.015587175264954567,
+      "rasuwagadhi_live_mean": 0.015585348010063171,
       "label": "not detected above daily variability",
       "claim_boundary": "candidate change only; not damage probability"
     }
@@ -605,6 +605,17 @@
     "allowed_claim": "Candidate representation change at token scale; not damage probability or hazard extent."
   },
   "ops_log": [
+    {
+      "event_id": "d2b5076abac177b8",
+      "time_utc": "20260829T130711Z",
+      "recorded_at_utc": "20260829T130711Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "OLMoEarth Δz",
+      "type": "DELTA_REPORT",
+      "priority": "green",
+      "summary": "live=s1_live placebo n=10",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T130711Z/nepal_delta_report.json"
+    },
     {
       "event_id": "f85b5c5b961c987d",
       "time_utc": "20260829T115424Z",
@@ -923,17 +934,6 @@
       "priority": "blue",
       "summary": "8/27 S2: Rasuwagadhi AOI bright 2.5% (tile cloud 78.5% ≠ AOI; not a cloud-free estimate)",
       "evidence_uri": "artifacts/aoi_observability_20260827.json"
-    },
-    {
-      "event_id": "68f5968e349bbf84",
-      "time_utc": "2026-08-28T04:53:12Z",
-      "recorded_at_utc": "2026-08-28T04:53:12Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "rslearn materialize",
-      "type": "SEALED",
-      "priority": "green",
-      "summary": "placebo_b: 91 files, 48,680,635 B — sealed",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_b/materialization_manifest.json"
     }
   ],
   "research": {
@@ -997,7 +997,7 @@
         "output": "5 delta rasters 64×64 (cosine Δz per 40 m token) · 0/5 candidate change () · 5/5 not detected (dhunche, rasuwagadhi, source_provisional, syabrubesi, timure)",
         "allows": "descriptive 'candidate change' per anchor where live Δ exceeds all 10 placebo windows; rank vs placebo",
         "forbids": "anomaly percentile/probability until ≥20 placebo windows; damage, cause, extent",
-        "artifact_sha256": "ae1f6bbc38231ddfb46af833975fe9c1cda44a64d687098dbb982cd43a814dac"
+        "artifact_sha256": "47f3808c33c78b413d0c39282654d231ac0fad180825bb18afccc1e7cd956270"
       },
       {
         "id": "matched_second_geofm",
@@ -6068,61 +6068,31 @@
     "expected_windows": 27,
     "expected_layers_per_window": 8,
     "contract": "S1 RTC VV/VH + S2 L2A 12-band × 4 periods; same 2.56 km windows in baseline and s1_live",
-    "stage": "baseline_materialization",
-    "next_step": "Finish and seal all 27 baseline windows before live materialization.",
+    "stage": "live_embedding",
+    "next_step": "Run the immutable OLMoEarth v1 embedding recipe for all 27 live windows.",
     "baseline": {
       "mode": "baseline",
-      "complete_windows": 26,
-      "partial_windows": [
-        "w17"
-      ],
+      "complete_windows": 27,
+      "partial_windows": [],
       "missing_windows": [],
-      "completed_layers": 212,
+      "completed_layers": 216,
       "total_layers": 216,
-      "materialization_sealed": false,
+      "materialization_sealed": true,
       "embedded_windows": 0,
       "embedding_sealed": false,
-      "updated_at_utc": "2026-08-29T12:24:21.101228+00:00"
+      "updated_at_utc": "2026-08-29T13:11:53.550676+00:00"
     },
     "s1_live": {
       "mode": "s1_live",
-      "complete_windows": 0,
+      "complete_windows": 27,
       "partial_windows": [],
-      "missing_windows": [
-        "w00",
-        "w01",
-        "w02",
-        "w03",
-        "w04",
-        "w05",
-        "w06",
-        "w07",
-        "w08",
-        "w09",
-        "w10",
-        "w11",
-        "w12",
-        "w13",
-        "w14",
-        "w15",
-        "w16",
-        "w17",
-        "w18",
-        "w19",
-        "w20",
-        "w21",
-        "w22",
-        "w23",
-        "w24",
-        "w25",
-        "w26"
-      ],
-      "completed_layers": 0,
+      "missing_windows": [],
+      "completed_layers": 216,
       "total_layers": 216,
-      "materialization_sealed": false,
+      "materialization_sealed": true,
       "embedded_windows": 0,
       "embedding_sealed": false,
-      "updated_at_utc": null
+      "updated_at_utc": "2026-08-29T13:11:52.830089+00:00"
     },
     "claim_boundary": "Progress only. No corridor damage or reach claim exists until both modes are sealed and the matched delta is evaluated."
   },
@@ -6159,12 +6129,12 @@
       "token": {
         "source_provisional": {
           "event_frac": 0.000732421875,
-          "placebo_max": 0.0576171875,
+          "placebo_max": 0.057373046875,
           "rank": 4,
           "candidate": false
         },
         "rasuwagadhi": {
-          "event_frac": 0.098388671875,
+          "event_frac": 0.09814453125,
           "placebo_max": 0.026611328125,
           "rank": 1,
           "candidate": true
@@ -6183,7 +6153,7 @@
         },
         "dhunche": {
           "event_frac": 0.0,
-          "placebo_max": 0.0546875,
+          "placebo_max": 0.054443359375,
           "rank": 10,
           "candidate": false
         }
@@ -6191,7 +6161,7 @@
       "token_candidates": [
         "rasuwagadhi"
       ],
-      "report_sha256": "132557c209bfaf1bbc25addec0dffe1f3f6e7f4fd7143ae9e85ca0a17b4f16c9"
+      "report_sha256": "37b3e9c0a86d1e6891ac58aa20fa601e7509e21364dcdc51f53851abec1153c9"
     },
     "corridor_windows": 100
   },
