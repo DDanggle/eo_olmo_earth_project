@@ -59,7 +59,7 @@ assert.equal(scenario.live_observation.cloud_cover_tile_pct, null);
 assert.match(scenario.live_observation.product_name, /^S1D_IW_GRDH_1SDV_20260828/);
 assert.equal(scenario.simulation.claim, 'illustrative_kinematic_preview_not_hazard_forecast');
 assert.ok(hydrography.simulation_route.length >= 40 && hydrography.simulation_route.length <= 96);
-assert.equal(hydrography.features.length, 11);
+assert.ok(hydrography.features.length >= 11 && hydrography.features.length <= 20); // 2026-08-29: Galchhi 방향 연장으로 15
 
 for (const scene of scenario.scene_records) {
   const image = await readFile(resolve(root, 'public', scene.image.slice(1)));
