@@ -3683,6 +3683,26 @@ Spearman(봉인 vs 광학) −0.14, 상위10 교집합 3(w23·w21·w22).
 S1-only 임베딩 분해 + 회랑 placebo_a/b 물질화(임계 자체 산정).
 봉인: `artifacts/external_data/nepal_olmo_live_v1/corridor_sealed/report.json`, 매니페스트 baseline/s1_live.
 
+### M74 보론 — 레이더(S1) 단독 분해: w24(Lhende 협곡)는 구름 artifact가 아님
+
+같은 27창을 **Sentinel-1만**으로 재임베딩(`model_s1only.yaml`, 출력 `embeddings_s1`)해 baseline↔s1_live Δ를
+다시 잼. 레이더는 구름에 무관하므로 광학 구름 잔재가 섞일 수 없음.
+
+| S1-only 순위 | 창 | 평균 Δ | 비고 |
+|---|---|---|---|
+| **1** | **w24 Lhende 협곡(국경 상류 1/3)** | **0.0207** | 2위의 **8×**, 나머지 26창 중앙값의 ~70× |
+| 2 | w25 Lhende 상류 2/3 | 0.0025 | |
+| 3 | w26 발원(E) | 0.0014 | |
+| 4~27 | 하류 전부 | ≤0.0006 | 레이더 단독으로는 하류 변화가 거의 안 잡힘 |
+
+**읽기**: w24의 레이더 단독 신호는 **구름 artifact가 아니라 실제 지표 변화**로 봄 — 보도된 토석류 경로
+(Lhende 협곡 → 국경)와 위치가 일치함. 반대로 하류(Rasuwagadhi·Bidur)는 레이더 단독으로는 작고
+광학·복합 계약에서 잡힘 → **두 센서가 서로 다른 구간을 봄**(협곡은 레이더, 하류 하상은 광학).
+한계: 임계는 여전히 차용값이고 S1 단독 Δ의 절대 스케일은 복합과 다름(비율·순위만 해석), 회랑 placebo가
+오면 재산정. w25·w26(발원)은 약해서 발원 자체는 여전히 미확인.
+
+봉인: `artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1only/report.json`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
