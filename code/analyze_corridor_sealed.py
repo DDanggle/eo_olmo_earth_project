@@ -27,14 +27,17 @@ def main():
         zb, zl = emb("baseline", wid), emb("s1_live", wid)
         if zb is None or zl is None: rows.append({"id": wid, "status": "missing"}); continue
         d = cosine_delta(zb, zl)
+        od0 = REPO / "artifacts/external_data/nepal_olmo_live_v1/corridor_sealed/deltas"; od0.mkdir(parents=True, exist_ok=True)
+        np.save(od0 / f"{wid}_sealed_delta.npy", d.astype("float32"))
         rows.append({"id": wid, "status": "ok", "mean": float(d.mean()), "p95": float(np.quantile(d, 0.95)),
                      "frac_above_borrowed_p99": float((d > thr).mean()) if thr else None, "s2_only_rank": s2rank[wid]})
     ok = [r for r in rows if r["status"] == "ok"]
     ok.sort(key=lambda r: -(r["frac_above_borrowed_p99"] if r["frac_above_borrowed_p99"] is not None else r["mean"]))
     for i, r in enumerate(ok): r["sealed_rank"] = i + 1
-    from scipy.stats import spearmanr
     pairs = [(r["sealed_rank"], r["s2_only_rank"]) for r in ok if r["s2_only_rank"]]
-    rho = float(spearmanr([p[0] for p in pairs], [p[1] for p in pairs]).correlation) if len(pairs) > 3 else None
+    def spearman(a, b):
+        a = np.argsort(np.argsort(a)); b = np.argsort(np.argsort(b)); return float(np.corrcoef(a, b)[0, 1])
+    rho = spearman([p[0] for p in pairs], [p[1] for p in pairs]) if len(pairs) > 3 else None
     top_s = {r["id"] for r in ok[:10]}; top_o = {r["id"] for r in sorted([r for r in ok if r["s2_only_rank"]], key=lambda r: r["s2_only_rank"])[:10]}
     out = {"schema": "corridor-sealed-delta-v1", "borrowed_threshold_p99": thr, "n_windows": len(ok), "spearman_vs_s2_only": rho,
            "top10_overlap_with_s2_only": len(top_s & top_o), "windows": ok, "claim": "candidate change (sealed S1+S2, borrowed 5-anchor matched threshold); not damage"}
