@@ -2837,3 +2837,11 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 앱: 스펙트럼 패널 복원, 스토리 한국어 29개 문단을 기사체로 개작, PlanetScope 영상을 2장과
   팝업에 추가. tsc/eslint/asset/build 통과, DOM 확인. 커밋 `51fa327` 외.
 - 미해결: RTC 생성 대기(자동 재개 금지 유지), Sites 공개 배포는 사용자 승인 대기.
+
+### 2026-08-29 — 이 세션 후반: 회랑 후보 지도(M69)·flow 가시성 수정·Planet 영상
+
+- M69: 27 자동 창 S2-only Δ 순위. v1 결함(NaN 1위·과엄격 마스크) 보존 후 v2 재실행.
+  상위 = Timure·Trishuli Bazar·Devighat, 사용자 앵커 Rasuwagadhi는 12위(placebo 높음).
+- 앱: flow 입자가 밝은 배경에서 가산혼합 민트색이라 안 보이던 결함 수정(source-over·진한 색).
+  AI 후보 층·목록 추가. PlanetScope 08-28 3.8m 참고영상(CC-BY-NC) 2장·팝업.
+- 커밋: `cd1fb51`(flow), 후보 지도 커밋, M69 문서 커밋. 공개 배포는 여전히 사용자 승인 대기.
