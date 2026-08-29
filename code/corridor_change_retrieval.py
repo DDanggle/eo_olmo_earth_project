@@ -50,7 +50,7 @@ def main():
     ranked = sorted([w for w in rep["windows"] if w.get("status")=="ranked"], key=lambda w: w["rank"])
     top_ids = [w["id"] for w in ranked[:3]]
     t0=time.time(); V={}; VP={}; VAL={}; VALP={}
-    for f in sorted(a.inp.glob("w*.npz")):
+    for f in sorted(f for f in a.inp.glob("*.npz") if f.stem[0] in "wv"):
         d = np.load(f); cube = d["cube"].astype("float32"); times=[datetime.fromisoformat(str(x)) for x in d["dates"]]
         zb = embed_stack(cube[:,0:3], times[0:3]); zp = embed_stack(cube[:,4:5], times[4:5]); zl = embed_stack(cube[:,3:4], times[3:4])
         V[f.stem] = (zp - zb); VP[f.stem] = (zl - zb)
