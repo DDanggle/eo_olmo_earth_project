@@ -769,6 +769,7 @@ export default function Home() {
         map.on('mouseenter', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
+        console.log('[diag] candidate layers attached | windows =', scenario.candidates.geojson.features.length, '| layers =', (map.getStyle()?.layers ?? []).map((l) => l.id).filter((id) => /scan|ai-|olmo|river|point/.test(id)).join(','));
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
           paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
