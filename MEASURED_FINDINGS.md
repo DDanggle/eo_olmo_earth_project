@@ -3591,6 +3591,25 @@ placebo p99 임계(0.282), 유효 <20% 창은 관측불가.
 
 봉인: `delta/20260829T115424Z`(10 placebo naive), `delta_matched/20260829T115626Z`(매칭 9쌍).
 
+### M72 보론 — 토큰 수준 매칭 판정: Rasuwagadhi에서 사건 신호가 분리됨
+
+같은 매칭 9쌍에서 **토큰 수준**(모든 placebo 쌍 토큰 Δ의 p99를 임계로, 사건 쌍에서 그 임계를 넘는
+40 m 토큰 비율)으로 다시 잼 (`delta_matched/20260829T121127Z`):
+
+| 앵커 | 사건: 임계 초과 토큰 | placebo 9쌍 최대 | rank | 판정 |
+|---|---|---|---|---|
+| **rasuwagadhi** | **9.8%** | 2.7% | **1/10** | candidate change (token-level, matched) |
+| syabrubesi | 0.6% | 2.8% | 6/10 | not detected |
+| timure | 0.3% | 4.8% | 7/10 | not detected |
+| source_provisional | 0.1% | 5.8% | 4/10 | not detected |
+| dhunche | 0.0% | 5.5% | 10/10 | not detected |
+
+Rasuwagadhi는 평균(0.0002 차)과 달리 토큰 수준에서 **3.6배 초과**로 분명히 분리됨 — 창 전체가
+변한 게 아니라 창 안 일부(합류부 debris 판)가 크게 변했다는 뜻이며, 평균이 그것을 희석했음.
+Timure·Syabrubesi는 봉인 S1+S2 큐브에서는 미검출(광학 전용 스캔의 v003/w02와 창 위치·센서가
+다름 — 별도 비교 필요). 앱 판정 카드는 이 토큰 수준 결과로 "REVIEW CANDIDATE EVIDENCE
+(token-level, rasuwagadhi)"를 표시하고, 평균 Δ 단독으로는 미검출임을 함께 적음.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
