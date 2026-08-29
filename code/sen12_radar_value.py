@@ -39,24 +39,28 @@ def main():
     def embed(s2cube, s2times, s1cube=None, s1times=None):
         feat=torch.empty((768,32,32))
         for y0,x0 in ((0,0),(0,64),(64,0),(64,64)):
-            inp={"sentinel2_l2a": RasterImage(image=torch.from_numpy(np.ascontiguousarray(s2cube[:,:,y0:y0+CROP,x0:x0+CROP])).to(device), timestamps=[(t,t) for t in s2times])}
+            inp={}
+            if s2cube is not None:
+                inp["sentinel2_l2a"]=RasterImage(image=torch.from_numpy(np.ascontiguousarray(s2cube[:,:,y0:y0+CROP,x0:x0+CROP])).to(device), timestamps=[(t,t) for t in s2times])
             if s1cube is not None:
                 inp["sentinel1"]=RasterImage(image=torch.from_numpy(np.ascontiguousarray(s1cube[:,:,y0:y0+CROP,x0:x0+CROP])).to(device), timestamps=[(t,t) for t in s1times])
             wrapper.normalizer(inp, {}); ctx=ModelContext(inputs=[inp], metadatas=[])
             sample, present, _ = wrapper._prepare_modality_inputs(ctx)
-            sample.sentinel2_l2a_mask[..., 2] = MaskValue.MISSING.value  # B01/B09 부재
+            if s2cube is not None: sample.sentinel2_l2a_mask[..., 2] = MaskValue.MISSING.value  # B01/B09 부재
             with torch.no_grad(), torch.amp.autocast("cuda", dtype=torch.bfloat16):
                 out=wrapper.model(sample, fast_pass=False, patch_size=PATCH); tm=out["tokens_and_masks"]
-                m=(tm.sentinel2_l2a_mask != MaskValue.MISSING.value).unsqueeze(-1)
-                pooled=(tm.sentinel2_l2a*m).sum(dim=(3,4))/m.sum(dim=(3,4)).clamp(min=1)
+                key="sentinel2_l2a" if s2cube is not None else "sentinel1"
+                tok=getattr(tm,key); mk=getattr(tm,key+"_mask")
+                m=(mk != MaskValue.MISSING.value).unsqueeze(-1)
+                pooled=(tok*m).sum(dim=(3,4))/m.sum(dim=(3,4)).clamp(min=1)
                 f=pooled[0].permute(2,0,1).float().cpu()
             feat[:, y0//PATCH:(y0+CROP)//PATCH, x0//PATCH:(x0+CROP)//PATCH]=f
         return feat
     def delta(a,b):
         num=(a*b).sum(0); return (1-num/(a.norm(dim=0).clamp(min=1e-8)*b.norm(dim=0).clamp(min=1e-8))).numpy()
-    rep={"schema":"sen12-radar-value-v1","regions":{}}
+    rep={"schema":"sen12-radar-value-v2","regions":{}}
     for region in a.regions:
-        used=0; both=[]; s2only=[]; Y=[]; s1_unit=None; t0=time.time(); no_s1=0
+        used=0; both=[]; s2only=[]; s1only=[]; s1cls=[]; Y=[]; s1_unit=None; t0=time.time(); no_s1=0
         for f in sorted(glob.glob(str(a.data_root/f"{region}_s2_*.nc"))):
             if used>=a.per_region: break
             s1f=f.replace("_s2_","_s1asc_")
@@ -98,12 +102,16 @@ def main():
             if c1pre is None or c1post is None: no_s1+=1; continue
             zb2=embed(c2pre,t2pre); zp2=embed(c2post,t2post)
             zb12=embed(c2pre,t2pre,c1pre,t1pre); zp12=embed(c2post,t2post,c1post,t1post)
+            zb1=embed(None,None,c1pre,t1pre); zp1=embed(None,None,c1post,t1post)
+            # 고전 레이더: pre/post 시간 중앙값 dB 차의 절댓값(VV+VH), 4x4 토큰 평균 — 모델 없음
+            lr=np.abs(np.nanmedian(c1post,axis=1)-np.nanmedian(c1pre,axis=1)).sum(0)
+            lr=np.nan_to_num(lr).reshape(32,4,32,4).mean(axis=(1,3))
             y=(mask.reshape(32,4,32,4).mean(axis=(1,3))>=0.25).astype("int8").ravel()
-            s2only.append(delta(zb2,zp2).ravel()); both.append(delta(zb12,zp12).ravel()); Y.append(y); used+=1
+            s2only.append(delta(zb2,zp2).ravel()); both.append(delta(zb12,zp12).ravel()); s1only.append(delta(zb1,zp1).ravel()); s1cls.append(lr.ravel()); Y.append(y); used+=1
         if not Y: rep["regions"][region]={"patches":0,"no_s1_files":no_s1}; print(region,"no data (no_s1=%d)"%no_s1, flush=True); continue
-        yy=np.concatenate(Y); a2=auroc(np.concatenate(s2only),yy); a12=auroc(np.concatenate(both),yy)
-        rep["regions"][region]={"patches":used,"s1_unit_detected":s1_unit,"auroc_s2_only":a2,"auroc_s1s2":a12,"gain":(a12-a2) if (a2 is not None and a12 is not None) else None,"elapsed_s":round(time.time()-t0,1)}
-        print(f"[{region}] n={used} S2-only={a2:.3f} S1+S2={a12:.3f} gain={a12-a2:+.3f} (S1 unit {s1_unit})", flush=True)
+        yy=np.concatenate(Y); a2=auroc(np.concatenate(s2only),yy); a12=auroc(np.concatenate(both),yy); a1=auroc(np.concatenate(s1only),yy); ac=auroc(np.concatenate(s1cls),yy)
+        rep["regions"][region]={"patches":used,"s1_unit_detected":s1_unit,"auroc_s2_only":a2,"auroc_s1s2":a12,"auroc_s1_only_olmo":a1,"auroc_s1_classical_logratio":ac,"gain":(a12-a2) if (a2 is not None and a12 is not None) else None,"elapsed_s":round(time.time()-t0,1)}
+        print(f"[{region}] n={used} S2-only={a2:.3f} S1+S2={a12:.3f} gain={a12-a2:+.3f} | S1-only OLMo={a1:.3f} S1 classical={ac:.3f} (S1 unit {s1_unit})", flush=True)
         (a.out/"report.json").write_text(json.dumps(rep,indent=1))
     print("DONE")
 if __name__=="__main__": main()
