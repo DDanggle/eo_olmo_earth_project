@@ -850,3 +850,10 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .decision-card.not_detected { border-left-color: var(--blue, #2a78d6); }
 .decision-card.not_detected > strong { color: var(--blue, #2a78d6); }
 .pp-thumbs figcaption a { color: var(--blue, #2a78d6); text-decoration: none; font-size: 8.5px; }
+.ai-vs-card { border: 1px solid var(--line-strong, #d5d1c6); background: var(--surface, #fffefb); padding: 10px 12px; margin-bottom: 10px; display: grid; gap: 6px; }
+.ai-vs-card strong { font-size: 13px; line-height: 1.35; }
+.ai-vs-table { width: 100%; border-collapse: collapse; font-family: var(--font-geist-mono); font-size: 10px; font-variant-numeric: tabular-nums; }
+.ai-vs-table th { text-align: left; color: var(--muted); font-weight: 600; padding: 2px 4px; border-bottom: 1px solid var(--line); }
+.ai-vs-table td { padding: 2px 4px; border-bottom: 1px dashed var(--line); }
+.ai-vs-table tr.win td:last-child { color: var(--green, #1baf7a); font-weight: 700; }
+.ai-vs-card small { font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--muted); line-height: 1.5; }

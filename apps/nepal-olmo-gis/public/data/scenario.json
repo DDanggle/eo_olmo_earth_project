@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T12:17:05.669273+00:00",
+  "generated_at": "2026-08-29T12:18:35.670191+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -150,6 +150,27 @@
       "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is strong observation evidence, not yet a damage label or part of the sealed five-anchor OLMo contract.",
       "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만, 아직 피해 라벨도 봉인된 OLMo 5-anchor 계약의 일부도 아니다.",
       "distance_from_a_km": 46.79
+    },
+    {
+      "id": "G",
+      "display_label": "CURRENT TRACE END",
+      "map_label": "G · GALCHHI",
+      "stage": 6,
+      "marker_color": "#d9363e",
+      "in_event_chain": true,
+      "name": "Galchhi reach-search endpoint",
+      "coordinates": [
+        84.9883085,
+        27.805496
+      ],
+      "role": "reported_reach_search_endpoint",
+      "place": "Trishuli corridor near Galchhi, Dhading, Nepal",
+      "source": "USGS preliminary ~100 km travel assessment + OSM river trace",
+      "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+      "evidence_level": "current_trace_endpoint_not_confirmed_event_terminus",
+      "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here.",
+      "story_ko": "현재 지도 추적선은 Rasuwagadhi에서 하천을 따라 73.7 km 내려온 이 지점에서 끝난다. USGS는 발원지부터 총 약 100 km 이동을 잠정 보고했지만 최종 퇴적 종점 폴리곤은 아직 공개하지 않았다. G는 이 화면의 추적 종점이지 홍수·토석류가 정확히 여기서 끝났다는 증거가 아니다.",
+      "distance_from_a_km": 65.05
     },
     {
       "id": "C",
@@ -551,7 +572,7 @@
     "input_contract": "S1 RTC VV/VH + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
     "anchors": 5,
     "rasuwagadhi_baseline": "materialized_and_sealed",
-    "embedding_status": "not_run_in_this_web_snapshot",
+    "embedding_status": "executed_offline_with_delta_provenance",
     "anchor_geojson": "/data/olmo-input-anchors.geojson",
     "post_event_delta": {
       "created_at_utc": "20260829T115424Z",
@@ -904,10 +925,10 @@
   "research": {
     "integration_disclaimer": "Research integration of OlmoEarth representations with EarthRanger-style incident provenance and Skylight-style observation awareness; not an official Ai2 disaster product.",
     "nepal_embedding": {
-      "status": "blocked_until_full_post_event_s1_plus_s2_cube_is_sealed",
+      "status": "post_event_delta_executed",
       "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
-      "placebo_count": 2,
-      "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet."
+      "placebo_count": 10,
+      "claim": "Sealed Nepal Δz executed: anchor-mean change was not detected above pre-event variability; matched token test flags rasuwagadhi. This is a review candidate, not damage extent or probability."
     },
     "ai_run_ledger": [
       {
@@ -6096,6 +6117,86 @@
       "report_sha256": "132557c209bfaf1bbc25addec0dffe1f3f6e7f4fd7143ae9e85ca0a17b4f16c9"
     },
     "corridor_windows": 100
+  },
+  "ai_vs_classical": {
+    "rows": [
+      {
+        "region": "italy",
+        "patches": 120,
+        "classical_best": 0.433,
+        "ai": 0.624,
+        "gain": 0.191
+      },
+      {
+        "region": "indonesia",
+        "patches": 52,
+        "classical_best": 0.734,
+        "ai": 0.92,
+        "gain": 0.186
+      },
+      {
+        "region": "hiroshima",
+        "patches": 120,
+        "classical_best": 0.767,
+        "ai": 0.952,
+        "gain": 0.184
+      },
+      {
+        "region": "thrissur",
+        "patches": 120,
+        "classical_best": 0.703,
+        "ai": 0.859,
+        "gain": 0.156
+      },
+      {
+        "region": "hokkaido",
+        "patches": 120,
+        "classical_best": 0.726,
+        "ai": 0.853,
+        "gain": 0.127
+      },
+      {
+        "region": "dominicamaria",
+        "patches": 120,
+        "classical_best": 0.492,
+        "ai": 0.605,
+        "gain": 0.113
+      },
+      {
+        "region": "itogon",
+        "patches": 120,
+        "classical_best": 0.654,
+        "ai": 0.764,
+        "gain": 0.11
+      },
+      {
+        "region": "usa_alaska",
+        "patches": 44,
+        "classical_best": 0.498,
+        "ai": 0.553,
+        "gain": 0.055
+      },
+      {
+        "region": "usa_puertorico",
+        "patches": 47,
+        "classical_best": 0.672,
+        "ai": 0.675,
+        "gain": 0.003
+      }
+    ],
+    "regions": 9,
+    "ahead": 9,
+    "wins_at_005": 8,
+    "pre_registered_margin": 0.05,
+    "corridor": {
+      "spearman": 0.22190101757631825,
+      "top10_overlap": 3,
+      "reported_hits": {
+        "ai": 6,
+        "classical": 5
+      }
+    },
+    "report_sha256": "725d81e2b38af16df2abfb354578aae70f1232bd936ed3248533a0a79021cbc6"
   },
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",

@@ -145,6 +145,25 @@ POINTS = [
         "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만, 아직 피해 라벨도 봉인된 OLMo 5-anchor 계약의 일부도 아니다.",
     },
     {
+        "id": "G",
+        "display_label": "CURRENT TRACE END",
+        "map_label": "G · GALCHHI",
+        "stage": 6,
+        "marker_color": "#d9363e",
+        "in_event_chain": True,
+        "name": "Galchhi reach-search endpoint",
+        # OSM way chain의 현재 하류 끝. USGS의 '약 100 km 이동'은 잠정 총 이동거리이며
+        # 이 점을 최종 퇴적/침수 종점으로 확정한 폴리곤은 아직 공개되지 않았다.
+        "coordinates": [84.9883085, 27.8054960],
+        "role": "reported_reach_search_endpoint",
+        "place": "Trishuli corridor near Galchhi, Dhading, Nepal",
+        "source": "USGS preliminary ~100 km travel assessment + OSM river trace",
+        "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+        "evidence_level": "current_trace_endpoint_not_confirmed_event_terminus",
+        "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here.",
+        "story_ko": "현재 지도 추적선은 Rasuwagadhi에서 하천을 따라 73.7 km 내려온 이 지점에서 끝난다. USGS는 발원지부터 총 약 100 km 이동을 잠정 보고했지만 최종 퇴적 종점 폴리곤은 아직 공개하지 않았다. G는 이 화면의 추적 종점이지 홍수·토석류가 정확히 여기서 끝났다는 증거가 아니다.",
+    },
+    {
         "id": "C",
         "display_label": "NEGATIVE CONTROL",
         "map_label": "C · CONTROL",
@@ -722,13 +741,17 @@ def olmoearth_block() -> dict[str, Any]:
         reports = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
         if reports:
             latest_delta = json.loads(reports[-1].read_text())
+    live_delta_executed = bool(latest_delta and latest_delta.get("live_mode"))
     block: dict[str, Any] = {
         "model": "OLMoEarth Base v1 (768-d)",
         "input_contract": "S1 RTC VV/VH + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
         "anchors": 5,
         "rasuwagadhi_baseline": "materialized_and_sealed",
-        "embedding_status": (f"embedded: {', '.join(embedded_modes)}" if embedded_modes
-                             else "not_run_in_this_web_snapshot"),
+        "embedding_status": (
+            f"embedded: {', '.join(embedded_modes)}" if embedded_modes
+            else "executed_offline_with_delta_provenance" if live_delta_executed
+            else "not_run_in_this_web_snapshot"
+        ),
         "anchor_geojson": "/data/olmo-input-anchors.geojson",
     }
     if latest_delta:
@@ -798,16 +821,35 @@ def research_block() -> dict[str, Any]:
         if valid_anchors and embedding_shape is None:
             first = valid_anchors[0]
             embedding_shape = [first.get("bands"), first.get("height"), first.get("width")]
+    post_event_ledger = _post_event_delta_ledger()
+    post_event_executed = post_event_ledger["state"] == "EXECUTED"
+    latest_delta_paths = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
+    latest_delta = json.loads(latest_delta_paths[-1].read_text()) if latest_delta_paths else {}
+    latest_placebo_count = len(latest_delta.get("placebo_modes_available", []))
+    matched_paths = sorted((WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta_matched")
+                           .glob("*/nepal_delta_matched_report.json"))
+    matched = json.loads(matched_paths[-1].read_text()) if matched_paths else {}
+    matched_token_candidates = [
+        anchor for anchor, value in (matched.get("anchors") or {}).items()
+        if "candidate" in (((value.get("token") or {}).get("label")) or "")
+    ]
     return {
         "integration_disclaimer": (
             "Research integration of OlmoEarth representations with EarthRanger-style incident provenance "
             "and Skylight-style observation awareness; not an official Ai2 disaster product."
         ),
         "nepal_embedding": {
-            "status": "blocked_until_full_post_event_s1_plus_s2_cube_is_sealed",
+            "status": ("post_event_delta_executed" if post_event_executed
+                       else "blocked_until_full_post_event_s1_plus_s2_cube_is_sealed"),
             "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
-            "placebo_count": 2,
-            "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet.",
+            "placebo_count": latest_placebo_count if post_event_executed else 2,
+            "claim": (
+                "Sealed Nepal Δz executed: anchor-mean change was not detected above pre-event variability; "
+                f"matched token test flags {', '.join(matched_token_candidates) or 'no anchor'}. "
+                "This is a review candidate, not damage extent or probability."
+                if post_event_executed else
+                "No Nepal Δz anomaly threshold or damage prediction is available yet."
+            ),
         },
         "ai_run_ledger": [
             {
@@ -850,9 +892,7 @@ def research_block() -> dict[str, Any]:
                 "forbids": "prospective landslide prediction",
                 "artifact_sha256": sha256(susceptibility_path) if susceptibility_path.exists() else None,
             },
-            {
-                **_post_event_delta_ledger(),
-            },
+            post_event_ledger,
             {
                 "id": "matched_second_geofm",
                 "state": "NOT_RUN",
@@ -984,6 +1024,80 @@ def candidates_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp), "geojson": {"type": "FeatureCollection", "features": feats}}
 
 
+def corridor_contract_block() -> dict[str, Any]:
+    """27창 S1+S2 봉인 실험의 단계별 진척을 파일 실물에서 계산한다.
+
+    M71의 100창 S2-only 후보 스캔과 혼동하지 않도록 별도 블록으로 노출한다.
+    한 창의 canonical 입력은 S1 4기간 + S2 4기간 = completed marker 8개다.
+    """
+    root = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/materialized_corridor"
+    expected_windows = 27
+    expected_layers = 8
+
+    def mode_status(mode: str) -> dict[str, Any]:
+        mode_root = root / mode
+        windows_root = mode_root / "dataset/windows/nepal"
+        layer_counts: dict[str, int] = {}
+        for index in range(expected_windows):
+            window_id = f"w{index:02d}"
+            layer_counts[window_id] = len(list((windows_root / window_id / "layers").glob("*/completed")))
+        complete = [window for window, count in layer_counts.items() if count >= expected_layers]
+        partial = [window for window, count in layer_counts.items() if 0 < count < expected_layers]
+        missing = [window for window, count in layer_counts.items() if count == 0]
+        manifest_path = mode_root / "materialization_manifest.json"
+        manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+        embedding_path = mode_root / "embedding_manifest.json"
+        embedding = json.loads(embedding_path.read_text()) if embedding_path.exists() else {}
+        embedded = len([anchor for anchor in embedding.get("anchors", []) if anchor.get("valid")])
+        marker_paths = list(windows_root.glob("w*/layers/*/completed"))
+        timestamps = [path.stat().st_mtime for path in marker_paths]
+        for path in (manifest_path, embedding_path):
+            if path.exists():
+                timestamps.append(path.stat().st_mtime)
+        return {
+            "mode": mode,
+            "complete_windows": len(complete),
+            "partial_windows": partial,
+            "missing_windows": missing,
+            "completed_layers": sum(min(count, expected_layers) for count in layer_counts.values()),
+            "total_layers": expected_windows * expected_layers,
+            "materialization_sealed": bool(manifest.get("valid")),
+            "embedded_windows": embedded,
+            "embedding_sealed": bool(embedding.get("valid")) if embedding else False,
+            "updated_at_utc": (datetime.fromtimestamp(max(timestamps), UTC).isoformat()
+                               if timestamps else None),
+        }
+
+    baseline = mode_status("baseline")
+    live = mode_status("s1_live")
+    if live["embedding_sealed"] and live["embedded_windows"] >= expected_windows:
+        stage = "complete"
+        next_step = "Compare sealed baseline/live token deltas against matched placebo windows."
+    elif live["materialization_sealed"]:
+        stage = "live_embedding"
+        next_step = "Run the immutable OLMoEarth v1 embedding recipe for all 27 live windows."
+    elif live["complete_windows"] or live["partial_windows"]:
+        stage = "live_materialization"
+        next_step = "Finish and seal the 27-window s1_live cube."
+    elif baseline["materialization_sealed"]:
+        stage = "baseline_embedding_or_live_queue"
+        next_step = "Seal baseline embeddings, then materialize the same 27 windows for s1_live."
+    else:
+        stage = "baseline_materialization"
+        next_step = "Finish and seal all 27 baseline windows before live materialization."
+    return {
+        "schema": "nepal-corridor-contract-progress/v1",
+        "expected_windows": expected_windows,
+        "expected_layers_per_window": expected_layers,
+        "contract": "S1 RTC VV/VH + S2 L2A 12-band × 4 periods; same 2.56 km windows in baseline and s1_live",
+        "stage": stage,
+        "next_step": next_step,
+        "baseline": baseline,
+        "s1_live": live,
+        "claim_boundary": "Progress only. No corridor damage or reach claim exists until both modes are sealed and the matched delta is evaluated.",
+    }
+
+
 def _post_event_delta_ledger() -> dict[str, Any]:
     """live_mode가 있는 최신 delta report가 있으면 EXECUTED, 없으면 WAITING_INPUT (실물 기준)."""
     latest = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
@@ -1003,6 +1117,29 @@ def _post_event_delta_ledger() -> dict[str, Any]:
             "allows": f"descriptive 'candidate change' per anchor where live Δ exceeds all {n_pl} placebo windows; rank vs placebo",
             "forbids": "anomaly percentile/probability until ≥20 placebo windows; damage, cause, extent",
             "artifact_sha256": sha256(latest[-1])}
+
+
+def ai_vs_classical_block() -> dict[str, Any] | None:
+    """M73: 같은 조건에서 AI Δz vs 고전 변화탐지 AUROC (Sen12 9지역) + 네팔 100창 비교."""
+    rp = WORK_ROOT / "artifacts/sen12_classical_baseline/report.json"
+    if not rp.exists():
+        return None
+    rj = json.loads(rp.read_text())
+    rows = []
+    for region, v in rj.get("regions", {}).items():
+        if not v.get("patches"):
+            continue
+        best = max(x for x in (v.get("classical_band_auroc"), v.get("classical_index_auroc")) if x is not None)
+        rows.append({"region": region, "patches": v["patches"], "classical_best": round(best, 3), "ai": round(v["ai_auroc"], 3) if v.get("ai_auroc") is not None else None,
+                     "gain": round(v["ai_auroc"] - best, 3) if v.get("ai_auroc") is not None else None})
+    rows.sort(key=lambda r: -(r["gain"] or 0))
+    wins = sum(1 for r in rows if (r["gain"] or 0) >= 0.05); ahead = sum(1 for r in rows if (r["gain"] or 0) > 0)
+    cp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_scan_v2/classical_vs_ai.json"
+    corridor = json.loads(cp.read_text()) if cp.exists() else None
+    return {"rows": rows, "regions": len(rows), "ahead": ahead, "wins_at_005": wins, "pre_registered_margin": 0.05,
+            "corridor": {"spearman": corridor["spearman_ai_vs_classical"], "top10_overlap": corridor["top10_overlap"],
+                         "reported_hits": corridor["reported_place_hits_top10"]} if corridor else None,
+            "report_sha256": sha256(rp)}
 
 
 def headline_block() -> dict[str, Any]:
@@ -1155,7 +1292,13 @@ def build(refresh_osm: bool) -> None:
 
     live_observation, scheduled_scenes, live_provenance = load_live_observation()
     olmoearth = olmoearth_block()
-    if live_observation and live_observation["catalog_status"] == "published":
+    post_event_delta = olmoearth.get("post_event_delta")
+    if isinstance(post_event_delta, dict) and post_event_delta.get("live_mode"):
+        evidence_status = (
+            "Post-event S1+S2 cube sealed and OLMoEarth Δz executed. The five-anchor mean did not "
+            "separate from pre-event variability; a matched token-level review candidate remains at Rasuwagadhi."
+        )
+    elif live_observation and live_observation["catalog_status"] == "published":
         evidence_status = (
             "Post-event pixels and the full OLMoEarth input seal are ready; embedding has not run."
             if live_observation.get("olmo_ready")
@@ -1186,7 +1329,9 @@ def build(refresh_osm: bool) -> None:
         "ops_log": build_ops_log(),
         "research": research_block(),
         "candidates": candidates_block(),
+        "corridor_contract": corridor_contract_block(),
         "headline": headline_block(),
+        "ai_vs_classical": ai_vs_classical_block(),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {
@@ -1198,6 +1343,14 @@ def build(refresh_osm: bool) -> None:
             "engine": "Rust/WASM deterministic particle preview",
             "route_source": "verified OSM river-way chain from Bhote Koshi to Trishuli",
             "route_points": len(hydrography["simulation_route"]),
+            "mapped_route_km_from_border": round(sum(
+                haversine_km(first, second)
+                for first, second in zip(hydrography["simulation_route"], hydrography["simulation_route"][1:])
+            ), 1),
+            "reported_total_travel_km": 100,
+            "reported_reach_source": "USGS preliminary findings as of 2026-08-27",
+            "trace_endpoint": {"name": "Galchhi reach-search endpoint", "coordinates": hydrography["simulation_route"][-1]},
+            "trace_endpoint_boundary": "Current mapped inspection endpoint; not a confirmed terminal deposit or inundation boundary.",
             "claim": "illustrative_kinematic_preview_not_hazard_forecast",
             "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw",
         },
