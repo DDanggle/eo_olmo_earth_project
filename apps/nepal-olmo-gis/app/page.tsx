@@ -1133,6 +1133,15 @@ export default function Home() {
             <div className="distance-matrix">
               {['source', 'rasuwagadhi', 'timure', 'syabrubesi', 'dhunche', 'bidur'].map((name, i) => <div key={name}><b>{i + 1}</b><span>{name === 'source' ? 'SOURCE · Langtang Lirung' : name.toUpperCase()}</span><figure><img src={`/data/story/anchors/${name}_pre.png`} alt={`${name} before`} /></figure><i>→</i><figure><img src={`/data/story/anchors/${name}_post.png`} alt={`${name} after`} /></figure></div>)}
             </div>
+            <div className="story-spectra">
+              <figure><img src="/data/story/spec_true_post0827.png" alt="True colour, Rasuwagadhi, 27 August" /><figcaption>{ko ? '트루컬러 · 08-27' : 'TRUE COLOUR · 08-27'}</figcaption></figure>
+              <figure><img src="/data/story/spec_swir_post0827.png" alt="SWIR composite B12/B8A/B04, 27 August" /><figcaption>{ko ? 'SWIR 합성 B12·B8A·B04 · 08-27' : 'SWIR B12·B8A·B04 · 08-27'}</figcaption></figure>
+              <figure><img src="/data/story/spec_ndwi_post0827.png" alt="NDWI water index, 27 August" /><figcaption>{ko ? 'NDWI 물 지수 · 08-27' : 'NDWI WATER INDEX · 08-27'}</figcaption></figure>
+              <figure><img src="/data/story/spec_swir_pre0812.png" alt="SWIR composite before the event, 12 August" /><figcaption>{ko ? 'SWIR 합성 · 사건 전 08-12' : 'SWIR · PRE-EVENT 08-12'}</figcaption></figure>
+            </div>
+            <p>{ko
+              ? '같은 Rasuwagadhi 창을 세 가지 눈으로 다시 그림. 트루컬러는 사람 눈(B04·B03·B02), SWIR 합성은 식생을 초록·젖은 퇴적물을 분홍-갈색·물을 짙은 청색으로 분리하고, NDWI는 물만 밝은 청색으로 뽑음. debris 판 안에 아직 흐르는 물길이 어디인지는 SWIR·NDWI에서만 분명함. 사건 전 8/12 SWIR과 비교하면 분홍-갈색 회랑의 폭 차이가 곧 후보 변화임. OLMoEarth가 12밴드를 모두 입력받는 이유가 이것임 — 사람 눈에 같아 보이는 픽셀이 스펙트럼에서는 다름.'
+              : 'The same Rasuwagadhi window re-rendered three ways. True colour is the human eye (B04·B03·B02); the SWIR composite separates vegetation (green), wet sediment (pink-brown) and water (deep blue); NDWI isolates water as bright blue. Where water still flows inside the debris sheet is only clear in SWIR and NDWI. Against the pre-event 12 Aug SWIR, the width change of the pink-brown corridor is the candidate change itself. This is why OLMoEarth ingests all twelve bands: pixels that look alike to the eye differ in spectrum.'}</p>
             <p className="story-caption">{ko ? '모든 행은 8/12→8/27 Sentinel-2. 장면 차이는 후보 관측이며 피해 라벨이 아님. Source와 Dhunche는 구름/눈 제약이 큼. 8/24 보라색 프레임은 실제 색이 아니라 Sentinel-1 VV/VH/대비 false-colour.' : 'Every row is Sentinel-2 from 12→27 Aug. Differences are candidate observations, not damage labels. Source and Dhunche remain cloud/snow limited. The purple 24 Aug frame is Sentinel-1 VV/VH/contrast false colour—not surface colour.'}</p>
           </section>
 
