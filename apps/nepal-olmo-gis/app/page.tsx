@@ -34,6 +34,8 @@ type ScenarioPoint = {
   evidence_level?: string;
   story?: string;
   story_ko?: string;
+  nearest_window?: string | null;
+  nearest_window_km?: number;
   distance_from_a_km: number;
 };
 
