@@ -14,12 +14,19 @@ assert.equal(scenario.olmoearth.anchors, 5);
 assert.equal(scenario.research.confirmatory_transfer.regions, 8);
 assert.equal(scenario.research.confirmatory_transfer.wins_reuse_vs_raw_strong, 6);
 assert.equal(scenario.research.ai_run_ledger.length, 6);
-assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.state, 'EXECUTED');
-assert.match(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.output ?? '', /15 sealed embedding rasters.*768, 64, 64/);
+assert.equal(scenario.input_contract_audit?.status, 'corrected');
+assert.equal(scenario.olmoearth.post_event_delta?.status, 'superseded_missing_sentinel1_db_transform');
+assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.state, 'SUPERSEDED');
+assert.match(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.output ?? '', /preserved legacy rasters.*excluded/);
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'pre_event_forecast')?.state, 'NEGATIVE_RESULT');
-const liveVerdict = typeof scenario.olmoearth.post_event_delta === 'object' && scenario.olmoearth.post_event_delta && scenario.olmoearth.post_event_delta.live_mode;
-assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_post_event_delta')?.state, liveVerdict ? 'EXECUTED' : 'WAITING_INPUT');
+assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_post_event_delta')?.state, 'SUPERSEDED');
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'matched_second_geofm')?.state, 'NOT_RUN');
+assert.equal(scenario.corridor_sealed?.schema, 'corridor-sealed-delta-s1db-v1');
+assert.equal(scenario.corridor_sealed?.windows, 27);
+assert.equal(scenario.corridor_sealed?.top.length, 6);
+assert.equal(scenario.corridor_sealed?.top[0].id, 'w23');
+assert.equal(scenario.corridor_sealed?.max_exceedance, 17 / 4096);
+assert.equal(scenario.corridor_sealed?.comparison.ordinary_transition_count, 1);
 assert.equal(scenario.downstream_visual.purpose, 'visual_only_downstream_context_not_part_of_five_anchor_olmo_contract');
 assert.deepEqual(scenario.downstream_visual.records.map((record) => record.label), ['pre', 'post']);
 assert.ok(scenario.points.find((point) => point.id === 'E')?.display_label === 'SOURCE ESTIMATE');
@@ -29,33 +36,24 @@ assert.ok(scenario.points.find((point) => point.id === 'C')?.map_label === 'C ·
 assert.ok(scenario.points.find((point) => point.id === 'G')?.map_label === 'G · GALCHHI');
 assert.ok(['not_run_in_this_web_snapshot', 'executed_offline_with_delta_provenance'].includes(scenario.olmoearth.embedding_status));
 assert.ok(['published', 'selected', 'materialized', 'sealed'].includes(scenario.live_observation.catalog_status));
-// 2026-08-29: 라이브 판정 전/후 두 상태 모두 검증함 (판정 전 = 대기 불변식, 판정 후 = 봉인 불변식)
-if (liveVerdict) {
-  assert.equal(scenario.live_observation.olmo_ready, true);
-  assert.equal(scenario.live_observation.selection_preflight_valid, true);
-  assert.equal(scenario.live_observation.materialization_seal_valid, true);
-  assert.equal(scenario.headline?.sealed_total, 5);
-  assert.ok(scenario.candidates && scenario.candidates.windows >= 27);
-  assert.equal(scenario.research.nepal_embedding.status, 'post_event_delta_executed');
-  assert.match(scenario.event.evidence_status, /OLMoEarth Δz executed/);
-} else {
-  assert.equal(scenario.live_observation.olmo_ready, false);
-  assert.equal(scenario.live_observation.selection_preflight_valid, false);
-  assert.equal(scenario.live_observation.materialization_seal_valid, false);
-  assert.equal(scenario.live_observation.materialization_status, 'blocked_provider_selection');
-}
+assert.equal(scenario.live_observation.olmo_ready, true);
+assert.equal(scenario.live_observation.selection_preflight_valid, true);
+assert.equal(scenario.live_observation.materialization_seal_valid, true);
+assert.equal(scenario.live_observation.materialization_status, 'sealed_olmo_input');
+assert.equal(scenario.headline?.sealed_total, null);
+assert.equal(scenario.headline?.matched, undefined);
+assert.ok(scenario.candidates && scenario.candidates.windows >= 27);
+assert.equal(scenario.research.nepal_embedding.status, 'five_anchor_superseded_missing_s1_db_transform');
+assert.match(scenario.event.evidence_status, /contract-correct 27-window OLMoEarth screening is complete/i);
 assert.equal(scenario.live_observation.coverage_status, 'operational_anchors_covered');
 assert.equal(scenario.live_observation.operational_anchor_count, 5);
-if (liveVerdict) {
-  assert.ok(['REVIEW CANDIDATE EVIDENCE', 'NOT DETECTED ABOVE VARIABILITY'].includes(scenario.decision.action));
-  assert.ok(['candidate_ready', 'not_detected'].includes(scenario.decision.status));
-} else {
-  assert.equal(scenario.decision.action, 'WAIT FOR PROVIDER SYNC');
-  assert.match(scenario.decision.reason, /covering 5\/5 anchors/);
-  assert.match(scenario.decision.next_gate, /2026-08-28 scene.*5\/5 anchors/);
-}
+assert.equal(scenario.decision.action, 'RERUN FIVE-ANCHOR CONTRACT');
+assert.equal(scenario.decision.status, 'hold');
+assert.match(scenario.decision.reason, /dB transform/);
 assert.ok(scenario.ops_log.some((event) => event.type === 'SEAL_INVALID'));
 assert.ok(scenario.ops_log.some((event) => event.type === 'COVERAGE_PASS'));
+assert.ok(scenario.ops_log.some((event) => event.type === 'DELTA_SUPERSEDED'));
+assert.ok(scenario.ops_log.some((event) => event.type === 'S1DB_SCREENING'));
 assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's2c_20260829')?.state, 'acquired_pending_catalog');
 assert.equal(new Set(scenario.ops_log.map((event) => event.event_id)).size, scenario.ops_log.length);
 assert.equal(scenario.live_observation.cloud_cover_tile_pct, null);
@@ -68,6 +66,9 @@ assert.equal(scenario.corridor_contract.expected_windows, 27);
 assert.equal(scenario.corridor_contract.expected_layers_per_window, 8);
 assert.equal(scenario.corridor_contract.baseline.total_layers, 216);
 assert.equal(scenario.corridor_contract.s1_live.total_layers, 216);
+assert.equal(scenario.corridor_contract.placebo_b.total_layers, 216);
+assert.equal(scenario.corridor_contract.placebo_b.embedded_windows, 27);
+assert.equal(scenario.corridor_contract.stage, 'screening_complete');
 assert.ok(hydrography.simulation_route.length >= 40 && hydrography.simulation_route.length <= 96);
 assert.ok(hydrography.features.length >= 11 && hydrography.features.length <= 20); // 2026-08-29: Galchhi 방향 연장으로 15
 
@@ -77,6 +78,14 @@ for (const scene of scenario.scene_records) {
   assert.deepEqual([...image.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
   assert.equal(scene.coordinates.length, 4);
   assert.match(scene.source_sha256, /^[a-f0-9]{64}$/);
+}
+
+for (const row of scenario.corridor_sealed.top) {
+  for (const path of [row.pre_image, row.post_image, row.delta_image]) {
+    const image = await readFile(resolve(root, 'public', path.slice(1)));
+    assert.ok(image.length > 1_000, `${path} is unexpectedly small`);
+    assert.deepEqual([...image.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  }
 }
 
 const wasmBytes = await readFile(resolve(root, 'public/wasm/nepal_flow.wasm'));

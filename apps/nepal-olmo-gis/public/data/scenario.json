@@ -1,11 +1,11 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T13:50:28.258458+00:00",
+  "generated_at": "2026-08-29T15:07:16.334266+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
     "cause_status": "A rock–ice/glacial collapse on the Nepal side of Langtang Lirung is the leading assessment. It generated a cross-border debris-flow/flood; causal and field details remain under review.",
-    "evidence_status": "Post-event S1+S2 cube sealed and OLMoEarth Δz executed. The five-anchor mean did not separate from pre-event variability; a matched token-level review candidate remains at Rasuwagadhi."
+    "evidence_status": "The contract-correct 27-window OLMoEarth screening is complete. Event change is below the single matched-location ordinary transition in almost every token; the result prioritizes review but does not establish damage or a calibrated anomaly."
   },
   "incident_updates": [
     {
@@ -155,8 +155,8 @@
       "source": "USGS public event map; OSM river reach",
       "source_url": "https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map",
       "evidence_level": "downstream_inspection_anchor",
-      "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is strong observation evidence, not yet a damage label or part of the sealed five-anchor OLMo contract.",
-      "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만, 아직 피해 라벨도 봉인된 OLMo 5-anchor 계약의 일부도 아니다.",
+      "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is observation evidence, not a damage label. Bidur is now included in the separate contract-correct 27-window OLMo screen.",
+      "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만 피해 라벨은 아니다. Bidur는 별도의 계약교정 OLMo 27창 스크린에는 포함됐다.",
       "distance_from_a_km": 46.79,
       "nearest_window": "v029",
       "nearest_window_km": 0.5
@@ -583,71 +583,104 @@
   },
   "olmoearth": {
     "model": "OLMoEarth Base v1 (768-d)",
-    "input_contract": "S1 RTC VV/VH + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
+    "input_contract": "S1 RTC VV/VH linear intensity→dB + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
     "anchors": 5,
     "rasuwagadhi_baseline": "materialized_and_sealed",
     "embedding_status": "executed_offline_with_delta_provenance",
     "anchor_geojson": "/data/olmo-input-anchors.geojson",
     "post_event_delta": {
-      "created_at_utc": "20260829T130711Z",
-      "live_mode": "s1_live",
-      "placebo_samples": 10,
-      "rasuwagadhi_live_mean": 0.015585348010063171,
-      "label": "not detected above daily variability",
-      "claim_boundary": "candidate change only; not damage probability"
+      "status": "superseded_missing_sentinel1_db_transform",
+      "claim_boundary": "Only the corrected 27-window report may be used for current S1+S2 OLMoEarth claims. The five-anchor reports remain provenance records but are not valid evidence until rerun under the corrected contract.",
+      "official_contract": "Planetary Computer Sentinel-1 intensity must pass Sentinel1ToDecibels before OlmoEarthNormalize.",
+      "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md"
+    },
+    "contract_audit": {
+      "schema": "nepal-olmo-input-contract-audit/v1",
+      "audited_at": "2026-08-29T14:30:00Z",
+      "status": "corrected",
+      "defect": "Sentinel-1 RTC COGs contained linear intensity, while the previous model configuration applied OlmoEarthNormalize without Sentinel1ToDecibels.",
+      "official_contract": "Planetary Computer Sentinel-1 intensity must pass Sentinel1ToDecibels before OlmoEarthNormalize.",
+      "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md",
+      "superseded_results": [
+        "M70",
+        "M72",
+        "M72 token-level addendum",
+        "M74",
+        "M74 S1-only addendum"
+      ],
+      "preservation": "Old 27-window embedding rasters were moved to layers/embeddings_linear_s1 and old manifests/seals to superseded_linear_s1 on the compute host; they were not deleted.",
+      "corrected_recipe": "code/model_s1db.yaml",
+      "corrected_report": "artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1db/report.json",
+      "corrected_modes": [
+        "placebo_b",
+        "baseline",
+        "s1_live"
+      ],
+      "claim_boundary": "Only the corrected 27-window report may be used for current S1+S2 OLMoEarth claims. The five-anchor reports remain provenance records but are not valid evidence until rerun under the corrected contract."
     }
   },
   "decision": {
-    "status": "candidate_ready",
-    "action": "REVIEW CANDIDATE EVIDENCE",
-    "reason": "Token-level matched test: rasuwagadhi — 9.8% of 40 m tokens exceed the matched placebo p99 vs at most 2.7% in any ordinary fortnight (n=9). Anchor-mean Δz alone does not separate.",
-    "next_gate": "Independent corroboration (field, high-res optical, physics runout) for the flagged tokens.",
-    "allowed_claim": "Candidate representation change at token scale; not damage probability or hazard extent."
+    "status": "hold",
+    "action": "RERUN FIVE-ANCHOR CONTRACT",
+    "reason": "The five-anchor pixels are sealed, but their previous embeddings omitted the required Sentinel-1 linear-intensity to dB transform. Those claims are excluded.",
+    "next_gate": "Rerun baseline, live and all matched five-anchor placebo periods with model_s1db.yaml.",
+    "allowed_claim": "The corrected 27-window corridor screening is active; the legacy five-anchor delta is not evidence."
   },
   "ops_log": [
     {
-      "event_id": "d2b5076abac177b8",
+      "event_id": "6b3e8851ac32b355",
       "time_utc": "20260829T130711Z",
       "recorded_at_utc": "20260829T130711Z",
       "time_basis": "artifact_recorded_at",
       "source": "OLMoEarth Δz",
-      "type": "DELTA_REPORT",
-      "priority": "green",
-      "summary": "live=s1_live placebo n=10",
+      "type": "DELTA_SUPERSEDED",
+      "priority": "orange",
+      "summary": "live=s1_live placebo n=10 — excluded; missing S1 dB transform",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T130711Z/nepal_delta_report.json"
     },
     {
-      "event_id": "f85b5c5b961c987d",
+      "event_id": "fc5040371f0027f8",
       "time_utc": "20260829T115424Z",
       "recorded_at_utc": "20260829T115424Z",
       "time_basis": "artifact_recorded_at",
       "source": "OLMoEarth Δz",
-      "type": "DELTA_REPORT",
-      "priority": "green",
-      "summary": "live=s1_live placebo n=10",
+      "type": "DELTA_SUPERSEDED",
+      "priority": "orange",
+      "summary": "live=s1_live placebo n=10 — excluded; missing S1 dB transform",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T115424Z/nepal_delta_report.json"
     },
     {
-      "event_id": "7214b1c189854393",
+      "event_id": "4c27678e45a2c424",
       "time_utc": "20260829T085533Z",
       "recorded_at_utc": "20260829T085533Z",
       "time_basis": "artifact_recorded_at",
       "source": "OLMoEarth Δz",
-      "type": "DELTA_REPORT",
-      "priority": "green",
-      "summary": "live=s1_live placebo n=2",
+      "type": "DELTA_SUPERSEDED",
+      "priority": "orange",
+      "summary": "live=s1_live placebo n=2 — excluded; missing S1 dB transform",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T085533Z/nepal_delta_report.json"
     },
     {
-      "event_id": "e710b69e9f5d7451",
+      "event_id": "f194c9a74dd87c4f",
       "time_utc": "20260828T070505Z",
       "recorded_at_utc": "20260828T070505Z",
       "time_basis": "artifact_recorded_at",
       "source": "OLMoEarth Δz",
-      "type": "DELTA_REPORT",
-      "priority": "green",
-      "summary": "live=None placebo n=2",
+      "type": "DELTA_SUPERSEDED",
+      "priority": "orange",
+      "summary": "live=None placebo n=2 — excluded; missing S1 dB transform",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
+    },
+    {
+      "event_id": "1b684a94a76f4766",
+      "time_utc": "2026-08-29T14:43:08Z",
+      "recorded_at_utc": "2026-08-29T14:43:08Z",
+      "time_basis": "filesystem_mtime",
+      "source": "OLMoEarth v1",
+      "type": "S1DB_SCREENING",
+      "priority": "green",
+      "summary": "27/27 dB-corrected windows; max local-p99 exceedance 0.42% (w23)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1db/report.json"
     },
     {
       "event_id": "741c135dbe0e64ce",
@@ -923,36 +956,25 @@
       "priority": "blue",
       "summary": "Chinese authorities reported the lake was draining and its level had fallen, while monitoring for secondary hazards continued.",
       "evidence_uri": "https://english.www.gov.cn/news/202608/28/content_WS6a91259dc6d00ca5f9a0cd54.html"
-    },
-    {
-      "event_id": "9aed161d356f09cd",
-      "time_utc": "2026-08-28T06:32:06Z",
-      "recorded_at_utc": "2026-08-28T06:32:06Z",
-      "time_basis": "artifact_field",
-      "source": "AOI heuristic",
-      "type": "OBSERVABILITY",
-      "priority": "blue",
-      "summary": "8/27 S2: Rasuwagadhi AOI bright 2.5% (tile cloud 78.5% ≠ AOI; not a cloud-free estimate)",
-      "evidence_uri": "artifacts/aoi_observability_20260827.json"
     }
   ],
   "research": {
     "integration_disclaimer": "Research integration of OlmoEarth representations with EarthRanger-style incident provenance and Skylight-style observation awareness; not an official Ai2 disaster product.",
     "nepal_embedding": {
-      "status": "post_event_delta_executed",
+      "status": "five_anchor_superseded_missing_s1_db_transform",
       "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
       "placebo_count": 10,
-      "claim": "Sealed Nepal Δz executed: anchor-mean change was not detected above pre-event variability; matched token test flags rasuwagadhi. This is a review candidate, not damage extent or probability."
+      "claim": "The previous five-anchor S1+S2 delta is superseded: Sentinel-1 linear intensity was not converted to dB. Use the corrected 27-window screening result; rerun all five-anchor placebo periods before restoring that claim."
     },
     "ai_run_ledger": [
       {
         "id": "nepal_pre_event_representation",
-        "state": "EXECUTED",
+        "state": "SUPERSEDED",
         "model": "OlmoEarth v1 Base (frozen)",
         "input": "5 Nepal anchors × S1+S2 × 4 periods, across baseline and two pre-event placebo cubes",
-        "output": "15 sealed embedding rasters; shape [768, 64, 64]",
-        "allows": "pre-event reference, retrieval query and a future post-event delta",
-        "forbids": "damage, flood depth, runout or anomaly claims",
+        "output": "15 preserved legacy rasters; excluded because Sentinel-1 dB conversion was missing",
+        "allows": "input-contract audit only",
+        "forbids": "all representation-change claims until rerun",
         "artifact_sha256": {
           "baseline": "4ccb0a8bb1a1a9773c78d9e25f3946e23a37d99aaffe22369e7660641d2967ca",
           "placebo_a": "21efaa326844bd0248cdab09d39827c84eef8fdb265d3c6e0ce9d974b6b325eb",
@@ -991,13 +1013,14 @@
       },
       {
         "id": "nepal_post_event_delta",
-        "state": "EXECUTED",
+        "state": "SUPERSEDED",
         "model": "OlmoEarth v1 Base (frozen)",
-        "input": "sealed s1_live cube · 5 anchors · S1 4 periods (incl. 2026-08-28 RTC) + S2 4 periods (incl. 2026-08-27) vs sealed baseline",
-        "output": "5 delta rasters 64×64 (cosine Δz per 40 m token) · 0/5 candidate change () · 5/5 not detected (dhunche, rasuwagadhi, source_provisional, syabrubesi, timure)",
-        "allows": "descriptive 'candidate change' per anchor where live Δ exceeds all 10 placebo windows; rank vs placebo",
-        "forbids": "anomaly percentile/probability until ≥20 placebo windows; damage, cause, extent",
-        "artifact_sha256": "47f3808c33c78b413d0c39282654d231ac0fad180825bb18afccc1e7cd956270"
+        "input": "five-anchor S1+S2 report produced without Sentinel1ToDecibels",
+        "output": "preserved for provenance; excluded from active evidence",
+        "allows": "input-contract audit and reproducibility diagnosis only",
+        "forbids": "candidate, anomaly, damage, cause, or extent claims",
+        "artifact_sha256": "c682ce82bc4dd33635eeb21ea6b29925d93215a0535df037089be20d01f8edee",
+        "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md"
       },
       {
         "id": "matched_second_geofm",
@@ -6063,13 +6086,1483 @@
       ]
     }
   },
+  "corridor_sealed": {
+    "schema": "corridor-sealed-delta-s1db-v1",
+    "model": "OLMoEarth v1 Base (frozen)",
+    "status": "SCREENING_COMPLETE_NO_CALIBRATED_DETECTION",
+    "windows": 27,
+    "top": [
+      {
+        "id": "w23",
+        "rank": 1,
+        "name": "Devighat reach",
+        "kind": "corridor",
+        "center_lonlat": [
+          85.1256703,
+          27.8787953
+        ],
+        "event_mean": 0.03358384221792221,
+        "placebo_mean": 0.04577558487653732,
+        "placebo_p99": 0.07507172971963882,
+        "frac_above_local_placebo_p99": 0.004150390625,
+        "mean_ratio_event_to_placebo": 0.7336627840995789,
+        "s2_only_rank": 4,
+        "coordinates": [
+          [
+            85.11240598831586,
+            27.890451107705687
+          ],
+          [
+            85.13879749526907,
+            27.890451107705687
+          ],
+          [
+            85.13879749526907,
+            27.86699977281235
+          ],
+          [
+            85.11240598831586,
+            27.86699977281235
+          ]
+        ],
+        "pre_image": "/data/canonical/w23_pre.png",
+        "post_image": "/data/canonical/w23_post.png",
+        "delta_image": "/data/canonical/w23_delta.png"
+      },
+      {
+        "id": "w21",
+        "rank": 2,
+        "name": "Bidur / Trishuli reach",
+        "kind": "corridor",
+        "center_lonlat": [
+          85.1433941,
+          27.9204357
+        ],
+        "event_mean": 0.028058944270014763,
+        "placebo_mean": 0.050547629594802856,
+        "placebo_p99": 0.07882505655288696,
+        "frac_above_local_placebo_p99": 0.004150390625,
+        "mean_ratio_event_to_placebo": 0.5550991296768188,
+        "s2_only_rank": 6,
+        "coordinates": [
+          [
+            85.13017551623463,
+            27.932113836574217
+          ],
+          [
+            85.15657416671968,
+            27.932113836574217
+          ],
+          [
+            85.15657416671968,
+            27.908665278298
+          ],
+          [
+            85.13017551623463,
+            27.908665278298
+          ]
+        ],
+        "pre_image": "/data/canonical/w21_pre.png",
+        "post_image": "/data/canonical/w21_post.png",
+        "delta_image": "/data/canonical/w21_delta.png"
+      },
+      {
+        "id": "w22",
+        "rank": 3,
+        "name": "Bidur / Trishuli reach",
+        "kind": "corridor",
+        "center_lonlat": [
+          85.1368283,
+          27.9001413
+        ],
+        "event_mean": 0.033589258790016174,
+        "placebo_mean": 0.05028284341096878,
+        "placebo_p99": 0.07896322757005692,
+        "frac_above_local_placebo_p99": 0.00146484375,
+        "mean_ratio_event_to_placebo": 0.6680063605308533,
+        "s2_only_rank": 7,
+        "coordinates": [
+          [
+            85.12361664910618,
+            27.91181035763995
+          ],
+          [
+            85.15001140273372,
+            27.91181035763995
+          ],
+          [
+            85.15001140273372,
+            27.888360813336995
+          ],
+          [
+            85.12361664910618,
+            27.888360813336995
+          ]
+        ],
+        "pre_image": "/data/canonical/w22_pre.png",
+        "post_image": "/data/canonical/w22_post.png",
+        "delta_image": "/data/canonical/w22_delta.png"
+      },
+      {
+        "id": "w18",
+        "rank": 4,
+        "name": "Corridor window w18",
+        "kind": "corridor",
+        "center_lonlat": [
+          85.1840429,
+          27.972805
+        ],
+        "event_mean": 0.02645513415336609,
+        "placebo_mean": 0.05081726983189583,
+        "placebo_p99": 0.07724093645811081,
+        "frac_above_local_placebo_p99": 0.001220703125,
+        "mean_ratio_event_to_placebo": 0.5205934047698975,
+        "s2_only_rank": 2,
+        "coordinates": [
+          [
+            85.17075080312921,
+            27.984453967132314
+          ],
+          [
+            85.19715481536075,
+            27.984453967132314
+          ],
+          [
+            85.19715481536075,
+            27.961012129295696
+          ],
+          [
+            85.17075080312921,
+            27.961012129295696
+          ]
+        ],
+        "pre_image": "/data/canonical/w18_pre.png",
+        "post_image": "/data/canonical/w18_post.png",
+        "delta_image": "/data/canonical/w18_delta.png"
+      },
+      {
+        "id": "w00",
+        "rank": 5,
+        "name": "Rasuwagadhi impact corridor",
+        "kind": "corridor",
+        "center_lonlat": [
+          85.3769971,
+          28.2780537
+        ],
+        "event_mean": 0.023471210151910782,
+        "placebo_mean": 0.04176636412739754,
+        "placebo_p99": 0.0674295425415039,
+        "frac_above_local_placebo_p99": 0.000732421875,
+        "mean_ratio_event_to_placebo": 0.5619643926620483,
+        "s2_only_rank": 12,
+        "coordinates": [
+          [
+            85.36375443315119,
+            28.28973355710008
+          ],
+          [
+            85.39019825560989,
+            28.28973355710008
+          ],
+          [
+            85.39019825560989,
+            28.266323842005193
+          ],
+          [
+            85.36375443315119,
+            28.266323842005193
+          ]
+        ],
+        "pre_image": "/data/canonical/w00_pre.png",
+        "post_image": "/data/canonical/w00_post.png",
+        "delta_image": "/data/canonical/w00_delta.png"
+      },
+      {
+        "id": "w20",
+        "rank": 6,
+        "name": "Corridor window w20",
+        "kind": "corridor",
+        "center_lonlat": [
+          85.15528,
+          27.9337759
+        ],
+        "event_mean": 0.02616550587117672,
+        "placebo_mean": 0.05267756059765816,
+        "placebo_p99": 0.08027097582817078,
+        "frac_above_local_placebo_p99": 0.00048828125,
+        "mean_ratio_event_to_placebo": 0.4967106580734253,
+        "s2_only_rank": 8,
+        "coordinates": [
+          [
+            85.1420390922498,
+            27.945448423587692
+          ],
+          [
+            85.16843880820302,
+            27.945448423587692
+          ],
+          [
+            85.16843880820302,
+            27.92200184210438
+          ],
+          [
+            85.1420390922498,
+            27.92200184210438
+          ]
+        ],
+        "pre_image": "/data/canonical/w20_pre.png",
+        "post_image": "/data/canonical/w20_post.png",
+        "delta_image": "/data/canonical/w20_delta.png"
+      }
+    ],
+    "max_exceedance": 0.004150390625,
+    "windows_with_any_exceedance": 9,
+    "comparison": {
+      "event": "baseline -> s1_live",
+      "ordinary": "placebo_b -> baseline",
+      "threshold": "per-window ordinary-transition token p99",
+      "ordinary_transition_count": 1
+    },
+    "input_contract": {
+      "sentinel1": "RTC VV/VH linear intensity -> Sentinel1ToDecibels -> OlmoEarthNormalize",
+      "sentinel2": "L2A 12-band -> OlmoEarthNormalize",
+      "temporal": "4 periods; baseline/live share the first three periods",
+      "spatial": "2.56 km windows; 64x64 spatial tokens; 768-d per token"
+    },
+    "claim": "contract-correct, matched-location candidate-change screening; not damage, cause, extent, probability, or calibrated anomaly",
+    "limitations": [
+      "Only one matched-location ordinary transition is available per window.",
+      "The local p99 is therefore a screening reference, not a population percentile.",
+      "No Nepal event polygon or field label was used to validate the ranking.",
+      "OLMoEarth embeddings fuse S1 and S2; this report does not attribute a score to one sensor."
+    ],
+    "report_sha256": "fd498bf9f4033afe95c9f0f9e2bdf5c3ffc3df1070e73b7f8df7225d8e23727e",
+    "geojson": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w23",
+            "rank": 1,
+            "name": "Devighat reach",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.1256703,
+              27.8787953
+            ],
+            "event_mean": 0.03358384221792221,
+            "placebo_mean": 0.04577558487653732,
+            "placebo_p99": 0.07507172971963882,
+            "exceedance": 0.004150390625
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.112874,
+                  27.867069
+                ],
+                [
+                  85.138865,
+                  27.867422
+                ],
+                [
+                  85.13847,
+                  27.89052
+                ],
+                [
+                  85.112473,
+                  27.890167
+                ],
+                [
+                  85.112874,
+                  27.867069
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w21",
+            "rank": 2,
+            "name": "Bidur / Trishuli reach",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.1433941,
+              27.9204357
+            ],
+            "event_mean": 0.028058944270014763,
+            "placebo_mean": 0.050547629594802856,
+            "placebo_p99": 0.07882505655288696,
+            "exceedance": 0.004150390625
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.130591,
+                  27.908711
+                ],
+                [
+                  85.156592,
+                  27.909061
+                ],
+                [
+                  85.1562,
+                  27.932159
+                ],
+                [
+                  85.130193,
+                  27.931809
+                ],
+                [
+                  85.130591,
+                  27.908711
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w22",
+            "rank": 3,
+            "name": "Bidur / Trishuli reach",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.1368283,
+              27.9001413
+            ],
+            "event_mean": 0.033589258790016174,
+            "placebo_mean": 0.05028284341096878,
+            "placebo_p99": 0.07896322757005692,
+            "exceedance": 0.00146484375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.124028,
+                  27.888416
+                ],
+                [
+                  85.150024,
+                  27.888767
+                ],
+                [
+                  85.149631,
+                  27.911866
+                ],
+                [
+                  85.12363,
+                  27.911514
+                ],
+                [
+                  85.124028,
+                  27.888416
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w18",
+            "rank": 4,
+            "name": "Corridor window w18",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.1840429,
+              27.972805
+            ],
+            "event_mean": 0.02645513415336609,
+            "placebo_mean": 0.05081726983189583,
+            "placebo_p99": 0.07724093645811081,
+            "exceedance": 0.001220703125
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.171229,
+                  27.961084
+                ],
+                [
+                  85.197244,
+                  27.961427
+                ],
+                [
+                  85.196859,
+                  27.984525
+                ],
+                [
+                  85.17084,
+                  27.984182
+                ],
+                [
+                  85.171229,
+                  27.961084
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w00",
+            "rank": 5,
+            "name": "Rasuwagadhi impact corridor",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.3769971,
+              28.2780537
+            ],
+            "event_mean": 0.023471210151910782,
+            "placebo_mean": 0.04176636412739754,
+            "placebo_p99": 0.0674295425415039,
+            "exceedance": 0.000732421875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.364127,
+                  28.266348
+                ],
+                [
+                  85.390218,
+                  28.266658
+                ],
+                [
+                  85.38987,
+                  28.289758
+                ],
+                [
+                  85.363774,
+                  28.289448
+                ],
+                [
+                  85.364127,
+                  28.266348
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w20",
+            "rank": 6,
+            "name": "Corridor window w20",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.15528,
+              27.9337759
+            ],
+            "event_mean": 0.02616550587117672,
+            "placebo_mean": 0.05267756059765816,
+            "placebo_p99": 0.08027097582817078,
+            "exceedance": 0.00048828125
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.142474,
+                  27.922052
+                ],
+                [
+                  85.168478,
+                  27.9224
+                ],
+                [
+                  85.168089,
+                  27.945499
+                ],
+                [
+                  85.142079,
+                  27.94515
+                ],
+                [
+                  85.142474,
+                  27.922052
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w19",
+            "rank": 7,
+            "name": "Corridor window w19",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.1625544,
+              27.9531683
+            ],
+            "event_mean": 0.023209793493151665,
+            "placebo_mean": 0.05181179568171501,
+            "placebo_p99": 0.07913576066493988,
+            "exceedance": 0.00048828125
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.149745,
+                  27.941445
+                ],
+                [
+                  85.175755,
+                  27.941792
+                ],
+                [
+                  85.175366,
+                  27.96489
+                ],
+                [
+                  85.149351,
+                  27.964543
+                ],
+                [
+                  85.149745,
+                  27.941445
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w07",
+            "rank": 8,
+            "name": "Corridor window w07",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.3203392,
+              28.1490208
+            ],
+            "event_mean": 0.02400054596364498,
+            "placebo_mean": 0.05072670429944992,
+            "placebo_p99": 0.07699522376060486,
+            "exceedance": 0.000244140625
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.30749,
+                  28.137311
+                ],
+                [
+                  85.333549,
+                  28.13763
+                ],
+                [
+                  85.333191,
+                  28.16073
+                ],
+                [
+                  85.307127,
+                  28.16041
+                ],
+                [
+                  85.30749,
+                  28.137311
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w01",
+            "rank": 9,
+            "name": "Corridor window w01",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.3655078,
+              28.2564967
+            ],
+            "event_mean": 0.023910336196422577,
+            "placebo_mean": 0.04611355811357498,
+            "placebo_p99": 0.07421493530273438,
+            "exceedance": 0.000244140625
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.352641,
+                  28.24479
+                ],
+                [
+                  85.378727,
+                  28.245102
+                ],
+                [
+                  85.378377,
+                  28.268202
+                ],
+                [
+                  85.352286,
+                  28.26789
+                ],
+                [
+                  85.352641,
+                  28.24479
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w24",
+            "rank": 10,
+            "name": "Lower Lhende upstream",
+            "kind": "lhende_upstream",
+            "center_lonlat": [
+              85.42513333333333,
+              28.276166666666665
+            ],
+            "event_mean": 0.05011487752199173,
+            "placebo_mean": 0.1119210422039032,
+            "placebo_p99": 0.20602059364318848,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.412258,
+                  28.264466
+                ],
+                [
+                  85.438349,
+                  28.264766
+                ],
+                [
+                  85.438012,
+                  28.287867
+                ],
+                [
+                  85.411915,
+                  28.287566
+                ],
+                [
+                  85.412258,
+                  28.264466
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w26",
+            "rank": 11,
+            "name": "Langtang Lirung source estimate",
+            "kind": "lhende_upstream",
+            "center_lonlat": [
+              85.5194,
+              28.2765
+            ],
+            "event_mean": 0.04278711974620819,
+            "placebo_mean": 0.09484609216451645,
+            "placebo_p99": 0.16815881431102753,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.506514,
+                  28.264807
+                ],
+                [
+                  85.532606,
+                  28.26509
+                ],
+                [
+                  85.532289,
+                  28.288191
+                ],
+                [
+                  85.506191,
+                  28.287908
+                ],
+                [
+                  85.506514,
+                  28.264807
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w25",
+            "rank": 12,
+            "name": "Middle Lhende upstream",
+            "kind": "lhende_upstream",
+            "center_lonlat": [
+              85.47226666666667,
+              28.276333333333334
+            ],
+            "event_mean": 0.04066423326730728,
+            "placebo_mean": 0.10076737403869629,
+            "placebo_p99": 0.16860437393188477,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.459386,
+                  28.264636
+                ],
+                [
+                  85.485477,
+                  28.264928
+                ],
+                [
+                  85.48515,
+                  28.288029
+                ],
+                [
+                  85.459053,
+                  28.287737
+                ],
+                [
+                  85.459386,
+                  28.264636
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w09",
+            "rank": 13,
+            "name": "Corridor window w09",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.2860518,
+              28.1179428
+            ],
+            "event_mean": 0.026784565299749374,
+            "placebo_mean": 0.051214203238487244,
+            "placebo_p99": 0.0812898725271225,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.27321,
+                  28.10623
+                ],
+                [
+                  85.299261,
+                  28.106555
+                ],
+                [
+                  85.298896,
+                  28.129655
+                ],
+                [
+                  85.27284,
+                  28.129329
+                ],
+                [
+                  85.27321,
+                  28.10623
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w14",
+            "rank": 14,
+            "name": "Corridor window w14",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.2021352,
+              28.0475998
+            ],
+            "event_mean": 0.025745389983057976,
+            "placebo_mean": 0.0546039417386055,
+            "placebo_p99": 0.07908862084150314,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.189311,
+                  28.03588
+                ],
+                [
+                  85.215344,
+                  28.03622
+                ],
+                [
+                  85.214962,
+                  28.059319
+                ],
+                [
+                  85.188924,
+                  28.058978
+                ],
+                [
+                  85.189311,
+                  28.03588
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w15",
+            "rank": 15,
+            "name": "Corridor window w15",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.1934198,
+              28.0309439
+            ],
+            "event_mean": 0.025605211034417152,
+            "placebo_mean": 0.05298168957233429,
+            "placebo_p99": 0.07786119729280472,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.180599,
+                  28.019223
+                ],
+                [
+                  85.206627,
+                  28.019565
+                ],
+                [
+                  85.206244,
+                  28.042664
+                ],
+                [
+                  85.18021,
+                  28.042321
+                ],
+                [
+                  85.180599,
+                  28.019223
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w03",
+            "rank": 16,
+            "name": "Corridor window w03",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.3552582,
+              28.216824
+            ],
+            "event_mean": 0.0252237431704998,
+            "placebo_mean": 0.05061960220336914,
+            "placebo_p99": 0.07415429502725601,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.342397,
+                  28.205117
+                ],
+                [
+                  85.368473,
+                  28.20543
+                ],
+                [
+                  85.368122,
+                  28.22853
+                ],
+                [
+                  85.342041,
+                  28.228216
+                ],
+                [
+                  85.342397,
+                  28.205117
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w02",
+            "rank": 17,
+            "name": "Corridor window w02",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.3580332,
+              28.2380123
+            ],
+            "event_mean": 0.025216637179255486,
+            "placebo_mean": 0.04946116730570793,
+            "placebo_p99": 0.07601612061262131,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.34517,
+                  28.226305
+                ],
+                [
+                  85.37125,
+                  28.226618
+                ],
+                [
+                  85.3709,
+                  28.249718
+                ],
+                [
+                  85.344813,
+                  28.249405
+                ],
+                [
+                  85.34517,
+                  28.226305
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w06",
+            "rank": 18,
+            "name": "Corridor window w06",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.3374022,
+              28.1597451
+            ],
+            "event_mean": 0.02510807104408741,
+            "placebo_mean": 0.05267981067299843,
+            "placebo_p99": 0.07813768088817596,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.32455,
+                  28.148037
+                ],
+                [
+                  85.350611,
+                  28.148353
+                ],
+                [
+                  85.350257,
+                  28.171453
+                ],
+                [
+                  85.32419,
+                  28.171136
+                ],
+                [
+                  85.32455,
+                  28.148037
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w12",
+            "rank": 19,
+            "name": "Corridor window w12",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.2216715,
+              28.0819033
+            ],
+            "event_mean": 0.02506839483976364,
+            "placebo_mean": 0.0539984405040741,
+            "placebo_p99": 0.08125434070825577,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.208841,
+                  28.070185
+                ],
+                [
+                  85.234882,
+                  28.070522
+                ],
+                [
+                  85.234505,
+                  28.093621
+                ],
+                [
+                  85.208458,
+                  28.093283
+                ],
+                [
+                  85.208841,
+                  28.070185
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w10",
+            "rank": 20,
+            "name": "Corridor window w10",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.2691876,
+              28.1033924
+            ],
+            "event_mean": 0.024610485881567,
+            "placebo_mean": 0.05406363308429718,
+            "placebo_p99": 0.08127828687429428,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.25635,
+                  28.091678
+                ],
+                [
+                  85.282396,
+                  28.092007
+                ],
+                [
+                  85.282028,
+                  28.115106
+                ],
+                [
+                  85.255976,
+                  28.114777
+                ],
+                [
+                  85.25635,
+                  28.091678
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w11",
+            "rank": 21,
+            "name": "Corridor window w11",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.2415118,
+              28.091752
+            ],
+            "event_mean": 0.024413980543613434,
+            "placebo_mean": 0.04964730143547058,
+            "placebo_p99": 0.07764947414398193,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.228678,
+                  28.080035
+                ],
+                [
+                  85.254722,
+                  28.080369
+                ],
+                [
+                  85.254348,
+                  28.103468
+                ],
+                [
+                  85.228299,
+                  28.103134
+                ],
+                [
+                  85.228678,
+                  28.080035
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w08",
+            "rank": 22,
+            "name": "Corridor window w08",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.3009424,
+              28.132384
+            ],
+            "event_mean": 0.024120159447193146,
+            "placebo_mean": 0.04854848235845566,
+            "placebo_p99": 0.07703752815723419,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.288097,
+                  28.120672
+                ],
+                [
+                  85.314152,
+                  28.120995
+                ],
+                [
+                  85.31379,
+                  28.144095
+                ],
+                [
+                  85.28773,
+                  28.143771
+                ],
+                [
+                  85.288097,
+                  28.120672
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w04",
+            "rank": 23,
+            "name": "Corridor window w04",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.351472,
+              28.1974739
+            ],
+            "event_mean": 0.02402927726507187,
+            "placebo_mean": 0.05243457108736038,
+            "placebo_p99": 0.0754091739654541,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.338614,
+                  28.185766
+                ],
+                [
+                  85.364685,
+                  28.18608
+                ],
+                [
+                  85.364333,
+                  28.20918
+                ],
+                [
+                  85.338256,
+                  28.208866
+                ],
+                [
+                  85.338614,
+                  28.185766
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w05",
+            "rank": 24,
+            "name": "Corridor window w05",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.3427577,
+              28.1785799
+            ],
+            "event_mean": 0.0233172457665205,
+            "placebo_mean": 0.05298003926873207,
+            "placebo_p99": 0.07797092199325562,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.329903,
+                  28.166872
+                ],
+                [
+                  85.355969,
+                  28.167187
+                ],
+                [
+                  85.355615,
+                  28.190287
+                ],
+                [
+                  85.329544,
+                  28.189971
+                ],
+                [
+                  85.329903,
+                  28.166872
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w16",
+            "rank": 25,
+            "name": "Corridor window w16",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.1841681,
+              28.0127153
+            ],
+            "event_mean": 0.022584956139326096,
+            "placebo_mean": 0.05265487730503082,
+            "placebo_p99": 0.07854025810956955,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.17135,
+                  28.000994
+                ],
+                [
+                  85.197374,
+                  28.001337
+                ],
+                [
+                  85.196989,
+                  28.024436
+                ],
+                [
+                  85.17096,
+                  28.024092
+                ],
+                [
+                  85.17135,
+                  28.000994
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w13",
+            "rank": 26,
+            "name": "Corridor window w13",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.2055355,
+              28.0689646
+            ],
+            "event_mean": 0.021198568865656853,
+            "placebo_mean": 0.05341384559869766,
+            "placebo_p99": 0.08271478116512299,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.192709,
+                  28.057245
+                ],
+                [
+                  85.218746,
+                  28.057585
+                ],
+                [
+                  85.218365,
+                  28.080683
+                ],
+                [
+                  85.192322,
+                  28.080343
+                ],
+                [
+                  85.192709,
+                  28.057245
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w17",
+            "rank": 27,
+            "name": "Corridor window w17",
+            "kind": "corridor",
+            "center_lonlat": [
+              85.1824445,
+              27.9933759
+            ],
+            "event_mean": 0.021149741485714912,
+            "placebo_mean": 0.051873620599508286,
+            "placebo_p99": 0.07675153017044067,
+            "exceedance": 0.0
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.169629,
+                  27.981654
+                ],
+                [
+                  85.195648,
+                  27.981998
+                ],
+                [
+                  85.195263,
+                  28.005096
+                ],
+                [
+                  85.169238,
+                  28.004752
+                ],
+                [
+                  85.169629,
+                  27.981654
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "visual_legend": "orange=relative OLMo delta intensity; yellow-white=event tokens above the same location's single ordinary-transition p99"
+  },
+  "input_contract_audit": {
+    "schema": "nepal-olmo-input-contract-audit/v1",
+    "audited_at": "2026-08-29T14:30:00Z",
+    "status": "corrected",
+    "defect": "Sentinel-1 RTC COGs contained linear intensity, while the previous model configuration applied OlmoEarthNormalize without Sentinel1ToDecibels.",
+    "official_contract": "Planetary Computer Sentinel-1 intensity must pass Sentinel1ToDecibels before OlmoEarthNormalize.",
+    "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md",
+    "superseded_results": [
+      "M70",
+      "M72",
+      "M72 token-level addendum",
+      "M74",
+      "M74 S1-only addendum"
+    ],
+    "preservation": "Old 27-window embedding rasters were moved to layers/embeddings_linear_s1 and old manifests/seals to superseded_linear_s1 on the compute host; they were not deleted.",
+    "corrected_recipe": "code/model_s1db.yaml",
+    "corrected_report": "artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1db/report.json",
+    "corrected_modes": [
+      "placebo_b",
+      "baseline",
+      "s1_live"
+    ],
+    "claim_boundary": "Only the corrected 27-window report may be used for current S1+S2 OLMoEarth claims. The five-anchor reports remain provenance records but are not valid evidence until rerun under the corrected contract."
+  },
   "corridor_contract": {
     "schema": "nepal-corridor-contract-progress/v1",
     "expected_windows": 27,
     "expected_layers_per_window": 8,
     "contract": "S1 RTC VV/VH + S2 L2A 12-band × 4 periods; same 2.56 km windows in baseline and s1_live",
-    "stage": "live_embedding",
-    "next_step": "Run the immutable OLMoEarth v1 embedding recipe for all 27 live windows.",
+    "stage": "screening_complete",
+    "next_step": "Acquire at least 20 matched ordinary transitions or an independent event polygon before calibrated detection claims.",
     "baseline": {
       "mode": "baseline",
       "complete_windows": 27,
@@ -6078,9 +7571,9 @@
       "completed_layers": 216,
       "total_layers": 216,
       "materialization_sealed": true,
-      "embedded_windows": 0,
-      "embedding_sealed": false,
-      "updated_at_utc": "2026-08-29T13:11:53.550676+00:00"
+      "embedded_windows": 27,
+      "embedding_sealed": true,
+      "updated_at_utc": "2026-08-29T14:17:04+00:00"
     },
     "s1_live": {
       "mode": "s1_live",
@@ -6090,79 +7583,34 @@
       "completed_layers": 216,
       "total_layers": 216,
       "materialization_sealed": true,
-      "embedded_windows": 0,
-      "embedding_sealed": false,
-      "updated_at_utc": "2026-08-29T13:11:52.830089+00:00"
+      "embedded_windows": 27,
+      "embedding_sealed": true,
+      "updated_at_utc": "2026-08-29T14:18:13+00:00"
     },
-    "claim_boundary": "Progress only. No corridor damage or reach claim exists until both modes are sealed and the matched delta is evaluated."
+    "placebo_b": {
+      "mode": "placebo_b",
+      "complete_windows": 27,
+      "partial_windows": [],
+      "missing_windows": [],
+      "completed_layers": 216,
+      "total_layers": 216,
+      "materialization_sealed": true,
+      "embedded_windows": 27,
+      "embedding_sealed": true,
+      "updated_at_utc": "2026-08-29T14:21:10+00:00"
+    },
+    "claim_boundary": "Screening only. No corridor damage, reach, calibrated anomaly, or probability claim exists without more ordinary transitions and independent labels."
   },
   "headline": {
-    "sealed_candidates": 0,
-    "sealed_total": 5,
-    "sealed_not_detected": [
-      "dhunche",
-      "rasuwagadhi",
-      "source_provisional",
-      "syabrubesi",
-      "timure"
-    ],
+    "sealed_candidates": null,
+    "sealed_total": null,
+    "sealed_not_detected": [],
     "corridor_ranked": 47,
     "corridor_top": [
       "Dalphedi, Gosaikunda",
       "Salê",
       "Bhainse, Bidur"
     ],
-    "live_mode": "s1_live",
-    "placebo_n": 10,
-    "matched": {
-      "n_pairs": 9,
-      "candidates": [
-        "rasuwagadhi"
-      ],
-      "ranks": {
-        "source_provisional": "4/10",
-        "rasuwagadhi": "1/10",
-        "timure": "4/10",
-        "syabrubesi": "4/10",
-        "dhunche": "9/10"
-      },
-      "token": {
-        "source_provisional": {
-          "event_frac": 0.000732421875,
-          "placebo_max": 0.057373046875,
-          "rank": 4,
-          "candidate": false
-        },
-        "rasuwagadhi": {
-          "event_frac": 0.09814453125,
-          "placebo_max": 0.026611328125,
-          "rank": 1,
-          "candidate": true
-        },
-        "timure": {
-          "event_frac": 0.0029296875,
-          "placebo_max": 0.0478515625,
-          "rank": 7,
-          "candidate": false
-        },
-        "syabrubesi": {
-          "event_frac": 0.005859375,
-          "placebo_max": 0.028076171875,
-          "rank": 6,
-          "candidate": false
-        },
-        "dhunche": {
-          "event_frac": 0.0,
-          "placebo_max": 0.054443359375,
-          "rank": 10,
-          "candidate": false
-        }
-      },
-      "token_candidates": [
-        "rasuwagadhi"
-      ],
-      "report_sha256": "37b3e9c0a86d1e6891ac58aa20fa601e7509e21364dcdc51f53851abec1153c9"
-    },
     "corridor_windows": 100
   },
   "ai_vs_classical": {

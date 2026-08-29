@@ -44,6 +44,11 @@ MANIFESTS = {
     for mode in PREFLIGHTS
 }
 DELTA_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta"
+CORRIDOR_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/materialized_corridor"
+CORRECTED_CORRIDOR_REPORT = (
+    WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1db/report.json"
+)
+S1_DB_AUDIT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/contract_audit_s1_db.json"
 # 2026-08-29 연장: 뉴스 실측(72km 구간, Trishuli Bazar 60채·Devighat 피해)에 따라
 # Bidur/Devighat 하류까지 OSM way 체인을 이어붙임 (endpoint 연속성 Overpass로 확인함).
 ROUTE_WAY_IDS = [201928141, 809865767, 24624604, 928822514, 119684552,
@@ -141,8 +146,8 @@ POINTS = [
         "source": "USGS public event map; OSM river reach",
         "source_url": "https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map",
         "evidence_level": "downstream_inspection_anchor",
-        "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is strong observation evidence, not yet a damage label or part of the sealed five-anchor OLMo contract.",
-        "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만, 아직 피해 라벨도 봉인된 OLMo 5-anchor 계약의 일부도 아니다.",
+        "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is observation evidence, not a damage label. Bidur is now included in the separate contract-correct 27-window OLMo screen.",
+        "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만 피해 라벨은 아니다. Bidur는 별도의 계약교정 OLMo 27창 스크린에는 포함됐다.",
     },
     {
         "id": "G",
@@ -306,6 +311,30 @@ def render_s1(source: Path, destination: Path) -> dict[str, Any]:
         stats = {"shape": [dataset.count, dataset.height, dataset.width], "crs": str(dataset.crs)}
     Image.fromarray(image).save(destination, optimize=True)
     return {"coordinates": coordinates, "stats": stats}
+
+
+def render_delta(delta: np.ndarray, threshold: float, destination: Path) -> None:
+    """Render relative embedding change and mark only threshold exceedances as bright.
+
+    Orange below the threshold is within-window relative intensity. Yellow-white
+    pixels are the only tokens above the matched-location ordinary-transition p99.
+    This is intentionally not rendered as a damage mask.
+    """
+    finite = delta[np.isfinite(delta)]
+    if finite.size == 0:
+        rgba = np.zeros((*delta.shape, 4), dtype=np.uint8)
+    else:
+        lo, hi = np.quantile(finite, [0.50, 0.995])
+        hi = max(float(hi), float(lo) + 1e-8)
+        scaled = np.clip((delta - lo) / (hi - lo), 0, 1)
+        rgba = np.zeros((*delta.shape, 4), dtype=np.uint8)
+        rgba[..., 0] = np.round(122 + 133 * scaled).astype(np.uint8)
+        rgba[..., 1] = np.round(38 + 105 * scaled).astype(np.uint8)
+        rgba[..., 2] = np.round(10 + 25 * scaled).astype(np.uint8)
+        rgba[..., 3] = np.round(25 + 205 * scaled).astype(np.uint8)
+        exceed = delta > threshold
+        rgba[exceed] = np.array([255, 240, 170, 255], dtype=np.uint8)
+    Image.fromarray(rgba).resize((256, 256), Image.Resampling.NEAREST).save(destination, optimize=True)
 
 
 def fetch_hydrography(destination: Path) -> dict[str, Any]:
@@ -606,8 +635,9 @@ def build_ops_log() -> list[dict[str, Any]]:
         if len(emb) >= 5:
             t = datetime.fromtimestamp(max(e.stat().st_mtime for e in emb), UTC)
             add(t.isoformat(timespec="seconds").replace("+00:00", "Z"),
-                "OLMoEarth v1", "EMBEDDED", "green",
-                f"{name}: 5 anchors × 768-d cube",
+                "OLMoEarth v1", "EMBED_SUPERSEDED" if S1_DB_AUDIT.exists() else "EMBEDDED",
+                "orange" if S1_DB_AUDIT.exists() else "green",
+                f"{name}: 5 anchors × 768-d cube" + (" — excluded; missing S1 dB transform" if S1_DB_AUDIT.exists() else ""),
                 str(mode_dir.relative_to(WORK_ROOT)), "filesystem_mtime")
 
     # AOI 관측성 (밝기 휴리스틱 — SCL 없음을 명시)
@@ -627,9 +657,17 @@ def build_ops_log() -> list[dict[str, Any]]:
     if DELTA_ROOT.exists():
         for rp in sorted(DELTA_ROOT.glob("*/nepal_delta_report.json")):
             d = json.loads(rp.read_text())
-            add(d.get("created_at_utc"), "OLMoEarth Δz", "DELTA_REPORT", "green",
-                f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}",
+            add(d.get("created_at_utc"), "OLMoEarth Δz", "DELTA_SUPERSEDED" if S1_DB_AUDIT.exists() else "DELTA_REPORT",
+                "orange" if S1_DB_AUDIT.exists() else "green",
+                f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}" + (" — excluded; missing S1 dB transform" if S1_DB_AUDIT.exists() else ""),
                 str(rp.relative_to(WORK_ROOT)))
+    if CORRECTED_CORRIDOR_REPORT.exists():
+        corrected = json.loads(CORRECTED_CORRIDOR_REPORT.read_text())
+        top = corrected.get("windows", [{}])[0]
+        add(datetime.fromtimestamp(CORRECTED_CORRIDOR_REPORT.stat().st_mtime, UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
+            "OLMoEarth v1", "S1DB_SCREENING", "green",
+            f"27/27 dB-corrected windows; max local-p99 exceedance {100*top.get('frac_above_local_placebo_p99', 0):.2f}% ({top.get('id', '—')})",
+            str(CORRECTED_CORRIDOR_REPORT.relative_to(WORK_ROOT)), "filesystem_mtime")
 
     for update in INCIDENT_UPDATES:
         add(update["occurred_at_utc"], update["source"], update["status"].upper(),
@@ -644,6 +682,14 @@ def build_decision(live_observation: dict[str, Any] | None,
                    olmoearth: dict[str, Any]) -> dict[str, str]:
     """현재 허용되는 다음 action을 UI가 한 문장으로 답하게 한다."""
     ped = olmoearth.get("post_event_delta")
+    if isinstance(ped, dict) and ped.get("status") == "superseded_missing_sentinel1_db_transform":
+        return {
+            "status": "hold",
+            "action": "RERUN FIVE-ANCHOR CONTRACT",
+            "reason": "The five-anchor pixels are sealed, but their previous embeddings omitted the required Sentinel-1 linear-intensity to dB transform. Those claims are excluded.",
+            "next_gate": "Rerun baseline, live and all matched five-anchor placebo periods with model_s1db.yaml.",
+            "allowed_claim": "The corrected 27-window corridor screening is active; the legacy five-anchor delta is not evidence.",
+        }
     # placebo 전용 리포트(live_mode=None)를 "post-event delta 있음"으로 승격하면 안 됨 —
     # 2026-08-28 실측: 그 오독으로 카드가 REVIEW CANDIDATE EVIDENCE 를 잘못 표시했음.
     matched_tok = []
@@ -729,6 +775,7 @@ def build_decision(live_observation: dict[str, Any] | None,
 
 def olmoearth_block() -> dict[str, Any]:
     """임베딩·Δz 산출물이 실재하면 실측값으로, 없으면 정직한 대기 문구로 채움."""
+    contract_audit = json.loads(S1_DB_AUDIT.read_text()) if S1_DB_AUDIT.exists() else None
     embedded_modes = []
     for mode_dir in sorted(MATERIALIZED_ROOT.iterdir()) if MATERIALIZED_ROOT.exists() else []:
         if not mode_dir.is_dir() or mode_dir.name.startswith("baseline_failed"):
@@ -744,7 +791,7 @@ def olmoearth_block() -> dict[str, Any]:
     live_delta_executed = bool(latest_delta and latest_delta.get("live_mode"))
     block: dict[str, Any] = {
         "model": "OLMoEarth Base v1 (768-d)",
-        "input_contract": "S1 RTC VV/VH + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
+        "input_contract": "S1 RTC VV/VH linear intensity→dB + S2 L2A 12-band, 10 m, 4 periods, 2.56 km windows",
         "anchors": 5,
         "rasuwagadhi_baseline": "materialized_and_sealed",
         "embedding_status": (
@@ -754,7 +801,15 @@ def olmoearth_block() -> dict[str, Any]:
         ),
         "anchor_geojson": "/data/olmo-input-anchors.geojson",
     }
-    if latest_delta:
+    if contract_audit:
+        block["post_event_delta"] = {
+            "status": "superseded_missing_sentinel1_db_transform",
+            "claim_boundary": contract_audit["claim_boundary"],
+            "official_contract": contract_audit["official_contract"],
+            "official_source": contract_audit["official_source"],
+        }
+        block["contract_audit"] = contract_audit
+    elif latest_delta:
         ras = latest_delta.get("anchors", {}).get(DISPLAY_ANCHOR, {})
         verdict = ras.get("verdict", {})
         block["post_event_delta"] = {
@@ -823,6 +878,7 @@ def research_block() -> dict[str, Any]:
             embedding_shape = [first.get("bands"), first.get("height"), first.get("width")]
     post_event_ledger = _post_event_delta_ledger()
     post_event_executed = post_event_ledger["state"] == "EXECUTED"
+    contract_superseded = S1_DB_AUDIT.exists()
     latest_delta_paths = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
     latest_delta = json.loads(latest_delta_paths[-1].read_text()) if latest_delta_paths else {}
     latest_placebo_count = len(latest_delta.get("placebo_modes_available", []))
@@ -839,11 +895,15 @@ def research_block() -> dict[str, Any]:
             "and Skylight-style observation awareness; not an official Ai2 disaster product."
         ),
         "nepal_embedding": {
-            "status": ("post_event_delta_executed" if post_event_executed
+            "status": ("five_anchor_superseded_missing_s1_db_transform" if contract_superseded
+                       else "post_event_delta_executed" if post_event_executed
                        else "blocked_until_full_post_event_s1_plus_s2_cube_is_sealed"),
             "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
-            "placebo_count": latest_placebo_count if post_event_executed else 2,
+            "placebo_count": latest_placebo_count or 2,
             "claim": (
+                "The previous five-anchor S1+S2 delta is superseded: Sentinel-1 linear intensity was not converted to dB. "
+                "Use the corrected 27-window screening result; rerun all five-anchor placebo periods before restoring that claim."
+                if contract_superseded else
                 "Sealed Nepal Δz executed: anchor-mean change was not detected above pre-event variability; "
                 f"matched token test flags {', '.join(matched_token_candidates) or 'no anchor'}. "
                 "This is a review candidate, not damage extent or probability."
@@ -854,12 +914,16 @@ def research_block() -> dict[str, Any]:
         "ai_run_ledger": [
             {
                 "id": "nepal_pre_event_representation",
-                "state": "EXECUTED",
+                "state": "SUPERSEDED" if contract_superseded else "EXECUTED",
                 "model": "OlmoEarth v1 Base (frozen)",
                 "input": "5 Nepal anchors × S1+S2 × 4 periods, across baseline and two pre-event placebo cubes",
-                "output": f"{sealed_embedding_rasters} sealed embedding rasters; shape {embedding_shape or ['—', '—', '—']}",
-                "allows": "pre-event reference, retrieval query and a future post-event delta",
-                "forbids": "damage, flood depth, runout or anomaly claims",
+                "output": (f"{sealed_embedding_rasters} preserved legacy rasters; excluded because Sentinel-1 dB conversion was missing"
+                           if contract_superseded else
+                           f"{sealed_embedding_rasters} sealed embedding rasters; shape {embedding_shape or ['—', '—', '—']}"),
+                "allows": ("input-contract audit only" if contract_superseded else
+                           "pre-event reference, retrieval query and a future post-event delta"),
+                "forbids": ("all representation-change claims until rerun" if contract_superseded else
+                            "damage, flood depth, runout or anomaly claims"),
                 "artifact_sha256": embedding_manifest_hashes,
             },
             {
@@ -1024,13 +1088,94 @@ def candidates_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp), "geojson": {"type": "FeatureCollection", "features": feats}}
 
 
+def corrected_corridor_block() -> dict[str, Any] | None:
+    """Expose only the Sentinel-1 dB-corrected, same-location-placebo result.
+
+    The earlier five-anchor and corridor S1+S2 reports are deliberately not
+    folded into this block: they were produced without Sentinel1ToDecibels.
+    """
+    if not CORRECTED_CORRIDOR_REPORT.exists():
+        return None
+    report = json.loads(CORRECTED_CORRIDOR_REPORT.read_text())
+    if report.get("schema") != "corridor-sealed-delta-s1db-v1":
+        return None
+
+    assets_dir = PUBLIC_DATA / "canonical"
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    band_path = "B01_B02_B03_B04_B05_B06_B07_B08_B8A_B09_B11_B12/geotiff.tif"
+    rows = report.get("windows", [])
+    features: list[dict[str, Any]] = []
+
+    from rasterio.warp import transform as _transform
+    for row in rows:
+        x0, y0, x1, y1 = row["bounds_utm"]
+        xs, ys = _transform("EPSG:32645", "EPSG:4326",
+                            [x0, x1, x1, x0, x0], [y0, y0, y1, y1, y0])
+        ring = [[round(x, 6), round(y, 6)] for x, y in zip(xs, ys)]
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "id": row["id"], "rank": row["rank"], "name": row["name"],
+                "kind": row.get("kind", "corridor"),
+                "center_lonlat": row["center_lonlat"],
+                "event_mean": row["event_mean"], "placebo_mean": row["placebo_mean"],
+                "placebo_p99": row["placebo_p99"],
+                "exceedance": row["frac_above_local_placebo_p99"],
+            },
+            "geometry": {"type": "Polygon", "coordinates": [ring]},
+        })
+
+    # Six ranked windows are enough for visual inspection without pretending
+    # that a tiny score difference creates six confirmed hazard sites.
+    top = []
+    for row in rows[:6]:
+        window_id = row["id"]
+        pre_root = CORRIDOR_ROOT / "baseline/dataset/windows/nepal" / window_id / "layers/sentinel2_l2a.3" / band_path
+        post_root = CORRIDOR_ROOT / "s1_live/dataset/windows/nepal" / window_id / "layers/sentinel2_l2a.3" / band_path
+        delta_path = CORRECTED_CORRIDOR_REPORT.parent / "deltas" / f"{window_id}_sealed_delta.npy"
+        if not pre_root.exists() or not post_root.exists() or not delta_path.exists():
+            continue
+        pre_name, post_name, delta_name = f"{window_id}_pre.png", f"{window_id}_post.png", f"{window_id}_delta.png"
+        rendered = render_s2(pre_root, assets_dir / pre_name)
+        render_s2(post_root, assets_dir / post_name)
+        render_delta(np.load(delta_path), float(row["placebo_p99"]), assets_dir / delta_name)
+        top.append({
+            **{key: row.get(key) for key in (
+                "id", "rank", "name", "kind", "center_lonlat", "event_mean",
+                "placebo_mean", "placebo_p99", "frac_above_local_placebo_p99",
+                "mean_ratio_event_to_placebo", "s2_only_rank",
+            )},
+            "coordinates": rendered["coordinates"],
+            "pre_image": f"/data/canonical/{pre_name}",
+            "post_image": f"/data/canonical/{post_name}",
+            "delta_image": f"/data/canonical/{delta_name}",
+        })
+
+    return {
+        "schema": report["schema"],
+        "model": report["model"],
+        "status": "SCREENING_COMPLETE_NO_CALIBRATED_DETECTION",
+        "windows": report["n_windows"],
+        "top": top,
+        "max_exceedance": max((row["frac_above_local_placebo_p99"] for row in rows), default=0),
+        "windows_with_any_exceedance": sum(row["frac_above_local_placebo_p99"] > 0 for row in rows),
+        "comparison": report["comparison"],
+        "input_contract": report["input_contract"],
+        "claim": report["claim"],
+        "limitations": report["limitations"],
+        "report_sha256": sha256(CORRECTED_CORRIDOR_REPORT),
+        "geojson": {"type": "FeatureCollection", "features": features},
+        "visual_legend": "orange=relative OLMo delta intensity; yellow-white=event tokens above the same location's single ordinary-transition p99",
+    }
+
+
 def corridor_contract_block() -> dict[str, Any]:
     """27창 S1+S2 봉인 실험의 단계별 진척을 파일 실물에서 계산한다.
 
     M71의 100창 S2-only 후보 스캔과 혼동하지 않도록 별도 블록으로 노출한다.
     한 창의 canonical 입력은 S1 4기간 + S2 4기간 = completed marker 8개다.
     """
-    root = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/materialized_corridor"
+    root = CORRIDOR_ROOT
     expected_windows = 27
     expected_layers = 8
 
@@ -1070,9 +1215,15 @@ def corridor_contract_block() -> dict[str, Any]:
 
     baseline = mode_status("baseline")
     live = mode_status("s1_live")
-    if live["embedding_sealed"] and live["embedded_windows"] >= expected_windows:
-        stage = "complete"
-        next_step = "Compare sealed baseline/live token deltas against matched placebo windows."
+    placebo = mode_status("placebo_b")
+    corrected = corrected_corridor_block()
+    if corrected:
+        stage = "screening_complete"
+        next_step = "Acquire at least 20 matched ordinary transitions or an independent event polygon before calibrated detection claims."
+    elif (live["embedding_sealed"] and live["embedded_windows"] >= expected_windows
+          and placebo["embedding_sealed"] and placebo["embedded_windows"] >= expected_windows):
+        stage = "ready_for_matched_screening"
+        next_step = "Compare baseline/live against the same-location placebo_b transition."
     elif live["materialization_sealed"]:
         stage = "live_embedding"
         next_step = "Run the immutable OLMoEarth v1 embedding recipe for all 27 live windows."
@@ -1094,12 +1245,21 @@ def corridor_contract_block() -> dict[str, Any]:
         "next_step": next_step,
         "baseline": baseline,
         "s1_live": live,
-        "claim_boundary": "Progress only. No corridor damage or reach claim exists until both modes are sealed and the matched delta is evaluated.",
+        "placebo_b": placebo,
+        "claim_boundary": "Screening only. No corridor damage, reach, calibrated anomaly, or probability claim exists without more ordinary transitions and independent labels.",
     }
 
 
 def _post_event_delta_ledger() -> dict[str, Any]:
     """live_mode가 있는 최신 delta report가 있으면 EXECUTED, 없으면 WAITING_INPUT (실물 기준)."""
+    if S1_DB_AUDIT.exists():
+        audit = json.loads(S1_DB_AUDIT.read_text())
+        return {"id": "nepal_post_event_delta", "state": "SUPERSEDED", "model": "OlmoEarth v1 Base (frozen)",
+                "input": "five-anchor S1+S2 report produced without Sentinel1ToDecibels",
+                "output": "preserved for provenance; excluded from active evidence",
+                "allows": "input-contract audit and reproducibility diagnosis only",
+                "forbids": "candidate, anomaly, damage, cause, or extent claims",
+                "artifact_sha256": sha256(S1_DB_AUDIT), "official_source": audit["official_source"]}
     latest = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
     rep = json.loads(latest[-1].read_text()) if latest else {}
     if not rep.get("live_mode"):
@@ -1162,7 +1322,7 @@ def nearest_windows_for_points(points: list[dict[str, Any]]) -> list[dict[str, A
 def headline_block() -> dict[str, Any]:
     """한눈에 읽히는 요약: 봉인 판정 앵커 수 + 회랑 후보 상위 지명. 값이 없으면 정직하게 None."""
     out: dict[str, Any] = {"sealed_candidates": None, "sealed_total": None, "sealed_not_detected": [], "corridor_ranked": None, "corridor_top": []}
-    latest = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
+    latest = [] if S1_DB_AUDIT.exists() else sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
     if latest:
         rep = json.loads(latest[-1].read_text())
         if rep.get("live_mode"):
@@ -1181,7 +1341,7 @@ def headline_block() -> dict[str, Any]:
             out["sealed_candidates"] = sum(1 for s in labels.values() if "candidate" in s)
             out["sealed_not_detected"] = [a for a, s in labels.items() if "candidate" not in s]
             out["live_mode"] = rep.get("live_mode"); out["placebo_n"] = len(rep.get("placebo_modes_available", []))
-    matched = sorted((WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta_matched").glob("*/nepal_delta_matched_report.json"))
+    matched = [] if S1_DB_AUDIT.exists() else sorted((WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta_matched").glob("*/nepal_delta_matched_report.json"))
     if matched:
         mj = json.loads(matched[-1].read_text())
         ma = mj.get("anchors", {})
@@ -1309,11 +1469,17 @@ def build(refresh_osm: bool) -> None:
 
     live_observation, scheduled_scenes, live_provenance = load_live_observation()
     olmoearth = olmoearth_block()
+    corrected_corridor = corrected_corridor_block()
     post_event_delta = olmoearth.get("post_event_delta")
-    if isinstance(post_event_delta, dict) and post_event_delta.get("live_mode"):
+    if corrected_corridor:
         evidence_status = (
-            "Post-event S1+S2 cube sealed and OLMoEarth Δz executed. The five-anchor mean did not "
-            "separate from pre-event variability; a matched token-level review candidate remains at Rasuwagadhi."
+            "The contract-correct 27-window OLMoEarth screening is complete. Event change is below the "
+            "single matched-location ordinary transition in almost every token; the result prioritizes review "
+            "but does not establish damage or a calibrated anomaly."
+        )
+    elif isinstance(post_event_delta, dict) and post_event_delta.get("live_mode"):
+        evidence_status = (
+            "A legacy post-event S1+S2 delta exists but is excluded when the Sentinel-1 contract audit is active."
         )
     elif live_observation and live_observation["catalog_status"] == "published":
         evidence_status = (
@@ -1346,6 +1512,8 @@ def build(refresh_osm: bool) -> None:
         "ops_log": build_ops_log(),
         "research": research_block(),
         "candidates": candidates_block(),
+        "corridor_sealed": corrected_corridor,
+        "input_contract_audit": (json.loads(S1_DB_AUDIT.read_text()) if S1_DB_AUDIT.exists() else None),
         "corridor_contract": corridor_contract_block(),
         "headline": headline_block(),
         "ai_vs_classical": ai_vs_classical_block(),

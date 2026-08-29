@@ -9,6 +9,9 @@ MODE="${1:-baseline}"
 RUN_ROOT="$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1/${MATERIALIZED_DIR:-materialized}/$MODE"
 DATASET_PATH="$RUN_ROOT/dataset"
 MODEL_CONFIG="${MODEL_CONFIG:-$REPO_DIR/code/model.yaml}"
+EMBEDDING_LAYER="${EMBEDDING_LAYER:-embeddings}"
+EMBEDDING_MANIFEST="${EMBEDDING_MANIFEST:-embedding_manifest.json}"
+EMBEDDING_SEAL="${EMBEDDING_SEAL:-EMBEDDING_SHA256SUMS}"
 RSLEARN_BIN="${RSLEARN_BIN:-$WORKSPACE_DIR/.venv/bin/rslearn}"
 PYTHON_BIN="${PYTHON_BIN:-$WORKSPACE_DIR/.venv/bin/python}"
 
@@ -41,13 +44,16 @@ mkdir -p "$SNAPSHOT"
 cp "$MODEL_CONFIG" "$SNAPSHOT/model.yaml"
 cp "$DATASET_PATH/config.json" "$SNAPSHOT/dataset_config.json"
 cp "$SCRIPT_DIR/run_nepal_olmo_embeddings.sh" "$SNAPSHOT/runner.sh"
-shasum -a 256 "$SNAPSHOT/model.yaml" "$SNAPSHOT/dataset_config.json" "$SNAPSHOT/runner.sh" > "$SNAPSHOT/SHA256SUMS"
+cp "$SCRIPT_DIR/seal_nepal_olmo_embeddings.py" "$SNAPSHOT/sealer.py"
+shasum -a 256 "$SNAPSHOT/model.yaml" "$SNAPSHOT/dataset_config.json" "$SNAPSHOT/runner.sh" "$SNAPSHOT/sealer.py" > "$SNAPSHOT/SHA256SUMS"
 
 export DATASET_PATH
-export CUDA_VISIBLE_DEVICES="${OLMO_GPU:-0}"
+# 이 저장소의 confirmatory/sidecar 계약은 GPU1만 사용한다. 명시적 override는 긴급 복구용이다.
+export CUDA_VISIBLE_DEVICES="${OLMO_GPU:-1}"
 "$RSLEARN_BIN" model predict --config "$MODEL_CONFIG" \
   --data.init_args.num_workers="${OLMO_WORKERS:-2}" \
   --data.init_args.batch_size="${OLMO_BATCH_SIZE:-4}"
 
 "$PYTHON_BIN" "$SCRIPT_DIR/seal_nepal_olmo_embeddings.py" \
-  --dataset "$DATASET_PATH" --mode "$MODE" --code-snapshot "$SNAPSHOT"
+  --dataset "$DATASET_PATH" --mode "$MODE" --code-snapshot "$SNAPSHOT" \
+  --embedding-layer "$EMBEDDING_LAYER" --manifest-name "$EMBEDDING_MANIFEST" --seal-name "$EMBEDDING_SEAL"

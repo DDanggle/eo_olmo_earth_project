@@ -62,7 +62,7 @@ type TransferRow = { region: string; auroc: number; placebo_auroc: number; patch
 type SusceptibilityRow = { region: string; olmo_auroc: number; raw_auroc: number; verdict: string };
 type AiRunRecord = {
   id: string;
-  state: 'EXECUTED' | 'MEASURED' | 'MEASURED_PILOT' | 'NEGATIVE_RESULT' | 'WAITING_INPUT' | 'NOT_RUN';
+  state: 'EXECUTED' | 'MEASURED' | 'MEASURED_PILOT' | 'NEGATIVE_RESULT' | 'WAITING_INPUT' | 'NOT_RUN' | 'SUPERSEDED';
   model: string;
   input: string;
   output: string;
@@ -135,8 +135,19 @@ type Scenario = {
     expected_windows: number; expected_layers_per_window: number; contract: string; stage: string; next_step: string;
     baseline: { complete_windows: number; partial_windows: string[]; missing_windows: string[]; completed_layers: number; total_layers: number; materialization_sealed: boolean; embedded_windows: number; embedding_sealed: boolean; updated_at_utc: string | null };
     s1_live: { complete_windows: number; partial_windows: string[]; missing_windows: string[]; completed_layers: number; total_layers: number; materialization_sealed: boolean; embedded_windows: number; embedding_sealed: boolean; updated_at_utc: string | null };
+    placebo_b?: { complete_windows: number; partial_windows: string[]; missing_windows: string[]; completed_layers: number; total_layers: number; materialization_sealed: boolean; embedded_windows: number; embedding_sealed: boolean; updated_at_utc: string | null };
     claim_boundary: string;
   };
+  input_contract_audit?: { status: string; defect: string; official_contract: string; official_source: string; superseded_results: string[]; claim_boundary: string } | null;
+  corridor_sealed?: {
+    schema: string; model: string; status: string; windows: number; max_exceedance: number; windows_with_any_exceedance: number;
+    comparison: { event: string; ordinary: string; threshold: string; ordinary_transition_count: number };
+    input_contract: Record<string, string>; claim: string; limitations: string[]; report_sha256: string; visual_legend: string;
+    top: { id: string; rank: number; name: string; kind: string; center_lonlat: [number, number]; coordinates: [number, number][];
+      event_mean: number; placebo_mean: number; placebo_p99: number; frac_above_local_placebo_p99: number;
+      mean_ratio_event_to_placebo: number; s2_only_rank?: number | null; pre_image: string; post_image: string; delta_image: string }[];
+    geojson: FeatureCollection;
+  } | null;
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
   ai_vs_classical?: { rows: { region: string; patches: number; classical_best: number; ai: number | null; gain: number | null }[]; regions: number; ahead: number; wins_at_005: number; pre_registered_margin: number; corridor?: { spearman: number; top10_overlap: number; reported_hits: { ai: number; classical: number } } | null } | null;
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
@@ -343,6 +354,8 @@ export default function Home() {
   const visibleLogRef = useRef(0);
   const [flowSpeed, setFlowSpeed] = useState(0.034);
   const [candidateScope, setCandidateScope] = useState<'all' | 'river' | 'hillslope'>('all');
+  const [satTiles, setSatTiles] = useState(false);
+  const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const [leftOpen, setLeftOpen] = useState(true);
   const [rightOpen, setRightOpen] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
@@ -665,12 +678,38 @@ export default function Home() {
     const map = mapRef.current;
     if (!mapReady || !map || !map.isStyleLoaded()) return;
     fetch('/data/olmo-input-anchors.geojson').then((r) => r.json() as Promise<FeatureCollection>).then((anchors) => {
-      if (map.getSource('olmo-anchors')) return;
-      // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도 (2026-08-29 실측: 강·점·장면이 영영 안 붙던 원인)
+      // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도
       if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
       const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
-      map.addSource('olmo-anchors', { type: 'geojson', data: anchors });
-      map.addLayer({ id: 'olmo-anchor-fill', type: 'fill', source: 'olmo-anchors', paint: { 'fill-color': '#5fffd7', 'fill-opacity': 0.045 } }, before);
+      // 2026-08-30 결함 수정: 예전엔 olmo-anchors 가 이미 있으면 여기서 return 해서, scenario 가 늦게 도착한
+      // 뒤의 재실행에서 후보 사각형·청록 점·검색 윤곽이 영영 추가되지 않았음 (사용자 "청록색이 안 보여").
+      if (!map.getSource('olmo-anchors')) {
+        map.addSource('olmo-anchors', { type: 'geojson', data: anchors });
+        map.addLayer({ id: 'olmo-anchor-fill', type: 'fill', source: 'olmo-anchors', paint: { 'fill-color': '#5fffd7', 'fill-opacity': 0.045 } }, before);
+      }
+      // Contract-correct canonical OLMo result: vivid orange and O-ranks.
+      // This is separate from the amber S2-only discovery scan below.
+      if (scenario?.corridor_sealed?.geojson && !map.getSource('olmo-canonical')) {
+        map.addSource('olmo-canonical', { type: 'geojson', data: scenario.corridor_sealed.geojson });
+        map.addLayer({ id: 'olmo-canonical-fill', type: 'fill', source: 'olmo-canonical',
+          paint: { 'fill-color': '#ff6a21', 'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'exceedance'], 0], 0, 0.02, 0.001, 0.15, 0.0042, 0.48] } }, before);
+        map.addLayer({ id: 'olmo-canonical-line', type: 'line', source: 'olmo-canonical',
+          paint: { 'line-color': '#ff5a1f', 'line-width': ['case', ['<=', ['get', 'rank'], 6], 3.2, 1.1], 'line-opacity': ['case', ['<=', ['get', 'rank'], 6], 0.98, 0.38] } }, before);
+        try { map.addLayer({ id: 'olmo-canonical-rank', type: 'symbol', source: 'olmo-canonical', filter: ['<=', ['get', 'rank'], 6],
+          layout: { 'text-field': ['concat', 'O', ['to-string', ['get', 'rank']]], 'text-size': 15,
+                    'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true },
+          paint: { 'text-color': '#ff5a1f', 'text-halo-color': '#fffaf3', 'text-halo-width': 2.5 } }); }
+        catch (e) { console.warn('[diag] canonical OLMo labels skipped', e); }
+        map.on('click', 'olmo-canonical-fill', (e) => {
+          const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
+          const id = String(pr.id); const row = scenario.corridor_sealed?.top.find((item) => item.id === id);
+          if (row) {
+            openLightbox({ title: `O${row.rank} · ${row.name}`, sub: `${(100 * row.frac_above_local_placebo_p99).toFixed(2)}% tokens above this location's single ordinary-transition p99 · screening, not damage`, before: row.pre_image, after: row.post_image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: row.delta_image, label: 'OLMo Δ intensity; yellow-white = above local placebo p99' }] });
+          }
+        });
+        map.on('mouseenter', 'olmo-canonical-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
+        map.on('mouseleave', 'olmo-canonical-fill', () => { map.getCanvas().style.cursor = ''; });
+      }
       // AI 후보 창 (S2-only, 미봉인) — 후보 토큰 비율로 채움 농도.
       if (scenario?.candidates?.geojson && !map.getSource('ai-candidates')) {
         map.addSource('ai-candidates', { type: 'geojson', data: scenario.candidates.geojson });
@@ -679,13 +718,13 @@ export default function Home() {
         map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers',
           paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 3.5, 12, 6, 15, 9], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 2, 'circle-opacity': 1 } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
-          paint: { 'fill-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#eb6834'],
+          paint: { 'fill-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'],
                    'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.02, 0.05, 0.18, 0.2, 0.42, 0.5, 0.6] } }, before);
         try { map.addLayer({ id: 'ai-candidate-rank', type: 'symbol', source: 'ai-candidates',
           filter: ['has', 'rank'],
           layout: { 'text-field': ['concat', '#', ['to-string', ['get', 'rank']]], 'text-size': ['case', ['<=', ['get', 'rank'], 6], 15, 11],
                     'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true, 'text-anchor': 'center' },
-          paint: { 'text-color': ['case', ['<=', ['get', 'rank'], 6], '#eb6834', '#7a4a2e'], 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
+          paint: { 'text-color': ['case', ['<=', ['get', 'rank'], 6], '#b77708', '#7a4a2e'], 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
         catch (e) { console.warn('[diag] candidate rank labels skipped', e); }
         const simIds = (scenario?.candidates?.retrieval?.top10 ?? []).map((r) => r.id);
         if (simIds.length) {
@@ -695,7 +734,7 @@ export default function Home() {
         map.on('click', 'ai-candidate-fill', (e) => {
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id); const rank = pr.rank ? `#${pr.rank}` : 'not judged (cloud/snow)';
-          if (satTilesRef.current) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
+          if (satTiles) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
             openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% changed tokens' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
             return;
           }
@@ -713,7 +752,7 @@ export default function Home() {
         map.on('click', 'scan-center-dot', (e) => {
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id);
-          if (satTilesRef.current) {
+          if (satTiles) {
             openLightbox({ title: `Scan window ${id}`, sub: pr.rank ? `rank #${pr.rank}` : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
             return;
           }
@@ -731,12 +770,12 @@ export default function Home() {
         map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
-          paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#eb6834'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);
+          paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
       }
       map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch(() => undefined);
-  }, [mapReady, styleRevision, scenario?.candidates?.geojson, scenario?.candidates?.retrieval?.top10]);
+  }, [mapReady, styleRevision, scenario?.candidates?.geojson, scenario?.candidates?.retrieval?.top10, scenario?.corridor_sealed, satTiles, openLightbox]);
 
   // fitBounds 패딩은 실제로 열려 있는 패널에 맞춘다.
   // 이전 버전은 패널이 항상 보인다고 가정한 고정 패딩을 썼다.
@@ -882,10 +921,6 @@ export default function Home() {
     return typeof ped === 'object' && ped && (ped as Record<string, unknown>).live_mode ? (ped as Record<string, unknown>) : null;
   }, [scenario]);
   // GO TO MAP: 후보 창의 위성 사진(전/후/AI Δ)을 지도 위에 실제 좌표로 깔아 보여줌.
-  const [satTiles, setSatTiles] = useState(false);
-  const satTilesRef = useRef(false);
-  useEffect(() => { satTilesRef.current = satTiles; }, [satTiles]);
-  const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const showCandidate = useCallback((id: string, mode: 'pre' | 'post' | 'delta', meta?: { rank?: number; place?: string; center?: [number, number] }) => {
     const map = mapRef.current; const fc = scenario?.candidates?.geojson;
     if (!map || !fc) return;
@@ -973,6 +1008,7 @@ export default function Home() {
   const bidurPost = scenario?.downstream_visual.records.find((record) => record.label === 'post') ?? null;
   const providerSyncBlocked = liveObservation?.materialization_status === 'blocked_provider_selection';
   const corridorContract = scenario?.corridor_contract ?? null;
+  const canonicalTop = scenario?.corridor_sealed?.top[0] ?? null;
   const candidateRows = !scenario?.candidates ? []
     : candidateScope === 'hillslope'
       ? (scenario.candidates.hillslope_top ?? [])
@@ -1083,7 +1119,8 @@ export default function Home() {
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
       {scenario?.candidates && mapStatus === 'ready' && (
         <div className="map-legend" aria-label="Map legend">
-          <span><i className="sw orange" />river window · orange depth = % tokens changed beyond any ordinary fortnight</span>
+          <span><i className="sw orange" />contract-correct sealed S1+S2 OLMo screening</span>
+          <span><i className="sw amber" />S2-only optical discovery scan</span>
           <span><i className="sw purple" />off-river hillslope window</span>
           <span><i className="sw blue" />same kind of change as the top candidates (embedding search)</span>
           <span><i className="sw grey" />cloud/snow · not judged</span>
@@ -1245,21 +1282,55 @@ export default function Home() {
         {scenario?.headline && (
           <div className="headline-card">
             <p className="eyebrow">AT A GLANCE · {scenario.generated_at.slice(0, 10)}</p>
-            <strong>{scenario.headline.matched?.token_candidates?.length
+            <strong>{scenario.corridor_sealed
+              ? `Contract-correct OLMo screening complete: ${scenario.corridor_sealed.windows_with_any_exceedance}/${scenario.corridor_sealed.windows} windows contain any token above their own single ordinary-transition p99; maximum ${(100 * scenario.corridor_sealed.max_exceedance).toFixed(2)}%`
+              : scenario.headline.matched?.token_candidates?.length
               ? `Token-level (matched): ${scenario.headline.matched.token_candidates.join(', ')} shows candidate change — ${(100 * (scenario.headline.matched.token![scenario.headline.matched.token_candidates[0]].event_frac ?? 0)).toFixed(1)}% of tokens vs ≤${(100 * scenario.headline.matched.token![scenario.headline.matched.token_candidates[0]].placebo_max).toFixed(1)}% in any ordinary fortnight`
               : scenario.headline.sealed_candidates != null
               ? (scenario.headline.sealed_candidates === 0
                   ? `Anchor-scale Δz: not detected above pre-event variability (placebo n=${scenario.headline.placebo_n})`
                   : `${scenario.headline.sealed_candidates} of ${scenario.headline.sealed_total} sealed anchors show candidate change`)
               : 'Sealed verdict not yet computed'}</strong>
-            {scenario.headline.matched?.token && <small>Token-level ranks (event vs 9 matched pairs): {Object.entries(scenario.headline.matched.token).map(([a, v]) => `${a.replace('_provisional', '')} ${v.rank ?? '—'}/10 (${((v.event_frac ?? 0) * 100).toFixed(1)}%)`).join(' · ')} · anchor-mean Δz alone: not detected</small>}
-            {scenario.headline.matched && <small>Matched 1-period pairs (n={scenario.headline.matched.n_pairs}): {scenario.headline.matched.candidates.length ? `${scenario.headline.matched.candidates.join(', ')} rank 1 (by a hair)` : 'no anchor ranks first'} · ranks {Object.entries(scenario.headline.matched.ranks).map(([a, r]) => `${a.replace('_provisional', '')} ${r}`).join(' · ')}</small>}
+            {!scenario.corridor_sealed && scenario.headline.matched?.token && <small>Token-level ranks (event vs 9 matched pairs): {Object.entries(scenario.headline.matched.token).map(([a, v]) => `${a.replace('_provisional', '')} ${v.rank ?? '—'}/10 (${((v.event_frac ?? 0) * 100).toFixed(1)}%)`).join(' · ')} · anchor-mean Δz alone: not detected</small>}
+            {!scenario.corridor_sealed && scenario.headline.matched && <small>Matched 1-period pairs (n={scenario.headline.matched.n_pairs}): {scenario.headline.matched.candidates.length ? `${scenario.headline.matched.candidates.join(', ')} rank 1 (by a hair)` : 'no anchor ranks first'} · ranks {Object.entries(scenario.headline.matched.ranks).map(([a, r]) => `${a.replace('_provisional', '')} ${r}`).join(' · ')}</small>}
             {scenario.headline.sealed_candidates !== 0 && <small>{scenario.headline.sealed_not_detected.length ? `not detected (cloud/snow): ${scenario.headline.sealed_not_detected.join(', ')} · ` : ''}{scenario.headline.placebo_n != null ? `placebo n=${scenario.headline.placebo_n}` : ''}</small>}
             {scenario.headline.corridor_ranked != null && <small>Corridor scan: {scenario.headline.corridor_ranked}/{scenario.headline.corridor_windows} windows judged · top: {scenario.headline.corridor_top.join(' · ')}</small>}
-            <em>Candidate change only — not damage, not cause, not probability.</em>
+            <em>{scenario.corridor_sealed ? 'Single-placebo screening only — not a calibrated detection, damage, cause, extent, or probability.' : 'Candidate change only — not damage, not cause, not probability.'}</em>
           </div>
         )}
         <div className="panel-heading"><span>02</span><div><p>AI EVIDENCE</p><strong>What works now</strong></div></div>
+        {scenario?.input_contract_audit && (
+          <div className="contract-audit-card">
+            <p className="eyebrow">INPUT CONTRACT CORRECTION · SELF-AUDITED</p>
+            <strong>Earlier five-anchor S1+S2 claims are superseded</strong>
+            <p>{scenario.input_contract_audit.defect}</p>
+            <small>The old files remain provenance records. Active evidence below was recomputed with Sentinel1ToDecibels, 27 matched windows and the same-location placebo.</small>
+            <a href={scenario.input_contract_audit.official_source} target="_blank" rel="noreferrer">Official rslearn OLMoEarth contract ↗</a>
+          </div>
+        )}
+        {scenario?.corridor_sealed && (
+          <div className="canonical-olmo-card">
+            <header><span>WHAT OLMO FOUND · CONTRACT-CORRECT</span><b>27/27 SCREENED</b></header>
+            <p>OLMoEarth v1 converted each S1+S2 time cube into 4,096 spatial tokens × 768 dimensions. We measured cosine change from pre→post, then compared every token with the same location&apos;s ordinary placebo transition.</p>
+            <div className="canonical-list">
+              {scenario.corridor_sealed.top.map((row) => (
+                <article key={row.id}>
+                  <header><b>O{row.rank}</b><strong>{row.name}</strong><em>{(100 * row.frac_above_local_placebo_p99).toFixed(2)}%</em></header>
+                  <div className="cand-strip zoomable" role="button" tabIndex={0}
+                       onClick={() => openLightbox({ title: `O${row.rank} · ${row.name}`, sub: `${(100 * row.frac_above_local_placebo_p99).toFixed(2)}% above this location's one ordinary-transition p99 · event mean Δ ${row.event_mean.toFixed(4)} vs ordinary ${row.placebo_mean.toFixed(4)}`, before: row.pre_image, after: row.post_image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: row.delta_image, label: 'OLMo Δ intensity; yellow-white = above local placebo p99' }] })}
+                       onKeyDown={(event) => { if (event.key === 'Enter') (event.currentTarget as HTMLElement).click(); }}>
+                    <figure><img src={row.pre_image} alt="pre-event Sentinel-2" loading="lazy" /><figcaption>PRE</figcaption></figure>
+                    <figure><img src={row.post_image} alt="post-event Sentinel-2" loading="lazy" /><figcaption>POST</figcaption></figure>
+                    <figure><img src={row.delta_image} alt="OLMoEarth embedding delta" loading="lazy" /><figcaption>OLMo Δ</figcaption></figure>
+                  </div>
+                  <div className="rarity-bar"><i style={{ width: `${Math.max(1.5, 100 * row.frac_above_local_placebo_p99 / Math.max(scenario.corridor_sealed!.max_exceedance, 1e-9))}%` }} /></div>
+                  <footer><small>event mean is {(100 * row.mean_ratio_event_to_placebo).toFixed(0)}% of ordinary mean</small><button onClick={() => mapRef.current?.flyTo({ center: row.center_lonlat, zoom: 13.2, duration: 900 })}>GO TO MAP</button></footer>
+                </article>
+              ))}
+            </div>
+            <em>{scenario.corridor_sealed.visual_legend}. Ranking is a review queue, not a hazard map.</em>
+          </div>
+        )}
         {scenario?.ai_vs_classical && (
           <div className="ai-vs-card">
             <p className="eyebrow">AI vs NO-AI · same data, same labels, same metric</p>
@@ -1271,14 +1342,15 @@ export default function Home() {
           </div>
         )}
         <div className="olmo-outcomes">
-          <article className="ready"><span>OLMo BASELINE</span><strong>15 RASTERS SEALED</strong><small>3 cubes × 5 anchors · each 768×64×64</small></article>
+          <article className="ready"><span>OLMo CANONICAL CORRIDOR</span><strong>{scenario?.corridor_sealed ? '81 RASTERS SEALED' : 'PENDING'}</strong><small>placebo + baseline + live · 27 windows each · 768×64×64</small></article>
           <article className="win"><span>TRANSFER EVIDENCE</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} REGIONS WON` : 'LOADING'}</strong><small>{transfer ? `region-macro ${transfer.reuse_region_macro.toFixed(3)} vs ${transfer.raw_strong_region_macro.toFixed(3)} · +${transfer.absolute_gap.toFixed(3)}` : 'confirmatory summary'}</small></article>
-          <article className={liveDelta ? 'ready' : 'wait'}><span>NEPAL LIVE CHANGE</span><strong>{liveDelta ? (scenario?.headline?.matched?.token_candidates?.length ? `TOKEN-LEVEL CANDIDATE · ${scenario.headline.matched.token_candidates.length}/5` : scenario?.headline?.sealed_candidates ? `CANDIDATE CHANGE · ${scenario.headline.sealed_candidates}/${scenario.headline.sealed_total}` : 'SEALED Δz · NOT DETECTED') : providerSyncBlocked ? 'S1 COVERS 5/5' : 'WAITING FOR S1'}</strong><small>{liveDelta ? `${String(liveDelta.live_mode)} sealed · rasuwagadhi Δ ${Number(liveDelta.rasuwagadhi_live_mean).toFixed(4)} vs placebo n=${String(liveDelta.placebo_samples)} · anchor-mean is blunt; see corridor scan` : providerSyncBlocked ? 'Copernicus ready · Planetary Computer index sync pending' : `${livePeriodText} · baseline value remains usable`}</small></article>
+          <article className={scenario?.corridor_sealed ? 'ready' : 'wait'}><span>NEPAL LIVE CHANGE</span><strong>{scenario?.corridor_sealed ? 'SCREENING COMPLETE · NO CALIBRATED DETECTION' : 'WAITING'}</strong><small>{scenario?.corridor_sealed ? `top local-p99 exceedance ${(100 * scenario.corridor_sealed.max_exceedance).toFixed(2)}% · one ordinary transition only` : `${livePeriodText} · baseline value remains usable`}</small></article>
         </div>
         {corridorContract && (
           <div className="corridor-progress" role="status">
             <header><span>SEALED CORRIDOR · 27 WINDOWS</span><b>{corridorContract.stage.replace(/_/g, ' ').toUpperCase()}</b></header>
-            {([['BASELINE', corridorContract.baseline], ['LIVE', corridorContract.s1_live]] as const).map(([label, mode]) => {
+            {([['PLACEBO', corridorContract.placebo_b], ['BASELINE', corridorContract.baseline], ['LIVE', corridorContract.s1_live]] as const).filter((entry) => entry[1]).map(([label, mode]) => {
+              if (!mode) return null;
               const pct = Math.round(100 * mode.completed_layers / mode.total_layers);
               return <div className="corridor-progress-row" key={label}>
                 <span>{label}</span><i><u style={{ width: `${pct}%` }} /></i>
@@ -1303,12 +1375,12 @@ export default function Home() {
             <span>{activeScene && scenario && activeScene.acquired_at >= scenario.event.occurred_at ? 'POST' : 'PRE'} · {activeScene?.acquired_at.slice(0, 10) ?? (dataStatus === 'loading' ? 'LOADING' : '—')}</span>
           </div>
           <div className="compare-arrow" aria-hidden="true">→</div>
-          {liveDelta ? (
+          {canonicalTop ? (
             <div className="scene-preview delta-preview zoomable" role="button" tabIndex={0} title="Click: large view"
-                 onClick={() => openLightbox({ title: 'Rasuwagadhi · OLMoEarth Δz (sealed S1+S2, s1_live vs baseline)', sub: 'orange = top-5% tokens by Δz within this window · descriptive only, not a damage map', before: '/data/story/anchors/rasuwagadhi_post.png', after: '/data/live_delta/rasuwagadhi_delta.png', beforeLabel: 'S2 · 08-27', afterLabel: 'OLMo Δz' })}>
-              <img src="/data/story/anchors/rasuwagadhi_post.png" alt="" className="delta-base" />
-              <img src="/data/live_delta/rasuwagadhi_delta.png" alt="OLMoEarth delta heatmap for Rasuwagadhi" className="delta-heat" />
-              <span>Δz · SEALED · {scenario?.headline?.matched?.token_candidates?.length ? 'TOKEN CANDIDATE' : 'NOT DETECTED'}</span>
+                 onClick={() => openLightbox({ title: `O${canonicalTop.rank} · ${canonicalTop.name}`, sub: `${(100 * canonicalTop.frac_above_local_placebo_p99).toFixed(2)}% above local placebo p99 · screening only`, before: canonicalTop.pre_image, after: canonicalTop.post_image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: canonicalTop.delta_image, label: 'OLMo Δ intensity' }] })}>
+              <img src={canonicalTop.post_image} alt="" className="delta-base" />
+              <img src={canonicalTop.delta_image} alt="Contract-correct OLMoEarth delta heatmap" className="delta-heat" />
+              <span>O{canonicalTop.rank} · SEALED · SCREENING</span>
             </div>
           ) : (
             <div className="scene-preview pending-preview">
@@ -1334,7 +1406,8 @@ export default function Home() {
           </div>
         )}
         <div className="pipeline-stack">
-          <div className={`pipeline-row ${scenario?.candidates ? 'preview' : 'pending'}`}><span>AI</span><div><strong>Corridor candidates · S2-only</strong><small>{scenario?.candidates ? `${scenario.candidates.windows} auto windows · placebo p99 ${scenario.candidates.threshold_placebo_p99?.toFixed(3)} · unsealed` : 'not computed'}</small></div><b>{scenario?.candidates ? 'CANDIDATE' : 'PENDING'}</b></div>
+          <div className={`pipeline-row ${scenario?.corridor_sealed ? 'ready' : 'pending'}`}><span>OE</span><div><strong>Canonical S1+S2 corridor screening</strong><small>{scenario?.corridor_sealed ? `27 windows · dB-corrected S1 · local placebo · max ${(100 * scenario.corridor_sealed.max_exceedance).toFixed(2)}%` : 'not computed'}</small></div><b>{scenario?.corridor_sealed ? 'SCREENED' : 'PENDING'}</b></div>
+          <div className={`pipeline-row ${scenario?.candidates ? 'preview' : 'pending'}`}><span>AI</span><div><strong>Optical discovery queue · S2-only</strong><small>{scenario?.candidates ? `${scenario.candidates.windows} auto windows · placebo p99 ${scenario.candidates.threshold_placebo_p99?.toFixed(3)} · unsealed` : 'not computed'}</small></div><b>{scenario?.candidates ? 'LEADS' : 'PENDING'}</b></div>
           {scenario?.candidates && (
             <div className="candidate-cards">
               <p className="cand-help">{scenario.candidates.windows} auto windows{scenario.candidates.judged_by_kind ? ` · judged: river ${scenario.candidates.judged_by_kind.river ?? 0}, hillslope ${scenario.candidates.judged_by_kind.hillslope ?? 0}, lhende ${scenario.candidates.judged_by_kind.lhende ?? 0}` : ''}{scenario.candidates.unobservable_by_kind ? ` · cloud/snow (not judged): ${Object.values(scenario.candidates.unobservable_by_kind).reduce((a, b) => a + b, 0)}` : ''} · orange = changed more than any ordinary fortnight (placebo p99) · purple = off-river hillslope window</p>
@@ -1379,11 +1452,19 @@ export default function Home() {
               )}
             </div>
           )}
-          <div className="pipeline-row ready"><span>OE</span><div><strong>Frozen representation</strong><small>sealed baseline · retrieval · downstream probes</small></div><b>READY</b></div>
+          <div className="pipeline-row ready"><span>FM</span><div><strong>Frozen representation</strong><small>sealed baseline · transfer · downstream probes</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>DV</span><div><strong>Bidur downstream pair</strong><small>{bidurPost ? `S2 ${bidurPost.acquired_at.slice(0, 10)} · tile ${bidurPost.mgrs_tile}` : 'visual audit'}</small></div><b>{bidurPost ? 'READY' : 'AUDIT'}</b></div>
           <div className="pipeline-row ready"><span>8R</span><div><strong>Cross-region transfer</strong><small>{transfer ? `${transfer.strong_wins} strong wins · ${transfer.non_win_regions.length} non-wins` : 'confirmatory'}</small></div><b>MEASURED</b></div>
-          <div className={`pipeline-row ${liveDelta ? 'ready' : 'pending'}`}><span>ΔN</span><div><strong>Nepal live embedding delta</strong><small>{liveDelta ? `sealed S1+S2 · placebo n=${String(liveDelta.placebo_samples)} · anchor mean not detected, token review open` : providerSyncBlocked ? 'official S1 covers 5/5 · rslearn provider has not indexed 08-28' : 'post S2 exists · final S1 period absent'}</small></div><b>{liveDelta ? 'EXECUTED' : providerSyncBlocked ? 'SYNC WAIT' : 'WAIT S1'}</b></div>
+          <div className={`pipeline-row ${scenario?.input_contract_audit ? 'pending' : liveDelta ? 'ready' : 'pending'}`}><span>5A</span><div><strong>Legacy five-anchor S1+S2 delta</strong><small>{scenario?.input_contract_audit ? 'superseded: missing Sentinel1ToDecibels · full placebo rerun required' : liveDelta ? 'executed' : 'not run'}</small></div><b>{scenario?.input_contract_audit ? 'SUPERSEDED' : liveDelta ? 'EXECUTED' : 'WAIT'}</b></div>
           <div className={`pipeline-row ${wasmStatus === 'ready' ? 'preview' : 'pending'}`}><span>Φ</span><div><strong>Physics ensemble</strong><small>r.avaflow primary · D-Claw check · satellite likelihood</small></div><b>NEXT BUILD</b></div>
+        </div>
+        <div className="risk-queues">
+          <span>RISK SEARCH QUEUES · WHO ACTUALLY OWNS THE ANSWER</span>
+          <article className="screened"><b>01 · CHANNEL CHANGE</b><strong>OLMoEarth S1+S2</strong><p>Devighat·Bidur·Rasuwagadhi review order. Corrected screening found only sparse local-p99 exceedances, not a calibrated detection.</p><em>SCREENED</em></article>
+          <article className="lead"><b>02 · OFF-RIVER SLOPES</b><strong>S2 leads → S1 + DEM next</strong><p>Only 6/49 optical hillslope windows were observable. Salê/Gosaikunda are reacquisition leads—not landslide findings.</p><em>PARTIAL</em></article>
+          <article className="planned"><b>03 · BARRIER LAKE / BLOCKAGE</b><strong>SAR + water extent + official footprint</strong><p>Search for new water/backscatter and channel blockage; OLMo can rank change after the footprint contract is sealed.</p><em>PLANNED</em></article>
+          <article className="planned"><b>04 · RUNOUT / ARRIVAL</b><strong>r.avaflow · D-Claw</strong><p>DEM, release geometry, volume and rheology own depth, speed and arrival-time estimates. No physical run has executed.</p><em>NOT RUN</em></article>
+          <article className="planned"><b>05 · PEOPLE / HEALTH ACCESS</b><strong>GIS network + official exposure data</strong><p>Road, bridge, settlement, clinic and WASH intersections are consequence analysis—not OLMo predictions.</p><em>NOT RUN</em></article>
         </div>
         <div className="field-review-links">
           <span>FIELD / OFFICIAL REVIEW · OPENS SEPARATELY</span>
@@ -1396,7 +1477,7 @@ export default function Home() {
         <div className="layer-contract">
           <span>LAYER CONTRACT</span>
           <div className="layer-contract-row on"><b>O</b><span>Observation — S1 VV/VH · S2 12-band · masks</span><em>ACTIVE</em></div>
-          <div className={`layer-contract-row ${(typeof scenario?.olmoearth?.post_event_delta === 'object' && (scenario.olmoearth.post_event_delta as Record<string, unknown>).live_mode) ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · Δz · neighbours</span><em>{(typeof scenario?.olmoearth?.post_event_delta === 'object' && (scenario.olmoearth.post_event_delta as Record<string, unknown>).live_mode) ? 'ACTIVE' : liveObservation?.olmo_ready ? 'EMBED WAIT' : 'PENDING'}</em></div>
+          <div className={`layer-contract-row ${scenario?.corridor_sealed ? 'on' : 'off'}`}><b>E</b><span>OLMo evidence — 768-d embedding · matched-location Δz screening</span><em>{scenario?.corridor_sealed ? 'ACTIVE' : 'PENDING'}</em></div>
           <div className="layer-contract-row off"><b>P</b><span>Physics — r.avaflow ensemble · D-Claw check</span><em>DESIGNED</em></div>
           <div className="layer-contract-row off"><b>H</b><span>Human/official — Charter · CEMS · USGS review</span><em>EXTERNAL</em></div>
         </div>
@@ -1481,7 +1562,7 @@ export default function Home() {
             <p className="story-kicker">02 · {ko ? '위성 증거' : 'SATELLITE EVIDENCE'} — <em>{ko ? '사흘 동안 위성이 본 것' : 'time × distance'}</em></p>
             <h2>{ko ? '국경에서 시작된 회색 띠가 47km 아래에서도 확인됐다' : 'A border change now has a downstream counterpart'}</h2>
             <div className="evidence-pairs">
-              <article><header><span>A · IMPACT</span><strong>Rasuwagadhi</strong></header>{sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && <div className="story-swipe compact" style={{ ['--swipe' as string]: `${swipe}%` }}><img src={sceneById('s2-2026-08-27')!.image} alt="Rasuwagadhi Sentinel-2 post-event" /><div className="swipe-clip"><img src={sceneById('s2-2026-08-12')!.image} alt="Rasuwagadhi Sentinel-2 pre-event" /></div><div className="swipe-bar" /><span className="swipe-label pre">08-12</span><span className="swipe-label post">08-27</span><input type="range" min={0} max={100} value={swipe} aria-label="Compare Rasuwagadhi before and after" onChange={(e) => setSwipe(Number(e.target.value))} /></div>}<p>{ko ? '현재 OLMo 5-anchor 시계열의 중심 창.' : 'The centre of the current five-anchor Olmo time series.'}</p></article>
+              <article><header><span>A · IMPACT</span><strong>Rasuwagadhi</strong></header>{sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && <div className="story-swipe compact" style={{ ['--swipe' as string]: `${swipe}%` }}><img src={sceneById('s2-2026-08-27')!.image} alt="Rasuwagadhi Sentinel-2 post-event" /><div className="swipe-clip"><img src={sceneById('s2-2026-08-12')!.image} alt="Rasuwagadhi Sentinel-2 pre-event" /></div><div className="swipe-bar" /><span className="swipe-label pre">08-12</span><span className="swipe-label post">08-27</span><input type="range" min={0} max={100} value={swipe} aria-label="Compare Rasuwagadhi before and after" onChange={(e) => setSwipe(Number(e.target.value))} /></div>}<p>{ko ? '27창 계약교정 OLMo 스크린의 w00. 기존 5-anchor 주장은 입력계약 위반으로 폐기됐다.' : 'Window w00 in the contract-correct 27-window OLMo screen. The legacy five-anchor claim is superseded by an input-contract failure.'}</p></article>
               <article><header><span>F · DOWNSTREAM</span><strong>Bidur / Trishuli</strong></header><div className="fixed-pair zoomable" role="button" tabIndex={0} onClick={() => bidurPre && bidurPost && openLightbox({ title: 'F · Bidur / Trishuli', sub: 'Sentinel-2 · 2.56 km · tile 45RUL', before: bidurPre.image, after: bidurPost.image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27' })}>{bidurPre && <figure><img src={bidurPre.image} alt="Bidur Sentinel-2 before event" /><figcaption>PRE · 08-12</figcaption></figure>}{bidurPost && <figure><img src={bidurPost.image} alt="Bidur Sentinel-2 after event" /><figcaption>POST · 08-27</figcaption></figure>}<span className="zoom-hint">⤢ enlarge</span></div><p>{ko ? '기존 Rasuwagadhi 타일 밖, 인접 45RUL에서 새로 회수한 실제 2.56 km 창.' : 'A real 2.56 km pair recovered from adjacent MGRS tile 45RUL, missed by the original Rasuwagadhi-only catalog.'}</p></article>
             </div>
             <div className="distance-matrix">
@@ -1627,8 +1708,8 @@ export default function Home() {
 
           <section className="story-section story-step story-boundary">
             <p className="story-kicker">09 · {ko ? '다음 게이트와 출처' : 'NEXT GATE + SOURCES'} — <em>{ko ? '기다림의 기록' : 'progress with boundaries'}</em></p>
-            <h2>{liveDelta ? (ko ? '다음 관문은 새 위성이 아니라 27개 창의 공정한 비교다' : 'The next gate is a matched 27-window test—not another satellite') : ko ? (providerSyncBlocked ? '다음 판정을 막고 있는 것은 위성이 아니라 지형보정본 한 장이다' : '다음 레이더가 판정을 연다') : (providerSyncBlocked ? 'The next gate is provider sync—not another satellite' : 'The next S1 pass opens the live decision')}</h2>
-            <p>{liveDelta ? (ko ? '8월 28일 레이더까지 포함한 5개 앵커 임베딩은 이미 끝났다. 평균 Δz는 일상 변동을 넘지 못했고 Rasuwagadhi의 토큰 일부만 후보로 남았다. 그래서 이제 같은 27개 하천 창에 사건 전후 동일 S1+S2 계약을 적용한다. 여기서도 살아남고 USGS·UNOSAT 범위와 맞아야 비로소 회랑 변화탐지 기여가 된다.' : 'The five-anchor embedding including the 28 Aug radar is complete. Mean Δz did not beat ordinary variability; only a subset of Rasuwagadhi tokens remains a review candidate. The same pre/post S1+S2 contract is now being applied to 27 river windows. It must survive that test and agree with independent USGS/UNOSAT extent before becoming a corridor-change result.') : ko ? '다음 후보도 실제 footprint와 봉인 계약을 통과해야 한다.' : 'The next candidate must pass actual footprint containment and the sealed input contract.'}</p>
+            <h2>{scenario?.corridor_sealed ? (ko ? '다음 관문은 더 넓은 평시 기준과 독립 피해경계다' : 'The next gate is a deeper ordinary baseline plus independent event extent') : liveDelta ? (ko ? '다음 관문은 27개 창의 계약교정 재계산이다' : 'The next gate is a contract-correct 27-window rerun') : ko ? (providerSyncBlocked ? '다음 판정을 막고 있는 것은 위성이 아니라 지형보정본 한 장이다' : '다음 레이더가 판정을 연다') : (providerSyncBlocked ? 'The next gate is provider sync—not another satellite' : 'The next S1 pass opens the live decision')}</h2>
+            <p>{scenario?.corridor_sealed ? (ko ? 'Sentinel-1 dB 전처리를 포함해 27개 창 × placebo·baseline·live, 총 81개 OLMoEarth 임베딩을 다시 계산했다. Devighat·Bidur가 검토 큐 상단이지만 최대 초과 토큰은 0.415%이고 모든 창의 사건 평균은 단일 평시 전이 평균보다 작다. 따라서 현재 결과는 음성에 가까운 screening이며, 더 많은 평시 전이와 독립 피해경계 없이는 탐지·피해·확률로 승격하지 않는다.' : 'We recomputed 81 OLMoEarth embeddings—27 windows across placebo, baseline and live—with the required Sentinel-1 dB transform. Devighat and Bidur top the review queue, but the maximum exceedance is only 0.415%, and event mean change is below the single ordinary-transition mean in every window. This is a mostly negative screen, not a detection, until a deeper ordinary baseline and independent event extent are available.') : liveDelta ? (ko ? '이전 5-anchor S1+S2 결과는 Sentinel-1 dB 변환 누락으로 폐기했다. 동일 27개 창을 계약에 맞춰 재계산해야 한다.' : 'The legacy five-anchor S1+S2 result is superseded because Sentinel-1 dB conversion was missing. The same 27 windows must be recomputed under the correct contract.') : ko ? '다음 후보도 실제 footprint와 봉인 계약을 통과해야 한다.' : 'The next candidate must pass actual footprint containment and the sealed input contract.'}</p>
             <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}</em></div>)}</div>
             <div className="story-sources"><a href="https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood" target="_blank" rel="noreferrer">USGS event assessment ↗</a><a href="https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods" target="_blank" rel="noreferrer">WHO health response ↗</a><a href="https://allenai.org/blog/olmoearth-embeddings" target="_blank" rel="noreferrer">Ai2 embedding workflow ↗</a><a href="https://research.google/blog/planetary-prediction-engine-automating-global-models-via-earth-ai/" target="_blank" rel="noreferrer">Planetary Prediction Engine ↗</a><a href="https://doi.org/10.5194/gmd-18-9879-2025" target="_blank" rel="noreferrer">r.avaflow v4 ↗</a><a href="https://claw.code-pages.usgs.gov/dclaw/" target="_blank" rel="noreferrer">USGS D-Claw ↗</a><a href="https://planetarycomputer.microsoft.com/docs/quickstarts/using-the-data-api/" target="_blank" rel="noreferrer">Planetary Computer STAC ↗</a><a href="https://mapping.emergency.copernicus.eu/activations/EMSR927/" target="_blank" rel="noreferrer">CEMS EMSR927 ↗</a></div>
             <p className="story-outro">{scenario?.research.integration_disclaimer}</p>

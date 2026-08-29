@@ -1,52 +1,166 @@
 #!/usr/bin/env python3
-"""회랑 27창 봉인 계약(S1+S2) Δz — baseline↔s1_live 토큰 Δ, 5앵커 매칭 placebo p99 임계(차용) 초과 비율로 순위.
-사전 등록: 임계는 같은 모델·같은 계약의 5앵커 매칭 9쌍 토큰 풀 p99를 **차용**함(회랑 자체 placebo 확보 전).
-라벨은 "candidate change (sealed, borrowed threshold)"까지만. 광학 전용 순위(M69 v2)와 Spearman·상위10 교집합 비교.
+"""Contract-correct 27-window OLMoEarth change screening.
+
+The event transition (baseline -> s1_live) is compared with one matched-location
+ordinary transition (placebo_b -> baseline). The per-window p99 of the ordinary
+transition is fixed before scoring the event transition. With only one ordinary
+transition this is screening/ranking, not anomaly probability or a damage map.
 """
-import json, sys
+
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import sys
 from pathlib import Path
+
 import numpy as np
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from analyze_nepal_delta import find_embedding, load_cube, cosine_delta  # noqa
+from analyze_nepal_delta import cosine_delta, load_cube  # noqa: E402
+
+
 REPO = Path(__file__).resolve().parents[1]
 CROOT = REPO / "artifacts/external_data/nepal_olmo_live_v1/materialized_corridor"
-import os
 EMB_LAYER = os.environ.get("EMB_LAYER", "embeddings")
-OUT_NAME = os.environ.get("OUT_NAME", "corridor_sealed")
-def emb(mode, wid):
-    base = CROOT / mode / "dataset/windows/nepal" / wid / ("layers/" + EMB_LAYER)
-    tifs = sorted(base.rglob("*.tif")) if base.exists() else []
-    return load_cube(tifs[0]) if len(tifs) == 1 else None
-def main():
-    matched = sorted((REPO / "artifacts/external_data/nepal_olmo_live_v1/delta_matched").glob("*/nepal_delta_matched_report.json"))
-    thr = None
-    if matched:
-        mj = json.loads(matched[-1].read_text()); ths = [v["token"]["threshold_p99"] for v in mj["anchors"].values() if v.get("token")]
-        thr = float(np.median(ths)) if ths else None
-    v2 = json.loads((REPO / "artifacts/corridor_s2_candidates/embed_v2/report.json").read_text())
-    s2rank = {w["id"]: w.get("rank") for w in v2["windows"]}
-    rows = []
-    for wid in sorted(s2rank):
-        zb, zl = emb("baseline", wid), emb("s1_live", wid)
-        if zb is None or zl is None: rows.append({"id": wid, "status": "missing"}); continue
-        d = cosine_delta(zb, zl)
-        od0 = REPO / "artifacts/external_data/nepal_olmo_live_v1" / OUT_NAME / "deltas"; od0.mkdir(parents=True, exist_ok=True)
-        np.save(od0 / f"{wid}_sealed_delta.npy", d.astype("float32"))
-        rows.append({"id": wid, "status": "ok", "mean": float(d.mean()), "p95": float(np.quantile(d, 0.95)),
-                     "frac_above_borrowed_p99": float((d > thr).mean()) if thr else None, "s2_only_rank": s2rank[wid]})
-    ok = [r for r in rows if r["status"] == "ok"]
-    ok.sort(key=lambda r: -(r["frac_above_borrowed_p99"] if r["frac_above_borrowed_p99"] is not None else r["mean"]))
-    for i, r in enumerate(ok): r["sealed_rank"] = i + 1
-    pairs = [(r["sealed_rank"], r["s2_only_rank"]) for r in ok if r["s2_only_rank"]]
-    def spearman(a, b):
-        a = np.argsort(np.argsort(a)); b = np.argsort(np.argsort(b)); return float(np.corrcoef(a, b)[0, 1])
-    rho = spearman([p[0] for p in pairs], [p[1] for p in pairs]) if len(pairs) > 3 else None
-    top_s = {r["id"] for r in ok[:10]}; top_o = {r["id"] for r in sorted([r for r in ok if r["s2_only_rank"]], key=lambda r: r["s2_only_rank"])[:10]}
-    out = {"schema": "corridor-sealed-delta-v1", "embedding_layer": EMB_LAYER, "borrowed_threshold_p99": thr, "n_windows": len(ok), "spearman_vs_s2_only": rho,
-           "top10_overlap_with_s2_only": len(top_s & top_o), "windows": ok, "claim": "candidate change (sealed S1+S2, borrowed 5-anchor matched threshold); not damage"}
-    od = REPO / "artifacts/external_data/nepal_olmo_live_v1" / OUT_NAME; od.mkdir(parents=True, exist_ok=True)
-    (od / "report.json").write_text(json.dumps(out, indent=1))
-    print("thr", thr, "n", len(ok), "spearman", rho, "top10 overlap", len(top_s & top_o))
-    for r in ok[:10]: print(r["sealed_rank"], r["id"], "frac %.3f mean %.4f s2rank %s" % (r["frac_above_borrowed_p99"] or 0, r["mean"], r["s2_only_rank"]))
-    print("DONE")
-if __name__ == "__main__": main()
+OUT_NAME = os.environ.get("OUT_NAME", "corridor_sealed_s1db")
+WINDOWS_MANIFEST = REPO / "artifacts/corridor_s2_candidates/prepare/windows_manifest.json"
+S2_REPORT = REPO / "artifacts/corridor_s2_candidates/embed_v2/report.json"
+
+WINDOW_NAMES = {
+    "w00": "Rasuwagadhi impact corridor",
+    "w21": "Bidur / Trishuli reach",
+    "w22": "Bidur / Trishuli reach",
+    "w23": "Devighat reach",
+    "w24": "Lower Lhende upstream",
+    "w25": "Middle Lhende upstream",
+    "w26": "Langtang Lirung source estimate",
+}
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def embedding(mode: str, window_id: str) -> tuple[np.ndarray | None, Path | None]:
+    root = CROOT / mode / "dataset/windows/nepal" / window_id / "layers" / EMB_LAYER
+    files = sorted(root.rglob("*.tif")) if root.exists() else []
+    if len(files) != 1:
+        return None, None
+    return load_cube(files[0]), files[0]
+
+
+def main() -> None:
+    windows_doc = json.loads(WINDOWS_MANIFEST.read_text())
+    windows = {row["id"]: row for row in windows_doc["windows"]}
+    s2_rank: dict[str, int | None] = {}
+    if S2_REPORT.exists():
+        s2_rank = {row["id"]: row.get("rank") for row in json.loads(S2_REPORT.read_text())["windows"]}
+
+    manifests: dict[str, dict] = {}
+    manifest_hashes: dict[str, str] = {}
+    for mode in ("placebo_b", "baseline", "s1_live"):
+        path = CROOT / mode / "embedding_manifest.json"
+        if not path.exists():
+            raise FileNotFoundError(f"missing embedding manifest: {path}")
+        manifests[mode] = json.loads(path.read_text())
+        manifest_hashes[mode] = sha256(path)
+        if not manifests[mode].get("valid"):
+            raise ValueError(f"invalid embedding manifest: {mode}")
+        if manifests[mode].get("embedding_layer") not in (None, EMB_LAYER):
+            raise ValueError(f"embedding layer mismatch: {mode}")
+        found_count = manifests[mode].get("found_anchor_count", manifests[mode].get("found_count"))
+        expected_count = manifests[mode].get("expected_anchor_count", manifests[mode].get("expected_count"))
+        if found_count != len(windows) or expected_count != len(windows):
+            raise ValueError(f"unexpected embedding count: {mode}")
+
+    output_root = REPO / "artifacts/external_data/nepal_olmo_live_v1" / OUT_NAME
+    delta_root = output_root / "deltas"
+    delta_root.mkdir(parents=True, exist_ok=True)
+    rows: list[dict] = []
+
+    for window_id, meta in sorted(windows.items()):
+        z_placebo, p_placebo = embedding("placebo_b", window_id)
+        z_baseline, p_baseline = embedding("baseline", window_id)
+        z_live, p_live = embedding("s1_live", window_id)
+        if z_placebo is None or z_baseline is None or z_live is None:
+            rows.append({"id": window_id, "status": "missing"})
+            continue
+
+        ordinary = cosine_delta(z_placebo, z_baseline)
+        event = cosine_delta(z_baseline, z_live)
+        threshold = float(np.quantile(ordinary, 0.99))
+        np.save(delta_root / f"{window_id}_sealed_delta.npy", event.astype("float32"))
+        np.save(delta_root / f"{window_id}_placebo_delta.npy", ordinary.astype("float32"))
+        rows.append({
+            "id": window_id,
+            "name": WINDOW_NAMES.get(window_id, f"Corridor window {window_id}"),
+            "kind": meta.get("kind", "corridor"),
+            "center_lonlat": meta["center_lonlat"],
+            "bounds_utm": meta["bounds_utm"],
+            "status": "screened",
+            "event_mean": float(event.mean()),
+            "event_p95": float(np.quantile(event, 0.95)),
+            "placebo_mean": float(ordinary.mean()),
+            "placebo_p99": threshold,
+            "frac_above_local_placebo_p99": float((event > threshold).mean()),
+            "mean_ratio_event_to_placebo": float(event.mean() / max(ordinary.mean(), 1e-12)),
+            "s2_only_rank": s2_rank.get(window_id),
+            "embedding_sha256": {
+                "placebo_b": sha256(p_placebo),
+                "baseline": sha256(p_baseline),
+                "s1_live": sha256(p_live),
+            },
+        })
+
+    screened = [row for row in rows if row["status"] == "screened"]
+    screened.sort(key=lambda row: (-row["frac_above_local_placebo_p99"], -row["event_mean"], row["id"]))
+    for rank, row in enumerate(screened, start=1):
+        row["rank"] = rank
+
+    report = {
+        "schema": "corridor-sealed-delta-s1db-v1",
+        "model": "OLMoEarth v1 Base (frozen)",
+        "embedding_layer": EMB_LAYER,
+        "input_contract": {
+            "sentinel1": "RTC VV/VH linear intensity -> Sentinel1ToDecibels -> OlmoEarthNormalize",
+            "sentinel2": "L2A 12-band -> OlmoEarthNormalize",
+            "temporal": "4 periods; baseline/live share the first three periods",
+            "spatial": "2.56 km windows; 64x64 spatial tokens; 768-d per token",
+        },
+        "comparison": {
+            "event": "baseline -> s1_live",
+            "ordinary": "placebo_b -> baseline",
+            "threshold": "per-window ordinary-transition token p99",
+            "ordinary_transition_count": 1,
+        },
+        "n_windows": len(screened),
+        "embedding_manifest_sha256": manifest_hashes,
+        "windows_manifest_sha256": sha256(WINDOWS_MANIFEST),
+        "windows": screened,
+        "claim": "contract-correct, matched-location candidate-change screening; not damage, cause, extent, probability, or calibrated anomaly",
+        "limitations": [
+            "Only one matched-location ordinary transition is available per window.",
+            "The local p99 is therefore a screening reference, not a population percentile.",
+            "No Nepal event polygon or field label was used to validate the ranking.",
+            "OLMoEarth embeddings fuse S1 and S2; this report does not attribute a score to one sensor.",
+        ],
+        "supersedes": "corridor_sealed/report.json (missing Sentinel1ToDecibels and borrowed invalid threshold)",
+    }
+    output_root.mkdir(parents=True, exist_ok=True)
+    (output_root / "report.json").write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps({"output": str(output_root / "report.json"), "n_windows": len(screened), "top": [r["id"] for r in screened[:6]]}))
+    for row in screened[:10]:
+        print(row["rank"], row["id"], row["name"],
+              f"event>{row['frac_above_local_placebo_p99']:.3f}",
+              f"event_mean={row['event_mean']:.5f}",
+              f"ordinary_p99={row['placebo_p99']:.5f}")
+
+
+if __name__ == "__main__":
+    main()
