@@ -3,12 +3,12 @@
     {
       "anchor": "dhunche",
       "bands": 768,
-      "bytes": 15362061,
+      "bytes": 15329610,
       "crs": "EPSG:32645",
       "dtype": "float32",
       "height": 64,
       "path": "windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
-      "sha256": "d26bcb63aef93a34381d355081c4b3d5c325893481e65dea05c6cab4ed1fadf8",
+      "sha256": "efb263b44d03cea5c25e72f8dc3a9a26cad649ab674e89af46987ffbf19c47db",
       "transform": [
         40.0,
         0.0,
@@ -23,12 +23,12 @@
     {
       "anchor": "rasuwagadhi",
       "bands": 768,
-      "bytes": 15355119,
+      "bytes": 15330333,
       "crs": "EPSG:32645",
       "dtype": "float32",
       "height": 64,
       "path": "windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
-      "sha256": "834ecc34a0fce9c6d2b43a0caf35361bae87633ec8f34086e279f88335cd5727",
+      "sha256": "745f848691c05513f8eedbf350856de21ff453701b3884b4ae4cdabcdd44e276",
       "transform": [
         40.0,
         0.0,
@@ -43,12 +43,12 @@
     {
       "anchor": "source_provisional",
       "bands": 768,
-      "bytes": 15346847,
+      "bytes": 15327974,
       "crs": "EPSG:32645",
       "dtype": "float32",
       "height": 64,
       "path": "windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
-      "sha256": "b046977faf932400139514b8f3e938c7a3e5761578a059d905f2da7f3f71b9ae",
+      "sha256": "5cfa1bb96267337437eb3dbfc2e06d6e6dec3d2318b41bc7cee3ce414b78aa4e",
       "transform": [
         40.0,
         0.0,
@@ -63,12 +63,12 @@
     {
       "anchor": "syabrubesi",
       "bands": 768,
-      "bytes": 15363420,
+      "bytes": 15329493,
       "crs": "EPSG:32645",
       "dtype": "float32",
       "height": 64,
       "path": "windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
-      "sha256": "c146399d0bb3897c0e4bbd0b2d0fad5677f2ba95deeeeecbae6801671801d331",
+      "sha256": "e16e36aba2467564b7631340f95d073d481685f2d9d265beea887abfb5560556",
       "transform": [
         40.0,
         0.0,
@@ -83,12 +83,12 @@
     {
       "anchor": "timure",
       "bands": 768,
-      "bytes": 15361017,
+      "bytes": 15334113,
       "crs": "EPSG:32645",
       "dtype": "float32",
       "height": 64,
       "path": "windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
-      "sha256": "1013d9f618006bfcaec03e538f541c3ff0010027931300a255c1042163a3eba6",
+      "sha256": "82cc2f373f54df8d821851993ee11175b3b6215a2462348eb678f5b09fb2490a",
       "transform": [
         40.0,
         0.0,
@@ -101,11 +101,17 @@
       "width": 64
     }
   ],
-  "code_snapshot": "/home/work/data/olmoearth/artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/code_snapshot/20260829T080320Z",
-  "created_at_utc": "2026-08-29T08:03:57Z",
+  "code_snapshot": "/home/work/data/olmoearth/artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/code_snapshot/20260829T152002Z",
+  "created_at_utc": "2026-08-29T15:20:35Z",
   "embedding_dim": 768,
+  "embedding_layer": "embeddings",
+  "expected_anchor_count": 5,
+  "found_anchor_count": 5,
+  "inference_code_snapshot": "/home/work/data/olmoearth/artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/code_snapshot/20260829T152002Z",
+  "materialization_manifest_sha256": "6835dff4b9e2f292c491912f05e882308d604e462368455d0ff5fa63a44fb55f",
   "mode": "s1_live",
   "model_id": "OLMOEARTH_V1_BASE",
   "schema": "nepal-olmo-embeddings-v1",
+  "seal_code_snapshot": "/home/work/data/olmoearth/artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/code_snapshot/20260829T152002Z",
   "valid": true
 }

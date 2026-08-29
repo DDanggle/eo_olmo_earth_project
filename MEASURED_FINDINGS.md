@@ -3761,6 +3761,35 @@ dB 변환 없이 넣으면 S1 채널이 거의 상수(정규화값 ≈ +1.1)로 
 교훈: 서버 `code/model.yaml` 교체는 커밋·공지 없이 하지 말 것; 러너 code_snapshot의 model.yaml sha를 결과
 보고서에 항상 실을 것(이미 실려 있어 이번 추적이 가능했음).
 
+## M76. dB 정규화로 재계산한 봉인 계약 — 5앵커·회랑 모두 사전 등록 기준 미달 (2026-08-30 00:25 KST)
+
+M75의 결함을 고친 레시피(`model_s1db.yaml`, Sentinel1ToDecibels 포함, 스냅샷 sha `ac742b84…`)로 5앵커
+12모드(baseline·placebo 10·s1_live)와 회랑 3모드를 전부 재계산함(선형판은 `embeddings_linear_s1`로 보존).
+같은 분석기·같은 사전 등록 규칙으로 재도출:
+
+**5앵커 (placebo 10개, naive)**: 5/5 not detected. 사건 Δ 0.022~0.043 vs placebo 0.04~0.15.
+**5앵커 매칭 9쌍 (평균 rank / 토큰 초과 비율)**:
+
+| 앵커 | 평균 rank | 사건 토큰 % | placebo 최대 % | 판정 |
+|---|---|---|---|---|
+| rasuwagadhi | 4/10 | 1.4 | 6.1 | not detected |
+| source_provisional | 2/10 | 1.5 | 7.4 | not detected |
+| timure | 4/10 | 0.0 | 6.7 | not detected |
+| syabrubesi | 6/10 | 0.1 | 7.7 | not detected |
+| dhunche | 9/10 | 0.0 | 7.3 | not detected |
+
+**회랑 27창**: 자체 1기간 임계(0.0716, 관측성 마스크 적용) 아래 후보 0. 차용 임계 순위 상위 = Devighat(w23)·
+Bidur(w21·w22)·w18·Rasuwagadhi(w00) — 하류 순위는 광학 스캔과 일치하나 초과 비율 ≤0.4%로 미미.
+
+**해석 (L3, 실패를 결과로)**: M72 보론의 "Rasuwagadhi 9.8% vs 2.7%"는 **레이더 채널이 상수로 죽어 있을 때의
+artifact**였음 — 철회. 레이더를 제대로 넣으면 몬순 기간 placebo 변동(수분·식생에 민감)이 커져 사건 창이
+분리되지 않음. 즉 현재 계약(4×14d, 2.56 km 창, 앵커/창 단위 통계)으로는 **봉인 S1+S2 계약이 이 사건을
+후보로 내지 못함**. 유효한 AI 증거는 여전히 광학 전용 프로토콜(M66·M68·M69·M71·M73)임.
+후속: (a) 계약 변경 실험 — 창 안 국소 클러스터 통계(연결 토큰 면적), S1/S2 분리 Δ 후 late fusion,
+(b) 회랑 placebo 확장(1쌍 → 여러 쌍), (c) 레이더 단독(dB) 분해 결과는 아래 보론에.
+봉인: `delta/20260829T152418Z`, `delta_matched/20260829T152433Z`, `corridor_sealed_s1db/`, `corridor_matched/`,
+감사 `contract_audit_s1_db.json` (five_anchor_rerun=recomputed).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의

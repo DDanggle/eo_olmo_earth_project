@@ -1,0 +1,554 @@
+{
+ "schema": "nepal-delta-matched-pairs-v1",
+ "event_pair": [
+  "baseline",
+  "s1_live"
+ ],
+ "placebo_pairs": [
+  [
+   "placebo_20260617",
+   "placebo_20260701"
+  ],
+  [
+   "placebo_20260624",
+   "placebo_20260708"
+  ],
+  [
+   "placebo_20260701",
+   "placebo_20260715"
+  ],
+  [
+   "placebo_20260708",
+   "placebo_20260722"
+  ],
+  [
+   "placebo_20260715",
+   "placebo_20260729"
+  ],
+  [
+   "placebo_20260722",
+   "placebo_20260805"
+  ],
+  [
+   "placebo_20260729",
+   "placebo_a"
+  ],
+  [
+   "placebo_20260805",
+   "placebo_b"
+  ],
+  [
+   "placebo_a",
+   "baseline"
+  ]
+ ],
+ "anchors": {
+  "source_provisional": {
+   "event_mean": 0.042786817997694016,
+   "event_p95": 0.0621650367975235,
+   "placebo_pairs": [
+    {
+     "pair": [
+      "placebo_20260617",
+      "placebo_20260701"
+     ],
+     "mean": 0.024907507002353668
+    },
+    {
+     "pair": [
+      "placebo_20260624",
+      "placebo_20260708"
+     ],
+     "mean": 0.027415655553340912
+    },
+    {
+     "pair": [
+      "placebo_20260701",
+      "placebo_20260715"
+     ],
+     "mean": 0.03420384228229523
+    },
+    {
+     "pair": [
+      "placebo_20260708",
+      "placebo_20260722"
+     ],
+     "mean": 0.029042478650808334
+    },
+    {
+     "pair": [
+      "placebo_20260715",
+      "placebo_20260729"
+     ],
+     "mean": 0.022537680342793465
+    },
+    {
+     "pair": [
+      "placebo_20260722",
+      "placebo_20260805"
+     ],
+     "mean": 0.03535876423120499
+    },
+    {
+     "pair": [
+      "placebo_20260729",
+      "placebo_a"
+     ],
+     "mean": 0.033691972494125366
+    },
+    {
+     "pair": [
+      "placebo_20260805",
+      "placebo_b"
+     ],
+     "mean": 0.035737067461013794
+    },
+    {
+     "pair": [
+      "placebo_a",
+      "baseline"
+     ],
+     "mean": 0.048141054809093475
+    }
+   ],
+   "rank_of_event": 2,
+   "n_placebo": 9,
+   "label": "not detected above matched variability",
+   "token": {
+    "threshold_p99": 0.06878791004419327,
+    "event_frac_above": 0.015380859375,
+    "placebo_fracs_above": [
+     0.0,
+     0.0,
+     0.00048828125,
+     0.000244140625,
+     0.0,
+     0.000244140625,
+     0.007080078125,
+     0.00830078125,
+     0.07373046875
+    ],
+    "rank_of_event": 2,
+    "label": "not detected (token-level)"
+   }
+  },
+  "rasuwagadhi": {
+   "event_mean": 0.024131879210472107,
+   "event_p95": 0.046162769198417664,
+   "placebo_pairs": [
+    {
+     "pair": [
+      "placebo_20260617",
+      "placebo_20260701"
+     ],
+     "mean": 0.019465945661067963
+    },
+    {
+     "pair": [
+      "placebo_20260624",
+      "placebo_20260708"
+     ],
+     "mean": 0.03449330851435661
+    },
+    {
+     "pair": [
+      "placebo_20260701",
+      "placebo_20260715"
+     ],
+     "mean": 0.014904914423823357
+    },
+    {
+     "pair": [
+      "placebo_20260708",
+      "placebo_20260722"
+     ],
+     "mean": 0.03790478780865669
+    },
+    {
+     "pair": [
+      "placebo_20260715",
+      "placebo_20260729"
+     ],
+     "mean": 0.016306348145008087
+    },
+    {
+     "pair": [
+      "placebo_20260722",
+      "placebo_20260805"
+     ],
+     "mean": 0.022634411230683327
+    },
+    {
+     "pair": [
+      "placebo_20260729",
+      "placebo_a"
+     ],
+     "mean": 0.019800912588834763
+    },
+    {
+     "pair": [
+      "placebo_20260805",
+      "placebo_b"
+     ],
+     "mean": 0.02164333313703537
+    },
+    {
+     "pair": [
+      "placebo_a",
+      "baseline"
+     ],
+     "mean": 0.039941318333148956
+    }
+   ],
+   "rank_of_event": 4,
+   "n_placebo": 9,
+   "label": "not detected above matched variability",
+   "token": {
+    "threshold_p99": 0.05578276887536049,
+    "event_frac_above": 0.013916015625,
+    "placebo_fracs_above": [
+     0.0,
+     0.0205078125,
+     0.0,
+     0.0087890625,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.060791015625
+    ],
+    "rank_of_event": 3,
+    "label": "not detected (token-level)"
+   }
+  },
+  "timure": {
+   "event_mean": 0.025040488690137863,
+   "event_p95": 0.034689679741859436,
+   "placebo_pairs": [
+    {
+     "pair": [
+      "placebo_20260617",
+      "placebo_20260701"
+     ],
+     "mean": 0.02274671196937561
+    },
+    {
+     "pair": [
+      "placebo_20260624",
+      "placebo_20260708"
+     ],
+     "mean": 0.03854155167937279
+    },
+    {
+     "pair": [
+      "placebo_20260701",
+      "placebo_20260715"
+     ],
+     "mean": 0.019244123250246048
+    },
+    {
+     "pair": [
+      "placebo_20260708",
+      "placebo_20260722"
+     ],
+     "mean": 0.04268673062324524
+    },
+    {
+     "pair": [
+      "placebo_20260715",
+      "placebo_20260729"
+     ],
+     "mean": 0.020545121282339096
+    },
+    {
+     "pair": [
+      "placebo_20260722",
+      "placebo_20260805"
+     ],
+     "mean": 0.024610158056020737
+    },
+    {
+     "pair": [
+      "placebo_20260729",
+      "placebo_a"
+     ],
+     "mean": 0.017971275374293327
+    },
+    {
+     "pair": [
+      "placebo_20260805",
+      "placebo_b"
+     ],
+     "mean": 0.02432132512331009
+    },
+    {
+     "pair": [
+      "placebo_a",
+      "baseline"
+     ],
+     "mean": 0.040706660598516464
+    }
+   ],
+   "rank_of_event": 4,
+   "n_placebo": 9,
+   "label": "not detected above matched variability",
+   "token": {
+    "threshold_p99": 0.05902795493602753,
+    "event_frac_above": 0.0,
+    "placebo_fracs_above": [
+     0.00146484375,
+     0.00634765625,
+     0.0,
+     0.015625,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.066650390625
+    ],
+    "rank_of_event": 10,
+    "label": "not detected (token-level)"
+   }
+  },
+  "syabrubesi": {
+   "event_mean": 0.026300597935914993,
+   "event_p95": 0.040738239884376526,
+   "placebo_pairs": [
+    {
+     "pair": [
+      "placebo_20260617",
+      "placebo_20260701"
+     ],
+     "mean": 0.024485930800437927
+    },
+    {
+     "pair": [
+      "placebo_20260624",
+      "placebo_20260708"
+     ],
+     "mean": 0.0417218878865242
+    },
+    {
+     "pair": [
+      "placebo_20260701",
+      "placebo_20260715"
+     ],
+     "mean": 0.020885951817035675
+    },
+    {
+     "pair": [
+      "placebo_20260708",
+      "placebo_20260722"
+     ],
+     "mean": 0.0449046716094017
+    },
+    {
+     "pair": [
+      "placebo_20260715",
+      "placebo_20260729"
+     ],
+     "mean": 0.017742332071065903
+    },
+    {
+     "pair": [
+      "placebo_20260722",
+      "placebo_20260805"
+     ],
+     "mean": 0.02801540493965149
+    },
+    {
+     "pair": [
+      "placebo_20260729",
+      "placebo_a"
+     ],
+     "mean": 0.02209109626710415
+    },
+    {
+     "pair": [
+      "placebo_20260805",
+      "placebo_b"
+     ],
+     "mean": 0.028507458046078682
+    },
+    {
+     "pair": [
+      "placebo_a",
+      "baseline"
+     ],
+     "mean": 0.04660501331090927
+    }
+   ],
+   "rank_of_event": 6,
+   "n_placebo": 9,
+   "label": "not detected above matched variability",
+   "token": {
+    "threshold_p99": 0.06822308152914047,
+    "event_frac_above": 0.00146484375,
+    "placebo_fracs_above": [
+     0.000244140625,
+     0.0068359375,
+     0.0,
+     0.001953125,
+     0.0,
+     0.002197265625,
+     0.00048828125,
+     0.00146484375,
+     0.076904296875
+    ],
+    "rank_of_event": 6,
+    "label": "not detected (token-level)"
+   }
+  },
+  "dhunche": {
+   "event_mean": 0.02238968387246132,
+   "event_p95": 0.032774344086647034,
+   "placebo_pairs": [
+    {
+     "pair": [
+      "placebo_20260617",
+      "placebo_20260701"
+     ],
+     "mean": 0.053556859493255615
+    },
+    {
+     "pair": [
+      "placebo_20260624",
+      "placebo_20260708"
+     ],
+     "mean": 0.056472234427928925
+    },
+    {
+     "pair": [
+      "placebo_20260701",
+      "placebo_20260715"
+     ],
+     "mean": 0.025041213259100914
+    },
+    {
+     "pair": [
+      "placebo_20260708",
+      "placebo_20260722"
+     ],
+     "mean": 0.04221697524189949
+    },
+    {
+     "pair": [
+      "placebo_20260715",
+      "placebo_20260729"
+     ],
+     "mean": 0.019357459619641304
+    },
+    {
+     "pair": [
+      "placebo_20260722",
+      "placebo_20260805"
+     ],
+     "mean": 0.03952835500240326
+    },
+    {
+     "pair": [
+      "placebo_20260729",
+      "placebo_a"
+     ],
+     "mean": 0.03672979027032852
+    },
+    {
+     "pair": [
+      "placebo_20260805",
+      "placebo_b"
+     ],
+     "mean": 0.07279559969902039
+    },
+    {
+     "pair": [
+      "placebo_a",
+      "baseline"
+     ],
+     "mean": 0.09138039499521255
+    }
+   ],
+   "rank_of_event": 9,
+   "n_placebo": 9,
+   "label": "not detected above matched variability",
+   "token": {
+    "threshold_p99": 0.13080279529094696,
+    "event_frac_above": 0.0,
+    "placebo_fracs_above": [
+     0.003173828125,
+     0.000732421875,
+     0.0,
+     0.0,
+     0.0,
+     0.000244140625,
+     0.000244140625,
+     0.0126953125,
+     0.072998046875
+    ],
+    "rank_of_event": 10,
+    "label": "not detected (token-level)"
+   }
+  }
+ },
+ "inputs": {
+  "baseline/source_provisional": "c380771851df5aedbee13f1ca6a10524bc3dbe28dc04d1afc88e9d37c8ce89b7",
+  "s1_live/source_provisional": "5cfa1bb96267337437eb3dbfc2e06d6e6dec3d2318b41bc7cee3ce414b78aa4e",
+  "placebo_20260617/source_provisional": "3afa27d16304150982ed8bc3c33f31177c337c01a5aa4c20e277388172992ccc",
+  "placebo_20260701/source_provisional": "9824a07562b184a2816e8c3f5f07b865acb7ee67140f6999ff47d693173a51ab",
+  "placebo_20260624/source_provisional": "df2b28ad709db0842dabd5d2576738c4e879569b3b2deedbf90b082324258e35",
+  "placebo_20260708/source_provisional": "9a31f2a88aeedac62c31f0c5eadf85510ec954dddc3f853ffedacd61f44cc6d0",
+  "placebo_20260715/source_provisional": "0ec28b46d3a62913e1bc05f750558670ec99e42336a9edd5b3b2a52e6a503e6e",
+  "placebo_20260722/source_provisional": "2ee1ace5b5da45e320a5a4e569c5f04dbe9a0f1fe9cc1f8f2150a6826a5e750a",
+  "placebo_20260729/source_provisional": "6e8a4826c27709757bd3bb6413e48c3750cb335f026dab1628d10a36df61f5c0",
+  "placebo_20260805/source_provisional": "696734bbf9bf3197735ca7c75459caace48f23bee9fc0dfc2d036d26e37dcc48",
+  "placebo_a/source_provisional": "565fec16d4e0d138ab8799bc147bc907ad3460f5ea3bc3ba2e5213f7cc231d7a",
+  "placebo_b/source_provisional": "5ebbaf86a69abe7921d5475aec27cdcf0304cd8e1cb4ecf7eb66ce28ab4d0df6",
+  "baseline/rasuwagadhi": "d9815c41afa975ed8760298a91430ce3cd9f67ff38db3e6e2390b30c0044d20b",
+  "s1_live/rasuwagadhi": "745f848691c05513f8eedbf350856de21ff453701b3884b4ae4cdabcdd44e276",
+  "placebo_20260617/rasuwagadhi": "814307cda2cb9f8544a93c4974c6fe9a08620602c2f588ccb57089d67e24aa24",
+  "placebo_20260701/rasuwagadhi": "bbbc184e1d2d83523d97c97dcc80a369c8255839bec4893175bc917cb87cc38e",
+  "placebo_20260624/rasuwagadhi": "7aad3ca2befde76e7c4c057436695d24ed87ba81c079500b9e540de03c960971",
+  "placebo_20260708/rasuwagadhi": "0410c7957b8132a9bf7d27963bb22f463e6060a160ea357f293c69b5427f9def",
+  "placebo_20260715/rasuwagadhi": "21176d8c5cd9f315bfa7074622839fa012c6da2b1ae9bac01ee3f2d8d0d2d6c6",
+  "placebo_20260722/rasuwagadhi": "549b714cc9eef6fc45cb09f749550b46cadd5a7fb37fdc3e2d25a91c0ef6f651",
+  "placebo_20260729/rasuwagadhi": "a4d74a0c3ead113f3f85516999ee3f8d7a051c145826796151061a1035dde892",
+  "placebo_20260805/rasuwagadhi": "4751856c40da313e4a2b98416b2f0f70adcd11587d4351b28be99d734cc25cf6",
+  "placebo_a/rasuwagadhi": "a46b6559f8a3f5e2632d20fa975b9906faffd40e8257dd68f45bf27e4d42fb8d",
+  "placebo_b/rasuwagadhi": "2c79d1ec5f4c43b840fcd0b83475fdaec8b96f6ee2fe8aefcf9a04cd729c6f1a",
+  "baseline/timure": "d9d45eaed9ef4f1ac6f8a701959a83f26d3102658248a76046dcbf99a7cb4cd1",
+  "s1_live/timure": "82cc2f373f54df8d821851993ee11175b3b6215a2462348eb678f5b09fb2490a",
+  "placebo_20260617/timure": "471d2979ad35c5ec6282946e8eded972f14a549594f4f02f2593096deca7300a",
+  "placebo_20260701/timure": "e7f745453b78463d789d2f2c40c14b411ae05dc103a3df42a90a14c8896f2c4a",
+  "placebo_20260624/timure": "11097829dac6da964c51aa48c01c226a7cf500ee72b529757abb65360dce1f6e",
+  "placebo_20260708/timure": "9f3289f3f0fb19a7b5cf01a454bc6119a88c7d978b37611d60cfdbdac5e05de8",
+  "placebo_20260715/timure": "d90bf3f823e3c829f561580ac5dcb7b949da9a60a29b280f460d6456ce28cb15",
+  "placebo_20260722/timure": "37635c783cde5ac97ac7b74aa1936ea9e3bdb574dad16d79f8e9c7a60772f576",
+  "placebo_20260729/timure": "f80159e0973fc5fb9e246fc1d092e14977487d29fdc41155fb13bb68c280938e",
+  "placebo_20260805/timure": "b5d99bfbae2efb73ab254e081b8e9436924d24e628aa520a3a0635a1fd565111",
+  "placebo_a/timure": "7febe3653a7ff7ebf5122a6cf9b439755abc1ccadac4667eedb1e62525fbc6f2",
+  "placebo_b/timure": "4fb4e91cbaca37ad839e266121e583b2371445c08253138bda62aff523605d3a",
+  "baseline/syabrubesi": "af542418c718569e2ba3f35e48e408f2ab833e8ccdcb8c918965897f165843ef",
+  "s1_live/syabrubesi": "e16e36aba2467564b7631340f95d073d481685f2d9d265beea887abfb5560556",
+  "placebo_20260617/syabrubesi": "17a044949fbd9704545f50137377fd82e24ca523493a05d3334db2a18a5e5b8d",
+  "placebo_20260701/syabrubesi": "ce7befd58a27706fd4048e6edf9ffcaab68f3231fb998590cdaba95be53445a9",
+  "placebo_20260624/syabrubesi": "40ae38bb8b28e5efb24f69366030a1a5b9bd170834ed6eb8393a0ee844585323",
+  "placebo_20260708/syabrubesi": "2bf9da96ec0d79b497c51d2100f0b4ec81d4bc2e5277ae3fe269cd2350606f9e",
+  "placebo_20260715/syabrubesi": "a1476db40fa7cd0f80b657a776b71e4c7c86ea64af43c59746ba73eb6638d43e",
+  "placebo_20260722/syabrubesi": "66fef581794af6b3f90c93490c39995dc9a159e5826547942ca536b84dedbfae",
+  "placebo_20260729/syabrubesi": "0eca611894479526138f3d1ac7674b3007a86c1caaf6d506abdf5ba4ad89b224",
+  "placebo_20260805/syabrubesi": "eaf887ecf3ce6ceb296cc97502882b17412cfec04029faf11fbf2f8425a2957a",
+  "placebo_a/syabrubesi": "c945a139d938796d091dd08f3143e5c412a0a2576093cd7db9a0fa71d2a8bf00",
+  "placebo_b/syabrubesi": "4b3779daf27492322a93489f0e93a6806a9332451094cf79cf8c9af30e7b47b2",
+  "baseline/dhunche": "07befa2497840c48083fb6989aaf1ea991e37fc76110fc30fc5c8c3f704ea32b",
+  "s1_live/dhunche": "efb263b44d03cea5c25e72f8dc3a9a26cad649ab674e89af46987ffbf19c47db",
+  "placebo_20260617/dhunche": "b8c6f66bd016766faed1760b1df708a671d434c356655c4688de5b4ba9333708",
+  "placebo_20260701/dhunche": "b6caddf5e88cc4db18b5769673c700e49200f5b1bce296dc7cac44bd9e7d91c9",
+  "placebo_20260624/dhunche": "6118b8f86a082adf75a6eefb479f6aa1354739298b46f9849adc13d84e34c9c5",
+  "placebo_20260708/dhunche": "c83e78060f2a7dba3641aac6cd022c7f494cd348df1e9a7f10d5442ec656df18",
+  "placebo_20260715/dhunche": "d9292bd505a1c54397dd8c42edade2186fdee98827da62b23e8485303b3b047e",
+  "placebo_20260722/dhunche": "45f10cbe66761648c3657e21cbf09c084a55c8cfe1dd64029100739e0cdfde67",
+  "placebo_20260729/dhunche": "decdd8220c64754117019b489f9352e7d17d82cc8c0646bde53cb4f75c8b6192",
+  "placebo_20260805/dhunche": "efa5c058c8c24b79a64aa96ff9805fc86cc1c9cece5f492a296880b06e56ab76",
+  "placebo_a/dhunche": "20cfff79b1ff6b4c3d160875898a172b1a5e10357bc8a3ead1e547728668eaf1",
+  "placebo_b/dhunche": "80627d08d30cdd4a4cc4d57ea52b45ce2a10138afdadaa04ac03c0b5682e6f10"
+ }
+}

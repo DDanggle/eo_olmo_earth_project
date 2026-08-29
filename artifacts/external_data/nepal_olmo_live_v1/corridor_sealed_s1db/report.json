@@ -1,0 +1,817 @@
+{
+  "schema": "corridor-sealed-delta-s1db-v1",
+  "model": "OLMoEarth v1 Base (frozen)",
+  "embedding_layer": "embeddings",
+  "input_contract": {
+    "sentinel1": "RTC VV/VH linear intensity -> Sentinel1ToDecibels -> OlmoEarthNormalize",
+    "sentinel2": "L2A 12-band -> OlmoEarthNormalize",
+    "temporal": "4 periods; baseline/live share the first three periods",
+    "spatial": "2.56 km windows; 64x64 spatial tokens; 768-d per token"
+  },
+  "comparison": {
+    "event": "baseline -> s1_live",
+    "ordinary": "placebo_b -> baseline",
+    "threshold": "per-window ordinary-transition token p99",
+    "ordinary_transition_count": 1
+  },
+  "n_windows": 27,
+  "embedding_manifest_sha256": {
+    "placebo_b": "a1803fc8dc121eac4ebe25618cfca8f7a3e8e185a092b65aca0c069cd95c63c5",
+    "baseline": "7d8c8354d80bfb9c5100240b229bcc6cfcaeac24974c4a96b700afc39dcaf19c",
+    "s1_live": "bfcd753522ae4d9a2ea16e96a6d02e3a9f299741896af451865ca9d7948dea11"
+  },
+  "windows_manifest_sha256": "1cd52fd5538b2167d9465b5b4305f19d545a56765dcd0d74fb3995ece34398a5",
+  "windows": [
+    {
+      "id": "w23",
+      "name": "Devighat reach",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.1256703,
+        27.8787953
+      ],
+      "bounds_utm": [
+        314206.73234580073,
+        3083907.5802577697,
+        316766.73234580073,
+        3086467.5802577697
+      ],
+      "status": "screened",
+      "event_mean": 0.033585451543331146,
+      "event_p95": 0.0543769896030426,
+      "placebo_mean": 0.0457724928855896,
+      "placebo_p99": 0.07513315230607986,
+      "frac_above_local_placebo_p99": 0.004150390625,
+      "mean_ratio_event_to_placebo": 0.7337474822998047,
+      "s2_only_rank": 4,
+      "embedding_sha256": {
+        "placebo_b": "d3bdb4888380499fafbc77d2e8efe83b166b8dd9322718eba6034f10792cdcbc",
+        "baseline": "fb2add1787c5c0cc4956928db319368f1f1567de25be423226fc4d56e0be01d1",
+        "s1_live": "fee453c74bff6e83d20eb894bef96bfa2655f12b362385da9eb54c4a291f94f3"
+      },
+      "rank": 1
+    },
+    {
+      "id": "w21",
+      "name": "Bidur / Trishuli reach",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.1433941,
+        27.9204357
+      ],
+      "bounds_utm": [
+        316021.8363630304,
+        3088495.026539377,
+        318581.8363630304,
+        3091055.026539377
+      ],
+      "status": "screened",
+      "event_mean": 0.02805815078318119,
+      "event_p95": 0.054286956787109375,
+      "placebo_mean": 0.05054724961519241,
+      "placebo_p99": 0.07886821031570435,
+      "frac_above_local_placebo_p99": 0.00390625,
+      "mean_ratio_event_to_placebo": 0.5550875663757324,
+      "s2_only_rank": 6,
+      "embedding_sha256": {
+        "placebo_b": "a42457de47bd0850db212da0219a962e61f165b1385f143a01c725ab3177869d",
+        "baseline": "c28e64c2a56089b8b95c5106634ea709e7dbb1657e54f06295d50739b58a503c",
+        "s1_live": "49a65b1cd6cad30d86c1f175c477882467a081799a4823d86dc91fc3e6d90e91"
+      },
+      "rank": 2
+    },
+    {
+      "id": "w22",
+      "name": "Bidur / Trishuli reach",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.1368283,
+        27.9001413
+      ],
+      "bounds_utm": [
+        315341.3625244912,
+        3086256.0946481396,
+        317901.3625244912,
+        3088816.0946481396
+      ],
+      "status": "screened",
+      "event_mean": 0.033587150275707245,
+      "event_p95": 0.05109483003616333,
+      "placebo_mean": 0.05028310418128967,
+      "placebo_p99": 0.07898659259080887,
+      "frac_above_local_placebo_p99": 0.00146484375,
+      "mean_ratio_event_to_placebo": 0.6679609417915344,
+      "s2_only_rank": 7,
+      "embedding_sha256": {
+        "placebo_b": "f3d01a764742606e182029fa01333c6154308879e288e0bc13b427b25a20fea3",
+        "baseline": "a00ee3b8bc679fe5d61e153ee6de5f0d054fee8217fec823154b6cad221d41ee",
+        "s1_live": "60cc3f5af8b53d2d23c474a3e183571384d81611ce51ecceefadb9ed5404ef62"
+      },
+      "rank": 3
+    },
+    {
+      "id": "w18",
+      "name": "Corridor window w18",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.1840429,
+        27.972805
+      ],
+      "bounds_utm": [
+        320108.84421571955,
+        3094237.782902829,
+        322668.84421571955,
+        3096797.782902829
+      ],
+      "status": "screened",
+      "event_mean": 0.02645476534962654,
+      "event_p95": 0.051403388381004333,
+      "placebo_mean": 0.050812575966119766,
+      "placebo_p99": 0.07722418010234833,
+      "frac_above_local_placebo_p99": 0.001220703125,
+      "mean_ratio_event_to_placebo": 0.5206342339515686,
+      "s2_only_rank": 2,
+      "embedding_sha256": {
+        "placebo_b": "028e11bee3aa56db7f9cdeeea44d8d01c65b92426e5ba9259cc2b2df911b51b5",
+        "baseline": "94a1feee1ca973958e4afdabef13d1de247b4a70dd82cb6c7cca9eea9e3c4655",
+        "s1_live": "9f56ae7997899d44409f7e089c041cb8ad9708bc7ce8ef3c054a15bd262e2035"
+      },
+      "rank": 4
+    },
+    {
+      "id": "w00",
+      "name": "Rasuwagadhi impact corridor",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.3769971,
+        28.2780537
+      ],
+      "bounds_utm": [
+        339541.93434329407,
+        3127792.682816683,
+        342101.93434329407,
+        3130352.682816683
+      ],
+      "status": "screened",
+      "event_mean": 0.02346928045153618,
+      "event_p95": 0.043801844120025635,
+      "placebo_mean": 0.04176543280482292,
+      "placebo_p99": 0.06743772327899933,
+      "frac_above_local_placebo_p99": 0.000732421875,
+      "mean_ratio_event_to_placebo": 0.5619307160377502,
+      "s2_only_rank": 12,
+      "embedding_sha256": {
+        "placebo_b": "379b54ac7b4d58cd50474b8a6281926c67ffa3dac30d7a8044e08795c3001a05",
+        "baseline": "9782182ed3d41451aa8e0b50223c26fafd2d01c16e4fc9f49774dd8e3a37c244",
+        "s1_live": "6a581d073436606a3f6585485b4e3ebbb795d5d63d26fc835202cb759b83b81d"
+      },
+      "rank": 5
+    },
+    {
+      "id": "w20",
+      "name": "Corridor window w20",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.15528,
+        27.9337759
+      ],
+      "bounds_utm": [
+        317213.987823609,
+        3089955.506673582,
+        319773.987823609,
+        3092515.506673582
+      ],
+      "status": "screened",
+      "event_mean": 0.02616363763809204,
+      "event_p95": 0.05104683339595795,
+      "placebo_mean": 0.05268107354640961,
+      "placebo_p99": 0.08024400472640991,
+      "frac_above_local_placebo_p99": 0.00048828125,
+      "mean_ratio_event_to_placebo": 0.4966420829296112,
+      "s2_only_rank": 8,
+      "embedding_sha256": {
+        "placebo_b": "5cc1e75c75377a41769dd280fd65b046012bf927e817213696858d5e8452dc45",
+        "baseline": "5f9214240a1b24f8a7a5062b198d6d6f66cbd7fdcef5821d909cc19651751876",
+        "s1_live": "634b3288cf7a3b2ea4fd88e6c8db47a24eda75d1f1dc9e6eeed573c135d7bf47"
+      },
+      "rank": 6
+    },
+    {
+      "id": "w19",
+      "name": "Corridor window w19",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.1625544,
+        27.9531683
+      ],
+      "bounds_utm": [
+        317962.17370269296,
+        3092093.52882787,
+        320522.17370269296,
+        3094653.52882787
+      ],
+      "status": "screened",
+      "event_mean": 0.023211147636175156,
+      "event_p95": 0.04611697793006897,
+      "placebo_mean": 0.05181210860610008,
+      "placebo_p99": 0.07910802960395813,
+      "frac_above_local_placebo_p99": 0.00048828125,
+      "mean_ratio_event_to_placebo": 0.4479869306087494,
+      "s2_only_rank": 13,
+      "embedding_sha256": {
+        "placebo_b": "bb345c625d45c47eb114be6fa1b35bb47ec9953a03d29a140917981789986f27",
+        "baseline": "f4a2ed08d59875f701943489da771cd3cb6f44f53cf015466efae75aa3708cbe",
+        "s1_live": "7bc16aafa9079f8c6465d7055579497c1b83d01857eddc66321b453b3a55eed4"
+      },
+      "rank": 7
+    },
+    {
+      "id": "w07",
+      "name": "Corridor window w07",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.3203392,
+        28.1490208
+      ],
+      "bounds_utm": [
+        333786.06060492306,
+        3113571.0865824814,
+        336346.06060492306,
+        3116131.0865824814
+      ],
+      "status": "screened",
+      "event_mean": 0.02400018461048603,
+      "event_p95": 0.04027271270751953,
+      "placebo_mean": 0.050728991627693176,
+      "placebo_p99": 0.07710669934749603,
+      "frac_above_local_placebo_p99": 0.000244140625,
+      "mean_ratio_event_to_placebo": 0.47310587763786316,
+      "s2_only_rank": 16,
+      "embedding_sha256": {
+        "placebo_b": "f00863b5e6fd73a61f1003f1dde836cb5149b98fbb6d341ed4649b041c7eee49",
+        "baseline": "a89c1c969d1e740f5896c190dc6bfbada548b6cc93c1b24448837b8ea8cb22e8",
+        "s1_live": "863da8e23510a0642330ca4f341149be77b67ed19d39f271d530f03003a00692"
+      },
+      "rank": 8
+    },
+    {
+      "id": "w01",
+      "name": "Corridor window w01",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.3655078,
+        28.2564967
+      ],
+      "bounds_utm": [
+        338382.6583587293,
+        3125419.2523222645,
+        340942.6583587293,
+        3127979.2523222645
+      ],
+      "status": "screened",
+      "event_mean": 0.023908955976366997,
+      "event_p95": 0.03965654969215393,
+      "placebo_mean": 0.046113502234220505,
+      "placebo_p99": 0.07417522370815277,
+      "frac_above_local_placebo_p99": 0.000244140625,
+      "mean_ratio_event_to_placebo": 0.5184805989265442,
+      "s2_only_rank": 21,
+      "embedding_sha256": {
+        "placebo_b": "795b611e643b31055d27f30303c2df5379bcb1be305a82f8e860b2ceeadaa1d5",
+        "baseline": "bd280a4ae622a894c19bec2137ccb64d3305ae17a100df2c4c5c1979eca1dde9",
+        "s1_live": "cf931015760fc10b2c902cf1208a5a2df409b803473cb035c71933c351a64cad"
+      },
+      "rank": 9
+    },
+    {
+      "id": "w24",
+      "name": "Lower Lhende upstream",
+      "kind": "lhende_upstream",
+      "center_lonlat": [
+        85.42513333333333,
+        28.276166666666665
+      ],
+      "bounds_utm": [
+        344260.90318409493,
+        3127521.1531418855,
+        346820.90318409493,
+        3130081.1531418855
+      ],
+      "status": "screened",
+      "event_mean": 0.05011555179953575,
+      "event_p95": 0.0687061995267868,
+      "placebo_mean": 0.11192216724157333,
+      "placebo_p99": 0.2060704231262207,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.44777145981788635,
+      "s2_only_rank": null,
+      "embedding_sha256": {
+        "placebo_b": "32995511b1b78da1536cde86a10b7ceda127988673673d39d4c17bb76c74fa43",
+        "baseline": "a8d803788844cff2d5875cdee7135eb88d7b0a2705f1bccbf930b3a9d06bc3a5",
+        "s1_live": "a453784570c79c8a3c805e315fb89f307cb63f5a59e81a23e03197f0b9ef345f"
+      },
+      "rank": 10
+    },
+    {
+      "id": "w26",
+      "name": "Langtang Lirung source estimate",
+      "kind": "lhende_upstream",
+      "center_lonlat": [
+        85.5194,
+        28.2765
+      ],
+      "bounds_utm": [
+        353507.9799940974,
+        3127441.2614681334,
+        356067.9799940974,
+        3130001.2614681334
+      ],
+      "status": "screened",
+      "event_mean": 0.042787980288267136,
+      "event_p95": 0.062186986207962036,
+      "placebo_mean": 0.09485067427158356,
+      "placebo_p99": 0.168038472533226,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.4511088728904724,
+      "s2_only_rank": null,
+      "embedding_sha256": {
+        "placebo_b": "5ebbaf86a69abe7921d5475aec27cdcf0304cd8e1cb4ecf7eb66ce28ab4d0df6",
+        "baseline": "c380771851df5aedbee13f1ca6a10524bc3dbe28dc04d1afc88e9d37c8ce89b7",
+        "s1_live": "3c46393d584ff859a972ee1716a4d5093c2ba09e1233041744a89b1168ad70c6"
+      },
+      "rank": 11
+    },
+    {
+      "id": "w25",
+      "name": "Middle Lhende upstream",
+      "kind": "lhende_upstream",
+      "center_lonlat": [
+        85.47226666666667,
+        28.276333333333334
+      ],
+      "bounds_utm": [
+        348884.47693978087,
+        3127480.30567235,
+        351444.47693978087,
+        3130040.30567235
+      ],
+      "status": "screened",
+      "event_mean": 0.04066523164510727,
+      "event_p95": 0.055444106459617615,
+      "placebo_mean": 0.10077036917209625,
+      "placebo_p99": 0.1685669869184494,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.40354353189468384,
+      "s2_only_rank": null,
+      "embedding_sha256": {
+        "placebo_b": "30fc9603b41d45f219daf048289b6d944a77559009aa49b591eb12f3f345f6c5",
+        "baseline": "11e21fb78a73a98ef1cfba70a8eca0770533e239d18b8334a9df1938d5405629",
+        "s1_live": "464c8d4e42add2e62878b4a88991f8dd6bfd3802492a2313568d6de4e6684146"
+      },
+      "rank": 12
+    },
+    {
+      "id": "w09",
+      "name": "Corridor window w09",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.2860518,
+        28.1179428
+      ],
+      "bounds_utm": [
+        330370.07329019706,
+        3110174.549480681,
+        332930.07329019706,
+        3112734.549480681
+      ],
+      "status": "screened",
+      "event_mean": 0.026786666363477707,
+      "event_p95": 0.04010777175426483,
+      "placebo_mean": 0.051211655139923096,
+      "placebo_p99": 0.08120816200971603,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.5230579972267151,
+      "s2_only_rank": 15,
+      "embedding_sha256": {
+        "placebo_b": "985d88ec93227c3541d35b50a9c874daf0438f28f577d0aa5ceeb8bd15a0ae82",
+        "baseline": "f7221a69044882150f3b84e6d2cdd15023a7879918644ae6d2356c801b73eeb4",
+        "s1_live": "d816a4fc79ef22a204ffa03cb028f0cfbba20d2649e727e5000f4de2df6b917c"
+      },
+      "rank": 13
+    },
+    {
+      "id": "w14",
+      "name": "Corridor window w14",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.2021352,
+        28.0475998
+      ],
+      "bounds_utm": [
+        322010.8412830497,
+        3102499.1582596865,
+        324570.8412830497,
+        3105059.1582596865
+      ],
+      "status": "screened",
+      "event_mean": 0.02574566937983036,
+      "event_p95": 0.03996334969997406,
+      "placebo_mean": 0.054602690041065216,
+      "placebo_p99": 0.07911716401576996,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.47150918841362,
+      "s2_only_rank": 10,
+      "embedding_sha256": {
+        "placebo_b": "276d26afb73dd407dd446e9b3224dd486e5f1a3cefdd67f59e966caecc583ae8",
+        "baseline": "1b5a23d9ab4becd835d2b3b5855ef2d84d9b2e9535c8836d33dcca298a184f58",
+        "s1_live": "6e2b19ea328954e7850fad897a88cbdd8a7218e73ee080cb0b4790d6e5d10c57"
+      },
+      "rank": 14
+    },
+    {
+      "id": "w15",
+      "name": "Corridor window w15",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.1934198,
+        28.0309439
+      ],
+      "bounds_utm": [
+        321126.69568547804,
+        3100666.2489257613,
+        323686.69568547804,
+        3103226.2489257613
+      ],
+      "status": "screened",
+      "event_mean": 0.025607477873563766,
+      "event_p95": 0.03826473653316498,
+      "placebo_mean": 0.05298183858394623,
+      "placebo_p99": 0.07785574346780777,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.4833255708217621,
+      "s2_only_rank": 5,
+      "embedding_sha256": {
+        "placebo_b": "386f80e119de229fdf8a6aaa3b83ece866e1d1d4098cfc111d1fcdc44023d9fb",
+        "baseline": "28cc235267e809d0c95ded7ca695c4642e87749939d4dc7269fa4eb2144b6509",
+        "s1_live": "d2a34de216705f34ec4ff1790ac94765ef35e881dc1a83ca0ea2ca47a6ac7502"
+      },
+      "rank": 15
+    },
+    {
+      "id": "w03",
+      "name": "Corridor window w03",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.3552582,
+        28.216824
+      ],
+      "bounds_utm": [
+        337317.34061460674,
+        3121036.972180043,
+        339877.34061460674,
+        3123596.972180043
+      ],
+      "status": "screened",
+      "event_mean": 0.02522333711385727,
+      "event_p95": 0.03460411727428436,
+      "placebo_mean": 0.050620079040527344,
+      "placebo_p99": 0.07420507073402405,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.4982872009277344,
+      "s2_only_rank": 1,
+      "embedding_sha256": {
+        "placebo_b": "feff647a5f708f9868ac8545a5fd810e58772a0204923b23f8f9953fcea3398c",
+        "baseline": "9d5fde2fa2656a9a90e6f5c5ef1d16e90a7ffd8d2fee64890ec0bf335cae199f",
+        "s1_live": "4a6dd1452621e1cf11cdd9a27ab2d620944eaba314d9b1d7224c9883552ffbaf"
+      },
+      "rank": 16
+    },
+    {
+      "id": "w02",
+      "name": "Corridor window w02",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.3580332,
+        28.2380123
+      ],
+      "bounds_utm": [
+        337621.53089000704,
+        3123381.0286044134,
+        340181.53089000704,
+        3125941.0286044134
+      ],
+      "status": "screened",
+      "event_mean": 0.025214117020368576,
+      "event_p95": 0.03504575788974762,
+      "placebo_mean": 0.0494609959423542,
+      "placebo_p99": 0.07584553956985474,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.5097777843475342,
+      "s2_only_rank": 3,
+      "embedding_sha256": {
+        "placebo_b": "f7e10fbbd4fba4992440b0b713cc7c88652d8d7627453fc9e711e2845af356fa",
+        "baseline": "6f5900f0fb3c2d5289e98e285515bae75b838dcf608c8c5dad63a7382861badf",
+        "s1_live": "9824c208a0511d2a4316bed314866022eb8988bde4b5966f53650ee18d62b073"
+      },
+      "rank": 17
+    },
+    {
+      "id": "w06",
+      "name": "Corridor window w06",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.3374022,
+        28.1597451
+      ],
+      "bounds_utm": [
+        335478.0972310123,
+        3114736.3135650046,
+        338038.0972310123,
+        3117296.3135650046
+      ],
+      "status": "screened",
+      "event_mean": 0.025109879672527313,
+      "event_p95": 0.041526585817337036,
+      "placebo_mean": 0.0526772066950798,
+      "placebo_p99": 0.077932208776474,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.47667446732521057,
+      "s2_only_rank": 14,
+      "embedding_sha256": {
+        "placebo_b": "552f7811e4e537b8a5fbe9f0169773f60fe0b62525f3e0a0d04503509d247d44",
+        "baseline": "de11c81b7968535ed5d1050533920f6c08b2e332ec5a4047a1da23c3d8f2826a",
+        "s1_live": "c6fcfb94617397f92e1c12ad975bbfb758c8a38bf9297ff60a87f8a3972bb116"
+      },
+      "rank": 18
+    },
+    {
+      "id": "w12",
+      "name": "Corridor window w12",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.2216715,
+        28.0819033
+      ],
+      "bounds_utm": [
+        323986.9020884566,
+        3106272.0043686084,
+        326546.9020884566,
+        3108832.0043686084
+      ],
+      "status": "screened",
+      "event_mean": 0.025070112198591232,
+      "event_p95": 0.034519270062446594,
+      "placebo_mean": 0.05399879813194275,
+      "placebo_p99": 0.08144174516201019,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.4642716646194458,
+      "s2_only_rank": null,
+      "embedding_sha256": {
+        "placebo_b": "9ca16df08ea9a3439b253498d3913940e6440a32d32b95ca85397c96f1672c72",
+        "baseline": "0fe1d8f725b2fdabf011a91da1a033512389be238b72ff9c2de86a26f9bb619e",
+        "s1_live": "535a9196c4ce980f978d2e137207fa27d16b402671653044281ee0f9e7562bb2"
+      },
+      "rank": 19
+    },
+    {
+      "id": "w10",
+      "name": "Corridor window w10",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.2691876,
+        28.1033924
+      ],
+      "bounds_utm": [
+        328690.37736563536,
+        3108585.768266808,
+        331250.37736563536,
+        3111145.768266808
+      ],
+      "status": "screened",
+      "event_mean": 0.0246107317507267,
+      "event_p95": 0.039176687598228455,
+      "placebo_mean": 0.05406082421541214,
+      "placebo_p99": 0.08116438239812851,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.45524153113365173,
+      "s2_only_rank": 17,
+      "embedding_sha256": {
+        "placebo_b": "1c89ad174d6203ea4d62125c866f7a9791dccfb68b36a9ef96be7cfc4010f3e6",
+        "baseline": "a0c34acfc3ff160ea96f6e1af01c002e834dccaaa379ffd022278568ddf830fc",
+        "s1_live": "e5ac6f5c7b297b41f048700610399f5d7c0a81846ec470c03fa0ea8de465f202"
+      },
+      "rank": 20
+    },
+    {
+      "id": "w11",
+      "name": "Corridor window w11",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.2415118,
+        28.091752
+      ],
+      "bounds_utm": [
+        325952.468250497,
+        3107334.9596810704,
+        328512.468250497,
+        3109894.9596810704
+      ],
+      "status": "screened",
+      "event_mean": 0.02441338077187538,
+      "event_p95": 0.036249592900276184,
+      "placebo_mean": 0.049649424850940704,
+      "placebo_p99": 0.07759714126586914,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.49171528220176697,
+      "s2_only_rank": 23,
+      "embedding_sha256": {
+        "placebo_b": "51202b6c42478c70f206da6618608de7d6a69edd1631ea4d79660e290b6b0ab6",
+        "baseline": "ae02558d7f70df479ad5108cff3ef0914816b7e9ca32cfb9eb6ffef84eb956fd",
+        "s1_live": "89979a808219415dbac91f9c1e149f62f0691fff7fad61b95447606011921222"
+      },
+      "rank": 21
+    },
+    {
+      "id": "w08",
+      "name": "Corridor window w08",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.3009424,
+        28.132384
+      ],
+      "bounds_utm": [
+        331855.2956584168,
+        3111754.158031825,
+        334415.2956584168,
+        3114314.158031825
+      ],
+      "status": "screened",
+      "event_mean": 0.024122506380081177,
+      "event_p95": 0.03743599355220795,
+      "placebo_mean": 0.04854493588209152,
+      "placebo_p99": 0.07696888595819473,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.49691087007522583,
+      "s2_only_rank": 18,
+      "embedding_sha256": {
+        "placebo_b": "d0f84d31d238ab961e8d184ab3364fec3de5142a92d55bd658e6389d8d4458ae",
+        "baseline": "53c4326f92704621b992dd7d93271ded06c5e361ac7cf57a96bd3809e453ccc2",
+        "s1_live": "d8a54a79c7c7b2e3d8fbaded461f93ecdeff7e283ae12fc019d90957a9925703"
+      },
+      "rank": 22
+    },
+    {
+      "id": "w04",
+      "name": "Corridor window w04",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.351472,
+        28.1974739
+      ],
+      "bounds_utm": [
+        336916.56779886386,
+        3118897.9541371353,
+        339476.56779886386,
+        3121457.9541371353
+      ],
+      "status": "screened",
+      "event_mean": 0.024033069610595703,
+      "event_p95": 0.036228716373443604,
+      "placebo_mean": 0.052437663078308105,
+      "placebo_p99": 0.0755685567855835,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.45831695199012756,
+      "s2_only_rank": 20,
+      "embedding_sha256": {
+        "placebo_b": "43a319c5a8a1e64e67b62d4a780b2a00385cb80da0d11fb6e65c7fab2474fbec",
+        "baseline": "4df0c23a88c63b95e16e29766681d00ccb8533132ec14738ea9b98e5ac93306a",
+        "s1_live": "9e975a29baabfab91ebbff6c31b9b981024c2a2600db73d3f4b530df4be7b498"
+      },
+      "rank": 23
+    },
+    {
+      "id": "w05",
+      "name": "Corridor window w05",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.3427577,
+        28.1785799
+      ],
+      "bounds_utm": [
+        336032.51271073497,
+        3116816.087156293,
+        338592.51271073497,
+        3119376.087156293
+      ],
+      "status": "screened",
+      "event_mean": 0.023317288607358932,
+      "event_p95": 0.03844025731086731,
+      "placebo_mean": 0.052982304245233536,
+      "placebo_p99": 0.07795177400112152,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.44009578227996826,
+      "s2_only_rank": 22,
+      "embedding_sha256": {
+        "placebo_b": "e51b1b28d8e8b57e58a90986e3ea67a8764c467444f45bc6417bf36d70bc6b4e",
+        "baseline": "222e3632ffd4fdcbba13b1fabee26f51cd660f9e9e6335c0f775c1e59fef684b",
+        "s1_live": "b2b486514db396801ff020398ef332218091851c7cc2a936bda3f13800475ef6"
+      },
+      "rank": 24
+    },
+    {
+      "id": "w16",
+      "name": "Corridor window w16",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.1841681,
+        28.0127153
+      ],
+      "bounds_utm": [
+        320186.9653277736,
+        3098659.914586284,
+        322746.9653277736,
+        3101219.914586284
+      ],
+      "status": "screened",
+      "event_mean": 0.02258312702178955,
+      "event_p95": 0.037634462118148804,
+      "placebo_mean": 0.05264957249164581,
+      "placebo_p99": 0.07859619706869125,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.4289327561855316,
+      "s2_only_rank": 9,
+      "embedding_sha256": {
+        "placebo_b": "bb3ce9991e74a191a9cd9f8cb7eb60f6cd21d820f6d6680e3f0699248864e1c9",
+        "baseline": "d23228d52dff371505bf619c625f0231e2f2ee0e8e8dce44f78c1323ec725561",
+        "s1_live": "187c0b039a192b580c5dbd70c2b151b781b330d7c5af77384fae174b2eb17b59"
+      },
+      "rank": 25
+    },
+    {
+      "id": "w13",
+      "name": "Corridor window w13",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.2055355,
+        28.0689646
+      ],
+      "bounds_utm": [
+        322379.99927131797,
+        3104861.5896131466,
+        324939.99927131797,
+        3107421.5896131466
+      ],
+      "status": "screened",
+      "event_mean": 0.02119617722928524,
+      "event_p95": 0.031835660338401794,
+      "placebo_mean": 0.053412966430187225,
+      "placebo_p99": 0.08258504420518875,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.3968358039855957,
+      "s2_only_rank": 19,
+      "embedding_sha256": {
+        "placebo_b": "6dd37a617027a3c75a4043c37b6d503c550446839dddef402407e81e60b89d9d",
+        "baseline": "b25643357b296bb46e12cd512dd88a975a998aa7ef0972bfa3125069d2dd30dc",
+        "s1_live": "584784796569cfd440aadcea369930f6881125ba26906d97e6597e9dabb40997"
+      },
+      "rank": 26
+    },
+    {
+      "id": "w17",
+      "name": "Corridor window w17",
+      "kind": "corridor",
+      "center_lonlat": [
+        85.1824445,
+        27.9933759
+      ],
+      "bounds_utm": [
+        319985.54042646906,
+        3096519.507125066,
+        322545.54042646906,
+        3099079.507125066
+      ],
+      "status": "screened",
+      "event_mean": 0.021151643246412277,
+      "event_p95": 0.03972189128398895,
+      "placebo_mean": 0.051874011754989624,
+      "placebo_p99": 0.07688983529806137,
+      "frac_above_local_placebo_p99": 0.0,
+      "mean_ratio_event_to_placebo": 0.40775027871131897,
+      "s2_only_rank": 11,
+      "embedding_sha256": {
+        "placebo_b": "a046e8cba53050d9ef571c8e95bf8b647117c2e286180b5d20e98cd088f0e17d",
+        "baseline": "f4ba48cddbd4358a3b43639b9bebf3235ccf86e0cd0c379a462e0496eeb801cd",
+        "s1_live": "74cad53c8cfaa9d86b8343deeaee6a3120652c4582f11364a95dcef81094e7a4"
+      },
+      "rank": 27
+    }
+  ],
+  "claim": "contract-correct, matched-location candidate-change screening; not damage, cause, extent, probability, or calibrated anomaly",
+  "limitations": [
+    "Only one matched-location ordinary transition is available per window.",
+    "The local p99 is therefore a screening reference, not a population percentile.",
+    "No Nepal event polygon or field label was used to validate the ranking.",
+    "OLMoEarth embeddings fuse S1 and S2; this report does not attribute a score to one sensor."
+  ],
+  "supersedes": "corridor_sealed/report.json (missing Sentinel1ToDecibels and borrowed invalid threshold)"
+}
