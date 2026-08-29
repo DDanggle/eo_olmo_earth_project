@@ -681,16 +681,19 @@ export default function Home() {
           if (flowPlayingRef.current) wasm.step(dt, flowSpeedRef.current);
           const count = wasm.particle_count();
           const values = new Float32Array(wasm.memory.buffer, wasm.particles_ptr(), count * 3);
-          context.globalCompositeOperation = 'lighter';
-          context.shadowColor = '#5fffd7';
-          context.shadowBlur = 8;
+          // 2026-08-29: 'lighter'(가산) + 민트색은 어두운 지도 전제였음. 밝은 종이 톤·MapTiler
+          // 배경에서는 흰색으로 사라져 "애니메이션이 없다"로 보였음. 밝은 배경에서 보이는
+          // 진한 색 + 일반 합성으로 바꾸고, 흰 테두리로 위성 장면 위에서도 분리되게 함.
+          context.globalCompositeOperation = 'source-over';
+          context.shadowColor = 'rgba(255, 255, 255, 0.9)';
+          context.shadowBlur = 3;
           for (let index = 0; index < count; index += 1) {
             const screen = map.project([values[index * 3], values[index * 3 + 1]]);
             if (screen.x < 0 || screen.y < 0 || screen.x > width || screen.y > height) continue;
-            context.globalAlpha = values[index * 3 + 2] * 0.8;
-            context.fillStyle = index % 7 === 0 ? '#ffb45f' : '#5fffd7';
+            context.globalAlpha = 0.35 + values[index * 3 + 2] * 0.65;
+            context.fillStyle = index % 7 === 0 ? '#eb6834' : '#0f5fd7';
             context.beginPath();
-            context.arc(screen.x, screen.y, index % 7 === 0 ? 1.8 : 1.15, 0, Math.PI * 2);
+            context.arc(screen.x, screen.y, index % 7 === 0 ? 2.6 : 1.9, 0, Math.PI * 2);
             context.fill();
           }
           context.globalAlpha = 1;
