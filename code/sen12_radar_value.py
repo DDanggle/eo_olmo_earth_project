@@ -85,10 +85,17 @@ def main():
                     s1_unit = "dB" if np.nanmean(vv) < 0 else "linear"
                 if s1_unit=="linear":
                     vv=10*np.log10(np.clip(vv,1e-4,None)); vh=10*np.log10(np.clip(vh,1e-4,None))
-                def near(tt): return min(range(len(t1)), key=lambda i: abs((t1[i]-tt).total_seconds()))
-                def load1(t2):
-                    idx=[near(t) for t in t2]; return np.stack([vv[idx],vh[idx]],0), [t1[i] for i in idx]
-                c1pre,t1pre=load1(t2pre); c1post,t1post=load1(t2post)
+                def load1(t2, side):
+                    # 같은 쪽(pre/post)의 S1 시점 중 S2 시점에 가까운 순으로 서로 다른 4개를 고름(중복 timestamp 금지)
+                    pool=[i for i,t in enumerate(t1) if (t<ev if side=="pre" else t>=ev)]
+                    chosen=[]
+                    for tt in t2:
+                        cand=sorted((i for i in pool if i not in chosen), key=lambda i: abs((t1[i]-tt).total_seconds()))
+                        if not cand: return None, None
+                        chosen.append(cand[0])
+                    idx=sorted(chosen); return np.stack([vv[idx],vh[idx]],0), [t1[i] for i in idx]
+                c1pre,t1pre=load1(t2pre,"pre"); c1post,t1post=load1(t2post,"post")
+            if c1pre is None or c1post is None: no_s1+=1; continue
             zb2=embed(c2pre,t2pre); zp2=embed(c2post,t2post)
             zb12=embed(c2pre,t2pre,c1pre,t1pre); zp12=embed(c2post,t2post,c1post,t1post)
             y=(mask.reshape(32,4,32,4).mean(axis=(1,3))>=0.25).astype("int8").ravel()
