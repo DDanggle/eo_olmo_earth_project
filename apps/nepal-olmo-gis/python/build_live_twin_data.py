@@ -826,14 +826,7 @@ def research_block() -> dict[str, Any]:
                 "artifact_sha256": sha256(susceptibility_path) if susceptibility_path.exists() else None,
             },
             {
-                "id": "nepal_post_event_delta",
-                "state": "WAITING_INPUT",
-                "model": "OlmoEarth v1 Base (frozen)",
-                "input": "sealed post-event S1+S2 cube, not yet materialized",
-                "output": "none",
-                "allows": "nothing beyond the verified observation ledger",
-                "forbids": "live change heatmap, anomaly score or damage label",
-                "artifact_sha256": None,
+                **_post_event_delta_ledger(),
             },
             {
                 "id": "matched_second_geofm",
@@ -949,6 +942,27 @@ def candidates_block() -> dict[str, Any] | None:
     return {"schema": rep.get("schema"), "claim": rep.get("claim"), "threshold_placebo_p99": rep.get("threshold_placebo_p99"),
             "placebo_tokens": rep.get("placebo_tokens"), "windows": len(rep["windows"]), "top10": top10, "retrieval": retrieval,
             "report_sha256": sha256(rp), "geojson": {"type": "FeatureCollection", "features": feats}}
+
+
+def _post_event_delta_ledger() -> dict[str, Any]:
+    """live_mode가 있는 최신 delta report가 있으면 EXECUTED, 없으면 WAITING_INPUT (실물 기준)."""
+    latest = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
+    rep = json.loads(latest[-1].read_text()) if latest else {}
+    if not rep.get("live_mode"):
+        return {"id": "nepal_post_event_delta", "state": "WAITING_INPUT", "model": "OlmoEarth v1 Base (frozen)",
+                "input": "sealed post-event S1+S2 cube, not yet materialized", "output": "none",
+                "allows": "nothing beyond the verified observation ledger",
+                "forbids": "live change heatmap, anomaly score or damage label", "artifact_sha256": None}
+    anchors = rep.get("anchors", {})
+    labels = {a: (v.get("verdict") or {}).get("label", "") for a, v in anchors.items() if isinstance(v, dict)}
+    cand = [a for a, s in labels.items() if "candidate" in s]; nd = [a for a in labels if a not in cand]
+    n_pl = len(rep.get("placebo_modes_available", []))
+    return {"id": "nepal_post_event_delta", "state": "EXECUTED", "model": "OlmoEarth v1 Base (frozen)",
+            "input": f"sealed {rep['live_mode']} cube · 5 anchors · S1 4 periods (incl. 2026-08-28 RTC) + S2 4 periods (incl. 2026-08-27) vs sealed baseline",
+            "output": f"5 delta rasters 64×64 (cosine Δz per 40 m token) · {len(cand)}/{len(labels)} candidate change ({', '.join(cand)}) · {len(nd)}/{len(labels)} not detected ({', '.join(nd)})",
+            "allows": f"descriptive 'candidate change' per anchor where live Δ exceeds all {n_pl} placebo windows; rank vs placebo",
+            "forbids": "anomaly percentile/probability until ≥20 placebo windows; damage, cause, extent",
+            "artifact_sha256": sha256(latest[-1])}
 
 
 def headline_block() -> dict[str, Any]:

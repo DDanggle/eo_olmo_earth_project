@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T10:59:11.494838+00:00",
+  "generated_at": "2026-08-29T11:01:43.330652+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -956,13 +956,13 @@
       },
       {
         "id": "nepal_post_event_delta",
-        "state": "WAITING_INPUT",
+        "state": "EXECUTED",
         "model": "OlmoEarth v1 Base (frozen)",
-        "input": "sealed post-event S1+S2 cube, not yet materialized",
-        "output": "none",
-        "allows": "nothing beyond the verified observation ledger",
-        "forbids": "live change heatmap, anomaly score or damage label",
-        "artifact_sha256": null
+        "input": "sealed s1_live cube · 5 anchors · S1 4 periods (incl. 2026-08-28 RTC) + S2 4 periods (incl. 2026-08-27) vs sealed baseline",
+        "output": "5 delta rasters 64×64 (cosine Δz per 40 m token) · 3/5 candidate change (rasuwagadhi, syabrubesi, timure) · 2/5 not detected (dhunche, source_provisional)",
+        "allows": "descriptive 'candidate change' per anchor where live Δ exceeds all 2 placebo windows; rank vs placebo",
+        "forbids": "anomaly percentile/probability until ≥20 placebo windows; damage, cause, extent",
+        "artifact_sha256": "07c12b0a32cf5bcb193fffddcf82c89b4628cc469b33483da03fc8b5ec57d855"
       },
       {
         "id": "matched_second_geofm",
@@ -2462,14 +2462,11 @@
     }
   },
   "headline": {
-    "sealed_candidates": 0,
+    "sealed_candidates": 3,
     "sealed_total": 5,
     "sealed_not_detected": [
       "dhunche",
-      "rasuwagadhi",
-      "source_provisional",
-      "syabrubesi",
-      "timure"
+      "source_provisional"
     ],
     "corridor_ranked": 23,
     "corridor_top": [

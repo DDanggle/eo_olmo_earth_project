@@ -17,7 +17,8 @@ assert.equal(scenario.research.ai_run_ledger.length, 6);
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.state, 'EXECUTED');
 assert.match(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.output ?? '', /15 sealed embedding rasters.*768, 64, 64/);
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'pre_event_forecast')?.state, 'NEGATIVE_RESULT');
-assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_post_event_delta')?.state, 'WAITING_INPUT');
+const liveVerdict = typeof scenario.olmoearth.post_event_delta === 'object' && scenario.olmoearth.post_event_delta && scenario.olmoearth.post_event_delta.live_mode;
+assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_post_event_delta')?.state, liveVerdict ? 'EXECUTED' : 'WAITING_INPUT');
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'matched_second_geofm')?.state, 'NOT_RUN');
 assert.equal(scenario.downstream_visual.purpose, 'visual_only_downstream_context_not_part_of_five_anchor_olmo_contract');
 assert.deepEqual(scenario.downstream_visual.records.map((record) => record.label), ['pre', 'post']);
@@ -27,10 +28,19 @@ assert.ok(scenario.points.find((point) => point.id === 'C')?.in_event_chain === 
 assert.ok(scenario.points.find((point) => point.id === 'C')?.map_label === 'C · CONTROL');
 assert.equal(scenario.olmoearth.embedding_status, 'not_run_in_this_web_snapshot');
 assert.equal(scenario.live_observation.catalog_status, 'published');
-assert.equal(scenario.live_observation.olmo_ready, false);
-assert.equal(scenario.live_observation.selection_preflight_valid, false);
-assert.equal(scenario.live_observation.materialization_seal_valid, false);
-assert.equal(scenario.live_observation.materialization_status, 'blocked_provider_selection');
+// 2026-08-29: 라이브 판정 전/후 두 상태 모두 검증함 (판정 전 = 대기 불변식, 판정 후 = 봉인 불변식)
+if (liveVerdict) {
+  assert.equal(scenario.live_observation.olmo_ready, true);
+  assert.equal(scenario.live_observation.selection_preflight_valid, true);
+  assert.equal(scenario.live_observation.materialization_seal_valid, true);
+  assert.equal(scenario.headline?.sealed_total, 5);
+  assert.ok(scenario.candidates && scenario.candidates.windows === 27);
+} else {
+  assert.equal(scenario.live_observation.olmo_ready, false);
+  assert.equal(scenario.live_observation.selection_preflight_valid, false);
+  assert.equal(scenario.live_observation.materialization_seal_valid, false);
+  assert.equal(scenario.live_observation.materialization_status, 'blocked_provider_selection');
+}
 assert.equal(scenario.live_observation.coverage_status, 'operational_anchors_covered');
 assert.equal(scenario.live_observation.operational_anchor_count, 5);
 assert.equal(scenario.decision.action, 'WAIT FOR PROVIDER SYNC');
