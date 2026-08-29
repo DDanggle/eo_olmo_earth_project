@@ -6,7 +6,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 WORKSPACE_DIR="$(cd "$REPO_DIR/.." && pwd)"
 MODE="${1:-baseline}"
-DATASET_ROOT="${2:-$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1/materialized/$MODE/dataset}"
+# ANCHOR_SET=five(기본, 사용자 앵커 5개) | corridor(M69의 27 자동 창, 봉인 계약 재실행용)
+ANCHOR_SET="${ANCHOR_SET:-five}"
+if [[ "$ANCHOR_SET" == "corridor" ]]; then
+  DATASET_ROOT="${2:-$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1/materialized_corridor/$MODE/dataset}"
+  export EXPECTED_ANCHORS=27
+else
+  DATASET_ROOT="${2:-$REPO_DIR/artifacts/external_data/nepal_olmo_live_v1/materialized/$MODE/dataset}"
+fi
 RSLEARN_BIN="${RSLEARN_BIN:-$WORKSPACE_DIR/.venv/bin/rslearn}"
 
 case "$MODE" in
@@ -43,10 +50,27 @@ case "$MODE" in
   placebo_b)
     START="2026-06-24T00:00:00+00:00"
     END="2026-08-19T00:00:00+00:00"
+    ;;
+  # 2026-08-29 placebo 확장: 사건 전 END를 주 단위로 되돌린 rolling 창 8개 (같은 4x14d 계약, START=END-56d)
+  placebo_20260805) START="2026-06-10T00:00:00+00:00"; END="2026-08-05T00:00:00+00:00"
+    ;;
+  placebo_20260729) START="2026-06-03T00:00:00+00:00"; END="2026-07-29T00:00:00+00:00"
+    ;;
+  placebo_20260722) START="2026-05-27T00:00:00+00:00"; END="2026-07-22T00:00:00+00:00"
+    ;;
+  placebo_20260715) START="2026-05-20T00:00:00+00:00"; END="2026-07-15T00:00:00+00:00"
+    ;;
+  placebo_20260708) START="2026-05-13T00:00:00+00:00"; END="2026-07-08T00:00:00+00:00"
+    ;;
+  placebo_20260701) START="2026-05-06T00:00:00+00:00"; END="2026-07-01T00:00:00+00:00"
+    ;;
+  placebo_20260624) START="2026-04-29T00:00:00+00:00"; END="2026-06-24T00:00:00+00:00"
+    ;;
+  placebo_20260617) START="2026-04-22T00:00:00+00:00"; END="2026-06-17T00:00:00+00:00"
     PREPARE_FORCE_ARGS=()
     ;;
   *)
-    echo "mode must be baseline, s2_live, s1_live, placebo_a, or placebo_b" >&2
+    echo "mode must be baseline, s2_live, s1_live, placebo_a, placebo_b, or placebo_YYYYMMDD (2026-06-17..08-05 weekly)" >&2
     exit 2
     ;;
 esac
@@ -80,11 +104,22 @@ add_anchor() {
     --box="$lon,$lat,$lon,$lat" --start "$START" --end "$END"
 }
 
+if [[ "$ANCHOR_SET" == "corridor" ]]; then
+  # M69 회랑 27창 중심 (artifacts/corridor_s2_candidates/prepare/windows_manifest.json)
+  while read -r wid lon lat; do add_anchor "$wid" "$lon" "$lat"; done < <(python3 - <<'PY'
+import json
+m = json.load(open("artifacts/corridor_s2_candidates/prepare/windows_manifest.json"))
+for w in m["windows"]:
+    print(w["id"], w["center_lonlat"][0], w["center_lonlat"][1])
+PY
+)
+else
 add_anchor source_provisional 85.5194 28.2765
 add_anchor rasuwagadhi 85.3780 28.2760
 add_anchor timure 85.3630 28.2350
 add_anchor syabrubesi 85.3470 28.1640
 add_anchor dhunche 85.2960 28.1020
+fi
 
 "$RSLEARN_BIN" dataset prepare \
   --root "$DATASET_ROOT" --group nepal --workers 2 \

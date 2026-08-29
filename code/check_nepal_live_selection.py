@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -51,7 +52,7 @@ def audit(dataset: Path, mode: str) -> dict[str, Any]:
             }
         )
 
-    expected_anchor_count = 5
+    expected_anchor_count = int(os.environ.get("EXPECTED_ANCHORS", "5"))
     valid = len(anchors) == expected_anchor_count and all(row["valid"] for row in anchors)
     return {
         "schema": "nepal-olmo-live-selection-preflight-v1",

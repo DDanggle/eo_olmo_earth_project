@@ -31,7 +31,11 @@ REPO = Path(__file__).resolve().parents[1]
 ROOT = REPO / "artifacts/external_data/nepal_olmo_live_v1/materialized"
 OUT_ROOT = REPO / "artifacts/external_data/nepal_olmo_live_v1/delta"
 ANCHORS = ["source_provisional", "rasuwagadhi", "timure", "syabrubesi", "dhunche"]
-PLACEBO_MODES = ["placebo_a", "placebo_b"]
+# placebo 모드는 실물(임베딩 매니페스트 존재)로 발견함 — 2026-08-29 확장(주 단위 rolling 창)부터 동적
+def _discover_placebo_modes() -> list[str]:
+    root = Path(__file__).resolve().parents[1] / "artifacts/external_data/nepal_olmo_live_v1/materialized"
+    return sorted(p.name for p in root.glob("placebo_*") if (p / "embedding_manifest.json").exists())
+PLACEBO_MODES = _discover_placebo_modes()
 
 
 def find_embedding(mode: str, anchor: str) -> Path | None:
