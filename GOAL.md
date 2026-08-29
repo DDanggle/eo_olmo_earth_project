@@ -2845,3 +2845,13 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 앱: flow 입자가 밝은 배경에서 가산혼합 민트색이라 안 보이던 결함 수정(source-over·진한 색).
   AI 후보 층·목록 추가. PlanetScope 08-28 3.8m 참고영상(CC-BY-NC) 2장·팝업.
 - 커밋: `cd1fb51`(flow), 후보 지도 커밋, M69 문서 커밋. 공개 배포는 여전히 사용자 승인 대기.
+
+### 2026-08-29 — 이 세션: RTC 도착 → 봉인 s1_live 임베딩 → 첫 라이브 Δz (M70), M69 후보 지도·검색, UX
+
+- RTC 지연을 실측(24h 배치)하고 도착 감시 → 도착 즉시 catalog·preflight(5/5)·materialize·seal(valid)·
+  GPU1 임베딩(seal 661b19c8…)·delta 판정까지 완주함. 3/5 앵커 candidate change, 2/5 not detected.
+- M69 회랑 27창 S2-only 후보 지도(v1 결함 보존, v2), 변화-벡터 검색(질의 1,324토큰, Timure·Lingling·
+  Tupche 상위, Thulo Bharkhu 신규 부상). 앱: 후보 카드(전·후·AI Δ·지명·거리), 라이트박스 슬라이더,
+  번호 마커, 검색 목록, flow 입자 가시성·레이어 재시도·카메라 복귀 결함 수정, 스토리 기사체.
+- 미해결: s2_live S1 4번째 레이어 미물질화(불필요), Galchhi까지 창 확장, placebo 20+ 확보 전
+  percentile 금지 유지, 공개 배포 승인 대기.

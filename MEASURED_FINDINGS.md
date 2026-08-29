@@ -3506,6 +3506,33 @@ Rasuwagadhi(w00)는 12위: placebo Δ 자체가 높아(0.136) 사건 전에도 �
 봉인: v1 `f55a2b5f…`, v2 `3a09d888…` (서버·로컬 일치), `artifacts/corridor_s2_candidates/`.
 앱: AI 후보 층(주황 채움=후보 비율, 상위 5 굵은 테두리) + 우측 목록·GO 버튼.
 
+## M70. 첫 라이브 Δz 판정 — 봉인 S1+S2 계약, 5앵커 중 3앵커 candidate change (2026-08-29)
+
+**게이트 통과 경로**: 8/28 S1D 제품이 Copernicus·PC GRD에 있었고 RTC 파생물은 촬영 24시간
+뒤 배치로 생성됨(실측: <24h 0/200, 24~30h 80/80). 도착 직후 `build_nepal_live_catalog` →
+`prepare s1_live`(preflight 5/5 앵커에 8/28 선택, seal valid, exact 4+4) → 서버 GPU1
+`run_nepal_olmo_embeddings.sh s1_live`(seal `661b19c8…`) → `analyze_nepal_delta.py --live-mode s1_live`.
+s2_live는 S1 4번째 레이어가 미물질화(3/4)라 invalid로 남김 — s1_live가 두 센서를 모두 포함하므로 대체함.
+
+**판정** (placebo 표본 2개 → 사전 등록대로 percentile 대신 max(placebo) 초과 + rank):
+
+| 앵커 | live Δ (baseline↔s1_live) | placebo A / B | 판정 |
+|---|---|---|---|
+| rasuwagadhi | 0.01559 | 0.01462 / 0.00835 | **candidate change** |
+| syabrubesi | 0.01538 | 0.01462 / 0.01028 | **candidate change** |
+| timure | 0.01487 | 0.01212 / 0.01301 | **candidate change** |
+| source_provisional | 0.02317 | 0.03434 / 0.00800 | not detected above daily variability |
+| dhunche | 0.01101 | 0.04981 / 0.00807 | not detected above daily variability |
+
+**읽기 (약점 먼저)**: 초과 폭이 작음(rasuwagadhi 0.0156 vs 0.0146, 6.6%). placebo가 2개라
+"평소 분포"가 아니라 "평소 두 표본"임 — handoff 조건 4대로 percentile·이상치 주장은 금지, 서술적
+candidate change만 허용. 발원(source)·Dhunche는 placebo 자체가 큼(눈·구름 변동) → 관측 조건이
+지배하는 창이라 판정 불가가 정직함. 회랑 하류 3앵커의 방향 일치는 M69(S2-only 27창)와 정합함.
+이 결과는 피해·원인·규모를 말하지 않음.
+
+봉인: delta report `artifacts/external_data/nepal_olmo_live_v1/delta/20260829T085533Z/`
+(서버·로컬 sha 일치), embedding_manifest s1_live valid, code_snapshot 포함.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
