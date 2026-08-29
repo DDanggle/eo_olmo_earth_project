@@ -363,7 +363,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .dim-switch button.is-active { background: var(--accent, #eb6834); color: #fffefb; }
 
 /* ================= STORY — 스크롤리텔링 오버레이 (Snow Fall/Upshot 문법) ================= */
-.story-launch { position: absolute; left: calc(50% + 258px); top: 50%; transform: translateY(-50%);
+.story-launch { position: absolute; right: 300px; top: 50%; transform: translateY(-50%);
   padding: 10px 16px; font-family: var(--font-geist-mono); font-size: 11px; letter-spacing: 0.12em;
   background: var(--orange, #eb6834); color: #fffefb; border: 1px solid var(--orange, #eb6834);
   cursor: pointer; box-shadow: var(--card-shadow); }
@@ -891,5 +891,5 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .map-legend .sw.blue { background: transparent; border: 2px dashed #2a78d6; } .map-legend .sw.grey { background: rgba(120,120,120,.4); }
 .map-legend .sw.teal { background: #5fffd7; border-radius: 50%; }
 @media (max-width: 900px) { .map-legend { display: none; } }
-.sat-tiles-toggle { position: absolute; left: calc(50% + 258px); top: calc(50% + 22px); transform: translateY(-50%); padding: 5px 10px; font-family: var(--font-geist-mono); font-size: 9.5px; letter-spacing: .1em; background: var(--surface, #fffefb); color: var(--muted); border: 1px solid var(--line-strong, #d5d1c6); cursor: pointer; }
+.sat-tiles-toggle { position: absolute; left: calc(50% + 258px); top: 50%; transform: translateY(-50%); padding: 10px 14px; font-family: var(--font-geist-mono); font-size: 9.5px; letter-spacing: .1em; background: var(--surface, #fffefb); color: var(--muted); border: 1px solid var(--line-strong, #d5d1c6); cursor: pointer; }
 .sat-tiles-toggle.is-active { background: #0b3d33; color: #5fffd7; border-color: #0b3d33; }

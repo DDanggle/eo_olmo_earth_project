@@ -677,7 +677,7 @@ export default function Home() {
         // 모든 스캔 창 중심: 작은 청록 점 (위성이 찍힌 모든 자리)
         map.addSource('scan-centers', { type: 'geojson', data: { type: 'FeatureCollection', features: scenario.candidates.geojson.features.map((f) => ({ type: 'Feature', properties: f.properties, geometry: { type: 'Point', coordinates: (f.properties?.center_lonlat as [number, number]) } })) } });
         map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers',
-          paint: { 'circle-radius': 3.2, 'circle-color': '#5fffd7', 'circle-stroke-color': '#0b3d33', 'circle-stroke-width': 1.2, 'circle-opacity': 0.95 } });
+          paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 3.5, 12, 6, 15, 9], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 2, 'circle-opacity': 1 } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
           paint: { 'fill-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#eb6834'],
                    'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.02, 0.05, 0.18, 0.2, 0.42, 0.5, 0.6] } }, before);
@@ -729,8 +729,10 @@ export default function Home() {
         map.on('mouseleave', 'scan-center-dot', () => { map.getCanvas().style.cursor = ''; });
         map.on('mouseenter', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
         map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
+        if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
           paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#eb6834'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);
+        if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
       }
       map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch(() => undefined);
