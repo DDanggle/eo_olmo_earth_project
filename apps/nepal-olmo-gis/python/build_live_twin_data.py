@@ -627,6 +627,14 @@ def build_decision(live_observation: dict[str, Any] | None,
     ped = olmoearth.get("post_event_delta")
     # placebo 전용 리포트(live_mode=None)를 "post-event delta 있음"으로 승격하면 안 됨 —
     # 2026-08-28 실측: 그 오독으로 카드가 REVIEW CANDIDATE EVIDENCE 를 잘못 표시했음.
+    if isinstance(ped, dict) and ped.get("live_mode") and ped.get("rasuwagadhi_live_mean") is not None and (ped.get("label") or "").startswith("not detected"):
+        return {
+            "status": "not_detected",
+            "action": "NOT DETECTED ABOVE VARIABILITY",
+            "reason": f"Sealed post-event cube and delta computed; anchor-mean Δz does not exceed the pre-event placebo set (n={ped.get('placebo_samples')}). Matched 1-period pairs (n=9): only rasuwagadhi ranks 1/10, by 0.0002.",
+            "next_gate": "Anchor-mean Δz is too blunt; use token-level evidence (corridor scan) and the next S1/S2 pass.",
+            "allowed_claim": "No candidate change claimed at anchor scale; observation chain intact.",
+        }
     if isinstance(ped, dict) and ped.get("live_mode") and ped.get("rasuwagadhi_live_mean") is not None:
         return {
             "status": "candidate_ready",
@@ -1002,6 +1010,14 @@ def headline_block() -> dict[str, Any]:
             out["sealed_candidates"] = sum(1 for s in labels.values() if "candidate" in s)
             out["sealed_not_detected"] = [a for a, s in labels.items() if "candidate" not in s]
             out["live_mode"] = rep.get("live_mode"); out["placebo_n"] = len(rep.get("placebo_modes_available", []))
+    matched = sorted((WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta_matched").glob("*/nepal_delta_matched_report.json"))
+    if matched:
+        mj = json.loads(matched[-1].read_text())
+        ma = mj.get("anchors", {})
+        out["matched"] = {"n_pairs": len(mj.get("placebo_pairs", [])),
+                          "candidates": [a for a, v in ma.items() if "candidate" in v.get("label", "")],
+                          "ranks": {a: f"{v['rank_of_event']}/{v['n_placebo'] + 1}" for a, v in ma.items()},
+                          "report_sha256": sha256(matched[-1])}
     cand = candidates_block()
     if cand:
         out["corridor_ranked"] = sum(1 for f in cand["geojson"]["features"] if f["properties"].get("status") == "ranked")

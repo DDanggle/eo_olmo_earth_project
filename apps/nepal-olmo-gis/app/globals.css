@@ -847,3 +847,5 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .headline-card em { font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--orange); font-style: normal; }
 .hillslope-box { border-color: #7b3fbf; }
 .hillslope-box li b { color: #7b3fbf; }
+.decision-card.not_detected { border-left-color: var(--blue, #2a78d6); }
+.decision-card.not_detected > strong { color: var(--blue, #2a78d6); }

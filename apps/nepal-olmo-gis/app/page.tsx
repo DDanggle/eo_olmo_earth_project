@@ -103,7 +103,7 @@ type LiveObservation = {
 };
 
 type CurrentDecision = {
-  status: 'candidate_ready' | 'embed_ready' | 'hold' | 'wait_observation';
+  status: 'candidate_ready' | 'not_detected' | 'embed_ready' | 'hold' | 'wait_observation';
   action: string;
   reason: string;
   next_gate: string;
@@ -127,7 +127,7 @@ type Scenario = {
     records: { label: string; acquired_at: string; item_id: string; mgrs_tile: string; tile_cloud_pct: number; image: string; image_sha256: string }[];
   };
   simulation: { route_points: number; claim: string; scientific_upgrade?: string };
-  headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[] };
+  headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string> } };
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
     top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number; kind?: string }[];
     hillslope_top?: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number; kind?: string }[];
@@ -1100,9 +1100,12 @@ export default function Home() {
           <div className="headline-card">
             <p className="eyebrow">AT A GLANCE · {scenario.generated_at.slice(0, 10)}</p>
             <strong>{scenario.headline.sealed_candidates != null
-              ? `${scenario.headline.sealed_candidates} of ${scenario.headline.sealed_total} sealed anchors show candidate change`
+              ? (scenario.headline.sealed_candidates === 0
+                  ? `Anchor-scale Δz: not detected above pre-event variability (placebo n=${scenario.headline.placebo_n})`
+                  : `${scenario.headline.sealed_candidates} of ${scenario.headline.sealed_total} sealed anchors show candidate change`)
               : 'Sealed verdict not yet computed'}</strong>
-            <small>{scenario.headline.sealed_not_detected.length ? `not detected (cloud/snow): ${scenario.headline.sealed_not_detected.join(', ')} · ` : ''}{scenario.headline.placebo_n != null ? `placebo n=${scenario.headline.placebo_n}` : ''}</small>
+            {scenario.headline.matched && <small>Matched 1-period pairs (n={scenario.headline.matched.n_pairs}): {scenario.headline.matched.candidates.length ? `${scenario.headline.matched.candidates.join(', ')} rank 1 (by a hair)` : 'no anchor ranks first'} · ranks {Object.entries(scenario.headline.matched.ranks).map(([a, r]) => `${a.replace('_provisional', '')} ${r}`).join(' · ')}</small>}
+            {scenario.headline.sealed_candidates !== 0 && <small>{scenario.headline.sealed_not_detected.length ? `not detected (cloud/snow): ${scenario.headline.sealed_not_detected.join(', ')} · ` : ''}{scenario.headline.placebo_n != null ? `placebo n=${scenario.headline.placebo_n}` : ''}</small>}
             {scenario.headline.corridor_ranked != null && <small>Corridor scan: {scenario.headline.corridor_ranked}/{scenario.headline.corridor_windows} windows judged · top: {scenario.headline.corridor_top.join(' · ')}</small>}
             <em>Candidate change only — not damage, not cause, not probability.</em>
           </div>
@@ -1111,7 +1114,7 @@ export default function Home() {
         <div className="olmo-outcomes">
           <article className="ready"><span>OLMo BASELINE</span><strong>15 RASTERS SEALED</strong><small>3 cubes × 5 anchors · each 768×64×64</small></article>
           <article className="win"><span>TRANSFER EVIDENCE</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} REGIONS WON` : 'LOADING'}</strong><small>{transfer ? `region-macro ${transfer.reuse_region_macro.toFixed(3)} vs ${transfer.raw_strong_region_macro.toFixed(3)} · +${transfer.absolute_gap.toFixed(3)}` : 'confirmatory summary'}</small></article>
-          <article className={liveDelta ? 'ready' : 'wait'}><span>NEPAL LIVE CHANGE</span><strong>{liveDelta ? 'CANDIDATE CHANGE · 3/5' : providerSyncBlocked ? 'S1 COVERS 5/5' : 'WAITING FOR S1'}</strong><small>{liveDelta ? `${String(liveDelta.live_mode)} sealed · rasuwagadhi Δ ${Number(liveDelta.rasuwagadhi_live_mean).toFixed(4)} > both placebos · source/dhunche not detected` : providerSyncBlocked ? 'Copernicus ready · Planetary Computer index sync pending' : `${livePeriodText} · baseline value remains usable`}</small></article>
+          <article className={liveDelta ? 'ready' : 'wait'}><span>NEPAL LIVE CHANGE</span><strong>{liveDelta ? (scenario?.headline?.sealed_candidates ? `CANDIDATE CHANGE · ${scenario.headline.sealed_candidates}/${scenario.headline.sealed_total}` : 'SEALED Δz · NOT DETECTED') : providerSyncBlocked ? 'S1 COVERS 5/5' : 'WAITING FOR S1'}</strong><small>{liveDelta ? `${String(liveDelta.live_mode)} sealed · rasuwagadhi Δ ${Number(liveDelta.rasuwagadhi_live_mean).toFixed(4)} vs placebo n=${String(liveDelta.placebo_samples)} · anchor-mean is blunt; see corridor scan` : providerSyncBlocked ? 'Copernicus ready · Planetary Computer index sync pending' : `${livePeriodText} · baseline value remains usable`}</small></article>
         </div>
         {decision && (
           <div className={`decision-card compact ${decision.status}`} role="status">
@@ -1133,7 +1136,7 @@ export default function Home() {
                  onClick={() => openLightbox({ title: 'Rasuwagadhi · OLMoEarth Δz (sealed S1+S2, s1_live vs baseline)', sub: 'orange = top-5% tokens by Δz within this window · descriptive only, not a damage map', before: '/data/story/anchors/rasuwagadhi_post.png', after: '/data/live_delta/rasuwagadhi_delta.png', beforeLabel: 'S2 · 08-27', afterLabel: 'OLMo Δz' })}>
               <img src="/data/story/anchors/rasuwagadhi_post.png" alt="" className="delta-base" />
               <img src="/data/live_delta/rasuwagadhi_delta.png" alt="OLMoEarth delta heatmap for Rasuwagadhi" className="delta-heat" />
-              <span>Δz · SEALED · CANDIDATE</span>
+              <span>Δz · SEALED · {scenario?.headline?.sealed_candidates ? 'CANDIDATE' : 'NOT DETECTED'}</span>
             </div>
           ) : (
             <div className="scene-preview pending-preview">

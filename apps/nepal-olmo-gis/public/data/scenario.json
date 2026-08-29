@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T11:53:19.020489+00:00",
+  "generated_at": "2026-08-29T11:57:59.692186+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -554,22 +554,33 @@
     "embedding_status": "not_run_in_this_web_snapshot",
     "anchor_geojson": "/data/olmo-input-anchors.geojson",
     "post_event_delta": {
-      "created_at_utc": "20260829T085533Z",
+      "created_at_utc": "20260829T115424Z",
       "live_mode": "s1_live",
-      "placebo_samples": 2,
+      "placebo_samples": 10,
       "rasuwagadhi_live_mean": 0.015587175264954567,
-      "label": "candidate change",
+      "label": "not detected above daily variability",
       "claim_boundary": "candidate change only; not damage probability"
     }
   },
   "decision": {
-    "status": "candidate_ready",
-    "action": "REVIEW CANDIDATE EVIDENCE",
-    "reason": "A sealed post-event cube and OLMoEarth delta report are available.",
-    "next_gate": "Seek independent sensor, physical, or human corroboration.",
-    "allowed_claim": "Candidate representation change; not damage probability or hazard extent."
+    "status": "not_detected",
+    "action": "NOT DETECTED ABOVE VARIABILITY",
+    "reason": "Sealed post-event cube and delta computed; anchor-mean Δz does not exceed the pre-event placebo set (n=10). Matched 1-period pairs (n=9): only rasuwagadhi ranks 1/10, by 0.0002.",
+    "next_gate": "Anchor-mean Δz is too blunt; use token-level evidence (corridor scan) and the next S1/S2 pass.",
+    "allowed_claim": "No candidate change claimed at anchor scale; observation chain intact."
   },
   "ops_log": [
+    {
+      "event_id": "f85b5c5b961c987d",
+      "time_utc": "20260829T115424Z",
+      "recorded_at_utc": "20260829T115424Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "OLMoEarth Δz",
+      "type": "DELTA_REPORT",
+      "priority": "green",
+      "summary": "live=s1_live placebo n=10",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T115424Z/nepal_delta_report.json"
+    },
     {
       "event_id": "7214b1c189854393",
       "time_utc": "20260829T085533Z",
@@ -888,17 +899,6 @@
       "priority": "green",
       "summary": "placebo_b: 91 files, 48,680,635 B — sealed",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_b/materialization_manifest.json"
-    },
-    {
-      "event_id": "5e71b8fd4f3d1fcb",
-      "time_utc": "2026-08-28T04:42:16Z",
-      "recorded_at_utc": "2026-08-28T04:42:16Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "rslearn materialize",
-      "type": "SEALED",
-      "priority": "green",
-      "summary": "placebo_a: 91 files, 49,313,623 B — sealed",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_a/materialization_manifest.json"
     }
   ],
   "research": {
@@ -959,10 +959,10 @@
         "state": "EXECUTED",
         "model": "OlmoEarth v1 Base (frozen)",
         "input": "sealed s1_live cube · 5 anchors · S1 4 periods (incl. 2026-08-28 RTC) + S2 4 periods (incl. 2026-08-27) vs sealed baseline",
-        "output": "5 delta rasters 64×64 (cosine Δz per 40 m token) · 3/5 candidate change (rasuwagadhi, syabrubesi, timure) · 2/5 not detected (dhunche, source_provisional)",
-        "allows": "descriptive 'candidate change' per anchor where live Δ exceeds all 2 placebo windows; rank vs placebo",
+        "output": "5 delta rasters 64×64 (cosine Δz per 40 m token) · 0/5 candidate change () · 5/5 not detected (dhunche, rasuwagadhi, source_provisional, syabrubesi, timure)",
+        "allows": "descriptive 'candidate change' per anchor where live Δ exceeds all 10 placebo windows; rank vs placebo",
         "forbids": "anomaly percentile/probability until ≥20 placebo windows; damage, cause, extent",
-        "artifact_sha256": "07c12b0a32cf5bcb193fffddcf82c89b4628cc469b33483da03fc8b5ec57d855"
+        "artifact_sha256": "ae1f6bbc38231ddfb46af833975fe9c1cda44a64d687098dbb982cd43a814dac"
       },
       {
         "id": "matched_second_geofm",
@@ -5890,11 +5890,14 @@
     }
   },
   "headline": {
-    "sealed_candidates": 3,
+    "sealed_candidates": 0,
     "sealed_total": 5,
     "sealed_not_detected": [
       "dhunche",
-      "source_provisional"
+      "rasuwagadhi",
+      "source_provisional",
+      "syabrubesi",
+      "timure"
     ],
     "corridor_ranked": 47,
     "corridor_top": [
@@ -5903,7 +5906,21 @@
       "Bhainse, Bidur"
     ],
     "live_mode": "s1_live",
-    "placebo_n": 2,
+    "placebo_n": 10,
+    "matched": {
+      "n_pairs": 9,
+      "candidates": [
+        "rasuwagadhi"
+      ],
+      "ranks": {
+        "source_provisional": "4/10",
+        "rasuwagadhi": "1/10",
+        "timure": "4/10",
+        "syabrubesi": "4/10",
+        "dhunche": "9/10"
+      },
+      "report_sha256": "60100c4b74f2de0b5abbfe7a8d74a9996f6a9c7e754a7132f642bd40786b23d9"
+    },
     "corridor_windows": 100
   },
   "downstream_visual": {
