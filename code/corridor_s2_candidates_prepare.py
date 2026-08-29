@@ -20,12 +20,40 @@ from rasterio.windows import from_bounds
 from rasterio.warp import transform
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "artifacts/corridor_s2_candidates/prepare"
+OUT = ROOT / ("artifacts/corridor_s2_candidates/prepare_v2" if os.environ.get("SCAN","v1") == "v2" else "artifacts/corridor_s2_candidates/prepare")
 OUT.mkdir(parents=True, exist_ok=True)
 MODEL_BANDS = ["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12","B01","B09"]
 DATES = ["2026-07-03","2026-07-23","2026-08-07","2026-08-12","2026-08-27"]
 HALF_M, SIZE = 1280, 256
 UTM = "EPSG:32645"
+
+import os
+SCAN = os.environ.get("SCAN", "v1")  # v1: 2 km 샘플 27창 / v2: 연속 1.28 km + 발원 주변 격자
+
+def build_windows_v2():
+    h = json.loads((ROOT/"apps/nepal-olmo-gis/public/data/hydrography.geojson").read_text())
+    route = h["simulation_route"]
+    xs, ys = transform("EPSG:4326", UTM, [p[0] for p in route], [p[1] for p in route])
+    pts, acc, last = [], 0.0, None
+    for i,(x,y) in enumerate(zip(xs,ys)):
+        if last is None: pts.append(("river", route[i][0], route[i][1], x, y)); last=(x,y); continue
+        acc += math.hypot(x-last[0], y-last[1]); last=(x,y)
+        if acc >= 1280: pts.append(("river", route[i][0], route[i][1], x, y)); acc = 0.0
+    # Lhende 상류: A→E 를 1.28 km 간격으로
+    ax, ay = transform("EPSG:4326", UTM, [85.378],[28.276]); ex, ey = transform("EPSG:4326", UTM, [85.5194],[28.2765])
+    n = max(2, int(math.hypot(ex[0]-ax[0], ey[0]-ay[0]) // 1280))
+    for k in range(1, n+1):
+        f = k/n; x = ax[0]+f*(ex[0]-ax[0]); y = ay[0]+f*(ey[0]-ay[0])
+        lon, lat = transform(UTM, "EPSG:4326", [x],[y]); pts.append(("lhende", lon[0], lat[0], x, y))
+    # 발원(E) 주변 산사면 격자: ±7.68 km, 2.56 km 간격 (7x7) — 강변 밖 산사태 탐색
+    for i in range(-3, 4):
+        for j in range(-3, 4):
+            x = ex[0] + i*2560; y = ey[0] + j*2560
+            lon, lat = transform(UTM, "EPSG:4326", [x],[y]); pts.append(("hillslope", lon[0], lat[0], x, y))
+    wins=[]
+    for k,(kind,lon,lat,x,y) in enumerate(pts):
+        wins.append({"id": f"v{k:03d}", "center_lonlat":[lon,lat], "bounds_utm":[x-HALF_M,y-HALF_M,x+HALF_M,y+HALF_M], "kind": kind})
+    return wins
 
 def build_windows():
     h = json.loads((ROOT/"apps/nepal-olmo-gis/public/data/hydrography.geojson").read_text())
@@ -71,7 +99,7 @@ def read_cube(items, bounds):
 
 def main():
     catalog = pystac_client.Client.open("https://planetarycomputer.microsoft.com/api/stac/v1")
-    wins = build_windows()
+    wins = build_windows_v2() if SCAN == 'v2' else build_windows()
     print(f"windows: {len(wins)}", flush=True)
     manifest=[]
     def work(w):

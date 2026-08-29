@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T11:01:43.330652+00:00",
+  "generated_at": "2026-08-29T11:28:26.047458+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -593,6 +593,39 @@
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
     },
     {
+      "event_id": "1ac714aeafd6333b",
+      "time_utc": "2026-08-29T11:23:43Z",
+      "recorded_at_utc": "2026-08-29T11:23:43Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "rslearn materialize",
+      "type": "SEALED",
+      "priority": "green",
+      "summary": "placebo_20260701: 91 files, 49,860,227 B — sealed",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260701/materialization_manifest.json"
+    },
+    {
+      "event_id": "801e6693140d9660",
+      "time_utc": "2026-08-29T11:13:42Z",
+      "recorded_at_utc": "2026-08-29T11:13:42Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "rslearn materialize",
+      "type": "SEALED",
+      "priority": "green",
+      "summary": "placebo_20260708: 91 files, 49,399,652 B — sealed",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260708/materialization_manifest.json"
+    },
+    {
+      "event_id": "813b56fbe8428bed",
+      "time_utc": "2026-08-29T11:04:39Z",
+      "recorded_at_utc": "2026-08-29T11:04:39Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "rslearn materialize",
+      "type": "SEALED",
+      "priority": "green",
+      "summary": "placebo_20260715: 91 files, 49,694,728 B — sealed",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260715/materialization_manifest.json"
+    },
+    {
       "event_id": "ec588dcf2e6796ef",
       "time_utc": "2026-08-29T10:55:38Z",
       "recorded_at_utc": "2026-08-29T10:55:38Z",
@@ -866,39 +899,6 @@
       "priority": "green",
       "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260828T000910Z/acquisition_status.json"
-    },
-    {
-      "event_id": "9ff9b368fed2a9b1",
-      "time_utc": "2026-08-27T06:50:49Z",
-      "recorded_at_utc": "2026-08-27T06:50:49Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "rslearn materialize",
-      "type": "SEALED",
-      "priority": "green",
-      "summary": "baseline: 91 files, 48,859,900 B — sealed",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/materialization_manifest.json"
-    },
-    {
-      "event_id": "41339400388e2acf",
-      "time_utc": "2026-08-27T06:25:06Z",
-      "recorded_at_utc": "2026-08-27T06:25:06Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "CATALOG_SNAPSHOT",
-      "priority": "blue",
-      "summary": "snapshot 20260827T062506Z: s2b_20260827=acquired_pending_catalog, s1d_20260828=planned, s2c_20260829=planned",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260827T062506Z/acquisition_status.json"
-    },
-    {
-      "event_id": "cd0fb5802f001727",
-      "time_utc": "2026-08-27T06:24:09Z",
-      "recorded_at_utc": "2026-08-27T06:24:09Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "Copernicus OData",
-      "type": "CATALOG_SNAPSHOT",
-      "priority": "blue",
-      "summary": "snapshot 20260827T062409Z: s2b_20260827=acquired_pending_catalog, s1d_20260828=planned, s2c_20260829=planned",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260827T062409Z/acquisition_status.json"
     }
   ],
   "research": {
@@ -2563,7 +2563,7 @@
   "simulation": {
     "engine": "Rust/WASM deterministic particle preview",
     "route_source": "verified OSM river-way chain from Bhote Koshi to Trishuli",
-    "route_points": 80,
+    "route_points": 78,
     "claim": "illustrative_kinematic_preview_not_hazard_forecast",
     "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw"
   },
@@ -2571,7 +2571,7 @@
     "source_root": "/Users/dgyi/dong/ai_projects/olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
     "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
     "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
-    "hydrography_sha256": "cd515229e6e788fd9add5e92ba73ff6f15fea0c9d68f7714fa5467d557392c36",
+    "hydrography_sha256": "cb2c956e75a7fb90d0a31e682f4a41419bd39755077e28640f8664c0467dd2fd",
     "catalog_snapshot": "20260829T075401Z",
     "catalog_generated_at_utc": "2026-08-29T07:54:01Z",
     "catalog_sha256": "8bc6140331d064b92a129fc9cbc007a2862d5a673ec3a7f4d466a2926e34361c",
