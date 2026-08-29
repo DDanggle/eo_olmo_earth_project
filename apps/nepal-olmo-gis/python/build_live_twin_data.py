@@ -1358,7 +1358,7 @@ def build(refresh_osm: bool) -> None:
         ),
         "simulation": {
             "engine": "Rust/WASM deterministic particle preview",
-            "route_source": "verified OSM river-way chain from Bhote Koshi to Trishuli",
+            "route_source": "verified OSM river-way chain from Bhote Koshi through Trishuli to the current Galchhi inspection endpoint",
             "route_points": len(hydrography["simulation_route"]),
             "mapped_route_km_from_border": round(sum(
                 haversine_km(first, second)

@@ -315,6 +315,12 @@ export default function Home() {
       const el = (e.target as HTMLElement).closest('.pp-thumbs') as HTMLElement | null;
       if (!el) return;
       const win = el.dataset.win; const name = el.dataset.name ?? ''; const place = el.dataset.place ?? '';
+      const cand = el.dataset.cand;
+      if (cand) {
+        openLightbox({ title: name, sub: `${place} · scan window ${cand}`, before: `/data/candidates/${cand}_pre.png`, after: `/data/candidates/${cand}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27',
+                       extra: [{ src: `/data/candidates/${cand}_delta.png`, label: 'AI change tokens (orange) on 08-27' }, ...(win === 'rasuwagadhi' ? [{ src: '/data/story/planet/ps_rasuwagadhi_0828.png', label: 'PlanetScope 3.8 m · 08-28 · © Planet Labs PBC CC-BY-NC-4.0' }] : [])] });
+        return;
+      }
       if (!win) return;
       const extra = win === 'rasuwagadhi' ? [{ src: '/data/story/planet/ps_rasuwagadhi_0828.png', label: 'PlanetScope 3.8 m · 08-28' }] : [];
       openLightbox({ title: name, sub: place, before: `/data/story/anchors/${win}_pre.png`, after: `/data/story/anchors/${win}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra });
@@ -578,7 +584,15 @@ export default function Home() {
         // 점별 실측 위성 창 — A/B는 rasuwagadhi 앵커 창, D/E는 발원 수색 창.
         // C(원거리 참조)는 물질화 창이 없어 썸네일 없음.
         const win = ({ A: 'rasuwagadhi', B: 'rasuwagadhi', D: 'source', E: 'source', F: 'bidur' } as Record<string, string>)[pt.id];
-        const thumbs = win
+        const cw = pt.nearest_window ?? null;
+        const thumbs = cw
+          ? `<div class="pp-thumbs" data-cand="${cw}" data-name="${pt.name}" data-place="${pt.place}" data-win="${win ?? ''}" title="Click to compare large">`
+            + `<figure><img src="/data/candidates/${cw}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
+            + `<figure><img src="/data/candidates/${cw}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
+            + `<figure><img src="/data/candidates/${cw}_delta.png" alt="AI change"/><figcaption>AI Δ · win ${cw}</figcaption></figure>`
+            + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '')
+            + `</div><p class="pp-hint">▲ nearest scan window ${cw} (${pt.nearest_window_km} km) · click to open the large slider</p>`
+          : win
           ? `<div class="pp-thumbs" data-win="${win}" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/story/anchors/${win}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
             + `<figure><img src="/data/story/anchors/${win}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
@@ -646,12 +660,33 @@ export default function Home() {
                     'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true, 'text-anchor': 'center' },
           paint: { 'text-color': ['case', ['<=', ['get', 'rank'], 6], '#eb6834', '#7a4a2e'], 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
         catch (e) { console.warn('[diag] candidate rank labels skipped', e); }
+        const simIds = (scenario?.candidates?.retrieval?.top10 ?? []).map((r) => r.id);
+        if (simIds.length) {
+          map.addLayer({ id: 'ai-similar-line', type: 'line', source: 'ai-candidates', filter: ['in', ['get', 'id'], ['literal', simIds]],
+            paint: { 'line-color': '#2a78d6', 'line-width': 2.2, 'line-dasharray': [1.5, 1.2], 'line-opacity': 0.9 } }, before);
+        }
+        map.on('click', 'ai-candidate-fill', (e) => {
+          const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
+          const id = String(pr.id); const rank = pr.rank ? `#${pr.rank}` : 'not judged (cloud/snow)';
+          const kindLabel = pr.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE' : pr.kind === 'lhende' ? 'LHENDE UPSTREAM' : 'RIVER';
+          const frac = typeof pr.candidate_token_frac === 'number' ? `${(100 * (pr.candidate_token_frac as number)).toFixed(0)}% changed tokens` : 'not judged';
+          const vis = typeof pr.valid_event_frac === 'number' ? `${(100 * (pr.valid_event_frac as number)).toFixed(0)}% observable` : '';
+          new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
+            .setHTML(`<p class="pp-eyebrow">${kindLabel} · ${rank}</p><h3>Scan window ${id}</h3><p class="pp-place">${frac} · ${vis}</p>`
+              + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="${kindLabel} · ${rank}" title="Click to compare large">`
+              + `<figure><img src="/data/candidates/${id}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
+              + `<figure><img src="/data/candidates/${id}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
+              + `<figure><img src="/data/candidates/${id}_delta.png" alt="AI change"/><figcaption>AI Δ</figcaption></figure></div>`
+              + `<p class="pp-hint">▲ click to open the large slider · orange = changed more than any ordinary fortnight · grey = cloud/snow</p>`).addTo(map);
+        });
+        map.on('mouseenter', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
+        map.on('mouseleave', 'ai-candidate-fill', () => { map.getCanvas().style.cursor = ''; });
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
           paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#eb6834'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);
       }
       map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch(() => undefined);
-  }, [mapReady, styleRevision]);
+  }, [mapReady, styleRevision, scenario?.candidates?.geojson]);
 
   // fitBounds 패딩은 실제로 열려 있는 패널에 맞춘다.
   // 이전 버전은 패널이 항상 보인다고 가정한 고정 패딩을 썼다.
@@ -975,6 +1010,15 @@ export default function Home() {
           어긋나며 ③ 지도 캔버스와 basemap을 가렸다. WebGL2가 없을 때만 정적 이미지로
           내려간다(아래 map-fallback). */}
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
+      {scenario?.candidates && mapStatus === 'ready' && (
+        <div className="map-legend" aria-label="Map legend">
+          <span><i className="sw orange" />river window · orange depth = % tokens changed beyond any ordinary fortnight</span>
+          <span><i className="sw purple" />off-river hillslope window</span>
+          <span><i className="sw blue" />same kind of change as the top candidates (embedding search)</span>
+          <span><i className="sw grey" />cloud/snow · not judged</span>
+          <span><i className="sw teal" />A–G inspection points · click any box or point for before/after</span>
+        </div>
+      )}
       {candView && (
         <div className="cand-chip" role="status">
           <b>{candView.rank ? `#${candView.rank}` : candView.id}</b><span>{candView.place ?? ''}</span>
@@ -1075,7 +1119,7 @@ export default function Home() {
           <div className="corridor-sketch">
             <span className="ops-title">RIVER CORRIDOR · Bhote Koshi → Trishuli → Galchhi</span>
             <svg viewBox={`0 0 ${corridorSketch.W} ${corridorSketch.H}`} role="img"
-                 aria-label="Bhote Koshi to Trishuli corridor with four anchors from Rasuwagadhi down to Dhunche">
+                 aria-label="Bhote Koshi to Trishuli corridor from the source area through Rasuwagadhi to the current Galchhi trace endpoint">
               <path d={corridorSketch.path} fill="none" stroke="var(--blue)" strokeWidth="1.8"
                     strokeLinecap="round" strokeLinejoin="round" />
               {corridorSketch.dots.map((d, i) => (
