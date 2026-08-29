@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T18:00:09.281049+00:00",
+  "generated_at": "2026-08-29T18:29:38.242983+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -7760,6 +7760,79 @@
       }
     },
     "report_sha256": "725d81e2b38af16df2abfb354578aae70f1232bd936ed3248533a0a79021cbc6"
+  },
+  "radar_value": {
+    "rows": [
+      {
+        "region": "hokkaido",
+        "patches": 120,
+        "s2_only": 0.853,
+        "s1s2": 0.856,
+        "fusion_gain": 0.003,
+        "s1_only_ai": 0.768,
+        "s1_classical": 0.717
+      },
+      {
+        "region": "hiroshima",
+        "patches": 120,
+        "s2_only": 0.952,
+        "s1s2": 0.955,
+        "fusion_gain": 0.004,
+        "s1_only_ai": 0.731,
+        "s1_classical": 0.609
+      },
+      {
+        "region": "itogon",
+        "patches": 120,
+        "s2_only": 0.764,
+        "s1s2": 0.776,
+        "fusion_gain": 0.011,
+        "s1_only_ai": 0.655,
+        "s1_classical": 0.664
+      },
+      {
+        "region": "usa_alaska",
+        "patches": 43,
+        "s2_only": 0.547,
+        "s1s2": 0.547,
+        "fusion_gain": 0.0,
+        "s1_only_ai": 0.553,
+        "s1_classical": 0.516
+      },
+      {
+        "region": "dominicamaria",
+        "patches": 120,
+        "s2_only": 0.605,
+        "s1s2": 0.619,
+        "fusion_gain": 0.014,
+        "s1_only_ai": 0.516,
+        "s1_classical": 0.567
+      },
+      {
+        "region": "italy",
+        "patches": 120,
+        "s2_only": 0.627,
+        "s1s2": 0.631,
+        "fusion_gain": 0.003,
+        "s1_only_ai": 0.489,
+        "s1_classical": 0.492
+      },
+      {
+        "region": "usa_puertorico",
+        "patches": 47,
+        "s2_only": 0.675,
+        "s1s2": 0.679,
+        "fusion_gain": 0.004,
+        "s1_only_ai": 0.462,
+        "s1_classical": 0.481
+      }
+    ],
+    "regions": 7,
+    "s1_only_usable": 2,
+    "s1_ai_beats_classical": 3,
+    "fusion_wins_at_003": 0,
+    "fusion_positive": 6,
+    "report_sha256": "afab015e8b0efad5bab88314703377dd481466ac22cf72567f06db8218ccd244"
   },
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",

@@ -1315,6 +1315,25 @@ def ai_vs_classical_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp)}
 
 
+def radar_value_block() -> dict[str, Any] | None:
+    """M78: 레이더 단독(S1 asc dB) OLMo Δz vs 고전 log-ratio, 그리고 S2 에 S1 을 보탠 이득 (Sen12 7지역)."""
+    rp = WORK_ROOT / "artifacts/sen12_radar_value/report.json"
+    if not rp.exists():
+        return None
+    rj = json.loads(rp.read_text())
+    rows = []
+    for region, v in rj.get("regions", {}).items():
+        if not v.get("patches"):
+            continue
+        rows.append({"region": region, "patches": v["patches"], "s2_only": round(v["auroc_s2_only"], 3), "s1s2": round(v["auroc_s1s2"], 3),
+                     "fusion_gain": round(v["gain"], 3), "s1_only_ai": round(v["auroc_s1_only_olmo"], 3), "s1_classical": round(v["auroc_s1_classical_logratio"], 3)})
+    rows.sort(key=lambda r: -r["s1_only_ai"])
+    return {"rows": rows, "regions": len(rows), "s1_only_usable": sum(1 for r in rows if r["s1_only_ai"] >= 0.70),
+            "s1_ai_beats_classical": sum(1 for r in rows if r["s1_only_ai"] > r["s1_classical"]),
+            "fusion_wins_at_003": sum(1 for r in rows if r["fusion_gain"] >= 0.03), "fusion_positive": sum(1 for r in rows if r["fusion_gain"] > 0),
+            "report_sha256": sha256(rp)}
+
+
 def nearest_windows_for_points(points: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """포인트마다 3 km 이내 가장 가까운 스캔 창 id를 붙임 (팝업 위성 썸네일용)."""
     wm = WORK_ROOT / "artifacts/corridor_s2_candidates/prepare_v2/windows_manifest.json"
@@ -1532,6 +1551,7 @@ def build(refresh_osm: bool) -> None:
         "corridor_contract": corridor_contract_block(),
         "headline": headline_block(),
         "ai_vs_classical": ai_vs_classical_block(),
+        "radar_value": radar_value_block(),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {

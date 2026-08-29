@@ -149,6 +149,7 @@ type Scenario = {
     geojson: FeatureCollection;
   } | null;
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
+  radar_value?: { rows: { region: string; patches: number; s2_only: number; s1s2: number; fusion_gain: number; s1_only_ai: number; s1_classical: number }[]; regions: number; s1_only_usable: number; s1_ai_beats_classical: number; fusion_wins_at_003: number; fusion_positive: number } | null;
   ai_vs_classical?: { rows: { region: string; patches: number; classical_best: number; ai: number | null; gain: number | null }[]; regions: number; ahead: number; wins_at_005: number; pre_registered_margin: number; corridor?: { spearman: number; top10_overlap: number; reported_hits: { ai: number; classical: number } } | null } | null;
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
     top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number; kind?: string }[];
@@ -1398,6 +1399,16 @@ export default function Home() {
               {scenario.ai_vs_classical.rows.map((r) => <tr key={r.region} className={(r.gain ?? 0) >= 0.05 ? 'win' : ''}><td>{r.region}</td><td>{r.classical_best.toFixed(2)}</td><td>{r.ai?.toFixed(2) ?? '—'}</td><td>{r.gain != null ? (r.gain >= 0 ? '+' : '') + r.gain.toFixed(2) : '—'}</td></tr>)}
             </tbody></table>
             <small>AUROC = probability a landslide token outranks a non-landslide token. no-AI = best of normalized band difference and |ΔNDVI|+|ΔNBR|, identical patches and pre/post scene choice (label-blind). Labels used for scoring only.{scenario.ai_vs_classical.corridor ? ` Nepal corridor (no labels): top-10 reported-place hits AI ${scenario.ai_vs_classical.corridor.reported_hits.ai} vs no-AI ${scenario.ai_vs_classical.corridor.reported_hits.classical}.` : ''}</small>
+          </div>
+        )}
+        {scenario?.radar_value && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">RADAR THROUGH CLOUD · Sentinel-1 only, no optical</p>
+            <strong>Radar-only OLMoEarth Δz localizes landslides (AUROC ≥ 0.70) in {scenario.radar_value.s1_only_usable}/{scenario.radar_value.regions} past disasters · beats classical radar log-ratio in {scenario.radar_value.s1_ai_beats_classical}/{scenario.radar_value.regions} · adding radar to clear optical helps in {scenario.radar_value.fusion_positive}/{scenario.radar_value.regions} but never by ≥ +0.03</strong>
+            <table className="ai-vs-table"><thead><tr><th>region</th><th>S1 classical</th><th>S1 AI</th><th>S2 AI</th><th>S1+S2</th></tr></thead><tbody>
+              {scenario.radar_value.rows.map((r) => <tr key={r.region} className={r.s1_only_ai >= 0.7 ? 'win' : ''}><td>{r.region}</td><td>{r.s1_classical.toFixed(2)}</td><td>{r.s1_only_ai.toFixed(2)}</td><td>{r.s2_only.toFixed(2)}</td><td>{r.s1s2.toFixed(2)}</td></tr>)}
+            </tbody></table>
+            <small>Same patches, dates and labels as the table above; S1 ascending in dB, four scenes per side. Radar is not a universal cloud-piercer under this 40 m contract — it works for some events (Hokkaido, Hiroshima) and sits at chance for others. Nepal's corridor radar screen (post dB fix) found nothing above variability; whether that is the event type or the contract is open.</small>
           </div>
         )}
         <div className="olmo-outcomes">
