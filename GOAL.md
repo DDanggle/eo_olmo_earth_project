@@ -2822,3 +2822,18 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 상태: **구현·연구 문서 완료, 공개 배포 보류**. 기존 public site는 사용자 명시 승인 없이
   교체하지 않는다. 과학적 다음 P0는 UI가 아니라 Presto matched control과 Nepal post-event
   exact-period seal이다.
+
+### 2026-08-29 — 이 세션: 카탈로그 재감사·M68 전수 확장·Planet 공개영상·스토리 기사체 (완료)
+
+- 카탈로그 재감사: 공식 CDSE에 08-28 S1D(12:21:41–12:22:06) 제품이 Rasuwagadhi를 포함해 있고
+  Planetary Computer에도 GRD 원본은 인덱싱됨. 파이프라인 입력인 RTC 파생물만 미생성
+  (PC RTC 최신 08-28 10:46). 따라서 "카탈로그 문제"가 아니라 RTC 생성 지연임. GRD 대체 입력은
+  사건 전 계약과 달라지므로 쓰지 않음.
+- Planet 재난 공개 데이터(source.coop, CC-BY-NC-4.0) 발견: PlanetScope 3.8m 08-26/28,
+  SkySat 0.5m·Pelican 0.55m 08-27. 앵커 창을 잘라 실물 확인 — SkySat은 Rasuwagadhi 전면 구름,
+  PlanetScope 08-28은 합류부가 맑음(밝은 픽셀 5%). 참고 영상으로만 앱에 넣고 AI 입력엔 미사용.
+- M68: GPU1 유휴 시간에 다지점 Δz를 15지역으로 확장(863패치). 9지역 판정·6지역 데이터 부적격.
+  다중 날짜 event_date로 1회 크래시 → 제외 규칙 추가 후 재실행. 보호 4파일 mtime 불변 확인.
+- 앱: 스펙트럼 패널 복원, 스토리 한국어 29개 문단을 기사체로 개작, PlanetScope 영상을 2장과
+  팝업에 추가. tsc/eslint/asset/build 통과, DOM 확인. 커밋 `51fa327` 외.
+- 미해결: RTC 생성 대기(자동 재개 금지 유지), Sites 공개 배포는 사용자 승인 대기.
