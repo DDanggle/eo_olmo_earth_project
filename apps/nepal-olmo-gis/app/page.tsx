@@ -259,6 +259,7 @@ export default function Home() {
   const mapNode = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
+  const initialCorridorFitRef = useRef(false);
   const flowSpeedRef = useRef(0.034);
   const flowPlayingRef = useRef(true);
   const wasmRef = useRef<FlowExports | null>(null);
@@ -670,10 +671,14 @@ export default function Home() {
     map.addLayer({ id: 'satellite-scene', type: 'raster', source: 'satellite-scene', paint: { 'raster-opacity': overlayOpacity, 'raster-fade-duration': 120, 'raster-saturation': 0.12, 'raster-contrast': 0.08, 'raster-resampling': 'nearest' } }, before);
     if (!userSelectedSceneRef.current) {
       // 첫 화면은 단일 A/B 위성창이 아니라 SOURCE→DOWNSTREAM 사건 전체를 보여준다.
-      // 사용자가 A/B를 붕괴 원점으로 오독한 직접 원인이 초기 2.56 km 자동 줌이었다.
-      map.fitBounds(new LngLatBounds([85.105, 27.885], [85.55, 28.31]), {
-        padding: scenePadding(), maxZoom: 10.8, duration: 0,
-      });
+      // 단 **최초 1회만**: 이 효과는 styleRevision 등으로 재실행되는데, 그때마다 fitBounds 하면
+      // GO/확대 뒤 화면이 원위치로 튀는 결함이 생김 (2026-08-29 사용자 보고).
+      if (!initialCorridorFitRef.current) {
+        initialCorridorFitRef.current = true;
+        map.fitBounds(new LngLatBounds([85.105, 27.885], [85.55, 28.31]), {
+          padding: scenePadding(), maxZoom: 10.8, duration: 0,
+        });
+      }
     } else {
       fitScene(scene, 700);
     }
