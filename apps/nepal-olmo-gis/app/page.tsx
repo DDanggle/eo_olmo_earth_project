@@ -260,6 +260,10 @@ export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const initialCorridorFitRef = useRef(false);
+  const liveDelta = useMemo(() => {
+    const ped = scenario?.olmoearth?.post_event_delta;
+    return typeof ped === 'object' && ped && (ped as Record<string, unknown>).live_mode ? (ped as Record<string, unknown>) : null;
+  }, [scenario]);
   const flowSpeedRef = useRef(0.034);
   const flowPlayingRef = useRef(true);
   const wasmRef = useRef<FlowExports | null>(null);
@@ -1062,7 +1066,7 @@ export default function Home() {
         <div className="olmo-outcomes">
           <article className="ready"><span>OLMo BASELINE</span><strong>15 RASTERS SEALED</strong><small>3 cubes × 5 anchors · each 768×64×64</small></article>
           <article className="win"><span>TRANSFER EVIDENCE</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} REGIONS WON` : 'LOADING'}</strong><small>{transfer ? `region-macro ${transfer.reuse_region_macro.toFixed(3)} vs ${transfer.raw_strong_region_macro.toFixed(3)} · +${transfer.absolute_gap.toFixed(3)}` : 'confirmatory summary'}</small></article>
-          <article className="wait"><span>NEPAL LIVE CHANGE</span><strong>{providerSyncBlocked ? 'S1 COVERS 5/5' : 'WAITING FOR S1'}</strong><small>{providerSyncBlocked ? 'Copernicus ready · Planetary Computer index sync pending' : `${livePeriodText} · baseline value remains usable`}</small></article>
+          <article className={liveDelta ? 'ready' : 'wait'}><span>NEPAL LIVE CHANGE</span><strong>{liveDelta ? 'CANDIDATE CHANGE · 3/5' : providerSyncBlocked ? 'S1 COVERS 5/5' : 'WAITING FOR S1'}</strong><small>{liveDelta ? `${String(liveDelta.live_mode)} sealed · rasuwagadhi Δ ${Number(liveDelta.rasuwagadhi_live_mean).toFixed(4)} > both placebos · source/dhunche not detected` : providerSyncBlocked ? 'Copernicus ready · Planetary Computer index sync pending' : `${livePeriodText} · baseline value remains usable`}</small></article>
         </div>
         {decision && (
           <div className={`decision-card compact ${decision.status}`} role="status">
@@ -1079,10 +1083,19 @@ export default function Home() {
             <span>{activeScene && scenario && activeScene.acquired_at >= scenario.event.occurred_at ? 'POST' : 'PRE'} · {activeScene?.acquired_at.slice(0, 10) ?? (dataStatus === 'loading' ? 'LOADING' : '—')}</span>
           </div>
           <div className="compare-arrow" aria-hidden="true">→</div>
-          <div className="scene-preview pending-preview">
-            <span className="waiting-cross" />
-            <span>POST · {liveObservation?.catalog_status === 'published' ? 'CATALOG / CUBE WAIT' : nextScheduled ? `${shortSensor(nextScheduled.sensor)} ${nextScheduled.acquired_at.slice(5, 10)}` : 'PENDING'}</span>
-          </div>
+          {liveDelta ? (
+            <div className="scene-preview delta-preview zoomable" role="button" tabIndex={0} title="Click: large view"
+                 onClick={() => openLightbox({ title: 'Rasuwagadhi · OLMoEarth Δz (sealed S1+S2, s1_live vs baseline)', sub: 'orange = top-5% tokens by Δz within this window · descriptive only, not a damage map', before: '/data/story/anchors/rasuwagadhi_post.png', after: '/data/live_delta/rasuwagadhi_delta.png', beforeLabel: 'S2 · 08-27', afterLabel: 'OLMo Δz' })}>
+              <img src="/data/story/anchors/rasuwagadhi_post.png" alt="" className="delta-base" />
+              <img src="/data/live_delta/rasuwagadhi_delta.png" alt="OLMoEarth delta heatmap for Rasuwagadhi" className="delta-heat" />
+              <span>Δz · SEALED · CANDIDATE</span>
+            </div>
+          ) : (
+            <div className="scene-preview pending-preview">
+              <span className="waiting-cross" />
+              <span>POST · {liveObservation?.catalog_status === 'published' ? 'CATALOG / CUBE WAIT' : nextScheduled ? `${shortSensor(nextScheduled.sensor)} ${nextScheduled.acquired_at.slice(5, 10)}` : 'PENDING'}</span>
+            </div>
+          )}
         </div>
         {liveObservation && (
           <div className="live-observation" role="status">
