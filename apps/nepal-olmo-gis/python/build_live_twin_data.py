@@ -928,8 +928,15 @@ def candidates_block() -> dict[str, Any] | None:
                       "properties": {k: w.get(k) for k in ("id", "rank", "status", "candidate_token_frac", "candidate_token_count",
                                                           "d_event_mean", "d_placebo_mean", "valid_event_frac")},
                       "geometry": {"type": "Polygon", "coordinates": [ring]}})
+    places_path = rp.parent / "places.json"
+    places = json.loads(places_path.read_text()) if places_path.exists() else {}
+    a_lon, a_lat = next(pt for pt in POINTS if pt["id"] == "A")["coordinates"]
+    top10 = []
+    for w in rep.get("top10", []):
+        lon, lat = w["center_lonlat"]
+        top10.append({**w, "place": places.get(w["id"], ""), "distance_from_a_km": round(haversine_km([a_lon, a_lat], [lon, lat]), 1)})
     return {"schema": rep.get("schema"), "claim": rep.get("claim"), "threshold_placebo_p99": rep.get("threshold_placebo_p99"),
-            "placebo_tokens": rep.get("placebo_tokens"), "windows": len(rep["windows"]), "top10": rep.get("top10", []),
+            "placebo_tokens": rep.get("placebo_tokens"), "windows": len(rep["windows"]), "top10": top10,
             "report_sha256": sha256(rp), "geojson": {"type": "FeatureCollection", "features": feats}}
 
 

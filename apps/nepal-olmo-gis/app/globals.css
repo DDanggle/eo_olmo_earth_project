@@ -781,3 +781,42 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .candidate-list button { font-family: var(--font-geist-mono); font-size: 10px; padding: 3px 7px; border: 1px solid var(--line-strong, #d5d1c6);
   background: transparent; cursor: pointer; }
 .candidate-list button:hover { color: var(--orange); border-color: var(--orange); }
+
+/* ===== 라이트박스(큰 비교 뷰어) ===== */
+.lightbox { position: fixed; inset: 0; z-index: 80; background: rgba(22, 21, 26, 0.72); display: grid; place-items: center; padding: 24px; }
+.lb-panel { width: min(96vw, 900px); background: var(--surface, #fffefb); border: 1px solid var(--line-strong, #d5d1c6); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.lb-panel header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line, #e3e0d8); }
+.lb-panel header strong { display: block; font-size: 15px; }
+.lb-panel header small { display: block; margin-top: 3px; font-family: var(--font-geist-mono); font-size: 10.5px; color: var(--muted, #6f6c64); }
+.lb-panel header button { width: 34px; height: 34px; border: 1px solid var(--line-strong); background: transparent; font-size: 20px; cursor: pointer; }
+.lb-swipe { margin: 0 !important; border: 0 !important; aspect-ratio: 1 / 1; max-height: 72vh; }
+.lb-single { position: relative; aspect-ratio: 1/1; max-height: 72vh; background: #0b0f0d; }
+.lb-single img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.lb-panel footer { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 10px 12px; border-top: 1px solid var(--line, #e3e0d8); }
+.lb-panel footer button { font-family: var(--font-geist-mono); font-size: 10.5px; letter-spacing: .06em; padding: 7px 10px; border: 1px solid var(--line-strong); background: transparent; cursor: pointer; }
+.lb-panel footer button.is-active { background: var(--ink, #16151a); color: #fffefb; border-color: var(--ink); }
+.lb-tip { margin-left: auto; font-family: var(--font-geist-mono); font-size: 10px; color: var(--muted); }
+
+/* 클릭 가능한 사진 힌트 */
+.zoomable { cursor: zoom-in; position: relative; }
+.zoomable .zoom-hint { position: absolute; right: 8px; bottom: 8px; font-family: var(--font-geist-mono); font-size: 10px; padding: 3px 7px; background: rgba(8,12,10,.72); color: #f2efe8; pointer-events: none; }
+.pp-thumbs { cursor: zoom-in; }
+.pp-thumbs img:hover { outline: 2px solid var(--orange); }
+.pp-hint { font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--orange); margin: 2px 0 8px; }
+
+/* 후보 카드 */
+.candidate-cards { display: grid; gap: 8px; margin: 6px 0 12px; }
+.cand-help { font-family: var(--font-geist-mono); font-size: 10px; line-height: 1.5; color: var(--muted); margin: 0 0 4px; }
+.cand-card { border: 1px solid var(--line, #e3e0d8); background: var(--surface, #fffefb); padding: 8px; }
+.cand-card header { display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: baseline; margin-bottom: 6px; }
+.cand-card header b { color: var(--orange); font-family: var(--font-geist-mono); font-size: 12px; }
+.cand-card header strong { font-size: 12.5px; }
+.cand-card header small { grid-column: 2; font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--muted); }
+.cand-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; cursor: zoom-in; }
+.cand-strip figure { margin: 0; }
+.cand-strip img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; border: 1px solid var(--line-strong, #d5d1c6); }
+.cand-strip:hover img { outline: 1px solid var(--orange); }
+.cand-strip figcaption { font-family: var(--font-geist-mono); font-size: 8.5px; color: var(--muted); padding-top: 2px; letter-spacing: .05em; }
+.cand-card footer { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-family: var(--font-geist-mono); font-size: 10px; color: var(--muted); }
+.cand-card footer button { font-family: var(--font-geist-mono); font-size: 9.5px; padding: 4px 8px; border: 1px solid var(--line-strong); background: transparent; cursor: pointer; }
+.cand-card footer button:hover { color: var(--orange); border-color: var(--orange); }

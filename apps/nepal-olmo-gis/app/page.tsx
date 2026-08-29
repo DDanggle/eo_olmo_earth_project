@@ -128,7 +128,7 @@ type Scenario = {
   };
   simulation: { route_points: number; claim: string; scientific_upgrade?: string };
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
-    top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number }[];
+    top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number }[];
     report_sha256: string; geojson: FeatureCollection } | null;
 };
 
@@ -283,6 +283,29 @@ export default function Home() {
   // 읽으면 /#story 직링크에서 hydration mismatch가 난다(2026-08-29 브라우저 QA 실측).
   const [storyOpen, setStoryOpen] = useState(false);
   const [storyLang, setStoryLang] = useState<'en' | 'ko'>('en');
+  // 큰 비교 뷰어(라이트박스): 어떤 작은 사진이든 클릭하면 전·후 슬라이더로 크게 봄.
+  type Lightbox = { title: string; sub?: string; before: string; after: string; beforeLabel: string; afterLabel: string; extra?: { src: string; label: string }[] };
+  const [lightbox, setLightbox] = useState<Lightbox | null>(null);
+  const [lbSwipe, setLbSwipe] = useState(50);
+  const [lbExtra, setLbExtra] = useState<number | null>(null);
+  const openLightbox = useCallback((lb: Lightbox) => { setLbSwipe(50); setLbExtra(null); setLightbox(lb); }, []);
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLightbox(null); };
+    window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox]);
+  // 팝업(HTML 문자열) 안의 썸네일 클릭 → 라이트박스 (이벤트 위임)
+  useEffect(() => {
+    const h = (e: MouseEvent) => {
+      const el = (e.target as HTMLElement).closest('.pp-thumbs') as HTMLElement | null;
+      if (!el) return;
+      const win = el.dataset.win; const name = el.dataset.name ?? ''; const place = el.dataset.place ?? '';
+      if (!win) return;
+      const extra = win === 'rasuwagadhi' ? [{ src: '/data/story/planet/ps_rasuwagadhi_0828.png', label: 'PlanetScope 3.8 m · 08-28' }] : [];
+      openLightbox({ title: name, sub: place, before: `/data/story/anchors/${win}_pre.png`, after: `/data/story/anchors/${win}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra });
+    };
+    document.addEventListener('click', h); return () => document.removeEventListener('click', h);
+  }, [openLightbox]);
   const [swipe, setSwipe] = useState(52);
   const viewDimRef = useRef<'2d' | '3d'>('2d');
   const [selectedPoint, setSelectedPoint] = useState('E');
@@ -536,13 +559,13 @@ export default function Home() {
         // C(원거리 참조)는 물질화 창이 없어 썸네일 없음.
         const win = ({ A: 'rasuwagadhi', B: 'rasuwagadhi', D: 'source', E: 'source', F: 'bidur' } as Record<string, string>)[pt.id];
         const thumbs = win
-          ? `<div class="pp-thumbs">`
+          ? `<div class="pp-thumbs" data-win="${win}" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/story/anchors/${win}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
             + `<figure><img src="/data/story/anchors/${win}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
             + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANET 3.8 m · 08-28</figcaption></figure>` : '')
-            + `</div>`
+            + `</div><p class="pp-hint">▲ click any frame to open the large before/after slider</p>`
           : '';
-        new Popup({ closeButton: true, maxWidth: '320px', className: 'story-popup' })
+        new Popup({ closeButton: true, maxWidth: '400px', className: 'story-popup' })
           .setLngLat(pt.coordinates)
           .setHTML(`<p class="pp-eyebrow" style="color:${pt.marker_color}">${pt.display_label}${pt.id === 'C' ? ' · OUTSIDE EVENT CHAIN' : ''}</p>`
             + `<h3>${pt.name}</h3><p class="pp-place">${pt.place}</p>`
@@ -1051,12 +1074,23 @@ export default function Home() {
         <div className="pipeline-stack">
           <div className={`pipeline-row ${scenario?.candidates ? 'preview' : 'pending'}`}><span>AI</span><div><strong>Corridor candidates · S2-only</strong><small>{scenario?.candidates ? `${scenario.candidates.windows} auto windows · placebo p99 ${scenario.candidates.threshold_placebo_p99?.toFixed(3)} · unsealed` : 'not computed'}</small></div><b>{scenario?.candidates ? 'CANDIDATE' : 'PENDING'}</b></div>
           {scenario?.candidates && (
-            <ol className="candidate-list">
-              {scenario.candidates.top10.slice(0, 5).map((c) => (
-                <li key={c.id}><b>#{c.rank}</b><span>{c.center_lonlat[1].toFixed(3)}, {c.center_lonlat[0].toFixed(3)}</span><em>{(c.candidate_token_frac * 100).toFixed(0)}% tokens · {(c.valid_event_frac * 100).toFixed(0)}% visible</em>
-                  <button onClick={() => mapRef.current?.flyTo({ center: c.center_lonlat, zoom: 13.6, duration: 900 })}>GO</button></li>
+            <div className="candidate-cards">
+              <p className="cand-help">{scenario.candidates.top10.length} ranked windows · orange = tokens that changed more than any ordinary fortnight (placebo p99) · grey = cloud/snow, not judged</p>
+              {scenario.candidates.top10.slice(0, 6).map((c) => (
+                <article key={c.id} className="cand-card">
+                  <header><b>#{c.rank}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
+                  <div className="cand-strip" role="button" tabIndex={0}
+                       onClick={() => openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% of judged tokens above placebo p99 · ${(c.valid_event_frac * 100).toFixed(0)}% observable`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] })}
+                       onKeyDown={(e) => { if (e.key === 'Enter') (e.currentTarget as HTMLElement).click(); }}>
+                    <figure><img src={`/data/candidates/${c.id}_pre.png`} alt="before" loading="lazy" /><figcaption>PRE 08-12</figcaption></figure>
+                    <figure><img src={`/data/candidates/${c.id}_post.png`} alt="after" loading="lazy" /><figcaption>POST 08-27</figcaption></figure>
+                    <figure><img src={`/data/candidates/${c.id}_delta.png`} alt="AI change tokens" loading="lazy" /><figcaption>AI Δ</figcaption></figure>
+                  </div>
+                  <footer><span>{(c.candidate_token_frac * 100).toFixed(0)}% changed · {(c.valid_event_frac * 100).toFixed(0)}% visible</span>
+                    <button onClick={() => mapRef.current?.flyTo({ center: c.center_lonlat, zoom: 13.6, duration: 900 })}>GO TO MAP</button></footer>
+                </article>
               ))}
-            </ol>
+            </div>
           )}
           <div className="pipeline-row ready"><span>OE</span><div><strong>Frozen representation</strong><small>sealed baseline · retrieval · downstream probes</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>DV</span><div><strong>Bidur downstream pair</strong><small>{bidurPost ? `S2 ${bidurPost.acquired_at.slice(0, 10)} · tile ${bidurPost.mgrs_tile}` : 'visual audit'}</small></div><b>{bidurPost ? 'READY' : 'AUDIT'}</b></div>
@@ -1153,18 +1187,18 @@ export default function Home() {
             <h2>{ko ? '국경에서 시작된 회색 띠가 47km 아래에서도 확인됐다' : 'A border change now has a downstream counterpart'}</h2>
             <div className="evidence-pairs">
               <article><header><span>A · IMPACT</span><strong>Rasuwagadhi</strong></header>{sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && <div className="story-swipe compact" style={{ ['--swipe' as string]: `${swipe}%` }}><img src={sceneById('s2-2026-08-27')!.image} alt="Rasuwagadhi Sentinel-2 post-event" /><div className="swipe-clip"><img src={sceneById('s2-2026-08-12')!.image} alt="Rasuwagadhi Sentinel-2 pre-event" /></div><div className="swipe-bar" /><span className="swipe-label pre">08-12</span><span className="swipe-label post">08-27</span><input type="range" min={0} max={100} value={swipe} aria-label="Compare Rasuwagadhi before and after" onChange={(e) => setSwipe(Number(e.target.value))} /></div>}<p>{ko ? '현재 OLMo 5-anchor 시계열의 중심 창.' : 'The centre of the current five-anchor Olmo time series.'}</p></article>
-              <article><header><span>F · DOWNSTREAM</span><strong>Bidur / Trishuli</strong></header><div className="fixed-pair">{bidurPre && <figure><img src={bidurPre.image} alt="Bidur Sentinel-2 before event" /><figcaption>PRE · 08-12</figcaption></figure>}{bidurPost && <figure><img src={bidurPost.image} alt="Bidur Sentinel-2 after event" /><figcaption>POST · 08-27</figcaption></figure>}</div><p>{ko ? '기존 Rasuwagadhi 타일 밖, 인접 45RUL에서 새로 회수한 실제 2.56 km 창.' : 'A real 2.56 km pair recovered from adjacent MGRS tile 45RUL, missed by the original Rasuwagadhi-only catalog.'}</p></article>
+              <article><header><span>F · DOWNSTREAM</span><strong>Bidur / Trishuli</strong></header><div className="fixed-pair zoomable" role="button" tabIndex={0} onClick={() => bidurPre && bidurPost && openLightbox({ title: 'F · Bidur / Trishuli', sub: 'Sentinel-2 · 2.56 km · tile 45RUL', before: bidurPre.image, after: bidurPost.image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27' })}>{bidurPre && <figure><img src={bidurPre.image} alt="Bidur Sentinel-2 before event" /><figcaption>PRE · 08-12</figcaption></figure>}{bidurPost && <figure><img src={bidurPost.image} alt="Bidur Sentinel-2 after event" /><figcaption>POST · 08-27</figcaption></figure>}<span className="zoom-hint">⤢ enlarge</span></div><p>{ko ? '기존 Rasuwagadhi 타일 밖, 인접 45RUL에서 새로 회수한 실제 2.56 km 창.' : 'A real 2.56 km pair recovered from adjacent MGRS tile 45RUL, missed by the original Rasuwagadhi-only catalog.'}</p></article>
             </div>
             <div className="distance-matrix">
               {['source', 'rasuwagadhi', 'timure', 'syabrubesi', 'dhunche', 'bidur'].map((name, i) => <div key={name}><b>{i + 1}</b><span>{name === 'source' ? 'SOURCE · Langtang Lirung' : name.toUpperCase()}</span><figure><img src={`/data/story/anchors/${name}_pre.png`} alt={`${name} before`} /></figure><i>→</i><figure><img src={`/data/story/anchors/${name}_post.png`} alt={`${name} after`} /></figure></div>)}
             </div>
-            <figure className="story-figure">
-              <img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 3.8 m view of Rasuwagadhi on 28 August 2026" />
+            <figure className="story-figure zoomable" role="button" tabIndex={0} onClick={() => openLightbox({ title: 'Rasuwagadhi · PlanetScope 3.8 m · 28 Aug', sub: '© Planet Labs PBC · CC-BY-NC-4.0 · reference only, not AI input', before: '/data/story/anchors/rasuwagadhi_post.png', after: '/data/story/planet/ps_rasuwagadhi_0828.png', beforeLabel: 'SENTINEL-2 10 m · 08-27', afterLabel: 'PLANETSCOPE 3.8 m · 08-28' })}>
+              <img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 3.8 m view of Rasuwagadhi on 28 August 2026" /><span className="zoom-hint">⤢ compare with Sentinel-2</span>
               <figcaption className="story-caption">{ko
                 ? '같은 국경 합류부를 상업위성 플래닛스코프가 8월 28일 오전에 찍은 3.8m 영상. 센티넬(10m)보다 2.6배 세밀해 두 물줄기가 만나는 지점의 토사 판과 그 안의 물길, 끊긴 도로가 그대로 보인다. 플래닛은 이번 재난에 한해 영상을 비상업 조건으로 공개했다(CC-BY-NC-4.0). 이 영상은 참고용이며 인공지능 입력에는 쓰지 않았다 — 입력 계약(밴드·해상도)이 다르기 때문이다. © Planet Labs PBC.'
                 : 'The same border confluence seen by a commercial PlanetScope satellite on the morning of 28 August at 3.8 m — 2.6× finer than Sentinel-2. The debris sheet at the junction, the channel threading through it and the severed road are visible directly. Planet released this imagery for the disaster under a non-commercial licence (CC-BY-NC-4.0). It is reference only: it is not fed to the AI, whose input contract (bands, resolution) differs. © Planet Labs PBC.'}</figcaption>
             </figure>
-            <div className="story-spectra">
+            <div className="story-spectra zoomable" role="button" tabIndex={0} onClick={() => openLightbox({ title: 'Rasuwagadhi · 27 Aug · true colour vs SWIR', sub: 'SWIR B12·B8A·B04: vegetation green, wet sediment pink-brown, water deep blue', before: '/data/story/spec_true_post0827.png', after: '/data/story/spec_swir_post0827.png', beforeLabel: 'TRUE COLOUR', afterLabel: 'SWIR', extra: [{ src: '/data/story/spec_ndwi_post0827.png', label: 'NDWI water index' }, { src: '/data/story/spec_swir_pre0812.png', label: 'SWIR · pre-event 08-12' }] })}>
               <figure><img src="/data/story/spec_true_post0827.png" alt="True colour, Rasuwagadhi, 27 August" /><figcaption>{ko ? '트루컬러 · 08-27' : 'TRUE COLOUR · 08-27'}</figcaption></figure>
               <figure><img src="/data/story/spec_swir_post0827.png" alt="SWIR composite B12/B8A/B04, 27 August" /><figcaption>{ko ? 'SWIR 합성 B12·B8A·B04 · 08-27' : 'SWIR B12·B8A·B04 · 08-27'}</figcaption></figure>
               <figure><img src="/data/story/spec_ndwi_post0827.png" alt="NDWI water index, 27 August" /><figcaption>{ko ? 'NDWI 물 지수 · 08-27' : 'NDWI WATER INDEX · 08-27'}</figcaption></figure>
@@ -1307,6 +1341,29 @@ export default function Home() {
         </div>
         );
       })()}
+
+      {lightbox && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label={lightbox.title} onClick={(e) => { if (e.target === e.currentTarget) setLightbox(null); }}>
+          <div className="lb-panel">
+            <header><div><strong>{lightbox.title}</strong>{lightbox.sub && <small>{lightbox.sub}</small>}</div><button onClick={() => setLightbox(null)} aria-label="Close">×</button></header>
+            {lbExtra === null ? (
+              <div className="story-swipe lb-swipe" style={{ ['--swipe' as string]: `${lbSwipe}%` }}>
+                <img src={lightbox.after} alt={lightbox.afterLabel} />
+                <div className="swipe-clip"><img src={lightbox.before} alt={lightbox.beforeLabel} /></div>
+                <div className="swipe-bar" /><span className="swipe-label pre">{lightbox.beforeLabel}</span><span className="swipe-label post">{lightbox.afterLabel}</span>
+                <input type="range" min={0} max={100} value={lbSwipe} aria-label="Compare" onChange={(e) => setLbSwipe(Number(e.target.value))} />
+              </div>
+            ) : (
+              <div className="lb-single"><img src={lightbox.extra![lbExtra].src} alt={lightbox.extra![lbExtra].label} /><span className="swipe-label post">{lightbox.extra![lbExtra].label}</span></div>
+            )}
+            <footer>
+              <button className={lbExtra === null ? 'is-active' : ''} onClick={() => setLbExtra(null)}>BEFORE ⇄ AFTER</button>
+              {(lightbox.extra ?? []).map((x, i) => <button key={x.src} className={lbExtra === i ? 'is-active' : ''} onClick={() => setLbExtra(i)}>{x.label}</button>)}
+              <span className="lb-tip">drag the handle · ESC closes</span>
+            </footer>
+          </div>
+        </div>
+      )}
 
       <div className="provenance-stamp">DATA SNAPSHOT {scenario?.generated_at.slice(0, 16).replace('T', ' ') ?? '—'} UTC · OSM ODbL · ESA COPERNICUS</div>
     </main>
