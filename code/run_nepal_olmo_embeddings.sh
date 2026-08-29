@@ -12,6 +12,17 @@ MODEL_CONFIG="${MODEL_CONFIG:-$REPO_DIR/code/model.yaml}"
 RSLEARN_BIN="${RSLEARN_BIN:-$WORKSPACE_DIR/.venv/bin/rslearn}"
 PYTHON_BIN="${PYTHON_BIN:-$WORKSPACE_DIR/.venv/bin/python}"
 
+echo "run_root=$RUN_ROOT (MATERIALIZED_DIR=${MATERIALIZED_DIR:-materialized})" >&2
+# 2026-08-29 사고 재발 방지: 매니페스트의 mode·앵커 수가 이 실행과 맞지 않으면 거부함
+if [[ -f "$RUN_ROOT/materialization_manifest.json" ]]; then
+  "$PYTHON_BIN" - "$RUN_ROOT/materialization_manifest.json" "$MODE" <<'PY'
+import json, sys
+m = json.load(open(sys.argv[1]))
+if m.get("mode") != sys.argv[2]:
+    raise SystemExit(f"manifest mode {m.get('mode')} != requested {sys.argv[2]}")
+print(f"anchors={m.get('found_anchor_count')} mode={m.get('mode')}", file=sys.stderr)
+PY
+fi
 if [[ ! -f "$RUN_ROOT/materialization_manifest.json" ]]; then
   echo "missing materialization manifest: $RUN_ROOT/materialization_manifest.json" >&2
   exit 2
