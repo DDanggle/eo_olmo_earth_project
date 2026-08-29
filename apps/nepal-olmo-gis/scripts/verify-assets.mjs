@@ -25,7 +25,7 @@ if (rerunDone) {
 }
 if (!rerunDone) assert.match(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.output ?? '', /preserved legacy rasters.*excluded/);
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'pre_event_forecast')?.state, 'NEGATIVE_RESULT');
-assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_post_event_delta')?.state, 'SUPERSEDED');
+assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_post_event_delta')?.state, rerunDone ? 'EXECUTED' : 'SUPERSEDED');
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'matched_second_geofm')?.state, 'NOT_RUN');
 assert.equal(scenario.corridor_sealed?.schema, 'corridor-sealed-delta-s1db-v1');
 assert.equal(scenario.corridor_sealed?.windows, 27);
@@ -46,19 +46,18 @@ assert.equal(scenario.live_observation.olmo_ready, true);
 assert.equal(scenario.live_observation.selection_preflight_valid, true);
 assert.equal(scenario.live_observation.materialization_seal_valid, true);
 assert.equal(scenario.live_observation.materialization_status, 'sealed_olmo_input');
-assert.equal(scenario.headline?.sealed_total, null);
-assert.equal(scenario.headline?.matched, undefined);
+if (rerunDone) { assert.equal(scenario.headline?.sealed_total, 5); assert.ok(scenario.headline?.matched); }
+else { assert.equal(scenario.headline?.sealed_total, null); assert.equal(scenario.headline?.matched, undefined); }
 assert.ok(scenario.candidates && scenario.candidates.windows >= 27);
-assert.equal(scenario.research.nepal_embedding.status, 'five_anchor_superseded_missing_s1_db_transform');
+if (!rerunDone) assert.equal(scenario.research.nepal_embedding.status, 'five_anchor_superseded_missing_s1_db_transform');
 assert.match(scenario.event.evidence_status, /contract-correct 27-window OLMoEarth screening is complete/i);
 assert.equal(scenario.live_observation.coverage_status, 'operational_anchors_covered');
 assert.equal(scenario.live_observation.operational_anchor_count, 5);
-assert.equal(scenario.decision.action, 'RERUN FIVE-ANCHOR CONTRACT');
-assert.equal(scenario.decision.status, 'hold');
-assert.match(scenario.decision.reason, /dB transform/);
+if (rerunDone) { assert.ok(['NOT DETECTED ABOVE VARIABILITY', 'REVIEW CANDIDATE EVIDENCE'].includes(scenario.decision.action)); }
+else { assert.equal(scenario.decision.action, 'RERUN FIVE-ANCHOR CONTRACT'); assert.equal(scenario.decision.status, 'hold'); assert.match(scenario.decision.reason, /dB transform/); }
 assert.ok(scenario.ops_log.some((event) => event.type === 'SEAL_INVALID'));
 assert.ok(scenario.ops_log.some((event) => event.type === 'COVERAGE_PASS'));
-assert.ok(scenario.ops_log.some((event) => event.type === 'DELTA_SUPERSEDED'));
+assert.ok(scenario.ops_log.some((event) => event.type === (rerunDone ? 'DELTA_REPORT' : 'DELTA_SUPERSEDED')));
 assert.ok(scenario.ops_log.some((event) => event.type === 'S1DB_SCREENING'));
 assert.equal(scenario.scheduled_scenes.find((scene) => scene.id === 's2c_20260829')?.state, 'acquired_pending_catalog');
 assert.equal(new Set(scenario.ops_log.map((event) => event.event_id)).size, scenario.ops_log.length);
