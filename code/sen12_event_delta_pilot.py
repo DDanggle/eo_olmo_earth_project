@@ -34,9 +34,9 @@ CLEAR_SCL = {4, 5, 6, 7}
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--regions", nargs="+", default=["hokkaido", "hiroshima", "dominicamaria"])
+    p.add_argument("--regions", nargs="+", default=["hokkaido", "hiroshima", "dominicamaria", "nepal", "kyrgyzstan1", "kyrgyzstan2", "italy", "china", "newzealand", "indonesia", "itogon", "lanaodelnorte", "thrissur", "usa_alaska", "usa_puertorico"])
     p.add_argument("--data-root", type=Path, default=Path("/home/work/data/sen12landslides/extracted"))
-    p.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_event_delta_pilot"))
+    p.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_event_delta_all"))
     p.add_argument("--per-region", type=int, default=120)
     return p.parse_args()
 
@@ -122,6 +122,10 @@ def main():
                     conf = 0
                 if conf < 0.999:
                     continue
+                # 사건 날짜가 여러 개(예: "2018-09-28,2017-05-29")면 전후 구분이 모호하므로 제외함
+                if "," in str(a["event_date"]):
+                    skipped_obs += 1
+                    continue
                 ev = datetime.fromisoformat(str(a["event_date"]))
                 times = [datetime.fromisoformat(str(np.datetime_as_string(t, unit="s")))
                          for t in np.asarray(ds["time"].values)]
@@ -176,16 +180,24 @@ def main():
             used += 1
         el = time.perf_counter() - t0
         pooled = auroc(np.concatenate(ev_scores), np.concatenate(ev_labels)) if ev_scores else None
+        # 보조 지표: 오경보 5%로 고정했을 때 실제 산사태 토큰 중 몇 %를 잡는가 (커버율)
+        recall5 = None
+        if ev_scores:
+            s_all = np.concatenate(ev_scores); y_all = np.concatenate(ev_labels)
+            neg = s_all[y_all == 0]; pos = s_all[y_all == 1]
+            if len(neg) and len(pos):
+                thr = float(np.quantile(neg, 0.95))
+                recall5 = float((pos > thr).mean())
         pooled_pl = auroc(np.concatenate(pl_scores), np.concatenate(pl_labels)) if pl_scores else None
         ok = (pooled is not None and pooled >= 0.60 and
               (pooled_pl is None or pooled >= pooled_pl + 0.05))
         report["regions"][region] = {
             "patches_used": used, "skipped_insufficient_obs": skipped_obs,
-            "pooled_auroc": pooled, "placebo_pooled_auroc": pooled_pl,
+            "pooled_auroc": pooled, "recall_at_5pct_fpr": recall5, "placebo_pooled_auroc": pooled_pl,
             "placebo_patches": len(pl_scores),
             "verdict": ("candidate localization signal" if ok else "not detected"),
             "elapsed_s": round(el, 1)}
-        print(f"[{region}] used={used} skipped={skipped_obs} AUROC={pooled} placebo={pooled_pl} "
+        print(f"[{region}] used={used} skipped={skipped_obs} AUROC={pooled} recall@5%FPR={recall5} placebo={pooled_pl} "
               f"verdict={report['regions'][region]['verdict']}", flush=True)
     fh.close()
     (args.out / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

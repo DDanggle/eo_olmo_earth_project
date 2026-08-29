@@ -470,7 +470,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
   color: var(--muted, #6f6c64); padding-top: 4px; }
 
 /* 팝업 위성 썸네일 */
-.pp-thumbs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0; }
+.pp-thumbs { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 6px; margin: 8px 0; }
 .pp-thumbs figure { margin: 0; }
 .pp-thumbs img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block;
   border: 1px solid var(--line-strong, #d5d1c6); }
