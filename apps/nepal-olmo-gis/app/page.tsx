@@ -1316,116 +1316,7 @@ export default function Home() {
           </div>
         )}
         <div className="panel-heading"><span>02</span><div><p>AI EVIDENCE</p><strong>What works now</strong></div></div>
-        {scenario?.input_contract_audit && (
-          <div className="contract-audit-card">
-            <p className="eyebrow">INPUT CONTRACT CORRECTION · SELF-AUDITED</p>
-            <strong>Earlier five-anchor S1+S2 claims are superseded</strong>
-            <p>{scenario.input_contract_audit.defect}</p>
-            <small>The old files remain provenance records. Active evidence below was recomputed with Sentinel1ToDecibels, 27 matched windows and the same-location placebo.</small>
-            <a href={scenario.input_contract_audit.official_source} target="_blank" rel="noreferrer">Official rslearn OLMoEarth contract ↗</a>
-          </div>
-        )}
-        {scenario?.corridor_sealed && (
-          <div className="canonical-olmo-card">
-            <header><span>WHAT OLMO FOUND · CONTRACT-CORRECT</span><b>27/27 SCREENED</b></header>
-            <p>OLMoEarth v1 converted each S1+S2 time cube into 4,096 spatial tokens × 768 dimensions. We measured cosine change from pre→post, then compared every token with the same location&apos;s ordinary placebo transition.</p>
-            <div className="canonical-list">
-              {scenario.corridor_sealed.top.map((row) => (
-                <article key={row.id}>
-                  <header><b>O{row.rank}</b><strong>{row.name}</strong><em>{(100 * row.frac_above_local_placebo_p99).toFixed(2)}%</em></header>
-                  <div className="cand-strip zoomable" role="button" tabIndex={0}
-                       onClick={() => openLightbox({ title: `O${row.rank} · ${row.name}`, sub: `${(100 * row.frac_above_local_placebo_p99).toFixed(2)}% above this location's one ordinary-transition p99 · event mean Δ ${row.event_mean.toFixed(4)} vs ordinary ${row.placebo_mean.toFixed(4)}`, before: row.pre_image, after: row.post_image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: row.delta_image, label: 'OLMo Δ intensity; yellow-white = above local placebo p99' }] })}
-                       onKeyDown={(event) => { if (event.key === 'Enter') (event.currentTarget as HTMLElement).click(); }}>
-                    <figure><img src={row.pre_image} alt="pre-event Sentinel-2" loading="lazy" /><figcaption>PRE</figcaption></figure>
-                    <figure><img src={row.post_image} alt="post-event Sentinel-2" loading="lazy" /><figcaption>POST</figcaption></figure>
-                    <figure><img src={row.delta_image} alt="OLMoEarth embedding delta" loading="lazy" /><figcaption>OLMo Δ</figcaption></figure>
-                  </div>
-                  <div className="rarity-bar"><i style={{ width: `${Math.max(1.5, 100 * row.frac_above_local_placebo_p99 / Math.max(scenario.corridor_sealed!.max_exceedance, 1e-9))}%` }} /></div>
-                  <footer><small>event mean is {(100 * row.mean_ratio_event_to_placebo).toFixed(0)}% of ordinary mean</small><button onClick={() => mapRef.current?.flyTo({ center: row.center_lonlat, zoom: 13.2, duration: 900 })}>GO TO MAP</button></footer>
-                </article>
-              ))}
-            </div>
-            <em>{scenario.corridor_sealed.visual_legend}. Ranking is a review queue, not a hazard map.</em>
-          </div>
-        )}
-        {scenario?.ai_vs_classical && (
-          <div className="ai-vs-card">
-            <p className="eyebrow">AI vs NO-AI · same data, same labels, same metric</p>
-            <strong>OLMoEarth Δz beats classical band-change in {scenario.ai_vs_classical.ahead}/{scenario.ai_vs_classical.regions} past disasters · {scenario.ai_vs_classical.wins_at_005}/{scenario.ai_vs_classical.regions} above the pre-registered +{scenario.ai_vs_classical.pre_registered_margin} AUROC margin</strong>
-            <table className="ai-vs-table"><thead><tr><th>region</th><th>no-AI</th><th>AI</th><th>Δ</th></tr></thead><tbody>
-              {scenario.ai_vs_classical.rows.map((r) => <tr key={r.region} className={(r.gain ?? 0) >= 0.05 ? 'win' : ''}><td>{r.region}</td><td>{r.classical_best.toFixed(2)}</td><td>{r.ai?.toFixed(2) ?? '—'}</td><td>{r.gain != null ? (r.gain >= 0 ? '+' : '') + r.gain.toFixed(2) : '—'}</td></tr>)}
-            </tbody></table>
-            <small>AUROC = probability a landslide token outranks a non-landslide token. no-AI = best of normalized band difference and |ΔNDVI|+|ΔNBR|, identical patches and pre/post scene choice (label-blind). Labels used for scoring only.{scenario.ai_vs_classical.corridor ? ` Nepal corridor (no labels): top-10 reported-place hits AI ${scenario.ai_vs_classical.corridor.reported_hits.ai} vs no-AI ${scenario.ai_vs_classical.corridor.reported_hits.classical}.` : ''}</small>
-          </div>
-        )}
-        <div className="olmo-outcomes">
-          <article className="ready"><span>OLMo CANONICAL CORRIDOR</span><strong>{scenario?.corridor_sealed ? '81 RASTERS SEALED' : 'PENDING'}</strong><small>placebo + baseline + live · 27 windows each · 768×64×64</small></article>
-          <article className="win"><span>TRANSFER EVIDENCE</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} REGIONS WON` : 'LOADING'}</strong><small>{transfer ? `region-macro ${transfer.reuse_region_macro.toFixed(3)} vs ${transfer.raw_strong_region_macro.toFixed(3)} · +${transfer.absolute_gap.toFixed(3)}` : 'confirmatory summary'}</small></article>
-          <article className={scenario?.corridor_sealed ? 'ready' : 'wait'}><span>NEPAL LIVE CHANGE</span><strong>{scenario?.corridor_sealed ? 'SCREENING COMPLETE · NO CALIBRATED DETECTION' : 'WAITING'}</strong><small>{scenario?.corridor_sealed ? `top local-p99 exceedance ${(100 * scenario.corridor_sealed.max_exceedance).toFixed(2)}% · one ordinary transition only` : `${livePeriodText} · baseline value remains usable`}</small></article>
-        </div>
-        {corridorContract && (
-          <div className="corridor-progress" role="status">
-            <header><span>SEALED CORRIDOR · 27 WINDOWS</span><b>{corridorContract.stage.replace(/_/g, ' ').toUpperCase()}</b></header>
-            {([['PLACEBO', corridorContract.placebo_b], ['BASELINE', corridorContract.baseline], ['LIVE', corridorContract.s1_live]] as const).filter((entry) => entry[1]).map(([label, mode]) => {
-              if (!mode) return null;
-              const pct = Math.round(100 * mode.completed_layers / mode.total_layers);
-              return <div className="corridor-progress-row" key={label}>
-                <span>{label}</span><i><u style={{ width: `${pct}%` }} /></i>
-                <strong>{mode.complete_windows}/{corridorContract.expected_windows}</strong><small>{pct}% · {mode.partial_windows.length} partial</small>
-              </div>;
-            })}
-            <p>{corridorContract.next_step}</p><em>{corridorContract.claim_boundary}</em>
-          </div>
-        )}
-        {decision && (
-          <div className={`decision-card compact ${decision.status}`} role="status">
-            <span>LIVE NEPAL GATE · NOT THE WHOLE MODEL</span>
-            <strong>{decision.action}</strong>
-            <p>{decision.reason}</p>
-            <small><b>NEXT GATE</b>{decision.next_gate}</small>
-            <em>{decision.allowed_claim}</em>
-          </div>
-        )}
-        <div className="compare-strip">
-          <div className="scene-preview">
-            {activeScene ? <Image src={activeScene.image} alt={`${activeScene.sensor} pre-event observation`} fill unoptimized sizes="150px" /> : <span className="loading-grid" />}
-            <span>{activeScene && scenario && activeScene.acquired_at >= scenario.event.occurred_at ? 'POST' : 'PRE'} · {activeScene?.acquired_at.slice(0, 10) ?? (dataStatus === 'loading' ? 'LOADING' : '—')}</span>
-          </div>
-          <div className="compare-arrow" aria-hidden="true">→</div>
-          {canonicalTop ? (
-            <div className="scene-preview delta-preview zoomable" role="button" tabIndex={0} title="Click: large view"
-                 onClick={() => openLightbox({ title: `O${canonicalTop.rank} · ${canonicalTop.name}`, sub: `${(100 * canonicalTop.frac_above_local_placebo_p99).toFixed(2)}% above local placebo p99 · screening only`, before: canonicalTop.pre_image, after: canonicalTop.post_image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: canonicalTop.delta_image, label: 'OLMo Δ intensity' }] })}>
-              <img src={canonicalTop.post_image} alt="" className="delta-base" />
-              <img src={canonicalTop.delta_image} alt="Contract-correct OLMoEarth delta heatmap" className="delta-heat" />
-              <span>O{canonicalTop.rank} · SEALED · SCREENING</span>
-            </div>
-          ) : (
-            <div className="scene-preview pending-preview">
-              <span className="waiting-cross" />
-              <span>POST · {liveObservation?.catalog_status === 'published' ? 'CATALOG / CUBE WAIT' : nextScheduled ? `${shortSensor(nextScheduled.sensor)} ${nextScheduled.acquired_at.slice(5, 10)}` : 'PENDING'}</span>
-            </div>
-          )}
-        </div>
-        {liveObservation && (
-          <div className="live-observation" role="status">
-            <span>LIVE CATALOG UPDATE</span>
-            <strong>{shortSensor(liveObservation.sensor)} {shortDate(liveObservation.acquired_at)} · {liveObservation.catalog_status.toUpperCase()}</strong>
-            <small>{kstStamp(liveObservation.publication_utc)} KST · TILE CLOUD {liveObservation.cloud_cover_tile_pct?.toFixed(2) ?? '—'}%</small>
-            <em>{liveReadinessLabel} · {livePeriodText}</em>
-          </div>
-        )}
-        {missedCoverage && (
-          <div className="coverage-miss" role="status">
-            <span>FOOTPRINT AUDIT</span>
-            <strong>{shortSensor(missedCoverage.sensor)} {shortDate(missedCoverage.acquired_at)} · MISSED AOI</strong>
-            <small>2 nearby products · 0 contained Langtang Lirung</small>
-            <em>Not a publication delay. The next S1 gate is {nextRadar ? `${kstStamp(nextRadar.acquired_at)} KST` : 'not yet scheduled'}.</em>
-          </div>
-        )}
-        <div className="pipeline-stack">
-          <div className={`pipeline-row ${scenario?.corridor_sealed ? 'ready' : 'pending'}`}><span>OE</span><div><strong>Canonical S1+S2 corridor screening</strong><small>{scenario?.corridor_sealed ? `27 windows · dB-corrected S1 · local placebo · max ${(100 * scenario.corridor_sealed.max_exceedance).toFixed(2)}%` : 'not computed'}</small></div><b>{scenario?.corridor_sealed ? 'SCREENED' : 'PENDING'}</b></div>
-          <div className={`pipeline-row ${scenario?.candidates ? 'preview' : 'pending'}`}><span>AI</span><div><strong>Optical discovery queue · S2-only</strong><small>{scenario?.candidates ? `${scenario.candidates.windows} auto windows · placebo p99 ${scenario.candidates.threshold_placebo_p99?.toFixed(3)} · unsealed` : 'not computed'}</small></div><b>{scenario?.candidates ? 'LEADS' : 'PENDING'}</b></div>
-          {scenario?.candidates && (
+        {scenario?.candidates && (
             <div className="candidate-cards">
               <p className="cand-help">{scenario.candidates.windows} auto windows{scenario.candidates.judged_by_kind ? ` · judged: river ${scenario.candidates.judged_by_kind.river ?? 0}, hillslope ${scenario.candidates.judged_by_kind.hillslope ?? 0}, lhende ${scenario.candidates.judged_by_kind.lhende ?? 0}` : ''}{scenario.candidates.unobservable_by_kind ? ` · cloud/snow (not judged): ${Object.values(scenario.candidates.unobservable_by_kind).reduce((a, b) => a + b, 0)}` : ''} · orange = changed more than any ordinary fortnight (placebo p99) · purple = off-river hillslope window</p>
               <div className="candidate-scopes" role="group" aria-label="Filter AI candidate windows">
@@ -1469,6 +1360,117 @@ export default function Home() {
               )}
             </div>
           )}
+        {decision && (
+          <div className={`decision-card compact ${decision.status}`} role="status">
+            <span>LIVE NEPAL GATE · NOT THE WHOLE MODEL</span>
+            <strong>{decision.action}</strong>
+            <p>{decision.reason}</p>
+            <small><b>NEXT GATE</b>{decision.next_gate}</small>
+            <em>{decision.allowed_claim}</em>
+          </div>
+        )}
+        <div className="compare-strip">
+          <div className="scene-preview">
+            {activeScene ? <Image src={activeScene.image} alt={`${activeScene.sensor} pre-event observation`} fill unoptimized sizes="150px" /> : <span className="loading-grid" />}
+            <span>{activeScene && scenario && activeScene.acquired_at >= scenario.event.occurred_at ? 'POST' : 'PRE'} · {activeScene?.acquired_at.slice(0, 10) ?? (dataStatus === 'loading' ? 'LOADING' : '—')}</span>
+          </div>
+          <div className="compare-arrow" aria-hidden="true">→</div>
+          {canonicalTop ? (
+            <div className="scene-preview delta-preview zoomable" role="button" tabIndex={0} title="Click: large view"
+                 onClick={() => openLightbox({ title: `O${canonicalTop.rank} · ${canonicalTop.name}`, sub: `${(100 * canonicalTop.frac_above_local_placebo_p99).toFixed(2)}% above local placebo p99 · screening only`, before: canonicalTop.pre_image, after: canonicalTop.post_image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: canonicalTop.delta_image, label: 'OLMo Δ intensity' }] })}>
+              <img src={canonicalTop.post_image} alt="" className="delta-base" />
+              <img src={canonicalTop.delta_image} alt="Contract-correct OLMoEarth delta heatmap" className="delta-heat" />
+              <span>O{canonicalTop.rank} · SEALED · SCREENING</span>
+            </div>
+          ) : (
+            <div className="scene-preview pending-preview">
+              <span className="waiting-cross" />
+              <span>POST · {liveObservation?.catalog_status === 'published' ? 'CATALOG / CUBE WAIT' : nextScheduled ? `${shortSensor(nextScheduled.sensor)} ${nextScheduled.acquired_at.slice(5, 10)}` : 'PENDING'}</span>
+            </div>
+          )}
+        </div>
+        {scenario?.ai_vs_classical && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">AI vs NO-AI · same data, same labels, same metric</p>
+            <strong>OLMoEarth Δz beats classical band-change in {scenario.ai_vs_classical.ahead}/{scenario.ai_vs_classical.regions} past disasters · {scenario.ai_vs_classical.wins_at_005}/{scenario.ai_vs_classical.regions} above the pre-registered +{scenario.ai_vs_classical.pre_registered_margin} AUROC margin</strong>
+            <table className="ai-vs-table"><thead><tr><th>region</th><th>no-AI</th><th>AI</th><th>Δ</th></tr></thead><tbody>
+              {scenario.ai_vs_classical.rows.map((r) => <tr key={r.region} className={(r.gain ?? 0) >= 0.05 ? 'win' : ''}><td>{r.region}</td><td>{r.classical_best.toFixed(2)}</td><td>{r.ai?.toFixed(2) ?? '—'}</td><td>{r.gain != null ? (r.gain >= 0 ? '+' : '') + r.gain.toFixed(2) : '—'}</td></tr>)}
+            </tbody></table>
+            <small>AUROC = probability a landslide token outranks a non-landslide token. no-AI = best of normalized band difference and |ΔNDVI|+|ΔNBR|, identical patches and pre/post scene choice (label-blind). Labels used for scoring only.{scenario.ai_vs_classical.corridor ? ` Nepal corridor (no labels): top-10 reported-place hits AI ${scenario.ai_vs_classical.corridor.reported_hits.ai} vs no-AI ${scenario.ai_vs_classical.corridor.reported_hits.classical}.` : ''}</small>
+          </div>
+        )}
+        <div className="olmo-outcomes">
+          <article className="ready"><span>OLMo CANONICAL CORRIDOR</span><strong>{scenario?.corridor_sealed ? '81 RASTERS SEALED' : 'PENDING'}</strong><small>placebo + baseline + live · 27 windows each · 768×64×64</small></article>
+          <article className="win"><span>TRANSFER EVIDENCE</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} REGIONS WON` : 'LOADING'}</strong><small>{transfer ? `region-macro ${transfer.reuse_region_macro.toFixed(3)} vs ${transfer.raw_strong_region_macro.toFixed(3)} · +${transfer.absolute_gap.toFixed(3)}` : 'confirmatory summary'}</small></article>
+          <article className={scenario?.corridor_sealed ? 'ready' : 'wait'}><span>NEPAL LIVE CHANGE</span><strong>{scenario?.corridor_sealed ? 'SCREENING COMPLETE · NO CALIBRATED DETECTION' : 'WAITING'}</strong><small>{scenario?.corridor_sealed ? `top local-p99 exceedance ${(100 * scenario.corridor_sealed.max_exceedance).toFixed(2)}% · one ordinary transition only` : `${livePeriodText} · baseline value remains usable`}</small></article>
+        </div>
+        {corridorContract && (
+          <div className="corridor-progress" role="status">
+            <header><span>SEALED CORRIDOR · 27 WINDOWS</span><b>{corridorContract.stage.replace(/_/g, ' ').toUpperCase()}</b></header>
+            {([['PLACEBO', corridorContract.placebo_b], ['BASELINE', corridorContract.baseline], ['LIVE', corridorContract.s1_live]] as const).filter((entry) => entry[1]).map(([label, mode]) => {
+              if (!mode) return null;
+              const pct = Math.round(100 * mode.completed_layers / mode.total_layers);
+              return <div className="corridor-progress-row" key={label}>
+                <span>{label}</span><i><u style={{ width: `${pct}%` }} /></i>
+                <strong>{mode.complete_windows}/{corridorContract.expected_windows}</strong><small>{pct}% · {mode.partial_windows.length} partial</small>
+              </div>;
+            })}
+            <p>{corridorContract.next_step}</p><em>{corridorContract.claim_boundary}</em>
+          </div>
+        )}
+        <details className="rail-more">
+          <summary>Pipeline · provenance · catalog (advanced)</summary>
+        {scenario?.input_contract_audit && (
+          <div className="contract-audit-card">
+            <p className="eyebrow">INPUT CONTRACT CORRECTION · SELF-AUDITED</p>
+            <strong>Earlier five-anchor S1+S2 claims are superseded</strong>
+            <p>{scenario.input_contract_audit.defect}</p>
+            <small>The old files remain provenance records. Active evidence below was recomputed with Sentinel1ToDecibels, 27 matched windows and the same-location placebo.</small>
+            <a href={scenario.input_contract_audit.official_source} target="_blank" rel="noreferrer">Official rslearn OLMoEarth contract ↗</a>
+          </div>
+        )}
+        {scenario?.corridor_sealed && (
+          <div className="canonical-olmo-card">
+            <header><span>WHAT OLMO FOUND · CONTRACT-CORRECT</span><b>27/27 SCREENED</b></header>
+            <p>OLMoEarth v1 converted each S1+S2 time cube into 4,096 spatial tokens × 768 dimensions. We measured cosine change from pre→post, then compared every token with the same location&apos;s ordinary placebo transition.</p>
+            <div className="canonical-list">
+              {scenario.corridor_sealed.top.map((row) => (
+                <article key={row.id}>
+                  <header><b>O{row.rank}</b><strong>{row.name}</strong><em>{(100 * row.frac_above_local_placebo_p99).toFixed(2)}%</em></header>
+                  <div className="cand-strip zoomable" role="button" tabIndex={0}
+                       onClick={() => openLightbox({ title: `O${row.rank} · ${row.name}`, sub: `${(100 * row.frac_above_local_placebo_p99).toFixed(2)}% above this location's one ordinary-transition p99 · event mean Δ ${row.event_mean.toFixed(4)} vs ordinary ${row.placebo_mean.toFixed(4)}`, before: row.pre_image, after: row.post_image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: row.delta_image, label: 'OLMo Δ intensity; yellow-white = above local placebo p99' }] })}
+                       onKeyDown={(event) => { if (event.key === 'Enter') (event.currentTarget as HTMLElement).click(); }}>
+                    <figure><img src={row.pre_image} alt="pre-event Sentinel-2" loading="lazy" /><figcaption>PRE</figcaption></figure>
+                    <figure><img src={row.post_image} alt="post-event Sentinel-2" loading="lazy" /><figcaption>POST</figcaption></figure>
+                    <figure><img src={row.delta_image} alt="OLMoEarth embedding delta" loading="lazy" /><figcaption>OLMo Δ</figcaption></figure>
+                  </div>
+                  <div className="rarity-bar"><i style={{ width: `${Math.max(1.5, 100 * row.frac_above_local_placebo_p99 / Math.max(scenario.corridor_sealed!.max_exceedance, 1e-9))}%` }} /></div>
+                  <footer><small>event mean is {(100 * row.mean_ratio_event_to_placebo).toFixed(0)}% of ordinary mean</small><button onClick={() => mapRef.current?.flyTo({ center: row.center_lonlat, zoom: 13.2, duration: 900 })}>GO TO MAP</button></footer>
+                </article>
+              ))}
+            </div>
+            <em>{scenario.corridor_sealed.visual_legend}. Ranking is a review queue, not a hazard map.</em>
+          </div>
+        )}
+        {liveObservation && (
+          <div className="live-observation" role="status">
+            <span>LIVE CATALOG UPDATE</span>
+            <strong>{shortSensor(liveObservation.sensor)} {shortDate(liveObservation.acquired_at)} · {liveObservation.catalog_status.toUpperCase()}</strong>
+            <small>{kstStamp(liveObservation.publication_utc)} KST · TILE CLOUD {liveObservation.cloud_cover_tile_pct?.toFixed(2) ?? '—'}%</small>
+            <em>{liveReadinessLabel} · {livePeriodText}</em>
+          </div>
+        )}
+        {missedCoverage && (
+          <div className="coverage-miss" role="status">
+            <span>FOOTPRINT AUDIT</span>
+            <strong>{shortSensor(missedCoverage.sensor)} {shortDate(missedCoverage.acquired_at)} · MISSED AOI</strong>
+            <small>2 nearby products · 0 contained Langtang Lirung</small>
+            <em>Not a publication delay. The next S1 gate is {nextRadar ? `${kstStamp(nextRadar.acquired_at)} KST` : 'not yet scheduled'}.</em>
+          </div>
+        )}
+        <div className="pipeline-stack">
+          <div className={`pipeline-row ${scenario?.corridor_sealed ? 'ready' : 'pending'}`}><span>OE</span><div><strong>Canonical S1+S2 corridor screening</strong><small>{scenario?.corridor_sealed ? `27 windows · dB-corrected S1 · local placebo · max ${(100 * scenario.corridor_sealed.max_exceedance).toFixed(2)}%` : 'not computed'}</small></div><b>{scenario?.corridor_sealed ? 'SCREENED' : 'PENDING'}</b></div>
+          <div className={`pipeline-row ${scenario?.candidates ? 'preview' : 'pending'}`}><span>AI</span><div><strong>Optical discovery queue · S2-only</strong><small>{scenario?.candidates ? `${scenario.candidates.windows} auto windows · placebo p99 ${scenario.candidates.threshold_placebo_p99?.toFixed(3)} · unsealed` : 'not computed'}</small></div><b>{scenario?.candidates ? 'LEADS' : 'PENDING'}</b></div>
           <div className="pipeline-row ready"><span>FM</span><div><strong>Frozen representation</strong><small>sealed baseline · transfer · downstream probes</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>DV</span><div><strong>Bidur downstream pair</strong><small>{bidurPost ? `S2 ${bidurPost.acquired_at.slice(0, 10)} · tile ${bidurPost.mgrs_tile}` : 'visual audit'}</small></div><b>{bidurPost ? 'READY' : 'AUDIT'}</b></div>
           <div className="pipeline-row ready"><span>8R</span><div><strong>Cross-region transfer</strong><small>{transfer ? `${transfer.strong_wins} strong wins · ${transfer.non_win_regions.length} non-wins` : 'confirmatory'}</small></div><b>MEASURED</b></div>
@@ -1483,6 +1485,7 @@ export default function Home() {
           <article className="planned"><b>04 · RUNOUT / ARRIVAL</b><strong>r.avaflow · D-Claw</strong><p>DEM, release geometry, volume and rheology own depth, speed and arrival-time estimates. No physical run has executed.</p><em>NOT RUN</em></article>
           <article className="planned"><b>05 · PEOPLE / HEALTH ACCESS</b><strong>GIS network + official exposure data</strong><p>Road, bridge, settlement, clinic and WASH intersections are consequence analysis—not OLMo predictions.</p><em>NOT RUN</em></article>
         </div>
+        </details>
         <div className="field-review-links">
           <span>FIELD / OFFICIAL REVIEW · OPENS SEPARATELY</span>
           <a href="https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map" target="_blank" rel="noreferrer">USGS extent map ↗</a>

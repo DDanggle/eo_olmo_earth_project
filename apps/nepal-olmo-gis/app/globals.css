@@ -939,3 +939,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .topbar .story-launch { position: static; transform: none; margin-left: auto; margin-right: 0; }
 .topbar .event-status { margin-left: 8px; }
 @media (max-width: 1180px) { .topbar .sat-tiles-toggle { font-size: 9px; padding: 8px 8px; } .topbar .map-mode-switch button { padding: 8px 9px; } }
+/* 우측 레일 우선순위: 헤드라인 → AI 후보 → 판정 → AI vs no-AI → (접힘) 파이프라인·출처 */
+.rail-more { margin-top: 10px; border-top: 1px dashed var(--line, #e3e0d8); padding-top: 6px; }
+.rail-more > summary { cursor: pointer; font-family: var(--font-geist-mono); font-size: 10px; letter-spacing: .1em; color: var(--muted, #6f6c64); padding: 6px 0; list-style: none; }
+.rail-more > summary::before { content: '▸ '; } .rail-more[open] > summary::before { content: '▾ '; }
