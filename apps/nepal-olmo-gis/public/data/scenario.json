@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T15:29:31.419720+00:00",
+  "generated_at": "2026-08-29T15:30:18.454142+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -939,10 +939,10 @@
   "research": {
     "integration_disclaimer": "Research integration of OlmoEarth representations with EarthRanger-style incident provenance and Skylight-style observation awareness; not an official Ai2 disaster product.",
     "nepal_embedding": {
-      "status": "blocked_until_full_post_event_s1_plus_s2_cube_is_sealed",
+      "status": "post_event_delta_executed",
       "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
       "placebo_count": 10,
-      "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet."
+      "claim": "Sealed Nepal Δz executed: anchor-mean change was not detected above pre-event variability; matched token test flags no anchor. This is a review candidate, not damage extent or probability."
     },
     "ai_run_ledger": [
       {
@@ -991,14 +991,13 @@
       },
       {
         "id": "nepal_post_event_delta",
-        "state": "SUPERSEDED",
+        "state": "EXECUTED",
         "model": "OlmoEarth v1 Base (frozen)",
-        "input": "five-anchor S1+S2 report produced without Sentinel1ToDecibels",
-        "output": "preserved for provenance; excluded from active evidence",
-        "allows": "input-contract audit and reproducibility diagnosis only",
-        "forbids": "candidate, anomaly, damage, cause, or extent claims",
-        "artifact_sha256": "81ae4bafaa15ed99f34501abb614d3436505408347ac4ebe8a436e17edb100c9",
-        "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md"
+        "input": "sealed s1_live cube · 5 anchors · S1 4 periods (incl. 2026-08-28 RTC) + S2 4 periods (incl. 2026-08-27) vs sealed baseline",
+        "output": "5 delta rasters 64×64 (cosine Δz per 40 m token) · 0/5 candidate change () · 5/5 not detected (dhunche, rasuwagadhi, source_provisional, syabrubesi, timure)",
+        "allows": "descriptive 'candidate change' per anchor where live Δ exceeds all 10 placebo windows; rank vs placebo",
+        "forbids": "anomaly percentile/probability until ≥20 placebo windows; damage, cause, extent",
+        "artifact_sha256": "a6d7788de24ae58e1484d92cdf80b0162556a7f43457909f8d26b33a10f3d4e6"
       },
       {
         "id": "matched_second_geofm",

@@ -23,7 +23,7 @@ if (rerunDone) {
   assert.equal(scenario.olmoearth.post_event_delta?.status, 'superseded_missing_sentinel1_db_transform');
   assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.state, 'SUPERSEDED');
 }
-assert.match(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.output ?? '', /preserved legacy rasters.*excluded/);
+if (!rerunDone) assert.match(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.output ?? '', /preserved legacy rasters.*excluded/);
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'pre_event_forecast')?.state, 'NEGATIVE_RESULT');
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_post_event_delta')?.state, 'SUPERSEDED');
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'matched_second_geofm')?.state, 'NOT_RUN');

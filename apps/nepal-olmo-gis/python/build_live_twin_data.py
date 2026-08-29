@@ -1263,7 +1263,7 @@ def corridor_contract_block() -> dict[str, Any]:
 
 def _post_event_delta_ledger() -> dict[str, Any]:
     """live_mode가 있는 최신 delta report가 있으면 EXECUTED, 없으면 WAITING_INPUT (실물 기준)."""
-    if S1_DB_AUDIT.exists():
+    if s1db_superseded():
         audit = json.loads(S1_DB_AUDIT.read_text())
         return {"id": "nepal_post_event_delta", "state": "SUPERSEDED", "model": "OlmoEarth v1 Base (frozen)",
                 "input": "five-anchor S1+S2 report produced without Sentinel1ToDecibels",
