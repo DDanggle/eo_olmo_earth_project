@@ -906,6 +906,33 @@ def research_block() -> dict[str, Any]:
     }
 
 
+def candidates_block() -> dict[str, Any] | None:
+    """회랑 S2-only 후보 지도(artifacts/corridor_s2_candidates/embed/report.json) → 앱 GeoJSON.
+
+    봉인된 S1+S2 계약이 아니라 M66/M68과 같은 광학 전용 프로토콜의 산출물임. 라벨은
+    candidate까지만이며 피해·확률 표현은 만들지 않음.
+    """
+    rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_v2/report.json"
+    if not rp.exists():
+        rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed/report.json"
+    if not rp.exists():
+        return None
+    from rasterio.warp import transform as _tf
+    rep = json.loads(rp.read_text())
+    feats = []
+    for w in rep["windows"]:
+        x0, y0, x1, y1 = w["bounds_utm"]
+        xs, ys = _tf("EPSG:32645", "EPSG:4326", [x0, x1, x1, x0, x0], [y0, y0, y1, y1, y0])
+        ring = [[round(x, 6), round(y, 6)] for x, y in zip(xs, ys)]
+        feats.append({"type": "Feature",
+                      "properties": {k: w.get(k) for k in ("id", "rank", "status", "candidate_token_frac", "candidate_token_count",
+                                                          "d_event_mean", "d_placebo_mean", "valid_event_frac")},
+                      "geometry": {"type": "Polygon", "coordinates": [ring]}})
+    return {"schema": rep.get("schema"), "claim": rep.get("claim"), "threshold_placebo_p99": rep.get("threshold_placebo_p99"),
+            "placebo_tokens": rep.get("placebo_tokens"), "windows": len(rep["windows"]), "top10": rep.get("top10", []),
+            "report_sha256": sha256(rp), "geojson": {"type": "FeatureCollection", "features": feats}}
+
+
 def build(refresh_osm: bool) -> None:
     if not SOURCE_ROOT.exists():
         raise FileNotFoundError(f"Missing materialized source: {SOURCE_ROOT}")
@@ -1043,6 +1070,7 @@ def build(refresh_osm: bool) -> None:
         "decision": build_decision(live_observation, scheduled_scenes, olmoearth),
         "ops_log": build_ops_log(),
         "research": research_block(),
+        "candidates": candidates_block(),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {

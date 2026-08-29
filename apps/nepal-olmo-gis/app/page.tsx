@@ -127,6 +127,9 @@ type Scenario = {
     records: { label: string; acquired_at: string; item_id: string; mgrs_tile: string; tile_cloud_pct: number; image: string; image_sha256: string }[];
   };
   simulation: { route_points: number; claim: string; scientific_upgrade?: string };
+  candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
+    top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number }[];
+    report_sha256: string; geojson: FeatureCollection } | null;
 };
 
 type Hydrography = {
@@ -578,6 +581,15 @@ export default function Home() {
       const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
       map.addSource('olmo-anchors', { type: 'geojson', data: anchors });
       map.addLayer({ id: 'olmo-anchor-fill', type: 'fill', source: 'olmo-anchors', paint: { 'fill-color': '#5fffd7', 'fill-opacity': 0.045 } }, before);
+      // AI 후보 창 (S2-only, 미봉인) — 후보 토큰 비율로 채움 농도.
+      if (scenario?.candidates?.geojson && !map.getSource('ai-candidates')) {
+        map.addSource('ai-candidates', { type: 'geojson', data: scenario.candidates.geojson });
+        map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
+          paint: { 'fill-color': '#eb6834',
+                   'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.02, 0.05, 0.18, 0.2, 0.42, 0.5, 0.6] } }, before);
+        map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
+          paint: { 'line-color': '#eb6834', 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': 0.8 } }, before);
+      }
       map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch(() => undefined);
   }, [mapReady, styleRevision]);
@@ -1037,6 +1049,15 @@ export default function Home() {
           </div>
         )}
         <div className="pipeline-stack">
+          <div className={`pipeline-row ${scenario?.candidates ? 'preview' : 'pending'}`}><span>AI</span><div><strong>Corridor candidates · S2-only</strong><small>{scenario?.candidates ? `${scenario.candidates.windows} auto windows · placebo p99 ${scenario.candidates.threshold_placebo_p99?.toFixed(3)} · unsealed` : 'not computed'}</small></div><b>{scenario?.candidates ? 'CANDIDATE' : 'PENDING'}</b></div>
+          {scenario?.candidates && (
+            <ol className="candidate-list">
+              {scenario.candidates.top10.slice(0, 5).map((c) => (
+                <li key={c.id}><b>#{c.rank}</b><span>{c.center_lonlat[1].toFixed(3)}, {c.center_lonlat[0].toFixed(3)}</span><em>{(c.candidate_token_frac * 100).toFixed(0)}% tokens · {(c.valid_event_frac * 100).toFixed(0)}% visible</em>
+                  <button onClick={() => mapRef.current?.flyTo({ center: c.center_lonlat, zoom: 13.6, duration: 900 })}>GO</button></li>
+              ))}
+            </ol>
+          )}
           <div className="pipeline-row ready"><span>OE</span><div><strong>Frozen representation</strong><small>sealed baseline · retrieval · downstream probes</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>DV</span><div><strong>Bidur downstream pair</strong><small>{bidurPost ? `S2 ${bidurPost.acquired_at.slice(0, 10)} · tile ${bidurPost.mgrs_tile}` : 'visual audit'}</small></div><b>{bidurPost ? 'READY' : 'AUDIT'}</b></div>
           <div className="pipeline-row ready"><span>8R</span><div><strong>Cross-region transfer</strong><small>{transfer ? `${transfer.strong_wins} strong wins · ${transfer.non_win_regions.length} non-wins` : 'confirmatory'}</small></div><b>MEASURED</b></div>

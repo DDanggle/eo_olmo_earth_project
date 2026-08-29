@@ -770,3 +770,14 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .story-spectra figcaption { font-family: var(--font-geist-mono); font-size: 9.5px;
   color: var(--muted, #6f6c64); padding-top: 4px; letter-spacing: 0.06em; }
 @media (max-width: 640px) { .story-spectra { grid-template-columns: 1fr; } }
+
+/* AI 후보 목록 (S2-only) */
+.candidate-list { list-style: none; margin: 4px 0 10px; padding: 0; display: grid; gap: 4px; }
+.candidate-list li { display: grid; grid-template-columns: 28px 1fr auto auto; gap: 8px; align-items: center;
+  font-family: var(--font-geist-mono); font-size: 10.5px; padding: 5px 8px; border: 1px solid var(--line, #e3e0d8);
+  background: var(--surface, #fffefb); }
+.candidate-list b { color: var(--orange, #eb6834); }
+.candidate-list em { color: var(--muted, #6f6c64); font-style: normal; }
+.candidate-list button { font-family: var(--font-geist-mono); font-size: 10px; padding: 3px 7px; border: 1px solid var(--line-strong, #d5d1c6);
+  background: transparent; cursor: pointer; }
+.candidate-list button:hover { color: var(--orange); border-color: var(--orange); }

@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T06:15:42.075557+00:00",
+  "generated_at": "2026-08-29T07:26:06.021498+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -1005,6 +1005,1221 @@
       "change": "event-wise AUROC/AUPRC, source localization error, false changed area",
       "runout": "runout IoU, false-inundated area, maximum-runout error, interval coverage",
       "operations": "analyst minutes and invalid actions at matched recall"
+    }
+  },
+  "candidates": {
+    "schema": "corridor-s2-candidates-v2",
+    "claim": "candidate change only · S2-only · not the sealed S1+S2 contract",
+    "threshold_placebo_p99": 0.2810571789741516,
+    "placebo_tokens": 77628,
+    "windows": 27,
+    "top10": [
+      {
+        "id": "w03",
+        "rank": 1,
+        "center_lonlat": [
+          85.3552582,
+          28.216824
+        ],
+        "candidate_token_frac": 0.1840974212034384,
+        "d_event_mean": 0.22296886146068573,
+        "d_placebo_mean": 0.09820162504911423,
+        "valid_event_frac": 0.3408203125
+      },
+      {
+        "id": "w18",
+        "rank": 2,
+        "center_lonlat": [
+          85.1840429,
+          27.972805
+        ],
+        "candidate_token_frac": 0.18143221058590434,
+        "d_event_mean": 0.17871356010437012,
+        "d_placebo_mean": 0.11456909775733948,
+        "valid_event_frac": 0.862548828125
+      },
+      {
+        "id": "w02",
+        "rank": 3,
+        "center_lonlat": [
+          85.3580332,
+          28.2380123
+        ],
+        "candidate_token_frac": 0.16340621403912542,
+        "d_event_mean": 0.22100970149040222,
+        "d_placebo_mean": 0.111671082675457,
+        "valid_event_frac": 0.636474609375
+      },
+      {
+        "id": "w23",
+        "rank": 4,
+        "center_lonlat": [
+          85.1256703,
+          27.8787953
+        ],
+        "candidate_token_frac": 0.13507960965588084,
+        "d_event_mean": 0.20255900919437408,
+        "d_placebo_mean": 0.14895595610141754,
+        "valid_event_frac": 0.95068359375
+      },
+      {
+        "id": "w15",
+        "rank": 5,
+        "center_lonlat": [
+          85.1934198,
+          28.0309439
+        ],
+        "candidate_token_frac": 0.11737089201877934,
+        "d_event_mean": 0.1808082014322281,
+        "d_placebo_mean": 0.1073879674077034,
+        "valid_event_frac": 0.572021484375
+      },
+      {
+        "id": "w21",
+        "rank": 6,
+        "center_lonlat": [
+          85.1433941,
+          27.9204357
+        ],
+        "candidate_token_frac": 0.10640961442163245,
+        "d_event_mean": 0.14855043590068817,
+        "d_placebo_mean": 0.08781822770833969,
+        "valid_event_frac": 0.97509765625
+      },
+      {
+        "id": "w22",
+        "rank": 7,
+        "center_lonlat": [
+          85.1368283,
+          27.9001413
+        ],
+        "candidate_token_frac": 0.10615545122587376,
+        "d_event_mean": 0.1979105919599533,
+        "d_placebo_mean": 0.1272088587284088,
+        "valid_event_frac": 0.93603515625
+      },
+      {
+        "id": "w20",
+        "rank": 8,
+        "center_lonlat": [
+          85.15528,
+          27.9337759
+        ],
+        "candidate_token_frac": 0.10197197716658017,
+        "d_event_mean": 0.14865745604038239,
+        "d_placebo_mean": 0.09235416352748871,
+        "valid_event_frac": 0.94091796875
+      },
+      {
+        "id": "w16",
+        "rank": 9,
+        "center_lonlat": [
+          85.1841681,
+          28.0127153
+        ],
+        "candidate_token_frac": 0.09966216216216216,
+        "d_event_mean": 0.16051854193210602,
+        "d_placebo_mean": 0.08877664059400558,
+        "valid_event_frac": 0.8671875
+      },
+      {
+        "id": "w14",
+        "rank": 10,
+        "center_lonlat": [
+          85.2021352,
+          28.0475998
+        ],
+        "candidate_token_frac": 0.08522412838959602,
+        "d_event_mean": 0.1771060973405838,
+        "d_placebo_mean": 0.14530503749847412,
+        "valid_event_frac": 0.441162109375
+      }
+    ],
+    "report_sha256": "3a09d8885cf8ca287bfa1ec270c3afdedb4a93145df2c1e1e2aae0a2dba32299",
+    "geojson": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w00",
+            "rank": 12,
+            "status": "ranked",
+            "candidate_token_frac": 0.07891093677895708,
+            "candidate_token_count": 171,
+            "d_event_mean": 0.1764376312494278,
+            "d_placebo_mean": 0.13552454113960266,
+            "valid_event_frac": 0.529052734375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.364127,
+                  28.266348
+                ],
+                [
+                  85.390218,
+                  28.266658
+                ],
+                [
+                  85.38987,
+                  28.289758
+                ],
+                [
+                  85.363774,
+                  28.289448
+                ],
+                [
+                  85.364127,
+                  28.266348
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w01",
+            "rank": 21,
+            "status": "ranked",
+            "candidate_token_frac": 0.04732142857142857,
+            "candidate_token_count": 106,
+            "d_event_mean": 0.17214994132518768,
+            "d_placebo_mean": 0.13832345604896545,
+            "valid_event_frac": 0.546875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.352641,
+                  28.24479
+                ],
+                [
+                  85.378727,
+                  28.245102
+                ],
+                [
+                  85.378377,
+                  28.268202
+                ],
+                [
+                  85.352286,
+                  28.26789
+                ],
+                [
+                  85.352641,
+                  28.24479
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w02",
+            "rank": 3,
+            "status": "ranked",
+            "candidate_token_frac": 0.16340621403912542,
+            "candidate_token_count": 426,
+            "d_event_mean": 0.22100970149040222,
+            "d_placebo_mean": 0.111671082675457,
+            "valid_event_frac": 0.636474609375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.34517,
+                  28.226305
+                ],
+                [
+                  85.37125,
+                  28.226618
+                ],
+                [
+                  85.3709,
+                  28.249718
+                ],
+                [
+                  85.344813,
+                  28.249405
+                ],
+                [
+                  85.34517,
+                  28.226305
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w03",
+            "rank": 1,
+            "status": "ranked",
+            "candidate_token_frac": 0.1840974212034384,
+            "candidate_token_count": 257,
+            "d_event_mean": 0.22296886146068573,
+            "d_placebo_mean": 0.09820162504911423,
+            "valid_event_frac": 0.3408203125
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.342397,
+                  28.205117
+                ],
+                [
+                  85.368473,
+                  28.20543
+                ],
+                [
+                  85.368122,
+                  28.22853
+                ],
+                [
+                  85.342041,
+                  28.228216
+                ],
+                [
+                  85.342397,
+                  28.205117
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w04",
+            "rank": 20,
+            "status": "ranked",
+            "candidate_token_frac": 0.049189045466631214,
+            "candidate_token_count": 185,
+            "d_event_mean": 0.15705044567584991,
+            "d_placebo_mean": 0.10948861390352249,
+            "valid_event_frac": 0.918212890625
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.338614,
+                  28.185766
+                ],
+                [
+                  85.364685,
+                  28.18608
+                ],
+                [
+                  85.364333,
+                  28.20918
+                ],
+                [
+                  85.338256,
+                  28.208866
+                ],
+                [
+                  85.338614,
+                  28.185766
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w05",
+            "rank": 22,
+            "status": "ranked",
+            "candidate_token_frac": 0.04553063274188149,
+            "candidate_token_count": 136,
+            "d_event_mean": 0.1519761085510254,
+            "d_placebo_mean": 0.12301256507635117,
+            "valid_event_frac": 0.729248046875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.329903,
+                  28.166872
+                ],
+                [
+                  85.355969,
+                  28.167187
+                ],
+                [
+                  85.355615,
+                  28.190287
+                ],
+                [
+                  85.329544,
+                  28.189971
+                ],
+                [
+                  85.329903,
+                  28.166872
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w06",
+            "rank": 14,
+            "status": "ranked",
+            "candidate_token_frac": 0.06755874673629243,
+            "candidate_token_count": 207,
+            "d_event_mean": 0.1682080626487732,
+            "d_placebo_mean": 0.13105414807796478,
+            "valid_event_frac": 0.748046875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.32455,
+                  28.148037
+                ],
+                [
+                  85.350611,
+                  28.148353
+                ],
+                [
+                  85.350257,
+                  28.171453
+                ],
+                [
+                  85.32419,
+                  28.171136
+                ],
+                [
+                  85.32455,
+                  28.148037
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w07",
+            "rank": 16,
+            "status": "ranked",
+            "candidate_token_frac": 0.06041666666666667,
+            "candidate_token_count": 145,
+            "d_event_mean": 0.16663049161434174,
+            "d_placebo_mean": 0.14069119095802307,
+            "valid_event_frac": 0.5859375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.30749,
+                  28.137311
+                ],
+                [
+                  85.333549,
+                  28.13763
+                ],
+                [
+                  85.333191,
+                  28.16073
+                ],
+                [
+                  85.307127,
+                  28.16041
+                ],
+                [
+                  85.30749,
+                  28.137311
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w08",
+            "rank": 18,
+            "status": "ranked",
+            "candidate_token_frac": 0.053075396825396824,
+            "candidate_token_count": 107,
+            "d_event_mean": 0.17323526740074158,
+            "d_placebo_mean": 0.14034296572208405,
+            "valid_event_frac": 0.4921875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.288097,
+                  28.120672
+                ],
+                [
+                  85.314152,
+                  28.120995
+                ],
+                [
+                  85.31379,
+                  28.144095
+                ],
+                [
+                  85.28773,
+                  28.143771
+                ],
+                [
+                  85.288097,
+                  28.120672
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w09",
+            "rank": 15,
+            "status": "ranked",
+            "candidate_token_frac": 0.06331658291457286,
+            "candidate_token_count": 126,
+            "d_event_mean": 0.18682922422885895,
+            "d_placebo_mean": 0.16092582046985626,
+            "valid_event_frac": 0.48583984375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.27321,
+                  28.10623
+                ],
+                [
+                  85.299261,
+                  28.106555
+                ],
+                [
+                  85.298896,
+                  28.129655
+                ],
+                [
+                  85.27284,
+                  28.129329
+                ],
+                [
+                  85.27321,
+                  28.10623
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w10",
+            "rank": 17,
+            "status": "ranked",
+            "candidate_token_frac": 0.05981669078630005,
+            "candidate_token_count": 124,
+            "d_event_mean": 0.17561648786067963,
+            "d_placebo_mean": 0.1539839506149292,
+            "valid_event_frac": 0.506103515625
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.25635,
+                  28.091678
+                ],
+                [
+                  85.282396,
+                  28.092007
+                ],
+                [
+                  85.282028,
+                  28.115106
+                ],
+                [
+                  85.255976,
+                  28.114777
+                ],
+                [
+                  85.25635,
+                  28.091678
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w11",
+            "rank": 23,
+            "status": "ranked",
+            "candidate_token_frac": 0.029535864978902954,
+            "candidate_token_count": 28,
+            "d_event_mean": 0.18574310839176178,
+            "d_placebo_mean": 0.14500126242637634,
+            "valid_event_frac": 0.2314453125
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.228678,
+                  28.080035
+                ],
+                [
+                  85.254722,
+                  28.080369
+                ],
+                [
+                  85.254348,
+                  28.103468
+                ],
+                [
+                  85.228299,
+                  28.103134
+                ],
+                [
+                  85.228678,
+                  28.080035
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w12",
+            "rank": null,
+            "status": "unobservable",
+            "candidate_token_frac": null,
+            "candidate_token_count": 28,
+            "d_event_mean": 0.21795207262039185,
+            "d_placebo_mean": 0.1559956818819046,
+            "valid_event_frac": 0.070068359375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.208841,
+                  28.070185
+                ],
+                [
+                  85.234882,
+                  28.070522
+                ],
+                [
+                  85.234505,
+                  28.093621
+                ],
+                [
+                  85.208458,
+                  28.093283
+                ],
+                [
+                  85.208841,
+                  28.070185
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w13",
+            "rank": 19,
+            "status": "ranked",
+            "candidate_token_frac": 0.051994301994301995,
+            "candidate_token_count": 73,
+            "d_event_mean": 0.17241398990154266,
+            "d_placebo_mean": 0.1511918157339096,
+            "valid_event_frac": 0.3427734375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.192709,
+                  28.057245
+                ],
+                [
+                  85.218746,
+                  28.057585
+                ],
+                [
+                  85.218365,
+                  28.080683
+                ],
+                [
+                  85.192322,
+                  28.080343
+                ],
+                [
+                  85.192709,
+                  28.057245
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w14",
+            "rank": 10,
+            "status": "ranked",
+            "candidate_token_frac": 0.08522412838959602,
+            "candidate_token_count": 154,
+            "d_event_mean": 0.1771060973405838,
+            "d_placebo_mean": 0.14530503749847412,
+            "valid_event_frac": 0.441162109375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.189311,
+                  28.03588
+                ],
+                [
+                  85.215344,
+                  28.03622
+                ],
+                [
+                  85.214962,
+                  28.059319
+                ],
+                [
+                  85.188924,
+                  28.058978
+                ],
+                [
+                  85.189311,
+                  28.03588
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w15",
+            "rank": 5,
+            "status": "ranked",
+            "candidate_token_frac": 0.11737089201877934,
+            "candidate_token_count": 275,
+            "d_event_mean": 0.1808082014322281,
+            "d_placebo_mean": 0.1073879674077034,
+            "valid_event_frac": 0.572021484375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.180599,
+                  28.019223
+                ],
+                [
+                  85.206627,
+                  28.019565
+                ],
+                [
+                  85.206244,
+                  28.042664
+                ],
+                [
+                  85.18021,
+                  28.042321
+                ],
+                [
+                  85.180599,
+                  28.019223
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w16",
+            "rank": 9,
+            "status": "ranked",
+            "candidate_token_frac": 0.09966216216216216,
+            "candidate_token_count": 354,
+            "d_event_mean": 0.16051854193210602,
+            "d_placebo_mean": 0.08877664059400558,
+            "valid_event_frac": 0.8671875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.17135,
+                  28.000994
+                ],
+                [
+                  85.197374,
+                  28.001337
+                ],
+                [
+                  85.196989,
+                  28.024436
+                ],
+                [
+                  85.17096,
+                  28.024092
+                ],
+                [
+                  85.17135,
+                  28.000994
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w17",
+            "rank": 11,
+            "status": "ranked",
+            "candidate_token_frac": 0.08159588159588159,
+            "candidate_token_count": 317,
+            "d_event_mean": 0.13942906260490417,
+            "d_placebo_mean": 0.09340326488018036,
+            "valid_event_frac": 0.948486328125
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.169629,
+                  27.981654
+                ],
+                [
+                  85.195648,
+                  27.981998
+                ],
+                [
+                  85.195263,
+                  28.005096
+                ],
+                [
+                  85.169238,
+                  28.004752
+                ],
+                [
+                  85.169629,
+                  27.981654
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w18",
+            "rank": 2,
+            "status": "ranked",
+            "candidate_token_frac": 0.18143221058590434,
+            "candidate_token_count": 641,
+            "d_event_mean": 0.17871356010437012,
+            "d_placebo_mean": 0.11456909775733948,
+            "valid_event_frac": 0.862548828125
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.171229,
+                  27.961084
+                ],
+                [
+                  85.197244,
+                  27.961427
+                ],
+                [
+                  85.196859,
+                  27.984525
+                ],
+                [
+                  85.17084,
+                  27.984182
+                ],
+                [
+                  85.171229,
+                  27.961084
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w19",
+            "rank": 13,
+            "status": "ranked",
+            "candidate_token_frac": 0.07786140669608098,
+            "candidate_token_count": 300,
+            "d_event_mean": 0.14232534170150757,
+            "d_placebo_mean": 0.09013213962316513,
+            "valid_event_frac": 0.940673828125
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.149745,
+                  27.941445
+                ],
+                [
+                  85.175755,
+                  27.941792
+                ],
+                [
+                  85.175366,
+                  27.96489
+                ],
+                [
+                  85.149351,
+                  27.964543
+                ],
+                [
+                  85.149745,
+                  27.941445
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w20",
+            "rank": 8,
+            "status": "ranked",
+            "candidate_token_frac": 0.10197197716658017,
+            "candidate_token_count": 393,
+            "d_event_mean": 0.14865745604038239,
+            "d_placebo_mean": 0.09235416352748871,
+            "valid_event_frac": 0.94091796875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.142474,
+                  27.922052
+                ],
+                [
+                  85.168478,
+                  27.9224
+                ],
+                [
+                  85.168089,
+                  27.945499
+                ],
+                [
+                  85.142079,
+                  27.94515
+                ],
+                [
+                  85.142474,
+                  27.922052
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w21",
+            "rank": 6,
+            "status": "ranked",
+            "candidate_token_frac": 0.10640961442163245,
+            "candidate_token_count": 425,
+            "d_event_mean": 0.14855043590068817,
+            "d_placebo_mean": 0.08781822770833969,
+            "valid_event_frac": 0.97509765625
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.130591,
+                  27.908711
+                ],
+                [
+                  85.156592,
+                  27.909061
+                ],
+                [
+                  85.1562,
+                  27.932159
+                ],
+                [
+                  85.130193,
+                  27.931809
+                ],
+                [
+                  85.130591,
+                  27.908711
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w22",
+            "rank": 7,
+            "status": "ranked",
+            "candidate_token_frac": 0.10615545122587376,
+            "candidate_token_count": 407,
+            "d_event_mean": 0.1979105919599533,
+            "d_placebo_mean": 0.1272088587284088,
+            "valid_event_frac": 0.93603515625
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.124028,
+                  27.888416
+                ],
+                [
+                  85.150024,
+                  27.888767
+                ],
+                [
+                  85.149631,
+                  27.911866
+                ],
+                [
+                  85.12363,
+                  27.911514
+                ],
+                [
+                  85.124028,
+                  27.888416
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w23",
+            "rank": 4,
+            "status": "ranked",
+            "candidate_token_frac": 0.13507960965588084,
+            "candidate_token_count": 526,
+            "d_event_mean": 0.20255900919437408,
+            "d_placebo_mean": 0.14895595610141754,
+            "valid_event_frac": 0.95068359375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.112874,
+                  27.867069
+                ],
+                [
+                  85.138865,
+                  27.867422
+                ],
+                [
+                  85.13847,
+                  27.89052
+                ],
+                [
+                  85.112473,
+                  27.890167
+                ],
+                [
+                  85.112874,
+                  27.867069
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w24",
+            "rank": null,
+            "status": "unobservable",
+            "candidate_token_frac": null,
+            "candidate_token_count": 59,
+            "d_event_mean": 0.22504623234272003,
+            "d_placebo_mean": 0.21159088611602783,
+            "valid_event_frac": 0.127685546875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.412258,
+                  28.264466
+                ],
+                [
+                  85.438349,
+                  28.264766
+                ],
+                [
+                  85.438012,
+                  28.287867
+                ],
+                [
+                  85.411915,
+                  28.287566
+                ],
+                [
+                  85.412258,
+                  28.264466
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w25",
+            "rank": null,
+            "status": "unobservable",
+            "candidate_token_frac": null,
+            "candidate_token_count": 0,
+            "d_event_mean": 0.2205933779478073,
+            "d_placebo_mean": 0.18055813014507294,
+            "valid_event_frac": 0.001708984375
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.459386,
+                  28.264636
+                ],
+                [
+                  85.485477,
+                  28.264928
+                ],
+                [
+                  85.48515,
+                  28.288029
+                ],
+                [
+                  85.459053,
+                  28.287737
+                ],
+                [
+                  85.459386,
+                  28.264636
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "w26",
+            "rank": null,
+            "status": "unobservable",
+            "candidate_token_frac": null,
+            "candidate_token_count": 3,
+            "d_event_mean": 0.17756487429141998,
+            "d_placebo_mean": 0.16641850769519806,
+            "valid_event_frac": 0.035888671875
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  85.506514,
+                  28.264807
+                ],
+                [
+                  85.532606,
+                  28.26509
+                ],
+                [
+                  85.532289,
+                  28.288191
+                ],
+                [
+                  85.506191,
+                  28.287908
+                ],
+                [
+                  85.506514,
+                  28.264807
+                ]
+              ]
+            ]
+          }
+        }
+      ]
     }
   },
   "downstream_visual": {
