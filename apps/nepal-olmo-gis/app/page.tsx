@@ -628,7 +628,7 @@ export default function Home() {
             + `<h3>${pt.name}</h3><p class="pp-place">${pt.place}</p>`
             + thumbs
             + (pt.story ? `<p class="pp-story">${pt.story}</p>` : '')
-            + `<p class="pp-src">coordinate source: ${(pt.source ?? '').replace('user coordinate + OSM Nominatim reverse lookup', 'user-specified point · place name from OSM reverse geocoding')}</p>`<a href="${pt.source_url}" target="_blank" rel="noreferrer">${pt.source ?? 'source'} ↗</a>` : (pt.source ?? '')}</p>`)
+            + `<p class="pp-src">coordinate source: ${pt.source_url ? `<a href="${pt.source_url}" target="_blank" rel="noreferrer">${pt.source ?? 'source'} ↗</a>` : (pt.source ?? '').replace('user coordinate + OSM Nominatim reverse lookup', 'user-specified point · place name from OSM reverse geocoding')}</p>`)
           .addTo(map);
       }
     };
