@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T12:12:22.993594+00:00",
+  "generated_at": "2026-08-29T12:17:05.669273+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -1244,7 +1244,146 @@
         "distance_from_a_km": 35.1
       }
     ],
-    "retrieval": null,
+    "retrieval": {
+      "query_windows": [
+        "v003",
+        "v064",
+        "v025"
+      ],
+      "threshold": 0.358052521944046,
+      "top10": [
+        {
+          "id": "v003",
+          "similar_token_frac": 0.4383116883116883,
+          "sim_mean": 0.35561367869377136,
+          "status": "ranked",
+          "rank": 1,
+          "place": "Dalphedi, Gosaikunda",
+          "center_lonlat": [
+            85.361097,
+            28.2255196
+          ],
+          "delta_rank": 1
+        },
+        {
+          "id": "v002",
+          "similar_token_frac": 0.33765707336846373,
+          "sim_mean": 0.3080151081085205,
+          "status": "ranked",
+          "rank": 2,
+          "place": "Timure, Gosaikunda",
+          "center_lonlat": [
+            85.3581813,
+            28.2411955
+          ],
+          "delta_rank": 5
+        },
+        {
+          "id": "v064",
+          "similar_token_frac": 0.25316455696202533,
+          "sim_mean": 0.29717469215393066,
+          "status": "ranked",
+          "rank": 3,
+          "place": "Salê",
+          "center_lonlat": [
+            85.46621680097404,
+            28.345225889574237
+          ],
+          "delta_rank": 2
+        },
+        {
+          "id": "v028",
+          "similar_token_frac": 0.24523570712136408,
+          "sim_mean": 0.29317706823349,
+          "status": "ranked",
+          "rank": 4,
+          "place": "Bidur, Bidur",
+          "center_lonlat": [
+            85.1511333,
+            27.9249894
+          ],
+          "delta_rank": 29
+        },
+        {
+          "id": "v057",
+          "similar_token_frac": 0.24258760107816713,
+          "sim_mean": 0.3011537790298462,
+          "status": "ranked",
+          "rank": 5,
+          "place": "Chaggang",
+          "center_lonlat": [
+            85.44010591501316,
+            28.344929720822858
+          ],
+          "delta_rank": 21
+        },
+        {
+          "id": "v004",
+          "similar_token_frac": 0.19598428633784373,
+          "sim_mean": 0.26520881056785583,
+          "status": "ranked",
+          "rank": 6,
+          "place": "Thuman, Gosaikunda",
+          "center_lonlat": [
+            85.3542477,
+            28.2088826
+          ],
+          "delta_rank": 16
+        },
+        {
+          "id": "v038",
+          "similar_token_frac": 0.1934156378600823,
+          "sim_mean": 0.30039823055267334,
+          "status": "ranked",
+          "rank": 7,
+          "place": "Belkotgadhi",
+          "center_lonlat": [
+            85.0172883,
+            27.8250274
+          ],
+          "delta_rank": 22
+        },
+        {
+          "id": "v011",
+          "similar_token_frac": 0.18342886920270973,
+          "sim_mean": 0.252743661403656,
+          "status": "ranked",
+          "rank": 8,
+          "place": "Gosaikunda, Gosaikunda",
+          "center_lonlat": [
+            85.2911081,
+            28.1219667
+          ],
+          "delta_rank": 33
+        },
+        {
+          "id": "v025",
+          "similar_token_frac": 0.18044707783463507,
+          "sim_mean": 0.2537270486354828,
+          "status": "ranked",
+          "rank": 9,
+          "place": "Bhainse, Bidur",
+          "center_lonlat": [
+            85.1762602,
+            27.9649438
+          ],
+          "delta_rank": 3
+        },
+        {
+          "id": "v024",
+          "similar_token_frac": 0.17625806451612902,
+          "sim_mean": 0.26297762989997864,
+          "status": "ranked",
+          "rank": 10,
+          "place": "Naubisephat, Uttargaya",
+          "center_lonlat": [
+            85.1815317,
+            27.9786895
+          ],
+          "delta_rank": 4
+        }
+      ]
+    },
     "hillslope_top": [
       {
         "id": "v064",

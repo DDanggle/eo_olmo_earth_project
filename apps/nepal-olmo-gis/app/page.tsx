@@ -572,7 +572,7 @@ export default function Home() {
           ? `<div class="pp-thumbs" data-win="${win}" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/story/anchors/${win}_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
             + `<figure><img src="/data/story/anchors/${win}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
-            + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANET 3.8 m · 08-28</figcaption></figure>` : '')
+            + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0 · source.coop</a></figcaption></figure>` : '')
             + `</div><p class="pp-hint">▲ click any frame to open the large before/after slider</p>`
           : '';
         new Popup({ closeButton: true, maxWidth: '400px', className: 'story-popup' })
@@ -1307,11 +1307,11 @@ export default function Home() {
             <div className="distance-matrix">
               {['source', 'rasuwagadhi', 'timure', 'syabrubesi', 'dhunche', 'bidur'].map((name, i) => <div key={name}><b>{i + 1}</b><span>{name === 'source' ? 'SOURCE · Langtang Lirung' : name.toUpperCase()}</span><figure><img src={`/data/story/anchors/${name}_pre.png`} alt={`${name} before`} /></figure><i>→</i><figure><img src={`/data/story/anchors/${name}_post.png`} alt={`${name} after`} /></figure></div>)}
             </div>
-            <figure className="story-figure zoomable" role="button" tabIndex={0} onClick={() => openLightbox({ title: 'Rasuwagadhi · PlanetScope 3.8 m · 28 Aug', sub: '© Planet Labs PBC · CC-BY-NC-4.0 · reference only, not AI input', before: '/data/story/anchors/rasuwagadhi_post.png', after: '/data/story/planet/ps_rasuwagadhi_0828.png', beforeLabel: 'SENTINEL-2 10 m · 08-27', afterLabel: 'PLANETSCOPE 3.8 m · 08-28' })}>
+            <figure className="story-figure zoomable" role="button" tabIndex={0} onClick={() => openLightbox({ title: 'Rasuwagadhi · PlanetScope 3.8 m · 28 Aug', sub: '© Planet Labs PBC · CC-BY-NC-4.0 · Planet Disaster Data on source.coop (planet/disasterdata/nepal-flash-flood-2026-08-26) · reference only, not AI input', before: '/data/story/anchors/rasuwagadhi_post.png', after: '/data/story/planet/ps_rasuwagadhi_0828.png', beforeLabel: 'SENTINEL-2 10 m · 08-27', afterLabel: 'PLANETSCOPE 3.8 m · 08-28' })}>
               <img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 3.8 m view of Rasuwagadhi on 28 August 2026" /><span className="zoom-hint">⤢ compare with Sentinel-2</span>
               <figcaption className="story-caption">{ko
-                ? '같은 국경 합류부를 상업위성 플래닛스코프가 8월 28일 오전에 찍은 3.8m 영상. 센티넬(10m)보다 2.6배 세밀해 두 물줄기가 만나는 지점의 토사 판과 그 안의 물길, 끊긴 도로가 그대로 보인다. 플래닛은 이번 재난에 한해 영상을 비상업 조건으로 공개했다(CC-BY-NC-4.0). 이 영상은 참고용이며 인공지능 입력에는 쓰지 않았다 — 입력 계약(밴드·해상도)이 다르기 때문이다. © Planet Labs PBC.'
-                : 'The same border confluence seen by a commercial PlanetScope satellite on the morning of 28 August at 3.8 m — 2.6× finer than Sentinel-2. The debris sheet at the junction, the channel threading through it and the severed road are visible directly. Planet released this imagery for the disaster under a non-commercial licence (CC-BY-NC-4.0). It is reference only: it is not fed to the AI, whose input contract (bands, resolution) differs. © Planet Labs PBC.'}</figcaption>
+                ? '같은 국경 합류부를 상업위성 플래닛스코프가 8월 28일 오전에 찍은 3.8m 영상. 센티넬(10m)보다 2.6배 세밀해 두 물줄기가 만나는 지점의 토사 판과 그 안의 물길, 끊긴 도로가 그대로 보인다. 플래닛은 이번 재난에 한해 영상을 비상업 조건으로 공개했다(CC-BY-NC-4.0). 이 영상은 참고용이며 인공지능 입력에는 쓰지 않았다 — 입력 계약(밴드·해상도)이 다르기 때문이다. © Planet Labs PBC · CC-BY-NC-4.0 · Planet Disaster Data(source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26, 아이템 20260828_045744_48_2544 visual).'
+                : 'The same border confluence seen by a commercial PlanetScope satellite on the morning of 28 August at 3.8 m — 2.6× finer than Sentinel-2. The debris sheet at the junction, the channel threading through it and the severed road are visible directly. Planet released this imagery for the disaster under a non-commercial licence (CC-BY-NC-4.0). It is reference only: it is not fed to the AI, whose input contract (bands, resolution) differs. © Planet Labs PBC · CC-BY-NC-4.0 · Planet Disaster Data, source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26 (item 20260828_045744_48_2544, visual asset).'}</figcaption>
             </figure>
             <div className="story-spectra zoomable" role="button" tabIndex={0} onClick={() => openLightbox({ title: 'Rasuwagadhi · 27 Aug · true colour vs SWIR', sub: 'SWIR B12·B8A·B04: vegetation green, wet sediment pink-brown, water deep blue', before: '/data/story/spec_true_post0827.png', after: '/data/story/spec_swir_post0827.png', beforeLabel: 'TRUE COLOUR', afterLabel: 'SWIR', extra: [{ src: '/data/story/spec_ndwi_post0827.png', label: 'NDWI water index' }, { src: '/data/story/spec_swir_pre0812.png', label: 'SWIR · pre-event 08-12' }] })}>
               <figure><img src="/data/story/spec_true_post0827.png" alt="True colour, Rasuwagadhi, 27 August" /><figcaption>{ko ? '트루컬러 · 08-27' : 'TRUE COLOUR · 08-27'}</figcaption></figure>
@@ -1480,7 +1480,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="provenance-stamp">DATA SNAPSHOT {scenario?.generated_at.slice(0, 16).replace('T', ' ') ?? '—'} UTC · OSM ODbL · ESA COPERNICUS</div>
+      <div className="provenance-stamp">DATA SNAPSHOT {scenario?.generated_at.slice(0, 16).replace('T', ' ') ?? '—'} UTC · OSM ODbL · ESA COPERNICUS · PLANET DISASTER DATA (CC-BY-NC-4.0)</div>
     </main>
   );
 }

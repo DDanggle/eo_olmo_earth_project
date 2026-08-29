@@ -969,7 +969,9 @@ def candidates_block() -> dict[str, Any] | None:
     judged = _C(kinds.get(w["id"], "corridor") for w in ranked_all)
     # 변화-벡터 검색(같은 종류의 변화) — 있으면 붙임
     retrieval = None
-    rr = WORK_ROOT / "artifacts/corridor_s2_candidates/retrieval/report.json"
+    rr = WORK_ROOT / "artifacts/corridor_s2_candidates/retrieval_v2/report.json"
+    if not rr.exists():
+        rr = WORK_ROOT / "artifacts/corridor_s2_candidates/retrieval/report.json"
     if rr.exists() and {o["id"] for o in json.loads(rr.read_text()).get("top10", [])} <= {w["id"] for w in rep["windows"]}:
         rj = json.loads(rr.read_text())
         centers = {w["id"]: w["center_lonlat"] for w in rep["windows"]}
