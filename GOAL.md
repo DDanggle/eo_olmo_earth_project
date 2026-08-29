@@ -2882,8 +2882,26 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   아직 수행하지 않은 물리 판단이 UX에서 분리 ⑤ data/tsc/lint/asset/WASM/build 및 브라우저 QA
   통과. 공개 배포는 별도 사용자 승인 전까지 보류한다.
 
+#### 결과 — 2026-08-29 21:32 KST
+
+- baseline 27/27, 216/216 layer materialize와 manifest seal(valid) 완료. s1_live는 24/216,
+  2/27 complete·w10/w24 partial이며 양 arm embedding은 아직 0/27이다. 동기화 파일 timestamp 기준으로
+  물질화 22:10–22:25, 임베딩·matched delta 포함 22:30–23:10을 잠정 범위로 잡되 SLA로 쓰지 않는다.
+- 지도: OSM 하천은 파란 실선, USGS 약 100 km 보고를 반영한 검사 회랑은 offset 빨간 점선으로 분리.
+  Galchhi G를 Rasuwagadhi 아래 73.7 river-km의 현재 trace end로 추가하되 최종 퇴적/침수 종점이
+  아님을 지도·rail·claim boundary 세 곳에 표시했다.
+- AI UX: sealed 5-anchor delta(평균 미검출, Rasuwagadhi token candidate), S2-only 100창 후보,
+  canonical 27창 진행을 서로 다른 카드와 claim으로 분리. river/off-river filter와 USGS·UNOSAT·Planet
+  외부 판독 링크를 추가했다.
+- 검증: asset contract, TypeScript, Rust/WASM, vinext production build 통과. ESLint 0 error
+  (기존 image 최적화 warning만 남음). desktop과 390×844 브라우저 QA에서 배경·하천·G 포커스·필터
+  동작, console error/warning 0을 확인했다. 공개 배포는 하지 않았다.
+- 상세 감사: `docs/NEPAL_CORRIDOR_UX_AI_STATUS_2026_08_29.md`.
+
 ### 2026-08-29 (심야) — AI 가치 증명(M73)·토큰 수준 매칭(M72 보론)·검색 v2·Planet 출처
 
 - M73: 고전 변화탐지(밴드차·지수차) 대비 AI Δz가 9/9 지역 우위, 8/9에서 ≥+0.05 (7곳은 +0.11~+0.19) (사전 등록 +0.05).
 - M72 보론: 매칭 9쌍 토큰 수준에서 Rasuwagadhi 9.8% vs placebo 최대 2.7% → 봉인 계약 첫 candidate.
 - 검색 v2(100창): Dalphedi·Timure·Salê(산사면)·Bidur·Chaggang(산사면). Planet 영상 출처(source.coop, CC-BY-NC-4.0) 표기.
+
+- 21:28 사고: 구버전 러너가 5앵커 baseline 임베딩을 덮어씀 → 재도출 보고서(130711Z)로 교체, 판정 불변. M72 보론 2 기록.

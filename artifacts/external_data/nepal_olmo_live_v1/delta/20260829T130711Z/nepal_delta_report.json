@@ -1,0 +1,679 @@
+{
+  "anchors": {
+    "dhunche": {
+      "delta_geotiff": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T130711Z/delta_dhunche.tif",
+      "live_delta": {
+        "max": 0.02912968397140503,
+        "mean": 0.011014563031494617,
+        "p50": 0.010123610496520996,
+        "p95": 0.018901973962783813
+      },
+      "placebo_delta": {
+        "placebo_20260617": {
+          "max": 0.10435444116592407,
+          "mean": 0.05188247188925743,
+          "p50": 0.05073067545890808,
+          "p95": 0.06904040277004242
+        },
+        "placebo_20260624": {
+          "max": 0.1167750358581543,
+          "mean": 0.04956386983394623,
+          "p50": 0.0470503568649292,
+          "p95": 0.0804407000541687
+        },
+        "placebo_20260701": {
+          "max": 0.1767687201499939,
+          "mean": 0.06759246438741684,
+          "p50": 0.06413307785987854,
+          "p95": 0.10696463286876678
+        },
+        "placebo_20260708": {
+          "max": 0.1301499605178833,
+          "mean": 0.04532401263713837,
+          "p50": 0.03929927945137024,
+          "p95": 0.07894879579544067
+        },
+        "placebo_20260715": {
+          "max": 0.12853705883026123,
+          "mean": 0.0506710410118103,
+          "p50": 0.04466083645820618,
+          "p95": 0.08561255037784576
+        },
+        "placebo_20260722": {
+          "max": 0.1292564868927002,
+          "mean": 0.0475894995033741,
+          "p50": 0.041736721992492676,
+          "p95": 0.0824384093284607
+        },
+        "placebo_20260729": {
+          "max": 0.12749189138412476,
+          "mean": 0.041994575411081314,
+          "p50": 0.035320162773132324,
+          "p95": 0.07774072885513306
+        },
+        "placebo_20260805": {
+          "max": 0.1353468894958496,
+          "mean": 0.05657102167606354,
+          "p50": 0.06038966774940491,
+          "p95": 0.0879080593585968
+        },
+        "placebo_a": {
+          "max": 0.1140831708908081,
+          "mean": 0.049814045429229736,
+          "p50": 0.05468675494194031,
+          "p95": 0.08243829011917114
+        },
+        "placebo_b": {
+          "max": 0.023818373680114746,
+          "mean": 0.00807130429893732,
+          "p50": 0.007524609565734863,
+          "p95": 0.013096138834953308
+        }
+      },
+      "placebo_self_test": {
+        "max": 0.08099102973937988,
+        "mean": 0.03196856379508972,
+        "p50": 0.02972501516342163,
+        "p95": 0.05085025727748871
+      },
+      "verdict": {
+        "label": "not detected above daily variability",
+        "live_mean_exceeds_all_placebo": false,
+        "note": "placebo 표본이 적어 anomaly 확정 불가 — candidate change 이상으로 부르지 않음",
+        "rank_among_placebo": "1/10"
+      }
+    },
+    "rasuwagadhi": {
+      "delta_geotiff": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T130711Z/delta_rasuwagadhi.tif",
+      "live_delta": {
+        "max": 0.05315041542053223,
+        "mean": 0.015585348010063171,
+        "p50": 0.01268315315246582,
+        "p95": 0.031922727823257446
+      },
+      "placebo_delta": {
+        "placebo_20260617": {
+          "max": 0.11784958839416504,
+          "mean": 0.046204470098018646,
+          "p50": 0.0442194938659668,
+          "p95": 0.06801585853099823
+        },
+        "placebo_20260624": {
+          "max": 0.10712343454360962,
+          "mean": 0.045885562896728516,
+          "p50": 0.045368731021881104,
+          "p95": 0.06342975795269012
+        },
+        "placebo_20260701": {
+          "max": 0.094901442527771,
+          "mean": 0.03824728727340698,
+          "p50": 0.03667968511581421,
+          "p95": 0.056389495730400085
+        },
+        "placebo_20260708": {
+          "max": 0.07791692018508911,
+          "mean": 0.03637956827878952,
+          "p50": 0.03546372056007385,
+          "p95": 0.05250002443790436
+        },
+        "placebo_20260715": {
+          "max": 0.06223112344741821,
+          "mean": 0.029557032510638237,
+          "p50": 0.02887365221977234,
+          "p95": 0.04190109670162201
+        },
+        "placebo_20260722": {
+          "max": 0.07911235094070435,
+          "mean": 0.02621423825621605,
+          "p50": 0.025437533855438232,
+          "p95": 0.0371776819229126
+        },
+        "placebo_20260729": {
+          "max": 0.04307073354721069,
+          "mean": 0.0194195918738842,
+          "p50": 0.019057512283325195,
+          "p95": 0.026677310466766357
+        },
+        "placebo_20260805": {
+          "max": 0.05984914302825928,
+          "mean": 0.022036237642169,
+          "p50": 0.020715385675430298,
+          "p95": 0.035170719027519226
+        },
+        "placebo_a": {
+          "max": 0.04221475124359131,
+          "mean": 0.01461512129753828,
+          "p50": 0.01252293586730957,
+          "p95": 0.02582286298274994
+        },
+        "placebo_b": {
+          "max": 0.040205299854278564,
+          "mean": 0.008345691487193108,
+          "p50": 0.007619023323059082,
+          "p95": 0.014830172061920166
+        }
+      },
+      "placebo_self_test": {
+        "max": 0.06941765546798706,
+        "mean": 0.02253497764468193,
+        "p50": 0.021431386470794678,
+        "p95": 0.03761841356754303
+      },
+      "verdict": {
+        "label": "not detected above daily variability",
+        "live_mean_exceeds_all_placebo": false,
+        "note": "placebo 표본이 적어 anomaly 확정 불가 — candidate change 이상으로 부르지 않음",
+        "rank_among_placebo": "2/10"
+      }
+    },
+    "source_provisional": {
+      "delta_geotiff": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T130711Z/delta_source_provisional.tif",
+      "live_delta": {
+        "max": 0.05538129806518555,
+        "mean": 0.023168377578258514,
+        "p50": 0.02139928936958313,
+        "p95": 0.03962698578834534
+      },
+      "placebo_delta": {
+        "placebo_20260617": {
+          "max": 0.20118075609207153,
+          "mean": 0.08093935251235962,
+          "p50": 0.07877665758132935,
+          "p95": 0.11604291200637817
+        },
+        "placebo_20260624": {
+          "max": 0.20928996801376343,
+          "mean": 0.07760907709598541,
+          "p50": 0.07551369071006775,
+          "p95": 0.11591124534606934
+        },
+        "placebo_20260701": {
+          "max": 0.21121293306350708,
+          "mean": 0.07121819257736206,
+          "p50": 0.06911575794219971,
+          "p95": 0.1048441231250763
+        },
+        "placebo_20260708": {
+          "max": 0.1852877140045166,
+          "mean": 0.05847226828336716,
+          "p50": 0.0568830668926239,
+          "p95": 0.08766128122806549
+        },
+        "placebo_20260715": {
+          "max": 0.13208836317062378,
+          "mean": 0.049650728702545166,
+          "p50": 0.04840850830078125,
+          "p95": 0.07371284067630768
+        },
+        "placebo_20260722": {
+          "max": 0.19256430864334106,
+          "mean": 0.04538622498512268,
+          "p50": 0.04331907629966736,
+          "p95": 0.07245840132236481
+        },
+        "placebo_20260729": {
+          "max": 0.09588092565536499,
+          "mean": 0.032497208565473557,
+          "p50": 0.031002968549728394,
+          "p95": 0.05178692936897278
+        },
+        "placebo_20260805": {
+          "max": 0.2311587929725647,
+          "mean": 0.03429465368390083,
+          "p50": 0.03237748146057129,
+          "p95": 0.054722607135772705
+        },
+        "placebo_a": {
+          "max": 0.09163224697113037,
+          "mean": 0.03433818370103836,
+          "p50": 0.03306436538696289,
+          "p95": 0.05447852611541748
+        },
+        "placebo_b": {
+          "max": 0.19615823030471802,
+          "mean": 0.008000846020877361,
+          "p50": 0.006145000457763672,
+          "p95": 0.014228597283363342
+        }
+      },
+      "placebo_self_test": {
+        "max": 0.07167881727218628,
+        "mean": 0.009156457148492336,
+        "p50": 0.008255094289779663,
+        "p95": 0.015821486711502075
+      },
+      "verdict": {
+        "label": "not detected above daily variability",
+        "live_mean_exceeds_all_placebo": false,
+        "note": "placebo 표본이 적어 anomaly 확정 불가 — candidate change 이상으로 부르지 않음",
+        "rank_among_placebo": "1/10"
+      }
+    },
+    "syabrubesi": {
+      "delta_geotiff": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T130711Z/delta_syabrubesi.tif",
+      "live_delta": {
+        "max": 0.041994690895080566,
+        "mean": 0.015386074781417847,
+        "p50": 0.014141559600830078,
+        "p95": 0.025667861104011536
+      },
+      "placebo_delta": {
+        "placebo_20260617": {
+          "max": 0.08495932817459106,
+          "mean": 0.04257684946060181,
+          "p50": 0.04207330942153931,
+          "p95": 0.05566006898880005
+        },
+        "placebo_20260624": {
+          "max": 0.08418768644332886,
+          "mean": 0.03901471197605133,
+          "p50": 0.03783175349235535,
+          "p95": 0.05643610656261444
+        },
+        "placebo_20260701": {
+          "max": 0.08540552854537964,
+          "mean": 0.03998832404613495,
+          "p50": 0.03943708539009094,
+          "p95": 0.05381551384925842
+        },
+        "placebo_20260708": {
+          "max": 0.06896859407424927,
+          "mean": 0.03134656697511673,
+          "p50": 0.030692368745803833,
+          "p95": 0.04887948930263519
+        },
+        "placebo_20260715": {
+          "max": 0.05420553684234619,
+          "mean": 0.0273265577852726,
+          "p50": 0.026518046855926514,
+          "p95": 0.038978561758995056
+        },
+        "placebo_20260722": {
+          "max": 0.060486793518066406,
+          "mean": 0.026181789115071297,
+          "p50": 0.025449424982070923,
+          "p95": 0.0388222336769104
+        },
+        "placebo_20260729": {
+          "max": 0.04570811986923218,
+          "mean": 0.019826767966151237,
+          "p50": 0.019386976957321167,
+          "p95": 0.029156282544136047
+        },
+        "placebo_20260805": {
+          "max": 0.06679123640060425,
+          "mean": 0.026763437315821648,
+          "p50": 0.025831490755081177,
+          "p95": 0.0395427942276001
+        },
+        "placebo_a": {
+          "max": 0.06827038526535034,
+          "mean": 0.01461973786354065,
+          "p50": 0.011828243732452393,
+          "p95": 0.02970823645591736
+        },
+        "placebo_b": {
+          "max": 0.028332114219665527,
+          "mean": 0.010280818678438663,
+          "p50": 0.01033329963684082,
+          "p95": 0.014284297823905945
+        }
+      },
+      "placebo_self_test": {
+        "max": 0.051949918270111084,
+        "mean": 0.026179330423474312,
+        "p50": 0.025884807109832764,
+        "p95": 0.03494243323802948
+      },
+      "verdict": {
+        "label": "not detected above daily variability",
+        "live_mean_exceeds_all_placebo": false,
+        "note": "placebo 표본이 적어 anomaly 확정 불가 — candidate change 이상으로 부르지 않음",
+        "rank_among_placebo": "2/10"
+      }
+    },
+    "timure": {
+      "delta_geotiff": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T130711Z/delta_timure.tif",
+      "live_delta": {
+        "max": 0.03500008583068848,
+        "mean": 0.014870166778564453,
+        "p50": 0.014439970254898071,
+        "p95": 0.02085396647453308
+      },
+      "placebo_delta": {
+        "placebo_20260617": {
+          "max": 0.11123251914978027,
+          "mean": 0.05215806886553764,
+          "p50": 0.050917863845825195,
+          "p95": 0.06977894902229309
+        },
+        "placebo_20260624": {
+          "max": 0.08944004774093628,
+          "mean": 0.0399714931845665,
+          "p50": 0.0389803946018219,
+          "p95": 0.05566389858722687
+        },
+        "placebo_20260701": {
+          "max": 0.11517995595932007,
+          "mean": 0.046903230249881744,
+          "p50": 0.04384303092956543,
+          "p95": 0.07191449403762817
+        },
+        "placebo_20260708": {
+          "max": 0.07361310720443726,
+          "mean": 0.03141478821635246,
+          "p50": 0.030468791723251343,
+          "p95": 0.044031307101249695
+        },
+        "placebo_20260715": {
+          "max": 0.07349908351898193,
+          "mean": 0.03390905261039734,
+          "p50": 0.03201785683631897,
+          "p95": 0.051986053586006165
+        },
+        "placebo_20260722": {
+          "max": 0.07292205095291138,
+          "mean": 0.030262628570199013,
+          "p50": 0.028267353773117065,
+          "p95": 0.04800151288509369
+        },
+        "placebo_20260729": {
+          "max": 0.052379488945007324,
+          "mean": 0.0190570205450058,
+          "p50": 0.018267273902893066,
+          "p95": 0.02828444540500641
+        },
+        "placebo_20260805": {
+          "max": 0.07595008611679077,
+          "mean": 0.028823113068938255,
+          "p50": 0.02599582076072693,
+          "p95": 0.04820151627063751
+        },
+        "placebo_a": {
+          "max": 0.04264730215072632,
+          "mean": 0.01211770810186863,
+          "p50": 0.010661512613296509,
+          "p95": 0.023694485425949097
+        },
+        "placebo_b": {
+          "max": 0.046303629875183105,
+          "mean": 0.01301334984600544,
+          "p50": 0.012909621000289917,
+          "p95": 0.017575040459632874
+        }
+      },
+      "placebo_self_test": {
+        "max": 0.04293358325958252,
+        "mean": 0.0249328650534153,
+        "p50": 0.02475762367248535,
+        "p95": 0.03142926096916199
+      },
+      "verdict": {
+        "label": "not detected above daily variability",
+        "live_mean_exceeds_all_placebo": false,
+        "note": "placebo 표본이 적어 anomaly 확정 불가 — candidate change 이상으로 부르지 않음",
+        "rank_among_placebo": "2/10"
+      }
+    }
+  },
+  "baseline_mode": "baseline",
+  "created_at_utc": "20260829T130711Z",
+  "inputs": {
+    "baseline/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "c9450032f3acb926df21cd6d94ed6382e6978d87f1f24eef504968e4c959d0a1"
+    },
+    "baseline/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "70b4d7b9e871e58b57570d59d0a01357721719582a1bf677e71332f569955bb1"
+    },
+    "baseline/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "c1a1f8a7ccccacdd05803ee851be729520295c61b054be65119f94e39ee82aa1"
+    },
+    "baseline/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "27e89ba69a2fad95148225b7de57559a494a39c16bce0c82cb16040409b0ec8e"
+    },
+    "baseline/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "1dfd5232bd3509d07d1b9a6671ddc86ec5dfd134aeae36c388d3a67dfb07fad9"
+    },
+    "placebo_20260617/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260617/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "2cb4cf0698ddd8459ec9757a6a9ace49717c82482381465149f855693e836e53"
+    },
+    "placebo_20260617/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260617/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "1e721d9e53e4118ed11e74ab9026603f005ddc3a73d6da82086e3495352503dc"
+    },
+    "placebo_20260617/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260617/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "8dda14c509095612de7326c80a57f98e50a96ec7db7d3e0b3cc70273a898f6d6"
+    },
+    "placebo_20260617/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260617/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "3231bfd95e41f3a78a09b922876cb14324a099fc5d483adb1240a576ea136855"
+    },
+    "placebo_20260617/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260617/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "24a1828a5ac8381ae467596e02c52e6f016c96e7a30ae4be5ca1e49a65fbb6cb"
+    },
+    "placebo_20260624/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260624/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "8c21d8e9634028aa586d75cba05aafb12bc8d56a7dc9aa77f97f247fb4246d38"
+    },
+    "placebo_20260624/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260624/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "8b1c21cd78350be968d72fa2652798d821b1b6dd7e79101165ceabbc2d0eaad3"
+    },
+    "placebo_20260624/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260624/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "c69d2109557edd3a239181ab92ef38f1b3d27b1f355dded71a2700c742b0893d"
+    },
+    "placebo_20260624/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260624/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "b533963211c10d1059d0156438025b884c087ea2f57106aa898af086541bd244"
+    },
+    "placebo_20260624/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260624/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "3098414a044567e267a40dacf76d2b38f063f738b4855747dc607e7b8b874a3c"
+    },
+    "placebo_20260701/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260701/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "c9b2b635c421cfff7c5b11dcfc4af569d951501c546c55b20e4418703734fe1a"
+    },
+    "placebo_20260701/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260701/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "d984e0799489b248149a65fd00b2de401865309b6e86e7bdf27b3e8a014d2041"
+    },
+    "placebo_20260701/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260701/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "f5d2956bb861535a82930a7941fce6980179bdde591dbf203866a006e599e1d7"
+    },
+    "placebo_20260701/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260701/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "df871786530866db388ceeae682ff04ff05ace0bbb272224ab6a6a2f2e02f7e0"
+    },
+    "placebo_20260701/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260701/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "669373f3a77d602adb9b559c6e1cf3831e2cfcd715e002847120f865b0155f9a"
+    },
+    "placebo_20260708/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260708/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "99c225aef0a268805bf8e14751194ecbcd6c885f605505be8d337a307634d1b5"
+    },
+    "placebo_20260708/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260708/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "4c00083490e59c8be5bdf915e12389dfc3e7f3f40016e97a05a5f229c24b3e51"
+    },
+    "placebo_20260708/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260708/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "d4bb96b1f9c67a668c87681e9f5109b3a0b8973e9b179a95e141c411e8b507dd"
+    },
+    "placebo_20260708/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260708/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "b99cbd626fd681f30b0da5d355724193ee85d1b86fb5a0e890d5142c31982cc9"
+    },
+    "placebo_20260708/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260708/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "d86a08fb5524d9220ad914ce3b7eb8dd851655a66322e40ae900e7358caf6528"
+    },
+    "placebo_20260715/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260715/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "67c3a3ec0ddcc16beb848260dd2cae080d1182a579601303ec28a21a48204d80"
+    },
+    "placebo_20260715/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260715/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "02a0b7e7bacff63749d207eb99999549279f69d9849221ecb6794e3105e1416c"
+    },
+    "placebo_20260715/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260715/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "6df17562973901e1cd7be89cc51232776b10074dfb260414b5c1fafe4d8701e5"
+    },
+    "placebo_20260715/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260715/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "4769e39b8dc24b3ffd282c88ee36ed130efbe4f0a2e5ae1df494b62e2beab13a"
+    },
+    "placebo_20260715/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260715/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "958185e097b2d78c987ed54cf1908aeae29d95a752d679abf88cfb1cd6183a7b"
+    },
+    "placebo_20260722/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260722/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "dfbe70198be722317e7fde51a0a52f1eb170d2810b54c9520e7e029e3a6c7c47"
+    },
+    "placebo_20260722/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260722/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "013723ea7211b11bf3ff99ac0a5421be84871e621cfff8a132028a17899e6773"
+    },
+    "placebo_20260722/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260722/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "276e4642633d16bf4cbeb687239dd2c00477da7c0e2f3a37d58c6970d9734456"
+    },
+    "placebo_20260722/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260722/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "4a868369a27346b94294347b6b49030f8d36e113f024fb5959498caa5da8af2c"
+    },
+    "placebo_20260722/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260722/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "d66f03f357c00bab7becb6d2a07b134c59765b2daf675b182dde09489b987867"
+    },
+    "placebo_20260729/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260729/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "3c95968e29263fa6d3c593849ad979c99254d4d568d9c61ac6643e827d25e7dc"
+    },
+    "placebo_20260729/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260729/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "f7759e3f95f05bd7b6a640534fe9508cf45d604ed2447b0a2b28ce1d1bf9dc0c"
+    },
+    "placebo_20260729/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260729/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "11ee901db8e3525c73a2e86f0daf8d685eadb2b698502fe30f22ebe7faeded5e"
+    },
+    "placebo_20260729/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260729/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "3ee03e2baa554bf7e456e7da5abdf6de3a962dce8ccd61a9e1f5de1ff6854ce6"
+    },
+    "placebo_20260729/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260729/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "7ce526933d66387c77ec14f1ee6ece435fadea90307a84825aac75271a11edf9"
+    },
+    "placebo_20260805/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260805/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "f90e8748434f284ca6c627a8c3e51e85d19bf60317315ef07d81bd17dde8d69c"
+    },
+    "placebo_20260805/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260805/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "1bedc62ee90124a397dc1367dc8c070cac340aa57d9f4a2cdbe9d66d7ab965e5"
+    },
+    "placebo_20260805/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260805/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "93d3b40fb96ea273195a93ea5628de508c8088810133595d4127520859f07fa9"
+    },
+    "placebo_20260805/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260805/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "c609048d766ebd25f3850dc998becad31809982f3fa1c1effc5becc0c893af0a"
+    },
+    "placebo_20260805/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260805/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "0a765f12dafeade742727441f54dddce41452eb1013b5e77da802f336452b9af"
+    },
+    "placebo_a/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_a/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "0b6340f6c0c963c874b468dfda10ea1a1e47e372632467d779833e831f73f1b8"
+    },
+    "placebo_a/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_a/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "b4e2be3f0679835543a9cc4c1a58d5e7e5c7db9f282b985b802072efc35b95e2"
+    },
+    "placebo_a/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_a/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "60f6b984bb975f413feeb790cd79ba312528b4904c68fd89f3c09bfd7ef6121e"
+    },
+    "placebo_a/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_a/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "a0abe0395cece92542167373d8b2957d5b85bb2b5dc8989b201e33b000ca5e81"
+    },
+    "placebo_a/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_a/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "2102f12d7eaa185280c6bd5f7aab732f435dde6871a2c5cea625966d727c6b18"
+    },
+    "placebo_b/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_b/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "f3c764f7fc1de93eb91ac86426d13ee57f0a5067d9f99b1ccb55bb8bda91211f"
+    },
+    "placebo_b/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_b/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "8332f353b8d320d6c69e3258861fede02cdf0aff9d39689da2ecb5cde24f5040"
+    },
+    "placebo_b/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_b/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "1c85f4f351d67cdcca3a49014863a58bc3c835f7ed5e34c9fc174befc93fcbcb"
+    },
+    "placebo_b/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_b/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "8342b83890ce7e857eb2c7ad964305ee1c6e1d243602d1bc501b43f3f8a181cc"
+    },
+    "placebo_b/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_b/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "3a51ab5dd0242ab74c484ffb18399300a4ae5577741051982a0fe539e9a2b6a4"
+    },
+    "s1_live/dhunche": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/dataset/windows/nepal/dhunche/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "d26bcb63aef93a34381d355081c4b3d5c325893481e65dea05c6cab4ed1fadf8"
+    },
+    "s1_live/rasuwagadhi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/dataset/windows/nepal/rasuwagadhi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "834ecc34a0fce9c6d2b43a0caf35361bae87633ec8f34086e279f88335cd5727"
+    },
+    "s1_live/source_provisional": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/dataset/windows/nepal/source_provisional/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "b046977faf932400139514b8f3e938c7a3e5761578a059d905f2da7f3f71b9ae"
+    },
+    "s1_live/syabrubesi": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/dataset/windows/nepal/syabrubesi/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "c146399d0bb3897c0e4bbd0b2d0fad5677f2ba95deeeeecbae6801671801d331"
+    },
+    "s1_live/timure": {
+      "path": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/dataset/windows/nepal/timure/layers/embeddings/af7ecf1cfa7849cef58186f8360ff1f85de51346f8987c1981321c6380bcc077/geotiff.tif",
+      "sha256": "1013d9f618006bfcaec03e538f541c3ff0010027931300a255c1042163a3eba6"
+    }
+  },
+  "live_mode": "s1_live",
+  "metric": "cosine distance per patch (1 - cos)",
+  "placebo_modes_available": [
+    "placebo_20260617",
+    "placebo_20260624",
+    "placebo_20260701",
+    "placebo_20260708",
+    "placebo_20260715",
+    "placebo_20260722",
+    "placebo_20260729",
+    "placebo_20260805",
+    "placebo_a",
+    "placebo_b"
+  ],
+  "placebo_sample_note": "placebo 표본 10개 — 95 percentile을 신뢰할 수 없어 max(placebo) 초과 여부와 rank로 판정함",
+  "schema": "nepal-olmo-delta-v1"
+}
