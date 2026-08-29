@@ -170,7 +170,7 @@ POINTS = [
         "stage": 99,
         "marker_color": "#9aa3a0",
         "in_event_chain": False,
-        "name": "Rishing reference",
+        "name": "Control window · no event (Rishing)",
         "coordinates": [84.3103107, 27.8790412],
         "role": "distant_reference",
         "place": "Rishing-03, Tanahun, Gandaki Province, Nepal",

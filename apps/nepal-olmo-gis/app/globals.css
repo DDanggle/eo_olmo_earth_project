@@ -884,7 +884,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .field-review-links > span { color: var(--muted); font: 8.5px var(--font-geist-mono); }
 .field-review-links a { color: var(--blue); font: 10px/1.4 var(--font-geist-mono); text-decoration: none; }
 .field-review-links a:hover { text-decoration: underline; }
-.map-legend { position: absolute; z-index: 6; left: 352px; bottom: 132px; display: grid; gap: 3px; padding: 8px 10px; background: rgba(255,254,251,.92); border: 1px solid var(--line-strong, #d5d1c6); font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--muted, #6f6c64); max-width: 320px; }
+.map-legend { position: absolute; z-index: 6; left: 352px; top: 140px; display: grid; gap: 3px; padding: 8px 10px; background: rgba(255,254,251,.92); border: 1px solid var(--line-strong, #d5d1c6); font-family: var(--font-geist-mono); font-size: 9.5px; color: var(--muted, #6f6c64); max-width: 320px; }
 .map-legend span { display: flex; align-items: center; gap: 6px; }
 .map-legend .sw { width: 12px; height: 10px; border: 1px solid rgba(0,0,0,.25); flex: 0 0 auto; }
 .map-legend .sw.orange { background: rgba(235,104,52,.55); } .map-legend .sw.purple { background: rgba(123,63,191,.55); }

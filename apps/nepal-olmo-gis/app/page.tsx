@@ -695,6 +695,10 @@ export default function Home() {
         map.on('click', 'ai-candidate-fill', (e) => {
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id); const rank = pr.rank ? `#${pr.rank}` : 'not judged (cloud/snow)';
+          if (satTilesRef.current) {  // 위성 타일 모드: 클릭 즉시 큰 전·후 슬라이더
+            openLightbox({ title: `Scan window ${id} · ${rank}`, sub: `${pr.kind === 'hillslope' ? 'off-river hillslope' : String(pr.kind ?? 'river')} · ${typeof pr.candidate_token_frac === 'number' ? (100 * (pr.candidate_token_frac as number)).toFixed(0) + '% changed tokens' : 'not judged'}`, before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
+            return;
+          }
           const kindLabel = pr.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE' : pr.kind === 'lhende' ? 'LHENDE UPSTREAM' : 'RIVER';
           const frac = typeof pr.candidate_token_frac === 'number' ? `${(100 * (pr.candidate_token_frac as number)).toFixed(0)}% changed tokens` : 'not judged';
           const vis = typeof pr.valid_event_frac === 'number' ? `${(100 * (pr.valid_event_frac as number)).toFixed(0)}% observable` : '';
@@ -709,6 +713,10 @@ export default function Home() {
         map.on('click', 'scan-center-dot', (e) => {
           const pr = e.features?.[0]?.properties as Record<string, unknown> | undefined; if (!pr) return;
           const id = String(pr.id);
+          if (satTilesRef.current) {
+            openLightbox({ title: `Scan window ${id}`, sub: pr.rank ? `rank #${pr.rank}` : 'not judged (cloud/snow)', before: `/data/candidates/${id}_pre.png`, after: `/data/candidates/${id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] });
+            return;
+          }
           new Popup({ closeButton: true, maxWidth: '420px', className: 'story-popup' }).setLngLat(e.lngLat)
             .setHTML(`<p class="pp-eyebrow">SCAN WINDOW · ${pr.rank ? '#' + pr.rank : 'not judged'}</p><h3>${id}</h3>`
               + `<div class="pp-thumbs" data-cand="${id}" data-name="Scan window ${id}" data-place="" title="Click to compare large">`
@@ -873,6 +881,8 @@ export default function Home() {
   }, [scenario]);
   // GO TO MAP: 후보 창의 위성 사진(전/후/AI Δ)을 지도 위에 실제 좌표로 깔아 보여줌.
   const [satTiles, setSatTiles] = useState(false);
+  const satTilesRef = useRef(false);
+  useEffect(() => { satTilesRef.current = satTiles; }, [satTiles]);
   const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
   const showCandidate = useCallback((id: string, mode: 'pre' | 'post' | 'delta', meta?: { rank?: number; place?: string; center?: [number, number] }) => {
     const map = mapRef.current; const fc = scenario?.candidates?.geojson;
