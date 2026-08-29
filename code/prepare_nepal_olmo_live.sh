@@ -101,6 +101,13 @@ if [[ "$MODE" == "s1_live" || "$MODE" == "s2_live" ]]; then
     --dataset "$DATASET_ROOT" --mode "$MODE"
 fi
 
+# 공식 catalogue는 게시됐지만 rslearn provider index가 아직 따라오지 않았는지 확인할 때
+# 대용량 pixel download 전에 멈출 수 있다. selection_preflight.json까지는 항상 남는다.
+if [[ "${PREPARE_ONLY:-0}" == "1" ]]; then
+  echo "PREPARE_ONLY=1: selection preflight complete; materialization skipped"
+  exit 0
+fi
+
 "$RSLEARN_BIN" dataset materialize \
   --root "$DATASET_ROOT" --group nepal --workers 2 --no-use-initial-job \
   --disabled-layers embeddings --retry-max-attempts 5 --retry-backoff-seconds 5

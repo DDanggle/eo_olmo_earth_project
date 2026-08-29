@@ -218,3 +218,14 @@ action과 analyst minutes가 줄어드는가**를 operational headline으로 둔
 - 단, confirmatory 결과는 OLMo reuse 대 raw baseline이다. Presto 같은 두 번째 GeoFM 통제 전에는
   OLMo-specific superiority로 승격하지 않는다.
 - 상세 실행·평가·우선순위는 `docs/NEPAL_AI2_IMPACT_ENGINEERING_ROADMAP_2026_08_29.md`에 봉인했다.
+
+## 11. 14:15 KST 최신 관측 정정 — §1·§4·§9의 08-28 판정을 supersede
+
+- 08-29 05:11:48 UTC 공식 카탈로그 재조회에서 08-28 Sentinel-1D 제품이 뒤늦게 확인됐다.
+- coverage audit를 source 단일 점에서 operational 5-anchor 전체로 강화했다. 6개 지역 제품 중
+  2개가 5/5 anchor를 모두 덮었다. 따라서 과거 `missed_coverage`는 당시 스냅샷 기록으로만
+  보존하고 현재 판정은 `operational_anchors_covered`다.
+- rslearn provider selection은 여전히 08-24 장면을 골라 08-28 required match가 0/5다.
+  대용량 다운로드는 거부했다. 현재 next gate는 08-31 위성 대기가 아니라
+  `WAIT FOR PROVIDER SYNC → 08-28 selection 5/5 → materialize → seal → embed`다.
+- 08-29 S2C는 관측창 종료 직후 snapshot에서 `acquired_pending_catalog`; 아직 장면으로 쓰지 않는다.

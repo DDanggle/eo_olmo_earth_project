@@ -424,6 +424,13 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
             "cloud_cover_tile_pct": (product or {}).get("cloud_cover"),
             "online": (product or {}).get("online"),
             "relative_orbit": (product or {}).get("relative_orbit"),
+            "coverage_status": ((coverage_audit or {}).get("status")
+                if (coverage_audit or {}).get("pass_id") == row.get("id") else None),
+            "operational_anchor_count": ((coverage_audit or {}).get("operational_anchor_count")
+                if (coverage_audit or {}).get("pass_id") == row.get("id") else None),
+            "operational_anchor_covering_product_count":
+                ((coverage_audit or {}).get("operational_anchor_covering_product_count")
+                 if (coverage_audit or {}).get("pass_id") == row.get("id") else None),
             "catalog_provider": "Copernicus Data Space OData",
             "materialization_provider": "Microsoft Planetary Computer STAC via rslearn",
             "materialization_mode": mode,
@@ -523,12 +530,14 @@ def build_ops_log() -> list[dict[str, Any]]:
         evidence_uri = (f"artifacts/external_data/nepal_olmo_live_v1/coverage/"
                         f"{snapshot_id}/coverage_audit.json")
         status = coverage_audit.get("status")
+        passed = status == "operational_anchors_covered"
         add(coverage_audit.get("evaluated_at_utc"), "Copernicus footprint audit",
-            "COVERAGE_MISS" if status == "missed_coverage" else "COVERAGE_PASS",
-            "orange" if status == "missed_coverage" else "green",
+            "COVERAGE_PASS" if passed else "COVERAGE_MISS" if status == "missed_coverage" else "COVERAGE_PARTIAL",
+            "green" if passed else "orange",
             (f"{coverage_audit.get('sensor')}: "
              f"{coverage_audit.get('regional_product_count', 0)} nearby products, "
-             f"{coverage_audit.get('aoi_covering_product_count', 0)} cover the AOI — "
+             f"{coverage_audit.get('operational_anchor_covering_product_count', 0)} cover all "
+             f"{coverage_audit.get('operational_anchor_count', '?')} anchors — "
              f"{status}"), evidence_uri)
 
     # preflight / manifest / 임베딩
@@ -631,6 +640,16 @@ def build_decision(live_observation: dict[str, Any] | None,
             "allowed_claim": "Input contract ready; no representation change result yet.",
         }
     if live_observation:
+        if live_observation.get("materialization_status") == "blocked_provider_selection":
+            covered = live_observation.get("operational_anchor_count") or "?"
+            return {
+                "status": "hold",
+                "action": "WAIT FOR PROVIDER SYNC",
+                "reason": (f"Copernicus published a Sentinel-1 product covering {covered}/{covered} anchors, "
+                           "but rslearn's Planetary Computer provider still selects the 2026-08-24 scene."),
+                "next_gate": "Refresh selection preflight; materialize only when the 2026-08-28 scene is selected for 5/5 anchors.",
+                "allowed_claim": "Official coverage exists; OLMo input pixels and Nepal event embedding do not yet exist.",
+            }
         periods = live_observation.get("period_readiness") or {}
         reason = (f"Post-event scene selected, but cube seal failed: "
                   f"S1 {periods.get('sentinel1', '?')}/4; "

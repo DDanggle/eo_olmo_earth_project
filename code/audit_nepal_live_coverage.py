@@ -92,6 +92,9 @@ def main() -> None:
         raise SystemExit(f"unknown pass id: {args.pass_id}")
 
     lon, lat = config["catalog"]["query_point_lon_lat"]
+    operational_anchors = config.get("operational_anchors") or [
+        {"id": "catalog_aoi", "name": "catalog AOI", "lon": lon, "lat": lat}
+    ]
     d = args.half_span_deg
     polygon = (
         f"POLYGON(({lon-d} {lat-d},{lon+d} {lat-d},{lon+d} {lat+d},"
@@ -125,6 +128,7 @@ def main() -> None:
 
     products = []
     covered = []
+    full_contract_covered = []
     for product in raw.get("value", []):
         geometry = product.get("GeoFootprint") or {}
         coordinates = list(iter_points(geometry.get("coordinates")))
@@ -134,6 +138,11 @@ def main() -> None:
             ys = [point[1] for point in coordinates]
             bounds = [min(xs), min(ys), max(xs), max(ys)]
         contains = geometry_contains(geometry, lon, lat)
+        covered_anchor_ids = [
+            anchor["id"] for anchor in operational_anchors
+            if geometry_contains(geometry, float(anchor["lon"]), float(anchor["lat"]))
+        ]
+        covers_all_operational_anchors = len(covered_anchor_ids) == len(operational_anchors)
         row = {
             "id": product.get("Id"),
             "name": product.get("Name"),
@@ -142,6 +151,8 @@ def main() -> None:
             "publication_utc": product.get("PublicationDate"),
             "bounds_lon_lat": bounds,
             "contains_aoi_point": contains,
+            "covered_operational_anchor_ids": covered_anchor_ids,
+            "covers_all_operational_anchors": covers_all_operational_anchors,
             "direct_url": (
                 f"https://catalogue.dataspace.copernicus.eu/odata/v1/Products({product.get('Id')})"
             ),
@@ -149,10 +160,21 @@ def main() -> None:
         products.append(row)
         if contains:
             covered.append(row)
+        if covers_all_operational_anchors:
+            full_contract_covered.append(row)
 
-    if covered:
-        status = "aoi_covered"
-        reason = "one_or_more_published_product_footprints_contain_aoi"
+    anchor_coverage = {
+        anchor["id"]: sum(
+            anchor["id"] in product["covered_operational_anchor_ids"] for product in products
+        )
+        for anchor in operational_anchors
+    }
+    if full_contract_covered:
+        status = "operational_anchors_covered"
+        reason = "one_or_more_published_product_footprints_cover_all_operational_anchors"
+    elif covered:
+        status = "partial_anchor_coverage"
+        reason = "catalog_aoi_is_covered_but_no_single_product_covers_all_operational_anchors"
     elif products:
         status = "missed_coverage"
         reason = "regional_products_published_but_aoi_falls_outside_all_footprints"
@@ -173,10 +195,15 @@ def main() -> None:
         "reason": reason,
         "regional_product_count": len(products),
         "aoi_covering_product_count": len(covered),
+        "operational_anchor_count": len(operational_anchors),
+        "operational_anchor_ids": [anchor["id"] for anchor in operational_anchors],
+        "operational_anchor_covering_product_count": len(full_contract_covered),
+        "anchor_coverage_product_counts": anchor_coverage,
         "products": products,
         "query_url": url,
         "claim_boundary": (
-            "Nearby acquisitions do not prove AOI coverage; only footprint containment does."
+            "Nearby acquisitions and one covered point do not prove the five-anchor contract; "
+            "only per-anchor footprint containment does."
         ),
     }
     audit_path = destination / "coverage_audit.json"
@@ -195,6 +222,8 @@ def main() -> None:
                 "status": status,
                 "regional_products": len(products),
                 "aoi_covering_products": len(covered),
+                "operational_anchor_covering_products": len(full_contract_covered),
+                "operational_anchor_count": len(operational_anchors),
                 "seal_sha256": sha256_file(sums),
             },
             indent=2,

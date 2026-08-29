@@ -4,7 +4,7 @@
 
 역할: Nepal prospective sidecar / AI2 portfolio / physics-fusion experiment
 
-상태: **관측 사슬은 확장됨 · Nepal live OLMo Δ는 S1 계약 대기 · 물리 결합은 설계 완료/미실행**
+상태: **관측 사슬 확장 · 공식 S1 5/5 footprint 통과 · rslearn provider 동기화 대기 · 물리 결합 설계 완료/미실행**
 
 ## 0. 한 문장 주장
 
@@ -50,6 +50,21 @@ POST에서 보이는 하천 폭·색조 변화는 **관측 후보**이며, cloud
 - `apps/nepal-olmo-gis/public/data/story/anchors/bidur_pre.png`
 - `apps/nepal-olmo-gis/public/data/story/anchors/bidur_post.png`
 
+### 2.1 14:15 KST live update
+
+- Copernicus snapshot `20260829T051148Z`에서 08-28 Sentinel-1D 제품 게시를 확인했다.
+- 단일 AOI 점이 아니라 5개 operational anchor를 전부 검사하도록 coverage audit를 수정했다.
+  snapshot `20260829T051350Z`에서 지역 제품 6개, source point 포함 2개, **5/5 anchor를 모두
+  덮는 제품 2개**가 확인됐다. coverage seal은
+  `d1464d28b8a7b38e2b9d0650b7a18f1190e649113f4260e2d7bf0f010d5dad18`이다.
+- 그러나 rslearn/Planetary Computer preflight는 5/5 모두 08-24 장면을 선택했고 08-28 장면은
+  아직 0/5다. preflight SHA-256은
+  `4b85f009d3f88ae210faa857117966c483ac7b63de5820cb3c52358c99037d1b`이다.
+- 그러므로 현재 gate는 `WAIT FOR S1`이 아니라 `WAIT FOR PROVIDER SYNC`다. 새 위성이 아니라
+  provider index가 첫 병목이며, 08-28이 5/5에 선택된 뒤에만 materialize한다.
+- 08-29 Sentinel-2C는 관측창이 끝났지만 05:11:48 UTC snapshot에서
+  `acquired_pending_catalog`였다. 게시 전에는 새 optical scene으로 취급하지 않는다.
+
 ## 3. OLMoEarth가 지금 이미 한 것과 아직 못 한 것
 
 ### 이미 성립
@@ -64,7 +79,8 @@ POST에서 보이는 하천 폭·색조 변화는 **관측 후보**이며, cloud
 
 ### 아직 성립하지 않음
 
-1. **Nepal 사건 후 Δz** — post S1이 3/4라 5/5 anchor 계약이 완성되지 않았다.
+1. **Nepal 사건 후 Δz** — 공식 S1 footprint는 5/5를 덮지만 materialization provider가 08-28
+   장면을 아직 선택하지 않아 pixel cube가 없다.
 2. **OLMo 고유 우월성** — 위 confirmatory 비교는 OLMo reuse 대 raw baseline이다. 동일 입력계약의
    두 번째 GeoFM(우선 Presto) 통제 전에는 OLMo만의 고유 우월성이라 쓰지 않는다.
 3. **피해/원인/물리량** — embedding만으로 붕괴 부피, 마찰, 수심, 유속, 도달시간을 만들지 않는다.
@@ -141,13 +157,14 @@ visibility footprint여야 한다. 생성 영상은 평가가 어려우며 실�
   retrieval/representation asset으로만 남긴다.
 - Presto 통제에서 차이가 사라지면 OLMo-specific 문장을 제거하고 GeoFM reuse 결과로 쓴다.
 - official polygon/independent mask가 없으면 physics 결과는 scenario envelope이며 validation 아님.
-- 08-31 S1 footprint가 5/5 anchor를 덮지 않으면 Nepal live Δ를 다시 계산하지 않는다.
+- provider preflight가 08-28 S1을 5/5 anchor에 선택하지 않으면 materialize하지 않는다.
+  08-31 S1은 백업 관측이며 같은 containment/preflight를 다시 통과해야 한다.
 
 ## 6. AI 엔지니어가 Earth impact로 연결할 수 있는 모든 경로와 우선순위
 
 | 우선 | 수단 | 지금 가진 자산 | 다음 산출물 | 사용자/과학 가치 |
 |---:|---|---|---|---|
-| P0 | 데이터 coverage·계보·contract gate | catalog/manifest/seal/ops log | Bidur mask, S1 containment, immutable event bundle | 거짓 결과 방지, 재현성 |
+| P0 | 데이터 coverage·계보·contract gate | S1 official 5/5 coverage, catalog/manifest/seal | provider 5/5 selection, Bidur mask, immutable event bundle | 거짓 결과 방지, 재현성 |
 | P1 | OLMo change + analogue retrieval | 5-anchor baseline, SEN12 archive, 8-region transfer | A1–A3 matched-recall table, nearest-event gallery | 분석가 triage 속도 |
 | P1 | 두 번째 GeoFM control | Presto 계획 | same-contract Presto/OLMo/raw comparison | OLMo 고유 가치 검증 |
 | P2 | multimodal fusion | S1/S2, DEM, source/control anchors | gated fusion head + missing-sensor ablation | cloud/SAR/광학 상보성 |
@@ -159,7 +176,8 @@ visibility footprint여야 한다. 생성 영상은 평가가 어려우며 실�
 
 ### 권장 6주 순서
 
-1. **지금–48 h:** Bidur/Rasuwagadhi blinded mask, 08-31 S1 footprint gate, live cube 여부 결정.
+1. **지금–48 h:** Bidur/Rasuwagadhi blinded mask, 08-28 S1 provider preflight 재검사,
+   5/5 선택 시 live cube 물질화. 08-31은 backup.
 2. **1주:** A1–A3와 SEN12 retrieval gallery. Presto C1을 같은 계약으로 실행.
 3. **2–3주:** r.avaflow ensemble, D-Claw 소수 독립 체크, observation operator.
 4. **3–4주:** A4/A5, leave-one-event-out, analyst-time study.

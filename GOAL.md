@@ -2773,3 +2773,8 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   한국어 사건 카드, Bidur 전후 영상, OLMo 성과, physics-fusion 도해를 시각 검증했다.
 - 상세 설계와 P0–P4 우선순위는
   `docs/NEPAL_AI2_IMPACT_ENGINEERING_ROADMAP_2026_08_29.md`에 저장했다.
+- 14:15 KST 갱신: 08-28 S1D가 공식 카탈로그에 늦게 나타났고, 강화된 감사에서 제품 2개가
+  5/5 anchor를 모두 덮었다. 다만 rslearn/Planetary Computer는 아직 08-24를 선택해 08-28 match가
+  0/5였다. `PREPARE_ONLY=1` preflight에서 대용량 다운로드를 중단했고 UI gate를
+  `WAIT FOR S1`에서 `WAIT FOR PROVIDER SYNC`로 정정했다. 08-29 S2C는
+  `acquired_pending_catalog` 상태다.

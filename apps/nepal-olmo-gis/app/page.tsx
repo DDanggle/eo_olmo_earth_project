@@ -81,6 +81,9 @@ type LiveObservation = {
   publication_utc: string | null;
   cloud_cover_tile_pct: number | null;
   materialization_status: string;
+  coverage_status?: string | null;
+  operational_anchor_count?: number | null;
+  operational_anchor_covering_product_count?: number | null;
   selection_preflight_valid: boolean;
   materialization_seal_valid: boolean;
   period_readiness: { sentinel1?: number; sentinel2_l2a?: number };
@@ -715,6 +718,8 @@ export default function Home() {
       ? 'OLMo INPUT SEALED'
       : liveObservation.materialization_status === 'partial_cube_contract_failed'
         ? 'PIXELS READY · CUBE INCOMPLETE'
+        : liveObservation.materialization_status === 'blocked_provider_selection'
+          ? 'OFFICIAL 5/5 · PROVIDER INDEX WAIT'
         : liveObservation.materialization_status === 'selected_not_materialized'
           ? 'SCENE SELECTED · MATERIALIZE WAIT'
           : 'INPUT CONTRACT BLOCKED';
@@ -723,6 +728,7 @@ export default function Home() {
   const controlPoints = points.filter((point) => !point.in_event_chain);
   const bidurPre = scenario?.downstream_visual.records.find((record) => record.label === 'pre') ?? null;
   const bidurPost = scenario?.downstream_visual.records.find((record) => record.label === 'post') ?? null;
+  const providerSyncBlocked = liveObservation?.materialization_status === 'blocked_provider_selection';
 
   const focusPoint = (id: string) => {
     setSelectedPoint(id);
@@ -964,7 +970,7 @@ export default function Home() {
         <div className="olmo-outcomes">
           <article className="ready"><span>OLMo BASELINE</span><strong>5 ANCHORS READY</strong><small>S1+S2 × 4 periods · 768-d embeddings sealed</small></article>
           <article className="win"><span>TRANSFER EVIDENCE</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} REGIONS WON` : 'LOADING'}</strong><small>{transfer ? `region-macro ${transfer.reuse_region_macro.toFixed(3)} vs ${transfer.raw_strong_region_macro.toFixed(3)} · +${transfer.absolute_gap.toFixed(3)}` : 'confirmatory summary'}</small></article>
-          <article className="wait"><span>NEPAL LIVE CHANGE</span><strong>WAITING FOR S1</strong><small>{livePeriodText} · baseline value remains usable</small></article>
+          <article className="wait"><span>NEPAL LIVE CHANGE</span><strong>{providerSyncBlocked ? 'S1 COVERS 5/5' : 'WAITING FOR S1'}</strong><small>{providerSyncBlocked ? 'Copernicus ready · Planetary Computer index sync pending' : `${livePeriodText} · baseline value remains usable`}</small></article>
         </div>
         {decision && (
           <div className={`decision-card compact ${decision.status}`} role="status">
@@ -1006,7 +1012,7 @@ export default function Home() {
           <div className="pipeline-row ready"><span>OE</span><div><strong>Frozen representation</strong><small>sealed baseline · retrieval · downstream probes</small></div><b>READY</b></div>
           <div className="pipeline-row ready"><span>DV</span><div><strong>Bidur downstream pair</strong><small>{bidurPost ? `S2 ${bidurPost.acquired_at.slice(0, 10)} · tile ${bidurPost.mgrs_tile}` : 'visual audit'}</small></div><b>{bidurPost ? 'READY' : 'AUDIT'}</b></div>
           <div className="pipeline-row ready"><span>8R</span><div><strong>Cross-region transfer</strong><small>{transfer ? `${transfer.strong_wins} strong wins · ${transfer.non_win_regions.length} non-wins` : 'confirmatory'}</small></div><b>MEASURED</b></div>
-          <div className="pipeline-row pending"><span>ΔN</span><div><strong>Nepal live embedding delta</strong><small>post S2 exists · final S1 period absent</small></div><b>WAIT S1</b></div>
+          <div className="pipeline-row pending"><span>ΔN</span><div><strong>Nepal live embedding delta</strong><small>{providerSyncBlocked ? 'official S1 covers 5/5 · rslearn provider has not indexed 08-28' : 'post S2 exists · final S1 period absent'}</small></div><b>{providerSyncBlocked ? 'SYNC WAIT' : 'WAIT S1'}</b></div>
           <div className={`pipeline-row ${wasmStatus === 'ready' ? 'preview' : 'pending'}`}><span>Φ</span><div><strong>Physics ensemble</strong><small>r.avaflow primary · D-Claw check · satellite likelihood</small></div><b>NEXT BUILD</b></div>
         </div>
         {/* O/E/P/H 4-layer 계약 — 설계 문서의 관측/증거/물리/공식 분리를 UI에 명시함.
@@ -1082,7 +1088,7 @@ export default function Home() {
             <p className="story-lede">{ko
               ? 'Langtang Lirung의 암반–빙하 붕괴, Rasuwagadhi 국경 충격, 그리고 약 47 km 하류 Bidur의 Sentinel-2 변화까지 하나의 검증 사슬로 잇는다. 질문은 “AI가 재해를 예언했나”가 아니다. OLMoEarth가 여러 센서와 지역을 공통 표현으로 묶고, 물리 앙상블 중 관측과 맞는 설명을 더 빨리 찾게 할 수 있는가이다.'
               : 'This system links the Langtang Lirung rock–ice collapse, the Rasuwagadhi border impact and a measured Sentinel-2 change about 47 km downstream at Bidur. The question is not whether AI foretold the disaster. It is whether OlmoEarth can place different sensors and locations in one representation space—and help select which physical explanations agree with observation.'}</p>
-            <div className="hero-answer"><span>{ko ? '현재 답' : 'CURRENT ANSWER'}</span><strong>{ko ? '상류–하류 관측 사슬은 성립. 네팔 live 임베딩 판정은 S1 대기.' : 'OBSERVATION CHAIN CLOSED · NEPAL LIVE EMBEDDING WAITS FOR S1'}</strong></div>
+            <div className="hero-answer"><span>{ko ? '현재 답' : 'CURRENT ANSWER'}</span><strong>{ko ? (providerSyncBlocked ? '상류–하류 관측과 Sentinel‑1 5/5 coverage는 성립 · provider 동기화 뒤 임베딩.' : '상류–하류 관측 사슬은 성립 · 네팔 live 임베딩 판정은 S1 대기.') : (providerSyncBlocked ? 'OBSERVATION + OFFICIAL S1 5/5 READY · EMBEDDING WAITS FOR PROVIDER SYNC' : 'OBSERVATION CHAIN CLOSED · NEPAL LIVE EMBEDDING WAITS FOR S1')}</strong></div>
           </section>
 
           <section className="story-section story-step story-wide">
@@ -1113,7 +1119,7 @@ export default function Home() {
               <article className="ready"><b>01</b><span>{ko ? '네팔 기준 표현' : 'NEPAL BASELINE'}</span><strong>5 × 768-d READY</strong><p>{ko ? '5개 앵커의 S1+S2×4기간 baseline/placebo 임베딩 봉인. 지금도 유사지역 검색·선형 probe·사전/사후 비교 기준으로 사용 가능.' : 'Sealed S1+S2×4-period baseline/placebo embeddings for five anchors—usable now for retrieval, linear probes and a pre/post reference.'}</p></article>
               <article className="win"><b>02</b><span>{ko ? '확증 전이' : 'CONFIRMATORY TRANSFER'}</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} WINS · +${transfer.absolute_gap.toFixed(3)}` : 'LOADING'}</strong><p>{transfer ? `Frozen reuse region-macro ${transfer.reuse_region_macro.toFixed(3)} vs raw UNet3D ${transfer.raw_strong_region_macro.toFixed(3)} (${transfer.relative_gain_pct.toFixed(1)}% relative).` : ''}</p></article>
               <article className="pilot"><b>03</b><span>{ko ? '사건 변화 파일럿' : 'EVENT-DELTA PILOT'}</span><strong>2 / 3 STRONG</strong><p>{ko ? '관련 S2-only M66에서 Hokkaido·Hiroshima 분리, Dominica 약함. 가능성 증거이지 네팔 검증값은 아님.' : 'Related S2-only M66 separated Hokkaido and Hiroshima; Dominica was weak. Feasibility evidence, not Nepal validation.'}</p></article>
-              <article className="wait"><b>04</b><span>{ko ? '네팔 live 변화' : 'NEPAL LIVE CHANGE'}</span><strong>S1 3/4 · S2 4/4</strong><p>{ko ? '마지막 S1 기간 전에는 Δz를 만들지 않음. 모델 전체 실패가 아니라 한 live action의 입력 대기.' : 'No Δz before the final S1 period. This is one live action waiting for input—not failure of the representation.'}</p></article>
+              <article className="wait"><b>04</b><span>{ko ? '네팔 live 변화' : 'NEPAL LIVE CHANGE'}</span><strong>{providerSyncBlocked ? 'S1 5/5 · SYNC WAIT' : 'S1 3/4 · S2 4/4'}</strong><p>{ko ? (providerSyncBlocked ? '공식 footprint는 5개 anchor를 모두 덮지만 provider가 8/28 장면을 아직 선택하지 않는다. 픽셀 전에는 임베딩도 없다.' : '마지막 S1 기간 전에는 Δz를 만들지 않음. 모델 전체 실패가 아니라 한 live action의 입력 대기.') : (providerSyncBlocked ? 'The official footprint covers all five anchors, but the provider has not selected the 28 Aug scene. No pixels means no embedding yet.' : 'No Δz before the final S1 period. This is one live action waiting for input—not failure of the representation.')}</p></article>
             </div>
             <div className="transfer-bars"><span>Frozen OLMo reuse</span><i style={{ width: '100%' }} /><b>{transfer?.reuse_region_macro.toFixed(3) ?? '—'}</b><span>Raw UNet3D</span><i style={{ width: transfer ? `${100 * transfer.raw_strong_region_macro / transfer.reuse_region_macro}%` : '0%' }} /><b>{transfer?.raw_strong_region_macro.toFixed(3) ?? '—'}</b></div>
             <p>{ko ? '왜 유의미한가: EO 모델이 EO task에서 좋은 것은 당연하지 않다. 같은 공개 지역·같은 decoder 조건에서 frozen 표현 재사용이 강한 raw 시계열 모델보다 8개 외부 지역 중 6곳에서 이겼고, 동시에 Indonesia/Itogon의 실패도 남겼다. 즉 “항상 좋다”가 아니라 어디까지 전이되는지를 계량했다. 단, 이것은 OLMo 재사용 대 raw baseline 결과이며, 동일 입력계약의 두 번째 GeoFM(Presto) 대조 전에는 OLMo만의 고유 우월성으로 쓰지 않는다.' : 'Why this matters: an EO model is not automatically better on every EO task. Under matched public regions and decoder contracts, frozen representation reuse beat a strong raw time-series model in six of eight external regions, while preserving the Indonesia and Itogon non-wins. It measures where transfer holds rather than claiming universal superiority. This is Olmo reuse versus raw baselines—not Olmo-specific superiority until a second GeoFM control such as Presto is run under the same input contract.'}</p>
@@ -1138,7 +1144,7 @@ export default function Home() {
             <p className="story-kicker">05 · {ko ? 'AI 엔지니어 우선순위' : 'ENGINEERING PRIORITIES'} — <em>{ko ? '영향으로 이어지는 경로' : 'the path to impact'}</em></p>
             <h2>{ko ? '지금 가장 가치 있는 네 가지 빌드' : 'The four builds that matter next'}</h2>
             <div className="priority-stack">
-              <article><b>P0 · NOW</b><strong>{ko ? '관측 사슬과 라벨 확보' : 'Close evidence + labels'}</strong><p>{ko ? 'Bidur/Rasuwagadhi 전후 mask를 CEMS·Charter·수동 판독으로 동결. S1 8/31 footprint 통과 시 Nepal live cube 봉인.' : 'Freeze Bidur/Rasuwagadhi pre/post masks with CEMS, Charter and blinded manual review. Seal Nepal live cube only if the 31 Aug S1 footprint passes.'}</p><em>VALUE · ground truth, reproducibility</em></article>
+              <article><b>P0 · NOW</b><strong>{ko ? '관측 사슬과 라벨 확보' : 'Close evidence + labels'}</strong><p>{ko ? (providerSyncBlocked ? 'Bidur/Rasuwagadhi mask를 동결하고 8/28 S1 provider 선택을 재검사. 5/5 선택 전에는 download·embed 금지.' : 'Bidur/Rasuwagadhi 전후 mask를 CEMS·Charter·수동 판독으로 동결. S1 footprint 통과 시 Nepal live cube 봉인.') : (providerSyncBlocked ? 'Freeze Bidur/Rasuwagadhi masks and refresh the 28 Aug S1 provider selection. Do not download or embed before a 5/5 selection.' : 'Freeze Bidur/Rasuwagadhi pre/post masks with CEMS, Charter and blinded manual review; seal the live cube only after the S1 footprint passes.')}</p><em>VALUE · ground truth, reproducibility</em></article>
               <article><b>P1 · 1 WEEK</b><strong>{ko ? 'OLMo change + retrieval 본실험' : 'Olmo change + retrieval experiment'}</strong><p>{ko ? '고전 NDWI/SAR 변화탐지, OLMo Δz, gate-aware abstention을 동일 recall에서 비교. Nepal query로 SEN12 6,834 patch 유사사건 검색.' : 'Compare classical NDWI/SAR change, Olmo Δz and gate-aware abstention at matched recall; query 6,834 SEN12 patches with the Nepal representation.'}</p><em>VALUE · AI2 relevance, triage speed</em></article>
               <article><b>P2 · 2–3 WEEKS</b><strong>{ko ? '물리–관측 앙상블' : 'Physics–observation ensemble'}</strong><p>{ko ? 'Copernicus DEM/GLO-30에서 r.avaflow 파라미터 sweep, D-Claw 소수 독립 run, S1/S2 semantic operator로 실측 일치도 순위화.' : 'Sweep r.avaflow over Copernicus DEM/GLO-30, run a small independent D-Claw check and rank outputs through S1/S2 semantic observation operators.'}</p><em>VALUE · causal plausibility, uncertainty</em></article>
               <article><b>P3 · 4–6 WEEKS</b><strong>{ko ? '빠른 surrogate + 운영 UI' : 'Fast surrogate + operations UI'}</strong><p>{ko ? '물리 앙상블로 neural operator/emulator를 학습해 웹에서 scenario를 재생. 실제 OSM 경로·위성 pass·OLMo evidence를 EarthRanger식 incident ledger와 연결.' : 'Train a neural operator/emulator on the physics ensemble for interactive scenarios; join OSM routes, satellite passes and Olmo evidence into an EarthRanger-style incident ledger.'}</p><em>VALUE · scalable decision support</em></article>
@@ -1147,8 +1153,8 @@ export default function Home() {
 
           <section className="story-section story-step story-boundary">
             <p className="story-kicker">06 · {ko ? '다음 게이트와 출처' : 'NEXT GATE + SOURCES'} — <em>{ko ? '멈춤도 결과, 진전도 결과' : 'progress with boundaries'}</em></p>
-            <h2>{ko ? '8월 31일 S1이 다음 live 판정을 연다' : 'The 31 August S1 pass opens the next live decision'}</h2>
-            <p>{ko ? '8월 28일 S1은 게시 지연이 아니라 AOI를 빗나갔다. 다음 후보도 예정표가 아니라 실제 footprint containment로 통과시킨다. 그 전에도 baseline embedding, 8-region transfer, Bidur 전후관측, physics experiment graph는 이미 유효한 산출물이다.' : 'The 28 Aug S1 pass missed the AOI; it was not a publication delay. The next candidate must again pass actual footprint containment. Until then, the baseline embeddings, eight-region transfer result, Bidur before/after observation and physics experiment graph remain valid outputs.'}</p>
+            <h2>{ko ? (providerSyncBlocked ? '다음 판정은 새 위성이 아니라 provider 동기화다' : '다음 S1이 live 판정을 연다') : (providerSyncBlocked ? 'The next gate is provider sync—not another satellite' : 'The next S1 pass opens the live decision')}</h2>
+            <p>{ko ? (providerSyncBlocked ? '8월 28일 S1은 늦게 인덱싱됐고 5개 anchor 전부를 덮는 footprint가 확인됐다. 하지만 rslearn provider는 아직 8월 24일 장면을 고른다. 8월 28일 장면이 5/5에 선택될 때만 materialize·embed하며, 8월 31일 S1은 백업 관측이다.' : '다음 후보도 예정표가 아니라 실제 footprint containment로 통과시킨다. baseline embedding과 Bidur 전후관측은 이미 유효하다.') : (providerSyncBlocked ? 'The 28 Aug S1 was indexed late and its footprint covers all five anchors, but the rslearn provider still selects the 24 Aug scene. Materialization starts only after 28 Aug is selected for 5/5; the 31 Aug pass is backup.' : 'The next candidate must pass actual footprint containment. Baseline embeddings and the Bidur before/after observation already remain valid.')}</p>
             <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}</em></div>)}</div>
             <div className="story-sources"><a href="https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood" target="_blank" rel="noreferrer">USGS event assessment ↗</a><a href="https://allenai.org/blog/olmoearth-embeddings" target="_blank" rel="noreferrer">Ai2 embedding workflow ↗</a><a href="https://doi.org/10.5194/gmd-18-9879-2025" target="_blank" rel="noreferrer">r.avaflow v4 ↗</a><a href="https://claw.code-pages.usgs.gov/dclaw/" target="_blank" rel="noreferrer">USGS D-Claw ↗</a><a href="https://planetarycomputer.microsoft.com/docs/quickstarts/using-the-data-api/" target="_blank" rel="noreferrer">Planetary Computer STAC ↗</a><a href="https://mapping.emergency.copernicus.eu/activations/EMSR927/" target="_blank" rel="noreferrer">CEMS EMSR927 ↗</a></div>
             <p className="story-outro">{scenario?.research.integration_disclaimer}</p>
