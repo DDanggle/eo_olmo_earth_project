@@ -3559,6 +3559,38 @@ placebo p99 임계(0.282), 유효 <20% 창은 관측불가.
 
 봉인: `artifacts/corridor_s2_candidates/embed_scan_v2/report.json`, 창 자산·지명 앱 반영.
 
+## M72. placebo 10개로 재판정 — M70의 "3/5 candidate"는 철회, 매칭 설계에서 Rasuwagadhi만 1위 (2026-08-29)
+
+**무엇을 했나**: 사건 전 rolling 창 8개(END 06-17…08-05, 주 단위)를 같은 4×14d 계약으로 물질화·
+봉인·임베딩해 placebo를 2 → 10개로 늘리고 `analyze_nepal_delta.py`를 재실행함.
+
+**결과 1 (기존 분석기, placebo_k vs baseline)**: 5앵커 **전부 "not detected above daily variability"**.
+6~7월 창의 Δ(0.03~0.08)가 사건 Δ(0.011~0.023)보다 큼. → M70의 3/5 판정은 표본 2개의 우연이었음.
+**철회함.**
+
+**왜 그런가 (설계 결함)**: 기존 placebo Δ는 전부 baseline(END 08-26)과의 거리라, END가 멀수록
+공유하는 14일 기간이 줄어(06-17 창은 겹침 0) 거리가 구조적으로 커짐. 사건 쌍(baseline↔s1_live)은
+4기간 중 3기간을 공유하므로 비교 대상이 아니었음.
+
+**결과 2 (매칭 설계, `analyze_nepal_delta_matched.py`)**: placebo를 **정확히 1기간(14일) 차이의
+연속 쌍 9개**로 다시 정의(사건 쌍과 같은 겹침 구조).
+
+| 앵커 | 사건 Δ | placebo 쌍 Δ 범위 (n=9) | rank | 판정 |
+|---|---|---|---|---|
+| rasuwagadhi | 0.0156 | 0.0097–0.0154 | **1/10** | candidate change (matched) |
+| syabrubesi | 0.0154 | 0.0107–0.0177 | 4/10 | not detected |
+| timure | 0.0149 | 0.0099–0.0162 | 4/10 | not detected |
+| source_provisional | 0.0232 | 0.0108–0.0343 | 4/10 | not detected |
+| dhunche | 0.0110 | 0.0094–0.0516 | 9/10 | not detected |
+
+**읽기 (약점 먼저)**: 앵커 평균(2.56 km 창 전체 평균 Δ)은 무딘 지표임 — 몬순 계절 변동과
+관측 조건이 지배해서 사건 신호가 창 전체 평균에서는 묻힘. Rasuwagadhi도 1위지만 초과 폭이
+0.0002로 사실상 동률. **결론: 앵커 평균 Δ로는 이 사건을 "판정"할 수 없음.** 토큰 수준
+(p95·후보 토큰 비율, M69/M71 방식)이 맞는 지표이고, 그쪽은 3:1 대칭 설계라 이 결함이 없음.
+앱 판정 카드는 이 결과대로 "NOT DETECTED ABOVE VARIABILITY"(매칭에서 1/5)로 내림.
+
+봉인: `delta/20260829T115424Z`(10 placebo naive), `delta_matched/20260829T115626Z`(매칭 9쌍).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
