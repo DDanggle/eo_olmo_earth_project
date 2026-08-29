@@ -129,7 +129,9 @@ type Scenario = {
   simulation: { route_points: number; claim: string; scientific_upgrade?: string };
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[] };
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
-    top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number }[];
+    top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number; kind?: string }[];
+    hillslope_top?: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number; kind?: string }[];
+    judged_by_kind?: Record<string, number>; unobservable_by_kind?: Record<string, number>;
     report_sha256: string; geojson: FeatureCollection;
     retrieval?: { query_windows: string[]; threshold: number; top10: { id: string; rank: number; similar_token_frac: number; place?: string; center_lonlat?: [number, number]; delta_rank?: number | null }[] } | null } | null;
 };
@@ -620,7 +622,7 @@ export default function Home() {
       if (scenario?.candidates?.geojson && !map.getSource('ai-candidates')) {
         map.addSource('ai-candidates', { type: 'geojson', data: scenario.candidates.geojson });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
-          paint: { 'fill-color': '#eb6834',
+          paint: { 'fill-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#eb6834'],
                    'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.02, 0.05, 0.18, 0.2, 0.42, 0.5, 0.6] } }, before);
         try { map.addLayer({ id: 'ai-candidate-rank', type: 'symbol', source: 'ai-candidates',
           filter: ['has', 'rank'],
@@ -629,7 +631,7 @@ export default function Home() {
           paint: { 'text-color': ['case', ['<=', ['get', 'rank'], 6], '#eb6834', '#7a4a2e'], 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
         catch (e) { console.warn('[diag] candidate rank labels skipped', e); }
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
-          paint: { 'line-color': '#eb6834', 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': 0.8 } }, before);
+          paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#eb6834'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);
       }
       map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
     }).catch(() => undefined);
@@ -1160,10 +1162,10 @@ export default function Home() {
           <div className={`pipeline-row ${scenario?.candidates ? 'preview' : 'pending'}`}><span>AI</span><div><strong>Corridor candidates · S2-only</strong><small>{scenario?.candidates ? `${scenario.candidates.windows} auto windows · placebo p99 ${scenario.candidates.threshold_placebo_p99?.toFixed(3)} · unsealed` : 'not computed'}</small></div><b>{scenario?.candidates ? 'CANDIDATE' : 'PENDING'}</b></div>
           {scenario?.candidates && (
             <div className="candidate-cards">
-              <p className="cand-help">{scenario.candidates.top10.length} ranked windows · orange = tokens that changed more than any ordinary fortnight (placebo p99) · grey = cloud/snow, not judged</p>
+              <p className="cand-help">{scenario.candidates.windows} auto windows{scenario.candidates.judged_by_kind ? ` · judged: river ${scenario.candidates.judged_by_kind.river ?? 0}, hillslope ${scenario.candidates.judged_by_kind.hillslope ?? 0}, lhende ${scenario.candidates.judged_by_kind.lhende ?? 0}` : ''}{scenario.candidates.unobservable_by_kind ? ` · cloud/snow (not judged): ${Object.values(scenario.candidates.unobservable_by_kind).reduce((a, b) => a + b, 0)}` : ''} · orange = changed more than any ordinary fortnight (placebo p99) · purple = off-river hillslope window</p>
               {scenario.candidates.top10.slice(0, 6).map((c) => (
                 <article key={c.id} className="cand-card">
-                  <header><b>#{c.rank}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
+                  <header><b>#{c.rank}</b><strong>{c.place || `${c.center_lonlat[1].toFixed(3)}, ${c.center_lonlat[0].toFixed(3)}`}</strong><small>{c.kind === 'hillslope' ? 'OFF-RIVER HILLSLOPE · ' : c.kind === 'lhende' ? 'LHENDE UPSTREAM · ' : ''}{c.distance_from_a_km != null ? `${c.distance_from_a_km.toFixed(1)} km from border` : ''}</small></header>
                   <div className="cand-strip" role="button" tabIndex={0}
                        onClick={() => openLightbox({ title: `#${c.rank} · ${c.place || c.id}`, sub: `${(c.candidate_token_frac * 100).toFixed(0)}% of judged tokens above placebo p99 · ${(c.valid_event_frac * 100).toFixed(0)}% observable`, before: `/data/candidates/${c.id}_pre.png`, after: `/data/candidates/${c.id}_post.png`, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27', extra: [{ src: `/data/candidates/${c.id}_delta.png`, label: 'AI change tokens (orange) on 08-27' }] })}
                        onKeyDown={(e) => { if (e.key === 'Enter') (e.currentTarget as HTMLElement).click(); }}>
@@ -1175,6 +1177,17 @@ export default function Home() {
                     <button onClick={() => showCandidate(c.id, 'post', { rank: c.rank, place: c.place, center: c.center_lonlat })}>GO TO MAP</button></footer>
                 </article>
               ))}
+              {scenario.candidates.hillslope_top && scenario.candidates.hillslope_top.length > 0 && (
+                <div className="retrieval-box hillslope-box">
+                  <p className="cand-help"><b>OFF-RIVER · hillslope grid around the source</b> — 49 windows ±7.7 km around Langtang Lirung; most are cloud/snow and not judged. Ranked ones below (low observability — treat as leads only).</p>
+                  <ol>
+                    {scenario.candidates.hillslope_top.map((r) => (
+                      <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.candidate_token_frac * 100).toFixed(0)}% changed · {(r.valid_event_frac * 100).toFixed(0)}% visible</em>
+                        <button onClick={() => showCandidate(r.id, 'post', { rank: r.rank, place: r.place, center: r.center_lonlat })}>GO</button></li>
+                    ))}
+                  </ol>
+                </div>
+              )}
               {scenario.candidates.retrieval && (
                 <div className="retrieval-box">
                   <p className="cand-help"><b>SEARCH · same kind of change</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} candidate tokens; every window's tokens scored by cosine to that query, threshold = placebo p99.</p>

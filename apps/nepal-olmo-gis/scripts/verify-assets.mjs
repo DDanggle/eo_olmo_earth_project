@@ -34,7 +34,7 @@ if (liveVerdict) {
   assert.equal(scenario.live_observation.selection_preflight_valid, true);
   assert.equal(scenario.live_observation.materialization_seal_valid, true);
   assert.equal(scenario.headline?.sealed_total, 5);
-  assert.ok(scenario.candidates && scenario.candidates.windows === 27);
+  assert.ok(scenario.candidates && scenario.candidates.windows >= 27);
 } else {
   assert.equal(scenario.live_observation.olmo_ready, false);
   assert.equal(scenario.live_observation.selection_preflight_valid, false);

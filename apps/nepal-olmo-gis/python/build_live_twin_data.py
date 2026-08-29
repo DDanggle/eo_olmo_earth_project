@@ -909,11 +909,15 @@ def candidates_block() -> dict[str, Any] | None:
     봉인된 S1+S2 계약이 아니라 M66/M68과 같은 광학 전용 프로토콜의 산출물임. 라벨은
     candidate까지만이며 피해·확률 표현은 만들지 않음.
     """
-    rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_v2/report.json"
+    # 우선순위: scan v2(100창: 연속 강변 + Lhende + 발원 주변 산사면 격자) → v1 27창
+    rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_scan_v2/report.json"
+    wm = WORK_ROOT / "artifacts/corridor_s2_candidates/prepare_v2/windows_manifest.json"
     if not rp.exists():
-        rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed/report.json"
+        rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_v2/report.json"
+        wm = WORK_ROOT / "artifacts/corridor_s2_candidates/prepare/windows_manifest.json"
     if not rp.exists():
         return None
+    kinds = {w["id"]: w.get("kind", "corridor") for w in json.loads(wm.read_text())["windows"]} if wm.exists() else {}
     from rasterio.warp import transform as _tf
     rep = json.loads(rp.read_text())
     feats = []
@@ -922,8 +926,9 @@ def candidates_block() -> dict[str, Any] | None:
         xs, ys = _tf("EPSG:32645", "EPSG:4326", [x0, x1, x1, x0, x0], [y0, y0, y1, y1, y0])
         ring = [[round(x, 6), round(y, 6)] for x, y in zip(xs, ys)]
         feats.append({"type": "Feature",
-                      "properties": {k: w.get(k) for k in ("id", "rank", "status", "candidate_token_frac", "candidate_token_count",
+                      "properties": {**{k: w.get(k) for k in ("id", "rank", "status", "candidate_token_frac", "candidate_token_count",
                                                           "d_event_mean", "d_placebo_mean", "valid_event_frac")},
+                                     "kind": kinds.get(w["id"], "corridor"), "center_lonlat": w["center_lonlat"]},
                       "geometry": {"type": "Polygon", "coordinates": [ring]}})
     places_path = rp.parent / "places.json"
     places = json.loads(places_path.read_text()) if places_path.exists() else {}
@@ -931,11 +936,18 @@ def candidates_block() -> dict[str, Any] | None:
     top10 = []
     for w in rep.get("top10", []):
         lon, lat = w["center_lonlat"]
-        top10.append({**w, "place": places.get(w["id"], ""), "distance_from_a_km": round(haversine_km([a_lon, a_lat], [lon, lat]), 1)})
+        top10.append({**w, "kind": kinds.get(w["id"], "corridor"), "place": places.get(w["id"], ""), "distance_from_a_km": round(haversine_km([a_lon, a_lat], [lon, lat]), 1)})
+    # 강변 밖(산사면 격자) 상위 — 별도 목록
+    ranked_all = [w for w in rep["windows"] if w.get("status") == "ranked"]
+    hill = sorted([w for w in ranked_all if kinds.get(w["id"]) == "hillslope"], key=lambda w: -(w["candidate_token_frac"] or 0))[:5]
+    hillslope_top = [{**w, "kind": "hillslope", "place": places.get(w["id"], ""), "distance_from_a_km": round(haversine_km([a_lon, a_lat], w["center_lonlat"]), 1)} for w in hill]
+    from collections import Counter as _C
+    unobs = _C(kinds.get(w["id"], "corridor") for w in rep["windows"] if w.get("status") != "ranked")
+    judged = _C(kinds.get(w["id"], "corridor") for w in ranked_all)
     # 변화-벡터 검색(같은 종류의 변화) — 있으면 붙임
     retrieval = None
     rr = WORK_ROOT / "artifacts/corridor_s2_candidates/retrieval/report.json"
-    if rr.exists():
+    if rr.exists() and {o["id"] for o in json.loads(rr.read_text()).get("top10", [])} <= {w["id"] for w in rep["windows"]}:
         rj = json.loads(rr.read_text())
         centers = {w["id"]: w["center_lonlat"] for w in rep["windows"]}
         drank = {w["id"]: w.get("rank") for w in rep["windows"]}
@@ -943,6 +955,7 @@ def candidates_block() -> dict[str, Any] | None:
                      "top10": [{**o, "place": places.get(o["id"], ""), "center_lonlat": centers.get(o["id"]), "delta_rank": drank.get(o["id"])} for o in rj["top10"]]}
     return {"schema": rep.get("schema"), "claim": rep.get("claim"), "threshold_placebo_p99": rep.get("threshold_placebo_p99"),
             "placebo_tokens": rep.get("placebo_tokens"), "windows": len(rep["windows"]), "top10": top10, "retrieval": retrieval,
+            "hillslope_top": hillslope_top, "judged_by_kind": dict(judged), "unobservable_by_kind": dict(unobs),
             "report_sha256": sha256(rp), "geojson": {"type": "FeatureCollection", "features": feats}}
 
 
