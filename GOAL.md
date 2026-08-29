@@ -2904,4 +2904,46 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - M72 보론: 매칭 9쌍 토큰 수준에서 Rasuwagadhi 9.8% vs placebo 최대 2.7% → 봉인 계약 첫 candidate.
 - 검색 v2(100창): Dalphedi·Timure·Salê(산사면)·Bidur·Chaggang(산사면). Planet 영상 출처(source.coop, CC-BY-NC-4.0) 표기.
 
+### 2026-08-29 (심야) — OLMo 기여 역감사·강 밖 탐색·physics 결합 가능성 (완료)
+
+- 계획: 앱의 모든 AI 문장을 `OLMoEarth forward pass`, `OLMo embedding 후처리`, `비-AI 공간 규칙`,
+  `물리/외부 근거`로 역추적해 산출물·코드·봉인 manifest와 일치하는지 검사한다.
+- 범위: 현재 강변 27창 canonical 결과, 100창 S2-only 강변/산사면 탐색, 5-anchor matched token
+  결과를 구분하고, 강 밖에서 실제로 추가 탐색 가능한 source-ring·tributary·settlement·critical
+  infrastructure 후보군을 입력계약과 관측성 게이트까지 포함해 정의한다.
+- 결합 설계: OLMo 후보를 물리 시뮬레이션의 초기/관측 likelihood로 쓰는 경우와 물리 runout을
+  OLMo 검색 prior로 쓰는 경우를 분리한다. 실행하지 않은 r.avaflow/D-Claw를 화면 효과로 위장하지 않는다.
+- 제품 성공 기준: 주황색 OLMo 결과를 최소 3가지 검증 가능한 뷰(Δ 강도, placebo rarity,
+  similar-change retrieval)로 설명하고, 강 밖 후보와 비-AI/physics 레이어가 색·범례·claim에서
+  혼동되지 않게 한다. data/tsc/lint/WASM/build/desktop·mobile QA를 다시 통과한다.
+- 공개 배포는 사용자 사이트 정리 전까지 보류한다.
+
+#### 결과 — 입력계약 정정과 앱 재구성
+
+- 공식 rslearn OLMoEarth 문서와 실행 YAML을 대조해 Planetary Computer Sentinel-1 RTC의
+  `linear intensity → Sentinel1ToDecibels → OlmoEarthNormalize` 계약 누락을 발견했다. 기존
+  M70·M72 S1+S2·M74·M74 S1-only는 모두 `SUPERSEDED`로 내리고 원본은 provenance로 보존했다.
+- dynamic sealer로 5-anchor 하드코딩을 제거하고 출력 개수·shape를 강제했다. dB-corrected
+  placebo_b·baseline·s1_live를 27창씩 재실행해 **81개 768×64×64** embedding raster를 봉인했다.
+- 동일 위치의 단일 평시 전이 p99로 사건 전이를 screening한 결과, 최대 초과는 Devighat/ Bidur의
+  17/4096 = **0.415%**였다. 27/27 모든 창에서 사건 평균 Δz가 평시 평균보다 작았고, 기존
+  Lhende 27.9%·Rasuwagadhi 9.8%는 재현되지 않았다. 따라서 active claim은 detection이 아니라
+  약한 review queue다.
+- 강 밖 49 hillslope 광학 창 중 6개만 관측 가능했다. Salê·Gosaikunda는 low-observability
+  reacquisition lead로 유지하고, 다음 P0를 dB-corrected S1+DEM off-river grid와 barrier-lake
+  queue로 고정했다.
+- 물리 결합은 `DEM/source/rheology → r.avaflow ensemble → semantic observation operator →
+  S1/S2·OLMo likelihood 재순위화`로 설계했다. D-Claw는 독립 검산, WASM은 precomputed raster
+  재생만 담당하며 현재 상태는 `NOT RUN`이다.
+- 앱은 주황 canonical OLMo, 황색 S2 discovery, 보라 off-river, 청색 retrieval을 분리하고
+  contract correction·81-raster ledger·risk queue·physics boundary를 노출한다. legacy 결과는
+  `SUPERSEDED`, calibrated detection은 `NO`로 표시한다.
+- data generator, TypeScript, ESLint(오류 0), asset verifier, Rust/WASM, production build,
+  desktop/mobile 브라우저 QA와 console 0 error를 통과했다. 상세는
+  `docs/NEPAL_OLMO_PROVENANCE_AND_RISK_AUDIT_2026_08_29.md`와
+  `docs/NEPAL_CORRIDOR_UX_AI_STATUS_2026_08_29.md`. 공개 배포는 하지 않았다.
+
 - 21:28 사고: 구버전 러너가 5앵커 baseline 임베딩을 덮어씀 → 재도출 보고서(130711Z)로 교체, 판정 불변. M72 보론 2 기록.
+
+- 2026-08-30 00:10 M75: S1 선형→dB 정규화 결함 확인. 5앵커·회랑 봉인 결과(M70/M72/M74, S1-only 포함) 무효 →
+  dB 재계산(병렬 세션 model_s1db) 후 재도출. 이 세션은 회랑 임베딩 실행 중단. 내 선형 재계산이 그쪽 dB 결과를 덮어씀(사고 기록).

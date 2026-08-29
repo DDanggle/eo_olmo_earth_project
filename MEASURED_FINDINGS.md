@@ -1,6 +1,6 @@
 # 측정 장부 — 실제로 잰 것만
 
-최종 갱신: 2026-08-28
+최종 갱신: 2026-08-29
 
 이 파일에는 **실행해서 나온 수치만** 넣는다. 계획·설계·문헌 판단은 넣지 않는다
 (그건 `K_ALIGN_PROGRAM_NOTE.md`, `K_ALIGN_CVPR_READINESS_AUDIT.md`, `K_GAIN_AXES.md`가 맡는다).
@@ -43,6 +43,7 @@
 | M27 | 공식 구조는 이미 결정적 — 치환 1개가 수학적으로 동일 | **구조 변경 0. diff 3.3e-16** | 완료 |
 | M28 | AI-Hub 원천 영상 정체 + STAC 물질화 게이트 | **RGB uint8 3밴드였음. STAC 게이트 4/4 통과** | 완료 |
 | M65 | frozen-v2 확증 8-region region-macro | **P4 .2722 > P2 .1966 > P3 .1834; P4−P2 +.0756, 지역 승리 6/8** | 봉인 집계 완료 |
+| M75 | Nepal S1 입력계약 감사·27창 재실행 | **기존 S1+S2 주장 폐기; 교정 결과 최대 초과 0.415%, calibrated detection 아님** | 봉인 완료 |
 
 **아직 confirmatory하게 측정하지 않은 것**: 두 번째 frozen GeoFM과의 matched 비교,
 한국 공공데이터의 **표현 기여**(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 0),
@@ -3506,7 +3507,7 @@ Rasuwagadhi(w00)는 12위: placebo Δ 자체가 높아(0.136) 사건 전에도 �
 봉인: v1 `f55a2b5f…`, v2 `3a09d888…` (서버·로컬 일치), `artifacts/corridor_s2_candidates/`.
 앱: AI 후보 층(주황 채움=후보 비율, 상위 5 굵은 테두리) + 우측 목록·GO 버튼.
 
-## M70. 첫 라이브 Δz 판정 — 봉인 S1+S2 계약, 5앵커 중 3앵커 candidate change (2026-08-29)
+## M70. [SUPERSEDED BY M75] 첫 라이브 Δz 판정 — 봉인 S1+S2 계약, 5앵커 중 3앵커 candidate change (2026-08-29)
 
 **게이트 통과 경로**: 8/28 S1D 제품이 Copernicus·PC GRD에 있었고 RTC 파생물은 촬영 24시간
 뒤 배치로 생성됨(실측: <24h 0/200, 24~30h 80/80). 도착 직후 `build_nepal_live_catalog` →
@@ -3559,7 +3560,7 @@ placebo p99 임계(0.282), 유효 <20% 창은 관측불가.
 
 봉인: `artifacts/corridor_s2_candidates/embed_scan_v2/report.json`, 창 자산·지명 앱 반영.
 
-## M72. placebo 10개로 재판정 — M70의 "3/5 candidate"는 철회, 매칭 설계에서 Rasuwagadhi만 1위 (2026-08-29)
+## M72. [S1+S2 RESULTS SUPERSEDED BY M75] placebo 10개로 재판정 — M70의 "3/5 candidate"는 철회, 매칭 설계에서 Rasuwagadhi만 1위 (2026-08-29)
 
 **무엇을 했나**: 사건 전 rolling 창 8개(END 06-17…08-05, 주 단위)를 같은 4×14d 계약으로 물질화·
 봉인·임베딩해 placebo를 2 → 10개로 늘리고 `analyze_nepal_delta.py`를 재실행함.
@@ -3591,7 +3592,7 @@ placebo p99 임계(0.282), 유효 <20% 창은 관측불가.
 
 봉인: `delta/20260829T115424Z`(10 placebo naive), `delta_matched/20260829T115626Z`(매칭 9쌍).
 
-### M72 보론 — 토큰 수준 매칭 판정: Rasuwagadhi에서 사건 신호가 분리됨
+### M72 보론 — [SUPERSEDED BY M75] 토큰 수준 매칭 판정: Rasuwagadhi에서 사건 신호가 분리됨
 
 같은 매칭 9쌍에서 **토큰 수준**(모든 placebo 쌍 토큰 Δ의 p99를 임계로, 사건 쌍에서 그 임계를 넘는
 40 m 토큰 비율)으로 다시 잼 (`delta_matched/20260829T121127Z`):
@@ -3637,7 +3638,7 @@ Puerto Rico)은 관측 조건이 나쁘거나 표본이 적은 곳으로, "AI가
 고전 5, Spearman 0.22(두 방법이 다른 걸 봄) — 라벨이 없어 약한 증거이며 Sen12 표가 본증거임.
 봉인: `artifacts/sen12_classical_baseline/report.json`, `artifacts/corridor_s2_candidates/embed_scan_v2/classical_vs_ai.json`.
 
-### M72 보론 2 — 감사 사슬 사고와 재도출 (2026-08-29 21:28 KST)
+### M72 보론 2 — [SUPERSEDED BY M75] 감사 사슬 사고와 재도출 (2026-08-29 21:28 KST)
 
 **사고**: 회랑 27창 임베딩을 돌리려던 러너 스크립트의 `MATERIALIZED_DIR` 지원판이 터널 단절로
 서버에 업로드되지 않아, 구버전 러너가 **5앵커 `materialized/baseline` 임베딩을 재계산·덮어씀**
@@ -3652,7 +3653,7 @@ M70·M72 보고서의 입력 sha가 더 이상 디스크와 맞지 않게 됨.
 **교훈(L3)**: nx push 결과줄에 `✔ 완료`가 없으면 실패로 간주하고 재시도할 것; 서버 러너는 출력 경로를
 인자로 받아 잘못된 대상에 쓰지 못하게 할 것(다음 커밋에서 러너에 경로 검사 추가).
 
-## M74. 회랑 27창 봉인 계약(S1+S2) Δz — Lhende 상류가 1~3위, 하류는 광학 순위와 부분 일치 (2026-08-29)
+## M74. [SUPERSEDED BY M75] 회랑 27창 봉인 계약(S1+S2) Δz — Lhende 상류가 1~3위, 하류는 광학 순위와 부분 일치 (2026-08-29)
 
 **설계**: M69의 27창을 5앵커와 같은 봉인 계약(4×14d S1+S2, exact 4+4, 8/28 RTC 포함)으로 baseline·
 s1_live 물질화(각 27/27 valid) → GPU1 임베딩 → 토큰 Δz. 임계는 회랑 자체 placebo가 아직 없어
@@ -3683,7 +3684,7 @@ Spearman(봉인 vs 광학) −0.14, 상위10 교집합 3(w23·w21·w22).
 S1-only 임베딩 분해 + 회랑 placebo_a/b 물질화(임계 자체 산정).
 봉인: `artifacts/external_data/nepal_olmo_live_v1/corridor_sealed/report.json`, 매니페스트 baseline/s1_live.
 
-### M74 보론 — 레이더(S1) 단독 분해: w24(Lhende 협곡)는 구름 artifact가 아님
+### M74 보론 — [SUPERSEDED BY M75] 레이더(S1) 단독 분해: w24(Lhende 협곡)는 구름 artifact가 아님
 
 같은 27창을 **Sentinel-1만**으로 재임베딩(`model_s1only.yaml`, 출력 `embeddings_s1`)해 baseline↔s1_live Δ를
 다시 잼. 레이더는 구름에 무관하므로 광학 구름 잔재가 섞일 수 없음.
@@ -3702,6 +3703,63 @@ S1-only 임베딩 분해 + 회랑 placebo_a/b 물질화(임계 자체 산정).
 오면 재산정. w25·w26(발원)은 약해서 발원 자체는 여전히 미확인.
 
 봉인: `artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1only/report.json`.
+
+## M75. Sentinel-1 입력계약 역감사와 27창 재실행 — 기존 Nepal S1+S2 양성 주장 철회 (2026-08-29)
+
+**발견한 결함**: 공식 rslearn OLMoEarth 문서의 Planetary Computer Sentinel-1 경로는 RTC
+linear intensity에 `Sentinel1ToDecibels`를 적용한 뒤 `OlmoEarthNormalize`를 요구한다. 기존
+`code/model.yaml`은 dB 변환 없이 normalize했고, M70·M72·M74 및 M74 S1-only의 수치는 입력계약
+밖에서 만들어졌다. 따라서 해당 S1 포함 결과를 전부 **SUPERSEDED**로 내렸다. S2-only M69·M71·M73과
+Sen12 S2 기반 transfer M65에는 이 결함이 적용되지 않는다.
+
+**재실행**: `code/model_s1db.yaml`로 placebo_b·baseline·s1_live 각 27창을 다시 forward했다.
+세 embedding manifest 모두 27/27 valid, 각 출력은 768×64×64이며 총 **81 raster**다. 사건 전이는
+baseline→s1_live, 동일 위치의 한 평시 전이는 placebo_b→baseline이다. 임계는 창별 평시 token p99로
+정하고 사건 token의 초과 비율을 계산했다.
+
+| 순위 | 창 | 위치 | p99 초과 token | 사건 평균 / 평시 평균 |
+|---:|---|---|---:|---:|
+| 1 | w23 | Devighat | 17/4096 = **0.415%** | 73.4% |
+| 2 | w21 | Bidur | 17/4096 = **0.415%** | 55.5% |
+| 3 | w22 | Bidur | 6/4096 = 0.146% | 66.8% |
+| 4 | w18 | corridor | 5/4096 = 0.122% | 52.1% |
+| 5 | w00 | Rasuwagadhi | 3/4096 = 0.073% | 56.2% |
+| 10 | w24 | Lhende | 0/4096 | 44.8% |
+
+27창 중 9창에 초과 token이 하나 이상 있지만 최대도 0.415%이고, **27/27 모두 사건 평균이 평시
+평균보다 작다**. M74의 Lhende 27.9%와 M72의 Rasuwagadhi 9.8%는 교정 결과에서 재현되지 않았다.
+
+- **말할 수 있는 것**: 계약에 맞는 OLMoEarth가 Devighat·Bidur를 약한 human-review queue 상단에
+  놓았다. 이전의 강한 양성 결론은 전처리 결함의 산물이었다.
+- **말할 수 없는 것**: calibrated anomaly, 피해 여부·면적·원인·확률. 창당 평시 전이가 하나뿐이고
+  Nepal 독립 피해 polygon이 없기 때문이다.
+- **근거**: `artifacts/external_data/nepal_olmo_live_v1/contract_audit_s1_db.json`,
+  `artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1db/report.json`, 세 arm의
+  `embedding_manifest.json`, `code/model_s1db.yaml`, `code/analyze_corridor_sealed.py`.
+
+## M75. Sentinel-1 정규화 결함 — 모든 S1 포함 임베딩이 선형 강도를 dB 정규화기에 넣었음 (2026-08-30 00:10 KST)
+
+**발견 경로**: 회랑 27창 placebo_a↔baseline Δ가 0.20(앵커는 0.015)으로 튀어 추적 → 회랑 baseline/s1_live
+첫 임베딩의 code_snapshot `model.yaml`(sha `ac742b84…`)에 `Sentinel1ToDecibels` 변환이 있고, 현재·5앵커의
+`model.yaml`(sha `c460884a…`)에는 없음. 병렬 세션이 "PC S1 RTC는 선형 강도, OlmoEarth는 dB 기대"를 발견해
+`model_s1db.yaml`로 회랑을 재계산하던 중이었고, 나는 그 사실을 모른 채 선형판으로 회랑 baseline·s1_live·
+placebo_a를 **재계산해 덮어씀**(23:5x~00:0x KST). 두 세션이 같은 서버 산출물을 교차 수정한 사고.
+
+**독립 검증(L6)**: OlmoEarth v1 정규화 상수 `norm_configs/computed.json` → sentinel1 vv mean −11.65 / std 10.84,
+vh mean −17.75 / std 10.22, `predefined.json` min −50 max 0 → **dB 스케일**이 맞음. PC RTC는 선형(≈0~1)이므로
+dB 변환 없이 넣으면 S1 채널이 거의 상수(정규화값 ≈ +1.1)로 들어가 **레이더 정보가 사실상 소실**됨.
+
+**영향 범위**:
+- 무효(재계산 필요): M70·M72(5앵커 봉인 계약, 토큰 9.8% 포함) — S1 채널이 죽은 상태의 결과. S2가 실질
+  신호를 냈을 가능성이 크나 재계산 전엔 인용 금지. M74(회랑 봉인, 차용·자체 임계) 전부. **M74 보론의
+  "레이더 단독 w24 8배"도 무효** — `model_s1only.yaml`이 선형판에서 파생됨.
+- 유효(S2 전용): M66·M68·M69·M71·M73(AI vs 고전 비교) — 레이더 미사용.
+- 앱의 판정 카드("token-level candidate")는 **재계산 전까지 "under re-computation (S1 dB fix)"로 내려야 함.**
+
+**조치**: 회랑 임베딩 실행을 이 세션에서 중단함. dB 파이프라인(model_s1db.yaml)은 병렬 세션이 소유하며,
+5앵커 baseline·placebo 10종·s1_live·회랑 3모드 전부를 dB로 재계산한 뒤 M70/M72/M74를 재도출해야 함.
+교훈: 서버 `code/model.yaml` 교체는 커밋·공지 없이 하지 말 것; 러너 code_snapshot의 model.yaml sha를 결과
+보고서에 항상 실을 것(이미 실려 있어 이번 추적이 가능했음).
 
 ## 이 장부에 없는 것 (혼동 방지)
 
