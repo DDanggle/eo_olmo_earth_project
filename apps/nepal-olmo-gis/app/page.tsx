@@ -127,6 +127,7 @@ type Scenario = {
     records: { label: string; acquired_at: string; item_id: string; mgrs_tile: string; tile_cloud_pct: number; image: string; image_sha256: string }[];
   };
   simulation: { route_points: number; claim: string; scientific_upgrade?: string };
+  headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[] };
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
     top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number }[];
     report_sha256: string; geojson: FeatureCollection;
@@ -777,6 +778,28 @@ export default function Home() {
     const ped = scenario?.olmoearth?.post_event_delta;
     return typeof ped === 'object' && ped && (ped as Record<string, unknown>).live_mode ? (ped as Record<string, unknown>) : null;
   }, [scenario]);
+  // GO TO MAP: 후보 창의 위성 사진(전/후/AI Δ)을 지도 위에 실제 좌표로 깔아 보여줌.
+  const [candView, setCandView] = useState<{ id: string; rank?: number; place?: string; mode: 'pre' | 'post' | 'delta' } | null>(null);
+  const showCandidate = useCallback((id: string, mode: 'pre' | 'post' | 'delta', meta?: { rank?: number; place?: string; center?: [number, number] }) => {
+    const map = mapRef.current; const fc = scenario?.candidates?.geojson;
+    if (!map || !fc) return;
+    const f = fc.features.find((x) => x.properties?.id === id);
+    if (!f || f.geometry.type !== 'Polygon') return;
+    const ring = f.geometry.coordinates[0] as [number, number][];  // SW, SE, NE, NW, SW
+    const coords: [[number, number], [number, number], [number, number], [number, number]] = [ring[3], ring[2], ring[1], ring[0]];
+    if (map.getLayer('cand-scene')) map.removeLayer('cand-scene');
+    if (map.getSource('cand-scene')) map.removeSource('cand-scene');
+    map.addSource('cand-scene', { type: 'image', url: `/data/candidates/${id}_${mode}.png`, coordinates: coords });
+    const before = map.getLayer('ai-candidate-fill') ? 'ai-candidate-fill' : (map.getLayer('point-halo') ? 'point-halo' : undefined);
+    map.addLayer({ id: 'cand-scene', type: 'raster', source: 'cand-scene', paint: { 'raster-opacity': 1, 'raster-fade-duration': 120 } }, before);
+    const center = meta?.center ?? (f.properties?.center_lonlat as [number, number] | undefined);
+    if (center) map.flyTo({ center, zoom: 14.2, pitch: 0, bearing: 0, duration: 900 });
+    setCandView({ id, mode, rank: meta?.rank, place: meta?.place });
+  }, [scenario]);
+  const clearCandidate = useCallback(() => {
+    const map = mapRef.current; if (map?.getLayer('cand-scene')) map.removeLayer('cand-scene'); if (map?.getSource('cand-scene')) map.removeSource('cand-scene'); setCandView(null);
+  }, []);
+
   const activeScene = scenario?.scene_records.find((item) => item.id === activeSceneId) ?? null;
   const latestOpticalScene = useMemo(() => {
     const optical = scenario?.scene_records.filter((scene) => shortSensor(scene.sensor) === 'S2') ?? [];
@@ -926,6 +949,15 @@ export default function Home() {
           어긋나며 ③ 지도 캔버스와 basemap을 가렸다. WebGL2가 없을 때만 정적 이미지로
           내려간다(아래 map-fallback). */}
       <div ref={mapNode} className="map-stage" aria-label="Rasuwagadhi satellite and simulation map" />
+      {candView && (
+        <div className="cand-chip" role="status">
+          <b>{candView.rank ? `#${candView.rank}` : candView.id}</b><span>{candView.place ?? ''}</span>
+          <div className="cand-chip-modes">
+            {(['pre', 'post', 'delta'] as const).map((m) => <button key={m} className={candView.mode === m ? 'is-active' : ''} onClick={() => showCandidate(candView.id, m, candView)}>{m === 'pre' ? 'PRE 08-12' : m === 'post' ? 'POST 08-27' : 'AI Δ'}</button>)}
+          </div>
+          <button className="cand-chip-close" onClick={clearCandidate} aria-label="Remove overlay">×</button>
+        </div>
+      )}
       {mapStatus !== 'unsupported' && <canvas ref={canvasRef} className="flow-canvas" aria-hidden="true" />}
       <div className="terrain-wash" aria-hidden="true" />
       {mapStatus === 'unsupported' && (
@@ -1062,6 +1094,17 @@ export default function Home() {
 
       {rightOpen && (
       <aside className="right-rail glass-panel">
+        {scenario?.headline && (
+          <div className="headline-card">
+            <p className="eyebrow">AT A GLANCE · {scenario.generated_at.slice(0, 10)}</p>
+            <strong>{scenario.headline.sealed_candidates != null
+              ? `${scenario.headline.sealed_candidates} of ${scenario.headline.sealed_total} sealed anchors show candidate change`
+              : 'Sealed verdict not yet computed'}</strong>
+            <small>{scenario.headline.sealed_not_detected.length ? `not detected (cloud/snow): ${scenario.headline.sealed_not_detected.join(', ')} · ` : ''}{scenario.headline.placebo_n != null ? `placebo n=${scenario.headline.placebo_n}` : ''}</small>
+            {scenario.headline.corridor_ranked != null && <small>Corridor scan: {scenario.headline.corridor_ranked}/{scenario.headline.corridor_windows} windows judged · top: {scenario.headline.corridor_top.join(' · ')}</small>}
+            <em>Candidate change only — not damage, not cause, not probability.</em>
+          </div>
+        )}
         <div className="panel-heading"><span>02</span><div><p>AI EVIDENCE</p><strong>What works now</strong></div></div>
         <div className="olmo-outcomes">
           <article className="ready"><span>OLMo BASELINE</span><strong>15 RASTERS SEALED</strong><small>3 cubes × 5 anchors · each 768×64×64</small></article>
@@ -1129,7 +1172,7 @@ export default function Home() {
                     <figure><img src={`/data/candidates/${c.id}_delta.png`} alt="AI change tokens" loading="lazy" /><figcaption>AI Δ</figcaption></figure>
                   </div>
                   <footer><span>{(c.candidate_token_frac * 100).toFixed(0)}% changed · {(c.valid_event_frac * 100).toFixed(0)}% visible</span>
-                    <button onClick={() => mapRef.current?.flyTo({ center: c.center_lonlat, zoom: 13.6, duration: 900 })}>GO TO MAP</button></footer>
+                    <button onClick={() => showCandidate(c.id, 'post', { rank: c.rank, place: c.place, center: c.center_lonlat })}>GO TO MAP</button></footer>
                 </article>
               ))}
               {scenario.candidates.retrieval && (
@@ -1138,7 +1181,7 @@ export default function Home() {
                   <ol>
                     {scenario.candidates.retrieval.top10.slice(0, 8).map((r) => (
                       <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.similar_token_frac * 100).toFixed(0)}% similar{r.delta_rank ? ` · Δ rank #${r.delta_rank}` : ''}</em>
-                        {r.center_lonlat && <button onClick={() => mapRef.current?.flyTo({ center: r.center_lonlat!, zoom: 13.6, duration: 900 })}>GO</button>}</li>
+                        {r.center_lonlat && <button onClick={() => showCandidate(r.id, 'post', { rank: r.rank, place: r.place, center: r.center_lonlat! })}>GO</button>}</li>
                     ))}
                   </ol>
                 </div>

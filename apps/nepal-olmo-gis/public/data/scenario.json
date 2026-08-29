@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T08:56:49.772904+00:00",
+  "generated_at": "2026-08-29T10:59:11.494838+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -593,6 +593,28 @@
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
     },
     {
+      "event_id": "ec588dcf2e6796ef",
+      "time_utc": "2026-08-29T10:55:38Z",
+      "recorded_at_utc": "2026-08-29T10:55:38Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "rslearn materialize",
+      "type": "SEAL_INVALID",
+      "priority": "orange",
+      "summary": "placebo_20260722: 91 files, 49,178,242 B — contract failed (S1 4/4, S2 4/4)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260722/materialization_manifest.json"
+    },
+    {
+      "event_id": "58da43da50be13b3",
+      "time_utc": "2026-08-29T10:46:11Z",
+      "recorded_at_utc": "2026-08-29T10:46:11Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "rslearn materialize",
+      "type": "SEAL_INVALID",
+      "priority": "orange",
+      "summary": "placebo_20260729: 91 files, 49,296,368 B — contract failed (S1 4/4, S2 4/4)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/placebo_20260729/materialization_manifest.json"
+    },
+    {
       "event_id": "339bffbbfb3c7c6f",
       "time_utc": "2026-08-29T08:02:31Z",
       "recorded_at_utc": "2026-08-29T08:02:31Z",
@@ -877,28 +899,6 @@
       "priority": "blue",
       "summary": "snapshot 20260827T062409Z: s2b_20260827=acquired_pending_catalog, s1d_20260828=planned, s2c_20260829=planned",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260827T062409Z/acquisition_status.json"
-    },
-    {
-      "event_id": "9e1d68b898ce1c8e",
-      "time_utc": "2026-08-27T05:59:00Z",
-      "recorded_at_utc": "2026-08-27T05:59:00Z",
-      "time_basis": "source_event_time",
-      "source": "NDRRMA / AP",
-      "type": "SECONDARY_HAZARD_REPORTED",
-      "priority": "orange",
-      "summary": "Authorities reported a new upstream barrier lake created in the aftermath of the collapse; its exact public coordinates remained unresolved.",
-      "evidence_uri": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807"
-    },
-    {
-      "event_id": "1e15958f428f2ddb",
-      "time_utc": "2026-08-26T05:52:00Z",
-      "recorded_at_utc": "2026-08-26T05:52:00Z",
-      "time_basis": "source_event_time",
-      "source": "USGS Landslide Hazards Program",
-      "type": "SECONDARY_SIGNAL",
-      "priority": "blue",
-      "summary": "A second M4.2-equivalent signal followed roughly three hours later on 26 Aug. It is not evidence of a separate 27 Aug Tibet landslide.",
-      "evidence_uri": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood"
     }
   ],
   "research": {
@@ -2461,6 +2461,26 @@
       ]
     }
   },
+  "headline": {
+    "sealed_candidates": 0,
+    "sealed_total": 5,
+    "sealed_not_detected": [
+      "dhunche",
+      "rasuwagadhi",
+      "source_provisional",
+      "syabrubesi",
+      "timure"
+    ],
+    "corridor_ranked": 23,
+    "corridor_top": [
+      "Lingling, Gosaikunda",
+      "Tupche, Bidur",
+      "Timure, Gosaikunda"
+    ],
+    "live_mode": "s1_live",
+    "placebo_n": 2,
+    "corridor_windows": 27
+  },
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",
     "created_at_utc": "2026-08-29T02:40:10.574343+00:00",
@@ -2546,7 +2566,7 @@
   "simulation": {
     "engine": "Rust/WASM deterministic particle preview",
     "route_source": "verified OSM river-way chain from Bhote Koshi to Trishuli",
-    "route_points": 79,
+    "route_points": 80,
     "claim": "illustrative_kinematic_preview_not_hazard_forecast",
     "scientific_upgrade": "precomputed r.avaflow v4 ensemble, independently checked with D-Claw"
   },
@@ -2554,7 +2574,7 @@
     "source_root": "/Users/dgyi/dong/ai_projects/olmoearth_projects/_work/artifacts/external_data/nepal_olmo_live_v1/materialized/baseline/dataset/windows/nepal/rasuwagadhi",
     "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
     "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
-    "hydrography_sha256": "005691a26c482012d3736d2191c0ee50a26761c8db44d1512730dc58ab66845c",
+    "hydrography_sha256": "cd515229e6e788fd9add5e92ba73ff6f15fea0c9d68f7714fa5467d557392c36",
     "catalog_snapshot": "20260829T075401Z",
     "catalog_generated_at_utc": "2026-08-29T07:54:01Z",
     "catalog_sha256": "8bc6140331d064b92a129fc9cbc007a2862d5a673ec3a7f4d466a2926e34361c",

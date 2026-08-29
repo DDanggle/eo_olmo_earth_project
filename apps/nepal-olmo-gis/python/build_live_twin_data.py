@@ -47,7 +47,9 @@ DELTA_ROOT = WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta"
 # 2026-08-29 연장: 뉴스 실측(72km 구간, Trishuli Bazar 60채·Devighat 피해)에 따라
 # Bidur/Devighat 하류까지 OSM way 체인을 이어붙임 (endpoint 연속성 Overpass로 확인함).
 ROUTE_WAY_IDS = [201928141, 809865767, 24624604, 928822514, 119684552,
-                 84953861, 321548891, 343007937, 343007938, 27033466, 915399520]
+                 84953861, 321548891, 343007937, 343007938, 27033466, 915399520,
+                 # 2026-08-29 2차 연장: Devighat 합류부 → Galchhi 방향 (보도상 홍수 도달 구간)
+                 915399518, 915399519, 1553053155, 185752518]
 
 POINTS = [
     {
@@ -949,6 +951,36 @@ def candidates_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp), "geojson": {"type": "FeatureCollection", "features": feats}}
 
 
+def headline_block() -> dict[str, Any]:
+    """한눈에 읽히는 요약: 봉인 판정 앵커 수 + 회랑 후보 상위 지명. 값이 없으면 정직하게 None."""
+    out: dict[str, Any] = {"sealed_candidates": None, "sealed_total": None, "sealed_not_detected": [], "corridor_ranked": None, "corridor_top": []}
+    latest = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
+    if latest:
+        rep = json.loads(latest[-1].read_text())
+        if rep.get("live_mode"):
+            anchors = rep.get("anchors", {})
+            def verdict(v: dict[str, Any]) -> str:
+                vd = v.get("verdict")
+                if isinstance(vd, dict) and isinstance(vd.get("label"), str):
+                    return vd["label"]
+                for k in ("label", "verdict", "decision"):
+                    if isinstance(v.get(k), str):
+                        return v[k]
+                return ""
+
+            labels = {a: verdict(v) for a, v in anchors.items() if isinstance(v, dict)}
+            out["sealed_total"] = len(labels)
+            out["sealed_candidates"] = sum(1 for s in labels.values() if "candidate" in s)
+            out["sealed_not_detected"] = [a for a, s in labels.items() if "candidate" not in s]
+            out["live_mode"] = rep.get("live_mode"); out["placebo_n"] = len(rep.get("placebo_modes_available", []))
+    cand = candidates_block()
+    if cand:
+        out["corridor_ranked"] = sum(1 for f in cand["geojson"]["features"] if f["properties"].get("status") == "ranked")
+        out["corridor_windows"] = cand["windows"]
+        out["corridor_top"] = [c.get("place") or c["id"] for c in cand["top10"][:3]]
+    return out
+
+
 def build(refresh_osm: bool) -> None:
     if not SOURCE_ROOT.exists():
         raise FileNotFoundError(f"Missing materialized source: {SOURCE_ROOT}")
@@ -1087,6 +1119,7 @@ def build(refresh_osm: bool) -> None:
         "ops_log": build_ops_log(),
         "research": research_block(),
         "candidates": candidates_block(),
+        "headline": headline_block(),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {
