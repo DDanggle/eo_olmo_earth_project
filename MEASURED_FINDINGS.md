@@ -3790,6 +3790,14 @@ artifact**였음 — 철회. 레이더를 제대로 넣으면 몬순 기간 plac
 봉인: `delta/20260829T152418Z`, `delta_matched/20260829T152433Z`, `corridor_sealed_s1db/`, `corridor_matched/`,
 감사 `contract_audit_s1_db.json` (five_anchor_rerun=recomputed).
 
+### M76 보론 — 레이더 단독(dB) 회랑 분해
+
+S1만(dB)으로 27창을 재임베딩해 baseline↔s1_live Δ를 잼. **차용 임계 기준** w24(Lhende 협곡) 평균 0.0207·초과 12%로
+여전히 1위(2위 w25 0.0025의 8배). 그러나 **자체 레이더 placebo(placebo_a↔baseline, S1-only, 마스크 없음)** 로
+매칭하면 임계 0.122·후보 0 — w24의 레이더 Δ는 같은 창의 평소 2주 변동(급경사·눈·수분에 레이더가 민감) 안에 있음.
+결론: w24는 "다른 창보다 튀는 창"이지 "자기 과거보다 튀는 창"은 아님 → lead로만 유지, 후보 아님.
+봉인: `corridor_sealed_s1only/`, `corridor_matched_s1only/` (dB).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
