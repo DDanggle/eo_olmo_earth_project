@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -31,6 +32,10 @@ def main() -> None:
     args = parse_args()
     windows_root = args.dataset / "windows" / "nepal"
     expected = {"source_provisional", "rasuwagadhi", "timure", "syabrubesi", "dhunche"}
+    # ANCHOR_SET=corridor (2026-08-29): M69 회랑 27창을 같은 봉인 계약으로 검사함
+    if os.environ.get("ANCHOR_SET") == "corridor":
+        wm = Path(__file__).resolve().parents[1] / "artifacts/corridor_s2_candidates/prepare/windows_manifest.json"
+        expected = {w["id"] for w in json.loads(wm.read_text())["windows"]}
     found = {path.name for path in windows_root.iterdir() if path.is_dir()}
     missing = sorted(expected - found)
     file_rows = []
