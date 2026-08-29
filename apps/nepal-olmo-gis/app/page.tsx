@@ -528,8 +528,18 @@ export default function Home() {
       });
       map.on('idle', () => {
         const c = map.getCanvas();
+        const host = mapNode.current;
         console.log('[diag] idle | 타일', tileCount, '장 | canvas =', c.width + 'x' + c.height,
-                    '| 레이어', map.getStyle()?.layers?.length ?? 0);
+                    '| 레이어', map.getStyle()?.layers?.length ?? 0,
+                    '| container =', (host?.clientWidth ?? -1) + 'x' + (host?.clientHeight ?? -1),
+                    '| window =', window.innerWidth + 'x' + window.innerHeight, '| dpr =', window.devicePixelRatio,
+                    '| has ai-candidate-fill =', !!map.getLayer('ai-candidate-fill'), '| scan-center-dot =', !!map.getLayer('scan-center-dot'));
+        // 자가치유: 창은 충분히 큰데 지도 컨테이너가 납작하면(예: 145px) 스타일을 다시 강제하고 resize
+        if (host && window.innerHeight > 500 && host.clientHeight < 300) {
+          console.warn('[diag] map container collapsed (', host.clientHeight, 'px) → forcing layout');
+          Object.assign(host.style, { position: 'absolute', top: '0', right: '0', bottom: '0', left: '0', width: '100%', height: '100%', minHeight: '60vh' });
+          map.resize();
+        }
       });
       // 외부 context tile 실패는 진단만 남긴다. 실제 S2 backdrop과 로컬 evidence layer는 독립이다.
       map.on('error', (e) => {
@@ -676,7 +686,13 @@ export default function Home() {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !map.isStyleLoaded()) return;
+    if (!mapReady || !map) return;
+    if (!map.isStyleLoaded()) {
+      // 2026-08-30 실측(사용자 콘솔): 'candidate layers attached' 가 한 번도 안 찍힘 — 이 가드가 재시도 없이 빠져나갔음
+      console.log('[diag] candidates: style not loaded yet → retry on idle');
+      map.once('idle', () => setStyleRevision((r) => r + 1));
+      return;
+    }
     fetch('/data/olmo-input-anchors.geojson').then((r) => r.json() as Promise<FeatureCollection>).then((anchors) => {
       // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도
       if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
