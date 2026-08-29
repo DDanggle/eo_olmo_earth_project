@@ -363,7 +363,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .dim-switch button.is-active { background: var(--accent, #eb6834); color: #fffefb; }
 
 /* ================= STORY — 스크롤리텔링 오버레이 (Snow Fall/Upshot 문법) ================= */
-.story-launch { position: absolute; right: 300px; top: 50%; transform: translateY(-50%);
+.story-launch { position: static; margin-left: auto; margin-right: 14px; transform: none;
   padding: 10px 16px; font-family: var(--font-geist-mono); font-size: 11px; letter-spacing: 0.12em;
   background: var(--orange, #eb6834); color: #fffefb; border: 1px solid var(--orange, #eb6834);
   cursor: pointer; box-shadow: var(--card-shadow); }
