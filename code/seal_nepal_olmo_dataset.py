@@ -102,10 +102,13 @@ def main() -> None:
             for audit in period_audit.values()
         )
         required_scene_rule = "every anchor includes Sentinel-1 2026-08-28"
-    elif args.mode in ("placebo_a", "placebo_b"):
+    elif args.mode in ("placebo_a", "placebo_b") or args.mode.startswith("placebo_2026"):
         # placebo는 사건 전 구간만 담아야 한다. END는 각각 08-12 / 08-19 —
         # 어느 쪽이든 이벤트(08-26)와 그 이후 관측이 섞이면 placebo가 아니다.
-        cutoff = {"placebo_a": "2026-08-12", "placebo_b": "2026-08-19"}[args.mode]
+        cutoff = {"placebo_a": "2026-08-12", "placebo_b": "2026-08-19"}.get(args.mode)
+        if cutoff is None:  # placebo_YYYYMMDD (2026-08-29 주 단위 확장): END 날짜가 곧 cutoff
+            d = args.mode.split("_")[1]
+            cutoff = f"{d[:4]}-{d[4:6]}-{d[6:8]}"
         required_scene_present = all(
             all(date < cutoff for dates in audit["selected_dates"].values() for date in dates)
             for audit in period_audit.values()
