@@ -205,3 +205,16 @@ action과 analyst minutes가 줄어드는가**를 operational headline으로 둔
    map이며 최소 20개, 권장 30개 historical placebo 뒤에 threshold를 동결한다.
 5. physics는 별도 experiment ID로 열고 A0–A5 protocol과 external polygons를 먼저 동결한다.
 6. CVPR 본선의 Presto C1/Korea transfer/GPU queue는 이 sidecar 때문에 변경하지 않는다.
+
+## 10. 08-29 공간·스토리 정정
+
+- 앱의 사건 사슬을 `E source → D secondary hazard → A impact / B checkpoint → F Bidur`로
+  고정했다. C는 사건 밖 negative control로 별도 표기한다.
+- 발원 E는 red, A는 orange, B는 yellow, D는 purple, F는 blue, C는 gray로 분리했다.
+- Bidur 영상 공백은 데이터 부재가 아니라 MGRS tile-boundary 조회 결함이었다. 인접 `45RUL`에서
+  2026-08-12와 2026-08-27 실제 S2 L2A 창을 회수했다.
+- OLMo 패널은 Nepal live `WAIT S1`만 강조하지 않고, 5-anchor baseline과 8-region confirmatory
+  transfer(6/8 wins, 0.272 vs 0.197)를 함께 표시한다.
+- 단, confirmatory 결과는 OLMo reuse 대 raw baseline이다. Presto 같은 두 번째 GeoFM 통제 전에는
+  OLMo-specific superiority로 승격하지 않는다.
+- 상세 실행·평가·우선순위는 `docs/NEPAL_AI2_IMPACT_ENGINEERING_ROADMAP_2026_08_29.md`에 봉인했다.

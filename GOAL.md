@@ -2734,3 +2734,42 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   다음 게이트는 08-31 00:07 UTC S1 후보이며 footprint containment로 재판정함.
 - 배포 준비 완료: 최신 소스는 이 저장소 HEAD. seeso Sites 재배포는 해당 세션의
   퍼블리시 도구에서 이 HEAD 기준으로 version 7을 올리면 됨.
+
+### 2026-08-29 — Nepal live twin: 사건 인과선·OLMo 가치·physics fusion 재설계 (진행 중)
+
+- 계획: UI의 A/B/C 문자 중심 문법을 폐기하고 `SOURCE → IMPACT → BORDER → DOWNSTREAM`의
+  사건 단계와 `NEGATIVE CONTROL`을 색·순서·지도 라벨로 분리한다. C는 본 수계와 무관한
+  대조군이며 본 사건 경로에 포함되지 않는다는 사실을 모든 화면에서 강제한다.
+- 데이터 감사: Bidur를 OLMo 5-anchor 봉인 계약에 사후 삽입하지 않고, 별도 visual-only
+  downstream anchor로 취급한다. 로컬 STAC catalog에서 실제 S1/S2 footprint와 날짜를 감사한 뒤
+  장면이 있으면 재료화하고, 없으면 `NO COVERAGE / NOT MATERIALIZED`를 구분해 표시한다.
+- 제품 재설계: 현재의 HOLD 중심 우측 rail을 `baseline embeddings READY`, `8-region transfer
+  6/8 wins`, `Nepal live delta WAITING FOR S1`, `physics ensemble DESIGN`으로 분리한다. 메인 서사는
+  사건 사슬, 위성 시간×거리 행렬, OLMo의 검증된 현재 가치, OLMo×mass-flow×observation-operator
+  검증 루프, 다음 실행 우선순위의 다섯 장으로 축소한다.
+- 과학 경계: OLMo embedding이 마찰계수·유량·도달시간을 직접 출력한다고 주장하지 않는다.
+  OLMo는 source/change/analogue proposal, r.avaflow 또는 D-Claw는 runout ensemble, 위성 observation
+  operator는 `시뮬레이션 결과가 S1/S2에서 어떻게 보여야 하는가`를 담당하고, 실제 post-event
+  관측과의 일치도로 ensemble을 재순위화한다.
+- 성공 기준: ① source/impact/control을 5초 안에 구별 ② OLMo의 READY 성과가 HOLD보다 먼저 보임
+  ③ Bidur 공백의 원인이 명시됨 ④ 물리 애니메이션이 단순 강 중심선 장식이 아니라 관측으로
+  반증 가능한 experiment graph로 보임 ⑤ tsc·lint·production build·브라우저 QA·비공개 배포 통과.
+
+#### 결과
+
+- 사건 사슬을 `E source(red) → D secondary hazard(purple) → A impact(orange) / B border(yellow)
+  → F Bidur(blue)`로 재구성하고 C control(gray)을 사건 밖으로 분리했다. 지도 라벨도 긴 역할명이
+  아닌 `E · SOURCE`, `A · IMPACT`, `F · BIDUR`로 축약해 전체 회랑 줌에서 읽히게 했다.
+- Bidur 공백은 영상 부재가 아니라 MGRS 경계 결함이었다. 기존 `45RUM` 조회 밖의 인접 `45RUL`에서
+  08-12/08-27 실제 S2 L2A 장면을 찾고 동일 2.56 km 창으로 물질화했다. visual-only manifest와
+  checksum을 저장했으며 5-anchor OLMo 계약에는 사후 삽입하지 않았다.
+- 우측 rail과 story를 baseline 5-anchor READY, confirmatory transfer 6/8 wins(0.272 vs 0.197),
+  Nepal live Δ WAIT S1으로 분리했다. confirmatory 결과는 OLMo-vs-raw이며 Presto 통제 전에는
+  OLMo-specific superiority로 쓰지 않는 경계를 UI와 roadmap 양쪽에 넣었다.
+- 검증 루프를 `OLMo proposal → r.avaflow ensemble → D-Claw check → semantic observation operator
+  → Rasuwagadhi/Bidur actual observations`로 고정했다. 첫 위성 시뮬레이션은 가짜 사진이 아니라
+  water/debris/visibility mask다.
+- `pnpm data`, TypeScript, asset invariant, WASM build, production build 통과. 실제 브라우저에서
+  한국어 사건 카드, Bidur 전후 영상, OLMo 성과, physics-fusion 도해를 시각 검증했다.
+- 상세 설계와 P0–P4 우선순위는
+  `docs/NEPAL_AI2_IMPACT_ENGINEERING_ROADMAP_2026_08_29.md`에 저장했다.

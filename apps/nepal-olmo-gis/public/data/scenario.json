@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T01:58:01.624799+00:00",
+  "generated_at": "2026-08-29T03:17:44.829698+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -47,7 +47,54 @@
   ],
   "points": [
     {
+      "id": "E",
+      "display_label": "SOURCE ESTIMATE",
+      "map_label": "E · SOURCE",
+      "stage": 1,
+      "marker_color": "#ff4d6d",
+      "in_event_chain": true,
+      "name": "Langtang Lirung collapse source",
+      "coordinates": [
+        85.5194,
+        28.2765
+      ],
+      "role": "source_provisional",
+      "place": "North flank of Langtang Lirung, Rasuwa, Nepal (satellite/seismic estimate)",
+      "source": "USGS + China Geological Survey + satellite interpretation",
+      "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+      "evidence_level": "source_estimate_not_release_polygon",
+      "story": "The rock–ice collapse began on the Nepal side of Langtang Lirung. This red marker is the best public source-search estimate—not a surveyed release polygon. It is the event origin; A and B are downstream impact/checkpoint windows.",
+      "story_ko": "암반–빙하 붕괴는 네팔 영내 Langtang Lirung에서 시작했다. 이 빨간 점은 공개자료상 최선의 발원 수색점이며 현장 측량 방출 폴리곤은 아니다. 사건 원점은 여기이고 A·B는 하류 충격/검문소 창이다.",
+      "distance_from_a_km": 13.84
+    },
+    {
+      "id": "D",
+      "display_label": "SECONDARY HAZARD",
+      "map_label": "D · LAKE SEARCH",
+      "stage": 2,
+      "marker_color": "#9b7bff",
+      "in_event_chain": true,
+      "name": "Barrier lake (reported)",
+      "coordinates": [
+        85.48,
+        28.285
+      ],
+      "role": "upstream_hazard_provisional",
+      "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
+      "source": "NDRRMA report + AP and Chinese government updates; exact coordinates unpublished",
+      "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
+      "evidence_level": "reported_hazard_position_illustrative",
+      "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary.",
+      "story_ko": "여파 과정에서 토석에 막힌 호수가 생겼다고 보고됐다. 공개 footprint가 없어 보라색 점은 근사 수색구역일 뿐이며, 두 번째 붕괴 원점이나 시뮬레이션 호수 경계가 아니다.",
+      "distance_from_a_km": 10.01
+    },
+    {
       "id": "A",
+      "display_label": "IMPACT WINDOW",
+      "map_label": "A · IMPACT",
+      "stage": 3,
+      "marker_color": "#ff8a3d",
+      "in_event_chain": true,
       "name": "Rasuwagadhi impact AOI",
       "coordinates": [
         85.3780644,
@@ -58,11 +105,17 @@
       "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "verified_aoi_reported_impact_corridor",
-      "story": "Primary impact AOI at the Nepal–China crossing and the reference window for every PRE/POST comparison. The point locates an inspection window; it is not a pixel-level damage label.",
+      "story": "The principal before/after inspection window at the Nepal–China crossing. A is not the collapse origin: it is where the upstream cascade reached infrastructure and where the current satellite time series is centered.",
+      "story_ko": "네팔–중국 국경의 핵심 전후 비교창이다. A는 붕괴 원점이 아니라 상류 연쇄가 기반시설에 도달한 곳이며 현재 위성 시계열의 중심이다.",
       "distance_from_a_km": 0.0
     },
     {
       "id": "B",
+      "display_label": "BORDER CHECKPOINT",
+      "map_label": "B · BORDER",
+      "stage": 4,
+      "marker_color": "#ffd166",
+      "in_event_chain": true,
       "name": "Gyirong border checkpoint",
       "coordinates": [
         85.3763336,
@@ -74,40 +127,16 @@
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "verified_coordinate_reported_impact_corridor",
       "story": "The cross-border checkpoint beside the impact AOI. It anchors human-exposure review without treating every bright or dark satellite pixel as confirmed infrastructure damage.",
+      "story_ko": "충격 관찰창 옆의 국경 검문소다. 모든 밝고 어두운 픽셀을 피해로 단정하지 않으면서 사람·기반시설 노출을 검토하는 기준점이다.",
       "distance_from_a_km": 0.49
     },
     {
-      "id": "D",
-      "name": "Barrier lake (reported)",
-      "coordinates": [
-        85.48,
-        28.285
-      ],
-      "role": "upstream_hazard_provisional",
-      "place": "Lhende Khola upstream corridor, Gyirong County, Tibet (provisional)",
-      "source": "NDRRMA report + AP and Chinese government updates; exact coordinates unpublished",
-      "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
-      "evidence_level": "reported_hazard_position_illustrative",
-      "story": "A debris-dammed lake was reported after the 26 Aug collapse and was draining on 28 Aug. This is a secondary hazard from the same event sequence—not evidence of a separate 27 Aug landslide—and the marker remains illustrative until an independent footprint is available.",
-      "distance_from_a_km": 10.01
-    },
-    {
-      "id": "E",
-      "name": "Langtang Lirung source estimate",
-      "coordinates": [
-        85.5194,
-        28.2765
-      ],
-      "role": "source_provisional",
-      "place": "North flank of Langtang Lirung, Rasuwa, Nepal (satellite/seismic estimate)",
-      "source": "USGS + China Geological Survey + satellite interpretation",
-      "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
-      "evidence_level": "source_estimate_not_release_polygon",
-      "story": "Best current source-search anchor for the 26 Aug rock–ice collapse on the Nepal side of Langtang Lirung. OLMoEarth can compare this window with its own history, but it cannot confirm cause or reconstruct the release volume by itself.",
-      "distance_from_a_km": 13.84
-    },
-    {
       "id": "F",
+      "display_label": "DOWNSTREAM OBSERVATION",
+      "map_label": "F · BIDUR",
+      "stage": 5,
+      "marker_color": "#4da3ff",
+      "in_event_chain": true,
       "name": "Trishuli Bazar / Bidur reach",
       "coordinates": [
         85.1357,
@@ -118,11 +147,17 @@
       "source": "USGS public event map; OSM river reach",
       "source_url": "https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map",
       "evidence_level": "downstream_inspection_anchor",
-      "story": "A downstream inspection anchor on the Trishuli corridor. The event propagated far beyond the border, but this marker scopes where to seek corroboration rather than asserting damage at every intermediate reach.",
+      "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is strong observation evidence, not yet a damage label or part of the sealed five-anchor OLMo contract.",
+      "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만, 아직 피해 라벨도 봉인된 OLMo 5-anchor 계약의 일부도 아니다.",
       "distance_from_a_km": 46.79
     },
     {
       "id": "C",
+      "display_label": "NEGATIVE CONTROL",
+      "map_label": "C · CONTROL",
+      "stage": 99,
+      "marker_color": "#9aa3a0",
+      "in_event_chain": false,
       "name": "Rishing reference",
       "coordinates": [
         84.3103107,
@@ -132,7 +167,8 @@
       "place": "Rishing-03, Tanahun, Gandaki Province, Nepal",
       "source": "user coordinate + OSM Nominatim reverse lookup",
       "evidence_level": "distant_placebo_reference",
-      "story": "A deliberately distant, untouched window ~114 km away. It exists so the pipeline can prove what NO change looks like — the placebo and transfer reference, not an impact site.",
+      "story": "C is deliberately outside the flood corridor, about 114 km from Rasuwagadhi. It is a negative-control/placebo window used to estimate ordinary change. It is not an event site, endpoint, or claimed affected area.",
+      "story_ko": "C는 Rasuwagadhi에서 약 114 km 떨어져 의도적으로 홍수 회랑 밖에 둔 음성 대조/placebo 창이다. 일상 변화를 추정할 뿐 사건 지점·종점·피해 주장 지역이 아니다.",
       "distance_from_a_km": 113.79
     }
   ],
@@ -717,6 +753,27 @@
       "placebo_count": 2,
       "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet."
     },
+    "confirmatory_transfer": {
+      "status": "COMPLETE_VALIDATED",
+      "regions": 8,
+      "wins_reuse_vs_raw_strong": 6,
+      "strong_wins": 5,
+      "reuse_region_macro": 0.27216575,
+      "raw_strong_region_macro": 0.196558375,
+      "absolute_gap": 0.0756075,
+      "relative_gain_pct": 38.4656720935956,
+      "non_win_regions": [
+        "holdout_indonesia",
+        "holdout_itogon"
+      ],
+      "claim_boundary": [
+        "This closes the frozen v2 OLMo-vs-raw eight-region headline only.",
+        "It does not establish OLMo-specific superiority before a second frozen GeoFM control.",
+        "It does not establish label-free region routing; Indonesia loses and Itogon fails the all-seed win rule.",
+        "Strong-win count uses the stored multiscale spatial-CI rule; Hokkaido is not strong because its 10.24 km CI is undefined."
+      ],
+      "artifact_sha256": "00a3e0cca666f9e13ad01b52e19358ce1d4fa2f42e4613f87f94e48eece66a4e"
+    },
     "historical_event_delta_pilot": {
       "rows": [
         {
@@ -806,6 +863,88 @@
       "runout": "runout IoU, false-inundated area, maximum-runout error, interval coverage",
       "operations": "analyst minutes and invalid actions at matched recall"
     }
+  },
+  "downstream_visual": {
+    "schema": "olmoearth-bidur-visual-audit/v1",
+    "created_at_utc": "2026-08-29T02:40:10.574343+00:00",
+    "point": {
+      "name": "Trishuli Bazar / Bidur reach",
+      "coordinates": [
+        85.1357,
+        27.9162
+      ]
+    },
+    "purpose": "visual_only_downstream_context_not_part_of_five_anchor_olmo_contract",
+    "catalog": "https://planetarycomputer.microsoft.com/api/stac/v1",
+    "collection": "sentinel-2-l2a",
+    "records": [
+      {
+        "label": "pre",
+        "acquired_at": "2026-08-12T04:57:01.025000Z",
+        "item_id": "S2C_MSIL2A_20260812T045701_R119_T45RUL_20260812T100317",
+        "candidate_item_ids": [
+          "S2C_MSIL2A_20260812T045701_R119_T45RUL_20260812T100317"
+        ],
+        "mgrs_tile": "45RUL",
+        "tile_cloud_pct": 27.947062,
+        "bbox": [
+          84.9659236,
+          27.0197356,
+          85.8709574,
+          28.0201008
+        ],
+        "image": "/data/story/anchors/bidur_pre.png",
+        "image_sha256": "e36a5e706d6c731be80124a459e58c2ee4ada0170d61edfbfb0fe94845320970",
+        "render": {
+          "crs": "EPSG:32645",
+          "source_shape": [
+            3,
+            10980,
+            10980
+          ],
+          "window_m": 2560,
+          "output_shape": [
+            256,
+            256,
+            4
+          ],
+          "valid_pixel_fraction": 1.0
+        }
+      },
+      {
+        "label": "post",
+        "acquired_at": "2026-08-27T04:56:59.024000Z",
+        "item_id": "S2B_MSIL2A_20260827T045659_R119_T45RUL_20260827T084453",
+        "candidate_item_ids": [
+          "S2B_MSIL2A_20260827T045659_R119_T45RUL_20260827T084453"
+        ],
+        "mgrs_tile": "45RUL",
+        "tile_cloud_pct": 54.286689,
+        "bbox": [
+          84.9659236,
+          27.0197356,
+          85.8765996,
+          28.0201614
+        ],
+        "image": "/data/story/anchors/bidur_post.png",
+        "image_sha256": "c2bf59207d20584edf410c2511bad7c0e89fc4332cd5a044650029f2c38342ea",
+        "render": {
+          "crs": "EPSG:32645",
+          "source_shape": [
+            3,
+            10980,
+            10980
+          ],
+          "window_m": 2560,
+          "output_shape": [
+            256,
+            256,
+            4
+          ],
+          "valid_pixel_fraction": 1.0
+        }
+      }
+    ]
   },
   "simulation": {
     "engine": "Rust/WASM deterministic particle preview",

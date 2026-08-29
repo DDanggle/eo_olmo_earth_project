@@ -51,29 +51,31 @@ ROUTE_WAY_IDS = [201928141, 809865767, 24624604, 928822514, 119684552,
 
 POINTS = [
     {
-        "id": "A",
-        "name": "Rasuwagadhi impact AOI",
-        "coordinates": [85.3780644, 28.2786794],
-        "role": "impact_focus",
-        "place": "Pasang Lhamu Highway, Rasuwagadhi, Rasuwa, Nepal",
-        "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
+        "id": "E",
+        "display_label": "SOURCE ESTIMATE",
+        "map_label": "E · SOURCE",
+        "stage": 1,
+        "marker_color": "#ff4d6d",
+        "in_event_chain": True,
+        "name": "Langtang Lirung collapse source",
+        # USGS/위성 기반 근사점. 붕괴는 네팔 영내 Langtang Lirung 북사면에서 발생했으며
+        # 좌표는 검증된 붕괴 폴리곤이 아니라 source-search anchor임.
+        "coordinates": [85.5194, 28.2765],
+        "role": "source_provisional",
+        "place": "North flank of Langtang Lirung, Rasuwa, Nepal (satellite/seismic estimate)",
+        "source": "USGS + China Geological Survey + satellite interpretation",
         "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
-        "evidence_level": "verified_aoi_reported_impact_corridor",
-        "story": "Primary impact AOI at the Nepal–China crossing and the reference window for every PRE/POST comparison. The point locates an inspection window; it is not a pixel-level damage label.",
-    },
-    {
-        "id": "B",
-        "name": "Gyirong border checkpoint",
-        "coordinates": [85.3763336, 28.2828546],
-        "role": "border_checkpoint",
-        "place": "G216, Gyirong Town, Tibet, China",
-        "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
-        "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
-        "evidence_level": "verified_coordinate_reported_impact_corridor",
-        "story": "The cross-border checkpoint beside the impact AOI. It anchors human-exposure review without treating every bright or dark satellite pixel as confirmed infrastructure damage.",
+        "evidence_level": "source_estimate_not_release_polygon",
+        "story": "The rock–ice collapse began on the Nepal side of Langtang Lirung. This red marker is the best public source-search estimate—not a surveyed release polygon. It is the event origin; A and B are downstream impact/checkpoint windows.",
+        "story_ko": "암반–빙하 붕괴는 네팔 영내 Langtang Lirung에서 시작했다. 이 빨간 점은 공개자료상 최선의 발원 수색점이며 현장 측량 방출 폴리곤은 아니다. 사건 원점은 여기이고 A·B는 하류 충격/검문소 창이다.",
     },
     {
         "id": "D",
+        "display_label": "SECONDARY HAZARD",
+        "map_label": "D · LAKE SEARCH",
+        "stage": 2,
+        "marker_color": "#9b7bff",
+        "in_event_chain": True,
         "name": "Barrier lake (reported)",
         # NDRRMA 위성분석(Planet/Landsat, 8/27 11:44): Rasuwagadhi 상류 ~18km, 0.11km².
         # 정확 좌표 미공개 — Lhende 계곡 회랑을 따라 잠정 배치함 (source 앵커와 국경 사이).
@@ -83,23 +85,50 @@ POINTS = [
         "source": "NDRRMA report + AP and Chinese government updates; exact coordinates unpublished",
         "source_url": "https://apnews.com/article/nepal-lake-china-flood-tibet-climate-5086eb25e29b23019632f7817739f807",
         "evidence_level": "reported_hazard_position_illustrative",
-        "story": "A debris-dammed lake was reported after the 26 Aug collapse and was draining on 28 Aug. This is a secondary hazard from the same event sequence—not evidence of a separate 27 Aug landslide—and the marker remains illustrative until an independent footprint is available.",
+        "story": "A reported debris-dammed lake formed during the aftermath. Its public footprint is unresolved, so this purple marker is an approximate search zone—not a second collapse origin or a simulated lake boundary.",
+        "story_ko": "여파 과정에서 토석에 막힌 호수가 생겼다고 보고됐다. 공개 footprint가 없어 보라색 점은 근사 수색구역일 뿐이며, 두 번째 붕괴 원점이나 시뮬레이션 호수 경계가 아니다.",
     },
     {
-        "id": "E",
-        "name": "Langtang Lirung source estimate",
-        # USGS/위성 기반 근사점. 붕괴는 네팔 영내 Langtang Lirung 북사면에서 발생했으며
-        # 좌표는 검증된 붕괴 폴리곤이 아니라 source-search anchor임.
-        "coordinates": [85.5194, 28.2765],
-        "role": "source_provisional",
-        "place": "North flank of Langtang Lirung, Rasuwa, Nepal (satellite/seismic estimate)",
-        "source": "USGS + China Geological Survey + satellite interpretation",
+        "id": "A",
+        "display_label": "IMPACT WINDOW",
+        "map_label": "A · IMPACT",
+        "stage": 3,
+        "marker_color": "#ff8a3d",
+        "in_event_chain": True,
+        "name": "Rasuwagadhi impact AOI",
+        "coordinates": [85.3780644, 28.2786794],
+        "role": "impact_focus",
+        "place": "Pasang Lhamu Highway, Rasuwagadhi, Rasuwa, Nepal",
+        "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
         "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
-        "evidence_level": "source_estimate_not_release_polygon",
-        "story": "Best current source-search anchor for the 26 Aug rock–ice collapse on the Nepal side of Langtang Lirung. OLMoEarth can compare this window with its own history, but it cannot confirm cause or reconstruct the release volume by itself.",
+        "evidence_level": "verified_aoi_reported_impact_corridor",
+        "story": "The principal before/after inspection window at the Nepal–China crossing. A is not the collapse origin: it is where the upstream cascade reached infrastructure and where the current satellite time series is centered.",
+        "story_ko": "네팔–중국 국경의 핵심 전후 비교창이다. A는 붕괴 원점이 아니라 상류 연쇄가 기반시설에 도달한 곳이며 현재 위성 시계열의 중심이다.",
+    },
+    {
+        "id": "B",
+        "display_label": "BORDER CHECKPOINT",
+        "map_label": "B · BORDER",
+        "stage": 4,
+        "marker_color": "#ffd166",
+        "in_event_chain": True,
+        "name": "Gyirong border checkpoint",
+        "coordinates": [85.3763336, 28.2828546],
+        "role": "border_checkpoint",
+        "place": "G216, Gyirong Town, Tibet, China",
+        "source": "user coordinate + OSM Nominatim reverse lookup; USGS event assessment",
+        "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+        "evidence_level": "verified_coordinate_reported_impact_corridor",
+        "story": "The cross-border checkpoint beside the impact AOI. It anchors human-exposure review without treating every bright or dark satellite pixel as confirmed infrastructure damage.",
+        "story_ko": "충격 관찰창 옆의 국경 검문소다. 모든 밝고 어두운 픽셀을 피해로 단정하지 않으면서 사람·기반시설 노출을 검토하는 기준점이다.",
     },
     {
         "id": "F",
+        "display_label": "DOWNSTREAM OBSERVATION",
+        "map_label": "F · BIDUR",
+        "stage": 5,
+        "marker_color": "#4da3ff",
+        "in_event_chain": True,
         "name": "Trishuli Bazar / Bidur reach",
         # 좌표는 OSM Trishuli Ganga way 27033466 하류 단부(강 위) — 시가지 중심이 아님.
         "coordinates": [85.1357, 27.9162],
@@ -108,17 +137,24 @@ POINTS = [
         "source": "USGS public event map; OSM river reach",
         "source_url": "https://www.usgs.gov/media/images/2026-nepal-debris-avalanche-and-flash-flood-map",
         "evidence_level": "downstream_inspection_anchor",
-        "story": "A downstream inspection anchor on the Trishuli corridor. The event propagated far beyond the border, but this marker scopes where to seek corroboration rather than asserting damage at every intermediate reach.",
+        "story": "A real downstream Sentinel-2 before/after window on MGRS tile 45RUL. The pair closes the visual chain from source to river response; it is strong observation evidence, not yet a damage label or part of the sealed five-anchor OLMo contract.",
+        "story_ko": "MGRS 45RUL에서 회수한 실제 하류 Sentinel-2 전후 창이다. 발원에서 하천 반응까지 시각 사슬을 닫지만, 아직 피해 라벨도 봉인된 OLMo 5-anchor 계약의 일부도 아니다.",
     },
     {
         "id": "C",
+        "display_label": "NEGATIVE CONTROL",
+        "map_label": "C · CONTROL",
+        "stage": 99,
+        "marker_color": "#9aa3a0",
+        "in_event_chain": False,
         "name": "Rishing reference",
         "coordinates": [84.3103107, 27.8790412],
         "role": "distant_reference",
         "place": "Rishing-03, Tanahun, Gandaki Province, Nepal",
         "source": "user coordinate + OSM Nominatim reverse lookup",
         "evidence_level": "distant_placebo_reference",
-        "story": "A deliberately distant, untouched window ~114 km away. It exists so the pipeline can prove what NO change looks like — the placebo and transfer reference, not an impact site.",
+        "story": "C is deliberately outside the flood corridor, about 114 km from Rasuwagadhi. It is a negative-control/placebo window used to estimate ordinary change. It is not an event site, endpoint, or claimed affected area.",
+        "story_ko": "C는 Rasuwagadhi에서 약 114 km 떨어져 의도적으로 홍수 회랑 밖에 둔 음성 대조/placebo 창이다. 일상 변화를 추정할 뿐 사건 지점·종점·피해 주장 지역이 아니다.",
     },
 ]
 
@@ -674,9 +710,13 @@ def research_block() -> dict[str, Any]:
     """
     event_delta_path = WORK_ROOT / "artifacts/sen12_event_delta_pilot/report.json"
     susceptibility_path = WORK_ROOT / "artifacts/sen12_susceptibility_probe/report.json"
+    confirmatory_path = WORK_ROOT / "artifacts/confirmatory_8region_summary.json"
     event_delta = json.loads(event_delta_path.read_text()) if event_delta_path.exists() else None
     susceptibility = (json.loads(susceptibility_path.read_text())
                       if susceptibility_path.exists() else None)
+    confirmatory = json.loads(confirmatory_path.read_text()) if confirmatory_path.exists() else None
+    transfer_headline = (confirmatory or {}).get("headline") or {}
+    transfer_means = transfer_headline.get("region_macro_primary_mean") or {}
     transfer_rows = []
     if event_delta:
         for region, result in (event_delta.get("regions") or {}).items():
@@ -705,6 +745,23 @@ def research_block() -> dict[str, Any]:
             "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
             "placebo_count": 2,
             "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet.",
+        },
+        "confirmatory_transfer": {
+            "status": (confirmatory or {}).get("status"),
+            "regions": transfer_headline.get("n_regions"),
+            "wins_reuse_vs_raw_strong": transfer_headline.get("per_region_wins_reuse_vs_raw_strong"),
+            "strong_wins": transfer_headline.get("strong_wins_reuse_vs_raw_strong"),
+            "reuse_region_macro": transfer_means.get("reuse"),
+            "raw_strong_region_macro": transfer_means.get("raw_strong"),
+            "absolute_gap": transfer_means.get("reuse_minus_raw_strong"),
+            "relative_gain_pct": (
+                100 * transfer_means["reuse_minus_raw_strong"] / transfer_means["raw_strong"]
+                if transfer_means.get("raw_strong") and transfer_means.get("reuse_minus_raw_strong") is not None
+                else None
+            ),
+            "non_win_regions": transfer_headline.get("non_win_regions") or [],
+            "claim_boundary": (confirmatory or {}).get("claim_boundary"),
+            "artifact_sha256": sha256(confirmatory_path) if confirmatory_path.exists() else None,
         },
         "historical_event_delta_pilot": {
             "rows": transfer_rows,
@@ -852,7 +909,7 @@ def build(refresh_osm: bool) -> None:
     anchors_path = PUBLIC_DATA / "olmo-input-anchors.geojson"
     anchors_path.write_text(json.dumps(anchors_geojson, indent=2, ensure_ascii=False) + "\n")
 
-    point_a = POINTS[0]["coordinates"]
+    point_a = next(point["coordinates"] for point in POINTS if point["id"] == "A")
     for point in POINTS:
         point["distance_from_a_km"] = round(haversine_km(point_a, point["coordinates"]), 2)
 
@@ -888,6 +945,13 @@ def build(refresh_osm: bool) -> None:
         "decision": build_decision(live_observation, scheduled_scenes, olmoearth),
         "ops_log": build_ops_log(),
         "research": research_block(),
+        "downstream_visual": (
+            json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
+            if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {
+                "purpose": "visual_only_downstream_context_not_part_of_five_anchor_olmo_contract",
+                "records": [],
+            }
+        ),
         "simulation": {
             "engine": "Rust/WASM deterministic particle preview",
             "route_source": "verified OSM river-way chain from Bhote Koshi to Trishuli",
