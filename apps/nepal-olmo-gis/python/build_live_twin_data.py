@@ -730,6 +730,10 @@ def research_block() -> dict[str, Any]:
     event_delta_path = WORK_ROOT / "artifacts/sen12_event_delta_pilot/report.json"
     susceptibility_path = WORK_ROOT / "artifacts/sen12_susceptibility_probe/report.json"
     confirmatory_path = WORK_ROOT / "artifacts/confirmatory_8region_summary.json"
+    embedding_manifests = {
+        mode: WORK_ROOT / f"artifacts/external_data/nepal_olmo_live_v1/materialized/{mode}/embedding_manifest.json"
+        for mode in ("baseline", "placebo_a", "placebo_b")
+    }
     event_delta = json.loads(event_delta_path.read_text()) if event_delta_path.exists() else None
     susceptibility = (json.loads(susceptibility_path.read_text())
                       if susceptibility_path.exists() else None)
@@ -754,6 +758,19 @@ def research_block() -> dict[str, Any]:
                 "raw_auroc": (result.get("raw") or {}).get("auroc"),
                 "verdict": result.get("verdict"),
             })
+    sealed_embedding_rasters = 0
+    embedding_shape = None
+    embedding_manifest_hashes = {}
+    for mode, manifest_path in embedding_manifests.items():
+        if not manifest_path.exists():
+            continue
+        manifest = json.loads(manifest_path.read_text())
+        valid_anchors = [anchor for anchor in manifest.get("anchors", []) if anchor.get("valid")]
+        sealed_embedding_rasters += len(valid_anchors)
+        embedding_manifest_hashes[mode] = sha256(manifest_path)
+        if valid_anchors and embedding_shape is None:
+            first = valid_anchors[0]
+            embedding_shape = [first.get("bands"), first.get("height"), first.get("width")]
     return {
         "integration_disclaimer": (
             "Research integration of OlmoEarth representations with EarthRanger-style incident provenance "
@@ -765,6 +782,68 @@ def research_block() -> dict[str, Any]:
             "placebo_count": 2,
             "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet.",
         },
+        "ai_run_ledger": [
+            {
+                "id": "nepal_pre_event_representation",
+                "state": "EXECUTED",
+                "model": "OlmoEarth v1 Base (frozen)",
+                "input": "5 Nepal anchors × S1+S2 × 4 periods, across baseline and two pre-event placebo cubes",
+                "output": f"{sealed_embedding_rasters} sealed embedding rasters; shape {embedding_shape or ['—', '—', '—']}",
+                "allows": "pre-event reference, retrieval query and a future post-event delta",
+                "forbids": "damage, flood depth, runout or anomaly claims",
+                "artifact_sha256": embedding_manifest_hashes,
+            },
+            {
+                "id": "sen12_frozen_transfer",
+                "state": "MEASURED",
+                "model": "OlmoEarth v1 frozen encoder + trained small segmentation decoder",
+                "input": "Sen12Landslides; 8 held-out regions; 3 seeds; matched region-macro protocol",
+                "output": "reuse 0.272 vs raw UNet3D 0.197; reuse wins 6/8 regions",
+                "allows": "frozen EO representation transfer beats this raw baseline on aggregate",
+                "forbids": "universal or Olmo-specific superiority before the matched Presto control",
+                "artifact_sha256": sha256(confirmatory_path) if confirmatory_path.exists() else None,
+            },
+            {
+                "id": "historical_temporal_delta",
+                "state": "MEASURED_PILOT",
+                "model": "OlmoEarth temporal embedding delta",
+                "input": "S2-only pre4/post4 windows from Hokkaido, Hiroshima and Dominica",
+                "output": "AUROC 0.853 / 0.952 / 0.605; placebo 0.564 / 0.602 / 0.433",
+                "allows": "candidate-localisation feasibility in related historical events",
+                "forbids": "Nepal validation or a universal landslide detector",
+                "artifact_sha256": sha256(event_delta_path) if event_delta_path.exists() else None,
+            },
+            {
+                "id": "pre_event_forecast",
+                "state": "NEGATIVE_RESULT",
+                "model": "OlmoEarth leave-one-region-out probe",
+                "input": "pre-event embeddings from three historical regions",
+                "output": "pre-event susceptibility signal not detected",
+                "allows": "a falsified forecasting claim",
+                "forbids": "prospective landslide prediction",
+                "artifact_sha256": sha256(susceptibility_path) if susceptibility_path.exists() else None,
+            },
+            {
+                "id": "nepal_post_event_delta",
+                "state": "WAITING_INPUT",
+                "model": "OlmoEarth v1 Base (frozen)",
+                "input": "sealed post-event S1+S2 cube, not yet materialized",
+                "output": "none",
+                "allows": "nothing beyond the verified observation ledger",
+                "forbids": "live change heatmap, anomaly score or damage label",
+                "artifact_sha256": None,
+            },
+            {
+                "id": "matched_second_geofm",
+                "state": "NOT_RUN",
+                "model": "Presto matched control",
+                "input": "same Sen12 cube and matched decoder protocol",
+                "output": "none",
+                "allows": "nothing yet",
+                "forbids": "calling the measured transfer gain uniquely OlmoEarth-specific",
+                "artifact_sha256": None,
+            },
+        ],
         "confirmatory_transfer": {
             "status": (confirmatory or {}).get("status"),
             "regions": transfer_headline.get("n_regions"),

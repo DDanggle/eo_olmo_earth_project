@@ -2780,3 +2780,45 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   `acquired_pending_catalog` 상태다.
 - 앱 소스 `c198aa5`를 Sites 저장소에 push하고 production build archive로 version 8을 저장했다.
   기존 사이트가 public이므로 새 version의 공개 배포는 사용자 명시 승인 전까지 시작하지 않았다.
+
+### 2026-08-29 — Nepal live twin: planetary response stack 확장 (완료)
+
+- 계획: 단일 OLMo 데모를 `관측 → 다중 GeoFM 후보 → 물리 타당성 → 인간 노출·보건 영향 →
+  독립 증거·사람 검토`의 planetary response stack으로 확장한다. OLMoEarth를 중심 표현으로
+  유지하되 Prithvi/Presto/TerraMind/AlphaEarth 계열은 입력에 억지로 끼우지 않고, late fusion·
+  candidate consensus·teacher/student·abstention 중 계약에 맞는 결합만 허용한다.
+- 사전 판정 기준: ① 다른 모델은 동일 입력·라벨·decoder 통제가 없으면 `보강 후보`일 뿐 OLMo
+  우월성 근거가 아니다 ② 물리모델은 DEM·초기조건·불확실성 ensemble과 사후 관측 검증 없이는
+  경로 애니메이션을 넘는 예측이 아니다 ③ 질병·사망·개인 위치는 원격탐사로 직접 추론하지 않고
+  시설 접근성·WASH·인구노출의 검토 대기 후보만 만든다 ④ SNS는 공식 embed/API 또는 사용자가
+  등록한 공개 URL만 provenance card로 쓰고 스크래핑·신원추적·ground truth 취급을 금지한다
+  ⑤ 현행 CVPR transfer GPU queue와 확인 실행 코드는 건드리지 않는다.
+- 예상 산출물: 최신 1차 자료 기반 모델/서비스 결합표, candidate funnel과 평가 계약,
+  humanitarian/health 안전 경계, 앱의 response-stack·candidate queue·human-impact story,
+  TypeScript/lint/build/browser 검증, 공개 배포 전 승인 가능한 새 Sites version.
+
+#### 결과
+
+- 최신 공식 catalog를 다시 봉인했다(`20260829T052655Z`). 08-28 S1은 공식 footprint 5/5지만
+  rslearn provider selection은 계속 08-24를 골라 exact-period match 0/5다. 따라서 대용량
+  materialization과 Nepal post-event OLMo embedding은 실행하지 않았다.
+- 앱을 `OBSERVE → REPRESENT → EXPLAIN → IMPACT` stack, C0–C6 candidate funnel,
+  WHO-verified human-impact/access lens로 확장했다. 다른 GeoFM은 OLMo 입력밴드처럼 가장하지 않고
+  matched control·late fusion·candidate cascade로만 연결한다.
+- 사용자의 “AI가 무엇을 했는가” 지적을 반영해 hash-linked `ai_run_ledger`를 데이터 생성기에
+  추가했다. 실제 상태는 6행으로 강제한다: Nepal pre-event OLMo `EXECUTED`, 8-region transfer
+  `MEASURED`, historical delta `MEASURED_PILOT`, prospective susceptibility `NEGATIVE_RESULT`,
+  Nepal live delta `WAITING_INPUT`, Presto matched control `NOT_RUN`.
+- 기존 `5 × 768-d` 표기는 실제 artifact를 지나치게 축약했으므로 바로잡았다. 봉인 산출물은
+  baseline/placebo 2개 × 5 anchor = **15 embedding GeoTIFF**, 각 **768×64×64 float32 spatial
+  grid**다. 지도·story·Rust/WASM particle은 AI 출력이 아니라 이 산출물의 전달/감사 UI임을
+  화면과 `docs/NEPAL_WHAT_THE_AI_ACTUALLY_DOES_2026_08_29.md`에 명시했다.
+- 연구 종합은 `docs/PLANETARY_RESPONSE_STACK_RESEARCH_2026_08_29.md`에 저장했다. 제품 주지표는
+  정확도 단독이 아니라 matched recall의 false-candidate area, analyst minutes, invalid-action rate다.
+- 검증: `pnpm data`, TypeScript, ESLint(오류 0; 기존 `<img>` 권고 6), asset verifier, Rust/WASM,
+  vinext production build 통과. 생성 JSON에서 AI ledger 6행·15 raster·상태 불변식을 검사한다.
+  브라우저는 이전 localhost connection-failure 페이지의 URL policy 때문에 최종 재진입이 차단되어
+  우회하지 않았고, 직전 화면 구조 QA와 정적/빌드 검증을 근거로 남겼다.
+- 상태: **구현·연구 문서 완료, 공개 배포 보류**. 기존 public site는 사용자 명시 승인 없이
+  교체하지 않는다. 과학적 다음 P0는 UI가 아니라 Presto matched control과 Nepal post-event
+  exact-period seal이다.
