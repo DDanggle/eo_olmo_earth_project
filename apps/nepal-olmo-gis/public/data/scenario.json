@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T07:39:34.327905+00:00",
+  "generated_at": "2026-08-29T07:54:09.698176+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -1155,6 +1155,146 @@
         "distance_from_a_km": 30.9
       }
     ],
+    "retrieval": {
+      "query_windows": [
+        "w03",
+        "w18",
+        "w02"
+      ],
+      "threshold": 0.336890310049057,
+      "top10": [
+        {
+          "id": "w02",
+          "similar_token_frac": 0.4859992328346759,
+          "sim_mean": 0.3197973966598511,
+          "status": "ranked",
+          "rank": 1,
+          "place": "Timure, Gosaikunda",
+          "center_lonlat": [
+            85.3580332,
+            28.2380123
+          ],
+          "delta_rank": 3
+        },
+        {
+          "id": "w03",
+          "similar_token_frac": 0.37965616045845274,
+          "sim_mean": 0.29980018734931946,
+          "status": "ranked",
+          "rank": 2,
+          "place": "Lingling, Gosaikunda",
+          "center_lonlat": [
+            85.3552582,
+            28.216824
+          ],
+          "delta_rank": 1
+        },
+        {
+          "id": "w18",
+          "similar_token_frac": 0.2349278233795641,
+          "sim_mean": 0.25884637236595154,
+          "status": "ranked",
+          "rank": 3,
+          "place": "Tupche, Bidur",
+          "center_lonlat": [
+            85.1840429,
+            27.972805
+          ],
+          "delta_rank": 2
+        },
+        {
+          "id": "w08",
+          "similar_token_frac": 0.19642857142857142,
+          "sim_mean": 0.23101021349430084,
+          "status": "ranked",
+          "rank": 4,
+          "place": "Sano Bharkhu, Gosaikunda",
+          "center_lonlat": [
+            85.3009424,
+            28.132384
+          ],
+          "delta_rank": 18
+        },
+        {
+          "id": "w15",
+          "similar_token_frac": 0.19590268886043533,
+          "sim_mean": 0.251992791891098,
+          "status": "ranked",
+          "rank": 5,
+          "place": "Uttargaya, Uttargaya",
+          "center_lonlat": [
+            85.1934198,
+            28.0309439
+          ],
+          "delta_rank": 5
+        },
+        {
+          "id": "w04",
+          "similar_token_frac": 0.18053709119914915,
+          "sim_mean": 0.24100668728351593,
+          "status": "ranked",
+          "rank": 6,
+          "place": "Lingling, Gosaikunda",
+          "center_lonlat": [
+            85.351472,
+            28.1974739
+          ],
+          "delta_rank": 20
+        },
+        {
+          "id": "w20",
+          "similar_token_frac": 0.17151011935651272,
+          "sim_mean": 0.24626390635967255,
+          "status": "ranked",
+          "rank": 7,
+          "place": "Bidur",
+          "center_lonlat": [
+            85.15528,
+            27.9337759
+          ],
+          "delta_rank": 8
+        },
+        {
+          "id": "w16",
+          "similar_token_frac": 0.16385135135135134,
+          "sim_mean": 0.25040724873542786,
+          "status": "ranked",
+          "rank": 8,
+          "place": "Shanti Bazar, Kispang",
+          "center_lonlat": [
+            85.1841681,
+            28.0127153
+          ],
+          "delta_rank": 9
+        },
+        {
+          "id": "w21",
+          "similar_token_frac": 0.15798698047070606,
+          "sim_mean": 0.24868136644363403,
+          "status": "ranked",
+          "rank": 9,
+          "place": "Bidur",
+          "center_lonlat": [
+            85.1433941,
+            27.9204357
+          ],
+          "delta_rank": 6
+        },
+        {
+          "id": "w14",
+          "similar_token_frac": 0.15384615384615385,
+          "sim_mean": 0.19571636617183685,
+          "status": "ranked",
+          "rank": 10,
+          "place": "Chipleti, Uttargaya",
+          "center_lonlat": [
+            85.2021352,
+            28.0475998
+          ],
+          "delta_rank": 10
+        }
+      ]
+    },
     "report_sha256": "3a09d8885cf8ca287bfa1ec270c3afdedb4a93145df2c1e1e2aae0a2dba32299",
     "geojson": {
       "type": "FeatureCollection",

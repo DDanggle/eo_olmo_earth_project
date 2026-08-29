@@ -935,8 +935,17 @@ def candidates_block() -> dict[str, Any] | None:
     for w in rep.get("top10", []):
         lon, lat = w["center_lonlat"]
         top10.append({**w, "place": places.get(w["id"], ""), "distance_from_a_km": round(haversine_km([a_lon, a_lat], [lon, lat]), 1)})
+    # 변화-벡터 검색(같은 종류의 변화) — 있으면 붙임
+    retrieval = None
+    rr = WORK_ROOT / "artifacts/corridor_s2_candidates/retrieval/report.json"
+    if rr.exists():
+        rj = json.loads(rr.read_text())
+        centers = {w["id"]: w["center_lonlat"] for w in rep["windows"]}
+        drank = {w["id"]: w.get("rank") for w in rep["windows"]}
+        retrieval = {"query_windows": rj["query_windows"], "threshold": rj["threshold_sim_placebo_p99"],
+                     "top10": [{**o, "place": places.get(o["id"], ""), "center_lonlat": centers.get(o["id"]), "delta_rank": drank.get(o["id"])} for o in rj["top10"]]}
     return {"schema": rep.get("schema"), "claim": rep.get("claim"), "threshold_placebo_p99": rep.get("threshold_placebo_p99"),
-            "placebo_tokens": rep.get("placebo_tokens"), "windows": len(rep["windows"]), "top10": top10,
+            "placebo_tokens": rep.get("placebo_tokens"), "windows": len(rep["windows"]), "top10": top10, "retrieval": retrieval,
             "report_sha256": sha256(rp), "geojson": {"type": "FeatureCollection", "features": feats}}
 
 

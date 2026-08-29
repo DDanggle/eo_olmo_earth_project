@@ -129,7 +129,8 @@ type Scenario = {
   simulation: { route_points: number; claim: string; scientific_upgrade?: string };
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
     top10: { id: string; rank: number; center_lonlat: [number, number]; candidate_token_frac: number; valid_event_frac: number; place?: string; distance_from_a_km?: number }[];
-    report_sha256: string; geojson: FeatureCollection } | null;
+    report_sha256: string; geojson: FeatureCollection;
+    retrieval?: { query_windows: string[]; threshold: number; top10: { id: string; rank: number; similar_token_frac: number; place?: string; center_lonlat?: [number, number]; delta_rank?: number | null }[] } | null } | null;
 };
 
 type Hydrography = {
@@ -192,6 +193,7 @@ const kstStamp = (iso: string | null) => iso
 
 const lightRasterStyle = {
   version: 8 as const,
+  glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
   sources: {
     hillshade: {
       type: 'raster' as const,
@@ -312,6 +314,8 @@ export default function Home() {
   const [overlayOpacity, setOverlayOpacity] = useState(0.78);
   const [showAnchors, setShowAnchors] = useState(true);
   const [flowPlaying, setFlowPlaying] = useState(true);
+  const [visibleParticles, setVisibleParticles] = useState<number | null>(null);
+  const visibleLogRef = useRef(0);
   const [flowSpeed, setFlowSpeed] = useState(0.034);
   const [leftOpen, setLeftOpen] = useState(true);
   const [rightOpen, setRightOpen] = useState(true);
@@ -518,7 +522,9 @@ export default function Home() {
   // 연구 지점 레이어 — points가 데이터에서 오므로 로드 후에 붙인다.
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !map.isStyleLoaded() || points.length === 0) return;
+    if (!mapReady || !map || points.length === 0) return;
+    // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도 (2026-08-29 실측: 강·점·장면이 영영 안 붙던 원인)
+    if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
     if (!map.getSource('research-points')) {
       map.addSource('research-points', { type: 'geojson', data: researchPoints });
       map.addLayer({
@@ -589,7 +595,9 @@ export default function Home() {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !map.isStyleLoaded() || !hydrography || map.getSource('hydrography')) return;
+    if (!mapReady || !map || !hydrography || map.getSource('hydrography')) return;
+    // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도 (2026-08-29 실측: 강·점·장면이 영영 안 붙던 원인)
+    if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
     const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
     map.addSource('hydrography', { type: 'geojson', data: hydrography as FeatureCollection });
     map.addLayer({ id: 'river-casing', type: 'line', source: 'hydrography', paint: { 'line-color': '#06100e', 'line-width': 8, 'line-opacity': 0.82 } }, before);
@@ -600,7 +608,9 @@ export default function Home() {
     const map = mapRef.current;
     if (!mapReady || !map || !map.isStyleLoaded()) return;
     fetch('/data/olmo-input-anchors.geojson').then((r) => r.json() as Promise<FeatureCollection>).then((anchors) => {
-      if (!map.isStyleLoaded() || map.getSource('olmo-anchors')) return;
+      if (map.getSource('olmo-anchors')) return;
+      // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도 (2026-08-29 실측: 강·점·장면이 영영 안 붙던 원인)
+      if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
       const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
       map.addSource('olmo-anchors', { type: 'geojson', data: anchors });
       map.addLayer({ id: 'olmo-anchor-fill', type: 'fill', source: 'olmo-anchors', paint: { 'fill-color': '#5fffd7', 'fill-opacity': 0.045 } }, before);
@@ -610,6 +620,12 @@ export default function Home() {
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
           paint: { 'fill-color': '#eb6834',
                    'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.02, 0.05, 0.18, 0.2, 0.42, 0.5, 0.6] } }, before);
+        try { map.addLayer({ id: 'ai-candidate-rank', type: 'symbol', source: 'ai-candidates',
+          filter: ['has', 'rank'],
+          layout: { 'text-field': ['concat', '#', ['to-string', ['get', 'rank']]], 'text-size': ['case', ['<=', ['get', 'rank'], 6], 15, 11],
+                    'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true, 'text-anchor': 'center' },
+          paint: { 'text-color': ['case', ['<=', ['get', 'rank'], 6], '#eb6834', '#7a4a2e'], 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
+        catch (e) { console.warn('[diag] candidate rank labels skipped', e); }
         map.addLayer({ id: 'ai-candidate-line', type: 'line', source: 'ai-candidates',
           paint: { 'line-color': '#eb6834', 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': 0.8 } }, before);
       }
@@ -642,7 +658,9 @@ export default function Home() {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!mapReady || !map || !map.isStyleLoaded() || !scenario || !activeSceneId) return;
+    if (!mapReady || !map || !scenario || !activeSceneId) return;
+    // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도 (2026-08-29 실측: 강·점·장면이 영영 안 붙던 원인)
+    if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
     const scene = scenario.scene_records.find((item) => item.id === activeSceneId);
     if (!scene) return;
     if (map.getLayer('satellite-scene')) map.removeLayer('satellite-scene');
@@ -722,9 +740,11 @@ export default function Home() {
           context.globalCompositeOperation = 'source-over';
           context.shadowColor = 'rgba(255, 255, 255, 0.9)';
           context.shadowBlur = 3;
+          let onScreen = 0;
           for (let index = 0; index < count; index += 1) {
             const screen = map.project([values[index * 3], values[index * 3 + 1]]);
             if (screen.x < 0 || screen.y < 0 || screen.x > width || screen.y > height) continue;
+            onScreen += 1;
             context.globalAlpha = 0.35 + values[index * 3 + 2] * 0.65;
             context.fillStyle = index % 7 === 0 ? '#eb6834' : '#0f5fd7';
             context.beginPath();
@@ -733,6 +753,10 @@ export default function Home() {
           }
           context.globalAlpha = 1;
           context.shadowBlur = 0;
+          if ((visibleLogRef.current += 1) % 60 === 1) {
+            setVisibleParticles(onScreen);
+            if (visibleLogRef.current === 1) console.log('[diag] flow first frame | particles =', count, '| on-screen =', onScreen, '| canvas =', width + 'x' + height);
+          }
           animationFrame = requestAnimationFrame(draw);
         };
         animationFrame = requestAnimationFrame(draw);
@@ -1090,6 +1114,17 @@ export default function Home() {
                     <button onClick={() => mapRef.current?.flyTo({ center: c.center_lonlat, zoom: 13.6, duration: 900 })}>GO TO MAP</button></footer>
                 </article>
               ))}
+              {scenario.candidates.retrieval && (
+                <div className="retrieval-box">
+                  <p className="cand-help"><b>SEARCH · same kind of change</b> — query = change vectors of #{scenario.candidates.retrieval.query_windows.join(', #')} candidate tokens; every window's tokens scored by cosine to that query, threshold = placebo p99.</p>
+                  <ol>
+                    {scenario.candidates.retrieval.top10.slice(0, 8).map((r) => (
+                      <li key={r.id}><b>{r.rank}</b><span>{r.place || r.id}</span><em>{(r.similar_token_frac * 100).toFixed(0)}% similar{r.delta_rank ? ` · Δ rank #${r.delta_rank}` : ''}</em>
+                        {r.center_lonlat && <button onClick={() => mapRef.current?.flyTo({ center: r.center_lonlat!, zoom: 13.6, duration: 900 })}>GO</button>}</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
             </div>
           )}
           <div className="pipeline-row ready"><span>OE</span><div><strong>Frozen representation</strong><small>sealed baseline · retrieval · downstream probes</small></div><b>READY</b></div>
@@ -1110,7 +1145,7 @@ export default function Home() {
         <div className="flow-control">
           <button onClick={replayEventChain} aria-label="Replay the event-chain corridor animation">REPLAY CHAIN</button>
           <div>
-            <label htmlFor="flow-speed"><span>{flowPlaying ? 'ROUTE PLAYING' : 'ROUTE PAUSED'}</span><b>{(flowSpeed / 0.034).toFixed(1)}×</b></label>
+            <label htmlFor="flow-speed"><span>{flowPlaying ? 'ROUTE PLAYING' : 'ROUTE PAUSED'}{visibleParticles != null ? ` · ${visibleParticles} ON SCREEN` : wasmStatus === 'ready' ? ' · 0 ON SCREEN' : ` · ${wasmStatus.toUpperCase()}`}</span><b>{(flowSpeed / 0.034).toFixed(1)}×</b></label>
             <input id="flow-speed" type="range" min="0.012" max="0.09" step="0.002" value={flowSpeed} onChange={(event) => setFlowSpeed(Number(event.target.value))} />
           </div>
         </div>
