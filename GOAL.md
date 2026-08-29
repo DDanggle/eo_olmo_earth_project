@@ -2719,3 +2719,18 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   `docs/NEPAL_OLMO_PHYSICS_STORYBOARD_UPDATE_2026_08_29.md`와 handoff 재개 감사에 기록했다.
 - 상태: **완료 — live embedding은 의도적으로 미실행**. 08-31 실제 footprint→selection→4+4 seal이
   통과하기 전까지 재계산하지 않으며 CVPR 본선 GPU queue는 변경하지 않았다.
+
+### 2026-08-29 — Nepal live twin: 스펙트럼 섹션·전체 검증·배포 준비 (이 세션)
+
+- 병렬 세션의 감사 결과(`4bb36f2`: Langtang Lirung 정정, MISSED_COVERAGE, 물리 결합 계약,
+  스토리 11섹션)를 실물 대조로 확인했음. 재개 조건 4개 중 1·2가 여전히 미충족이므로
+  live embedding은 실행하지 않았음.
+- 스토리에 04b THE SPECTRA를 추가했음(`f2d533f`): 같은 08-27 Rasuwagadhi 창의
+  트루컬러/SWIR(B12·B8A·B04)/NDWI 3연 패널 + 사건 전 08-12 SWIR 비교. SWIR에서
+  debris 회랑(분홍-갈색)과 내부 물길(청색)이 트루컬러보다 명확함을 실물 확인했음.
+- 전체 검증 통과: pnpm data(route 79) · tsc 0오류 · eslint 0오류/10경고 · asset verifier
+  (particles 280, worker 508,167B) · production build · 헤드리스 스크린샷(메인/스토리 12섹션).
+- 신규 관측 없음: 08-28 12:00 UTC 이후 PC STAC에서 AOI 포함 S1/S2 제품 0건 재확인.
+  다음 게이트는 08-31 00:07 UTC S1 후보이며 footprint containment로 재판정함.
+- 배포 준비 완료: 최신 소스는 이 저장소 HEAD. seeso Sites 재배포는 해당 세션의
+  퍼블리시 도구에서 이 HEAD 기준으로 version 7을 올리면 됨.
