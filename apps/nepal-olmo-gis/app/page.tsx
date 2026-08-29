@@ -260,10 +260,6 @@ export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const initialCorridorFitRef = useRef(false);
-  const liveDelta = useMemo(() => {
-    const ped = scenario?.olmoearth?.post_event_delta;
-    return typeof ped === 'object' && ped && (ped as Record<string, unknown>).live_mode ? (ped as Record<string, unknown>) : null;
-  }, [scenario]);
   const flowSpeedRef = useRef(0.034);
   const flowPlayingRef = useRef(true);
   const wasmRef = useRef<FlowExports | null>(null);
@@ -777,6 +773,10 @@ export default function Home() {
     return () => { cancelled = true; wasmRef.current = null; cancelAnimationFrame(animationFrame); };
   }, [hydrography, mapReady]);
 
+  const liveDelta = useMemo(() => {
+    const ped = scenario?.olmoearth?.post_event_delta;
+    return typeof ped === 'object' && ped && (ped as Record<string, unknown>).live_mode ? (ped as Record<string, unknown>) : null;
+  }, [scenario]);
   const activeScene = scenario?.scene_records.find((item) => item.id === activeSceneId) ?? null;
   const latestOpticalScene = useMemo(() => {
     const optical = scenario?.scene_records.filter((scene) => shortSensor(scene.sensor) === 'S2') ?? [];
