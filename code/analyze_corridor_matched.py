@@ -25,6 +25,7 @@ def main():
     # 관측성: 광학 스캔(embed_v2)의 유효 마스크로 구름·눈 창을 풀에서 제외 (봉인 계약엔 마스크가 없어 구름 Δ가 임계를 폭주시킴)
     vdir = REPO / "artifacts/corridor_s2_candidates/embed_v2"
     def valid(wid):
+        if os.environ.get("NO_OPTICAL_MASK"): return None   # 레이더 단독 분석: 광학 구름 마스크를 적용하지 않음
         f = vdir / f"{wid}_delta.npz"
         if not f.exists(): return None
         d = np.load(f); return d["valid_event"], d["valid_placebo"]

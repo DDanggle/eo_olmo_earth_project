@@ -14,9 +14,15 @@ assert.equal(scenario.olmoearth.anchors, 5);
 assert.equal(scenario.research.confirmatory_transfer.regions, 8);
 assert.equal(scenario.research.confirmatory_transfer.wins_reuse_vs_raw_strong, 6);
 assert.equal(scenario.research.ai_run_ledger.length, 6);
-assert.equal(scenario.input_contract_audit?.status, 'corrected');
-assert.equal(scenario.olmoearth.post_event_delta?.status, 'superseded_missing_sentinel1_db_transform');
-assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.state, 'SUPERSEDED');
+const rerunDone = scenario.input_contract_audit?.five_anchor_rerun?.status === 'recomputed';
+assert.ok(['corrected', 'corrected_and_rerun'].includes(scenario.input_contract_audit?.status));
+if (rerunDone) {
+  assert.notEqual(scenario.olmoearth.post_event_delta?.status, 'superseded_missing_sentinel1_db_transform');
+  assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.state, 'EXECUTED');
+} else {
+  assert.equal(scenario.olmoearth.post_event_delta?.status, 'superseded_missing_sentinel1_db_transform');
+  assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.state, 'SUPERSEDED');
+}
 assert.match(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_pre_event_representation')?.output ?? '', /preserved legacy rasters.*excluded/);
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'pre_event_forecast')?.state, 'NEGATIVE_RESULT');
 assert.equal(scenario.research.ai_run_ledger.find((run) => run.id === 'nepal_post_event_delta')?.state, 'SUPERSEDED');

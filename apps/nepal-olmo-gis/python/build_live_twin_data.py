@@ -538,6 +538,17 @@ def load_live_observation() -> tuple[dict[str, Any] | None, list[dict[str, Any]]
 AOI_OBS = WORK_ROOT / "artifacts/aoi_observability_20260827.json"
 
 
+
+def s1db_superseded() -> bool:
+    """M75 감사 파일이 있고 five_anchor_rerun 이 아직 recomputed 가 아니면 True (선형 S1 결과는 무효)."""
+    if not S1_DB_AUDIT.exists():
+        return False
+    try:
+        a = json.loads(S1_DB_AUDIT.read_text())
+    except Exception:
+        return True
+    return (a.get("five_anchor_rerun") or {}).get("status") != "recomputed"
+
 def build_ops_log() -> list[dict[str, Any]]:
     """EarthRanger식 이벤트 레코드 피드 — 전부 실제 산출물의 타임스탬프에서 옴.
 
@@ -635,7 +646,7 @@ def build_ops_log() -> list[dict[str, Any]]:
         if len(emb) >= 5:
             t = datetime.fromtimestamp(max(e.stat().st_mtime for e in emb), UTC)
             add(t.isoformat(timespec="seconds").replace("+00:00", "Z"),
-                "OLMoEarth v1", "EMBED_SUPERSEDED" if S1_DB_AUDIT.exists() else "EMBEDDED",
+                "OLMoEarth v1", "EMBED_SUPERSEDED" if s1db_superseded() else "EMBEDDED",
                 "orange" if S1_DB_AUDIT.exists() else "green",
                 f"{name}: 5 anchors × 768-d cube" + (" — excluded; missing S1 dB transform" if S1_DB_AUDIT.exists() else ""),
                 str(mode_dir.relative_to(WORK_ROOT)), "filesystem_mtime")
@@ -657,7 +668,7 @@ def build_ops_log() -> list[dict[str, Any]]:
     if DELTA_ROOT.exists():
         for rp in sorted(DELTA_ROOT.glob("*/nepal_delta_report.json")):
             d = json.loads(rp.read_text())
-            add(d.get("created_at_utc"), "OLMoEarth Δz", "DELTA_SUPERSEDED" if S1_DB_AUDIT.exists() else "DELTA_REPORT",
+            add(d.get("created_at_utc"), "OLMoEarth Δz", "DELTA_SUPERSEDED" if s1db_superseded() else "DELTA_REPORT",
                 "orange" if S1_DB_AUDIT.exists() else "green",
                 f"live={d.get('live_mode')} placebo n={len(d.get('placebo_modes_available', []))}" + (" — excluded; missing S1 dB transform" if S1_DB_AUDIT.exists() else ""),
                 str(rp.relative_to(WORK_ROOT)))
@@ -801,7 +812,7 @@ def olmoearth_block() -> dict[str, Any]:
         ),
         "anchor_geojson": "/data/olmo-input-anchors.geojson",
     }
-    if contract_audit:
+    if contract_audit and (contract_audit.get("five_anchor_rerun") or {}).get("status") != "recomputed":
         block["post_event_delta"] = {
             "status": "superseded_missing_sentinel1_db_transform",
             "claim_boundary": contract_audit["claim_boundary"],
@@ -878,7 +889,7 @@ def research_block() -> dict[str, Any]:
             embedding_shape = [first.get("bands"), first.get("height"), first.get("width")]
     post_event_ledger = _post_event_delta_ledger()
     post_event_executed = post_event_ledger["state"] == "EXECUTED"
-    contract_superseded = S1_DB_AUDIT.exists()
+    contract_superseded = s1db_superseded()
     latest_delta_paths = sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
     latest_delta = json.loads(latest_delta_paths[-1].read_text()) if latest_delta_paths else {}
     latest_placebo_count = len(latest_delta.get("placebo_modes_available", []))
@@ -1322,7 +1333,7 @@ def nearest_windows_for_points(points: list[dict[str, Any]]) -> list[dict[str, A
 def headline_block() -> dict[str, Any]:
     """한눈에 읽히는 요약: 봉인 판정 앵커 수 + 회랑 후보 상위 지명. 값이 없으면 정직하게 None."""
     out: dict[str, Any] = {"sealed_candidates": None, "sealed_total": None, "sealed_not_detected": [], "corridor_ranked": None, "corridor_top": []}
-    latest = [] if S1_DB_AUDIT.exists() else sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
+    latest = [] if s1db_superseded() else sorted(DELTA_ROOT.glob("*/nepal_delta_report.json"))
     if latest:
         rep = json.loads(latest[-1].read_text())
         if rep.get("live_mode"):
@@ -1341,7 +1352,9 @@ def headline_block() -> dict[str, Any]:
             out["sealed_candidates"] = sum(1 for s in labels.values() if "candidate" in s)
             out["sealed_not_detected"] = [a for a, s in labels.items() if "candidate" not in s]
             out["live_mode"] = rep.get("live_mode"); out["placebo_n"] = len(rep.get("placebo_modes_available", []))
-    matched = [] if S1_DB_AUDIT.exists() else sorted((WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta_matched").glob("*/nepal_delta_matched_report.json"))
+    _audit = json.loads(S1_DB_AUDIT.read_text()) if S1_DB_AUDIT.exists() else {}
+    _rerun_ok = (_audit.get("five_anchor_rerun") or {}).get("status") == "recomputed"
+    matched = [] if (S1_DB_AUDIT.exists() and not _rerun_ok) else sorted((WORK_ROOT / "artifacts/external_data/nepal_olmo_live_v1/delta_matched").glob("*/nepal_delta_matched_report.json"))
     if matched:
         mj = json.loads(matched[-1].read_text())
         ma = mj.get("anchors", {})

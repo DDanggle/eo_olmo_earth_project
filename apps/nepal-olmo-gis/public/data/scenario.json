@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T15:07:16.334266+00:00",
+  "generated_at": "2026-08-29T15:29:31.419720+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -589,92 +589,81 @@
     "embedding_status": "executed_offline_with_delta_provenance",
     "anchor_geojson": "/data/olmo-input-anchors.geojson",
     "post_event_delta": {
-      "status": "superseded_missing_sentinel1_db_transform",
-      "claim_boundary": "Only the corrected 27-window report may be used for current S1+S2 OLMoEarth claims. The five-anchor reports remain provenance records but are not valid evidence until rerun under the corrected contract.",
-      "official_contract": "Planetary Computer Sentinel-1 intensity must pass Sentinel1ToDecibels before OlmoEarthNormalize.",
-      "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md"
-    },
-    "contract_audit": {
-      "schema": "nepal-olmo-input-contract-audit/v1",
-      "audited_at": "2026-08-29T14:30:00Z",
-      "status": "corrected",
-      "defect": "Sentinel-1 RTC COGs contained linear intensity, while the previous model configuration applied OlmoEarthNormalize without Sentinel1ToDecibels.",
-      "official_contract": "Planetary Computer Sentinel-1 intensity must pass Sentinel1ToDecibels before OlmoEarthNormalize.",
-      "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md",
-      "superseded_results": [
-        "M70",
-        "M72",
-        "M72 token-level addendum",
-        "M74",
-        "M74 S1-only addendum"
-      ],
-      "preservation": "Old 27-window embedding rasters were moved to layers/embeddings_linear_s1 and old manifests/seals to superseded_linear_s1 on the compute host; they were not deleted.",
-      "corrected_recipe": "code/model_s1db.yaml",
-      "corrected_report": "artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1db/report.json",
-      "corrected_modes": [
-        "placebo_b",
-        "baseline",
-        "s1_live"
-      ],
-      "claim_boundary": "Only the corrected 27-window report may be used for current S1+S2 OLMoEarth claims. The five-anchor reports remain provenance records but are not valid evidence until rerun under the corrected contract."
+      "created_at_utc": "20260829T152418Z",
+      "live_mode": "s1_live",
+      "placebo_samples": 10,
+      "rasuwagadhi_live_mean": 0.024131879210472107,
+      "label": "not detected above daily variability",
+      "claim_boundary": "candidate change only; not damage probability"
     }
   },
   "decision": {
-    "status": "hold",
-    "action": "RERUN FIVE-ANCHOR CONTRACT",
-    "reason": "The five-anchor pixels are sealed, but their previous embeddings omitted the required Sentinel-1 linear-intensity to dB transform. Those claims are excluded.",
-    "next_gate": "Rerun baseline, live and all matched five-anchor placebo periods with model_s1db.yaml.",
-    "allowed_claim": "The corrected 27-window corridor screening is active; the legacy five-anchor delta is not evidence."
+    "status": "not_detected",
+    "action": "NOT DETECTED ABOVE VARIABILITY",
+    "reason": "Sealed post-event cube and delta computed; anchor-mean Δz does not exceed the pre-event placebo set (n=10). Matched 1-period pairs (n=9): only rasuwagadhi ranks 1/10, by 0.0002.",
+    "next_gate": "Anchor-mean Δz is too blunt; use token-level evidence (corridor scan) and the next S1/S2 pass.",
+    "allowed_claim": "No candidate change claimed at anchor scale; observation chain intact."
   },
   "ops_log": [
     {
-      "event_id": "6b3e8851ac32b355",
+      "event_id": "2a811a9081819f15",
+      "time_utc": "20260829T152418Z",
+      "recorded_at_utc": "20260829T152418Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "OLMoEarth Δz",
+      "type": "DELTA_REPORT",
+      "priority": "orange",
+      "summary": "live=s1_live placebo n=10 — excluded; missing S1 dB transform",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T152418Z/nepal_delta_report.json"
+    },
+    {
+      "event_id": "7b59a35e37a0b33d",
       "time_utc": "20260829T130711Z",
       "recorded_at_utc": "20260829T130711Z",
       "time_basis": "artifact_recorded_at",
       "source": "OLMoEarth Δz",
-      "type": "DELTA_SUPERSEDED",
+      "type": "DELTA_REPORT",
       "priority": "orange",
       "summary": "live=s1_live placebo n=10 — excluded; missing S1 dB transform",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T130711Z/nepal_delta_report.json"
     },
     {
-      "event_id": "fc5040371f0027f8",
+      "event_id": "8834550f7c0b5e52",
       "time_utc": "20260829T115424Z",
       "recorded_at_utc": "20260829T115424Z",
       "time_basis": "artifact_recorded_at",
       "source": "OLMoEarth Δz",
-      "type": "DELTA_SUPERSEDED",
+      "type": "DELTA_REPORT",
       "priority": "orange",
       "summary": "live=s1_live placebo n=10 — excluded; missing S1 dB transform",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T115424Z/nepal_delta_report.json"
     },
     {
-      "event_id": "4c27678e45a2c424",
+      "event_id": "b89f96f7954ac25f",
       "time_utc": "20260829T085533Z",
       "recorded_at_utc": "20260829T085533Z",
       "time_basis": "artifact_recorded_at",
       "source": "OLMoEarth Δz",
-      "type": "DELTA_SUPERSEDED",
+      "type": "DELTA_REPORT",
       "priority": "orange",
       "summary": "live=s1_live placebo n=2 — excluded; missing S1 dB transform",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T085533Z/nepal_delta_report.json"
     },
     {
-      "event_id": "f194c9a74dd87c4f",
+      "event_id": "935a34104b7ca02b",
       "time_utc": "20260828T070505Z",
       "recorded_at_utc": "20260828T070505Z",
       "time_basis": "artifact_recorded_at",
       "source": "OLMoEarth Δz",
-      "type": "DELTA_SUPERSEDED",
+      "type": "DELTA_REPORT",
       "priority": "orange",
       "summary": "live=None placebo n=2 — excluded; missing S1 dB transform",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
     },
     {
-      "event_id": "1b684a94a76f4766",
-      "time_utc": "2026-08-29T14:43:08Z",
-      "recorded_at_utc": "2026-08-29T14:43:08Z",
+      "event_id": "79485d8504a94cc5",
+      "time_utc": "2026-08-29T15:26:40Z",
+      "recorded_at_utc": "2026-08-29T15:26:40Z",
       "time_basis": "filesystem_mtime",
       "source": "OLMoEarth v1",
       "type": "S1DB_SCREENING",
@@ -945,40 +934,29 @@
       "priority": "green",
       "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260828T151656Z/acquisition_status.json"
-    },
-    {
-      "event_id": "0961c597870eedd8",
-      "time_utc": "2026-08-28T12:00:00Z",
-      "recorded_at_utc": "2026-08-28T12:00:00Z",
-      "time_basis": "source_event_time",
-      "source": "State Council of the People's Republic of China",
-      "type": "MONITORING_CONTINUES",
-      "priority": "blue",
-      "summary": "Chinese authorities reported the lake was draining and its level had fallen, while monitoring for secondary hazards continued.",
-      "evidence_uri": "https://english.www.gov.cn/news/202608/28/content_WS6a91259dc6d00ca5f9a0cd54.html"
     }
   ],
   "research": {
     "integration_disclaimer": "Research integration of OlmoEarth representations with EarthRanger-style incident provenance and Skylight-style observation awareness; not an official Ai2 disaster product.",
     "nepal_embedding": {
-      "status": "five_anchor_superseded_missing_s1_db_transform",
+      "status": "blocked_until_full_post_event_s1_plus_s2_cube_is_sealed",
       "baseline": "5 anchors × S1+S2 × 4 periods materialized and sealed",
       "placebo_count": 10,
-      "claim": "The previous five-anchor S1+S2 delta is superseded: Sentinel-1 linear intensity was not converted to dB. Use the corrected 27-window screening result; rerun all five-anchor placebo periods before restoring that claim."
+      "claim": "No Nepal Δz anomaly threshold or damage prediction is available yet."
     },
     "ai_run_ledger": [
       {
         "id": "nepal_pre_event_representation",
-        "state": "SUPERSEDED",
+        "state": "EXECUTED",
         "model": "OlmoEarth v1 Base (frozen)",
         "input": "5 Nepal anchors × S1+S2 × 4 periods, across baseline and two pre-event placebo cubes",
-        "output": "15 preserved legacy rasters; excluded because Sentinel-1 dB conversion was missing",
-        "allows": "input-contract audit only",
-        "forbids": "all representation-change claims until rerun",
+        "output": "15 sealed embedding rasters; shape [768, 64, 64]",
+        "allows": "pre-event reference, retrieval query and a future post-event delta",
+        "forbids": "damage, flood depth, runout or anomaly claims",
         "artifact_sha256": {
-          "baseline": "4ccb0a8bb1a1a9773c78d9e25f3946e23a37d99aaffe22369e7660641d2967ca",
-          "placebo_a": "21efaa326844bd0248cdab09d39827c84eef8fdb265d3c6e0ce9d974b6b325eb",
-          "placebo_b": "0dc46db4790f2670269251d060d04da404af32f7949d09945b3a80614db6e84c"
+          "baseline": "d14b760fbadaa45903bed577647dab815f875ea142c5d6d44072cbf87c0b629d",
+          "placebo_a": "a3e683474e515e5d3fd2b058533364aa7b4dabf9faf1ab6bbefcb0d0da603edd",
+          "placebo_b": "0fd608f98bae6fe6807d09a0f8903d221d61653ffd2672886a1dc5713eba46e8"
         }
       },
       {
@@ -1019,7 +997,7 @@
         "output": "preserved for provenance; excluded from active evidence",
         "allows": "input-contract audit and reproducibility diagnosis only",
         "forbids": "candidate, anomaly, damage, cause, or extent claims",
-        "artifact_sha256": "c682ce82bc4dd33635eeb21ea6b29925d93215a0535df037089be20d01f8edee",
+        "artifact_sha256": "81ae4bafaa15ed99f34501abb614d3436505408347ac4ebe8a436e17edb100c9",
         "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md"
       },
       {
@@ -6101,11 +6079,11 @@
           85.1256703,
           27.8787953
         ],
-        "event_mean": 0.03358384221792221,
-        "placebo_mean": 0.04577558487653732,
-        "placebo_p99": 0.07507172971963882,
+        "event_mean": 0.033585451543331146,
+        "placebo_mean": 0.0457724928855896,
+        "placebo_p99": 0.07513315230607986,
         "frac_above_local_placebo_p99": 0.004150390625,
-        "mean_ratio_event_to_placebo": 0.7336627840995789,
+        "mean_ratio_event_to_placebo": 0.7337474822998047,
         "s2_only_rank": 4,
         "coordinates": [
           [
@@ -6138,11 +6116,11 @@
           85.1433941,
           27.9204357
         ],
-        "event_mean": 0.028058944270014763,
-        "placebo_mean": 0.050547629594802856,
-        "placebo_p99": 0.07882505655288696,
-        "frac_above_local_placebo_p99": 0.004150390625,
-        "mean_ratio_event_to_placebo": 0.5550991296768188,
+        "event_mean": 0.02805815078318119,
+        "placebo_mean": 0.05054724961519241,
+        "placebo_p99": 0.07886821031570435,
+        "frac_above_local_placebo_p99": 0.00390625,
+        "mean_ratio_event_to_placebo": 0.5550875663757324,
         "s2_only_rank": 6,
         "coordinates": [
           [
@@ -6175,11 +6153,11 @@
           85.1368283,
           27.9001413
         ],
-        "event_mean": 0.033589258790016174,
-        "placebo_mean": 0.05028284341096878,
-        "placebo_p99": 0.07896322757005692,
+        "event_mean": 0.033587150275707245,
+        "placebo_mean": 0.05028310418128967,
+        "placebo_p99": 0.07898659259080887,
         "frac_above_local_placebo_p99": 0.00146484375,
-        "mean_ratio_event_to_placebo": 0.6680063605308533,
+        "mean_ratio_event_to_placebo": 0.6679609417915344,
         "s2_only_rank": 7,
         "coordinates": [
           [
@@ -6212,11 +6190,11 @@
           85.1840429,
           27.972805
         ],
-        "event_mean": 0.02645513415336609,
-        "placebo_mean": 0.05081726983189583,
-        "placebo_p99": 0.07724093645811081,
+        "event_mean": 0.02645476534962654,
+        "placebo_mean": 0.050812575966119766,
+        "placebo_p99": 0.07722418010234833,
         "frac_above_local_placebo_p99": 0.001220703125,
-        "mean_ratio_event_to_placebo": 0.5205934047698975,
+        "mean_ratio_event_to_placebo": 0.5206342339515686,
         "s2_only_rank": 2,
         "coordinates": [
           [
@@ -6249,11 +6227,11 @@
           85.3769971,
           28.2780537
         ],
-        "event_mean": 0.023471210151910782,
-        "placebo_mean": 0.04176636412739754,
-        "placebo_p99": 0.0674295425415039,
+        "event_mean": 0.02346928045153618,
+        "placebo_mean": 0.04176543280482292,
+        "placebo_p99": 0.06743772327899933,
         "frac_above_local_placebo_p99": 0.000732421875,
-        "mean_ratio_event_to_placebo": 0.5619643926620483,
+        "mean_ratio_event_to_placebo": 0.5619307160377502,
         "s2_only_rank": 12,
         "coordinates": [
           [
@@ -6286,11 +6264,11 @@
           85.15528,
           27.9337759
         ],
-        "event_mean": 0.02616550587117672,
-        "placebo_mean": 0.05267756059765816,
-        "placebo_p99": 0.08027097582817078,
+        "event_mean": 0.02616363763809204,
+        "placebo_mean": 0.05268107354640961,
+        "placebo_p99": 0.08024400472640991,
         "frac_above_local_placebo_p99": 0.00048828125,
-        "mean_ratio_event_to_placebo": 0.4967106580734253,
+        "mean_ratio_event_to_placebo": 0.4966420829296112,
         "s2_only_rank": 8,
         "coordinates": [
           [
@@ -6336,7 +6314,7 @@
       "No Nepal event polygon or field label was used to validate the ranking.",
       "OLMoEarth embeddings fuse S1 and S2; this report does not attribute a score to one sensor."
     ],
-    "report_sha256": "fd498bf9f4033afe95c9f0f9e2bdf5c3ffc3df1070e73b7f8df7225d8e23727e",
+    "report_sha256": "c404853a0a23df06f3167e3b9a77bfd39e9df04091c654cd4abcbeb3eceb0f73",
     "geojson": {
       "type": "FeatureCollection",
       "features": [
@@ -6351,9 +6329,9 @@
               85.1256703,
               27.8787953
             ],
-            "event_mean": 0.03358384221792221,
-            "placebo_mean": 0.04577558487653732,
-            "placebo_p99": 0.07507172971963882,
+            "event_mean": 0.033585451543331146,
+            "placebo_mean": 0.0457724928855896,
+            "placebo_p99": 0.07513315230607986,
             "exceedance": 0.004150390625
           },
           "geometry": {
@@ -6395,10 +6373,10 @@
               85.1433941,
               27.9204357
             ],
-            "event_mean": 0.028058944270014763,
-            "placebo_mean": 0.050547629594802856,
-            "placebo_p99": 0.07882505655288696,
-            "exceedance": 0.004150390625
+            "event_mean": 0.02805815078318119,
+            "placebo_mean": 0.05054724961519241,
+            "placebo_p99": 0.07886821031570435,
+            "exceedance": 0.00390625
           },
           "geometry": {
             "type": "Polygon",
@@ -6439,9 +6417,9 @@
               85.1368283,
               27.9001413
             ],
-            "event_mean": 0.033589258790016174,
-            "placebo_mean": 0.05028284341096878,
-            "placebo_p99": 0.07896322757005692,
+            "event_mean": 0.033587150275707245,
+            "placebo_mean": 0.05028310418128967,
+            "placebo_p99": 0.07898659259080887,
             "exceedance": 0.00146484375
           },
           "geometry": {
@@ -6483,9 +6461,9 @@
               85.1840429,
               27.972805
             ],
-            "event_mean": 0.02645513415336609,
-            "placebo_mean": 0.05081726983189583,
-            "placebo_p99": 0.07724093645811081,
+            "event_mean": 0.02645476534962654,
+            "placebo_mean": 0.050812575966119766,
+            "placebo_p99": 0.07722418010234833,
             "exceedance": 0.001220703125
           },
           "geometry": {
@@ -6527,9 +6505,9 @@
               85.3769971,
               28.2780537
             ],
-            "event_mean": 0.023471210151910782,
-            "placebo_mean": 0.04176636412739754,
-            "placebo_p99": 0.0674295425415039,
+            "event_mean": 0.02346928045153618,
+            "placebo_mean": 0.04176543280482292,
+            "placebo_p99": 0.06743772327899933,
             "exceedance": 0.000732421875
           },
           "geometry": {
@@ -6571,9 +6549,9 @@
               85.15528,
               27.9337759
             ],
-            "event_mean": 0.02616550587117672,
-            "placebo_mean": 0.05267756059765816,
-            "placebo_p99": 0.08027097582817078,
+            "event_mean": 0.02616363763809204,
+            "placebo_mean": 0.05268107354640961,
+            "placebo_p99": 0.08024400472640991,
             "exceedance": 0.00048828125
           },
           "geometry": {
@@ -6615,9 +6593,9 @@
               85.1625544,
               27.9531683
             ],
-            "event_mean": 0.023209793493151665,
-            "placebo_mean": 0.05181179568171501,
-            "placebo_p99": 0.07913576066493988,
+            "event_mean": 0.023211147636175156,
+            "placebo_mean": 0.05181210860610008,
+            "placebo_p99": 0.07910802960395813,
             "exceedance": 0.00048828125
           },
           "geometry": {
@@ -6659,9 +6637,9 @@
               85.3203392,
               28.1490208
             ],
-            "event_mean": 0.02400054596364498,
-            "placebo_mean": 0.05072670429944992,
-            "placebo_p99": 0.07699522376060486,
+            "event_mean": 0.02400018461048603,
+            "placebo_mean": 0.050728991627693176,
+            "placebo_p99": 0.07710669934749603,
             "exceedance": 0.000244140625
           },
           "geometry": {
@@ -6703,9 +6681,9 @@
               85.3655078,
               28.2564967
             ],
-            "event_mean": 0.023910336196422577,
-            "placebo_mean": 0.04611355811357498,
-            "placebo_p99": 0.07421493530273438,
+            "event_mean": 0.023908955976366997,
+            "placebo_mean": 0.046113502234220505,
+            "placebo_p99": 0.07417522370815277,
             "exceedance": 0.000244140625
           },
           "geometry": {
@@ -6747,9 +6725,9 @@
               85.42513333333333,
               28.276166666666665
             ],
-            "event_mean": 0.05011487752199173,
-            "placebo_mean": 0.1119210422039032,
-            "placebo_p99": 0.20602059364318848,
+            "event_mean": 0.05011555179953575,
+            "placebo_mean": 0.11192216724157333,
+            "placebo_p99": 0.2060704231262207,
             "exceedance": 0.0
           },
           "geometry": {
@@ -6791,9 +6769,9 @@
               85.5194,
               28.2765
             ],
-            "event_mean": 0.04278711974620819,
-            "placebo_mean": 0.09484609216451645,
-            "placebo_p99": 0.16815881431102753,
+            "event_mean": 0.042787980288267136,
+            "placebo_mean": 0.09485067427158356,
+            "placebo_p99": 0.168038472533226,
             "exceedance": 0.0
           },
           "geometry": {
@@ -6835,9 +6813,9 @@
               85.47226666666667,
               28.276333333333334
             ],
-            "event_mean": 0.04066423326730728,
-            "placebo_mean": 0.10076737403869629,
-            "placebo_p99": 0.16860437393188477,
+            "event_mean": 0.04066523164510727,
+            "placebo_mean": 0.10077036917209625,
+            "placebo_p99": 0.1685669869184494,
             "exceedance": 0.0
           },
           "geometry": {
@@ -6879,9 +6857,9 @@
               85.2860518,
               28.1179428
             ],
-            "event_mean": 0.026784565299749374,
-            "placebo_mean": 0.051214203238487244,
-            "placebo_p99": 0.0812898725271225,
+            "event_mean": 0.026786666363477707,
+            "placebo_mean": 0.051211655139923096,
+            "placebo_p99": 0.08120816200971603,
             "exceedance": 0.0
           },
           "geometry": {
@@ -6923,9 +6901,9 @@
               85.2021352,
               28.0475998
             ],
-            "event_mean": 0.025745389983057976,
-            "placebo_mean": 0.0546039417386055,
-            "placebo_p99": 0.07908862084150314,
+            "event_mean": 0.02574566937983036,
+            "placebo_mean": 0.054602690041065216,
+            "placebo_p99": 0.07911716401576996,
             "exceedance": 0.0
           },
           "geometry": {
@@ -6967,9 +6945,9 @@
               85.1934198,
               28.0309439
             ],
-            "event_mean": 0.025605211034417152,
-            "placebo_mean": 0.05298168957233429,
-            "placebo_p99": 0.07786119729280472,
+            "event_mean": 0.025607477873563766,
+            "placebo_mean": 0.05298183858394623,
+            "placebo_p99": 0.07785574346780777,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7011,9 +6989,9 @@
               85.3552582,
               28.216824
             ],
-            "event_mean": 0.0252237431704998,
-            "placebo_mean": 0.05061960220336914,
-            "placebo_p99": 0.07415429502725601,
+            "event_mean": 0.02522333711385727,
+            "placebo_mean": 0.050620079040527344,
+            "placebo_p99": 0.07420507073402405,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7055,9 +7033,9 @@
               85.3580332,
               28.2380123
             ],
-            "event_mean": 0.025216637179255486,
-            "placebo_mean": 0.04946116730570793,
-            "placebo_p99": 0.07601612061262131,
+            "event_mean": 0.025214117020368576,
+            "placebo_mean": 0.0494609959423542,
+            "placebo_p99": 0.07584553956985474,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7099,9 +7077,9 @@
               85.3374022,
               28.1597451
             ],
-            "event_mean": 0.02510807104408741,
-            "placebo_mean": 0.05267981067299843,
-            "placebo_p99": 0.07813768088817596,
+            "event_mean": 0.025109879672527313,
+            "placebo_mean": 0.0526772066950798,
+            "placebo_p99": 0.077932208776474,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7143,9 +7121,9 @@
               85.2216715,
               28.0819033
             ],
-            "event_mean": 0.02506839483976364,
-            "placebo_mean": 0.0539984405040741,
-            "placebo_p99": 0.08125434070825577,
+            "event_mean": 0.025070112198591232,
+            "placebo_mean": 0.05399879813194275,
+            "placebo_p99": 0.08144174516201019,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7187,9 +7165,9 @@
               85.2691876,
               28.1033924
             ],
-            "event_mean": 0.024610485881567,
-            "placebo_mean": 0.05406363308429718,
-            "placebo_p99": 0.08127828687429428,
+            "event_mean": 0.0246107317507267,
+            "placebo_mean": 0.05406082421541214,
+            "placebo_p99": 0.08116438239812851,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7231,9 +7209,9 @@
               85.2415118,
               28.091752
             ],
-            "event_mean": 0.024413980543613434,
-            "placebo_mean": 0.04964730143547058,
-            "placebo_p99": 0.07764947414398193,
+            "event_mean": 0.02441338077187538,
+            "placebo_mean": 0.049649424850940704,
+            "placebo_p99": 0.07759714126586914,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7275,9 +7253,9 @@
               85.3009424,
               28.132384
             ],
-            "event_mean": 0.024120159447193146,
-            "placebo_mean": 0.04854848235845566,
-            "placebo_p99": 0.07703752815723419,
+            "event_mean": 0.024122506380081177,
+            "placebo_mean": 0.04854493588209152,
+            "placebo_p99": 0.07696888595819473,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7319,9 +7297,9 @@
               85.351472,
               28.1974739
             ],
-            "event_mean": 0.02402927726507187,
-            "placebo_mean": 0.05243457108736038,
-            "placebo_p99": 0.0754091739654541,
+            "event_mean": 0.024033069610595703,
+            "placebo_mean": 0.052437663078308105,
+            "placebo_p99": 0.0755685567855835,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7363,9 +7341,9 @@
               85.3427577,
               28.1785799
             ],
-            "event_mean": 0.0233172457665205,
-            "placebo_mean": 0.05298003926873207,
-            "placebo_p99": 0.07797092199325562,
+            "event_mean": 0.023317288607358932,
+            "placebo_mean": 0.052982304245233536,
+            "placebo_p99": 0.07795177400112152,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7407,9 +7385,9 @@
               85.1841681,
               28.0127153
             ],
-            "event_mean": 0.022584956139326096,
-            "placebo_mean": 0.05265487730503082,
-            "placebo_p99": 0.07854025810956955,
+            "event_mean": 0.02258312702178955,
+            "placebo_mean": 0.05264957249164581,
+            "placebo_p99": 0.07859619706869125,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7451,9 +7429,9 @@
               85.2055355,
               28.0689646
             ],
-            "event_mean": 0.021198568865656853,
-            "placebo_mean": 0.05341384559869766,
-            "placebo_p99": 0.08271478116512299,
+            "event_mean": 0.02119617722928524,
+            "placebo_mean": 0.053412966430187225,
+            "placebo_p99": 0.08258504420518875,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7495,9 +7473,9 @@
               85.1824445,
               27.9933759
             ],
-            "event_mean": 0.021149741485714912,
-            "placebo_mean": 0.051873620599508286,
-            "placebo_p99": 0.07675153017044067,
+            "event_mean": 0.021151643246412277,
+            "placebo_mean": 0.051874011754989624,
+            "placebo_p99": 0.07688983529806137,
             "exceedance": 0.0
           },
           "geometry": {
@@ -7535,7 +7513,7 @@
   "input_contract_audit": {
     "schema": "nepal-olmo-input-contract-audit/v1",
     "audited_at": "2026-08-29T14:30:00Z",
-    "status": "corrected",
+    "status": "corrected_and_rerun",
     "defect": "Sentinel-1 RTC COGs contained linear intensity, while the previous model configuration applied OlmoEarthNormalize without Sentinel1ToDecibels.",
     "official_contract": "Planetary Computer Sentinel-1 intensity must pass Sentinel1ToDecibels before OlmoEarthNormalize.",
     "official_source": "https://github.com/allenai/rslearn/blob/master/docs/foundation_models/OlmoEarth.md",
@@ -7554,7 +7532,40 @@
       "baseline",
       "s1_live"
     ],
-    "claim_boundary": "Only the corrected 27-window report may be used for current S1+S2 OLMoEarth claims. The five-anchor reports remain provenance records but are not valid evidence until rerun under the corrected contract."
+    "claim_boundary": "Only the corrected 27-window report may be used for current S1+S2 OLMoEarth claims. The five-anchor reports remain provenance records but are not valid evidence until rerun under the corrected contract.",
+    "five_anchor_rerun": {
+      "status": "recomputed",
+      "at": "2026-08-29T15:26:53Z",
+      "recipe": "code/model_s1db.yaml",
+      "model_yaml_sha256_prefix": "ac742b84748f5da2",
+      "modes": [
+        "baseline",
+        "placebo_a",
+        "placebo_b",
+        "placebo_20260617",
+        "placebo_20260624",
+        "placebo_20260701",
+        "placebo_20260708",
+        "placebo_20260715",
+        "placebo_20260722",
+        "placebo_20260729",
+        "placebo_20260805",
+        "s1_live"
+      ],
+      "corridor_modes": [
+        "baseline",
+        "placebo_a",
+        "s1_live"
+      ],
+      "linear_outputs_preserved_as": "layers/embeddings_linear_s1 + embedding_manifest.linear_s1.json",
+      "reports": {
+        "naive": "delta/20260829T152418Z",
+        "matched": "delta_matched/20260829T152433Z",
+        "corridor_sealed": "corridor_sealed_s1db/report.json",
+        "corridor_matched": "corridor_matched/report.json"
+      },
+      "result": "all five anchors not detected (naive and matched token-level); corridor: no candidate under own 1-period threshold; borrowed-threshold ranking top = Devighat, Bidur, Rasuwagadhi"
+    }
   },
   "corridor_contract": {
     "schema": "nepal-corridor-contract-progress/v1",
@@ -7573,7 +7584,7 @@
       "materialization_sealed": true,
       "embedded_windows": 27,
       "embedding_sealed": true,
-      "updated_at_utc": "2026-08-29T14:17:04+00:00"
+      "updated_at_utc": "2026-08-29T15:26:51.710608+00:00"
     },
     "s1_live": {
       "mode": "s1_live",
@@ -7585,7 +7596,7 @@
       "materialization_sealed": true,
       "embedded_windows": 27,
       "embedding_sealed": true,
-      "updated_at_utc": "2026-08-29T14:18:13+00:00"
+      "updated_at_utc": "2026-08-29T15:26:52.432551+00:00"
     },
     "placebo_b": {
       "mode": "placebo_b",
@@ -7602,15 +7613,68 @@
     "claim_boundary": "Screening only. No corridor damage, reach, calibrated anomaly, or probability claim exists without more ordinary transitions and independent labels."
   },
   "headline": {
-    "sealed_candidates": null,
-    "sealed_total": null,
-    "sealed_not_detected": [],
+    "sealed_candidates": 0,
+    "sealed_total": 5,
+    "sealed_not_detected": [
+      "dhunche",
+      "rasuwagadhi",
+      "source_provisional",
+      "syabrubesi",
+      "timure"
+    ],
     "corridor_ranked": 47,
     "corridor_top": [
       "Dalphedi, Gosaikunda",
       "Salê",
       "Bhainse, Bidur"
     ],
+    "live_mode": "s1_live",
+    "placebo_n": 10,
+    "matched": {
+      "n_pairs": 9,
+      "candidates": [],
+      "ranks": {
+        "source_provisional": "2/10",
+        "rasuwagadhi": "4/10",
+        "timure": "4/10",
+        "syabrubesi": "6/10",
+        "dhunche": "9/10"
+      },
+      "token": {
+        "source_provisional": {
+          "event_frac": 0.015380859375,
+          "placebo_max": 0.07373046875,
+          "rank": 2,
+          "candidate": false
+        },
+        "rasuwagadhi": {
+          "event_frac": 0.013916015625,
+          "placebo_max": 0.060791015625,
+          "rank": 3,
+          "candidate": false
+        },
+        "timure": {
+          "event_frac": 0.0,
+          "placebo_max": 0.066650390625,
+          "rank": 10,
+          "candidate": false
+        },
+        "syabrubesi": {
+          "event_frac": 0.00146484375,
+          "placebo_max": 0.076904296875,
+          "rank": 6,
+          "candidate": false
+        },
+        "dhunche": {
+          "event_frac": 0.0,
+          "placebo_max": 0.072998046875,
+          "rank": 10,
+          "candidate": false
+        }
+      },
+      "token_candidates": [],
+      "report_sha256": "544e0749f04a7f2ff533499aa7e011e7e44c20daa5a963eea4cc43cfd69b2f66"
+    },
     "corridor_windows": 100
   },
   "ai_vs_classical": {
