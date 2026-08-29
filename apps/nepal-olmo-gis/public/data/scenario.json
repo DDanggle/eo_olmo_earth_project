@@ -1,11 +1,11 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T07:54:09.698176+00:00",
+  "generated_at": "2026-08-29T08:56:49.772904+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
     "cause_status": "A rock–ice/glacial collapse on the Nepal side of Langtang Lirung is the leading assessment. It generated a cross-border debris-flow/flood; causal and field details remain under review.",
-    "evidence_status": "Post-event pixels exist, but the full OLMoEarth input contract is not sealed."
+    "evidence_status": "Post-event pixels and the full OLMoEarth input seal are ready; embedding has not run."
   },
   "incident_updates": [
     {
@@ -241,7 +241,7 @@
       "id": "s2-2026-07-23",
       "sensor": "Sentinel-2 L2A",
       "acquired_at": "2026-07-23T04:57:01Z",
-      "state": "live_partial",
+      "state": "live_ready",
       "image": "/data/scenes/s2-2026-07-23.png",
       "coordinates": [
         [
@@ -273,7 +273,7 @@
       "id": "s1-2026-07-23",
       "sensor": "Sentinel-1 RTC VV/VH",
       "acquired_at": "2026-07-23T12:21:40Z",
-      "state": "live_partial",
+      "state": "live_ready",
       "image": "/data/scenes/s1-2026-07-23.png",
       "coordinates": [
         [
@@ -305,7 +305,7 @@
       "id": "s1-2026-08-04",
       "sensor": "Sentinel-1 RTC VV/VH",
       "acquired_at": "2026-08-04T12:21:40Z",
-      "state": "live_partial",
+      "state": "live_ready",
       "image": "/data/scenes/s1-2026-08-04.png",
       "coordinates": [
         [
@@ -337,7 +337,7 @@
       "id": "s2-2026-08-07",
       "sensor": "Sentinel-2 L2A",
       "acquired_at": "2026-08-07T04:56:59Z",
-      "state": "live_partial",
+      "state": "live_ready",
       "image": "/data/scenes/s2-2026-08-07.png",
       "coordinates": [
         [
@@ -369,7 +369,7 @@
       "id": "s2-2026-08-12",
       "sensor": "Sentinel-2 L2A",
       "acquired_at": "2026-08-12T04:57:01Z",
-      "state": "live_partial",
+      "state": "live_ready",
       "image": "/data/scenes/s2-2026-08-12.png",
       "coordinates": [
         [
@@ -401,7 +401,7 @@
       "id": "s1-2026-08-24",
       "sensor": "Sentinel-1 RTC VV/VH",
       "acquired_at": "2026-08-24T00:18:44Z",
-      "state": "live_partial",
+      "state": "live_ready",
       "image": "/data/scenes/s1-2026-08-24.png",
       "coordinates": [
         [
@@ -433,7 +433,7 @@
       "id": "s2-2026-08-27",
       "sensor": "Sentinel-2 L2A",
       "acquired_at": "2026-08-27T04:56:59Z",
-      "state": "live_partial",
+      "state": "live_ready",
       "image": "/data/scenes/s2-2026-08-27.png",
       "coordinates": [
         [
@@ -456,6 +456,38 @@
       "source_sha256": "586c4d7e9b90644f532bb540c5194c9401510fe3e0c22f867d94d11824f15985",
       "shape": [
         12,
+        256,
+        256
+      ],
+      "crs": "EPSG:32645"
+    },
+    {
+      "id": "s1-2026-08-28",
+      "sensor": "Sentinel-1 RTC VV/VH",
+      "acquired_at": "2026-08-28T12:21:41Z",
+      "state": "live_ready",
+      "image": "/data/scenes/s1-2026-08-28.png",
+      "coordinates": [
+        [
+          85.3647035979672,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.287669004148757
+        ],
+        [
+          85.39114669468483,
+          28.264259473078294
+        ],
+        [
+          85.3647035979672,
+          28.264259473078294
+        ]
+      ],
+      "source_sha256": "063a0acd39575aaee3c736cf409bc9077b8ad07494742257ebb478d4f262729a",
+      "shape": [
+        2,
         256,
         256
       ],
@@ -504,11 +536,14 @@
     "catalog_provider": "Copernicus Data Space OData",
     "materialization_provider": "Microsoft Planetary Computer STAC via rslearn",
     "materialization_mode": "s1_live",
-    "materialization_status": "blocked_provider_selection",
-    "selection_preflight_valid": false,
-    "materialization_seal_valid": false,
-    "period_readiness": {},
-    "olmo_ready": false,
+    "materialization_status": "sealed_olmo_input",
+    "selection_preflight_valid": true,
+    "materialization_seal_valid": true,
+    "period_readiness": {
+      "sentinel1": 4,
+      "sentinel2_l2a": 4
+    },
+    "olmo_ready": true,
     "claim_boundary": "Tile cloud and B02-bright fractions are not AOI cloud-free coverage; no post-event embedding is claimed."
   },
   "olmoearth": {
@@ -519,22 +554,33 @@
     "embedding_status": "not_run_in_this_web_snapshot",
     "anchor_geojson": "/data/olmo-input-anchors.geojson",
     "post_event_delta": {
-      "created_at_utc": "20260828T070505Z",
-      "live_mode": null,
+      "created_at_utc": "20260829T085533Z",
+      "live_mode": "s1_live",
       "placebo_samples": 2,
-      "rasuwagadhi_live_mean": null,
-      "label": null,
+      "rasuwagadhi_live_mean": 0.015587175264954567,
+      "label": "candidate change",
       "claim_boundary": "candidate change only; not damage probability"
     }
   },
   "decision": {
-    "status": "hold",
-    "action": "WAIT FOR PROVIDER SYNC",
-    "reason": "Copernicus published a Sentinel-1 product covering 5/5 anchors, but rslearn's Planetary Computer provider still selects the 2026-08-24 scene.",
-    "next_gate": "Refresh selection preflight; materialize only when the 2026-08-28 scene is selected for 5/5 anchors.",
-    "allowed_claim": "Official coverage exists; OLMo input pixels and Nepal event embedding do not yet exist."
+    "status": "candidate_ready",
+    "action": "REVIEW CANDIDATE EVIDENCE",
+    "reason": "A sealed post-event cube and OLMoEarth delta report are available.",
+    "next_gate": "Seek independent sensor, physical, or human corroboration.",
+    "allowed_claim": "Candidate representation change; not damage probability or hazard extent."
   },
   "ops_log": [
+    {
+      "event_id": "7214b1c189854393",
+      "time_utc": "20260829T085533Z",
+      "recorded_at_utc": "20260829T085533Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "OLMoEarth Δz",
+      "type": "DELTA_REPORT",
+      "priority": "green",
+      "summary": "live=s1_live placebo n=2",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260829T085533Z/nepal_delta_report.json"
+    },
     {
       "event_id": "e710b69e9f5d7451",
       "time_utc": "20260828T070505Z",
@@ -547,15 +593,81 @@
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/delta/20260828T070505Z/nepal_delta_report.json"
     },
     {
-      "event_id": "fdc700886cbf9870",
-      "time_utc": "2026-08-29T05:27:54.043862+00:00",
-      "recorded_at_utc": "2026-08-29T05:27:54.043862+00:00",
+      "event_id": "339bffbbfb3c7c6f",
+      "time_utc": "2026-08-29T08:02:31Z",
+      "recorded_at_utc": "2026-08-29T08:02:31Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "rslearn materialize",
+      "type": "SEAL_INVALID",
+      "priority": "orange",
+      "summary": "s2_live: 81 files, 45,765,680 B — contract failed (S1 3/4, S2 4/4)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/materialization_manifest.json"
+    },
+    {
+      "event_id": "80a1d1820432db12",
+      "time_utc": "2026-08-29T08:02:27.293729+00:00",
+      "recorded_at_utc": "2026-08-29T08:02:27.293729+00:00",
       "time_basis": "artifact_field",
       "source": "rslearn preflight",
-      "type": "PREFLIGHT_BLOCK",
-      "priority": "orange",
-      "summary": "s1_live: 5/5 anchors missing required scene — download refused",
+      "type": "PREFLIGHT_PASS",
+      "priority": "green",
+      "summary": "s2_live: 5/5 anchors selected required scene",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/selection_preflight.json"
+    },
+    {
+      "event_id": "b97b12dfd3e37041",
+      "time_utc": "2026-08-29T08:02:18Z",
+      "recorded_at_utc": "2026-08-29T08:02:18Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "rslearn materialize",
+      "type": "SEALED",
+      "priority": "green",
+      "summary": "s1_live: 91 files, 48,882,901 B — sealed",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/materialization_manifest.json"
+    },
+    {
+      "event_id": "1bf73868ee71d7e4",
+      "time_utc": "2026-08-29T07:54:21.846532+00:00",
+      "recorded_at_utc": "2026-08-29T07:54:21.846532+00:00",
+      "time_basis": "artifact_field",
+      "source": "rslearn preflight",
+      "type": "PREFLIGHT_PASS",
+      "priority": "green",
+      "summary": "s1_live: 5/5 anchors selected required scene",
       "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s1_live/selection_preflight.json"
+    },
+    {
+      "event_id": "2460604444bdb61f",
+      "time_utc": "2026-08-29T07:54:01Z",
+      "recorded_at_utc": "2026-08-29T07:54:01Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "CATALOG_SNAPSHOT",
+      "priority": "blue",
+      "summary": "snapshot 20260829T075401Z: s2b_20260827=published, s1d_20260828=published, s2c_20260829=acquired_pending_catalog",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T075401Z/acquisition_status.json"
+    },
+    {
+      "event_id": "71f8e8dc6eb0071e",
+      "time_utc": "2026-08-29T07:54:01Z",
+      "recorded_at_utc": "2026-08-29T07:54:01Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-2B L2A s2b_20260827 published (latency 276.8 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T075401Z/acquisition_status.json"
+    },
+    {
+      "event_id": "e95b151f6778fe51",
+      "time_utc": "2026-08-29T07:54:01Z",
+      "recorded_at_utc": "2026-08-29T07:54:01Z",
+      "time_basis": "artifact_recorded_at",
+      "source": "Copernicus OData",
+      "type": "SCENE_PUBLISHED",
+      "priority": "green",
+      "summary": "Sentinel-1D IW GRD s1d_20260828 published (latency 171.8 min)",
+      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/catalog/20260829T075401Z/acquisition_status.json"
     },
     {
       "event_id": "8ace84b6c691f14e",
@@ -666,28 +778,6 @@
       "priority": "blue",
       "summary": "Chinese authorities reported the lake was draining and its level had fallen, while monitoring for secondary hazards continued.",
       "evidence_uri": "https://english.www.gov.cn/news/202608/28/content_WS6a91259dc6d00ca5f9a0cd54.html"
-    },
-    {
-      "event_id": "54ec8ef7abbc028b",
-      "time_utc": "2026-08-28T08:40:35Z",
-      "recorded_at_utc": "2026-08-28T08:40:35Z",
-      "time_basis": "artifact_recorded_at",
-      "source": "rslearn materialize",
-      "type": "SEAL_INVALID",
-      "priority": "orange",
-      "summary": "s2_live: 81 files, 45,754,625 B — contract failed (S1 3/4, S2 4/4)",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/materialization_manifest.json"
-    },
-    {
-      "event_id": "de0e6fb2f83a63f7",
-      "time_utc": "2026-08-28T08:40:32.164260+00:00",
-      "recorded_at_utc": "2026-08-28T08:40:32.164260+00:00",
-      "time_basis": "artifact_field",
-      "source": "rslearn preflight",
-      "type": "PREFLIGHT_PASS",
-      "priority": "green",
-      "summary": "s2_live: 5/5 anchors selected required scene",
-      "evidence_uri": "artifacts/external_data/nepal_olmo_live_v1/materialized/s2_live/selection_preflight.json"
     },
     {
       "event_id": "9aed161d356f09cd",
@@ -808,17 +898,6 @@
       "type": "SECONDARY_SIGNAL",
       "priority": "blue",
       "summary": "A second M4.2-equivalent signal followed roughly three hours later on 26 Aug. It is not evidence of a separate 27 Aug Tibet landslide.",
-      "evidence_uri": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood"
-    },
-    {
-      "event_id": "97d93bb9dd29e4c7",
-      "time_utc": "2026-08-26T02:52:10Z",
-      "recorded_at_utc": "2026-08-26T02:52:10Z",
-      "time_basis": "source_event_time",
-      "source": "USGS Landslide Hazards Program",
-      "type": "PRIMARY_EVENT",
-      "priority": "orange",
-      "summary": "USGS reclassified the initial earthquake-like signal as an M5.2-equivalent landslide/glacial-collapse signal at zero depth; the source is on the Nepal side of Langtang Lirung.",
       "evidence_uri": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood"
     }
   ],
@@ -2476,16 +2555,17 @@
     "metadata_sha256": "13da77438f26a8b356381c5a70cb2fab82d493f32fa600dba84f81ce3fdd7c5d",
     "items_sha256": "2768a14e5d59d4441b8d365a9a5641be0c31cef72ee16422dfe6461dab59da72",
     "hydrography_sha256": "005691a26c482012d3736d2191c0ee50a26761c8db44d1512730dc58ab66845c",
-    "catalog_snapshot": "20260829T052655Z",
-    "catalog_generated_at_utc": "2026-08-29T05:26:55Z",
-    "catalog_sha256": "b7274faf64fef7b21c8dbe732b5a150ad1f23e6ae1bdb227318c4396a478f3f8",
-    "acquisition_status_sha256": "abb31c4f5c0c2674fa4031e89f5b2738d1b425ab7454e2b711505b1b90763b4d",
-    "catalog_seal_sha256": "b057a6aab533e652c1971f7629c511637fb000a8cac749b9ace74cde5f01ab11",
+    "catalog_snapshot": "20260829T075401Z",
+    "catalog_generated_at_utc": "2026-08-29T07:54:01Z",
+    "catalog_sha256": "8bc6140331d064b92a129fc9cbc007a2862d5a673ec3a7f4d466a2926e34361c",
+    "acquisition_status_sha256": "725ab9dbff0ec71c5b83d70bf9c256d209b51fe97ec2f54ddd55b6a5ec71dd4d",
+    "catalog_seal_sha256": "a2222f54804676263f3aeb6aa7faa5ec0414f238d095334d9a794fa0b5e729d5",
     "coverage_snapshot": "20260829T051350Z",
     "coverage_audit_sha256": "4d8ad1682a470094804543cc2a5c947d18395623b1ffab1bac773bc3fd1591d2",
     "coverage_seal_sha256": "d1464d28b8a7b38e2b9d0650b7a18f1190e649113f4260e2d7bf0f010d5dad18",
-    "s2_live_selection_preflight_sha256": "30f57460c5b212e2bf84c92853e936af12f7ef7d7cfbcf3e22207621ffff3db5",
-    "s1_live_selection_preflight_sha256": "34a2b392123a5e25c1278f056841fdcedc322ca9973e1ead4f8cf00af69fa00f",
-    "s2_live_materialization_manifest_sha256": "941844a101476bc7d50907c06ff980402d460c76382f6a925f7e307fdb1c4279"
+    "s2_live_selection_preflight_sha256": "1fe861106832053399a7e201b7974683a405817afd306a5e35d5c724172dcf73",
+    "s1_live_selection_preflight_sha256": "3dbce7c5f3f02920d0a93dc2603062aeff87f892ac4e83d98ae92c68bec45572",
+    "s2_live_materialization_manifest_sha256": "adcd73da0b4697c933ff176348798581d7a472613ca4758577f6374575eb9498",
+    "s1_live_materialization_manifest_sha256": "6835dff4b9e2f292c491912f05e882308d604e462368455d0ff5fa63a44fb55f"
   }
 }
