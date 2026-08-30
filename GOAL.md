@@ -2981,6 +2981,18 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   수정하지 않았다. 검증 중 working tree에 별도 `apps/nepal-olmo-gis` 수정이 나타났지만
   본 작업과 분리해 보존했다. 원본 실험 파일은 덮어쓰지 않고 audit JSON만 새로 생성했다.
 
+### 2026-08-30 — Nepal 최종 공개판 UX·기사 스토리 리서치 (진행 중)
+
+- 계획: 실험·데이터·현재 UX 코드를 변경하지 않고, 안수찬의 narrative journalism,
+  BBC Visual Journalism의 빙하 붕괴·위성 before/after, BBC GEL, 최신 Nepal 시각보도를
+  현재 STORY modal·지도 첫 화면과 비교한다.
+- 판정 축: 5초 안에 사건·장소·현재 알고 있는 것을 이해하는가, 위성과 AI가 정답을
+  만든 것처럼 보이지 않는가, 사람·장소의 영향이 수치·레이어보다 앞서는가,
+  mobile·keyboard·reduced-motion에서도 같은 서사가 보존되는가.
+- 산출물: 근거가 달린 편집 판정, 최종 6단 스토리보드, public/expert 정보 위계,
+  섹션별 copy·visual·interaction 계약, 모바일·접근성·윤리·주장 경계, 최종 구현 QA checklist.
+- 한계: 이 구간은 리서치·명세 전용이다. `apps/nepal-olmo-gis` 코드·화면은 수정하지 않는다.
+
 ### 2026-08-30 (2) — 청록 점 결함 확정·스토리 개편·확장 리서치
 - 함: 헤드리스 Chromium(playwright-core + 캐시 chromium-1217)으로 재현 → `isStyleLoaded()`가 MapTiler 스타일에서 idle 이후에도 false 유지 → 후보 레이어 효과가 재시도만 반복. 스타일 객체 존재로 게이트 교체, `.catch` 무음 삼킴 제거. 검증: `has ai-candidate-fill = true | scan-center-dot = true`.
 - 함: 스토리 9→5장(사건 구조·위성·AI 계산(M73·M78·M77 표)·틀렸던 것(M75/M76)·다음 관문). 색은 잉크·회색으로 제한, 컨설팅식 섹션(대응 스택·후보 공장·인간 영향·우선순위) 삭제.
@@ -2993,3 +3005,7 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 마찰: v1 월 인코딩 오류(연속 월 가정) → v2 재실행; 픽셀 16k×4시점 CPU 정규화가 병목(지역당 ~7분).
 - 앱: 우측 레일 "SECOND MODEL" 표, 스토리 03장 "다른 모델이어도 되는가" 절 추가.
 - 다음: Prithvi/Clay 같은 계약(광학), M79 cloud-stratified radar(병렬 세션 제안), 전국 4,000창 검색.
+
+### 2026-08-30 (4) — M80 구름 층화
+- 함: post clear 목표 0.4/0.1. 진짜 흐린 지역은 Hokkaido·Alaska뿐. Hokkaido: S2 0.853→0.795, S1 단독 0.770 유지, 결합 +0.008.
+- 마찰: 첫 구간 방식(0.2–0.6)은 표본 0; pkill 패턴이 nx 셸 자신을 죽여 재기동.
