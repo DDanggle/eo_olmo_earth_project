@@ -3929,6 +3929,14 @@ M77의 약점(대조 창을 관측성으로 사후 선택)을 고치기 위해 �
 "변화 없음"이 재현됨(Tadi 3.6%, 회랑 1위 25.4%). 표본 1이라 specificity 수치로 쓰지는 않되, 사후 선택 비판은 해소됨.
 봉인: `code/fetch_controls_prereg.py`, `artifacts/corridor_s2_candidates/prepare_ctrl_prereg/`, 서버 `embed_ctrl_prereg/`.
 
+## M83. 언색호(D) 수색 — 모델 없이 NDWI ∩ 같은 궤도 S1 급감 (2026-08-30)
+
+D 수색 구역(85.48E 28.285N) ±5 km, 20 m 격자. 광학: 8/27 맑은 비율 **15%** → 신규 수체(NDWI post>0.2, pre<0) 판정 불가(0 px).
+레이더: 첫 실행은 궤도를 섞어 AOI 21%가 "급감"으로 나옴(산악 레이오버 차이) → **같은 상대궤도(85 asc)** 7/23·8/04·8/16 중앙값 vs 8/28로 고침 → ≥3 dB 급감 13,328 px(5.3 km², 5.3%).
+연결 성분 287개, 상위: 0.38 km²(85.507E 28.251N), 0.30(85.515E 28.291N), 0.26(85.519E 28.286N) — 발원 E 남서쪽 렌데 계곡에 군집.
+**읽기**: 레이더 급감은 물·젖은 토사·거친 표면 변화 모두 가능 → "수색 표적"까지. 언색호 위치 확정은 다음 맑은 S2 또는 SkySat 필요.
+봉인: `code/lake_search_d.py`, `artifacts/lake_search_d/report.json`, PNG 3장(`public/data/story/lake_*.png`).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의

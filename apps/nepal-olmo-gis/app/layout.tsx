@@ -16,8 +16,20 @@ const storySerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://olmoearth-nepal-live-twin.seeso.chatgpt.site'),
   title: 'OLMoEarth Nepal Live Twin',
   description: 'Satellite evidence, OLMoEarth embeddings, and a transparent hazard-simulation interface for Rasuwa, Nepal.',
+  openGraph: {
+    title: 'OLMoEarth Nepal Live Twin',
+    description: 'Satellite evidence from the 26 Aug 2026 Nepal–Tibet cascade.',
+    images: [{ url: '/og.png', width: 1730, height: 909, alt: 'OLMoEarth Nepal Live Twin satellite evidence map' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'OLMoEarth Nepal Live Twin',
+    description: 'Satellite evidence from the 26 Aug 2026 Nepal–Tibet cascade.',
+    images: ['/og.png'],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
