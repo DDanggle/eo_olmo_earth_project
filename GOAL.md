@@ -2952,7 +2952,38 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   광학 전용 증거(M66/M68/M69/M71/M73)만 유효. 앱 판정 카드는 not_detected로.
 
 ### 2026-08-30 — 대조군 교체(M77)·레이더 가치 실험(M78)
-- 함: Rishing(8/27 구름 100%) → Tadi Khola(관측 84%, Δ 0.129≈0.125, 후보 3.6% vs 회랑 1위 25%)로 C 교체, 앱 팝업에 pre/post/AI Δ 수록.
-- 함: Sen12 S1asc 14파트 수신 → `sen12_radar_value.py` v2. 결과: 결합 이득 7/7 양수이나 전부 <+0.03; S1 단독 OLMo Hokkaido 0.77·Hiroshima 0.73(고전 0.72·0.61), 나머지 5곳 ≈0.5.
+- 함: Rishing(8/27 관측성 0%) → Tadi Khola(관측 84.5%, Δ 0.1287≈0.1245)로 C 교체.
+  회랑 공통 p99에서 124/3461=3.58%, control-local p99에서 19/3461=0.55%다. 이는
+  현장 `no change`로 확인된 untouched control이 아니라 관측성으로 고른 개발 대조다.
+- 함: Sen12 S1asc 14파트 수신 → `sen12_radar_value.py` v2. 결과: 7지역 690패치,
+  S1+S2 +.03 gate 0/7, S1-only .70 gate 2/7(Hokkaido .768, Hiroshima .731). 단 패치·시점을
+  S2 최다 clear 4시점으로 골랐으므로 `through-cloud` 확증은 아니다.
 - 마찰: venv 경로 3회 오기(.venv-master 가 정답), S1 중복 timestamp 오류(같은 쪽에서 서로 다른 4시점 선택으로 해결).
 - 다음: 네팔 회랑 S1 dB 단독 Δ 재점검(M76 과 M78 연결), 레이더 단독이 되는 사건 유형 규명(사면 방향·입사각), 앱 우측 레일에 M78 표.
+
+### 2026-08-30 — Nepal 연구 전체 재감사·M77/M78 통합 문서화 (완료)
+
+- 계획: UX 소스와 실행 중 서비스는 변경하지 않고 M77 대조군, M78 레이더 분해, M75/M76 입력계약
+  정정, M65/M68/M73 historical transfer를 산출물·코드·커밋에 역추적한다.
+- 판정 기준: 수치·표본 수·센서 계약·허용 주장·미검증 항목을 각각 근거 파일과 연결한다. 동일 번호
+  중복, superseded 수치의 현행 문서 잔존, radar/optical/fusion의 과장 표현이 있으면 문서에서 정정한다.
+- 산출물: Nepal 사건 연구의 단일 최신 상태 문서, 기존 provenance/UX 문서의 M77·M78 갱신,
+  MEASURED_FINDINGS/README/GOAL 간 상태 일치. 앱의 `app/`, `public/`, 데이터 생성기는 수정하지 않는다.
+- 성공 조건: M77/M78 JSON을 독립 재계산하거나 invariant로 검증하고, `git diff --check`를 통과하며,
+  바뀐 파일이 연구 문서에만 한정된다.
+- 결과: `code/audit_nepal_m77_m78.py`가 M77 두 threshold(124/3461, 19/3461)와 M78
+  7지역·690패치·fusion gate 0/7·S1 gate 2/7을 원본 NPZ/JSON에서 독립 재계산했다.
+- 판정: Nepal live M76은 부정 결과로 유지한다. M77은 개발 대조, M78은 조건부 S1
+  representation viability이며 radar-through-cloud 일반화는 아니다. 단일 최신판을
+  `docs/NEPAL_OLMO_RESEARCH_STATUS_2026_08_30.md`에 고정했다.
+- 검증: audit 스크립트 문법·멱등 2회 실행, JSON invariant, `git diff --check`를 통과했고
+  두 실행의 audit JSON SHA-256이 `19d7d5cb...8f74`로 같았다. 이 감사는 UX 파일을
+  수정하지 않았다. 검증 중 working tree에 별도 `apps/nepal-olmo-gis` 수정이 나타났지만
+  본 작업과 분리해 보존했다. 원본 실험 파일은 덮어쓰지 않고 audit JSON만 새로 생성했다.
+
+### 2026-08-30 (2) — 청록 점 결함 확정·스토리 개편·확장 리서치
+- 함: 헤드리스 Chromium(playwright-core + 캐시 chromium-1217)으로 재현 → `isStyleLoaded()`가 MapTiler 스타일에서 idle 이후에도 false 유지 → 후보 레이어 효과가 재시도만 반복. 스타일 객체 존재로 게이트 교체, `.catch` 무음 삼킴 제거. 검증: `has ai-candidate-fill = true | scan-center-dot = true`.
+- 함: 스토리 9→5장(사건 구조·위성·AI 계산(M73·M78·M77 표)·틀렸던 것(M75/M76)·다음 관문). 색은 잉크·회색으로 제한, 컨설팅식 섹션(대응 스택·후보 공장·인간 영향·우선순위) 삭제.
+- 함: 좌측 레일 감사 문단·ops 로그·reach-facts 제거. 지도 번호 라벨 상위 6개만, 청록 점 축소.
+- 함: `docs/NEPAL_EXPANSION_RESEARCH.md` — EO 모델 대조군(Presto 우선)·센서·시뮬레이션·후보 탐색·공개 라벨 자료, 근거 상태 표기.
+- 남음: 공개 배포(승인 대기), Presto 대조군 실행, 회랑 S1 단독 결과 앱 반영 문구 확인.
