@@ -149,6 +149,7 @@ type Scenario = {
     geojson: FeatureCollection;
   } | null;
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
+  downstream_profile?: { id: string; km_to_G: number; candidate_token_frac: number | null; observable: number | null; rank: number | null }[];
   radar_value?: { rows: { region: string; patches: number; s2_only: number; s1s2: number; fusion_gain: number; s1_only_ai: number; s1_classical: number }[]; regions: number; s1_only_usable: number; s1_ai_beats_classical: number; fusion_wins_at_003: number; fusion_positive: number } | null;
   ai_vs_classical?: { rows: { region: string; patches: number; classical_best: number; ai: number | null; gain: number | null }[]; regions: number; ahead: number; wins_at_005: number; pre_registered_margin: number; corridor?: { spearman: number; top10_overlap: number; reported_hits: { ai: number; classical: number } } | null } | null;
   candidates?: { schema: string; claim: string; threshold_placebo_p99: number | null; placebo_tokens: number; windows: number;
@@ -633,7 +634,7 @@ export default function Home() {
             + `<figure><img src="/data/candidates/${cw}_post.png" alt="post"/><figcaption>POST 08-27</figcaption></figure>`
             + `<figure><img src="/data/candidates/${cw}_delta.png" alt="AI change"/><figcaption>AI Δ · win ${cw}</figcaption></figure>`
             + (win === 'rasuwagadhi' ? `<figure><img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 28 Aug"/><figcaption>PLANETSCOPE 3.8 m · 08-28<br/><a href="https://source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26" target="_blank" rel="noopener">© Planet Labs PBC · CC-BY-NC-4.0</a></figcaption></figure>` : '')
-            + `</div><p class="pp-hint">▲ nearest scan window ${cw} (${pt.nearest_window_km} km) · click to open the large slider</p>`
+            + `</div><p class="pp-hint">▲ nearest scan window ${cw} (${pt.nearest_window_km} km)${pt.id === 'G' ? ' · AI change cells 6.7% here vs 25% at Dalphedi; 27 Aug is hazy, so read as weak signal, not absence' : ''} · click to open the large slider</p>`
           : pt.id === 'C'
           ? `<div class="pp-thumbs" data-cand="x001" data-name="${pt.name}" data-place="${pt.place}" title="Click to compare large">`
             + `<figure><img src="/data/candidates/x001_pre.png" alt="pre"/><figcaption>PRE 08-12</figcaption></figure>`
@@ -1623,6 +1624,15 @@ export default function Home() {
             <p>{ko
               ? '강을 따라 2.56km 창 100개를 자동으로 잘라 같은 계산을 했다. 구름으로 판정 불가한 창을 빼면 47개가 남았고, 상위는 달페디(Dalphedi, 국경에서 6km)와 비두르 부근이다. 강 밖 산사면으로 격자를 넓혀 찾은 살레(Salê) 창도 후보에 올랐다. 사건이 없는 타디 콜라(Tadi Khola) 대조 창에서는 사건 전후 거리 0.129, 평소 거리 0.125로 사실상 같았고 후보 격자는 3.6%였다. 회랑 1위 창의 25%와 견주면 “아무 일 없음”이 어떻게 보이는지 알 수 있다.'
               : 'Along the river we cut 100 windows of 2.56 km automatically and ran the same computation. Removing windows that cloud made unjudgeable leaves 47; the top are Dalphedi (6 km from the border) and the Bidur reach. Widening the grid onto hillslopes away from the river added Salê. In the Tadi Khola control window, where nothing happened, the before/after distance was 0.129 against an ordinary 0.125 — practically equal — and 3.6% of cells were flagged, against 25% in the top corridor window. That is what "no change" looks like under the same recipe.'}</p>
+            {scenario?.downstream_profile && scenario.downstream_profile.length > 0 && (
+              <div className="story-table-wrap">
+                <h3>{ko ? '추적 끝(G, 갈치) 쪽으로 갈수록' : 'Toward the end of the trace (G, Galchhi)'}</h3>
+                <p>{ko ? '국경에서 멀어질수록 표시된 격자 비율은 줄어든다. 갈치 창은 6.7%, 그 위 두 창은 3–4%로 사건 없는 대조 창(3.6%)에 가깝다. 다만 이 구간의 8월 27일 영상은 옅은 구름에 덮여 있어 “변화가 적다”는 약한 읽기이지, 아무 일도 없었다는 증거는 아니다.' : 'The farther from the border, the smaller the flagged share. The Galchhi window is at 6.7%; two windows upstream sit at 3–4%, close to the no-event control (3.6%). But the 27 August image over this stretch is hazy, so "little change" is a weak reading, not proof that nothing happened.'}</p>
+                <table className="story-table"><thead><tr><th>{ko ? '창' : 'window'}</th><th>{ko ? 'G까지 km' : 'km to G'}</th><th>{ko ? '표시 격자' : 'flagged cells'}</th><th>{ko ? '관측 가능' : 'observable'}</th><th>{ko ? '순위/100' : 'rank of 100'}</th></tr></thead><tbody>
+                  {scenario.downstream_profile.map((r) => <tr key={r.id}><td>{r.id}</td><td>{r.km_to_G.toFixed(1)}</td><td>{r.candidate_token_frac != null ? (100 * r.candidate_token_frac).toFixed(1) + '%' : '—'}</td><td>{r.observable != null ? Math.round(100 * r.observable) + '%' : '—'}</td><td>{r.rank ?? '—'}</td></tr>)}
+                </tbody></table>
+              </div>
+            )}
             <p className="story-caption">{ko ? '이 화면 자체는 인공지능이 아니다. 지도와 타임라인은 사람이 만든 화면이고, 인공지능이 계산한 것은 서버에 봉인된 파일들이다. 화면은 그 파일을 읽어 보여줄 뿐이다.' : 'The interface is not the AI. The map and timeline are hand-built; what the model computed lives in sealed files on a server. The page reads those files and shows them.'}</p>
           </section>
 

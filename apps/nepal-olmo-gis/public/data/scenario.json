@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-29T18:29:38.242983+00:00",
+  "generated_at": "2026-08-30T01:15:26.818985+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -178,7 +178,7 @@
       "source": "USGS preliminary ~100 km travel assessment + OSM river trace",
       "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
       "evidence_level": "current_trace_endpoint_not_confirmed_event_terminus",
-      "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here.",
+      "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here. In the AI screen the signal fades toward G: 6.7% of 40 m cells flagged in the Galchhi window against 25% at Dalphedi, and 3–4% two windows upstream — close to the 3.6% of the no-event control. But the 27 Aug image here is hazy, so 'little change' is a weak reading, not evidence that nothing happened.",
       "story_ko": "현재 지도 추적선은 Rasuwagadhi에서 하천을 따라 73.7 km 내려온 이 지점에서 끝난다. USGS는 발원지부터 총 약 100 km 이동을 잠정 보고했지만 최종 퇴적 종점 폴리곤은 아직 공개하지 않았다. G는 이 화면의 추적 종점이지 홍수·토석류가 정확히 여기서 끝났다는 증거가 아니다.",
       "distance_from_a_km": 65.05,
       "nearest_window": "v040",
@@ -7834,6 +7834,50 @@
     "fusion_positive": 6,
     "report_sha256": "afab015e8b0efad5bab88314703377dd481466ac22cf72567f06db8218ccd244"
   },
+  "downstream_profile": [
+    {
+      "id": "v040",
+      "km_to_G": 0.0,
+      "candidate_token_frac": 0.0673703818689848,
+      "observable": 0.786376953125,
+      "rank": 28
+    },
+    {
+      "id": "v039",
+      "km_to_G": 2.4,
+      "candidate_token_frac": 0.10592011412268189,
+      "observable": 0.6845703125,
+      "rank": 12
+    },
+    {
+      "id": "v038",
+      "km_to_G": 3.6,
+      "candidate_token_frac": 0.08148148148148149,
+      "observable": 0.889892578125,
+      "rank": 22
+    },
+    {
+      "id": "v037",
+      "km_to_G": 4.9,
+      "candidate_token_frac": 0.04143573502243336,
+      "observable": 0.925048828125,
+      "rank": 40
+    },
+    {
+      "id": "v036",
+      "km_to_G": 6.4,
+      "candidate_token_frac": 0.03256552819698173,
+      "observable": 0.922119140625,
+      "rank": 44
+    },
+    {
+      "id": "v035",
+      "km_to_G": 7.8,
+      "candidate_token_frac": 0.05267581955729896,
+      "observable": 0.871337890625,
+      "rank": 38
+    }
+  ],
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",
     "created_at_utc": "2026-08-29T02:40:10.574343+00:00",

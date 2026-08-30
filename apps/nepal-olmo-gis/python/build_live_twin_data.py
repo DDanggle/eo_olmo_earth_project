@@ -165,7 +165,7 @@ POINTS = [
         "source": "USGS preliminary ~100 km travel assessment + OSM river trace",
         "source_url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
         "evidence_level": "current_trace_endpoint_not_confirmed_event_terminus",
-        "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here.",
+        "story": "The mapped inspection corridor currently ends here, 73.7 river-km below Rasuwagadhi. USGS reports nearly 100 km of total travel from the source, but has not published a final terminal deposit polygon. G is the end of this trace—not proof that the flood or debris stopped here. In the AI screen the signal fades toward G: 6.7% of 40 m cells flagged in the Galchhi window against 25% at Dalphedi, and 3–4% two windows upstream — close to the 3.6% of the no-event control. But the 27 Aug image here is hazy, so 'little change' is a weak reading, not evidence that nothing happened.",
         "story_ko": "현재 지도 추적선은 Rasuwagadhi에서 하천을 따라 73.7 km 내려온 이 지점에서 끝난다. USGS는 발원지부터 총 약 100 km 이동을 잠정 보고했지만 최종 퇴적 종점 폴리곤은 아직 공개하지 않았다. G는 이 화면의 추적 종점이지 홍수·토석류가 정확히 여기서 끝났다는 증거가 아니다.",
     },
     {
@@ -1315,6 +1315,27 @@ def ai_vs_classical_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp)}
 
 
+def downstream_profile_block() -> list[dict[str, Any]]:
+    """G(갈치) 쪽으로 갈수록 AI 변화 토큰 비율이 어떻게 줄어드는지 — 스캔 v2 강 창 중 G 에서 가까운 순 6개."""
+    rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_scan_v2/report.json"
+    wm = WORK_ROOT / "artifacts/corridor_s2_candidates/prepare_v2/windows_manifest.json"
+    if not (rp.exists() and wm.exists()):
+        return []
+    rj = json.loads(rp.read_text()); rows = {r["id"]: r for r in rj.get("windows", rj.get("ranked", []))}
+    man = json.loads(wm.read_text()); wins = man.get("windows", man)
+    G = (84.9883085, 27.8054960)
+    out = []
+    for w in wins:
+        wid = w.get("id") or w.get("window_id"); c = w.get("center_lonlat") or w.get("center")
+        if not (wid and c and wid in rows and str(wid).startswith("v")):
+            continue
+        r = rows[wid]
+        km = math.hypot((c[0] - G[0]) * math.cos(math.radians(27.9)) * 111.0, (c[1] - G[1]) * 111.0)
+        out.append({"id": wid, "km_to_G": round(km, 1), "candidate_token_frac": r.get("candidate_token_frac"), "observable": r.get("valid_event_frac"), "rank": r.get("rank")})
+    out.sort(key=lambda x: x["km_to_G"])
+    return out[:6]
+
+
 def radar_value_block() -> dict[str, Any] | None:
     """M78: 레이더 단독(S1 asc dB) OLMo Δz vs 고전 log-ratio, 그리고 S2 에 S1 을 보탠 이득 (Sen12 7지역)."""
     rp = WORK_ROOT / "artifacts/sen12_radar_value/report.json"
@@ -1552,6 +1573,7 @@ def build(refresh_osm: bool) -> None:
         "headline": headline_block(),
         "ai_vs_classical": ai_vs_classical_block(),
         "radar_value": radar_value_block(),
+        "downstream_profile": downstream_profile_block(),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {
