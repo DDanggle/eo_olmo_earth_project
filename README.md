@@ -1,6 +1,6 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-08-28
+최종 갱신: 2026-08-30
 
 > ## 북극성 — 우선순위가 헷갈리면 이것부터
 > **frozen OLMoEarth embedding이 산사태 표현으로 여러 지역에 전이되고, raw task model 및 다른
@@ -12,8 +12,10 @@
 > 공식 P2/P3와 frozen-small P4의 8-region 확증이 끝났다. P4/P2/P3 region-macro는
 > **.2722/.1966/.1834**, P4−P2 **+.0756**, 사전등록 지역 승리 **6/8**이다(M65).
 > 현재 병목은 **Presto cache smoke → 동일 decoder 3-seed 비교 → 한국 untouched transfer**다.
-> Nepal live demo는 별도 sidecar로 주차했다. 감사 예산 규칙: **main claim을 막지 않는 감사
-> 항목은 새로 열지 않는다.**
+> Nepal live demo는 별도 sidecar로 유지한다. 2026-08-30 입력계약 재감사에서
+> prospective detection은 부정되었고(M76), Tadi 개발 대조(M77)와 7지역 radar 분해(M78)를
+> 추가했다. 상세는 **`docs/NEPAL_OLMO_RESEARCH_STATUS_2026_08_30.md`**. 감사 예산 규칙:
+> **sidecar는 Presto 맞쵤 대조·한국 untouched transfer를 막지 않는다.**
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에
@@ -54,7 +56,8 @@
 | `RESEARCH_STRATEGY.md` | 박사 연구 프로그램 — WorldShift × ModelShift, 가설·베이스라인·12주 실행 |
 | `RESEARCH_EXECUTION_PLAN.md` | **현재 7일 실행 queue** — MountainShift public spine·3국 access·probe/residual/transfer gate; 아래에는 과거 K-ALIGN 계획 보존 |
 | `K_CONTEXT_FUSION_EXPERIMENT.md` | K-ALIGN 보존 branch — 동적 공공 context, EO-only privileged distillation, simple/native baseline, 3지역 split·kill gate |
-| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** 최신 M65는 8-region frozen-v2 확증 집계와 금지 주장을 기록 |
+| **`MEASURED_FINDINGS.md`** | **측정 장부 — 실행해서 나온 수치만.** M65 8-region transfer부터 M75–M78 Nepal 입력계약·대조군·radar 분해까지 기록 |
+| `docs/NEPAL_OLMO_RESEARCH_STATUS_2026_08_30.md` | **Nepal sidecar 최신 판정** — OLMo가 실제로 한 일, M76 부정 결과, M77/M78 허용·금지 주장, 다음 실험 |
 | `docs/E1_CONTEXT_DECODER_ANALYSIS_PLAN.md` | E1 2×2 cell·contrast·공간 CI·95% 참고선·비용 판정 계약 |
 | `docs/RECENT_LITERATURE_DECISION_2026_08_26.md` | OLMo/PANGAEA/PEFT/TESSERA/RALF 대비 선점 주장과 CVPR 잔여 gap |
 | `docs/PAPER_CLAIM_EXPANSION_2026_08_26.md` | M37 이후 claim ladder, label-free action utility, 최신 baseline, CVPR kill path |
@@ -100,7 +103,7 @@ kt cloud AI Nexus의 **H200 ×2**.
   최대 ×26 리프트의 유사지 검색이 가능함을 정량 검증. few-shot 프로토타입은 지역·유형을
   건너뛰어 전이됨(완도 해상 김양식 → 제주 육상 수조, 9/9가 상위 4% 내).
 
-### 2026-08-28 현재판 — 8-region 확증 완료, 두 번째 GeoFM·한국 transfer가 남음
+### 2026-08-30 현재판 — 8-region 확증 완료, 두 번째 GeoFM·한국 transfer가 남음
 
 동결 recipe v2의 8개 held-out 지역 72실행이 모두 끝났고 release post-gate를 통과했다.
 주지표인 positive-tile macro IoU의 region-macro는 **P4 frozen OLMoEarth .272166**, P2 UNet3D
@@ -113,8 +116,12 @@ Presto의 upstream commit·weight·정규화(`/10000`)·exact-month API를 봉�
 동일 decoder 비교는 미실행이다. 기존 8지역은 이미 열렸으므로 Presto C1은 retrospective matched
 control이고, 최초 untouched OLMo-vs-Presto 비교는 한국 test에서 만든다.
 
-Nepal은 baseline/placebo 3세트 임베딩만 존재하고 event `live_mode=null`; S2 live cube는 S1 3/4라
-invalid다. `docs/NEPAL_SIDECAR_HANDOFF_2026_08_28.md`에 주차했으며 CVPR queue를 막지 않는다.
+Nepal sidecar는 입력계약을 고친 M76에서 5앵커·27창 모두 사전등록 검출 기준을
+통과하지 못했다. M77은 Tadi Khola를 관측성이 나은 잠정 음성 대조로 추가했고,
+M78은 7지역 690패치에서 S1-only AUROC .70 gate를 2/7만 통과했으며 S1+S2
++.03 fusion gate는 0/7이었다. M78은 맑은 S2 시점으로 표본을 골랐으므로 아직
+일반적인 `through-cloud`를 입증하지 않는다. 이 sidecar는 provenance·candidate-triage 실험으로
+유지하되 CVPR 주 임계경로를 막지 않는다.
 
 ### [과거 상태] 2026-08-26 — 개발 downstream은 나왔고, confirmatory downstream은 0%였음
 

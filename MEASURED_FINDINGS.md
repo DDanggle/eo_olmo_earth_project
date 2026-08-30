@@ -43,7 +43,10 @@
 | M27 | 공식 구조는 이미 결정적 — 치환 1개가 수학적으로 동일 | **구조 변경 0. diff 3.3e-16** | 완료 |
 | M28 | AI-Hub 원천 영상 정체 + STAC 물질화 게이트 | **RGB uint8 3밴드였음. STAC 게이트 4/4 통과** | 완료 |
 | M65 | frozen-v2 확증 8-region region-macro | **P4 .2722 > P2 .1966 > P3 .1834; P4−P2 +.0756, 지역 승리 6/8** | 봉인 집계 완료 |
-| M75 | Nepal S1 입력계약 감사·27창 재실행 | **기존 S1+S2 주장 폐기; 교정 결과 최대 초과 0.415%, calibrated detection 아님** | 봉인 완료 |
+| M75 | Nepal S1 입력계약 결함 | **기존 S1 포함 주장 폐기; 선형 intensity를 dB 계약으로 재실행 필요** | 결함·영향범위 확정 |
+| M76 | Nepal dB 교정 재실행 | **5앵커·27창 사전등록 기준 미달; live detection 주장 없음** | 봉인 완료 |
+| M77 | Tadi Khola 잠정 음성 대조 | **공통 임계 3.58%, control-local 임계 0.55%; 현장 무변화 라벨은 없음** | 개발 대조 완료 |
+| M78 | S1-only·S1+S2 radar value | **S1-only ≥.70은 2/7; fusion +.03 gate는 0/7** | 7지역 690패치 완료 |
 
 **아직 confirmatory하게 측정하지 않은 것**: 두 번째 frozen GeoFM과의 matched 비교,
 한국 공공데이터의 **표현 기여**(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 0),
@@ -3704,7 +3707,7 @@ S1-only 임베딩 분해 + 회랑 placebo_a/b 물질화(임계 자체 산정).
 
 봉인: `artifacts/external_data/nepal_olmo_live_v1/corridor_sealed_s1only/report.json`.
 
-## M75. Sentinel-1 입력계약 역감사와 27창 재실행 — 기존 Nepal S1+S2 양성 주장 철회 (2026-08-29)
+## M75-P. [SUPERSEDED BY M76] Sentinel-1 입력계약 역감사 뒤의 단일-placebo 27창 screening (2026-08-29)
 
 **발견한 결함**: 공식 rslearn OLMoEarth 문서의 Planetary Computer Sentinel-1 경로는 RTC
 linear intensity에 `Sentinel1ToDecibels`를 적용한 뒤 `OlmoEarthNormalize`를 요구한다. 기존
@@ -3798,28 +3801,41 @@ S1만(dB)으로 27창을 재임베딩해 baseline↔s1_live Δ를 잼. **차용 
 결론: w24는 "다른 창보다 튀는 창"이지 "자기 과거보다 튀는 창"은 아님 → lead로만 유지, 후보 아님.
 봉인: `corridor_sealed_s1only/`, `corridor_matched_s1only/` (dB).
 
-## M77. 대조군 창 — Rishing(구름 100%) 대신 Tadi Khola: "변화 없음"의 실측 (2026-08-30)
+## M77. 잠정 음성 대조 — Rishing(구름 100%) 대신 Tadi Khola (2026-08-30)
 
 사건 없는 지역 4곳(Melamchi·Tadi Khola·Ankhu Khola·Rishing)을 스캔과 같은 5날짜·12밴드 계약으로 받아
 같은 3:1 Δ 프로토콜(GPU 임베딩)로 잼. 08-27 관측성: Tadi 84% > Melamchi 35% > Ankhu 15% > Rishing 0%.
 
-| 창 | 관측성(08-27) | Δ_event | Δ_placebo | 후보 토큰(스캔 임계 0.282) |
+| 창 | 관측성(08-27) | Δ_event | Δ_placebo | 후보 토큰(회랑 공통 임계 0.281885) |
 |---|---|---|---|---|
-| **Tadi Khola (새 C)** | **0.84** | 0.129 | 0.125 | **3.6%** |
+| **Tadi Khola (새 C)** | **0.845** | 0.1287 | 0.1245 | **124/3461 = 3.58%** |
 | Melamchi | 0.35 | 0.172 | 0.161 | ~0 |
 | Ankhu Khola | 0.15 | 0.201 | 0.199 | (관측 부족) |
 | Rishing (구 C) | 0.00 | — | — | 판정 불가 |
 
-**읽기**: 사건 없는 맑은 창에서 사건 Δ와 평소 Δ가 같음(0.129≈0.125) — 프로토콜이 "아무 일 없음"을
-정직하게 3.6%로 냄(회랑 1위 25%의 1/7). 회랑 1위(Dalphedi 25%)와 대비되는 음성 대조. Rishing은 대조군으로 부적격이었음(교체).
-봉인: `artifacts/corridor_s2_candidates/prepare_ctrl/`, `embed_ctrl/report.json`.
+**두 임계의 차이**: 위 3.58%는 회랑 100창과 공정 비교하기 위해 회랑의 고정 p99를 Tadi에 적용한
+값이다. `embed_ctrl/report.json`은 대조 후보 4곳의 placebo로 p99=0.347933을 새로 산정하므로
+19/3461=**0.55%**를 기록한다. 둘 다 같은 Δ raster에서 재계산되며, 목적이 다르다.
 
-## M78. 레이더는 구름을 뚫고 보는가 — Sen12 라벨 7지역, S1 전용 vs S2 vs 결합 (2026-08-30)
+**읽기**: 맑은 잠정 no-event 창에서 사건 Δ와 평시 Δ가 비슷하고, 공통 임계 후보 비율은 회랑
+1위 Dalphedi 25.43%의 14.1%다. 이는 유용한 개발 음성 대조다. 그러나 Tadi가 현장 조사로
+`no change`라고 확인된 것은 아니며, 네 후보 중 관측성으로 사후 선택됐다. 따라서 confirmatory
+specificity나 false-positive rate 근거로 쓰지 않는다. Rishing은 관측불가라 대조군으로 부적격이었다.
 
-**질문**: 광학이 구름에 막힐 때 레이더(S1 asc, dB)만으로 산사태 위치가 잡히는가. 그리고 OlmoEarth 가
+봉인: `artifacts/corridor_s2_candidates/prepare_ctrl/`, `embed_ctrl/report.json`,
+`artifacts/nepal_m77_m78_audit.json`.
+
+## M78. 레이더 표현의 조건부 가치 — Sen12 라벨 7지역, S1 전용 vs S2 vs 결합 (2026-08-30)
+
+**질문**: 레이더(S1 asc, dB)만으로 산사태 위치 신호가 존재하는가. 그리고 OlmoEarth가
 고전 레이더 변화량(|Δ dB| VV+VH, 시간 중앙값)보다 나은가. M68/M73 과 같은 패치·시점·라벨·AUROC(토큰 MASK≥0.25).
 Sen12 S1 은 이미 dB 였음(평균 음수). Indonesia·Thrissur 는 S1 pre/post 4시점 부족으로 제외.
 사전 기준: 결합 이득 ≥ +0.03 이면 "레이더가 광학에 보탬"; S1 전용 AUROC ≥ 0.70 이면 "구름 아래 단독 탐지 가능".
+
+**중요한 설계 경계**: 패치와 pre/post 시간은 각 면에서 **S2 clear fraction이 가장 높은 4시점**으로
+선택하고, 그 시점에 가까운 S1을 붙였다. 따라서 이 실험은 실제 cloudy-S2 subset에서 radar가
+복구하는지를 직접 시험하지 않는다. 아래 S1-only 결과는 `광학 pixel 없이도 표현 신호가 존재하는가`의
+viability이지, 일반적인 `through-cloud 성능`의 확증이 아니다.
 
 | 지역 | n | S2 전용 | S1+S2 | 이득 | **S1 전용 OLMo** | S1 고전 log-ratio |
 |---|---|---|---|---|---|---|
@@ -3832,13 +3848,18 @@ Sen12 S1 은 이미 dB 였음(평균 음수). Indonesia·Thrissur 는 S1 pre/pos
 | USA Puerto Rico | 47 | 0.675 | 0.679 | +0.004 | 0.462 | 0.481 |
 
 **읽기**
-1. 광학이 맑을 때 레이더를 보태면 7/7 지역에서 좋아지지만 전부 +0.03 미만 → **"광학 있으면 레이더 이득 미미"** (사전 기준 미달, 정직 기록).
-2. **레이더 단독**은 광학이 잘 되는 두 지역(Hokkaido·Hiroshima)에서 0.77/0.73 — 구름 아래에서도 산사태 위치를 잡음. 그리고
-   두 곳 모두 OlmoEarth 가 고전 log-ratio 보다 높음(+0.05, +0.12). 나머지 5곳은 S1 단독 ≈ 0.5(우연) — 40 m 토큰·4시점 계약에서
-   레이더가 못 보는 사례가 다수. 즉 "레이더는 만능 구름 투시"가 아니라 **지역·사건 유형에 따라 되는 곳이 있다**.
+1. S1+S2 이득은 7/7 양수지만 최대 +0.014이고 **+0.03 gate는 0/7**이다. 이 계약에서는 fusion 기여를 승인하지 않는다.
+2. **S1-only**는 Hokkaido·Hiroshima에서 0.768/0.731로 사전 0.70 gate를 통과했고, 두 곳 모두
+   OlmoEarth가 고전 log-ratio보다 높다(+0.051/+0.122). 나머지 5지역은 gate 실패다. OlmoEarth가
+   고전보다 수치상 높은 지역은 Alaska까지 3/7이지만 Alaska의 절대 AUROC는 0.553으로 작동 주장에 쓰지 않는다.
 3. 네팔 M76(dB 재계산 후 5앵커·회랑 S1 미검출)은 이 결과와 모순되지 않음: 네팔은 S1 단독이 되는 유형인지 아직 모름 → 현장 검증 대상.
 
-**봉인**: `code/sen12_radar_value.py`(v2), `artifacts/sen12_radar_value/report.json`, 서버 로그 `logs/sen12_radar_value_v2.log`. GPU1, 약 7분.
+**통계 한계**: 총 690패치지만 AUROC는 지역 안 spatial token을 pooling한 값이고 spatial-block CI가
+없다. seed·두 번째 frozen GeoFM 대조도 없다. 따라서 2/7은 조건부 viability이며 일반화 비율이 아니다.
+
+**봉인**: 로컬은 `code/sen12_radar_value.py`(v2), `artifacts/sen12_radar_value/report.json`,
+`artifacts/nepal_m77_m78_audit.json`. 실행 때 기록한 서버 로그 경로는 `logs/sen12_radar_value_v2.log`지만
+현재 로컬 workspace에는 동기화되지 않아 로컬 seal 근거로 세지 않는다. GPU1, 약 7분.
 
 ## 이 장부에 없는 것 (혼동 방지)
 
