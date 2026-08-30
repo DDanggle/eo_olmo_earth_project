@@ -55,17 +55,18 @@ def main():
         mask=m0.unsqueeze(0).expand(n,T,len(NORMED_BANDS)).contiguous()
         dw=torch.full((n,T), float(DW.class_amount)).long()
         latlons=torch.tensor([[lat,lon]],dtype=torch.float32).expand(n,2).contiguous()
-        month=int(s2times[0].month)-1
+        # v2: 시점별 실제 월 (v1 은 첫 시점 월부터 연속 월로 가정 → 4시점 중 3개가 틀린 달이었음)
+        months=torch.tensor([[int(t.month)-1 for t in s2times]],dtype=torch.long).expand(n,T).contiguous()
         out=torch.empty(n,128)
         with torch.no_grad():
             for i in range(0,n,4096):
                 sl=slice(i,i+4096)
-                out[sl]=model.encoder(Xn[sl].to(device), dynamic_world=dw[sl].to(device), latlons=latlons[sl].to(device), mask=mask[sl].to(device), month=month, eval_task=True).float().cpu()
+                out[sl]=model.encoder(Xn[sl].to(device), dynamic_world=dw[sl].to(device), latlons=latlons[sl].to(device), mask=mask[sl].to(device), month=months[sl].to(device), eval_task=True).float().cpu()
         tok=out.reshape(H,W,128).permute(2,0,1).reshape(128,32,4,32,4).mean(dim=(2,4))
         return tok
     def delta(a_,b_):
         num=(a_*b_).sum(0); return (1-num/(a_.norm(dim=0).clamp(min=1e-8)*b_.norm(dim=0).clamp(min=1e-8))).numpy()
-    rep={"schema":"sen12-presto-control-v1","regions":{}}
+    rep={"schema":"sen12-presto-control-v2","regions":{}}
     for region in a.regions:
         used=0; P2=[]; P12=[]; Y=[]; t0=time.time(); skipped=0
         for f in sorted(glob.glob(str(a.data_root/f"{region}_s2_*.nc"))):

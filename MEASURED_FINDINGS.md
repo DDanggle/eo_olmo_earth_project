@@ -3861,6 +3861,34 @@ viability이지, 일반적인 `through-cloud 성능`의 확증이 아니다.
 `artifacts/nepal_m77_m78_audit.json`. 실행 때 기록한 서버 로그 경로는 `logs/sen12_radar_value_v2.log`지만
 현재 로컬 workspace에는 동기화되지 않아 로컬 seal 근거로 세지 않는다. GPU1, 약 7분.
 
+## M79. 두 번째 frozen GeoFM 대조군 — Presto vs OlmoEarth, 같은 패치·시점·라벨 (2026-08-30)
+
+**질문**: M73/M78의 우위가 "OlmoEarth의 공간 표현" 때문인가, "아무 FM 임베딩 Δ"라도 되는 것인가.
+**방법**: Presto(nasaharvest, 픽셀 시계열 FM, 128-d) 사전학습 가중치 그대로. M78과 같은 7지역·690패치·같은 시점 선택
+(S2 clear 상위 4 + 같은 쪽 S1 4)·같은 라벨(토큰 MASK≥0.25). 픽셀 임베딩을 4×4 평균해 OlmoEarth와 같은 32×32 토큰 격자에서
+코사인 Δ → AUROC. dynamic_world는 missing, ERA5/SRTM 없음(마스크). v1은 월 인코딩을 연속 월로 잘못 넣어 폐기(`report_v1_wrong_months.json`), v2는 시점별 실제 월.
+사전 기준: OlmoEarth − Presto ≥ +0.03인 지역 수.
+
+| 지역 | n | Presto S2 | Presto S1+S2 | OlmoEarth S2 | 차(S2) |
+|---|---|---|---|---|---|
+| Hokkaido | 120 | 0.625 | 0.649 | 0.853 | +0.228 |
+| Hiroshima | 120 | 0.490 | 0.514 | 0.952 | +0.462 |
+| Dominica | 120 | 0.456 | 0.459 | 0.605 | +0.149 |
+| Italy | 120 | 0.431 | 0.429 | 0.627 | +0.196 |
+| Itogon | 120 | 0.537 | 0.557 | 0.764 | +0.228 |
+| USA Alaska | 43 | 0.619 | 0.609 | 0.547 | **−0.073** |
+| USA Puerto Rico | 47 | 0.488 | 0.471 | 0.675 | +0.187 |
+
+**읽기**: OlmoEarth가 +0.03 이상 앞선 지역 **6/7**; Presto가 앞선 곳은 Alaska(표본 43, 양쪽 다 약함). Presto 단독이 0.60을 넘는 곳 2/7.
+진단(`sen12_presto_diag.py`, 히로시마): Presto 임베딩은 살아 있고(분산 1.1) |ΔNDVI|와 약한 양의 상관(ρ=0.09)이나,
+산사태 픽셀 Δ(0.0948) ≈ 비산사태(0.0968) — 픽셀 시계열 표현의 변화가 표면 변화보다 계절·위치 성분에 지배됨.
+**한계(먼저)**: Presto는 12개월 연속 시계열용이라 4시점 계약은 Presto에 불리 → 이 수치는 Presto의 하한이지 Presto 판정이 아님.
+Presto 정규화·마스크는 `construct_single_presto_input`을 벡터화한 것으로, 원 함수와 동일함을 픽셀 1개로 확인했으나 전수 대조는 안 함.
+결론 범위: "같은 조건에서 픽셀 전용 표현으로는 이 분리가 재현되지 않는다" 까지. "OlmoEarth가 모든 GeoFM보다 낫다"는 아님(Prithvi/Clay/TerraMind 미실행).
+
+**봉인**: `code/sen12_presto_control.py`(v2), `code/sen12_presto_diag.py`, `artifacts/sen12_presto_control/report.json`,
+서버 `third_party/presto`(EE 의존성만 try/except로 우회, 모델 코드 무수정), 로그 `logs/sen12_presto_control_v2.log`. GPU1, 약 50분(CPU 정규화 병목).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
