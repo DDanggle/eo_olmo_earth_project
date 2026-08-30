@@ -3042,3 +3042,8 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 
 ### 2026-08-30 (9) — M84 지형
 - 함: GLO-30 D8 경로(32 km)·창별 폭/기복/경사/굴곡도. 폭 +0.36(p .02), 기복 −0.31 → 범람원 퇴적 주도. 앱 2구역 모드 작업.
+
+### 2026-08-30 (10) — 첫 화면 재편: 메시지 하나
+- 함: `/` = "100 satellite windows. 6 places to inspect first." 깔때기 100→47→6·0 확정 라벨, 작동 3장, 사례 1개(Dalphedi), 리드 6곳 표(AI 후보 토큰·관측 신뢰도·외부 보고 사후 대조), 재사용 표(넣는 것/받는 것), GeoJSON 다운로드. 지도는 `/map`으로, 좌측 레일 기본 닫힘·우측은 리드 6곳 패널 하나. 부속 표(Presto·레이더·평시·M-지표)는 METHODS & STORY 안으로.
+- 리드 규칙: M82 pooled3 후보 비율 순, 관측 가능 ≥40%, 같은 마을 중복 제거 → Dalphedi·Bhainse–Bidur·Naubisephat–Uttargaya·Bidur·Shanti Bazar·Timure. 재관측: Salê·Rasuwa Gadhi(구름). 외부 보고 링크는 사용자 제공, 순위에 미사용, 미검증 표기.
+- "% changed" → "% candidate tokens"로 전면 교체.
