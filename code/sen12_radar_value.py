@@ -32,6 +32,9 @@ def main():
     ap.add_argument("--data-root", type=Path, default=Path("/home/work/data/sen12landslides/extracted"))
     ap.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_radar_value"))
     ap.add_argument("--per-region", type=int, default=120)
+    # M80 구름 층화: post 쪽 S2 시점을 clear fraction 구간에서 고름(결과 보기 전 고정). 기본은 M78 그대로(가장 맑은 4개).
+    ap.add_argument("--post-clear-min", type=float, default=None)
+    ap.add_argument("--post-clear-max", type=float, default=None)
     a=ap.parse_args(); a.out.mkdir(parents=True, exist_ok=True)
     device=torch.device("cuda"); torch.cuda.set_device(0)
     wrapper=OlmoEarth(patch_size=PATCH, model_id=ModelID.OLMOEARTH_V1_BASE, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(device).eval()
@@ -58,7 +61,7 @@ def main():
         return feat
     def delta(a,b):
         num=(a*b).sum(0); return (1-num/(a.norm(dim=0).clamp(min=1e-8)*b.norm(dim=0).clamp(min=1e-8))).numpy()
-    rep={"schema":"sen12-radar-value-v2","regions":{}}
+    rep={"schema":"sen12-radar-value-v2","post_clear_band":[a.post_clear_min,a.post_clear_max],"regions":{}}
     for region in a.regions:
         used=0; both=[]; s2only=[]; s1only=[]; s1cls=[]; Y=[]; s1_unit=None; t0=time.time(); no_s1=0
         for f in sorted(glob.glob(str(a.data_root/f"{region}_s2_*.nc"))):
@@ -76,7 +79,13 @@ def main():
                 scl=np.asarray(ds["SCL"].values); clear=np.stack([np.isin(scl[i],list(CLEAR)).mean() for i in range(len(times))])
                 pre=[i for i,t in enumerate(times) if t<ev]; post=[i for i,t in enumerate(times) if t>=ev]
                 pick=lambda idx: sorted(sorted(idx,key=lambda i:(-clear[i],i))[:KEEP])
-                ps,qs=pick(pre),pick(post)
+                ps=pick(pre)
+                if a.post_clear_min is not None or a.post_clear_max is not None:
+                    lo=a.post_clear_min if a.post_clear_min is not None else -1; hi=a.post_clear_max if a.post_clear_max is not None else 2
+                    band=[i for i in post if lo<=clear[i]<=hi]
+                    qs=sorted(sorted(band,key=lambda i:(abs((times[i]-ev).days),i))[:KEEP])  # 사건에 가까운 순, 구름 구간 안에서
+                else:
+                    qs=pick(post)
                 if len(ps)<KEEP or len(qs)<KEEP: continue
                 def load2(idx):
                     bands=[np.asarray(ds[b].values[idx],dtype="float32") if b in ds else np.zeros((len(idx),128,128),dtype="float32") for b in S2_BANDS]
