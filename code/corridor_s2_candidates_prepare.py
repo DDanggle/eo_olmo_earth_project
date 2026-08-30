@@ -9,7 +9,7 @@
   - 이 산출물은 "S2-only 후보 지도"이며 봉인된 S1+S2 계약이 아님. 라벨은 candidate까지만.
 """
 from __future__ import annotations
-import json, math, hashlib, sys, time, os
+import os, json, math, hashlib, sys, time, os
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import numpy as np
@@ -20,10 +20,10 @@ from rasterio.windows import from_bounds
 from rasterio.warp import transform
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / ("artifacts/corridor_s2_candidates/prepare_v2" if os.environ.get("SCAN","v1") == "v2" else "artifacts/corridor_s2_candidates/prepare")
+OUT = ROOT / os.environ.get("PREPARE_OUT", "artifacts/corridor_s2_candidates/prepare_v2" if os.environ.get("SCAN","v1") == "v2" else "artifacts/corridor_s2_candidates/prepare")
 OUT.mkdir(parents=True, exist_ok=True)
 MODEL_BANDS = ["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12","B01","B09"]
-DATES = ["2026-07-03","2026-07-23","2026-08-07","2026-08-12","2026-08-27"]
+DATES = os.environ.get("DATES", "2026-07-03,2026-07-23,2026-08-07,2026-08-12,2026-08-27").split(",")  # 2026-08-30: 평시 쌍 확장용 override
 HALF_M, SIZE = 1280, 256
 UTM = "EPSG:32645"
 
