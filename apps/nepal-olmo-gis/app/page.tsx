@@ -689,15 +689,16 @@ export default function Home() {
   useEffect(() => {
     const map = mapRef.current;
     if (!mapReady || !map) return;
-    if (!map.isStyleLoaded()) {
-      // 2026-08-30 실측(사용자 콘솔): 'candidate layers attached' 가 한 번도 안 찍힘 — 이 가드가 재시도 없이 빠져나갔음
-      console.log('[diag] candidates: style not loaded yet → retry on idle');
+    // 2026-08-30 헤드리스 재현: MapTiler 스타일에서 isStyleLoaded()가 idle 이후에도 계속 false(스프라이트 404 등)라
+    // 재시도만 반복하고 레이어를 영영 안 붙였음. 스타일 객체와 레이어 목록만 있으면 진행하고, 실패는 catch 에서 기록.
+    if (!map.getStyle()?.layers?.length) {
+      console.log('[diag] candidates: style object not ready → retry on idle');
       map.once('idle', () => setStyleRevision((r) => r + 1));
       return;
     }
     fetch('/data/olmo-input-anchors.geojson').then((r) => r.json() as Promise<FeatureCollection>).then((anchors) => {
       // 벡터 스타일은 'load' 직후에도 isStyleLoaded()가 false일 수 있음 → idle에 한 번 더 시도
-      if (!map.isStyleLoaded()) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
+      if (!map.getStyle()?.layers?.length) { map.once('idle', () => setStyleRevision((r) => r + 1)); return; }
       const before = map.getLayer('point-halo') ? 'point-halo' : undefined;
       // 2026-08-30 결함 수정: 예전엔 olmo-anchors 가 이미 있으면 여기서 return 해서, scenario 가 늦게 도착한
       // 뒤의 재실행에서 후보 사각형·청록 점·검색 윤곽이 영영 추가되지 않았음 (사용자 "청록색이 안 보여").
@@ -792,8 +793,8 @@ export default function Home() {
           paint: { 'line-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'], 'line-width': ['case', ['<=', ['coalesce', ['get', 'rank'], 99], 5], 2, 0.6], 'line-opacity': ['case', ['==', ['get', 'status'], 'ranked'], 0.8, 0.25] } }, before);
         if (map.getLayer('scan-center-dot')) map.moveLayer('scan-center-dot');
       }
-      map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
-    }).catch(() => undefined);
+      if (!map.getLayer('olmo-anchor-line')) map.addLayer({ id: 'olmo-anchor-line', type: 'line', source: 'olmo-anchors', paint: { 'line-color': '#b7ffe9', 'line-width': 1, 'line-opacity': 0.52, 'line-dasharray': [3, 2] } }, before);
+    }).catch((e) => console.error('[diag] candidates effect failed (this is why the boxes/cyan dots were missing):', e));
   }, [mapReady, styleRevision, scenario?.candidates?.geojson, scenario?.candidates?.retrieval?.top10, scenario?.corridor_sealed, satTiles, openLightbox]);
 
   // fitBounds 패딩은 실제로 열려 있는 패널에 맞춘다.
