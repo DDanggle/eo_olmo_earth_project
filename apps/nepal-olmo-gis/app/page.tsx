@@ -735,12 +735,12 @@ export default function Home() {
         // 모든 스캔 창 중심: 작은 청록 점 (위성이 찍힌 모든 자리)
         map.addSource('scan-centers', { type: 'geojson', data: { type: 'FeatureCollection', features: scenario.candidates.geojson.features.map((f) => ({ type: 'Feature', properties: f.properties, geometry: { type: 'Point', coordinates: (f.properties?.center_lonlat as [number, number]) } })) } });
         map.addLayer({ id: 'scan-center-dot', type: 'circle', source: 'scan-centers',
-          paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 3.5, 12, 6, 15, 9], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 2, 'circle-opacity': 1 } });
+          paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 2.2, 12, 4, 15, 7], 'circle-color': '#19d3b0', 'circle-stroke-color': '#fffefb', 'circle-stroke-width': 1.5, 'circle-opacity': 0.95 } });
         map.addLayer({ id: 'ai-candidate-fill', type: 'fill', source: 'ai-candidates',
           paint: { 'fill-color': ['case', ['==', ['get', 'kind'], 'hillslope'], '#7b3fbf', '#d99a24'],
-                   'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.02, 0.05, 0.18, 0.2, 0.42, 0.5, 0.6] } }, before);
+                   'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['get', 'candidate_token_frac'], 0], 0, 0.0, 0.05, 0.14, 0.2, 0.38, 0.5, 0.55] } }, before);
         try { map.addLayer({ id: 'ai-candidate-rank', type: 'symbol', source: 'ai-candidates',
-          filter: ['has', 'rank'],
+          filter: ['all', ['has', 'rank'], ['<=', ['get', 'rank'], 6]],  // 2026-08-30: 100개 전부 번호를 찍으니 회랑이 벽이 됨 → 상위 6개만
           layout: { 'text-field': ['concat', '#', ['to-string', ['get', 'rank']]], 'text-size': ['case', ['<=', ['get', 'rank'], 6], 15, 11],
                     'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-allow-overlap': true, 'text-anchor': 'center' },
           paint: { 'text-color': ['case', ['<=', ['get', 'rank'], 6], '#b77708', '#7a4a2e'], 'text-halo-color': '#fffefb', 'text-halo-width': 2 } }); }
@@ -1236,7 +1236,6 @@ export default function Home() {
             <strong>{selectedCard.place}</strong>
           </div>
         )}
-        <p className="audit-note"><b>Red E is the collapse source estimate.</b> Orange A is the impact window. Gray C is a negative control and never belongs to the flood path.</p>
         <div className="layer-controls">
           <label htmlFor="overlay-opacity"><span>Satellite overlay</span><b>{Math.round(overlayOpacity * 100)}%</b></label>
           <input id="overlay-opacity" type="range" min="0" max="1" step="0.02" value={overlayOpacity} onChange={(event) => setOverlayOpacity(Number(event.target.value))} />
@@ -1263,29 +1262,6 @@ export default function Home() {
               <text x={corridorSketch.W - 8} y={corridorSketch.H - 6} textAnchor="end"
                     fontSize="8" fontFamily="var(--font-geist-mono)" fill="var(--muted)">▼ downstream</text>
             </svg>
-            <div className="reach-facts">
-              <span><b>{scenario?.simulation.mapped_route_km_from_border?.toFixed(1) ?? '73.7'} km</b>mapped river trace below Rasuwagadhi</span>
-              <span><b>≈{scenario?.simulation.reported_total_travel_km ?? 100} km</b>USGS preliminary total travel from source</span>
-              <em>G · Galchhi is this map&apos;s trace end, not a confirmed terminal deposit.</em>
-            </div>
-          </div>
-        )}
-        {/* EarthRanger식 이벤트 피드 — 파이프라인이 한 일과 거부한 일의 감사 로그.
-            레코드는 catalog/preflight/manifest/report의 시간 기준과 evidence URI에서 파생함. */}
-        {scenario?.ops_log && scenario.ops_log.length > 0 && (
-          <div className="ops-log">
-            <span className="ops-title">OPERATIONS LOG</span>
-            <div className="ops-scroll">
-              {scenario.ops_log.map((e, i) => (
-                <div key={i} className={`ops-row ${e.priority}`}>
-                  <i aria-hidden="true" />
-                  <div>
-                    <b>{e.type}</b> <em>{e.time_utc.slice(5, 16).replace('T', ' ')}Z · {e.source}</em>
-                    <small>{e.summary}</small>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         )}
         <div className="map-legend-inline">
@@ -1573,30 +1549,28 @@ export default function Home() {
           <button className="story-close" onClick={() => setStoryOpen(false)} aria-label="Close story">×</button>
 
           <section className="story-hero story-step">
-            <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '실측 갱신' : 'EVIDENCE UPDATED'} {scenario ? kstStamp(scenario.generated_at) : '—'} KST</p>
-            <h1>{ko ? '산이 무너진 지 사흘, 위성은 무엇을 봤고 무엇을 보지 못했나' : 'It began on a mountain. It appeared in a river.'}</h1>
+            <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '갱신' : 'UPDATED'} {scenario ? kstStamp(scenario.generated_at) : '—'} KST</p>
+            <h1>{ko ? '산이 무너진 지 사흘, 위성은 무엇을 봤고 무엇을 보지 못했나' : 'Three days of satellites over a valley that stopped looking like itself'}</h1>
             <p className="story-lede">{ko
-              ? '8월 26일 오전 8시 40분, 네팔 라수와 군의 랑탕 리룽 북사면에서 바위와 얼음이 함께 무너졌다. 토사와 물은 렌데 계곡을 타고 국경 마을 라수와가디를 덮친 뒤 트리슐리 강을 따라 72km를 내려가 비두르까지 닿았다. 사망자는 사흘 만에 600명을 넘었다. 이 페이지는 그 사흘 동안 유럽우주국의 무료 위성 두 대가 이 계곡을 어떻게 지켜봤는지, 그리고 인공지능이 그 관측으로 무엇을 계산했고 무엇을 계산하지 않았는지를 기록한다. 결론부터 말하면 인공지능은 아직 이 사건을 판정하지 않았다. 판정에 필요한 레이더 관측 한 장이 파이프라인에 도착하지 않았기 때문이다. 이 시스템은 그 공백을 메우지 않고 기다린다. 그것이 설계다.'
-              : 'This system links the Langtang Lirung rock–ice collapse, the Rasuwagadhi border impact and a measured Sentinel-2 change about 47 km downstream at Bidur. The question is not whether AI foretold the disaster. It is whether OlmoEarth can place different sensors and locations in one representation space—and help select which physical explanations agree with observation.'}</p>
-            <div className="hero-answer"><span>{ko ? '현재 답' : 'CURRENT ANSWER'}</span><strong>{liveDelta
-              ? (ko ? 'S1+S2 라이브 임베딩은 실행됐다. 5개 앵커 평균에서는 탐지되지 않았고, Rasuwagadhi의 40 m 토큰만 대조기간을 넘는 검토 후보로 남았다. 이제 27창 동일계약 회랑 검증이 진행 중이다.' : 'SEALED S1+S2 EMBEDDING EXECUTED · ANCHOR MEAN NOT DETECTED · RASUWAGADHI TOKEN REVIEW OPEN · 27-WINDOW CORRIDOR RUN IN PROGRESS')
-              : ko ? (providerSyncBlocked ? '광학 관측은 사건 전후 모두 확보됐다. 레이더 8월 28일 제품은 공식 카탈로그에 올라왔으나 지형보정본이 아직 없어 판정은 보류 중이다.' : '광학 관측은 사건 전후 모두 확보됐다. 레이더 마지막 한 장이 도착하면 판정이 시작된다.') : (providerSyncBlocked ? 'OBSERVATION + OFFICIAL S1 5/5 READY · EMBEDDING WAITS FOR PROVIDER SYNC' : 'OBSERVATION CHAIN CLOSED · NEPAL LIVE EMBEDDING WAITS FOR S1')}</strong></div>
+              ? '8월 26일 아침, 네팔 라수와 군 랑탕 리룽 북사면에서 바위와 얼음이 함께 무너졌다. 토사와 물은 렌데 계곡을 타고 국경 마을 라수와가디를 덮친 뒤 트리슐리 강을 따라 70km 넘게 내려갔다. 이 페이지는 그 며칠 동안 유럽우주국의 무료 위성 두 대(광학 센티넬-2, 레이더 센티넬-1)가 이 계곡을 어떻게 찍었는지, 학습을 멈춘 인공지능 모델 하나가 그 관측으로 무엇을 계산했는지, 그리고 무엇을 계산하지 못했는지를 기록한다. 원인은 아직 조사 중이다(rock–ice avalanche 추정).'
+              : 'On the morning of 26 August, rock and ice gave way on the north face of Langtang Lirung in Rasuwa district. Debris and water ran down the Lhende valley into the border town of Rasuwagadhi, then more than 70 km down the Trishuli. This page records what two free ESA satellites — optical Sentinel-2 and radar Sentinel-1 — captured over those days, what one frozen AI model computed from that, and what it could not. The cause is still under investigation (suspected rock–ice avalanche).'}</p>
+            <div className="hero-answer"><span>{ko ? '현재 판정' : 'WHERE THE EVIDENCE STANDS'}</span><strong>{scenario?.decision ? `${scenario.decision.action}${scenario.decision.reason ? ' — ' + scenario.decision.reason : ''}` : '—'}</strong></div>
           </section>
 
           <section className="story-section story-step story-wide">
-            <p className="story-kicker">01 · {ko ? '사건 구조' : 'EVENT ANATOMY'} — <em>{ko ? '여섯 개의 점이 뜻하는 것' : 'roles, not letters'}</em></p>
-            <h2>{ko ? '무너진 곳과 덮친 곳은 20km 떨어져 있다' : 'The collapse source is not the impact window'}</h2>
+            <p className="story-kicker">01 · {ko ? '사건 구조' : 'THE CHAIN OF PLACES'}</p>
+            <h2>{ko ? '무너진 곳과 덮친 곳은 20km 떨어져 있다' : 'The collapse and the impact are twenty kilometres apart'}</h2>
             <div className="event-chain-cards">{eventPoints.map((point) => <article key={point.id} style={{ '--point-color': point.marker_color } as CSSProperties}><b>{point.stage}</b><span>{point.display_label}</span><strong>{point.name}</strong><small>{point.id} · {point.distance_from_a_km.toFixed(1)} km from impact A</small><p>{ko ? point.story_ko : point.story}</p></article>)}</div>
-            <div className="control-explainer"><b>Ø · C · NEGATIVE CONTROL</b><p>{ko ? controlPoints[0]?.story_ko : controlPoints[0]?.story}</p></div>
-            <p className="story-caption">{ko ? 'E(빨강)는 발원 수색점, D(보라)는 위치 미공개 언색호 수색구역, A·B는 국경 충격창, F는 비두르 실측창이다. G는 Rasuwagadhi 아래 73.7 km를 이은 현재 지도 추적 종점이며 재해의 확정 종점이 아니다. C는 사건 밖 대조군이다. 이 점들은 사람이 근거로 지정했고, AI가 새로 제안한 후보는 주황/보라 2.56 km 격자로 따로 표시된다.' : 'E is the source-search estimate; D is the unresolved lake search zone; A/B are border impact windows; F is the Bidur observation. G is the current map-trace endpoint 73.7 river-km below Rasuwagadhi—not a confirmed disaster terminus. C is outside the chain. AI-proposed candidates are the separate orange/purple 2.56 km grids.'}</p>
+            <div className="control-explainer"><b>C · {ko ? '대조 창' : 'CONTROL WINDOW'}</b><p>{ko ? controlPoints[0]?.story_ko : controlPoints[0]?.story}</p></div>
+            <p className="story-caption">{ko ? 'E는 발원 추정점, D는 언색호 수색구역, A·B는 국경의 충격 창, F는 비두르 관측 창, G는 지도 추적이 끝나는 갈치(Galchhi)다. G는 재해의 종점이 아니라 이 지도가 강을 따라간 끝이다. C는 사건 밖의 대조 창으로, 같은 방법을 사건이 없는 곳에 적용하면 어떤 값이 나오는지 보여준다. 이 점들은 사람이 골랐다. 인공지능이 고른 후보는 지도의 사각형이다.' : 'E is the source estimate; D the search zone for the reported barrier lake; A and B the impact windows at the border; F the Bidur observation; G is Galchhi, where the map trace ends — not where the disaster ended. C is a control window outside the event: the same method applied where nothing happened. People chose these points. The squares on the map are what the AI proposed.'}</p>
           </section>
 
           <section className="story-section story-step story-wide">
-            <p className="story-kicker">02 · {ko ? '위성 증거' : 'SATELLITE EVIDENCE'} — <em>{ko ? '사흘 동안 위성이 본 것' : 'time × distance'}</em></p>
-            <h2>{ko ? '국경에서 시작된 회색 띠가 47km 아래에서도 확인됐다' : 'A border change now has a downstream counterpart'}</h2>
+            <p className="story-kicker">02 · {ko ? '위성이 본 것' : 'WHAT THE SATELLITES SAW'}</p>
+            <h2>{ko ? '국경의 회색 띠는 47km 아래에서도 이어졌다' : 'The grey band at the border continues 47 km downstream'}</h2>
             <div className="evidence-pairs">
-              <article><header><span>A · IMPACT</span><strong>Rasuwagadhi</strong></header>{sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && <div className="story-swipe compact" style={{ ['--swipe' as string]: `${swipe}%` }}><img src={sceneById('s2-2026-08-27')!.image} alt="Rasuwagadhi Sentinel-2 post-event" /><div className="swipe-clip"><img src={sceneById('s2-2026-08-12')!.image} alt="Rasuwagadhi Sentinel-2 pre-event" /></div><div className="swipe-bar" /><span className="swipe-label pre">08-12</span><span className="swipe-label post">08-27</span><input type="range" min={0} max={100} value={swipe} aria-label="Compare Rasuwagadhi before and after" onChange={(e) => setSwipe(Number(e.target.value))} /></div>}<p>{ko ? '27창 계약교정 OLMo 스크린의 w00. 기존 5-anchor 주장은 입력계약 위반으로 폐기됐다.' : 'Window w00 in the contract-correct 27-window OLMo screen. The legacy five-anchor claim is superseded by an input-contract failure.'}</p></article>
-              <article><header><span>F · DOWNSTREAM</span><strong>Bidur / Trishuli</strong></header><div className="fixed-pair zoomable" role="button" tabIndex={0} onClick={() => bidurPre && bidurPost && openLightbox({ title: 'F · Bidur / Trishuli', sub: 'Sentinel-2 · 2.56 km · tile 45RUL', before: bidurPre.image, after: bidurPost.image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27' })}>{bidurPre && <figure><img src={bidurPre.image} alt="Bidur Sentinel-2 before event" /><figcaption>PRE · 08-12</figcaption></figure>}{bidurPost && <figure><img src={bidurPost.image} alt="Bidur Sentinel-2 after event" /><figcaption>POST · 08-27</figcaption></figure>}<span className="zoom-hint">⤢ enlarge</span></div><p>{ko ? '기존 Rasuwagadhi 타일 밖, 인접 45RUL에서 새로 회수한 실제 2.56 km 창.' : 'A real 2.56 km pair recovered from adjacent MGRS tile 45RUL, missed by the original Rasuwagadhi-only catalog.'}</p></article>
+              <article><header><span>A · IMPACT</span><strong>Rasuwagadhi</strong></header>{sceneById('s2-2026-08-12') && sceneById('s2-2026-08-27') && <div className="story-swipe compact" style={{ ['--swipe' as string]: `${swipe}%` }}><img src={sceneById('s2-2026-08-27')!.image} alt="Rasuwagadhi Sentinel-2 post-event" /><div className="swipe-clip"><img src={sceneById('s2-2026-08-12')!.image} alt="Rasuwagadhi Sentinel-2 pre-event" /></div><div className="swipe-bar" /><span className="swipe-label pre">08-12</span><span className="swipe-label post">08-27</span><input type="range" min={0} max={100} value={swipe} aria-label="Compare Rasuwagadhi before and after" onChange={(e) => setSwipe(Number(e.target.value))} /></div>}<p>{ko ? '센티넬-2, 8월 12일과 27일. 손잡이를 끌면 사건 전후가 바뀐다.' : 'Sentinel-2, 12 and 27 August. Drag the handle.'}</p></article>
+              <article><header><span>F · DOWNSTREAM</span><strong>Bidur / Trishuli</strong></header><div className="fixed-pair zoomable" role="button" tabIndex={0} onClick={() => bidurPre && bidurPost && openLightbox({ title: 'F · Bidur / Trishuli', sub: 'Sentinel-2 · 2.56 km · tile 45RUL', before: bidurPre.image, after: bidurPost.image, beforeLabel: 'PRE · 08-12', afterLabel: 'POST · 08-27' })}>{bidurPre && <figure><img src={bidurPre.image} alt="Bidur Sentinel-2 before event" /><figcaption>PRE · 08-12</figcaption></figure>}{bidurPost && <figure><img src={bidurPost.image} alt="Bidur Sentinel-2 after event" /><figcaption>POST · 08-27</figcaption></figure>}<span className="zoom-hint">⤢ enlarge</span></div><p>{ko ? '국경에서 47km 아래. 원래 카탈로그에는 없던 옆 타일(45RUL)에서 찾은 창이다.' : '47 km below the border, recovered from the adjacent tile 45RUL that the original catalog missed.'}</p></article>
             </div>
             <div className="distance-matrix">
               {['source', 'rasuwagadhi', 'timure', 'syabrubesi', 'dhunche', 'bidur'].map((name, i) => <div key={name}><b>{i + 1}</b><span>{name === 'source' ? 'SOURCE · Langtang Lirung' : name.toUpperCase()}</span><figure><img src={`/data/story/anchors/${name}_pre.png`} alt={`${name} before`} /></figure><i>→</i><figure><img src={`/data/story/anchors/${name}_post.png`} alt={`${name} after`} /></figure></div>)}
@@ -1604,147 +1578,71 @@ export default function Home() {
             <figure className="story-figure zoomable" role="button" tabIndex={0} onClick={() => openLightbox({ title: 'Rasuwagadhi · PlanetScope 3.8 m · 28 Aug', sub: '© Planet Labs PBC · CC-BY-NC-4.0 · Planet Disaster Data on source.coop (planet/disasterdata/nepal-flash-flood-2026-08-26) · reference only, not AI input', before: '/data/story/anchors/rasuwagadhi_post.png', after: '/data/story/planet/ps_rasuwagadhi_0828.png', beforeLabel: 'SENTINEL-2 10 m · 08-27', afterLabel: 'PLANETSCOPE 3.8 m · 08-28' })}>
               <img src="/data/story/planet/ps_rasuwagadhi_0828.png" alt="PlanetScope 3.8 m view of Rasuwagadhi on 28 August 2026" /><span className="zoom-hint">⤢ compare with Sentinel-2</span>
               <figcaption className="story-caption">{ko
-                ? '같은 국경 합류부를 상업위성 플래닛스코프가 8월 28일 오전에 찍은 3.8m 영상. 센티넬(10m)보다 2.6배 세밀해 두 물줄기가 만나는 지점의 토사 판과 그 안의 물길, 끊긴 도로가 그대로 보인다. 플래닛은 이번 재난에 한해 영상을 비상업 조건으로 공개했다(CC-BY-NC-4.0). 이 영상은 참고용이며 인공지능 입력에는 쓰지 않았다 — 입력 계약(밴드·해상도)이 다르기 때문이다. © Planet Labs PBC · CC-BY-NC-4.0 · Planet Disaster Data(source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26, 아이템 20260828_045744_48_2544 visual).'
-                : 'The same border confluence seen by a commercial PlanetScope satellite on the morning of 28 August at 3.8 m — 2.6× finer than Sentinel-2. The debris sheet at the junction, the channel threading through it and the severed road are visible directly. Planet released this imagery for the disaster under a non-commercial licence (CC-BY-NC-4.0). It is reference only: it is not fed to the AI, whose input contract (bands, resolution) differs. © Planet Labs PBC · CC-BY-NC-4.0 · Planet Disaster Data, source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26 (item 20260828_045744_48_2544, visual asset).'}</figcaption>
+                ? '같은 합류부를 상업위성 플래닛스코프가 8월 28일 아침 3.8m 해상도로 찍은 것. 센티넬(10m)보다 2.6배 세밀해 토사 판과 그 안의 물길, 끊긴 도로가 그대로 보인다. 플래닛은 이번 재난에 한해 비상업 조건(CC-BY-NC-4.0)으로 공개했다. 참고용이며 인공지능 입력에는 쓰지 않았다 — 밴드와 해상도가 모델의 입력 규격과 다르기 때문이다. © Planet Labs PBC · source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26 · 20260828_045744_48_2544.'
+                : 'The same confluence from a commercial PlanetScope satellite on the morning of 28 August at 3.8 m — 2.6× finer than Sentinel-2. The debris sheet, the channel threading through it and the severed road are visible directly. Planet released this imagery for the disaster under a non-commercial licence (CC-BY-NC-4.0). Reference only; it was not fed to the AI, whose input contract (bands, resolution) differs. © Planet Labs PBC · source.coop/planet/disasterdata/nepal-flash-flood-2026-08-26 · item 20260828_045744_48_2544.'}</figcaption>
             </figure>
             <div className="story-spectra zoomable" role="button" tabIndex={0} onClick={() => openLightbox({ title: 'Rasuwagadhi · 27 Aug · true colour vs SWIR', sub: 'SWIR B12·B8A·B04: vegetation green, wet sediment pink-brown, water deep blue', before: '/data/story/spec_true_post0827.png', after: '/data/story/spec_swir_post0827.png', beforeLabel: 'TRUE COLOUR', afterLabel: 'SWIR', extra: [{ src: '/data/story/spec_ndwi_post0827.png', label: 'NDWI water index' }, { src: '/data/story/spec_swir_pre0812.png', label: 'SWIR · pre-event 08-12' }] })}>
               <figure><img src="/data/story/spec_true_post0827.png" alt="True colour, Rasuwagadhi, 27 August" /><figcaption>{ko ? '트루컬러 · 08-27' : 'TRUE COLOUR · 08-27'}</figcaption></figure>
-              <figure><img src="/data/story/spec_swir_post0827.png" alt="SWIR composite B12/B8A/B04, 27 August" /><figcaption>{ko ? 'SWIR 합성 B12·B8A·B04 · 08-27' : 'SWIR B12·B8A·B04 · 08-27'}</figcaption></figure>
+              <figure><img src="/data/story/spec_swir_post0827.png" alt="SWIR composite B12/B8A/B04, 27 August" /><figcaption>{ko ? 'SWIR 합성 · 08-27' : 'SWIR B12·B8A·B04 · 08-27'}</figcaption></figure>
               <figure><img src="/data/story/spec_ndwi_post0827.png" alt="NDWI water index, 27 August" /><figcaption>{ko ? 'NDWI 물 지수 · 08-27' : 'NDWI WATER INDEX · 08-27'}</figcaption></figure>
               <figure><img src="/data/story/spec_swir_pre0812.png" alt="SWIR composite before the event, 12 August" /><figcaption>{ko ? 'SWIR 합성 · 사건 전 08-12' : 'SWIR · PRE-EVENT 08-12'}</figcaption></figure>
             </div>
             <p>{ko
-              ? '같은 Rasuwagadhi 창을 세 가지 눈으로 다시 그림. 트루컬러는 사람 눈(B04·B03·B02), SWIR 합성은 식생을 초록·젖은 퇴적물을 분홍-갈색·물을 짙은 청색으로 분리하고, NDWI는 물만 밝은 청색으로 뽑음. debris 판 안에 아직 흐르는 물길이 어디인지는 SWIR·NDWI에서만 분명함. 사건 전 8/12 SWIR과 비교하면 분홍-갈색 회랑의 폭 차이가 곧 후보 변화임. OLMoEarth가 12밴드를 모두 입력받는 이유가 이것임 — 사람 눈에 같아 보이는 픽셀이 스펙트럼에서는 다름.'
-              : 'The same Rasuwagadhi window re-rendered three ways. True colour is the human eye (B04·B03·B02); the SWIR composite separates vegetation (green), wet sediment (pink-brown) and water (deep blue); NDWI isolates water as bright blue. Where water still flows inside the debris sheet is only clear in SWIR and NDWI. Against the pre-event 12 Aug SWIR, the width change of the pink-brown corridor is the candidate change itself. This is why OLMoEarth ingests all twelve bands: pixels that look alike to the eye differ in spectrum.'}</p>
-            <p className="story-caption">{ko ? '위 비교는 모두 유럽우주국 센티넬-2호가 8월 12일과 27일에 찍은 것이다. 계곡 바닥을 따라 넓어진 회색 띠는 토사가 지나간 자리로 보이지만, 이 화면은 그것을 “피해”로 단정하지 않는다. 사람이 현장에서 확인하기 전까지는 “변화 후보”라고만 부른다. 붕괴 지점과 둔체 마을은 구름과 눈에 가려 판독이 어렵다. 8월 24일의 보랏빛 화면은 사진이 아니라 레이더 신호를 색으로 바꾼 것이다.' : 'Every row is Sentinel-2 from 12→27 Aug. Differences are candidate observations, not damage labels. Source and Dhunche remain cloud/snow limited. The purple 24 Aug frame is Sentinel-1 VV/VH/contrast false colour—not surface colour.'}</p>
-          </section>
-
-          <section className="story-section story-step story-wide olmo-proof">
-            <p className="story-kicker">03 · OLMoEarth — <em>{ko ? '인공지능은 실제로 무엇을 계산했나' : 'the executed AI, not the interface'}</em></p>
-            <h2>{ko ? '계산한 것과 계산하지 않은 것을 장부로 나눴다' : 'Separate what the AI computed from what the product merely proposes'}</h2>
-            <div className="ai-chain" role="img" aria-label="Satellite tensors pass through a frozen OlmoEarth encoder into embeddings and then task-specific evidence">
-              <article><b>INPUT</b><strong>S1 + S2 × TIME</strong><span>{ko ? '밴드·날짜·공간창 봉인' : 'sealed bands, dates and windows'}</span></article><i>→</i>
-              <article><b>FROZEN AI</b><strong>OLMoEarth v1</strong><span>{ko ? '학습된 지구 표현 인코더' : 'pretrained Earth encoder'}</span></article><i>→</i>
-              <article><b>OUTPUT</b><strong>768 × 64 × 64</strong><span>{ko ? '40 m 공간 토큰 격자' : '40 m spatial-token grid'}</span></article><i>→</i>
-              <article><b>USE</b><strong>PROBE · Δ · RETRIEVE</strong><span>{ko ? '분할·변화·유사사건' : 'segment, compare, retrieve'}</span></article>
-            </div>
-            <div className="ai-run-ledger">
-              {(scenario?.research.ai_run_ledger ?? []).map((run) => (
-                <article key={run.id} className={`ai-run ${run.state.toLowerCase()}`}>
-                  <header><span>{run.state.replace(/_/g, ' ')}</span><strong>{run.model}</strong></header>
-                  <dl>
-                    <div><dt>{ko ? '입력' : 'INPUT'}</dt><dd>{run.input}</dd></div>
-                    <div><dt>{ko ? '실제 출력' : 'ACTUAL OUTPUT'}</dt><dd>{run.output}</dd></div>
-                    <div><dt>{ko ? '허용 주장' : 'ALLOWS'}</dt><dd>{run.allows}</dd></div>
-                    <div><dt>{ko ? '금지 주장' : 'FORBIDS'}</dt><dd>{run.forbids}</dd></div>
-                  </dl>
-                </article>
-              ))}
-            </div>
-            <div className="olmo-proof-grid">
-              <article className="ready"><b>01</b><span>{ko ? '네팔 기준 표현' : 'NEPAL BASELINE'}</span><strong>15 × 768×64×64 READY</strong><p>{ko ? 'baseline·placebo 2개 × 5앵커의 S1+S2×4기간 임베딩 GeoTIFF를 봉인했다. 지금도 유사지역 검색·선형 probe·사전/사후 비교 기준으로 사용 가능.' : 'Sealed embedding GeoTIFFs for baseline plus two placebos across five anchors—usable now for retrieval, linear probes and a pre/post reference.'}</p></article>
-              <article className="win"><b>02</b><span>{ko ? '확증 전이' : 'CONFIRMATORY TRANSFER'}</span><strong>{transfer ? `${transfer.wins_reuse_vs_raw_strong}/${transfer.regions} WINS · +${transfer.absolute_gap.toFixed(3)}` : 'LOADING'}</strong><p>{transfer ? `Frozen reuse region-macro ${transfer.reuse_region_macro.toFixed(3)} vs raw UNet3D ${transfer.raw_strong_region_macro.toFixed(3)} (${transfer.relative_gain_pct.toFixed(1)}% relative).` : ''}</p></article>
-              <article className="pilot"><b>03</b><span>{ko ? '사건 변화 파일럿' : 'EVENT-DELTA PILOT'}</span><strong>2 / 3 STRONG</strong><p>{ko ? '관련 S2-only M66에서 Hokkaido·Hiroshima 분리, Dominica 약함. 가능성 증거이지 네팔 검증값은 아님.' : 'Related S2-only M66 separated Hokkaido and Hiroshima; Dominica was weak. Feasibility evidence, not Nepal validation.'}</p></article>
-              <article className="wait"><b>04</b><span>{ko ? '네팔 live 변화' : 'NEPAL LIVE CHANGE'}</span><strong>{providerSyncBlocked ? 'S1 5/5 · SYNC WAIT' : 'S1 3/4 · S2 4/4'}</strong><p>{ko ? (providerSyncBlocked ? '공식 footprint는 5개 anchor를 모두 덮지만 provider가 8/28 장면을 아직 선택하지 않는다. 픽셀 전에는 임베딩도 없다.' : '마지막 S1 기간 전에는 Δz를 만들지 않음. 모델 전체 실패가 아니라 한 live action의 입력 대기.') : (providerSyncBlocked ? 'The official footprint covers all five anchors, but the provider has not selected the 28 Aug scene. No pixels means no embedding yet.' : 'No Δz before the final S1 period. This is one live action waiting for input—not failure of the representation.')}</p></article>
-            </div>
-            <div className="transfer-bars"><span>Frozen OLMo reuse</span><i style={{ width: '100%' }} /><b>{transfer?.reuse_region_macro.toFixed(3) ?? '—'}</b><span>Raw UNet3D</span><i style={{ width: transfer ? `${100 * transfer.raw_strong_region_macro / transfer.reuse_region_macro}%` : '0%' }} /><b>{transfer?.raw_strong_region_macro.toFixed(3) ?? '—'}</b></div>
-            <div className="ai-not-code"><b>{ko ? '웹 코드의 역할' : 'WHAT THE WEB CODE DOES'}</b><p>{ko ? '이 화면 자체는 인공지능이 아니다. 지도와 흐르는 입자, 타임라인은 사람이 만든 화면이고, 인공지능이 계산한 것은 서버에서 봉인된 파일들이다. 화면은 그 파일을 읽어 허용된 문장만 보여준다. 이 구분을 흐리면 “AI가 재해를 예측했다”는 오해가 생긴다.' : 'The interface does not imitate a model. It reads manifests, GeoTIFFs, evaluation JSON and SHA-256 records produced by the Python/GPU pipeline, then displays only allowed claims. The map and WASM particles are UI—not AI output.'}</p></div>
-            <p>{ko ? '이 모델을 쓰는 이유는 실험 결과 때문이다. 앨런인공지능연구소가 공개한 올모어스(OLMoEarth)는 위성 시계열을 읽어 장소마다 768개의 숫자를 내놓는다. 산사태 지도가 있는 세계 8개 지역에서 이 숫자를 그대로 재사용한 방법이, 원본 영상으로 처음부터 학습한 강한 비교 모델을 6곳에서 이겼다. 인도네시아와 필리핀 이토곤에서는 졌다. 연구팀은 이긴 곳만 보고하지 않고 진 곳을 함께 남겼다. “항상 좋다”가 아니라 “어디까지 통하는가”를 잰 것이다. 다만 이 결과는 원본 대비 우위일 뿐, 같은 조건의 다른 지구관측 모델(프레스토)과 견주기 전까지는 올모어스만의 고유한 우위라고 말하지 않는다.' : 'Why this matters: an EO model is not automatically better on every EO task. Under matched public regions and decoder contracts, frozen representation reuse beat a strong raw time-series model in six of eight external regions, while preserving the Indonesia and Itogon non-wins. It measures where transfer holds rather than claiming universal superiority. This is Olmo reuse versus raw baselines—not Olmo-specific superiority until a second GeoFM control such as Presto is run under the same input contract.'}</p>
+              ? '같은 창을 세 가지 눈으로 다시 그렸다. 트루컬러는 사람 눈이고, 단파적외(SWIR) 합성은 식생을 초록, 젖은 퇴적물을 분홍빛 갈색, 물을 짙은 청색으로 갈라 보여준다. 토사 판 안에 아직 물이 흐르는 자리는 SWIR과 NDWI에서만 분명하다. 인공지능 모델이 12개 밴드를 전부 입력받는 이유가 이것이다. 사람 눈에 같아 보이는 픽셀이 스펙트럼에서는 다르다.'
+              : 'The same window drawn three ways. True colour is what the eye sees; the shortwave-infrared composite separates vegetation (green), wet sediment (pink-brown) and water (deep blue). Where water still runs inside the debris sheet is only clear in SWIR and NDWI. This is why the model ingests all twelve bands: pixels that look alike to the eye differ in spectrum.'}</p>
+            <p className="story-caption">{ko ? '모든 비교는 센티넬-2, 8월 12일→27일. 넓어진 회색 띠는 토사가 지나간 자리로 보이지만 이 페이지는 그것을 “피해”라고 부르지 않는다. 사람이 확인하기 전까지는 “변화 후보”다. 발원지와 둔체는 구름과 눈에 가려 읽기 어렵다.' : 'Every pair is Sentinel-2, 12→27 August. The widened grey band looks like the path of the debris, but this page does not call it damage. Until someone checks on the ground it is a candidate change. The source and Dhunche stay hidden under cloud and snow.'}</p>
           </section>
 
           <section className="story-section story-step story-wide">
-            <p className="story-kicker">04 · {ko ? '결합 실험' : 'THE FUSION EXPERIMENT'} — <em>{ko ? '다음 단계, 물리와의 결합' : 'a falsifiable loop, not decoration'}</em></p>
-            <h2>{ko ? '인공지능이 후보를 내고, 물리 계산이 설명하고, 다음 위성이 검증한다' : 'Olmo proposes. Physics explains. Satellites falsify.'}</h2>
-            <div className="fusion-loop">
-              <article><b>1</b><strong>SENTINEL + DEM</strong><span>{ko ? '실제 픽셀·지형·궤도 footprint' : 'pixels, terrain, orbit footprint'}</span></article><i>→</i>
-              <article><b>2</b><strong>OLMoEarth</strong><span>{ko ? '발원·변화·유사사례 후보' : 'source, change, analogue proposals'}</span></article><i>→</i>
-              <article><b>3</b><strong>r.avaflow ENSEMBLE</strong><span>{ko ? '부피·마찰·수분 범위별 runout' : 'runout across volume/friction/water ranges'}</span></article><i>→</i>
-              <article><b>4</b><strong>SENSOR OPERATOR</strong><span>{ko ? '각 runout이 S1/S2에서 보여야 할 mask' : 'what each runout should look like to S1/S2'}</span></article><i>→</i>
-              <article><b>5</b><strong>OBSERVED Δ / MASK</strong><span>{ko ? 'Bidur·Rasuwagadhi 실측과 일치도' : 'agreement with Bidur/Rasuwagadhi observation'}</span></article><i>↺</i>
-              <article><b>6</b><strong>RANK + REVIEW</strong><span>{ko ? '앙상블 재순위·D-Claw 독립 확인' : 're-rank ensemble; D-Claw independent check'}</span></article>
-            </div>
-            <p>{ko ? '첫 버전의 “위성 시뮬레이션”은 포토리얼한 가짜 사진이 아니다. 물/토석/노출지 mask와 관측 가능 footprint를 만드는 observation operator가 더 검증 가능하다. 그 다음에만 학습된 surrogate로 r.avaflow 앙상블을 웹에서 빠르게 재생한다. OLMo 임베딩 값을 마찰계수로 바꾸지 않으며, 물리 파라미터는 범위로 샘플링한다.' : 'The first satellite simulation should not be a photorealistic fake image. A semantic observation operator—water/debris/exposed-ground masks plus sensor visibility—is more testable. Only then should a learned surrogate replay the r.avaflow ensemble interactively. Embedding values never become friction coefficients; physical parameters are sampled as ranges.'}</p>
-            <div className="story-test-metrics"><span><b>CHANGE</b>AUPRC · false changed area</span><span><b>PHYSICS</b>runout IoU · max-runout error</span><span><b>UNCERTAINTY</b>interval coverage · rank calibration</span><span><b>OPS</b>minutes · invalid actions @ recall</span></div>
+            <p className="story-kicker">03 · {ko ? '인공지능이 계산한 것' : 'WHAT THE AI COMPUTED'}</p>
+            <h2>{ko ? '모델은 “어디가 평소와 다른가”만 답한다' : 'The model answers one question: where is this place unlike its own past'}</h2>
+            <p>{ko
+              ? '쓰인 모델은 앨런인공지능연구소(Ai2)가 공개한 올모어스(OlmoEarth) v1 Base다. 위성 시계열을 읽어 40m 격자마다 768개의 숫자를 내놓는다. 이 프로젝트는 그 모델을 다시 학습시키지 않았다. 대신 사건 전 관측으로 만든 숫자와 사건 후 관측으로 만든 숫자의 거리를 재고, 같은 자리의 평소 2주 간격 거리(플라시보)와 비교했다. 평소보다 크게 벌어진 격자만 “후보”로 남긴다.'
+              : 'The model is OlmoEarth v1 Base, released by the Allen Institute for AI. It reads a satellite time series and returns 768 numbers for every 40 m cell. Nothing here retrains it. Instead we measure the distance between the numbers computed before the event and after it, and compare that with the same cell\'s ordinary fortnight-to-fortnight distance (a placebo). Only cells that moved more than their ordinary range are kept as candidates.'}</p>
+            {scenario?.ai_vs_classical && (
+              <div className="story-table-wrap">
+                <p className="story-caption">{ko ? '같은 자료·같은 라벨·같은 지표에서 인공지능과 고전 변화탐지를 비교했다(Sen12-Landslides, 9개 과거 재해). AUROC는 산사태 격자가 비산사태 격자보다 높은 점수를 받을 확률이다.' : 'AI against classical change detection on the same data, labels and metric (Sen12-Landslides, nine past disasters). AUROC is the probability that a landslide cell outranks a non-landslide cell.'}</p>
+                <table className="story-table"><thead><tr><th>{ko ? '지역' : 'region'}</th><th>{ko ? '고전' : 'classical'}</th><th>OlmoEarth</th><th>Δ</th></tr></thead><tbody>
+                  {scenario.ai_vs_classical.rows.map((r) => <tr key={r.region}><td>{r.region}</td><td>{r.classical_best.toFixed(2)}</td><td>{r.ai?.toFixed(2) ?? '—'}</td><td>{r.gain != null ? (r.gain >= 0 ? '+' : '') + r.gain.toFixed(2) : '—'}</td></tr>)}
+                </tbody></table>
+                <p className="story-caption">{ko ? `${scenario.ai_vs_classical.ahead}/${scenario.ai_vs_classical.regions} 지역에서 앞섰고 ${scenario.ai_vs_classical.wins_at_005}/${scenario.ai_vs_classical.regions}은 사전에 정한 +0.05 이상이다.` : `Ahead in ${scenario.ai_vs_classical.ahead} of ${scenario.ai_vs_classical.regions}; ${scenario.ai_vs_classical.wins_at_005} of ${scenario.ai_vs_classical.regions} clear the pre-registered +0.05 margin.`}</p>
+              </div>
+            )}
+            {scenario?.radar_value && (
+              <div className="story-table-wrap">
+                <h3>{ko ? '구름이 있을 때: 레이더만으로' : 'Under cloud: radar alone'}</h3>
+                <p>{ko
+                  ? '몬순의 히말라야에서 광학 위성은 확률 싸움이다. 8월 27일 대조 후보 네 곳의 구름 없는 비율은 84%, 35%, 15%, 0%였다. 그래서 레이더(센티넬-1)만으로 같은 일이 되는지 과거 재해 7곳에서 쟀다. 결과는 반반이다. 홋카이도와 히로시마에서는 레이더만으로도 산사태 자리가 잡혔고(AUROC 0.77, 0.73) 모델 없는 레이더 변화량보다 나았다. 나머지 다섯 곳은 우연 수준이었다. 광학이 맑을 때 레이더를 보태면 7곳 모두 조금 오르지만 어느 곳도 +0.03을 넘지 못했다.'
+                  : 'Optical satellites in a monsoon Himalaya are a matter of odds: on 27 August the four control candidates were 84%, 35%, 15% and 0% cloud-free. So we measured whether radar (Sentinel-1) alone could do the same job across seven past disasters. The answer is split. In Hokkaido and Hiroshima radar alone located the landslides (AUROC 0.77 and 0.73) and beat the model-free radar change ratio. The other five sat at chance. Adding radar to clear optical helped in all seven, but never by more than +0.03.'}</p>
+                <table className="story-table"><thead><tr><th>{ko ? '지역' : 'region'}</th><th>{ko ? '레이더 고전' : 'radar classical'}</th><th>{ko ? '레이더 AI' : 'radar AI'}</th><th>{ko ? '광학 AI' : 'optical AI'}</th><th>{ko ? '둘 다' : 'both'}</th></tr></thead><tbody>
+                  {scenario.radar_value.rows.map((r) => <tr key={r.region}><td>{r.region}</td><td>{r.s1_classical.toFixed(2)}</td><td>{r.s1_only_ai.toFixed(2)}</td><td>{r.s2_only.toFixed(2)}</td><td>{r.s1s2.toFixed(2)}</td></tr>)}
+                </tbody></table>
+              </div>
+            )}
+            <h3>{ko ? '네팔에서는' : 'In Nepal'}</h3>
+            <p>{ko
+              ? '강을 따라 2.56km 창 100개를 자동으로 잘라 같은 계산을 했다. 구름으로 판정 불가한 창을 빼면 47개가 남았고, 상위는 달페디(Dalphedi, 국경에서 6km)와 비두르 부근이다. 강 밖 산사면으로 격자를 넓혀 찾은 살레(Salê) 창도 후보에 올랐다. 사건이 없는 타디 콜라(Tadi Khola) 대조 창에서는 사건 전후 거리 0.129, 평소 거리 0.125로 사실상 같았고 후보 격자는 3.6%였다. 회랑 1위 창의 25%와 견주면 “아무 일 없음”이 어떻게 보이는지 알 수 있다.'
+              : 'Along the river we cut 100 windows of 2.56 km automatically and ran the same computation. Removing windows that cloud made unjudgeable leaves 47; the top are Dalphedi (6 km from the border) and the Bidur reach. Widening the grid onto hillslopes away from the river added Salê. In the Tadi Khola control window, where nothing happened, the before/after distance was 0.129 against an ordinary 0.125 — practically equal — and 3.6% of cells were flagged, against 25% in the top corridor window. That is what "no change" looks like under the same recipe.'}</p>
+            <p className="story-caption">{ko ? '이 화면 자체는 인공지능이 아니다. 지도와 타임라인은 사람이 만든 화면이고, 인공지능이 계산한 것은 서버에 봉인된 파일들이다. 화면은 그 파일을 읽어 보여줄 뿐이다.' : 'The interface is not the AI. The map and timeline are hand-built; what the model computed lives in sealed files on a server. The page reads those files and shows them.'}</p>
           </section>
 
-          <section className="story-section story-step story-wide response-section">
-            <p className="story-kicker">05 · {ko ? '행성 대응 스택' : 'PLANETARY RESPONSE STACK'} — <em>{ko ? '모델 하나로 지구를 설명하지 않는다' : 'models with distinct jobs'}</em></p>
-            <h2>{ko ? '올모어스는 중심이되, 혼자가 아니다' : 'Keep Olmo at the centre—without asking it to explain the whole planet'}</h2>
-            <div className="response-stack" role="img" aria-label="Observe, represent, explain, and impact layers in the planetary response stack">
-              <article className="observe"><b>01 · OBSERVE</b><strong>{ko ? '무엇이 실제로 도착했나' : 'What actually arrived'}</strong><span>S1/S2 · DEM · weather · USGS/GDACS · field reports</span><em>{ko ? '픽셀·시간·footprint 봉인' : 'seal pixels, time, footprint'}</em></article>
-              <i>→</i>
-              <article className="represent"><b>02 · REPRESENT</b><strong>{ko ? '어디가 평소와 다른가' : 'Where is different'}</strong><span>OLMoEarth core · Presto control · Prithvi/Clay/TerraMind</span><em>{ko ? '변화·유사사건 후보' : 'change + analogue candidates'}</em></article>
-              <i>→</i>
-              <article className="explain"><b>03 · EXPLAIN</b><strong>{ko ? '물리적으로 가능한가' : 'Is it physically plausible'}</strong><span>r.avaflow · D-Claw · hydrology · sensor operator</span><em>{ko ? 'runout 앙상블·불확실성' : 'runout ensemble + uncertainty'}</em></article>
-              <i>→</i>
-              <article className="impact"><b>04 · IMPACT</b><strong>{ko ? '무엇을 먼저 확인할까' : 'What should be checked first'}</strong><span>roads · settlements · clinics · WASH · population</span><em>{ko ? '검토 우선순위, 피해 확정 아님' : 'review priority, not a verdict'}</em></article>
-            </div>
-            <div className="model-contracts">
-              <article><b>CORE</b><strong>OLMoEarth</strong><p>{ko ? 'S1+S2 다기간 공통 표현, Nepal Δ·검색·frozen transfer의 중심.' : 'The shared S1+S2 temporal representation for Nepal delta, retrieval and frozen transfer.'}</p></article>
-              <article><b>CONTROL</b><strong>Presto / classical</strong><p>{ko ? '같은 cube에서 OLMo 고유효과와 저비용 baseline을 판정.' : 'Same-cube controls for Olmo-specific value and low-cost baselines.'}</p></article>
-              <article><b>EXTEND</b><strong>Prithvi · Clay · TerraMind</strong><p>{ko ? '광학·센서 shift·missing modality의 독립 보강. 생성 영상은 관측이 아님.' : 'Independent optical, sensor-shift and missing-modality evidence. Generated pixels are never observations.'}</p></article>
-              <article><b>FORECAST</b><strong>Aurora · Flood Hub</strong><p>{ko ? '강수·대기·유량 forcing을 residual로 결합. OLMo 입력밴드로 가장하지 않음.' : 'Weather and discharge forcing joins as residual context—not disguised as Olmo input bands.'}</p></article>
-            </div>
-            <p className="story-caption">{ko ? '권장 결합은 embedding late fusion과 candidate cascade다. 새 센서나 생성 픽셀을 OLMo 입력처럼 넣는 것은 band·GSD·시간 계약을 다시 검증하기 전에는 금지한다.' : 'The recommended joins are embedding late fusion and a candidate cascade. New sensors or generated pixels do not enter Olmo as if they were canonical bands without a new band/GSD/time contract.'}</p>
-          </section>
-
-          <section className="story-section story-step story-wide candidate-section">
-            <p className="story-kicker">06 · {ko ? '후보 공장' : 'CANDIDATE FACTORY'} — <em>{ko ? '탐지가 사건이 되기까지' : 'from detection to incident'}</em></p>
-            <h2>{ko ? '위험 지도를 칠하는 대신, 확인할 후보 목록을 만든다' : 'Turn map pixels into candidates with a next action'}</h2>
-            <div className="candidate-funnel">
-              <article><b>C0</b><strong>TRIGGER</strong><span>USGS · GDACS · weather · report</span><em>AOI / acquisition queue</em></article>
-              <article><b>C1</b><strong>OBSERVE</strong><span>footprint · pixels · masks</span><em>{ko ? '없으면 거부' : 'reject if absent'}</em></article>
-              <article><b>C2</b><strong>REPRESENT</strong><span>OLMo Δ · retrieval · indices</span><em>{ko ? '변화 후보' : 'change candidates'}</em></article>
-              <article><b>C3</b><strong>CONSENSUS</strong><span>second GeoFM · conflict</span><em>{ko ? '합의/기권' : 'agree / abstain'}</em></article>
-              <article><b>C4</b><strong>PHYSICS</strong><span>runout feasible fraction</span><em>{ko ? '원인 경로 검증' : 'test causal route'}</em></article>
-              <article><b>C5</b><strong>EXPOSURE</strong><span>road · clinic · WASH · people</span><em>{ko ? '검토 순위' : 'review priority'}</em></article>
-              <article><b>C6</b><strong>REVIEW</strong><span>official · analyst · field</span><em>incident / rejected</em></article>
-            </div>
-            <div className="candidate-scorecard">
-              <span><b>CHANGE</b>OLMo · classical · second GeoFM</span>
-              <span><b>PHYSICS</b>ensemble agreement</span>
-              <span><b>EXPOSURE</b>people · roads · facilities</span>
-              <span><b>FRESHNESS</b>acquisition · provider · report latency</span>
-              <span><b>EVIDENCE</b>sources · conflicts · review</span>
-            </div>
-            <p>{ko ? '이 구조는 야생동물 보호 현장의 어스레인저와 해상 감시 서비스 스카이라이트가 쓰는 방식을 재해 대응에 옮긴 것이다. 두 시스템 모두 기계가 “탐지”를 내고 사람이 “사건”으로 확정한다. 여기서도 인공지능 점수가 높아도 물리적으로 불가능하거나 관측이 없으면 사건이 되지 않는다. 반대로 데이터가 늦게 오면 모델이 실패한 것이 아니라 첫 관문에서 정직하게 멈춘 것이다.' : 'This adapts EarthRanger’s event-to-incident and Skylight’s detection-to-analyst-review grammar. A high Olmo score cannot become an incident without observation and physical plausibility. Provider latency stops the record honestly at C1; it is not mislabeled as model failure.'}</p>
-          </section>
-
-          <section className="story-section story-step story-wide human-section">
-            <p className="story-kicker">07 · {ko ? '인간 영향' : 'HUMAN IMPACT'} — <em>{ko ? '사람의 피해를 위성으로 읽지 않는다' : 'verification priority, not diagnosis'}</em></p>
-            <h2>{ko ? '위성이 계산하는 것은 고통이 아니라 끊긴 길이다' : 'Satellites do not read suffering. They can expose broken access.'}</h2>
-            <div className="verified-impact">
-              <header><span>{ko ? 'WHO · 현재 확인 범위' : 'WHO · CURRENT VERIFIED SCOPE'}</span><strong>{ko ? '이번 사건은 이미 보건 운영 문제다' : 'This is already a health-operations problem'}</strong></header>
-              <div><article><b>3</b><span>{ko ? '보건소 전파' : 'health posts fully damaged'}</span></article><article><b>1</b><span>{ko ? '병원 부분 손상' : 'hospital partially damaged'}</span></article><article><b>2</b><span>{ko ? '병원 접근 영향' : 'hospital access affected'}</span></article><article><b>~10K</b><span>{ko ? '즉시 구호 필요 가구' : 'households needing relief'}</span></article></div>
-              <a href="https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods" target="_blank" rel="noreferrer">WHO Nepal · 2026 Rasuwa flash floods ↗</a>
-            </div>
-            <div className="impact-lenses">
-              <article><b>ACCESS</b><strong>{ko ? '병원까지 갈 수 있는가' : 'Can care still be reached'}</strong><p>{ko ? '도로·교량 변화 후보를 network graph에 반영해 facility travel-time 전후 범위를 계산.' : 'Propagate road and bridge candidates through a network graph to estimate before/after facility travel-time ranges.'}</p></article>
-              <article><b>WASH</b><strong>{ko ? '어디를 먼저 검사할까' : 'Where should teams sample first'}</strong><p>{ko ? '침수/토석 후보와 정착지·급수 자산의 교차를 EWARS 현장 확인 queue로 전달.' : 'Intersect water/debris candidates with settlements and water assets, then hand a field-verification queue to EWARS workflows.'}</p></article>
-              <article><b>EXPOSURE</b><strong>{ko ? '몇 명이 범위 안에 있는가' : 'Who may be in the footprint'}</strong><p>{ko ? 'WorldPop과 runout envelope를 겹치되 현재 체류 인구가 아닌 model-based range와 불확실성으로 표시.' : 'Intersect WorldPop with the runout envelope, while reporting a model-based range and uncertainty—not an exact live population.'}</p></article>
-              <article><b>CONTINUITY</b><strong>{ko ? '대체진료 경로는 무엇인가' : 'What is the alternate-care route'}</strong><p>{ko ? 'HeRAMS 시설 상태·Alternate Care Site·구호창고를 최신 도로 후보와 함께 우선순위화.' : 'Rank HeRAMS facility status, alternate-care sites and relief depots against the freshest road evidence.'}</p></article>
-            </div>
-            <div className="safety-line"><b>{ko ? '금지선' : 'SAFETY BOUNDARY'}</b><span>{ko ? '이 시스템은 사망자 수나 질병 발생을 위성이나 소셜미디어에서 추론하지 않는다. 그것은 세계보건기구와 현장 조사의 몫이다. 위성이 할 수 있는 것은 도로와 다리가 끊겨 보건소까지 가는 시간이 얼마나 늘었는지를 계산해 확인 순서를 정하는 일이다.' : 'Never infer individual health, death or disease from satellite or social media. Public posts enter only through official embed/API or user-curated URLs, and never become ground-truth loss counts.'}</span></div>
-            <div className="evidence-stream"><span>OFFICIAL</span><i>→</i><span>RELIEFWEB / GDACS</span><i>→</i><span>CURATED PUBLIC POST</span><i>→</i><span>FIELD REVIEW</span></div>
-          </section>
-
-          <section className="story-section story-step story-wide priority-section">
-            <p className="story-kicker">08 · {ko ? 'AI 엔지니어 우선순위' : 'ENGINEERING PRIORITIES'} — <em>{ko ? '영향으로 이어지는 경로' : 'the path to impact'}</em></p>
-            <h2>{ko ? '지금 만들어야 할 네 가지' : 'The four builds that matter next'}</h2>
-            <div className="priority-stack">
-              <article><b>P0 · NOW</b><strong>{ko ? '27창 회랑과 공식 범위 닫기' : 'Close 27-window corridor + official extent'}</strong><p>{liveDelta ? (ko ? '동일 27개 창의 baseline/live S1+S2를 모두 봉인해 토큰 Δ를 비교하고, USGS·UNOSAT 침수/토석 범위와 블라인드 대조한다. 100창 S2 후보는 수색 큐로만 유지한다.' : 'Seal matched baseline/live S1+S2 across the same 27 windows, compare token deltas, then blind-check against USGS/UNOSAT extent. Keep the 100-window S2 scan as a search queue only.') : ko ? 'Bidur/Rasuwagadhi mask를 동결하고 5/5 live cube를 봉인한다.' : 'Freeze Bidur/Rasuwagadhi masks and seal the 5/5 live cube.'}</p><em>VALUE · ground truth, reproducibility</em></article>
-              <article><b>P1 · 1 WEEK</b><strong>{ko ? 'OLMo change + retrieval 본실험' : 'Olmo change + retrieval experiment'}</strong><p>{ko ? '고전 NDWI/SAR 변화탐지, OLMo Δz, gate-aware abstention을 동일 recall에서 비교. Nepal query로 SEN12 6,834 patch 유사사건 검색.' : 'Compare classical NDWI/SAR change, Olmo Δz and gate-aware abstention at matched recall; query 6,834 SEN12 patches with the Nepal representation.'}</p><em>VALUE · AI2 relevance, triage speed</em></article>
-              <article><b>P2 · 2–3 WEEKS</b><strong>{ko ? '물리–관측 앙상블' : 'Physics–observation ensemble'}</strong><p>{ko ? 'Copernicus DEM/GLO-30에서 r.avaflow 파라미터 sweep, D-Claw 소수 독립 run, S1/S2 semantic operator로 실측 일치도 순위화.' : 'Sweep r.avaflow over Copernicus DEM/GLO-30, run a small independent D-Claw check and rank outputs through S1/S2 semantic observation operators.'}</p><em>VALUE · causal plausibility, uncertainty</em></article>
-              <article><b>P3 · 4–6 WEEKS</b><strong>{ko ? '빠른 surrogate + 운영 UI' : 'Fast surrogate + operations UI'}</strong><p>{ko ? '물리 앙상블로 neural operator/emulator를 학습해 웹에서 scenario를 재생. 실제 OSM 경로·위성 pass·OLMo evidence를 EarthRanger식 incident ledger와 연결.' : 'Train a neural operator/emulator on the physics ensemble for interactive scenarios; join OSM routes, satellite passes and Olmo evidence into an EarthRanger-style incident ledger.'}</p><em>VALUE · scalable decision support</em></article>
-            </div>
+          <section className="story-section story-step story-wide">
+            <p className="story-kicker">04 · {ko ? '틀렸던 것' : 'WHAT WE GOT WRONG'}</p>
+            <h2>{ko ? '레이더 단위 하나가 결과 둘을 뒤집었다' : 'One unit error in the radar input overturned two results'}</h2>
+            <p>{ko
+              ? '처음 발표한 회랑 결과에서는 라수와가디의 40m 격자 9.8%가 평소 범위를 넘었다고 썼다. 뒤늦게 확인하니 레이더 입력이 선형 강도였고, 모델의 정규화는 데시벨(dB)을 기대한다. 잘못된 단위로 들어간 레이더 채널이 거리를 부풀렸다. 데시벨로 바꿔 다시 계산하자 5개 앵커와 회랑 27창 모두에서 사건 전후 거리가 평소 범위 안으로 들어왔다. 레이더만 따로 봐도 마찬가지였다(회랑 사건 평균 0.03, 평소 0.06). 그래서 그 결과와 그에 딸린 후보(렌데, 레이더 24번 창)는 철회했다.'
+              : 'The first corridor result said 9.8% of the 40 m cells at Rasuwagadhi exceeded their ordinary range. It turned out the radar input was linear intensity, while the model\'s normalisation expects decibels. A radar channel in the wrong unit inflated every distance. Recomputed in dB, the before/after distance fell back inside the ordinary range at all five anchors and all 27 corridor windows — and the radar-only view agreed (corridor event mean 0.03 against an ordinary 0.06). That result and the candidates built on it (Lhende, radar window 24) were withdrawn.'}</p>
+            <p>{ko
+              ? '남은 근거는 광학 쪽이다. 광학만으로 잰 100창 후보와, 과거 재해에서 인공지능이 고전 기법을 앞선 기록, 그리고 대조 창의 “변화 없음”. 이 페이지가 “탐지”가 아니라 “검토 후보”라는 말을 고집하는 이유가 여기 있다.'
+              : 'What remains is optical: the 100-window candidate list, the record of the model beating classical methods on past disasters, and the control window\'s "no change". This is why the page insists on "review candidate" rather than "detection".'}</p>
           </section>
 
           <section className="story-section story-step story-boundary">
-            <p className="story-kicker">09 · {ko ? '다음 게이트와 출처' : 'NEXT GATE + SOURCES'} — <em>{ko ? '기다림의 기록' : 'progress with boundaries'}</em></p>
-            <h2>{scenario?.corridor_sealed ? (ko ? '다음 관문은 더 넓은 평시 기준과 독립 피해경계다' : 'The next gate is a deeper ordinary baseline plus independent event extent') : liveDelta ? (ko ? '다음 관문은 27개 창의 계약교정 재계산이다' : 'The next gate is a contract-correct 27-window rerun') : ko ? (providerSyncBlocked ? '다음 판정을 막고 있는 것은 위성이 아니라 지형보정본 한 장이다' : '다음 레이더가 판정을 연다') : (providerSyncBlocked ? 'The next gate is provider sync—not another satellite' : 'The next S1 pass opens the live decision')}</h2>
-            <p>{scenario?.corridor_sealed ? (ko ? 'Sentinel-1 dB 전처리를 포함해 27개 창 × placebo·baseline·live, 총 81개 OLMoEarth 임베딩을 다시 계산했다. Devighat·Bidur가 검토 큐 상단이지만 최대 초과 토큰은 0.415%이고 모든 창의 사건 평균은 단일 평시 전이 평균보다 작다. 따라서 현재 결과는 음성에 가까운 screening이며, 더 많은 평시 전이와 독립 피해경계 없이는 탐지·피해·확률로 승격하지 않는다.' : 'We recomputed 81 OLMoEarth embeddings—27 windows across placebo, baseline and live—with the required Sentinel-1 dB transform. Devighat and Bidur top the review queue, but the maximum exceedance is only 0.415%, and event mean change is below the single ordinary-transition mean in every window. This is a mostly negative screen, not a detection, until a deeper ordinary baseline and independent event extent are available.') : liveDelta ? (ko ? '이전 5-anchor S1+S2 결과는 Sentinel-1 dB 변환 누락으로 폐기했다. 동일 27개 창을 계약에 맞춰 재계산해야 한다.' : 'The legacy five-anchor S1+S2 result is superseded because Sentinel-1 dB conversion was missing. The same 27 windows must be recomputed under the correct contract.') : ko ? '다음 후보도 실제 footprint와 봉인 계약을 통과해야 한다.' : 'The next candidate must pass actual footprint containment and the sealed input contract.'}</p>
+            <p className="story-kicker">05 · {ko ? '다음 관문과 출처' : 'NEXT GATE AND SOURCES'}</p>
+            <h2>{ko ? '더 넓은 평시 기준과 독립된 피해 경계가 필요하다' : 'A deeper ordinary baseline and an independent event extent'}</h2>
+            <p>{ko ? '지금의 “평소 범위”는 2주 전이 한 쌍뿐이다. 평시 쌍을 늘리면 문턱이 안정되고, USGS·UNOSAT가 낼 피해 경계와 겹쳐 보면 후보가 얼마나 맞았는지 처음으로 셀 수 있다. 그 전까지 이 페이지의 후보는 사람이 볼 순서를 정하는 목록이다.' : 'The current "ordinary range" rests on a single pair of fortnights. More ordinary pairs will steady the threshold, and an extent map from USGS or UNOSAT will let us count, for the first time, how many candidates were right. Until then the candidates here are an order in which people should look.'}</p>
             <div className="story-schedule">{(scenario?.scheduled_scenes ?? []).map((scene) => <div key={scene.id ?? scene.acquired_at} className={scene.state === 'missed_coverage' ? 'missed' : ''}><b>{shortSensor(scene.sensor)}</b><span>{kstStamp(scene.acquired_at)} KST</span><em>{scene.state.replace(/_/g, ' ').toUpperCase()}</em></div>)}</div>
-            <div className="story-sources"><a href="https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood" target="_blank" rel="noreferrer">USGS event assessment ↗</a><a href="https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods" target="_blank" rel="noreferrer">WHO health response ↗</a><a href="https://allenai.org/blog/olmoearth-embeddings" target="_blank" rel="noreferrer">Ai2 embedding workflow ↗</a><a href="https://research.google/blog/planetary-prediction-engine-automating-global-models-via-earth-ai/" target="_blank" rel="noreferrer">Planetary Prediction Engine ↗</a><a href="https://doi.org/10.5194/gmd-18-9879-2025" target="_blank" rel="noreferrer">r.avaflow v4 ↗</a><a href="https://claw.code-pages.usgs.gov/dclaw/" target="_blank" rel="noreferrer">USGS D-Claw ↗</a><a href="https://planetarycomputer.microsoft.com/docs/quickstarts/using-the-data-api/" target="_blank" rel="noreferrer">Planetary Computer STAC ↗</a><a href="https://mapping.emergency.copernicus.eu/activations/EMSR927/" target="_blank" rel="noreferrer">CEMS EMSR927 ↗</a></div>
+            <div className="story-sources"><a href="https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood" target="_blank" rel="noreferrer">USGS event assessment ↗</a><a href="https://www.who.int/nepal/emergencies/2026-rasuwa-flash-floods" target="_blank" rel="noreferrer">WHO health response ↗</a><a href="https://allenai.org/blog/olmoearth-embeddings" target="_blank" rel="noreferrer">Ai2 OlmoEarth ↗</a><a href="https://planetarycomputer.microsoft.com/docs/quickstarts/using-the-data-api/" target="_blank" rel="noreferrer">Planetary Computer STAC ↗</a><a href="https://source.coop/planet/disasterdata" target="_blank" rel="noreferrer">Planet Disaster Data ↗</a><a href="https://mapping.emergency.copernicus.eu/activations/EMSR927/" target="_blank" rel="noreferrer">CEMS EMSR927 ↗</a></div>
             <p className="story-outro">{scenario?.research.integration_disclaimer}</p>
           </section>
         </div>

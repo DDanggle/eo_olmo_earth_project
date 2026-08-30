@@ -386,21 +386,21 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .story-hero { min-height: 88vh; display: flex; flex-direction: column; justify-content: center;
   max-width: 760px; margin: 0 auto; padding: 96px 24px 64px; }
 .story-dateline { font-family: var(--font-geist-mono); font-size: 11px; letter-spacing: 0.16em;
-  color: var(--orange); margin-bottom: 22px; }
+  color: var(--muted); margin-bottom: 22px; }
 .story-hero h1 { font-family: var(--font-serif); font-weight: 700; font-size: clamp(34px, 6vw, 62px);
   line-height: 1.08; text-wrap: balance; margin-bottom: 26px; }
 .story-lede { font-family: var(--font-serif); font-size: clamp(17px, 2vw, 20px); line-height: 1.62;
   color: #3b3a36; max-width: 62ch; }
-.hero-answer { margin-top: 28px; padding: 15px 17px; border-left: 4px solid var(--green); background: var(--green-soft); }
+.hero-answer { margin-top: 28px; padding: 15px 17px; border-left: 2px solid var(--ink); background: transparent; }
 .hero-answer span, .hero-answer strong { display: block; font-family: var(--font-geist-mono); }
 .hero-answer span { color: var(--muted); font-size: 9px; letter-spacing: .12em; }
-.hero-answer strong { margin-top: 7px; color: #137655; font-size: 12px; line-height: 1.5; }
+.hero-answer strong { margin-top: 7px; color: var(--ink); font-size: 12px; line-height: 1.5; font-weight: 500; }
 
 .story-section { max-width: 680px; margin: 0 auto; padding: 72px 24px; border-top: 1px solid var(--line, #e3e0d8); }
 .story-section.story-wide { max-width: 1060px; }
 .story-kicker { font-family: var(--font-geist-mono); font-size: 11px; letter-spacing: 0.14em;
   color: var(--muted, #6f6c64); margin-bottom: 14px; }
-.story-kicker em { color: var(--orange); font-style: normal; }
+.story-kicker em { color: var(--ink); font-style: normal; }
 .story-section h2 { font-family: var(--font-serif); font-size: clamp(24px, 3.4vw, 34px);
   line-height: 1.18; margin-bottom: 18px; text-wrap: balance; }
 .story-section p { font-family: var(--font-serif); font-size: 17px; line-height: 1.66;
@@ -410,7 +410,7 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .story-corridor { background: var(--surface, #fffefb); border: 1px solid var(--line, #e3e0d8);
   padding: 18px; margin: 8px 0 18px; }
 .story-corridor svg { width: 100%; height: auto; display: block; }
-.story-boundary { border-left: 3px solid var(--orange); background: var(--surface, #fffefb); }
+.story-boundary { border-left: 2px solid var(--ink); background: var(--surface, #fffefb); }
 .story-outro { font-style: italic; color: var(--muted, #6f6c64) !important; }
 
 /* PRE/POST 스와이프 — range input이 전체를 덮고 clip-path 로 PRE 를 자름 */
@@ -565,8 +565,8 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .evidence-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
 .evidence-pairs > article { padding: 13px; border: 1px solid var(--line); background: var(--surface); }
 .evidence-pairs header span, .evidence-pairs header strong { display: block; }
-.evidence-pairs header span { color: var(--orange); font: 700 9px var(--font-geist-mono); letter-spacing: .1em; }
-.evidence-pairs article:last-child header span { color: var(--blue); }
+.evidence-pairs header span { color: var(--muted); font: 700 9px var(--font-geist-mono); letter-spacing: .1em; }
+.evidence-pairs article:last-child header span { color: var(--muted); }
 .evidence-pairs header strong { margin-top: 3px; font: 700 17px var(--font-serif); }
 .evidence-pairs > article > p { margin: 9px 0 0; font: 11px/1.5 var(--font-geist-sans); color: var(--muted); }
 .story-swipe.compact { margin-top: 10px; }
@@ -943,3 +943,11 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .rail-more { margin-top: 10px; border-top: 1px dashed var(--line, #e3e0d8); padding-top: 6px; }
 .rail-more > summary { cursor: pointer; font-family: var(--font-geist-mono); font-size: 10px; letter-spacing: .1em; color: var(--muted, #6f6c64); padding: 6px 0; list-style: none; }
 .rail-more > summary::before { content: '▸ '; } .rail-more[open] > summary::before { content: '▾ '; }
+
+/* 2026-08-30 스토리 정리: 색은 잉크·회색 + 지도 포인트 색만. 표는 신문 표처럼. */
+.story-section h3 { font-family: var(--font-serif); font-size: 20px; margin: 30px 0 10px; }
+.story-table-wrap { margin: 18px 0 8px; overflow-x: auto; }
+.story-table { width: 100%; max-width: 640px; border-collapse: collapse; font-family: var(--font-geist-mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+.story-table th { text-align: left; font-weight: 600; color: var(--muted); letter-spacing: .06em; font-size: 10px; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--ink); }
+.story-table td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line, #e3e0d8); color: var(--ink); }
+.story-table td:first-child { text-transform: capitalize; }
