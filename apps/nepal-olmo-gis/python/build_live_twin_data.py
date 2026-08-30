@@ -1315,6 +1315,23 @@ def ai_vs_classical_block() -> dict[str, Any] | None:
             "report_sha256": sha256(rp)}
 
 
+def presto_control_block() -> dict[str, Any] | None:
+    """M79: Presto(픽셀 시계열 FM) 대조군 — 같은 패치·시점·라벨에서 Δz AUROC, OlmoEarth 와의 차."""
+    rp = WORK_ROOT / "artifacts/sen12_presto_control/report.json"
+    if not rp.exists():
+        return None
+    rj = json.loads(rp.read_text())
+    rows = []
+    for region, v in rj.get("regions", {}).items():
+        if not v.get("patches") or v.get("presto_s2_only") is None:
+            continue
+        rows.append({"region": region, "patches": v["patches"], "presto_s2": round(v["presto_s2_only"], 3), "presto_s1s2": round(v["presto_s1s2"], 3),
+                     "olmo_s2": round(v["olmo_s2_only"], 3) if v.get("olmo_s2_only") is not None else None, "gap_s2": round(v["gap_s2"], 3) if v.get("gap_s2") is not None else None})
+    rows.sort(key=lambda r: -(r["gap_s2"] or 0))
+    return {"schema": rj.get("schema"), "rows": rows, "regions": len(rows), "olmo_ahead_by_003": sum(1 for r in rows if (r["gap_s2"] or 0) >= 0.03),
+            "presto_above_chance_060": sum(1 for r in rows if r["presto_s2"] >= 0.60), "report_sha256": sha256(rp)}
+
+
 def downstream_profile_block() -> list[dict[str, Any]]:
     """G(갈치) 쪽으로 갈수록 AI 변화 토큰 비율이 어떻게 줄어드는지 — 스캔 v2 강 창 중 G 에서 가까운 순 6개."""
     rp = WORK_ROOT / "artifacts/corridor_s2_candidates/embed_scan_v2/report.json"
@@ -1574,6 +1591,7 @@ def build(refresh_osm: bool) -> None:
         "ai_vs_classical": ai_vs_classical_block(),
         "radar_value": radar_value_block(),
         "downstream_profile": downstream_profile_block(),
+        "presto_control": presto_control_block(),
         "downstream_visual": (
             json.loads((PUBLIC_DATA / "bidur-visual-audit.json").read_text())
             if (PUBLIC_DATA / "bidur-visual-audit.json").exists() else {

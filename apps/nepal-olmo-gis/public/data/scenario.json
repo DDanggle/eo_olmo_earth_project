@@ -1,6 +1,6 @@
 {
   "schema": "olmoearth-nepal-live-twin/v2",
-  "generated_at": "2026-08-30T01:15:26.818985+00:00",
+  "generated_at": "2026-08-30T02:32:05.195548+00:00",
   "event": {
     "name": "2026 Rasuwa–Bhote Koshi flash flood",
     "occurred_at": "2026-08-26T02:52:10Z",
@@ -7878,6 +7878,71 @@
       "rank": 38
     }
   ],
+  "presto_control": {
+    "schema": "sen12-presto-control-v2",
+    "rows": [
+      {
+        "region": "hiroshima",
+        "patches": 120,
+        "presto_s2": 0.49,
+        "presto_s1s2": 0.514,
+        "olmo_s2": 0.952,
+        "gap_s2": 0.462
+      },
+      {
+        "region": "hokkaido",
+        "patches": 120,
+        "presto_s2": 0.625,
+        "presto_s1s2": 0.649,
+        "olmo_s2": 0.853,
+        "gap_s2": 0.228
+      },
+      {
+        "region": "itogon",
+        "patches": 120,
+        "presto_s2": 0.537,
+        "presto_s1s2": 0.557,
+        "olmo_s2": 0.764,
+        "gap_s2": 0.228
+      },
+      {
+        "region": "italy",
+        "patches": 120,
+        "presto_s2": 0.431,
+        "presto_s1s2": 0.429,
+        "olmo_s2": 0.627,
+        "gap_s2": 0.196
+      },
+      {
+        "region": "usa_puertorico",
+        "patches": 47,
+        "presto_s2": 0.488,
+        "presto_s1s2": 0.471,
+        "olmo_s2": 0.675,
+        "gap_s2": 0.187
+      },
+      {
+        "region": "dominicamaria",
+        "patches": 120,
+        "presto_s2": 0.456,
+        "presto_s1s2": 0.459,
+        "olmo_s2": 0.605,
+        "gap_s2": 0.149
+      },
+      {
+        "region": "usa_alaska",
+        "patches": 43,
+        "presto_s2": 0.619,
+        "presto_s1s2": 0.609,
+        "olmo_s2": 0.547,
+        "gap_s2": -0.073
+      }
+    ],
+    "regions": 7,
+    "olmo_ahead_by_003": 6,
+    "presto_above_chance_060": 2,
+    "report_sha256": "d3517ab77f04816819a82086bdea88eca1467e283b771a7765e1fa6065c148f6"
+  },
   "downstream_visual": {
     "schema": "olmoearth-bidur-visual-audit/v1",
     "created_at_utc": "2026-08-29T02:40:10.574343+00:00",

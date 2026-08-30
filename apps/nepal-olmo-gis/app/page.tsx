@@ -149,6 +149,7 @@ type Scenario = {
     geojson: FeatureCollection;
   } | null;
   headline?: { sealed_candidates: number | null; sealed_total: number | null; sealed_not_detected: string[]; live_mode?: string; placebo_n?: number; corridor_ranked: number | null; corridor_windows?: number; corridor_top: string[]; matched?: { n_pairs: number; candidates: string[]; ranks: Record<string, string>; token?: Record<string, { event_frac: number | null; placebo_max: number; rank: number | null; candidate: boolean }>; token_candidates?: string[] } };
+  presto_control?: { schema?: string; rows: { region: string; patches: number; presto_s2: number; presto_s1s2: number; olmo_s2: number | null; gap_s2: number | null }[]; regions: number; olmo_ahead_by_003: number; presto_above_chance_060: number } | null;
   downstream_profile?: { id: string; km_to_G: number; candidate_token_frac: number | null; observable: number | null; rank: number | null }[];
   radar_value?: { rows: { region: string; patches: number; s2_only: number; s1s2: number; fusion_gain: number; s1_only_ai: number; s1_classical: number }[]; regions: number; s1_only_usable: number; s1_ai_beats_classical: number; fusion_wins_at_003: number; fusion_positive: number } | null;
   ai_vs_classical?: { rows: { region: string; patches: number; classical_best: number; ai: number | null; gain: number | null }[]; regions: number; ahead: number; wins_at_005: number; pre_registered_margin: number; corridor?: { spearman: number; top10_overlap: number; reported_hits: { ai: number; classical: number } } | null } | null;
@@ -1379,6 +1380,16 @@ export default function Home() {
             <small>AUROC = probability a landslide token outranks a non-landslide token. no-AI = best of normalized band difference and |ΔNDVI|+|ΔNBR|, identical patches and pre/post scene choice (label-blind). Labels used for scoring only.{scenario.ai_vs_classical.corridor ? ` Nepal corridor (no labels): top-10 reported-place hits AI ${scenario.ai_vs_classical.corridor.reported_hits.ai} vs no-AI ${scenario.ai_vs_classical.corridor.reported_hits.classical}.` : ''}</small>
           </div>
         )}
+        {scenario?.presto_control && (
+          <div className="ai-vs-card">
+            <p className="eyebrow">SECOND MODEL · Presto pixel time-series FM, same patches, dates and labels</p>
+            <strong>OLMoEarth leads Presto by ≥ +0.03 AUROC in {scenario.presto_control.olmo_ahead_by_003}/{scenario.presto_control.regions} regions · Presto alone above 0.60 in {scenario.presto_control.presto_above_chance_060}/{scenario.presto_control.regions}</strong>
+            <table className="ai-vs-table"><thead><tr><th>region</th><th>Presto S2</th><th>OLMo S2</th><th>Δ</th></tr></thead><tbody>
+              {scenario.presto_control.rows.map((r) => <tr key={r.region} className={(r.gap_s2 ?? 0) >= 0.03 ? 'win' : ''}><td>{r.region}</td><td>{r.presto_s2.toFixed(2)}</td><td>{r.olmo_s2?.toFixed(2) ?? '—'}</td><td>{r.gap_s2 != null ? (r.gap_s2 >= 0 ? '+' : '') + r.gap_s2.toFixed(2) : '—'}</td></tr>)}
+            </tbody></table>
+            <small>Presto embeds each 10 m pixel's time series (128-d) with no spatial context; its 4×4 mean is compared on the same 40 m token grid. This separates "any foundation-model embedding delta works" from "OLMoEarth's spatial representation works". Presto is used outside its native 12-month contract (four dates per side, real months passed), so its number is a lower bound for Presto, not a verdict on Presto.</small>
+          </div>
+        )}
         {scenario?.radar_value && (
           <div className="ai-vs-card">
             <p className="eyebrow">RADAR THROUGH CLOUD · Sentinel-1 only, no optical</p>
@@ -1607,6 +1618,15 @@ export default function Home() {
                   {scenario.ai_vs_classical.rows.map((r) => <tr key={r.region}><td>{r.region}</td><td>{r.classical_best.toFixed(2)}</td><td>{r.ai?.toFixed(2) ?? '—'}</td><td>{r.gain != null ? (r.gain >= 0 ? '+' : '') + r.gain.toFixed(2) : '—'}</td></tr>)}
                 </tbody></table>
                 <p className="story-caption">{ko ? `${scenario.ai_vs_classical.ahead}/${scenario.ai_vs_classical.regions} 지역에서 앞섰고 ${scenario.ai_vs_classical.wins_at_005}/${scenario.ai_vs_classical.regions}은 사전에 정한 +0.05 이상이다.` : `Ahead in ${scenario.ai_vs_classical.ahead} of ${scenario.ai_vs_classical.regions}; ${scenario.ai_vs_classical.wins_at_005} of ${scenario.ai_vs_classical.regions} clear the pre-registered +0.05 margin.`}</p>
+              </div>
+            )}
+            {scenario?.presto_control && (
+              <div className="story-table-wrap">
+                <h3>{ko ? '다른 모델이어도 되는가' : 'Would any model do'}</h3>
+                <p>{ko ? `같은 패치·같은 날짜·같은 라벨에 두 번째 공개 모델(Presto, 픽셀 시계열 모델)을 넣어 봤다. 올모어스가 +0.03 이상 앞선 지역은 ${scenario.presto_control.olmo_ahead_by_003}/${scenario.presto_control.regions}, Presto 혼자 0.60을 넘긴 지역은 ${scenario.presto_control.presto_above_chance_060}/${scenario.presto_control.regions}다. Presto는 본래 12개월 시계열용이라 네 시점만 주는 이 계약은 Presto에게 불리하다. 그래서 이 표는 “Presto가 못한다”가 아니라 “픽셀만 보는 표현으로는 같은 조건에서 이 차이가 안 나온다”는 뜻이다.` : `A second public model (Presto, a pixel time-series model) was given the same patches, dates and labels. OlmoEarth leads by ≥ +0.03 in ${scenario.presto_control.olmo_ahead_by_003} of ${scenario.presto_control.regions} regions; Presto alone clears 0.60 in ${scenario.presto_control.presto_above_chance_060} of ${scenario.presto_control.regions}. Presto is built for twelve-month sequences, so four dates per side is a contract that works against it. Read the table as "a pixel-only representation does not reproduce this separation under the same conditions", not as a verdict on Presto.`}</p>
+                <table className="story-table"><thead><tr><th>{ko ? '지역' : 'region'}</th><th>Presto</th><th>OlmoEarth</th><th>Δ</th></tr></thead><tbody>
+                  {scenario.presto_control.rows.map((r) => <tr key={r.region}><td>{r.region}</td><td>{r.presto_s2.toFixed(2)}</td><td>{r.olmo_s2?.toFixed(2) ?? '—'}</td><td>{r.gap_s2 != null ? (r.gap_s2 >= 0 ? '+' : '') + r.gap_s2.toFixed(2) : '—'}</td></tr>)}
+                </tbody></table>
               </div>
             )}
             {scenario?.radar_value && (
