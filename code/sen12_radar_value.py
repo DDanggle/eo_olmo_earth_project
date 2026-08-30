@@ -32,13 +32,14 @@ def main():
     ap.add_argument("--data-root", type=Path, default=Path("/home/work/data/sen12landslides/extracted"))
     ap.add_argument("--out", type=Path, default=Path("/home/work/data/olmoearth/artifacts/sen12_radar_value"))
     ap.add_argument("--per-region", type=int, default=120)
+    ap.add_argument("--model-id", default="OLMOEARTH_V1_BASE", help="ModelID 이름 (예: OLMOEARTH_V1_2_BASE) — 모델 버전 비교용")
     # M80 구름 층화: post 쪽 S2 시점을 clear fraction 구간에서 고름(결과 보기 전 고정). 기본은 M78 그대로(가장 맑은 4개).
     ap.add_argument("--post-clear-min", type=float, default=None)
     ap.add_argument("--post-clear-max", type=float, default=None)
     ap.add_argument("--post-clear-target", type=float, default=None, help="post 4시점을 clear fraction 이 이 값에 가장 가까운 순으로 고름(구간 대신 목표치; 결과 보기 전 고정)")
     a=ap.parse_args(); a.out.mkdir(parents=True, exist_ok=True)
     device=torch.device("cuda"); torch.cuda.set_device(0)
-    wrapper=OlmoEarth(patch_size=PATCH, model_id=ModelID.OLMOEARTH_V1_BASE, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(device).eval()
+    wrapper=OlmoEarth(patch_size=PATCH, model_id=getattr(ModelID, a.model_id), token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(device).eval()
 
     def embed(s2cube, s2times, s1cube=None, s1times=None):
         feat=torch.empty((768,32,32))
@@ -62,7 +63,7 @@ def main():
         return feat
     def delta(a,b):
         num=(a*b).sum(0); return (1-num/(a.norm(dim=0).clamp(min=1e-8)*b.norm(dim=0).clamp(min=1e-8))).numpy()
-    rep={"schema":"sen12-radar-value-v2","post_clear_band":[a.post_clear_min,a.post_clear_max],"post_clear_target":a.post_clear_target,"regions":{}}
+    rep={"schema":"sen12-radar-value-v2","model_id":a.model_id,"post_clear_band":[a.post_clear_min,a.post_clear_max],"post_clear_target":a.post_clear_target,"regions":{}}
     for region in a.regions:
         used=0; both=[]; s2only=[]; s1only=[]; s1cls=[]; Y=[]; s1_unit=None; t0=time.time(); no_s1=0; post_clear_log=[]
         for f in sorted(glob.glob(str(a.data_root/f"{region}_s2_*.nc"))):
