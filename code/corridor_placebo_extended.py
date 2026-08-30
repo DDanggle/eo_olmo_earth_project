@@ -42,6 +42,13 @@ def main():
     for f in sorted(a.main.glob("v*.npz")):
         g=a.early/f.name
         if not g.exists(): continue
+        cached=a.out/f"{f.stem}_delta.npz"
+        if cached.exists():  # 재집계: 임베딩은 재사용
+            dd=np.load(cached); out={"id":f.stem,"center_lonlat":np.load(f)["center"].tolist()}
+            for k in PAIRS:
+                valid=dd[k+"_valid"]; out[k+"_valid_frac"]=float(valid.mean()); out[k+"_mean"]=float(dd[k][valid].mean()) if valid.any() else None
+                if k!="event": pools[k].append(dd[k][valid])
+            rows.append(out); continue
         d=np.load(f); e=np.load(g)
         cube={str(x):d["cube"][:,i].astype("float32") for i,x in enumerate(d["dates"])}; cube.update({str(x):e["cube"][:,i].astype("float32") for i,x in enumerate(e["dates"])})
         zc={}; 
@@ -62,7 +69,8 @@ def main():
         dd=np.load(a.out/f"{r['id']}_delta.npz"); v=dd["event_valid"]; de=dd["event"]
         r["candidate_frac_pooled3"]=float((de[v]>thr_all).mean()) if v.any() else None
         r["candidate_frac_P1only"]=float((de[v]>thr_each["P1"]).mean()) if (v.any() and "P1" in thr_each) else None
-        loc=np.concatenate([dd[k][dd[k+"_valid"]] for k in ("P1","P2","P3") if dd[k+"_valid"].any()])
+        locs=[dd[k][dd[k+"_valid"]] for k in ("P1","P2","P3") if dd[k+"_valid"].any()]
+        loc=np.concatenate(locs) if locs else np.array([])
         r["candidate_frac_local3"]=float((de[v]>np.quantile(loc,0.99)).mean()) if (v.any() and len(loc)>50) else None
         r["status"]="ranked" if r["event_valid_frac"]>=0.2 and r["candidate_frac_pooled3"] is not None else "unobservable"
     ranked=sorted([r for r in rows if r["status"]=="ranked"], key=lambda r:-r["candidate_frac_pooled3"])
