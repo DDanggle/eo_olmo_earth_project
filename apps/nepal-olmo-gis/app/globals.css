@@ -951,3 +951,17 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
 .story-table th { text-align: left; font-weight: 600; color: var(--muted); letter-spacing: .06em; font-size: 10px; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--ink); }
 .story-table td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line, #e3e0d8); color: var(--ink); }
 .story-table td:first-child { text-transform: capitalize; }
+
+/* 닫기 아이콘 — 글자 × 대신 두 획을 45° 회전해 만든 X (2026-08-30) */
+.x-icon { position: relative; font-size: 0; line-height: 0; }
+.x-icon::before, .x-icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 46%; height: 1.5px; background: currentColor; border-radius: 1px; transform: translate(-50%, -50%) rotate(45deg); transition: transform .18s ease; }
+.x-icon::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.x-icon:hover::before { transform: translate(-50%, -50%) rotate(135deg); }
+.x-icon:hover::after { transform: translate(-50%, -50%) rotate(45deg); }
+.story-popup .maplibregl-popup-close-button { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; font-size: 0; color: var(--ink); background: transparent; border: 0; border-radius: 50%; cursor: pointer; }
+.story-popup .maplibregl-popup-close-button::before, .story-popup .maplibregl-popup-close-button::after { content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; background: currentColor; transform: translate(-50%, -50%) rotate(45deg); transition: transform .18s ease; }
+.story-popup .maplibregl-popup-close-button::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.story-popup .maplibregl-popup-close-button:hover { background: rgba(0,0,0,.06); }
+.story-popup .maplibregl-popup-close-button:hover::before { transform: translate(-50%, -50%) rotate(135deg); }
+.story-popup .maplibregl-popup-close-button:hover::after { transform: translate(-50%, -50%) rotate(45deg); }
+.lb-close { width: 36px; height: 36px; border: 1px solid var(--line-strong, #cfcbc2); background: transparent; border-radius: 50%; cursor: pointer; color: var(--ink); }

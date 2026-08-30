@@ -1154,7 +1154,7 @@ export default function Home() {
           <div className="cand-chip-modes">
             {(['pre', 'post', 'delta'] as const).map((m) => <button key={m} className={candView.mode === m ? 'is-active' : ''} onClick={() => showCandidate(candView.id, m, candView)}>{m === 'pre' ? 'PRE 08-12' : m === 'post' ? 'POST 08-27' : 'AI Δ'}</button>)}
           </div>
-          <button className="cand-chip-close" onClick={clearCandidate} aria-label="Remove overlay">×</button>
+          <button className="cand-chip-close x-icon" onClick={clearCandidate} aria-label="Remove overlay"></button>
         </div>
       )}
       {mapStatus !== 'unsupported' && <canvas ref={canvasRef} className="flow-canvas" aria-hidden="true" />}
@@ -1547,7 +1547,7 @@ export default function Home() {
             <button className={!ko ? 'is-active' : ''} onClick={() => setStoryLang('en')}>EN</button>
             <button className={ko ? 'is-active' : ''} onClick={() => setStoryLang('ko')}>한국어</button>
           </div>
-          <button className="story-close" onClick={() => setStoryOpen(false)} aria-label="Close story">×</button>
+          <button className="story-close x-icon" onClick={() => setStoryOpen(false)} aria-label="Close story"></button>
 
           <section className="story-hero story-step">
             <p className="story-dateline">RASUWA, NEPAL · 26 AUG 2026 · {ko ? '갱신' : 'UPDATED'} {scenario ? kstStamp(scenario.generated_at) : '—'} KST</p>
@@ -1662,7 +1662,7 @@ export default function Home() {
       {lightbox && (
         <div className="lightbox" role="dialog" aria-modal="true" aria-label={lightbox.title} onClick={(e) => { if (e.target === e.currentTarget) setLightbox(null); }}>
           <div className="lb-panel">
-            <header><div><strong>{lightbox.title}</strong>{lightbox.sub && <small>{lightbox.sub}</small>}</div><button onClick={() => setLightbox(null)} aria-label="Close">×</button></header>
+            <header><div><strong>{lightbox.title}</strong>{lightbox.sub && <small>{lightbox.sub}</small>}</div><button className="lb-close x-icon" onClick={() => setLightbox(null)} aria-label="Close"></button></header>
             {lbExtra === null ? (
               <div className="story-swipe lb-swipe" style={{ ['--swipe' as string]: `${lbSwipe}%` }}>
                 <img src={lightbox.after} alt={lightbox.afterLabel} />
