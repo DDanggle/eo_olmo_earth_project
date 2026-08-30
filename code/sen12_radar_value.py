@@ -35,6 +35,7 @@ def main():
     # M80 구름 층화: post 쪽 S2 시점을 clear fraction 구간에서 고름(결과 보기 전 고정). 기본은 M78 그대로(가장 맑은 4개).
     ap.add_argument("--post-clear-min", type=float, default=None)
     ap.add_argument("--post-clear-max", type=float, default=None)
+    ap.add_argument("--post-clear-target", type=float, default=None, help="post 4시점을 clear fraction 이 이 값에 가장 가까운 순으로 고름(구간 대신 목표치; 결과 보기 전 고정)")
     a=ap.parse_args(); a.out.mkdir(parents=True, exist_ok=True)
     device=torch.device("cuda"); torch.cuda.set_device(0)
     wrapper=OlmoEarth(patch_size=PATCH, model_id=ModelID.OLMOEARTH_V1_BASE, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(device).eval()
@@ -61,9 +62,9 @@ def main():
         return feat
     def delta(a,b):
         num=(a*b).sum(0); return (1-num/(a.norm(dim=0).clamp(min=1e-8)*b.norm(dim=0).clamp(min=1e-8))).numpy()
-    rep={"schema":"sen12-radar-value-v2","post_clear_band":[a.post_clear_min,a.post_clear_max],"regions":{}}
+    rep={"schema":"sen12-radar-value-v2","post_clear_band":[a.post_clear_min,a.post_clear_max],"post_clear_target":a.post_clear_target,"regions":{}}
     for region in a.regions:
-        used=0; both=[]; s2only=[]; s1only=[]; s1cls=[]; Y=[]; s1_unit=None; t0=time.time(); no_s1=0
+        used=0; both=[]; s2only=[]; s1only=[]; s1cls=[]; Y=[]; s1_unit=None; t0=time.time(); no_s1=0; post_clear_log=[]
         for f in sorted(glob.glob(str(a.data_root/f"{region}_s2_*.nc"))):
             if used>=a.per_region: break
             s1f=f.replace("_s2_","_s1asc_")
@@ -80,13 +81,16 @@ def main():
                 pre=[i for i,t in enumerate(times) if t<ev]; post=[i for i,t in enumerate(times) if t>=ev]
                 pick=lambda idx: sorted(sorted(idx,key=lambda i:(-clear[i],i))[:KEEP])
                 ps=pick(pre)
-                if a.post_clear_min is not None or a.post_clear_max is not None:
+                if a.post_clear_target is not None:
+                    qs=sorted(sorted(post,key=lambda i:(abs(clear[i]-a.post_clear_target),i))[:KEEP])
+                elif a.post_clear_min is not None or a.post_clear_max is not None:
                     lo=a.post_clear_min if a.post_clear_min is not None else -1; hi=a.post_clear_max if a.post_clear_max is not None else 2
                     band=[i for i in post if lo<=clear[i]<=hi]
                     qs=sorted(sorted(band,key=lambda i:(abs((times[i]-ev).days),i))[:KEEP])  # 사건에 가까운 순, 구름 구간 안에서
                 else:
                     qs=pick(post)
                 if len(ps)<KEEP or len(qs)<KEEP: continue
+                post_clear_log.append(float(np.mean([clear[i] for i in qs])))
                 def load2(idx):
                     bands=[np.asarray(ds[b].values[idx],dtype="float32") if b in ds else np.zeros((len(idx),128,128),dtype="float32") for b in S2_BANDS]
                     return np.stack(bands,0), [times[i] for i in idx]
@@ -119,8 +123,8 @@ def main():
             s2only.append(delta(zb2,zp2).ravel()); both.append(delta(zb12,zp12).ravel()); s1only.append(delta(zb1,zp1).ravel()); s1cls.append(lr.ravel()); Y.append(y); used+=1
         if not Y: rep["regions"][region]={"patches":0,"no_s1_files":no_s1}; print(region,"no data (no_s1=%d)"%no_s1, flush=True); continue
         yy=np.concatenate(Y); a2=auroc(np.concatenate(s2only),yy); a12=auroc(np.concatenate(both),yy); a1=auroc(np.concatenate(s1only),yy); ac=auroc(np.concatenate(s1cls),yy)
-        rep["regions"][region]={"patches":used,"s1_unit_detected":s1_unit,"auroc_s2_only":a2,"auroc_s1s2":a12,"auroc_s1_only_olmo":a1,"auroc_s1_classical_logratio":ac,"gain":(a12-a2) if (a2 is not None and a12 is not None) else None,"elapsed_s":round(time.time()-t0,1)}
-        print(f"[{region}] n={used} S2-only={a2:.3f} S1+S2={a12:.3f} gain={a12-a2:+.3f} | S1-only OLMo={a1:.3f} S1 classical={ac:.3f} (S1 unit {s1_unit})", flush=True)
+        rep["regions"][region]={"patches":used,"s1_unit_detected":s1_unit,"auroc_s2_only":a2,"auroc_s1s2":a12,"auroc_s1_only_olmo":a1,"auroc_s1_classical_logratio":ac,"post_clear_mean":(float(np.mean(post_clear_log)) if post_clear_log else None),"gain":(a12-a2) if (a2 is not None and a12 is not None) else None,"elapsed_s":round(time.time()-t0,1)}
+        print(f"[{region}] n={used} postclear={np.mean(post_clear_log):.2f} S2-only={a2:.3f} S1+S2={a12:.3f} gain={a12-a2:+.3f} | S1-only OLMo={a1:.3f} S1 classical={ac:.3f}", flush=True)
         (a.out/"report.json").write_text(json.dumps(rep,indent=1))
     print("DONE")
 if __name__=="__main__": main()
