@@ -3027,3 +3027,7 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 함: `~/dong/ai_projects/nepal-live-twin/` 신규 git 저장소(656 파일, .git 119 MB — public/data 123 MB 포함). web/ = 순수 Next.js 16(vinext·cloudflare 제거), `next build` 정적 통과, 헤드리스에서 후보 레이어 부착 확인.
 - 함: Supabase `candidate_reviews`(RLS 공개 읽기·익명 삽입) + 우측 레일 "HUMAN REVIEW" 노트 UI(환경변수 없으면 숨김). README에 잘된 것/부족한 것/다중 작업공간 합본.
 - 남음: Vercel import(Root=web)·Supabase 프로젝트 생성은 사용자 계정에서; MapTiler 새 키 발급 권장.
+
+### 2026-08-30 (6) — 부족한 것 개선 착수
+- 함: 지도 판정 창만 채움(두 저장소). M81 사전 등록 대조 10곳(판정 가능 1곳 p009: 1.0%). 100창 5-19/6-03/6-18 추가 다운로드 시작(평시 쌍 3개 목표).
+- 확인: CEMS EMSR927 활성화 페이지는 JS 렌더라 fetch로 제품 목록 확인 불가 — 미검증 유지.

@@ -3913,6 +3913,22 @@ Presto 정규화·마스크는 `construct_single_presto_input`을 벡터화한 �
 남긴 효과). 일반화는 2지역으로 불가. 다음은 Sen12 밖의 흐린 장면(PC에서 직접 수집)이어야 함.
 봉인: `code/sen12_radar_value.py`(--post-clear-target), `artifacts/sen12_radar_cloud_t40/report.json`, `.../t10/report.json`.
 
+## M81. 사전 등록 대조 창 10곳 — 관측성을 보기 전에 위치 고정 (2026-08-30)
+
+M77의 약점(대조 창을 관측성으로 사후 선택)을 고치기 위해 규칙+난수 시드(20260830)로 10곳을 먼저 파일에 고정하고
+(`prepare_ctrl_prereg/preregistered_sites.json`: 회랑·발원에서 ≥30 km, 창끼리 ≥10 km, 네팔 중부 bbox), 그 뒤 같은 5날짜 계약으로 받음.
+
+| 창 | 위치 | 08-27 관측 | Δ_event | Δ_placebo | 후보 토큰(회랑 임계 0.2819) |
+|---|---|---|---|---|---|
+| p009 | 85.603E 27.632N | **0.97** | 0.156 | 0.149 | **1.0%** |
+| p004 | 85.857E 28.218N | 0.15 | 0.196 | 0.077 | 4.4% (관측 부족) |
+| p000·p001·p003·p005 | — | 0.00 | 판정 불가 | | |
+| p002·p006·p007·p008 | — | 해당 날짜 장면 없음(타일 밖) | | |
+
+**읽기**: 사전 등록 10곳 중 8/27에 판정 가능한 곳은 1곳(p009)뿐 — 몬순 구름의 실태. 그 1곳은 Δ_event ≈ Δ_placebo, 후보 1.0%로
+"변화 없음"이 재현됨(Tadi 3.6%, 회랑 1위 25.4%). 표본 1이라 specificity 수치로 쓰지는 않되, 사후 선택 비판은 해소됨.
+봉인: `code/fetch_controls_prereg.py`, `artifacts/corridor_s2_candidates/prepare_ctrl_prereg/`, 서버 `embed_ctrl_prereg/`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
