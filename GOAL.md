@@ -2981,7 +2981,7 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   수정하지 않았다. 검증 중 working tree에 별도 `apps/nepal-olmo-gis` 수정이 나타났지만
   본 작업과 분리해 보존했다. 원본 실험 파일은 덮어쓰지 않고 audit JSON만 새로 생성했다.
 
-### 2026-08-30 — Nepal 최종 공개판 UX·기사 스토리 리서치 (진행 중)
+### 2026-08-30 — Nepal 최종 공개판 UX·기사 스토리 리서치 (완료)
 
 - 계획: 실험·데이터·현재 UX 코드를 변경하지 않고, 안수찬의 narrative journalism,
   BBC Visual Journalism의 빙하 붕괴·위성 before/after, BBC GEL, 최신 Nepal 시각보도를
@@ -2992,6 +2992,19 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 산출물: 근거가 달린 편집 판정, 최종 6단 스토리보드, public/expert 정보 위계,
   섹션별 copy·visual·interaction 계약, 모바일·접근성·윤리·주장 경계, 최종 구현 QA checklist.
 - 한계: 이 구간은 리서치·명세 전용이다. `apps/nepal-olmo-gis` 코드·화면은 수정하지 않는다.
+- 결과: 현재 STORY modal은 기사로서 이미 강하지만 dashboard 뒤에 숨어 있고, 첫 화면에 연구
+  상태·후보·지표가 경쟁한다. 최종 구조를 `public story → guided map → free explore →
+  methods`로 고정했다.
+- 핵심 편집: 제목·source before/after로 사건을 먼저 보이고, source→Rasuwagadhi→
+  Syapru Besi→Bidur의 안내된 map stop 뒤에 OLMo를 `피해 판정이 아니라 검토 순서`로
+  설명한다. Nepal 미탐지·레이더 단위 오류 철회를 판정의 중심에 놓는다.
+- 명세: `docs/NEPAL_FINAL_STORY_UX_EDITORIAL_BRIEF_2026_08_30.md`에 근거, 6단 storyboard,
+  public/expert 위계, copy·visual·interaction, mobile·접근성·윤리, P0–P2 구현·QA를 기록했다.
+- 최신 반영: 리서치 중 새로 커밋된 M79는 `OLMo > Presto 6/7`을 Presto 4시점 한계와
+  함께 두 번째 model 근거로, M80은 진짜 흐린 두 지역에서 `Hokkaido 유지·Alaska 실패·
+  fusion 미달`로 편집했다. 둘 다 Nepal live 미탐지 판정을 바꾸지 않는다.
+- 검증: 로컬 3000의 첫 화면과 STORY modal을 read-only로 열어 DOM·viewport를 확인했고,
+  확인 후 modal을 닫아 원래 UI 상태로 돌렸다. 앱 코드는 변경하지 않았다.
 
 ### 2026-08-30 (2) — 청록 점 결함 확정·스토리 개편·확장 리서치
 - 함: 헤드리스 Chromium(playwright-core + 캐시 chromium-1217)으로 재현 → `isStyleLoaded()`가 MapTiler 스타일에서 idle 이후에도 false 유지 → 후보 레이어 효과가 재시도만 반복. 스타일 객체 존재로 게이트 교체, `.catch` 무음 삼킴 제거. 검증: `has ai-candidate-fill = true | scan-center-dot = true`.
@@ -3009,3 +3022,8 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 ### 2026-08-30 (4) — M80 구름 층화
 - 함: post clear 목표 0.4/0.1. 진짜 흐린 지역은 Hokkaido·Alaska뿐. Hokkaido: S2 0.853→0.795, S1 단독 0.770 유지, 결합 +0.008.
 - 마찰: 첫 구간 방식(0.2–0.6)은 표본 0; pkill 패턴이 nx 셸 자신을 죽여 재기동.
+
+### 2026-08-30 (5) — 공개용 별도 저장소 분리
+- 함: `~/dong/ai_projects/nepal-live-twin/` 신규 git 저장소(656 파일, .git 119 MB — public/data 123 MB 포함). web/ = 순수 Next.js 16(vinext·cloudflare 제거), `next build` 정적 통과, 헤드리스에서 후보 레이어 부착 확인.
+- 함: Supabase `candidate_reviews`(RLS 공개 읽기·익명 삽입) + 우측 레일 "HUMAN REVIEW" 노트 UI(환경변수 없으면 숨김). README에 잘된 것/부족한 것/다중 작업공간 합본.
+- 남음: Vercel import(Root=web)·Supabase 프로젝트 생성은 사용자 계정에서; MapTiler 새 키 발급 권장.
