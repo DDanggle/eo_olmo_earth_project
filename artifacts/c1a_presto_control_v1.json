@@ -1,0 +1,124 @@
+{
+  "schema": "c1a-presto-retrospective-control-v1",
+  "date": "2026-09-01",
+  "claim_boundary": [
+    "Retrospective matched control: all eight region outcomes for P2/P3/P4 were already open before C1a ran (contract interpretation clause).",
+    "Primary readout is the preregistered common-grid (4x4 mean to 128x32x32) with the identical P4 decoder path; native-grid C1b is a pending product sensitivity.",
+    "This separates model families under one contract; it does not show Presto is a weak model in general (12-month pixel model outside its design domain).",
+    "P4/P2 reference values are seed means from the sealed M65/M86 per-sample recomputation."
+  ],
+  "provenance": {
+    "presto_full_cache_content_sha256": "da18f121e7ae5f87b6eabbfa183497a4ea623a1b03db0b249fef30e3216910ef",
+    "presto_full_cache_manifest_sha256": "aad49d14f94f36dacaedd6abba3b136cada0ca14c61649afd8ea632a05da162b",
+    "common32_content_sha256": "33e11d6692dac6381109c1543b1f523c0dac30867a48ad1cd117a6318d65d6f3",
+    "runner_sha256": "c559345acbc7fd56a7ff2ea07dd6d54f9c904cb0de1c0784de676fba629bb88d",
+    "runs_root": "/home/work/data/olmoearth/presto_c1a_runs",
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "arms": "P4(EmbDecoder cin=128) on Presto common-grid cache",
+    "metric": "test positive_patch_macro_iou"
+  },
+  "per_region": {
+    "hiroshima": {
+      "c1a_seeds": [
+        0.183525,
+        0.158363,
+        0.247619
+      ],
+      "c1a_mean": 0.196502,
+      "p4_mean": 0.278169,
+      "p2_mean": 0.216018,
+      "p4_minus_c1a": 0.081667
+    },
+    "hokkaido": {
+      "c1a_seeds": [
+        0.135229,
+        0.144425,
+        0.102276
+      ],
+      "c1a_mean": 0.12731,
+      "p4_mean": 0.385563,
+      "p2_mean": 0.215383,
+      "p4_minus_c1a": 0.258253
+    },
+    "indonesia": {
+      "c1a_seeds": [
+        0.190549,
+        0.144252,
+        0.096747
+      ],
+      "c1a_mean": 0.143849,
+      "p4_mean": 0.272276,
+      "p2_mean": 0.283624,
+      "p4_minus_c1a": 0.128427
+    },
+    "itogon": {
+      "c1a_seeds": [
+        0.070534,
+        0.05488,
+        0.064156
+      ],
+      "c1a_mean": 0.06319,
+      "p4_mean": 0.151731,
+      "p2_mean": 0.147713,
+      "p4_minus_c1a": 0.088541
+    },
+    "kyrgyzstan1": {
+      "c1a_seeds": [
+        0.088271,
+        0.0651,
+        0.052613
+      ],
+      "c1a_mean": 0.068661,
+      "p4_mean": 0.281293,
+      "p2_mean": 0.192541,
+      "p4_minus_c1a": 0.212632
+    },
+    "kyrgyzstan2": {
+      "c1a_seeds": [
+        0.051458,
+        0.094035,
+        0.052422
+      ],
+      "c1a_mean": 0.065972,
+      "p4_mean": 0.207754,
+      "p2_mean": 0.106853,
+      "p4_minus_c1a": 0.141782
+    },
+    "newzealand": {
+      "c1a_seeds": [
+        0.070581,
+        0.072848,
+        0.064856
+      ],
+      "c1a_mean": 0.069428,
+      "p4_mean": 0.241542,
+      "p2_mean": 0.1788,
+      "p4_minus_c1a": 0.172114
+    },
+    "thrissur": {
+      "c1a_seeds": [
+        0.1587,
+        0.129906,
+        0.127859
+      ],
+      "c1a_mean": 0.138822,
+      "p4_mean": 0.35877,
+      "p2_mean": 0.231532,
+      "p4_minus_c1a": 0.219948
+    }
+  },
+  "aggregate": {
+    "region_macro": {
+      "C1a": 0.109217,
+      "P4": 0.272137,
+      "P2": 0.196558
+    },
+    "p4_beats_c1a_regions": 8,
+    "p2_beats_c1a_regions": 8,
+    "p4_all_seed_rule": 8
+  }
+}

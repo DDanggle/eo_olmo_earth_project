@@ -47,6 +47,7 @@
 | M27 | 공식 구조는 이미 결정적 — 치환 1개가 수학적으로 동일 | **구조 변경 0. diff 3.3e-16** | 완료 |
 | M28 | AI-Hub 원천 영상 정체 + STAC 물질화 게이트 | **RGB uint8 3밴드였음. STAC 게이트 4/4 통과** | 완료 |
 | M65 | frozen-v2 확증 8-region region-macro | **P4 .2722 > P2 .1966 > P3 .1834; P4−P2 +.0756, 지역 승리 6/8** | 봉인 집계 완료 |
+| M87 | C1a Presto common-grid matched control | **8/8 지역 P4·P2에 패배, macro .1092 vs P4 .2722 (+.1629)** | retrospective, native C1b·label-budget 남음 |
 | M86 | M65 전 8지역 FP·P2/P4 상보성 재감사 | **P4 empty-FP 7/8 우세, 중앙 P2/P4 5.02×; tile-oracle headroom +.02375, 5/8 ≥.02** | 기존 72 JSONL CPU 재계산 |
 | M75 | Nepal S1 입력계약 결함 | **기존 S1 포함 주장 폐기; 선형 intensity를 dB 계약으로 재실행 필요** | 결함·영향범위 확정 |
 | M76 | Nepal dB 교정 재실행 | **5앵커·27창 사전등록 기준 미달; live detection 주장 없음** | 봉인 완료 |
@@ -4077,3 +4078,35 @@ JSONL(P2/P3/P4 × 3 seed × 8 region)을 CPU에서 독립 집계해, 세 초기 
    확정하지 않는다.
 2. oracle은 target label을 본다. deployable router 또는 달성 가능한 성능으로 부르지 않는다.
 3. 이 결과는 새 test가 아니라 M65 출력의 사후 메커니즘 분석이다.
+
+## M87. C1a — Presto common-grid retrospective matched control이 전 8지역에서 P4·P2에 패배 (2026-09-01)
+
+계약 `config/presto_c1_contract.json`(v2)의 primary readout을 실행했다. frozen Presto
+(default_model.pt, 822,682 param, sha 대조 2/2)로 6,834타일 per-pixel 캐시(128×128×128 fp16,
+content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비중첩 4×4 mean pooling으로
+128×32×32 common grid(`33e11d66…`)를 봉인한 뒤, **P4와 동일한 EmbDecoder 경로(cin만 768→128)·
+동일 S12q·동일 split·seed 1/2/3**으로 8개 확증 fold를 학습했다(runner sha `c559345a…`).
+
+| region | P4(OLMo) | P2(UNet3D) | C1a(Presto) | P4−C1a |
+|---|---:|---:|---:|---:|
+| hiroshima | .2782 | .2160 | .1965 | +.0817 |
+| hokkaido | .3856 | .2154 | .1273 | +.2583 |
+| indonesia | .2723 | .2836 | .1438 | +.1285 |
+| itogon | .1517 | .1477 | .0632 | +.0885 |
+| kyrgyzstan1 | .2813 | .1925 | .0687 | +.2127 |
+| kyrgyzstan2 | .2078 | .1069 | .0660 | +.1418 |
+| newzealand | .2415 | .1788 | .0694 | +.1721 |
+| thrissur | .3588 | .2315 | .1388 | +.2200 |
+| **macro** | **.2722** | **.1966** | **.1092** | **+.1629** |
+
+- P4가 **8/8 지역**에서 C1a를 이겼고, P4 seed-mean이 C1a **최고 seed보다도** 8/8에서 높다.
+  P2(raw UNet3D)조차 8/8에서 C1a를 이긴다.
+- 허용 해석: M65의 격차는 "아무 frozen GeoFM이나 붙이면 나오는 효과"가 아니다 — 같은 계약에서
+  Presto 표현은 raw baseline에도 못 미친다. 사전 sanity 스크린(픽셀 선형 프로브: Presto AUPRC
+  .062 < raw 밴드통계 .126)과 방향이 일치한다.
+- 금지 해석: (a) 이것은 retrospective control이다 — 8지역 결과는 C1a 실행 전에 이미 개봉되어
+  있었다(계약 interpretation 조항). (b) "Presto가 일반적으로 약하다"가 아니다 — 12개월 픽셀
+  시계열 모델을 설계 영역 밖(단일 사건 변화 분할)에서 시험한 것이다. (c) native-grid C1b
+  감도와 label-budget 축이 남아 있으므로 최종 서술은 그 뒤에 닫는다.
+- 산출물: `artifacts/c1a_presto_control_v1.json`, 서버 `presto_c1a_runs/` (확률맵 포함,
+  FP-budget 분석 재사용 가능), 캐시 잠금 완료(a-w).
