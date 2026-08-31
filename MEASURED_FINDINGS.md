@@ -3129,7 +3129,9 @@ post-training으로 통제 가능한지가 논문의 실체가 됨.
 822K 파라미터로 OLMo 인코더(88.96M)의 **1/108**임. 128×128 타일 = 16,384픽셀
 배치 인코딩이 필요하나 모델이 작아 부담 없음. 캐시는 128ch @ 10 m 픽셀 격자.
 
-### 아직 말할 수 없는 것 (진행 전 해결)
+### 아직 말할 수 없는 것 (진행 전 해결) — **[2026-08-31 갱신] 1·2번은 2026-08-28 계약 감사에서 해소됨**
+(공식 정규화 shift 0·divide 1e4 확인, upstream commit `11e207a…` 고정, month 2-D 텐서 확인 — `docs/EXPERIMENT_C_SECOND_GEOFM.md`, `config/presto_c1_contract.json`.
+남은 미해결: full 128×128 cache 추출기·throughput smoke·cache seal·matched decoder 3-seed.)
 
 1. **정규화 미확정** — single_file_presto에는 학습 시 사용한 밴드별 정규화 상수가 없음.
    probe는 /10000 스케일만 썼음. 원 저장소 dataops의 정규화를 찾아 **사전 등록** 후
