@@ -106,7 +106,7 @@ exchangeability가 깨지므로, calibration guarantee를 새로 증명하거나
 | **3** | label-budget pilot → full curve | nested subsets, ≥3 subset seeds, same IDs across arms |
 | **4** | Korea v2 40-sample preflight → full health/ontology audit | v1 0-fill cube 사용 금지; task equivalence 실패 시 stress test로 강등 |
 | **5** | Korea sealed external test 1회 | P4/P2/P3/C1 recipe와 primary metric을 개봉 전에 봉인 |
-| **6** | GeoContextGate 또는 집필 | M86은 필요조건만 통과. Presto 뒤 naive fusion을 먼저 이겨야 method로 승격 |
+| **6** | GeoContextGate 또는 집필 | M86은 필요조건만 통과. Presto 뒤 naive fusion을 먼저 이겨야 method로 승격. 승격 기준은 `config/geocontextgate_promotion_gate.json`(2026-08-31 사전등록)에 고정 — oracle headroom은 상한이므로 실현 이득 ≥ +0.01 또는 headroom의 50%, 고정 FP budget, label-free gate, 사후 완화 금지 |
 
 현재 H200은 2026-08-31 확인 시 GPU0/1 모두 약 68.5 GiB, utilization 99%였다. 새 GPU 실행은
 시작하지 않는다. confirmatory에는 72 test JSONL과 288 probability-map 파일이 있어 순서 0은 CPU로
