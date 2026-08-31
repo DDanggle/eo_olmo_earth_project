@@ -3047,3 +3047,8 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 함: `/` = "100 satellite windows. 6 places to inspect first." 깔때기 100→47→6·0 확정 라벨, 작동 3장, 사례 1개(Dalphedi), 리드 6곳 표(AI 후보 토큰·관측 신뢰도·외부 보고 사후 대조), 재사용 표(넣는 것/받는 것), GeoJSON 다운로드. 지도는 `/map`으로, 좌측 레일 기본 닫힘·우측은 리드 6곳 패널 하나. 부속 표(Presto·레이더·평시·M-지표)는 METHODS & STORY 안으로.
 - 리드 규칙: M82 pooled3 후보 비율 순, 관측 가능 ≥40%, 같은 마을 중복 제거 → Dalphedi·Bhainse–Bidur·Naubisephat–Uttargaya·Bidur·Shanti Bazar·Timure. 재관측: Salê·Rasuwa Gadhi(구름). 외부 보고 링크는 사용자 제공, 순위에 미사용, 미검증 표기.
 - "% changed" → "% candidate tokens"로 전면 교체.
+
+### 2026-08-31 — 본선 복귀·CVPR 복기 감사
+- 네팔 사이드카는 nepal-live-twin(공개 저장소)으로 이관 완료(Vercel 준비·세션 노트 남김). 이 작업공간은 MountainShift 본선으로 복귀.
+- 함: M1–M65 복기 → `docs/CVPR_REVIEW_2026_08_31.md`. 생존 주장 4, 정정 필요 9(핵심: M62 상태 갱신, C1=matched control 서술, R-event 미사용, FLOPs 기준 비용), 실행 순서 재확인(C1 full → label-budget → C2 → 한국 T-m).
+- 확인: GPU1 가용(0 MiB), Presto 계약 자산 서버에 있음.
