@@ -403,6 +403,12 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
 
 ## Worklog
 
+### 2026-08-31 (세션: CVPR 복귀 — 방향 재정렬 검토 + Presto C1 smoke)
+- 타 세션 재정렬(85ce0bb) 검증함: M86 아티팩트 실물·claim boundary 확인, EarthShift(2605.29330)·Conformal(2602.10045) 인용 실존 확인. PAPER_NARRATIVE_2026_08_31.md를 SSOT로 채택, 내 이전 "label-budget 최우선" 순서 철회함(C1 arm 포함 위해 Presto cache 선행이 맞음).
+- GeoContextGate 승격 기준 사전등록함(config/geocontextgate_promotion_gate.json): oracle headroom은 상한이므로 실현 이득 ≥ +0.01 또는 headroom 50%, 고정 FP budget, label-free gate, 사후 완화 금지. 커밋 1ffdd4c.
+- Presto C1 추출기 작성·smoke 2타일 실행함(code/extract_presto_c1_cache.py): sha 대조 2/2(code fb487a3a, weights 559c9d76), split 해시 3/3, deterministic=true, finite=true, latlon WGS84 유도 검증(hiroshima 34.54N 132.66E), 월 0-idx [N,12] 실측 기록, month_embed (12,32) 범위 내. peak 메모리 ≤ 4.3GiB, 캐시 전망 26.7GiB(디스크 여유 7.4T — 문제없음).
+- 마찰: GPU0/1 모두 타 작업 99% 점유라 배치 스윕이 심하게 요동(1024px 5.4s/tile vs 4096px 157s). 최선 관측 기준 full 6,834타일 ≈ 10.3h 상한, 유휴 GPU면 1~2h 추정. 다음: 사용자 GPU 비우면 full cache 실행 → content seal → C1a/C1b decoder.
+
 ### 2026-08-27 — Nepal OLMoEarth Live Twin GIS/WASM 공개 데모
 
 - 계획: 사용자 지정 좌표 `28.2786794, 85.3780644`와 인접점
