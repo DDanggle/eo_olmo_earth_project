@@ -1,7 +1,11 @@
 # 임계경로 한 장 — transferable · refreshable Earth embedding
 
-갱신 2026-08-28. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
+갱신 2026-08-31. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
 `docs/ASSET_INVENTORY.md`, arm·통계의 상세는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`를 따른다.
+
+> **재시작 경계:** M65/`4862483` 이후 Nepal 전용 구현과 데이터는 sibling 저장소로 분리했다.
+> 이 저장소의 활성 사슬은 1c Presto matched control → Korea input/split preflight → Korea
+> untouched transfer다. Nepal은 외부 stress/operations sidecar이며 이 사슬의 선행조건이 아니다.
 
 > **2026-08-28 상태 정정:** frozen-v2 확증은 **8/8 지역·72실행**을 모두 마쳤고 post gate를
 > 통과했다. 주지표 region-macro는 P4 reuse **.2722**, P2 raw-strong .1966, P3 raw-efficient

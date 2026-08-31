@@ -1,4 +1,9 @@
-# 보유 자산 — 2026-08-28 실측
+# 보유 자산 — 2026-08-31 재시작 감사
+
+> Nepal 전용 앱·코드·raw/intermediate artifact는
+> `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. 아래 Nepal 절은 역사적 인벤토리이며
+> 이 저장소의 로컬 자산을 뜻하지 않는다. 활성 본선 자산은 Sen12, M65 확증 번들, Presto 계약,
+> AI-Hub split seal이다.
 
 `docs/CRITICAL_PATH.md`의 측정 사슬 1~7에 매핑함. **"있다"가 아니라 "어느 단계에 쓰이는가"로 정리함.**
 

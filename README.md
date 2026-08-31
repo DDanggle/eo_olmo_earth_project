@@ -1,6 +1,11 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-08-30
+최종 갱신: 2026-08-31
+
+> **새 세션은 [`RESTART_HERE.md`](RESTART_HERE.md)부터 읽는다.** 활성 과학 기준점은
+> M65/`4862483`이며, Nepal 전용 앱·코드·데이터는
+> `/Users/dgyi/dong/ai_projects/nepal-live-twin`으로 분리했다. 아래 M66–M85 서술은
+> 삭제되지 않은 감사 이력이지 현재 실행 queue가 아니다.
 
 > ## 북극성 — 우선순위가 헷갈리면 이것부터
 > **frozen OLMoEarth embedding이 산사태 표현으로 여러 지역에 전이되고, raw task model 및 다른
@@ -12,10 +17,8 @@
 > 공식 P2/P3와 frozen-small P4의 8-region 확증이 끝났다. P4/P2/P3 region-macro는
 > **.2722/.1966/.1834**, P4−P2 **+.0756**, 사전등록 지역 승리 **6/8**이다(M65).
 > 현재 병목은 **Presto cache smoke → 동일 decoder 3-seed 비교 → 한국 untouched transfer**다.
-> Nepal live demo는 별도 sidecar로 유지한다. 2026-08-30 입력계약 재감사에서
-> prospective detection은 부정되었고(M76), Tadi 개발 대조(M77)와 7지역 radar 분해(M78)를
-> 추가했다. 상세는 **`docs/NEPAL_OLMO_RESEARCH_STATUS_2026_08_30.md`**. 감사 예산 규칙:
-> **sidecar는 Presto 맞쵤 대조·한국 untouched transfer를 막지 않는다.**
+> Nepal live work는 sibling 저장소의 운영/portfolio sidecar다. 본 저장소의 다음 병목은
+> **Presto matched control → Korea input preflight → untouched Korea transfer**다.
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에

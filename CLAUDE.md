@@ -1,6 +1,8 @@
 # CLAUDE.md — 이 작업공간에서 일하는 방법
 
-OlmoEarth 연구 작업공간입니다. **`README.md`를 먼저 읽으세요** (전체 정리·실험 대장·재현 절차).
+OlmoEarth 연구 작업공간입니다. **`RESTART_HERE.md`를 먼저 읽으세요.** 활성 과학 기준점은
+M65이며 Nepal 전용 작업은 sibling 저장소 `../../nepal-live-twin`이 소유합니다. 그다음
+`README.md`와 `GOAL.md`를 읽습니다.
 
 ## 두 저장소의 역할
 

@@ -2,6 +2,10 @@
 
 최종 갱신: 2026-08-29
 
+> **활성 연구 cutoff는 M65다.** M66–M85는 Nepal 운영 sidecar에서 얻은 역사적 측정으로
+> 삭제하지 않지만 현재 transfer/CVPR queue의 증거로 자동 승격하지 않는다. Nepal 원본과
+> 실행 코드는 `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관됐다.
+
 이 파일에는 **실행해서 나온 수치만** 넣는다. 계획·설계·문헌 판단은 넣지 않는다
 (그건 `K_ALIGN_PROGRAM_NOTE.md`, `K_ALIGN_CVPR_READINESS_AUDIT.md`, `K_GAIN_AXES.md`가 맡는다).
 

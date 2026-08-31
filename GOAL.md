@@ -3,6 +3,12 @@
 > 이 파일이 이 프로젝트의 단일 진실 공급원(SSOT)입니다.
 > 에이전트든 사람이든, 작업 시작 전에 읽고 / 끝나면 Worklog와 상태를 갱신합니다.
 
+> **2026-08-31 재시작 경계:** 현재 활성 기준점은 M65/commit `4862483`이다.
+> Nepal M66–M85는 보존된 역사이며 전용 구현·산출물은 sibling 저장소
+> `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. 현재 실행 순서는
+> `Presto matched control → Korea input preflight → Korea untouched transfer`이고,
+> 자세한 금지 주장과 읽는 순서는 `RESTART_HERE.md`가 우선한다.
+
 ## 미션 — Decision-Continuous Earth Intelligence
 
 **"세계와 기반모델이 동시에 바뀌어도, 컴퓨트와 라벨이 부족한 환경 조직이
