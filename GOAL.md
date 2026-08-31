@@ -403,6 +403,12 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
 
 ## Worklog
 
+### 2026-09-01 (세션: Presto C1 full cache 완료 + sanity 스크린)
+- full cache 6,834/6,834 완료함: 8.65h(0.219 tile/s, IO-bound), peak 4.3GiB, 26.7GiB, content sha da18f121…. 계약 게이트(sha 대조·split 해시·결정성) 전 구간 유지. 봉인(seal_manifest, 파일별 sha + 40타일 finite 검사 + chmod a-w) 진행함.
+- 마찰: 첫 full 실행이 명령 체인(`nvidia-smi && … setsid … &`) 탓에 SSH 종료와 함께 죽었는데 "started"만 보고 돌아간다고 오판했음 → 단일 체인 재실행 + 프로세스 생존 확인을 루틴화함. 로컬 9922 터널 잔재 프로세스 2회 정리함.
+- 사전 sanity 스크린(dev-only, presto_c1/sanity_probe.json): train 120타일 픽셀 선형 프로브에서 Presto 128-d AUPRC 0.062 < raw 밴드 mean/std 20-d 0.126 (무정보 0.018). 해석: Presto는 시계열 요약형이라 변화 신호가 약함 — C1이 P4에 크게 질 가능성 시사, "OLMo 고유 기여" 주장에는 유리. 본판정은 동일 decoder 3-seed로만.
+- 다음: C1a(common-grid 4x4 mean pooling → P4 decoder 경로) / C1b(native 128²) 3-seed 실행.
+
 ### 2026-08-31 (세션: CVPR 복귀 — 방향 재정렬 검토 + Presto C1 smoke)
 - 타 세션 재정렬(85ce0bb) 검증함: M86 아티팩트 실물·claim boundary 확인, EarthShift(2605.29330)·Conformal(2602.10045) 인용 실존 확인. PAPER_NARRATIVE_2026_08_31.md를 SSOT로 채택, 내 이전 "label-budget 최우선" 순서 철회함(C1 arm 포함 위해 Presto cache 선행이 맞음).
 - GeoContextGate 승격 기준 사전등록함(config/geocontextgate_promotion_gate.json): oracle headroom은 상한이므로 실현 이득 ≥ +0.01 또는 headroom 50%, 고정 FP budget, label-free gate, 사후 완화 금지. 커밋 1ffdd4c.
