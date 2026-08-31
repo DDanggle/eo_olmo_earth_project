@@ -252,8 +252,10 @@ def main() -> None:
     def emb_stats(train_ids, sample=400):
         """고정된 400표본 근사 통계. 전체 train 통계라고 과장하지 않는다."""
         idx = np.linspace(0, len(train_ids) - 1, min(sample, len(train_ids))).astype(int)
-        acc = np.zeros((768,), dtype="float64")
-        acc2 = np.zeros((768,), dtype="float64")
+        dim0 = np.load(emb_cache / "emb_fp16" / f"{train_ids[0]}.npy",
+                       mmap_mode="r").shape[0]
+        acc = np.zeros((dim0,), dtype="float64")
+        acc2 = np.zeros((dim0,), dtype="float64")
         n = 0
         for j in idx:
             a = np.load(emb_cache / "emb_fp16" / f"{train_ids[j]}.npy").astype("float32")
@@ -432,7 +434,12 @@ def main() -> None:
                 S12(splits[s], kind, st), batch_size=BATCH, shuffle=(s == "train"),
                 num_workers=6, pin_memory=True, drop_last=(s == "train"),
                 generator=generator, persistent_workers=False)
-        model = cls().to(device)
+        if kind == "emb":
+            emb_cin = int(np.load(emb_cache / "emb_fp16" / f"{splits['train'][0]}.npy",
+                                  mmap_mode="r").shape[0])
+            model = cls(cin=emb_cin).to(device)
+        else:
+            model = cls().to(device)
         n_par = sum(p.numel() for p in model.parameters() if p.requires_grad)
 
         # pos_weight는 표본 300개 근사가 아니라 train mask **전체**에서 계산한다.
