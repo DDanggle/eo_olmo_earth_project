@@ -5,8 +5,9 @@
 
 > **2026-08-31 재시작 경계:** 현재 활성 기준점은 M65/commit `4862483`이다.
 > Nepal M66–M85는 보존된 역사이며 전용 구현·산출물은 sibling 저장소
-> `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. 현재 실행 순서는
-> `Presto matched control → Korea input preflight → Korea untouched transfer`이고,
+> `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. M86의 기존-output mechanism
+> audit까지 완료했으며 현재 실행 순서는 `Presto matched control → nested label-budget
+> audit → Korea input preflight → Korea untouched transfer`다.
 > 자세한 금지 주장과 읽는 순서는 `RESTART_HERE.md`가 우선한다.
 
 ## 미션 — Decision-Continuous Earth Intelligence
@@ -3058,3 +3059,27 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 네팔 사이드카는 nepal-live-twin(공개 저장소)으로 이관 완료(Vercel 준비·세션 노트 남김). 이 작업공간은 MountainShift 본선으로 복귀.
 - 함: M1–M65 복기 → `docs/CVPR_REVIEW_2026_08_31.md`. 생존 주장 4, 정정 필요 9(핵심: M62 상태 갱신, C1=matched control 서술, R-event 미사용, FLOPs 기준 비용), 실행 순서 재확인(C1 full → label-budget → C2 → 한국 T-m).
 - 확인: GPU1 가용(0 MiB), Presto 계약 자산 서버에 있음.
+### 2026-08-31 — M65 이후 CVPR 큰 그림 2차 claim 감사 (완료)
+
+- 계획: 사용자 제안의 `frozen FM / label crossover / Korea·Italy transfer / Presto control`을
+  M65 실물·기존 kill gate·2025–2026 GeoFM 문헌과 다시 대조한다. 이미 한 실험을 새 기여로
+  포장하지 않고, GPU 실행 전에 주장 단위와 중단 조건을 먼저 고정한다.
+- 사전 판정: P4 confirmatory procedure가 실제 architecture가 아니면 method claim에서 제거한다.
+  Korea polygon 통계가 ontology/time/provenance equivalence를 보장하지 않으면 annotation effect
+  인과 주장을 제거한다. generic label curve·generic fusion이 선행문헌과 겹치면 단독 novelty로 세지 않는다.
+- 실행 경계: GPU0/1 상태를 읽기 전용으로 확인하고 점유 중이면 새 GPU 작업을 시작하지 않는다.
+  기존 72 per-sample 결과의 CPU-only mechanism audit만 준비한다.
+- 산출물: `docs/PAPER_NARRATIVE_2026_08_31.md`, 재시작/critical-path/실행계획 동기화,
+  `code/audit_confirmatory_mechanism.py`와 synthetic invariant test.
+- 결과: P4를 새 method로 부르던 해석, P2=SOTA, 세 지역 FP=전체 headline,
+  `T-m−T-x=annotation effect`를 모두 폐기했다. Presto common/native-grid → nested label curve →
+  Korea ontology/input gate 순서로 고정했다.
+- 공정성 추가: Presto는 fixed 4×4 mean-pool 32² common-grid를 primary, native 128²를 sensitivity로
+  분리했다. Korea v2는 12밴드를 보존하되 external-transfer primary는 Sen12와 같은 10밴드 view로
+  고정해 추가 B01/B09 정보를 country effect와 섞지 않는다.
+- M86: 기존 72 test JSONL CPU 재계산. P4 empty-tile FP는 7/8 지역에서 낮고 P2/P4 비 중앙값
+  5.0226×. P2/P4 target-label tile oracle은 region-macro +.023753, 5/8 지역 ≥.02로 두 사전
+  development screen을 통과했다. 이는 GeoContextGate 개발 필요조건이지 새 확증/라우터 결과가 아니다.
+- 실행 상태: H200 GPU0/1 모두 약 68.5 GiB·99% 사용 중이라 새 GPU 작업을 시작하지 않았다.
+  서버 compact 결과를 `artifacts/confirmatory_mechanism_audit_v1.json`으로 회수했고 source 72파일
+  SHA를 포함했다. synthetic test 1개 통과.

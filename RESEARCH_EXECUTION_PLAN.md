@@ -25,14 +25,16 @@
 | 순서 | 산출물 | 사전 gate / 중단 조건 |
 |---|---|---|
 | **R0 완료** | 8-region aggregate + M65 | 8 post manifest PASS, recipe SHA 일치, equal-region macro |
+| **R0.5 완료** | 72 per-sample CPU mechanism audit(M86) | P4 empty-FP 7/8·중앙 5.02×, tile-oracle +.02375·5/8 ≥.02. 새 confirmatory/router로 부르지 않음 |
 | **R1 준비** | Presto 16/64/256픽셀 + 1타일 cache smoke | GPU1 가용; exact month·WGS84 lat/lon; deterministic; finite; peak memory·pixels/s 기록 |
 | **R2** | 6,834 sample Presto fp16 cache | same S12q IDs 100%, file/content seal, 예상 용량은 실측 후에만 확정 |
-| **R3** | P4/P2/P3/C1, 8지역×3seed matched retrospective table | 결과 보기 전 recipe v3; 같은 decoder topology·metric·selection; C1은 confirmatory라 부르지 않음 |
-| **R4** | {1,5,10,100%} label-budget curve | C1 cache·head audit 통과 후에만; seed별 같은 stratified subset |
-| **R5** | Korea input/split preflight + untouched recipe | v2/대체 canonical S2 계약, M10 split seal, P4/P2/P3/C1 모두 등록 후 test 개봉 |
-| **R6** | Korea transfer + cost table | cluster-macro/LOCO/CI, cold cache·warm head·deployment 비용 분리 |
+| **R3** | P4/P2/P3/C1, 8지역×3seed matched retrospective table | 결과 보기 전 recipe v3; Presto common-grid와 native-grid를 분리; C1은 confirmatory라 부르지 않음 |
+| **R4** | {1,5,10,100%} label-budget curve | C1 뒤에만; nested region×class subset, 최소 3 subset seed. optimizer seed만으로 sampling uncertainty를 대신하지 않음 |
+| **R5** | Korea input/split/ontology preflight + sealed recipe | v2/대체 canonical S2, M10 split, label phenomenon/time/provenance를 감사하고 P4/P2/P3/C1 등록 후 test 개봉 |
+| **R6** | Korea external transfer + cost table | cluster-macro/LOCO/CI, cold cache·warm head·deployment 비용 분리. paired re-annotation 없이는 annotation effect 주장 금지 |
 
-현재 GPU0/1은 다른 프로세스가 각각 약 34.8 GiB를 쓰므로 R1은 시작하지 않았다. 점유가 풀리기
+2026-08-31 재확인 시 GPU0/1은 다른 프로세스가 각각 약 68.5 GiB, utilization 99%를 쓰므로
+R1은 시작하지 않는다. 점유가 풀리기
 전에는 extractor·audit·recipe만 준비한다. 실행 중 confirmatory 네 코드 경로는 수정하지 않는다.
 
 **논문 경계:** R3까지는 “OLMo가 일반 GeoFM보다 낫다”를 금지한다. R5 전에는 한국 전이를

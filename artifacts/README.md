@@ -38,6 +38,12 @@
 
 ## 결과 데이터 (`results/`)
 
+### Transfer 본선 compact audits
+
+| 파일 | 내용 |
+|---|---|
+| `confirmatory_mechanism_audit_v1.json` | M65의 72 test JSONL을 다시 읽은 M86 CPU 감사. 8지역 empty-tile FP, paired P2/P4 tile win/loss, target-label oracle headroom, 모든 source SHA-256과 금지 주장 포함 |
+
 | 파일 | 내용 |
 |---|---|
 | `../KOREA_PUBLIC_DATA_CATALOG.md` | 공식 공공데이터 23개 연결 후보의 접근성·PNU/공간/시간 join·evidence 역할·no-match 계약과 P0 구현 순서 |

@@ -4,8 +4,16 @@
 `docs/ASSET_INVENTORY.md`, arm·통계의 상세는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`를 따른다.
 
 > **재시작 경계:** M65/`4862483` 이후 Nepal 전용 구현과 데이터는 sibling 저장소로 분리했다.
-> 이 저장소의 활성 사슬은 1c Presto matched control → Korea input/split preflight → Korea
-> untouched transfer다. Nepal은 외부 stress/operations sidecar이며 이 사슬의 선행조건이 아니다.
+> 이 저장소의 활성 사슬은 1c Presto matched control → nested label-budget audit → Korea
+> input/split preflight → Korea untouched transfer다. Nepal은 외부 stress/operations sidecar이며
+> 이 사슬의 선행조건이 아니다. M86 mechanism audit은 기존 72개 결과만 사용해 완료했으므로
+> 새 GPU 실험이나 confirmatory evidence로 세지 않는다.
+
+> **2026-08-31 claim 교정:** P4는 새 2단 method가 아니라 frozen-cache arm이고, M57–M58의
+> confirmatory 절차는 provenance protocol이다. P2는 SOTA가 아니라 matched official-architecture
+> baseline이다. 한국 polygon 면적 유사성은 annotation equivalence를 증명하지 않으므로
+> `T-m−T-x=annotation effect` 해석은 폐기한다. 현재 논문 SSOT는
+> `docs/PAPER_NARRATIVE_2026_08_31.md`다.
 
 > **2026-08-28 상태 정정:** frozen-v2 확증은 **8/8 지역·72실행**을 모두 마쳤고 post gate를
 > 통과했다. 주지표 region-macro는 P4 reuse **.2722**, P2 raw-strong .1966, P3 raw-efficient
@@ -80,10 +88,11 @@ exact date/gap 정렬 실험은 없는 문제를 고치는 것이므로 하지 �
 | **1a** | **G-P smoke** | GPU1, 64표본에서 OLMo 입력·메모리·cache runtime | **통과** |
 | **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model에 지역 전이되는가 | 개발 95% gate **FAIL(82.0%)**; 확증 8-region macro **P4 .2722 > P2 .1966**, 6/8 win — **완료** |
 | **1c** | **C1 second GeoFM** | 같은 S12q·decoder에서 효과가 OLMo 고유인가 | Presto probe/commit/정규화 계약 완료; full cache·3-seed 비교 **미실행** |
+| **1c-0** | **mechanism audit** | 기존 72 test JSONL에서 8지역 FP·P2/P4 상보성이 재현되는가 | **완료 M86** — FP 7/8·중앙 5.02×, oracle +.02375·5/8 ≥.02 |
 | **1d** | **R-event probe** | 같은 cache가 retrieval에도 raw spectral보다 나은가 | P@10 masked .538 > raw .432이나 사전 2×-base gate **FAIL**; 기존 AP@100 철회·재실행 대기 |
-| **2** | **T-m** Höhn task-eligible 10지역 → Korea | annotation-matched zero/1/5/10% transfer | 0% |
-| **3** | **T-x** Italy → Korea | annotation-mismatched transfer | 0% |
-| **4** | **E_annotation** = T-m − T-x | 도화 기준 차이의 손실 | 0% |
+| **2** | **Korea contract gate** | input grid와 landslide ontology/time/provenance가 source task와 연결 가능한가 | split만 봉인; v2 mosaic·label-equivalence 미완 |
+| **3** | **Korea external transfer** | joint geographic/dataset shift에서 zero/1/5/10% transfer | 0% |
+| **4** | **Italy annotation stress** | 다른 annotator/MMU에서 성능이 얼마나 민감한가 | 0%; 인과적 annotation effect로 부르지 않음 |
 | **5** | **E_static** | DEM/slope/기후평년을 더한 transfer 변화 | 0% |
 | **6** | **E_live** | cutoff-valid 관측조건·강수 residual | 배관만 있음 |
 | **7** | **R-cache** | task별 action 가치와 cost를 예측하는 router | 설계 후보 |
@@ -110,7 +119,7 @@ S1 3/4라 invalid다. 본 queue에서는 주차했으며 `docs/NEPAL_SIDECAR_HAN
 - MASK 이진성·시간 불변성·`annotated` attr 일치
 - pre/post index 범위·시간 순서·SCL clear fraction
 - `center_lat/lon`은 값 범위와 CRS를 확인하기 전 위경도로 사용 금지
-- annotation-matched 11지역 중 양·음성이 모두 있는 10지역을 outer test로 한 번씩 쓰는 10-fold.
+- 동일 저자 annotation 후보 11지역 중 양·음성이 모두 있는 10지역을 outer test로 한 번씩 쓰는 10-fold.
   LanaoDelNorte 71개(양성 0)는 false-positive stress cohort로만 보존
 - sample manifest와 각 fold train/val/test 목록의 SHA-256
 

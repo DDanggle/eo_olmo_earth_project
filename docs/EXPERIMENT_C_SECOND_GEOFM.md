@@ -50,24 +50,33 @@ Presto가 이례적으로 잘 맞음: **S2 밴드 10개(B01·B09 제외)가 Sen1
 | arm | encoder | 출력 격자 | 판독기 |
 |---|---|---|---|
 | B (기존) | frozen OlmoEarth v1 | 768ch @ 32×32 (40 m) | 작은 판독기 cin=768 |
-| **C1** | frozen Presto | 128ch @ 128×128 (10 m, 픽셀별) | **같은 구조** cin=128 (proj 1×1 → 동일 블록) |
+| **C1a primary** | frozen Presto | 128ch @ 32×32 (native 128²를 고정 4×4 mean-pool) | **P4와 같은 공간 경로** cin=128 |
+| **C1b sensitivity** | frozen Presto | 128ch @ 128×128 (10 m, 픽셀별) | native-grid small decoder |
 | **C2** | frozen Clay v1.5 | d @ 패치격자 (시간 평균) | 같은 구조 cin=d |
 | C2b (RQ3) | frozen Clay v1.0 | 〃 | 〃 |
 | A (기존) | — (scratch P2/P3) | — | — |
 
 공정성 처리:
-- 판독기는 **구조 동일, 입력 채널 수만 교체**함. 파라미터 수·FLOPs를 산출물에 기록함
-- 출력 격자가 다르므로(32² vs 128²) 판독기 앞 해상도를 **encoder 본래 격자 그대로** 두고
-  upsample 경로만 맞춤 — 격자를 억지로 맞추면 그 변환이 교란변수가 됨. 대신
-  **토큰 격자 차이를 명시된 교란**으로 기록함(M32의 천장 논리로 상한 비교 가능)
+- **C1a가 representation-family primary**다. Presto의 native 128²를 채널별 non-overlap 4×4
+  arithmetic mean으로 32²에 고정한 뒤 P4와 같은 spatial decoder/upscale path를 쓴다. signed
+  feature라 GeM을 사후 선택하지 않는다.
+- **C1b는 product-level sensitivity**다. native grid를 유지해 실제로 더 세밀한 Presto product를
+  쓸 때의 성능과 비용을 보고한다. C1b로 OLMo 고유 우월성을 판정하지 않는다.
+- 두 arm 모두 입력 채널 projection 외 trainable parameter·FLOPs를 기록한다. pooling/readout을
+  숨은 구현 상세로 두지 않는다.
 - encoder·캐시 생성 FLOPs 포함 (M38 방식)
 - FP-budget matched 평가 병행 (M44 방식)
 
 ## Label budget 축
 
-fold의 train 라벨을 {1%, 5%, 10%, 100%}로 서브샘플(층화: 양성 타일 비율 유지,
-seed별 동일 서브셋 — 서브셋 선정 seed는 20260827로 고정).
+fold의 train 라벨을 {1%, 5%, 10%, 100%}로 서브샘플한다. subset은 **nested**이며 region ×
+positive/negative tile로 층화한다. subset seed는 20260827·20260828·20260829 최소 3개를 쓰고,
+각 subset에서 arm별 sample ID가 같아야 한다. optimizer seed 3개만으로 label-sampling uncertainty를
+대신하지 않는다. fraction뿐 아니라 labeled tile 수와 positive tile 수를 함께 보고한다.
 **질문**: 라벨이 적을수록 frozen이 유리한가, 어느 지점부터 scratch가 따라잡는가.
+
+1/5/10/100 네 점만으로 정확한 crossover 위치를 추정하지 않는다. 부호가 바뀌는 인접 구간이
+나오면 그 사이 fraction을 추가 등록한 뒤 interpolation CI를 계산한다.
 
 ## 사전 등록 예측 (결과 관찰 전 커밋)
 
@@ -89,8 +98,9 @@ seed별 동일 서브셋 — 서브셋 선정 seed는 20260827로 고정).
 3. GPU1이 비면 16/64/256픽셀 smoke로 peak memory와 pixels/s를 재고, 128×128 한 타일을
    exact-month·WGS84 lat/lon으로 인코딩해 determinism·shape·finite를 감사한다.
 4. 6,834 sample 전체 Presto fp16 cache를 한 번 만들고 file set·sample SHA·입력 계약을 봉인한다.
-5. **새 C1 결과를 보기 전에** 동일 small decoder, seed 1/2/3, model selection, primary metric을
+5. **새 C1 결과를 보기 전에** C1a fixed mean-pool/common-grid를 primary, C1b native-grid를
+   sensitivity로 두고 동일 small decoder, seed 1/2/3, model selection, primary metric을
    `recipe_frozen_v3`로 등록한다. 8지역은 retrospective matched comparison으로 전부 보고한다.
-6. C1이 학습·비용 gate를 통과한 뒤 label budget {1,5,10,100%}을 연다.
+6. C1이 학습·비용 gate를 통과한 뒤 label budget {1,5,10,100%}을 3 subset seed로 연다.
 7. 한국 external transfer recipe에는 P4/P2/P3/C1을 함께 등록하고, test를 처음 열어
    OLMo-vs-Presto의 untouched 비교를 만든다.

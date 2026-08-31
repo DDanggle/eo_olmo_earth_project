@@ -1,5 +1,9 @@
 # MountainShift 실험 설계 (2026-08-25)
 
+> **2026-08-31 주의:** 이 문서는 arm의 역사와 세부 계약을 보존한다. 현재 claim/실행 SSOT는
+> `PAPER_NARRATIVE_2026_08_31.md`다. 아래 `annotation-matched`, `T-m−T-x=E_annotation`, router
+> headline은 paired re-annotation과 새 method 없이 인과 주장으로 사용하지 않는다.
+
 > **순서와 실험 질문(RQ1~RQ5)은 `docs/CRITICAL_PATH.md`를 따름.**
 > 2026-08-26 재구성으로 이야기의 축이 `성능 우열`에서 `판단 문제`로 옮겨졌음.
 > 이 문서의 arm 표(A0~A4, T-m/T-x, P0~P5)는 그 RQ들의 **구현 상세**임. 이 문서는 arm·지표·게이트의 상세를 담고,

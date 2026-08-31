@@ -56,3 +56,18 @@
 
 이 네 상태를 합쳐 단순히 `success`라고 쓰지 않는다. RQ2 학습에는
 `experiment_eligible`만 들어간다.
+
+## M65/C1 외부 전이에서 쓰는 model view
+
+12밴드 물질화는 원천을 보존하기 위한 **data contract**이지 모든 arm에 12밴드를 주겠다는 뜻이
+아니다. Sen12 S12q와 Presto C1의 공통 관측은 B02/B03/B04/B08/B05/B06/B07/B8A/B11/B12
+10밴드다.
+
+- external-transfer primary는 위 10밴드만 쓰고, OLMo v1의 B01/B09 band group은 Sen12와 Korea
+  양쪽에서 동일하게 missing 처리한다.
+- Korea B01/B09까지 쓰는 12밴드 arm은 OLMo-only sensitivity다. Presto/P2/P3와 같은 표의
+  primary comparison으로 올리지 않는다.
+- 따라서 v2 cube는 12밴드 validity를 계속 봉인하되, downstream manifest에 `model_view_10band`
+  hash와 `materialized_12band` hash를 둘 다 기록한다.
+
+이 분리를 하지 않으면 Korea의 성능 변화가 country transfer인지 추가 밴드 정보인지 구분되지 않는다.

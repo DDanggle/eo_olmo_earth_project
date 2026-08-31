@@ -1,0 +1,1120 @@
+{
+  "aggregate": {
+    "median_empty_tile_fp_ratio_p2_over_p4": 5.022591445732502,
+    "region_macro_oracle_headroom": 0.0237529992417019,
+    "regions_where_p4_has_lower_empty_tile_fp": 7,
+    "regions_with_oracle_headroom_ge_0_02": 5
+  },
+  "claim_boundary": [
+    "This audit reuses already-open confirmatory predictions; it is not a new confirmatory experiment.",
+    "The tile oracle uses target labels and cannot be reported as a deployable router.",
+    "False-positive ratios are measured at threshold 0.5; a causal or operational claim requires FP-budget-matched curves.",
+    "A passed fusion screen is necessary but not sufficient; it only authorizes a development prototype."
+  ],
+  "n_regions": 8,
+  "operating_point": 0.5,
+  "preregistered_screen": {
+    "false_alarm_mechanism_candidate": {
+      "pass": true,
+      "rule": "P4 has lower empty-tile FP in at least 6 regions and median P2/P4 FP ratio >= 2 at threshold 0.5"
+    },
+    "fusion_candidate": {
+      "pass": true,
+      "rule": "region-macro oracle headroom >= 0.02 and at least 4 regions have oracle headroom >= 0.02"
+    }
+  },
+  "regions": [
+    {
+      "arms": {
+        "P2": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 94774,
+              "empty_tiles_with_any_fp_fraction": 0.7185185185185186,
+              "positive_tile_macro_iou": 0.2239141040262582,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 62176,
+              "empty_tiles_with_any_fp_fraction": 0.6987654320987654,
+              "positive_tile_macro_iou": 0.21526311369803064,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 130294,
+              "empty_tiles_with_any_fp_fraction": 0.7111111111111111,
+              "positive_tile_macro_iou": 0.20887601978118162,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.21601774583515682,
+          "seed_median_empty_tile_fp_pixels": 94774
+        },
+        "P3": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 175180,
+              "empty_tiles_with_any_fp_fraction": 0.7604938271604939,
+              "positive_tile_macro_iou": 0.24124192853391685,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 292998,
+              "empty_tiles_with_any_fp_fraction": 0.7555555555555555,
+              "positive_tile_macro_iou": 0.1430866120131291,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 269373,
+              "empty_tiles_with_any_fp_fraction": 0.7975308641975308,
+              "positive_tile_macro_iou": 0.1502260347702407,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.17818485843909557,
+          "seed_median_empty_tile_fp_pixels": 269373
+        },
+        "P4": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 15621,
+              "empty_tiles_with_any_fp_fraction": 0.3111111111111111,
+              "positive_tile_macro_iou": 0.3086652060612691,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 13919,
+              "empty_tiles_with_any_fp_fraction": 0.3506172839506173,
+              "positive_tile_macro_iou": 0.23574296803063458,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 12734,
+              "empty_tiles_with_any_fp_fraction": 0.2271604938271605,
+              "positive_tile_macro_iou": 0.2901901136105033,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.27819942923413565,
+          "seed_median_empty_tile_fp_pixels": 13919
+        }
+      },
+      "n_empty_tiles": 405,
+      "n_positive_tiles": 457,
+      "n_tiles": 862,
+      "p4_vs_p2": {
+        "best_single_positive_tile_macro_iou": 0.27819942923413565,
+        "empty_tile_fp_ratio_p2_over_p4": 6.808966161362167,
+        "mean_absolute_tile_iou_disagreement": 0.11693257069292487,
+        "oracle_headroom": 0.02737544364697303,
+        "oracle_positive_tile_macro_iou": 0.3055748728811087,
+        "p4_has_lower_empty_tile_fp": true,
+        "positive_tile_loss_fraction": 0.350109409190372,
+        "positive_tile_tie_fraction": 0.0525164113785558,
+        "positive_tile_win_fraction": 0.5973741794310722
+      },
+      "region": "holdout_hiroshima"
+    },
+    {
+      "arms": {
+        "P2": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 210834,
+              "empty_tiles_with_any_fp_fraction": 0.9785714285714285,
+              "positive_tile_macro_iou": 0.15515658973333332,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 274833,
+              "empty_tiles_with_any_fp_fraction": 0.9714285714285714,
+              "positive_tile_macro_iou": 0.24370460266666666,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 326677,
+              "empty_tiles_with_any_fp_fraction": 0.9857142857142858,
+              "positive_tile_macro_iou": 0.24746505053333334,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.21544208097777778,
+          "seed_median_empty_tile_fp_pixels": 274833
+        },
+        "P3": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 186734,
+              "empty_tiles_with_any_fp_fraction": 0.9142857142857143,
+              "positive_tile_macro_iou": 0.2587414191333333,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 394192,
+              "empty_tiles_with_any_fp_fraction": 0.9428571428571428,
+              "positive_tile_macro_iou": 0.24817696566666667,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 247162,
+              "empty_tiles_with_any_fp_fraction": 0.9285714285714286,
+              "positive_tile_macro_iou": 0.15644261326666667,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.2211203326888889,
+          "seed_median_empty_tile_fp_pixels": 247162
+        },
+        "P4": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 20473,
+              "empty_tiles_with_any_fp_fraction": 0.5214285714285715,
+              "positive_tile_macro_iou": 0.38618960993333334,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 26915,
+              "empty_tiles_with_any_fp_fraction": 0.6142857142857143,
+              "positive_tile_macro_iou": 0.3670172044,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 17480,
+              "empty_tiles_with_any_fp_fraction": 0.5214285714285715,
+              "positive_tile_macro_iou": 0.40370517493333336,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.3856373297555556,
+          "seed_median_empty_tile_fp_pixels": 20473
+        }
+      },
+      "n_empty_tiles": 140,
+      "n_positive_tiles": 150,
+      "n_tiles": 290,
+      "p4_vs_p2": {
+        "best_single_positive_tile_macro_iou": 0.38563732975555554,
+        "empty_tile_fp_ratio_p2_over_p4": 13.424168416939384,
+        "mean_absolute_tile_iou_disagreement": 0.1754630038,
+        "oracle_headroom": 0.0026338775111111046,
+        "oracle_positive_tile_macro_iou": 0.38827120726666664,
+        "p4_has_lower_empty_tile_fp": true,
+        "positive_tile_loss_fraction": 0.06666666666666667,
+        "positive_tile_tie_fraction": 0.006666666666666667,
+        "positive_tile_win_fraction": 0.9266666666666666
+      },
+      "region": "holdout_hokkaido"
+    },
+    {
+      "arms": {
+        "P2": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 82517,
+              "empty_tiles_with_any_fp_fraction": 0.8058608058608059,
+              "positive_tile_macro_iou": 0.25892395013333336,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 133193,
+              "empty_tiles_with_any_fp_fraction": 0.8095238095238095,
+              "positive_tile_macro_iou": 0.2963783871,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 114805,
+              "empty_tiles_with_any_fp_fraction": 0.8498168498168498,
+              "positive_tile_macro_iou": 0.2956290473666667,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.2836437948666667,
+          "seed_median_empty_tile_fp_pixels": 114805
+        },
+        "P3": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 137908,
+              "empty_tiles_with_any_fp_fraction": 0.8315018315018315,
+              "positive_tile_macro_iou": 0.2793559568,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 143920,
+              "empty_tiles_with_any_fp_fraction": 0.7692307692307693,
+              "positive_tile_macro_iou": 0.27924846756666666,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 138995,
+              "empty_tiles_with_any_fp_fraction": 0.9523809523809523,
+              "positive_tile_macro_iou": 0.236820632,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.26514168545555555,
+          "seed_median_empty_tile_fp_pixels": 138995
+        },
+        "P4": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 28142,
+              "empty_tiles_with_any_fp_fraction": 0.4468864468864469,
+              "positive_tile_macro_iou": 0.2577829748666667,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 26405,
+              "empty_tiles_with_any_fp_fraction": 0.4945054945054945,
+              "positive_tile_macro_iou": 0.2613531781333333,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 31427,
+              "empty_tiles_with_any_fp_fraction": 0.5347985347985348,
+              "positive_tile_macro_iou": 0.2979131714666667,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.2723497748222222,
+          "seed_median_empty_tile_fp_pixels": 28142
+        }
+      },
+      "n_empty_tiles": 273,
+      "n_positive_tiles": 300,
+      "n_tiles": 573,
+      "p4_vs_p2": {
+        "best_single_positive_tile_macro_iou": 0.2836437948666667,
+        "empty_tile_fp_ratio_p2_over_p4": 4.079489730651695,
+        "mean_absolute_tile_iou_disagreement": 0.12419353193333334,
+        "oracle_headroom": 0.0564497559444444,
+        "oracle_positive_tile_macro_iou": 0.3400935508111111,
+        "p4_has_lower_empty_tile_fp": true,
+        "positive_tile_loss_fraction": 0.44666666666666666,
+        "positive_tile_tie_fraction": 0.03333333333333333,
+        "positive_tile_win_fraction": 0.52
+      },
+      "region": "holdout_indonesia"
+    },
+    {
+      "arms": {
+        "P2": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 27466,
+              "empty_tiles_with_any_fp_fraction": 0.8909090909090909,
+              "positive_tile_macro_iou": 0.14819102528,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 20546,
+              "empty_tiles_with_any_fp_fraction": 0.8090909090909091,
+              "positive_tile_macro_iou": 0.14031407576,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 22645,
+              "empty_tiles_with_any_fp_fraction": 0.8545454545454545,
+              "positive_tile_macro_iou": 0.15458031984,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.14769514029333333,
+          "seed_median_empty_tile_fp_pixels": 22645
+        },
+        "P3": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 69661,
+              "empty_tiles_with_any_fp_fraction": 0.990909090909091,
+              "positive_tile_macro_iou": 0.10908690568,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 76030,
+              "empty_tiles_with_any_fp_fraction": 1.0,
+              "positive_tile_macro_iou": 0.10737143008,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 73534,
+              "empty_tiles_with_any_fp_fraction": 1.0,
+              "positive_tile_macro_iou": 0.09908806152,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.10518213242666667,
+          "seed_median_empty_tile_fp_pixels": 73534
+        },
+        "P4": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 15966,
+              "empty_tiles_with_any_fp_fraction": 0.8727272727272727,
+              "positive_tile_macro_iou": 0.15386894632,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 7514,
+              "empty_tiles_with_any_fp_fraction": 0.7909090909090909,
+              "positive_tile_macro_iou": 0.15018321512,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 12201,
+              "empty_tiles_with_any_fp_fraction": 0.8727272727272727,
+              "positive_tile_macro_iou": 0.15107414184,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.15170876776,
+          "seed_median_empty_tile_fp_pixels": 12201
+        }
+      },
+      "n_empty_tiles": 110,
+      "n_positive_tiles": 125,
+      "n_tiles": 235,
+      "p4_vs_p2": {
+        "best_single_positive_tile_macro_iou": 0.15170876776,
+        "empty_tile_fp_ratio_p2_over_p4": 1.8559954102122778,
+        "mean_absolute_tile_iou_disagreement": 0.07744878426666667,
+        "oracle_headroom": 0.036717578400000006,
+        "oracle_positive_tile_macro_iou": 0.18842634616,
+        "p4_has_lower_empty_tile_fp": true,
+        "positive_tile_loss_fraction": 0.456,
+        "positive_tile_tie_fraction": 0.072,
+        "positive_tile_win_fraction": 0.472
+      },
+      "region": "holdout_itogon"
+    },
+    {
+      "arms": {
+        "P2": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 723239,
+              "empty_tiles_with_any_fp_fraction": 0.8192307692307692,
+              "positive_tile_macro_iou": 0.16980487323155216,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 484116,
+              "empty_tiles_with_any_fp_fraction": 0.6961538461538461,
+              "positive_tile_macro_iou": 0.19214324942748093,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 390988,
+              "empty_tiles_with_any_fp_fraction": 0.6076923076923076,
+              "positive_tile_macro_iou": 0.21549025342239186,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.1924794586938083,
+          "seed_median_empty_tile_fp_pixels": 484116
+        },
+        "P3": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 187949,
+              "empty_tiles_with_any_fp_fraction": 0.5615384615384615,
+              "positive_tile_macro_iou": 0.16989063540712468,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 167934,
+              "empty_tiles_with_any_fp_fraction": 0.5794871794871795,
+              "positive_tile_macro_iou": 0.1825956534096692,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 184492,
+              "empty_tiles_with_any_fp_fraction": 0.5807692307692308,
+              "positive_tile_macro_iou": 0.16726986482188294,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.17325205121289228,
+          "seed_median_empty_tile_fp_pixels": 184492
+        },
+        "P4": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 97310,
+              "empty_tiles_with_any_fp_fraction": 0.573076923076923,
+              "positive_tile_macro_iou": 0.26918113316793896,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 41564,
+              "empty_tiles_with_any_fp_fraction": 0.5064102564102564,
+              "positive_tile_macro_iou": 0.2603441015903308,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 81150,
+              "empty_tiles_with_any_fp_fraction": 0.6666666666666666,
+              "positive_tile_macro_iou": 0.31443922226463106,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.28132148567430026,
+          "seed_median_empty_tile_fp_pixels": 81150
+        }
+      },
+      "n_empty_tiles": 780,
+      "n_positive_tiles": 786,
+      "n_tiles": 1566,
+      "p4_vs_p2": {
+        "best_single_positive_tile_macro_iou": 0.28132148567430026,
+        "empty_tile_fp_ratio_p2_over_p4": 5.965693160813308,
+        "mean_absolute_tile_iou_disagreement": 0.13109306977099236,
+        "oracle_headroom": 0.021125521395250202,
+        "oracle_positive_tile_macro_iou": 0.30244700706955047,
+        "p4_has_lower_empty_tile_fp": true,
+        "positive_tile_loss_fraction": 0.2455470737913486,
+        "positive_tile_tie_fraction": 0.04198473282442748,
+        "positive_tile_win_fraction": 0.712468193384224
+      },
+      "region": "holdout_kyrgyzstan1"
+    },
+    {
+      "arms": {
+        "P2": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 116357,
+              "empty_tiles_with_any_fp_fraction": 0.9154228855721394,
+              "positive_tile_macro_iou": 0.11015811539534884,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 131241,
+              "empty_tiles_with_any_fp_fraction": 0.9353233830845771,
+              "positive_tile_macro_iou": 0.11307923930232558,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 77643,
+              "empty_tiles_with_any_fp_fraction": 0.845771144278607,
+              "positive_tile_macro_iou": 0.09752726706976744,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.10692154058914728,
+          "seed_median_empty_tile_fp_pixels": 116357
+        },
+        "P3": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 153212,
+              "empty_tiles_with_any_fp_fraction": 0.9154228855721394,
+              "positive_tile_macro_iou": 0.12011639623255814,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 301033,
+              "empty_tiles_with_any_fp_fraction": 0.9552238805970149,
+              "positive_tile_macro_iou": 0.09189556176744186,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 203852,
+              "empty_tiles_with_any_fp_fraction": 0.9751243781094527,
+              "positive_tile_macro_iou": 0.10049798460465116,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.10416998086821705,
+          "seed_median_empty_tile_fp_pixels": 203852
+        },
+        "P4": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 30256,
+              "empty_tiles_with_any_fp_fraction": 0.4228855721393035,
+              "positive_tile_macro_iou": 0.25367121525581393,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 60879,
+              "empty_tiles_with_any_fp_fraction": 0.6268656716417911,
+              "positive_tile_macro_iou": 0.17107509604651164,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 52348,
+              "empty_tiles_with_any_fp_fraction": 0.6417910447761194,
+              "positive_tile_macro_iou": 0.19854229679069768,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.20776286936434107,
+          "seed_median_empty_tile_fp_pixels": 52348
+        }
+      },
+      "n_empty_tiles": 201,
+      "n_positive_tiles": 215,
+      "n_tiles": 416,
+      "p4_vs_p2": {
+        "best_single_positive_tile_macro_iou": 0.20776286936434107,
+        "empty_tile_fp_ratio_p2_over_p4": 2.2227592267135323,
+        "mean_absolute_tile_iou_disagreement": 0.115503132,
+        "oracle_headroom": 0.007330901612403101,
+        "oracle_positive_tile_macro_iou": 0.21509377097674418,
+        "p4_has_lower_empty_tile_fp": true,
+        "positive_tile_loss_fraction": 0.13953488372093023,
+        "positive_tile_tie_fraction": 0.023255813953488372,
+        "positive_tile_win_fraction": 0.8372093023255814
+      },
+      "region": "holdout_kyrgyzstan2"
+    },
+    {
+      "arms": {
+        "P2": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 29776,
+              "empty_tiles_with_any_fp_fraction": 0.2835314091680815,
+              "positive_tile_macro_iou": 0.21268398316780823,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 38007,
+              "empty_tiles_with_any_fp_fraction": 0.42614601018675724,
+              "positive_tile_macro_iou": 0.14218950469178082,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 46856,
+              "empty_tiles_with_any_fp_fraction": 0.4091680814940577,
+              "positive_tile_macro_iou": 0.18138881023972603,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.17875409936643835,
+          "seed_median_empty_tile_fp_pixels": 38007
+        },
+        "P3": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 60442,
+              "empty_tiles_with_any_fp_fraction": 0.46519524617996605,
+              "positive_tile_macro_iou": 0.18996038441780821,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 48745,
+              "empty_tiles_with_any_fp_fraction": 0.47198641765704585,
+              "positive_tile_macro_iou": 0.20313151840753424,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 41771,
+              "empty_tiles_with_any_fp_fraction": 0.4244482173174873,
+              "positive_tile_macro_iou": 0.17072532260273973,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.18793907514269406,
+          "seed_median_empty_tile_fp_pixels": 48745
+        },
+        "P4": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 47477,
+              "empty_tiles_with_any_fp_fraction": 0.2835314091680815,
+              "positive_tile_macro_iou": 0.2655986081164384,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 42902,
+              "empty_tiles_with_any_fp_fraction": 0.3684210526315789,
+              "positive_tile_macro_iou": 0.24862056349315068,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 10496,
+              "empty_tiles_with_any_fp_fraction": 0.18845500848896435,
+              "positive_tile_macro_iou": 0.21031564950342466,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.24151160703767124,
+          "seed_median_empty_tile_fp_pixels": 42902
+        }
+      },
+      "n_empty_tiles": 589,
+      "n_positive_tiles": 584,
+      "n_tiles": 1173,
+      "p4_vs_p2": {
+        "best_single_positive_tile_macro_iou": 0.24151160703767124,
+        "empty_tile_fp_ratio_p2_over_p4": 0.8859027551163116,
+        "mean_absolute_tile_iou_disagreement": 0.10981883583333334,
+        "oracle_headroom": 0.02353066408105023,
+        "oracle_positive_tile_macro_iou": 0.2650422711187215,
+        "p4_has_lower_empty_tile_fp": false,
+        "positive_tile_loss_fraction": 0.2671232876712329,
+        "positive_tile_tie_fraction": 0.06678082191780822,
+        "positive_tile_win_fraction": 0.666095890410959
+      },
+      "region": "holdout_newzealand"
+    },
+    {
+      "arms": {
+        "P2": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 75812,
+              "empty_tiles_with_any_fp_fraction": 0.9368932038834952,
+              "positive_tile_macro_iou": 0.23900858067873304,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 55356,
+              "empty_tiles_with_any_fp_fraction": 0.9271844660194175,
+              "positive_tile_macro_iou": 0.20978343850678732,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 51651,
+              "empty_tiles_with_any_fp_fraction": 0.8592233009708737,
+              "positive_tile_macro_iou": 0.2457461724434389,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.23151273054298643,
+          "seed_median_empty_tile_fp_pixels": 55356
+        },
+        "P3": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 59574,
+              "empty_tiles_with_any_fp_fraction": 0.9466019417475728,
+              "positive_tile_macro_iou": 0.22886179660633485,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 23350,
+              "empty_tiles_with_any_fp_fraction": 0.8155339805825242,
+              "positive_tile_macro_iou": 0.2175250438914027,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 83865,
+              "empty_tiles_with_any_fp_fraction": 0.9854368932038835,
+              "positive_tile_macro_iou": 0.2510970842081448,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.23249464156862745,
+          "seed_median_empty_tile_fp_pixels": 59574
+        },
+        "P4": {
+          "per_seed": [
+            {
+              "empty_tile_fp_pixels": 11400,
+              "empty_tiles_with_any_fp_fraction": 0.616504854368932,
+              "positive_tile_macro_iou": 0.34802517429864255,
+              "seed": 1
+            },
+            {
+              "empty_tile_fp_pixels": 7263,
+              "empty_tiles_with_any_fp_fraction": 0.5388349514563107,
+              "positive_tile_macro_iou": 0.3599189211312217,
+              "seed": 2
+            },
+            {
+              "empty_tile_fp_pixels": 7765,
+              "empty_tiles_with_any_fp_fraction": 0.6213592233009708,
+              "positive_tile_macro_iou": 0.3685613408144796,
+              "seed": 3
+            }
+          ],
+          "seed_mean_positive_tile_macro_iou": 0.3588351454147813,
+          "seed_median_empty_tile_fp_pixels": 7765
+        }
+      },
+      "n_empty_tiles": 206,
+      "n_positive_tiles": 221,
+      "n_tiles": 427,
+      "p4_vs_p2": {
+        "best_single_positive_tile_macro_iou": 0.3588351454147813,
+        "empty_tile_fp_ratio_p2_over_p4": 7.128911783644559,
+        "mean_absolute_tile_iou_disagreement": 0.15704291755656108,
+        "oracle_headroom": 0.014860251342383113,
+        "oracle_positive_tile_macro_iou": 0.3736953967571644,
+        "p4_has_lower_empty_tile_fp": true,
+        "positive_tile_loss_fraction": 0.19909502262443438,
+        "positive_tile_tie_fraction": 0.058823529411764705,
+        "positive_tile_win_fraction": 0.7420814479638009
+      },
+      "region": "holdout_thrissur"
+    }
+  ],
+  "schema": "confirmatory-mechanism-audit-v1",
+  "source_files": [
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed1/per_sample/holdout_hiroshima/P2_test.jsonl",
+      "rows": 862,
+      "sha256": "5a87d21968bb73a9ec3e4c7c710b105864e1822e387853de6674a76019603124"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed2/per_sample/holdout_hiroshima/P2_test.jsonl",
+      "rows": 862,
+      "sha256": "44d94620defda285f97f3cabe7cdd6914645b5026ed9d62dd7858e1f5ea421c8"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed3/per_sample/holdout_hiroshima/P2_test.jsonl",
+      "rows": 862,
+      "sha256": "4f37b15f4d2bff1db7f61f427bea70855683f105e0966fad4146bf5e3e17f036"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P3_seed1/per_sample/holdout_hiroshima/P3_test.jsonl",
+      "rows": 862,
+      "sha256": "b2e67c89a70105b66a468f05801671780ff63a44a4150d86ddac5a94a956bc99"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P3_seed2/per_sample/holdout_hiroshima/P3_test.jsonl",
+      "rows": 862,
+      "sha256": "20ba45ae7e398254d7554f829df5921e0b1ca89f7620e51b90ea17a84cb8a63b"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P3_seed3/per_sample/holdout_hiroshima/P3_test.jsonl",
+      "rows": 862,
+      "sha256": "3f8b55914f32ba6423d351c44020cd000f29fa6d24453fa6ca9ef215388bcce8"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed1/per_sample/holdout_hiroshima/P4_test.jsonl",
+      "rows": 862,
+      "sha256": "ef47169e7ebdab589512e924a45dbb5a31c4356fe9b23758d462249dbf8e9401"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed2/per_sample/holdout_hiroshima/P4_test.jsonl",
+      "rows": 862,
+      "sha256": "29a30a0fce63f9d0d49e76400d2ac2994dd4b6c2191e0b952f38088f6e660fa1"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed3/per_sample/holdout_hiroshima/P4_test.jsonl",
+      "rows": 862,
+      "sha256": "15c9f64dcb81a163c63ec081bf7610df00354eb77b278ee7d8223c592dfa82a8"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed1/per_sample/holdout_hokkaido/P2_test.jsonl",
+      "rows": 290,
+      "sha256": "d2b580640e33e412dbf8af2b21b183d0faa22c8ef517b61195124cfdb5fb424a"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed2/per_sample/holdout_hokkaido/P2_test.jsonl",
+      "rows": 290,
+      "sha256": "28445c7ee29231275f2ad70bb6b85958f467db994b99d373251af01085b48914"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed3/per_sample/holdout_hokkaido/P2_test.jsonl",
+      "rows": 290,
+      "sha256": "6a30495dfd2566789a999e0efd27993c3122865c0521a3a60f5066cb0cc858c0"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P3_seed1/per_sample/holdout_hokkaido/P3_test.jsonl",
+      "rows": 290,
+      "sha256": "bce02881d633b495c4ca383c8e21989e2e410b326ea722205946a68476b87667"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P3_seed2/per_sample/holdout_hokkaido/P3_test.jsonl",
+      "rows": 290,
+      "sha256": "85d59e6c86f19428433ab9ab9a99ad0470d8dda3ab2b42138eefb7f81299bb97"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P3_seed3/per_sample/holdout_hokkaido/P3_test.jsonl",
+      "rows": 290,
+      "sha256": "23f944eedc9291c73601e411af24f2348851418bf1baea131cf0dbe6f3c1a3a0"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed1/per_sample/holdout_hokkaido/P4_test.jsonl",
+      "rows": 290,
+      "sha256": "1d33d9e1337fbda18c9b86da79e3456a47911658f0f7dc0e51a3d08fb3f69f6d"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed2/per_sample/holdout_hokkaido/P4_test.jsonl",
+      "rows": 290,
+      "sha256": "511366bed46b27f74246082ddd8ad0860e5f546f833c5e70f992cad757087bca"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed3/per_sample/holdout_hokkaido/P4_test.jsonl",
+      "rows": 290,
+      "sha256": "86b6951e0e1a09fe304589a2094f59ffdb8c55f0aa6708f33f2bff3c756d7e4b"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed1/per_sample/holdout_indonesia/P2_test.jsonl",
+      "rows": 573,
+      "sha256": "dbe689b8c190cf4ac85c3102431a9cb1c126074cf69f79807cba450815a692bc"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed2/per_sample/holdout_indonesia/P2_test.jsonl",
+      "rows": 573,
+      "sha256": "3aa2e44f329792f632d6ee18eaf35f5ead04c555723bd1f6096caa843b902c31"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed3/per_sample/holdout_indonesia/P2_test.jsonl",
+      "rows": 573,
+      "sha256": "c236a0b8971b5ec760650275a347dfab1f747aa4c9dcee2b8ed453fb98343779"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P3_seed1/per_sample/holdout_indonesia/P3_test.jsonl",
+      "rows": 573,
+      "sha256": "a630b03733d923db595f3c799afed5adc5ec736a5323ee97b91ebd9a12de70c4"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P3_seed2/per_sample/holdout_indonesia/P3_test.jsonl",
+      "rows": 573,
+      "sha256": "5d66e1b9afb1233daa28d7d62d65fbb45b0402ddbf4f563effbc2ccfe2d538e2"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P3_seed3/per_sample/holdout_indonesia/P3_test.jsonl",
+      "rows": 573,
+      "sha256": "0f470fb025defe17f01c5153d87790d04715bf2fa90060be73b10709ce502834"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed1/per_sample/holdout_indonesia/P4_test.jsonl",
+      "rows": 573,
+      "sha256": "823aa07ed54eabee91fa65df336f3ce8ede9ae214546c1eef3473f0bf02d2acb"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed2/per_sample/holdout_indonesia/P4_test.jsonl",
+      "rows": 573,
+      "sha256": "e94f25e24a8118554f3fcee6e85e84dcd2d16d2e5d2764c809f3ffb3cd878a63"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed3/per_sample/holdout_indonesia/P4_test.jsonl",
+      "rows": 573,
+      "sha256": "11dba1a5147cdabcb35e1d1de5af3e8fa7de17bcb75b418d46a4d5c50c3c92fb"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed1/per_sample/holdout_itogon/P2_test.jsonl",
+      "rows": 235,
+      "sha256": "f72a11c1147122f2bdd21403b6563bb0ad2405b35c183670175fce51a77c17fa"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed2/per_sample/holdout_itogon/P2_test.jsonl",
+      "rows": 235,
+      "sha256": "d0d274a4ca6e10e2ee37ba60777d00ff85952104e49b1743bfe7eb2fefb68f8f"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed3/per_sample/holdout_itogon/P2_test.jsonl",
+      "rows": 235,
+      "sha256": "40ba5793e99b900ca5f50ae9b0ce1eaf86e8d7b44b3ed177a81d855265b27da6"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P3_seed1/per_sample/holdout_itogon/P3_test.jsonl",
+      "rows": 235,
+      "sha256": "64a35427bace0cb7590a220427baf9a21a7d4fb1c9b44e063df9ac9c1baa4577"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P3_seed2/per_sample/holdout_itogon/P3_test.jsonl",
+      "rows": 235,
+      "sha256": "d224c2273015b5e6c7579017d76ee7504cb54eb184fc457082c6423e47fa18c4"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P3_seed3/per_sample/holdout_itogon/P3_test.jsonl",
+      "rows": 235,
+      "sha256": "e3e53d9c751c32d04b274a815461ef2a7362ef32085eaddeaf7fbc7394bb8f4f"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed1/per_sample/holdout_itogon/P4_test.jsonl",
+      "rows": 235,
+      "sha256": "ee2edaed79d86f54568d86640f1c446e2b36a171d52e712dfc86a4ffab32a221"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed2/per_sample/holdout_itogon/P4_test.jsonl",
+      "rows": 235,
+      "sha256": "199c8e3109aa2c5d3d97352a66bfd3270acc94570ffed840ada5f965364ec479"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed3/per_sample/holdout_itogon/P4_test.jsonl",
+      "rows": 235,
+      "sha256": "ce3b03534ed32348bb7321e0f53cc73a67431a22e4bda3d63b5d74f5673f6248"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed1/per_sample/holdout_kyrgyzstan1/P2_test.jsonl",
+      "rows": 1566,
+      "sha256": "bdb67175a99fc46ac08360a1a906e6931fbef5d7cadf8a03f6f5ee7a24b0d628"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed2/per_sample/holdout_kyrgyzstan1/P2_test.jsonl",
+      "rows": 1566,
+      "sha256": "be9726dc3fc5af5ecccf470069b80a6f7fc2194b7845ee74c57d5e2ef9c47120"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed3/per_sample/holdout_kyrgyzstan1/P2_test.jsonl",
+      "rows": 1566,
+      "sha256": "e6094a389f99816bc8f8988647276de9f1cd453304d9ee1347ffe26357db4451"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P3_seed1/per_sample/holdout_kyrgyzstan1/P3_test.jsonl",
+      "rows": 1566,
+      "sha256": "239ce06a6d767921f5224823ec32aa004232bb9e4cc147dfe2bbdf95136cc516"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P3_seed2/per_sample/holdout_kyrgyzstan1/P3_test.jsonl",
+      "rows": 1566,
+      "sha256": "9779b1c7558bcb6a36096eb423bcefad6539aa2cea874cb8af263f9e2c4c35da"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P3_seed3/per_sample/holdout_kyrgyzstan1/P3_test.jsonl",
+      "rows": 1566,
+      "sha256": "d664fbfb53d3b606aeb0baa8ac092d8559d9d03069360ec4acf016657d74cc4d"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed1/per_sample/holdout_kyrgyzstan1/P4_test.jsonl",
+      "rows": 1566,
+      "sha256": "94edd8e9a956ca8cbb136e16c640c95dd473e4554664d4c703c26eb228bee77a"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed2/per_sample/holdout_kyrgyzstan1/P4_test.jsonl",
+      "rows": 1566,
+      "sha256": "340ba51ca985b583716e8f9b7a359145237291fb22005001e7abcba930bc0415"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed3/per_sample/holdout_kyrgyzstan1/P4_test.jsonl",
+      "rows": 1566,
+      "sha256": "ef081b4c2a74f7afdc89a4da4f0323552e6ed6a6ebb349747c700433d7b07f46"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed1/per_sample/holdout_kyrgyzstan2/P2_test.jsonl",
+      "rows": 416,
+      "sha256": "c99a3826982d40647d4f03fb2d3ef652174837c9103153d34a90b522ee80a0fb"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed2/per_sample/holdout_kyrgyzstan2/P2_test.jsonl",
+      "rows": 416,
+      "sha256": "af1ee76070e6cc8d6f38299aaed76d65a8a20399d7230bae435ed06a4412c8ba"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed3/per_sample/holdout_kyrgyzstan2/P2_test.jsonl",
+      "rows": 416,
+      "sha256": "49b86d3e8a39fc0a6273e862d77c9591785525ac2ed6b44b9cda7105562fe919"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P3_seed1/per_sample/holdout_kyrgyzstan2/P3_test.jsonl",
+      "rows": 416,
+      "sha256": "b43942e1d3e97587f60b8d21f268619b061e5eb19cb28c19cda32dc02a82aee3"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P3_seed2/per_sample/holdout_kyrgyzstan2/P3_test.jsonl",
+      "rows": 416,
+      "sha256": "756bd73c62f7acaa576b9ea21c67081b22c4ecc7cfa580de0594baec01c0557a"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P3_seed3/per_sample/holdout_kyrgyzstan2/P3_test.jsonl",
+      "rows": 416,
+      "sha256": "d0fb6b7b30c62f9b5bb140e503ebb1a3ede8d33e429b8c350e06e04563053a29"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed1/per_sample/holdout_kyrgyzstan2/P4_test.jsonl",
+      "rows": 416,
+      "sha256": "9fe695e2e7389459601cb2c12caaae04628c8332eec5ffb3088653b88585cc58"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed2/per_sample/holdout_kyrgyzstan2/P4_test.jsonl",
+      "rows": 416,
+      "sha256": "240944b420b47be46809aa1b6167d0d62df9965cbd343457cfaad0dfc4452d7e"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed3/per_sample/holdout_kyrgyzstan2/P4_test.jsonl",
+      "rows": 416,
+      "sha256": "d445333f39b4fe1748014e16ec7d7f9f77998d4e2618c5627dec7f9839e41549"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed1/per_sample/holdout_newzealand/P2_test.jsonl",
+      "rows": 1173,
+      "sha256": "944b46df2da352266de0eefb6573c1c07b653ddd22fd119bde03a380c6ffcca9"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed2/per_sample/holdout_newzealand/P2_test.jsonl",
+      "rows": 1173,
+      "sha256": "e89e745c0c618c575afd4c5f2cd4a01647abeb4279cbaffef862cb3f972ac8a1"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed3/per_sample/holdout_newzealand/P2_test.jsonl",
+      "rows": 1173,
+      "sha256": "d659fc44c44f049fda2813a0e210560bb60aa55225623823f353f1f736fbb471"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P3_seed1/per_sample/holdout_newzealand/P3_test.jsonl",
+      "rows": 1173,
+      "sha256": "76f21fe114aacbcf8bd5bdded5021b49abc5180c4fcb7816371ce59dd1aba3a8"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P3_seed2/per_sample/holdout_newzealand/P3_test.jsonl",
+      "rows": 1173,
+      "sha256": "80107a7f6c8e2e7eae08234cd7810650c0efca013e5d168f9a6f5179e7d110b5"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P3_seed3/per_sample/holdout_newzealand/P3_test.jsonl",
+      "rows": 1173,
+      "sha256": "6bae29bbc8bf1b779e7ac6ccbbfdd40e77df6ac027d8ddb2cec6b55439351ad3"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed1/per_sample/holdout_newzealand/P4_test.jsonl",
+      "rows": 1173,
+      "sha256": "7e94b9a604f0164b2bee4d90e7d36f72ec459d302438ebcfd04c754da38483a6"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed2/per_sample/holdout_newzealand/P4_test.jsonl",
+      "rows": 1173,
+      "sha256": "c88b36234b193b631bb7ede55c19ab04d2be9ffed0876caa45412fdc6d58b118"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed3/per_sample/holdout_newzealand/P4_test.jsonl",
+      "rows": 1173,
+      "sha256": "ebc58ea7ff443be860d2d451f6defe0c0258cfb154783825671b8fda7ae4c1ee"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed1/per_sample/holdout_thrissur/P2_test.jsonl",
+      "rows": 427,
+      "sha256": "4a8818b3a5d5e0d051944af0b48bffa5a6527bd7cf1d5fc69eda73ada739b56f"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed2/per_sample/holdout_thrissur/P2_test.jsonl",
+      "rows": 427,
+      "sha256": "8ae88c1f8293d18f5377c1fe51fd3bc65591571aa94cd04d2e3b0e3928fa4ce3"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed3/per_sample/holdout_thrissur/P2_test.jsonl",
+      "rows": 427,
+      "sha256": "c032b4d41df5dc6b5755030412f3cb7b16ad78868db8ae112636d28eec7bac6f"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P3_seed1/per_sample/holdout_thrissur/P3_test.jsonl",
+      "rows": 427,
+      "sha256": "5d8bbeedc52306c6a7b395d2eb25afc2739567d538d605904f6385e0c33d27b8"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P3_seed2/per_sample/holdout_thrissur/P3_test.jsonl",
+      "rows": 427,
+      "sha256": "b4633d40c2e6649e74b048a6e77c3beddc53c150df42d97189e93a65a9f7b5fc"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P3_seed3/per_sample/holdout_thrissur/P3_test.jsonl",
+      "rows": 427,
+      "sha256": "8b0bd430783ac9eeee248460500902be57ccec2f530bf5b4dec3abf8d33508e3"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed1/per_sample/holdout_thrissur/P4_test.jsonl",
+      "rows": 427,
+      "sha256": "450c94e600efe0619d82ce691ff7bcaac846ea810ec9fe2a199b44aa9731cf4a"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed2/per_sample/holdout_thrissur/P4_test.jsonl",
+      "rows": 427,
+      "sha256": "ff0bed6a049b4a41bc6282b306b3bb757c869486ff29797c1ca1020564f4c5d1"
+    },
+    {
+      "path": "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed3/per_sample/holdout_thrissur/P4_test.jsonl",
+      "rows": 427,
+      "sha256": "719d9796efdeb841699319f225c4ea08947f212364ab8f76cb7afd69fd3c7577"
+    }
+  ],
+  "status": "DESCRIPTIVE_EXISTING_OUTPUTS_ONLY"
+}

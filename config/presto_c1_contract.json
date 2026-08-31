@@ -1,5 +1,5 @@
 {
-  "schema": "presto-c1-input-contract-v1",
+  "schema": "presto-c1-input-contract-v2",
   "status": "PINNED_NOT_EXECUTED",
   "purpose": "Second frozen GeoFM control for the completed Sen12 S12q OLMo/raw benchmark",
   "upstream": {
@@ -52,10 +52,15 @@
     "normalization": "Each S2 digital number is divided by 10000 with zero shift, exactly as pinned upstream source.",
     "month_encoding": "Pass the exact selected calendar-month vector with shape [pixel_batch, 12]. Upstream month_to_tensor preserves a 2-D month tensor; do not pass a scalar start month.",
     "latlon": "Derive WGS84 pixel coordinates from each NetCDF CRS and x/y coordinates. Do not use center_lat/center_lon attributes directly because the contract audit found projected values.",
-    "spatial_output": "128 channels x 128 x 128 native pixel grid"
+    "spatial_output": "128 channels x 128 x 128 native pixel grid",
+    "registered_readouts": {
+      "primary_common_grid": "Non-overlapping channel-wise 4x4 arithmetic mean pooling to 128 channels x 32 x 32, then the same spatial decoder/upscale path as P4.",
+      "sensitivity_native_grid": "Keep 128 channels x 128 x 128 and use the declared native-grid small decoder. This is a product-level sensitivity, not the primary model-family comparison.",
+      "forbidden": "Do not choose a pooling rule after seeing C1 performance; do not use the native-grid result alone to claim OlmoEarth-specific superiority."
+    }
   },
   "decoder_and_evaluation": {
-    "decoder": "Same small decoder block topology as P4, with only input channels changed from 768 to 128 and native-grid upsampling adjusted.",
+    "decoder": "Primary C1a uses fixed 4x4 mean pooling and the same P4 spatial path with cin changed 768 to 128. C1b is a separately reported native-grid sensitivity.",
     "seeds": [
       1,
       2,
@@ -64,6 +69,25 @@
     "primary_metric": "positive-tile macro IoU",
     "same_splits": true,
     "same_label_subsets": true,
+    "label_subset_contract": {
+      "fractions": [
+        0.01,
+        0.05,
+        0.1,
+        1.0
+      ],
+      "subset_seeds": [
+        20260827,
+        20260828,
+        20260829
+      ],
+      "nested": true,
+      "strata": "source region x positive/negative tile",
+      "report_counts": [
+        "labeled_tiles",
+        "positive_tiles"
+      ]
+    },
     "report_encoder_cache_and_head_cost_separately": true
   },
   "evidence_boundary": {
@@ -75,6 +99,6 @@
       "Verify exact per-timestep months and WGS84 pixel coordinates on sampled NetCDF files.",
       "Seal cache file sets and sample IDs before decoder training."
     ],
-    "interpretation": "Because P2/P3/P4 outcomes on all eight regions are already open, C1 is a frozen retrospective matched control, not a newly untouched confirmatory release. The first untouched OLMo-vs-Presto transfer must be Korea or another unopened external cohort."
+    "interpretation": "Because P2/P3/P4 outcomes on all eight regions are already open, C1 is a frozen retrospective matched control, not a newly untouched confirmatory release. Common-grid C1a is the primary representation-family comparison; native-grid C1b is a product sensitivity. The first sealed first-look OLMo-vs-Presto transfer must be Korea or another unopened external cohort."
   }
 }

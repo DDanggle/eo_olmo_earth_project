@@ -1,6 +1,6 @@
 # 측정 장부 — 실제로 잰 것만
 
-최종 갱신: 2026-08-29
+최종 갱신: 2026-08-31
 
 > **활성 연구 cutoff는 M65다.** M66–M85는 Nepal 운영 sidecar에서 얻은 역사적 측정으로
 > 삭제하지 않지만 현재 transfer/CVPR queue의 증거로 자동 승격하지 않는다. Nepal 원본과
@@ -47,6 +47,7 @@
 | M27 | 공식 구조는 이미 결정적 — 치환 1개가 수학적으로 동일 | **구조 변경 0. diff 3.3e-16** | 완료 |
 | M28 | AI-Hub 원천 영상 정체 + STAC 물질화 게이트 | **RGB uint8 3밴드였음. STAC 게이트 4/4 통과** | 완료 |
 | M65 | frozen-v2 확증 8-region region-macro | **P4 .2722 > P2 .1966 > P3 .1834; P4−P2 +.0756, 지역 승리 6/8** | 봉인 집계 완료 |
+| M86 | M65 전 8지역 FP·P2/P4 상보성 재감사 | **P4 empty-FP 7/8 우세, 중앙 P2/P4 5.02×; tile-oracle headroom +.02375, 5/8 ≥.02** | 기존 72 JSONL CPU 재계산 |
 | M75 | Nepal S1 입력계약 결함 | **기존 S1 포함 주장 폐기; 선형 intensity를 dB 계약으로 재실행 필요** | 결함·영향범위 확정 |
 | M76 | Nepal dB 교정 재실행 | **5앵커·27창 사전등록 기준 미달; live detection 주장 없음** | 봉인 완료 |
 | M77 | Tadi Khola 잠정 음성 대조 | **공통 임계 3.58%, control-local 임계 0.55%; 현장 무변화 라벨은 없음** | 개발 대조 완료 |
@@ -4023,9 +4024,9 @@ M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그�
 | 한국 공공데이터 — 접근·계약 감사 | M9·M10에서 수행 (AI-Hub 71363, GK2A 10/10, VWorld) |
 | 사람 판독 라벨 | **0** |
 
-Sen12Landslides frozen OLMo 수치는 이미 열람한 Chimanimani 1개 개발 fold에서만 나왔다.
-미열람 9지역·공식 P2/P3·timestamp parity를 갖춘 full G-P는 0이다. 네팔 BIPAD/ICIMOD와
-스위스 event join도 0이다.
+Sen12Landslides frozen OLMo의 본선 수치는 M65에서 8 held-out 지역·P2/P3/P4×3 seed로 닫혔다.
+다만 두 번째 frozen GeoFM full comparison은 0이고, 한국 external transfer도 0이다. 네팔
+BIPAD/ICIMOD와 스위스 event join은 이 본선에서 여전히 0이다.
 
 ---
 
@@ -4037,3 +4038,42 @@ Sen12Landslides frozen OLMo 수치는 이미 열람한 Chimanimani 1개 개발 f
 3. **두 번째 계약 축** — 정규화 scaling. 밴드 순서 하나로는 일반화 못 한다.
 4. **세 번째 릴리스** — Clay v1.0/v1.5는 둘 다 공개돼 있고 Major TOM에 v1.5 임베딩도 있다.
 5. **embeddings-stac gap 이슈/PR** — M2가 이미 1차 증거다.
+
+## M86. M65 메커니즘 재감사 — FP 신호와 P2/P4 상보성 screen이 전 8지역에서 생존
+
+**근거**: `code/audit_confirmatory_mechanism.py`,
+`artifacts/confirmatory_mechanism_audit_v1.json` (SHA-256 `ac462a295fb0d92a2ff8322f55e59cb3629c0aa505c41b323026042647f212d0`)
+
+**성격**: 새 학습이나 새 confirmatory test가 아니다. 이미 열린 M65의 72개 test per-sample
+JSONL(P2/P3/P4 × 3 seed × 8 region)을 CPU에서 독립 집계해, 세 초기 지역에서만 보였던
+오경보 서사와 future fusion의 필요조건을 전 지역으로 넓혔다. 입력 파일 72개의 SHA-256과
+행 수를 결과 JSON에 함께 봉인했다.
+
+| 지역 | P4−P2 주지표 방향 | P2/P4 empty-FP 비 | tile-oracle headroom |
+|---|---:|---:|---:|
+| Hiroshima | + | 6.81× | +.0274 |
+| Hokkaido | + | 13.42× | +.0026 |
+| Indonesia | − | 4.08× | +.0564 |
+| Itogon | + | 1.86× | +.0367 |
+| Kyrgyzstan1 | + | 5.97× | +.0211 |
+| Kyrgyzstan2 | + | 2.22× | +.0073 |
+| New Zealand | + | **0.89×** | +.0235 |
+| Thrissur | + | 7.13× | +.0149 |
+
+- P4는 empty-tile FP를 **7/8 지역**에서 줄였고, 지역별 P2/P4 FP 비의 중앙값은 **5.0226×**다.
+  New Zealand에서는 반대로 P4 FP가 조금 더 많아 universal suppression은 아니다.
+- positive-tile에서 P2와 P4 중 더 나은 arm을 **정답을 보고** 고르는 tile oracle의
+  region-macro headroom은 best single 대비 **+.023753**이고, 5/8 지역에서 +.02 이상이다.
+- 사전 screen 두 개가 모두 통과했다: FP 후보는 `≥6/8 & median ratio ≥2`, fusion 후보는
+  `region-macro ≥.02 & ≥4/8 regions ≥.02`다.
+
+**허용 해석**: false-alarm-aware context/detail fusion을 development에서 시험할 필요조건이 있다.
+특히 P4가 진 Indonesia에서 oracle 여유가 가장 크다는 점은 단일 winner 교체보다 상보적 결합을
+시험할 이유다.
+
+**금지 해석**:
+
+1. FP 비는 threshold 0.5다. FP-budget-matched curve 전에는 공간 문맥의 인과 효과나 운영 우위를
+   확정하지 않는다.
+2. oracle은 target label을 본다. deployable router 또는 달성 가능한 성능으로 부르지 않는다.
+3. 이 결과는 새 test가 아니라 M65 출력의 사후 메커니즘 분석이다.
