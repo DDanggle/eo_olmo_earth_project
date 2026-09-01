@@ -1,0 +1,52 @@
+{
+  "name": "geocontextgate_implementation_v1",
+  "registered": "2026-09-02",
+  "registered_before_running": true,
+  "parent_gate": "config/geocontextgate_promotion_gate.json (promotion_rules are fixed there and are NOT restated or relaxed here)",
+  "purpose": "GeoContextGate 구현 선택을 결과를 보기 전에 고정한다. 이 파일은 실행 전에 커밋한다.",
+
+  "problem": "타일마다 frozen-embedding arm(P4)과 raw arm(P2) 중 무엇을 신뢰할지, 타깃 지역 라벨 없이 예측한다. M86 tile oracle(+0.023753 region-macro)이 상한이다.",
+
+  "training_protocol": {
+    "split": "leave-one-region-out for the gate itself: 타깃 지역 R을 판정할 때 gate는 나머지 7개 지역의 타일로만 학습한다.",
+    "labels_used": "source-region tiles only. 타깃 지역의 mask/IoU는 gate 학습·모델선택 어디에도 쓰지 않는다 (promotion_rules.label_free_gate).",
+    "seed_matching": "seed s의 P2/P4 확률맵으로 학습한 gate를 같은 seed s의 타깃 지역 test에 적용한다. 3 seed 독립 반복.",
+    "split_source": "source 지역의 test-split 확률맵을 gate 학습에 사용한다 (그 지역은 해당 fold에서 학습에 쓰인 적 없는 별도 fold의 test이며, 타깃 지역과 무관하다).",
+    "target": "positive tile(mask에 양성 픽셀 존재)에 대해 y=1 iff IoU@0.5(P4) > IoU@0.5(P2). empty tile은 학습에서 제외하고 추론에서는 gate 출력을 그대로 적용한다."
+  },
+
+  "features_per_tile": {
+    "probability_statistics": "각 arm(p2,p4)에 대해 mean, std, max, q90, frac>0.25, frac>0.5, mean binary-entropy = 12개",
+    "agreement": "mean|p2-p4|, pearson corr(p2,p4), IoU(p2>=.5, p4>=.5), frac(both>=.5), frac(only p2>=.5), frac(only p4>=.5) = 6개",
+    "geo_context": "OlmoEarth 768x32x32 fp16 캐시의 공간평균 768-d를 source 지역에서만 적합한 PCA로 32-d 축소 + 공간 std의 채널평균 1개 = 33개",
+    "total": 51,
+    "forbidden": "타깃 지역 mask에서 파생된 어떤 특징도 금지. 타깃 지역 통계로 PCA/스케일러를 다시 적합하는 것 금지(source fit → target transform)."
+  },
+
+  "model": {
+    "primary": "logistic regression (L2, C grid {0.03,0.1,0.3,1,3}, source 지역 GroupKFold(group=region)로 C 선택)",
+    "secondary": "2-layer MLP (hidden 64, ReLU, weight decay 1e-4, 200 epoch, early stop on source GroupKFold)",
+    "note": "두 모델 모두 사전 등록. primary는 logistic regression이며 MLP는 sensitivity로만 보고한다."
+  },
+
+  "inference_variants": {
+    "hard": "gate 확률 >= 0.5 이면 해당 타일에 P4 확률맵, 아니면 P2 확률맵을 사용",
+    "soft": "alpha = gate 확률; blended = alpha*p4 + (1-alpha)*p2"
+  },
+
+  "metrics": {
+    "primary": "positive-tile macro IoU@0.5 (region-macro over 8 regions, seed mean)",
+    "fp_matched": "empty-tile FP 픽셀 총량을 P4 seed-median 값으로 맞추는 임계에서 재계산한 positive-tile macro IoU (promotion_rules.fp_budget)",
+    "secondary": "tie-correct pixel AP",
+    "comparators": "best single arm(P2/P4), best naive fusion(MS-90B: average / logit-mean, macro .2785)"
+  },
+
+  "verdict_rules": "config/geocontextgate_promotion_gate.json 의 promotion_rules 를 그대로 적용한다. 실패 시 negative/analysis 절로만 보고하고 기준을 사후 완화하지 않는다.",
+
+  "known_limitations_declared_in_advance": [
+    "gate는 base arm을 재학습하지 않는 post-hoc selector이므로 arm 자체의 실패는 고칠 수 없다.",
+    "oracle headroom이 +0.0238로 작아, 실현 이득의 상한이 낮다.",
+    "source 지역 7개는 지리적으로 독립이 아니며(같은 벤치마크 수집 설계), 진짜 외부 전이는 Korea sealed test 에서만 판정한다.",
+    "empty-tile FP 매칭은 어느 타일이 empty인지를 사용하는 분석 관행이며 모든 arm에 동일 적용한다. gate 입력에는 들어가지 않는다."
+  ]
+}
