@@ -4146,6 +4146,31 @@ average 값이 MS-90A와 일치(.2785, 회귀 검증). logit-mean 은 tie-AP 에
 필요성·성공을 증명하지 않음 — "시험해볼 가치"의 근거일 뿐. 남은 선행 조건은 C1b(native-grid) — GPU1 이 타 사용자 점유라
 감시자(`code/c1b_gpu1_watcher.sh`)가 빈 시점에 자동 기동 예정.
 
+## MS-91. GeoContextGate v1 — 사전 등록 승급 기준 불통과 (2026-09-02)
+
+**사전 등록**: `config/geocontextgate_impl_v1.json`(커밋 `50185d1`, 실행 전 커밋), 승급 기준은
+`config/geocontextgate_promotion_gate.json` 원본 그대로. 설계: 타깃 지역을 판정할 때 **나머지 7지역 타일로만**
+게이트를 학습(타깃 라벨 미사용), 특징 51개(확률통계 12 + 일치도 6 + OlmoEarth 768-d 공간평균의 source-fit PCA 32 + 공간 std 1),
+로지스틱 회귀(GroupKFold로 C 선택), 타일별 arm 선택(hard) / 블렌딩(soft). 재학습 없음(봉인 확률맵·임베딩 캐시만).
+
+| macro (seed 평균) | P2 | P4 | average(naive 최고) | gate_hard | gate_soft | tile oracle |
+|---|---:|---:|---:|---:|---:|---:|
+| IoU@0.5 | .1966 | .2722 | .2785 | .2758 | **.2859** | .3045 |
+| **FP 매칭 작동점** | .1633 | .2722 | **.2809** | .2443 | .2551 | — |
+
+**판정: 불통과(promoted=false).** 규칙별로:
+- `beats_naive_fusion` (3 seed 전부 naive 초과): gate_soft **통과**(.2975/.2691/.2910 vs .2854/.2612/.2888), gate_hard 실패.
+- `realized_headroom` (+0.01 이상 또는 oracle headroom의 50% 이상): gate_soft **통과**(+.0137, oracle 대비 42%).
+- `fp_budget` (empty-tile FP를 P4 seed-median에 맞춘 작동점에서 위 규칙 유지): **실패** — gate_soft가 FP 매칭에서
+  최고 단일 arm 대비 **−.0171**, naive average(.2809)에도 밀림.
+
+**진단(이것이 이번 실행의 실질 소득)**: 0.5 임계에서의 이득은 *순위 개선*이 아니라 **작동점 이동에서 온 것**이었다.
+게이트가 P2(잡음·보정 불량)를 섞으면 empty-tile FP가 늘고, FP를 P4 수준으로 맞추려 임계를 올리면 재현율이 더 크게 깎인다.
+사전 등록한 FP 매칭 규칙이 없었다면 +.0137을 "게이트 성공"으로 발표했을 것 — 규칙이 허위 이득을 잡아냈다.
+**등록된 failure_action대로** GeoContextGate v1은 논문에서 method 가 아니라 negative/analysis 로만 보고하며 기준을 사후 완화하지 않는다.
+
+**봉인**: `code/geocontextgate_v1.py`, `artifacts/geocontextgate_v1/report.json`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
