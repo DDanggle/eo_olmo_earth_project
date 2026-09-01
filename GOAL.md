@@ -3137,3 +3137,8 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 연구 주제를 `새 지역에서 frozen Earth embedding cache를 언제 재사용하고 언제 raw model과
   결합/재계산할 것인가`로 쉬운 문장에 고정했다. Nepal은 real-event case study이고 본선 표본이 아니다.
 - 산출물: `docs/RESEARCH_TOPIC_ALIGNMENT_2026_09_01.md`. NP-88~MS-90A는 CPU이며 GPU1은 사용하지 않았다.
+
+### 2026-09-01 (2) — C1b 준비·감시자, MS-90B 실행
+- 확인: GPU1은 타 사용자 학습 2개(71+7.6 GB) 점유 → 규약대로 C1b 미기동, `code/c1b_gpu1_watcher.sh`(10분 폴링, <100 MiB일 때만 러너 기동, 48h 한도) 가동.
+- 함: 서버 root `pilot_sen12_gp_heads.py`를 커밋본(bc1cfa5, P4native 포함)으로 교체 — 사전 c559345a… → 사후 8f805359… 기록. 확증 실행 중 아님(4c 위반 아님). `sen12_official_baselines.py` root 사본 보충.
+- 실행 중: MS-90B(등록 naive 4종 ± 온도 보정, tie-correct AP, 입력 SHA 봉인) CPU.
