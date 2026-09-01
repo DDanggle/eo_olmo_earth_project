@@ -9,6 +9,7 @@
 | frozen OlmoEarth reuse가 8지역 확증에서 region-macro **.2722 vs P2 .1966 (+.0756)**, per-region 6/8 승 | M65, recipe v2 clean 절차(M58) | **생존.** 단 M61 강등: "사전학습 > scratch"는 viability이지 우월성 아님 |
 | 빈 타일 FP가 P4에서 더 낮은 경향 | M59·M63·M64, MS-86 | **8지역 중 7지역 생존**, 지역 중앙 P2/P4 5.02×. 단 threshold .5 기술통계이며 FP-budget matching 전에는 운영·인과 주장 금지 |
 | Presto C1a common-grid | MS-87 | `.1092`로 P4/P2에 8/8 패배. generic frozen effect 한 모델 반증; off-domain/native-grid/retrospective 경계 유지 |
+| P2/P4 부분 naive fusion | MS-90A | F_mean macro +.0063이지만 지역 gate 3/8 FAIL. learned gate 동기부여 후보일 뿐 method 증거 아님; naive baseline closure 미완 |
 | 지역 이득 이질성 실재(thrissur +.127 vs hiroshima +.062; indonesia 패배, itogon all-seed 실패; M60 val↔test 해리) | M60·M63·M65 | 생존 — D·E(적응/라우팅) 동기부여로 사용 |
 | 확증 절차 자체(위반 자기신고 M57 → 재설계 M58 → clean 3연승) | M57–M64 | 생존 — 논문 부록의 자산 |
 
@@ -49,7 +50,8 @@
    region-macro +.02375·5/8 ≥.02. method 필요조건만 통과.
 1. **완료 — MS-87 C1a**: Presto cache seal + common-grid 8지역×3seed.
 2. **C1b native-grid**: pooling confound를 분리하되 product sensitivity로 보고.
-3. **naive fusion + GeoContextGate**: source-region method를 Korea 개봉 전에 승격/폐기.
+3. **MS-90B naive closure + GeoContextGate**: 빠진 AND/OR/logit-mean·calibration·정확 AP·source
+   hash를 먼저 닫고, source-region method를 Korea 개봉 전에 승격/폐기.
 4. **label-budget 축**(1/5/10/100%) — nested region/class subset, 최소 3 subset seed.
 5. **한국 sealed external transfer** (M35 정정 + ontology/time/provenance 감사 후) — test first-look는 여기서만.
 6. **C2 Clay release pair**는 위 본선이 닫힌 뒤 breadth로만 검토.

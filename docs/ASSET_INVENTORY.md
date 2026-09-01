@@ -162,7 +162,7 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 ## 7. 한 줄 판정
 
 > **Sen12 확증과 Presto C1a는 닫혔다.** 현재 병목은 **Presto C1b native sensitivity →
-> GeoContextGate/naive fusion → 그 결과를 포함한 Korea recipe 동결 → 한국 untouched transfer**다. Nepal은
+> MS-90B naive closure → GeoContextGate 판정 → 그 결과를 포함한 Korea recipe 동결 → 한국 untouched transfer**다. Nepal은
 > baseline/placebo만 봉인된 parked sidecar이며 본 경로를 막지 않는다.
 
 ---
@@ -193,7 +193,7 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 ## C. 사용 판정 요약
 
 - **지금 쓰는 것**: Sen12 38 GB + OLMo 캐시 9 fold + 8지역 확증 산출물
-- **다음**: Presto C1b native-grid→GeoContextGate/naive fusion, 그 뒤 AI-Hub/Korea untouched transfer
+- **다음**: Presto C1b native-grid→MS-90B naive closure→GeoContextGate 판정, 그 뒤 AI-Hub/Korea untouched transfer
 - **대기**: Clay(Presto 뒤), AI-Hub 라벨(큐브 v2/입력계약 gate 뒤)
 - **폐기·비채택**: s2_12band v1(오염), full-context 캐시(성능 열세), P2_tiny stand-in
 - **기상(GK2A·ASOS)**: 아직 성능 기여로 세지 않음 — E_live는 static transfer(사슬 5) 뒤 순서 유지

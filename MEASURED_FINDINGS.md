@@ -4,9 +4,11 @@
 
 > **측정 ID namespace:** 본선과 Nepal sibling이 각각 M86 이후 번호를 사용해 충돌했다.
 > 기존 ID는 보존하되 앞으로 본선은 `MS-`, Nepal sidecar는 `NP-`를 붙인다.
-> 본선 M86/M87 = MS-86/MS-87, Nepal M86/M88 = NP-86/NP-88이다.
+> 본선 M86/M87/M90 = MS-86/MS-87/MS-90A, Nepal M86/M88 = NP-86/NP-88이다.
+> 2026-09-01에 서로 다른 두 사후 분석이 `M89`를 사용했으므로 강한 baseline 감사는 NP-89A,
+> OSM route-buffer 층화는 NP-89B로 구분한다. 기존 커밋·파일의 legacy ID는 바꾸지 않는다.
 
-> **활성 본선 cutoff는 MS-87이다.** Nepal 운영 sidecar 측정은 삭제하지 않지만
+> **활성 본선 cutoff는 MS-90A이다.** Nepal 운영 sidecar 측정은 삭제하지 않지만
 > 현재 transfer/CVPR queue의 증거로 자동 승격하지 않는다. Nepal 원본과
 > 실행 코드는 `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관됐다.
 
@@ -54,7 +56,9 @@
 | MS-86 | M65 전 8지역 FP·P2/P4 상보성 재감사 | **P4 empty-FP 7/8 우세, 중앙 P2/P4 5.02×; tile-oracle headroom +.02375, 5/8 ≥.02** | 기존 72 JSONL CPU 재계산 |
 | MS-87 | C1a Presto common-grid matched control | **8/8 지역 P4·P2에 패배, macro .1092 vs P4 .2722 (+.1629)** | retrospective/off-domain, native C1b·label-budget 남음 |
 | NP-88 | Nepal 40 m token 외부 proxy 정합 | **AUROC .8459, AUPRC .2548(기저율 .0547)** | 독립 사건 n=1; AI 우월성은 NP-89에서 철회 |
-| NP-89 | NP-88 강한 baseline·공간 의존성 사후 감사 | **post-NDWI AUPRC .2911 > OLMo .2548; block AUROC 차 +.0077, CI 0 포함** | external-label agreement만 생존 |
+| NP-89A | NP-88 강한 baseline·공간 의존성 사후 감사 | **post-NDWI AUPRC .2911 > OLMo .2548; block AUROC 차 +.0077, CI 0 포함** | external-label agreement만 생존 |
+| NP-89B | 선택 OSM route-buffer 층화(legacy M89) | **route 300/600 m 밖 OLMo AUROC .846/.873** | 한 중심선 sensitivity; 전체 수계 confound 제거 아님 |
+| MS-90A | P2/P4 부분 naive probability fusion(legacy M90) | **F_mean macro +.0063, 사전 지역 gate 3/8 FAIL** | learned gate 성공 증거 아님; MS-90B 남음 |
 | M75 | Nepal S1 입력계약 결함 | **기존 S1 포함 주장 폐기; 선형 intensity를 dB 계약으로 재실행 필요** | 결함·영향범위 확정 |
 | M76 | Nepal dB 교정 재실행 | **5앵커·27창 사전등록 기준 미달; live detection 주장 없음** | 봉인 완료 |
 | M77 | Tadi Khola 잠정 음성 대조 | **공통 임계 3.58%, control-local 임계 0.55%; 현장 무변화 라벨은 없음** | 개발 대조 완료 |
@@ -4044,7 +4048,7 @@ n=39 탐색적 결과. "다음 홍수에서 어느 구간이 위험한가"로 �
 specificity·피해 면적·확률 주장은 여전히 하지 않음. 초기의 “고전보다 +.10~+.15” 해석은
 강한 수분지수 baseline을 빠뜨렸고 NP-89에서 철회했다.
 
-## NP-89. NP-88 사후 강건성 감사 — 외부 정합은 생존, AI 우월성은 철회 (2026-09-01)
+## NP-89A. NP-88 사후 강건성 감사 — 외부 정합은 생존, AI 우월성은 철회 (2026-09-01)
 
 **근거**: `code/audit_nepal_m88_robustness.py`,
 `artifacts/nepal_np89_robustness_audit_v1.json` (SHA-256
@@ -4072,7 +4076,7 @@ AUPRC, 기관별 결과, 물 민감 spectral baseline, 5.12 km 공간 블록, �
 **금지 해석**: Olmo가 고전 flood mapping보다 우월하다; 토큰 122,558개가 독립 표본이다;
 현장 피해를 검출했다; 이 단일 flood case가 MS-65 산사태 transfer의 외부 일반화를 닫는다.
 
-## M89. M88의 강 마스크 층화 — 정합이 "강 근접성" 때문이 아님 (2026-09-01)
+## NP-89B (legacy M89). 선택 OSM route-buffer 층화 — 중심선 하나의 근접성 밖에서도 정합 유지 (2026-09-01)
 
 강 마스크 = OSM 중심선 버퍼(150/300/600 m). 사전 등록: 강 밖 pooled AUROC ≥0.60 이면 통과.
 `code/score_external_tokens_river.py`, `artifacts/external_label_score/token_river_strata.json`.
@@ -4084,11 +4088,13 @@ AUPRC, 기관별 결과, 물 민감 spectral baseline, 5.12 km 공간 블록, �
 | 강 밖 600 m | 59,530 | 2.2% | 0.873 | 0.829 |
 | 강 안 150 m | 14,413 | 23.6% | 0.734 | 0.677 |
 
-**읽기**: 강에서 떨어진 토큰만 남겨도 정합이 유지·오히려 상승(0.846→0.873) → M88은 "강줄기를 그리는 능력"이
-아니라 강 밖 라벨 변화까지 찾는 신호임. 모든 층에서 고전 대비 +0.04~+0.09. 강 안 AUROC(0.73~0.79)는
-강 안에서도 라벨/비라벨을 가름. 한계: 버퍼 폭은 임의(3폭 병기), 라벨은 홍수 대리.
+**읽기**: 앱의 물리 애니메이션에 쓰는 **선택된 OSM `simulation_route` 한 줄**의 300/600 m
+밖에서도 정합은 유지됐다. 따라서 그 중심선까지의 거리 하나만으로 NP-88 전체를 설명하기는 어렵다.
+그러나 이는 전체 수계 마스크가 아니다. 누락된 지류·범람원·고도와의 상관은 남고, event n=1이며
+겹치는 토큰을 독립 표본으로 셀 수 없다. 비교 baseline도 약한 |ΔNDVI| 하나뿐이므로 “모든 classical
+방법보다 우월”은 금지한다. NP-89A의 post-NDWI·공간 block 반증이 우선한다.
 
-## M90. P2×P4 확률 수준 융합 — 사전 기준 미달, oracle headroom 은 단순 융합으로 안 회수됨 (2026-09-01)
+## MS-90A (legacy M90). P2×P4 부분 확률 융합 — 사전 기준 미달 (2026-09-01)
 
 **설계**: 봉인된 prob_maps(u8)·mask 만 읽는 CPU 재분석(재학습 없음). seed 짝 맞춰(1↔1,2↔2,3↔3) 융합.
 사전 등록: F_mean=(P2+P4)/2 의 positive-tile macro IoU@0.5 가 best single +0.01 이상인 지역 ≥5/8 → 통과.
@@ -4107,10 +4113,16 @@ AUPRC, 기관별 결과, 물 민감 spectral baseline, 5.12 km 공간 블록, �
 | **macro** | .1966 | .2722 | **.2785** | .2320 | .2767 | +.0063 |
 
 **판정: 불통과(3/8 ≥ +0.01).** macro 는 F_mean +0.0063 으로 오르지만, P4 가 강한 지역(hokkaido·thrissur 등)에서는
-평균 융합이 P4 를 되레 깎음 — M86 의 oracle headroom(+0.0238)은 "타일별로 나은 arm 을 고르는" 상한이고,
+평균 융합이 P4 를 되레 깎음 — MS-86의 oracle headroom(+0.0238)은 "타일별로 나은 arm 을 고르는" 상한이고,
 고정 가중 평균으로는 그 구조를 못 흉내 냄. val-α 도 유사(macro .2767). F_max 는 전반 악화(FP 결합).
-**허용 해석**: 융합 이득은 학습된 타일/픽셀 게이트(무엇을 믿을지 입력에서 예측)가 필요하다는 증거. 이는 GPU 실험(다음 후보)로 넘김.
-**정직 기록**: 지역 선별 없이 8/8 전부 공개; hiroshima +0.040 단독으로 일반화 주장하지 않음.
+**허용 해석**: 현재 시험한 fixed mean/max와 val-selected α는 등록 gate를 통과하지 못했다. learned
+타일/픽셀 gate는 다음에 시험할 수 있는 가설일 뿐, 필요성이나 성공이 증명된 것은 아니다.
+
+**미완료 경계**: `config/geocontextgate_promotion_gate.json`의 naive precondition은 average/AND/OR/
+logit-mean 4종이다. MS-90A는 mean/max/val-α만 실행했으므로 precondition 전체 완료가 아니다.
+또 report의 pixel AP 구현은 uint8 동점 점수를 묶지 않고 source hash manifest도 없으므로 AP는 사용하지
+않는다. primary IoU 표만 post-hoc screen으로 보존한다. MS-90B에서 calibration·정확 AP·hash와 빠진
+baseline을 닫는다. 지역 선별 없이 8/8 전부 공개하며 hiroshima +.040 단독으로 일반화하지 않는다.
 
 ## 이 장부에 없는 것 (혼동 방지)
 

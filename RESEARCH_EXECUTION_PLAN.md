@@ -4,7 +4,7 @@
 실행 자원: **H200 GPU1 전용** (2026-08-25 사용자 지시로 변경. 이전 표기는 GPU0였음).
 모든 학습·추론은 `CUDA_VISIBLE_DEVICES=1`. GPU0은 건드리지 않는다.
 
-> 활성 과학 기준점은 MS-87/`1c3e02a`. Nepal 전용 구현·데이터는 sibling 저장소로 이관됐으며
+> 활성 과학 기준점은 MS-90A/`7892767`. Nepal 전용 구현·데이터는 sibling 저장소로 이관됐으며
 > 아래 R1–R6 queue를 선점하지 않는다. `RESTART_HERE.md`가 새 세션의 첫 문서다.
 
 ## 2026-08-28 실행 queue — transfer 본선 복귀
@@ -29,7 +29,7 @@
 | **R0.5 완료** | 72 per-sample CPU mechanism audit(MS-86) | P4 empty-FP 7/8·중앙 5.02×, tile-oracle +.02375·5/8 ≥.02. 새 confirmatory/router로 부르지 않음 |
 | **R1 완료** | 6,834 sample Presto cache + C1a common-grid | content seal, same IDs·decoder·3 seed; C1a `.1092`, P4/P2에 8/8 패배(MS-87) |
 | **R2 준비** | Presto C1b native-grid 8지역×3seed | `P4native`·GPU1 전용 snapshot runner 작성. CPU 정적 검사 뒤 서버 cache seal/shape smoke를 통과해야 시작; product sensitivity이며 사후 primary 교체 금지 |
-| **R3** | naive fusion + GeoContextGate development | source regions only; `config/geocontextgate_promotion_gate.json` 전 규칙 통과 전 method 주장 금지 |
+| **R3 부분 완료** | naive fusion closure + GeoContextGate development | MS-90A mean/max/val-alpha: macro +.0063, primary 3/8 FAIL. AND/OR/logit-mean·calibration·tie-correct AP·source hash(MS-90B) 뒤 source-only learned gate; 전 규칙 통과 전 method 주장 금지 |
 | **R4** | {1,5,10,100%} label-budget curve | nested region×class subset, 최소 3 subset seed. optimizer seed만으로 sampling uncertainty를 대신하지 않음 |
 | **R5** | Korea input/split/ontology preflight + sealed recipe | v2/대체 canonical S2, M10 split, label phenomenon/time/provenance를 감사하고 모든 arm 등록 후 test 개봉 |
 | **R6** | Korea external transfer + cost table | cluster-macro/LOCO/CI, cold cache·warm head·deployment 비용 분리. paired re-annotation 없이는 annotation effect 주장 금지 |

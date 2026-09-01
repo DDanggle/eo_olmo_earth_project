@@ -13,7 +13,9 @@
 | 본선 M87 | **MS-87** | Presto C1a common-grid control |
 | Nepal M86 | **NP-86** | 2.56 km 창 외부 라벨 대조 |
 | Nepal M88 | **NP-88** | 40 m 토큰 외부 라벨 정합 |
-| 이번 감사 | **NP-89** | NP-88 강한 baseline·공간 의존성 사후 감사 |
+| 이번 감사 | **NP-89A** | NP-88 강한 baseline·공간 의존성 사후 감사 |
+| Nepal legacy M89 | **NP-89B** | 선택 OSM route-buffer sensitivity |
+| 본선 legacy M90 | **MS-90A** | mean/max/val-alpha 부분 naive-fusion screen |
 
 ## MS-87 판정
 
@@ -53,7 +55,7 @@ OlmoEarth 사건 전후 표현거리와 40 m 토큰에서 정합했다.
 그러나 `122,558`은 독립 표본 수가 아니다. 겹치는 47개 창의 공간상관 토큰이며 독립 사건 수는
 **1개**다. 외부 product도 현장 피해 정답이 아니라 8월 28일 영상 기반 flood proxy다.
 
-## NP-89 강한 사후 감사
+## NP-89A 강한 사후 감사
 
 `code/audit_nepal_m88_robustness.py`가 NP-88의 동일 토큰·라벨을 바꾸지 않고 다음을 추가했다.
 결과는 `artifacts/nepal_np89_robustness_audit_v1.json`에 source hash와 함께 봉인했다.
@@ -77,13 +79,23 @@ OlmoEarth 사건 전후 표현거리와 40 m 토큰에서 정합했다.
 Olmo `.8006`, post-NDWI `.7518`이다. 이 신호는 흥미롭지만 NP-88 개봉 후 추가한 사후 분석이고
 단일 사건이므로 메커니즘 가설까지만 허용한다.
 
+## NP-89B와 MS-90A 추가 판정
+
+- NP-89B의 route 300/600 m 밖 AUROC `.846/.873`은 선택된 simulation route 중심선 하나를
+  단순히 따라간 설명을 약화한다. 전체 수계가 아니므로 “river confound 제거”라고 부르지 않는다.
+- MS-90A의 mean fusion은 macro `+.0063`이나 사전 gate `3/8`로 실패했다. 이는 fixed mean이
+  부족하다는 음성 결과이지 learned gate의 필요성·성공 증거가 아니다.
+- MS-90A는 등록된 naive 4종을 모두 수행하지 않았고 uint8-tie AP·source manifest도 미완이다.
+  primary IoU만 보존하고 MS-90B에서 baseline closure를 먼저 한다.
+
 ## 실행 결정
 
 1. Nepal은 더 이상 본선 GPU queue를 선점하지 않는다. NP-89로 case-study claim boundary를 닫는다.
 2. 본선 GPU1의 다음 작업은 **C1b native-grid**다. 단 기존 P4 decoder는 128²를 512²까지 확대해
    잘못된 경로가 되므로 즉시 실행하지 않는다. 같은 layer를 interpolation 없이 128²에서 실행하는
    `P4native`와 source-snapshot runner를 먼저 봉인한다.
-3. 이어 P2/P4 naive fusion과 GeoContextGate를 development source regions에서 시험한다.
+3. MS-90B에서 naive fusion baseline을 완결한 뒤에만 GeoContextGate를 development source
+   regions에서 시험한다.
 4. method promotion gate를 통과한 recipe만 Korea test 개봉 전에 봉인한다.
 5. label-budget curve는 그다음이며, 단일 subset seed 대신 3개 nested subset seed를 유지한다.
 

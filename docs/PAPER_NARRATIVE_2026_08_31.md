@@ -105,7 +105,7 @@ exchangeability가 깨지므로, calibration guarantee를 새로 증명하거나
 | **0 완료** | 기존 72 per-sample 결과 CPU-only 메커니즘 감사(MS-86) | FP screen PASS · fusion oracle screen PASS; 새 confirmatory/제품 주장 금지 |
 | **1 완료** | Presto smoke → 6,834 cache seal → C1a common-grid 8지역×3seed | MS-87 `.1092`; P4/P2에 8/8 패배, retrospective/off-domain 경계 유지 |
 | **2** | C1b native-grid 8지역×3seed | 4×4 pooling confound 분리; C1a primary를 사후 교체하지 않음 |
-| **3** | naive fusion → GeoContextGate development | source regions only. `config/geocontextgate_promotion_gate.json` 전 규칙 통과 전 method 주장 금지 |
+| **3 부분 완료** | naive fusion → GeoContextGate development | MS-90A mean/max/val-alpha는 3/8 FAIL. 이것은 learned gate 증거가 아니며 AND/OR/logit-mean·calibration·정확 AP·hash를 MS-90B로 닫은 뒤 source-only gate를 시험 |
 | **4** | label-budget pilot → full curve | nested subsets, ≥3 subset seeds, same IDs across arms |
 | **5** | Korea v2 40-sample preflight → full health/ontology audit | v1 0-fill cube 사용 금지; task equivalence 실패 시 stress test로 강등 |
 | **6** | Korea sealed external test 1회 | P4/P2/P3/C1과 승격된 gate recipe를 개봉 전에 봉인 |

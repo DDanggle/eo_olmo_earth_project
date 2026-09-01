@@ -1,7 +1,7 @@
 # OLMoEarth 연구 재시작 지점
 
 갱신: 2026-09-01
-활성 과학 기준점: **MS-87 / commit `1c3e02a` (Presto C1a common-grid control)**
+활성 과학 기준점: **MS-90A / commit `7892767` (봉인 확률의 부분 naive-fusion screen)**
 
 이 파일은 새 세션의 첫 진입점이다. Nepal 대응 데모와 그 후속 실험은 삭제하지
 않았지만 현재 CVPR/transfer 임계경로가 아니다. Nepal 전용 코드·문서·원본·중간 산출물은
@@ -22,6 +22,10 @@
   P4 `.2722`, P2 `.1966`; P4와 P2가 C1a를 8/8 지역에서 이겼다. 이것은 효과가 아무 frozen
   GeoFM에나 생기지 않음을 보이지만, off-domain Presto 하나로 OLMo universal superiority를
   주장하지 않는다.
+- MS-90A: 봉인된 P2/P4 uint8 확률의 mean/max/val-alpha CPU 융합에서 F_mean macro는
+  `.2722→.2785`로 `+.0063` 올랐지만 사전 기준은 3/8 지역만 통과했다. 이것은 “고정 평균은
+  충분하지 않다”는 결과이지 “학습 gate가 반드시 성공한다”는 결과가 아니다. 등록된 AND/OR/
+  logit-mean·calibration·tie-correct AP·source hash는 MS-90B로 남아 있다.
 
 ## 아직 주장할 수 없는 것
 
@@ -40,8 +44,9 @@
    실행해 4×4 pooling 손실과 representation-family 차이를 분리한다. 기존 P4 decoder를 그대로
    재사용하지 않는다. `P4native`의 128² shape·parameter-parity gate와
    `code/run_c1b_presto_native.sh` source snapshot preflight를 먼저 통과시킨다.
-2. **GeoContextGate development**: P2/P4 probability map의 naive average/AND/OR/logit fusion을
-   먼저 실행하고, 사전등록 promotion gate를 통과할 때만 작은 label-free gate를 method로 승격한다.
+2. **MS-90B → GeoContextGate development**: MS-90A의 mean/max/val-alpha는 부분 screen이다.
+   등록된 average/AND/OR/logit-mean, validation calibration, tie-correct AP, source hash를 CPU에서
+   닫은 뒤에만 작은 label-free gate를 GPU에서 시험한다. 통과할 때만 method로 승격한다.
 3. **Label-budget curve**: C1 뒤 nested region/class subset, 최소 3 subset seed로 1/5/10/100%를
    잰다. 단일 subset seed로 crossover를 주장하지 않는다.
 4. **Korea preflight**: M10 spatial split seal을 유지하고, AI-Hub S2 v1의 0-fill 오염을 재사용하지
@@ -63,7 +68,8 @@
 5. `RESEARCH_EXECUTION_PLAN.md`
 6. M65 근거: `artifacts/confirmatory_8region_summary.json`, `MEASURED_FINDINGS.md`
 7. 논문 주장 SSOT: `docs/PAPER_NARRATIVE_2026_08_31.md`
-8. MS-87/NP-88 교수 감사: `docs/PROFESSOR_AUDIT_M87_NP88_2026_09_01.md`
+8. 쉬운 연구 주제 정렬: `docs/RESEARCH_TOPIC_ALIGNMENT_2026_09_01.md`
+9. MS-87/NP-88 교수 감사: `docs/PROFESSOR_AUDIT_M87_NP88_2026_09_01.md`
 
 공식 Ai2 checkout `..`에는 사용자 수정이 남아 있다. 연구 재시작 작업에서
 `olmoearth_run_data/forest_loss_driver/{dataset.json,model.yaml}`과 `.pnpm-store/`를 건드리지 않는다.

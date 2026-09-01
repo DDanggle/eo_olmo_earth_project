@@ -13,5 +13,19 @@
     "label_free_gate": "gate 입력에 target-region label이 어떤 형태로도 들어가지 않는다 (source-region 학습만 허용)",
     "unseen_transfer": "Korea sealed external test에서 gate가 최고 단일 arm보다 낮으면 method 주장에서 Korea를 제외하고 in-benchmark 주장으로 강등한다"
   },
-  "failure_action": "promotion_rules 중 하나라도 실패하면 GeoContextGate는 논문에서 method가 아니라 negative/analysis 절로만 보고하고, 기준의 사후 완화를 금지한다"
+  "failure_action": "promotion_rules 중 하나라도 실패하면 GeoContextGate는 논문에서 method가 아니라 negative/analysis 절로만 보고하고, 기준의 사후 완화를 금지한다",
+  "current_status_2026_09_01": {
+    "measurement": "MS-90A (legacy M90)",
+    "completed": "mean, max, and validation-selected alpha on sealed uint8 P2/P4 probability maps",
+    "result": "F_mean macro gain +0.0063; preregistered regional rule passed in 3/8, therefore failed",
+    "not_completed": [
+      "hard AND",
+      "hard OR as a separately declared operating rule",
+      "logit mean",
+      "validation-set probability calibration before fusion",
+      "tie-correct AP for quantized probability maps",
+      "source-file hash manifest"
+    ],
+    "interpretation": "The screen shows that fixed mean fusion is insufficient. It does not prove that a learned gate is necessary or that one will succeed. The naive-fusion precondition remains open until MS-90B."
+  }
 }

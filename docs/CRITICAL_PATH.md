@@ -19,6 +19,11 @@
 > interpolation 없이 native grid에서 실행하는 `P4native`로만 수행한다. exact input shape,
 > P4-parameter parity, native cache seal, immutable source snapshot, 새 OUTROOT가 모두 통과해야 GPU1을 쓴다.
 
+> **2026-09-01 MS-90A:** 봉인된 P2/P4 확률의 mean/max/val-alpha screen은 F_mean macro
+> `+.0063`이지만 사전 기준 `3/8`로 실패했다. fixed mean이 충분하지 않다는 결과만 허용한다.
+> learned gate의 필요성·성공은 아직 증명되지 않았고, 등록된 naive 4종·calibration·정확 AP·source
+> manifest를 MS-90B로 닫기 전에는 GeoContextGate precondition 완료로 세지 않는다.
+
 > **2026-08-31 claim 교정:** P4는 새 2단 method가 아니라 frozen-cache arm이고, M57–M58의
 > confirmatory 절차는 provenance protocol이다. P2는 SOTA가 아니라 matched official-architecture
 > baseline이다. 한국 polygon 면적 유사성은 annotation equivalence를 증명하지 않으므로

@@ -3,7 +3,7 @@
 최종 갱신: 2026-09-01
 
 > **새 세션은 [`RESTART_HERE.md`](RESTART_HERE.md)부터 읽는다.** 활성 과학 기준점은
-> MS-87/`1c3e02a`이며, Nepal 전용 앱·코드·데이터는
+> MS-90A/`7892767`이며, Nepal 전용 앱·코드·데이터는
 > `/Users/dgyi/dong/ai_projects/nepal-live-twin`으로 분리했다. 아래 M66–M85 서술은
 > 삭제되지 않은 감사 이력이지 현재 실행 queue가 아니다.
 
@@ -17,7 +17,8 @@
 > 공식 P2/P3와 frozen-small P4의 8-region 확증이 끝났다. P4/P2/P3 region-macro는
 > **.2722/.1966/.1834**, P4−P2 **+.0756**, 사전등록 지역 승리 **6/8**이다(M65).
 > Presto C1a common-grid는 `.1092`로 P4 `.2722`와 P2 `.1966`에 8/8 지역에서 졌다(MS-87).
-> 현재 병목은 **Presto C1b native-grid preflight/실행 → GeoContextGate/naive fusion → label budget → 한국 sealed transfer**다.
+> 봉인 확률의 단순 mean 융합은 macro `+.0063`이지만 사전 gate는 3/8로 실패했다(MS-90A).
+> 현재 병목은 **Presto C1b native-grid → naive-fusion closure → GeoContextGate 판정 → label budget → 한국 sealed transfer**다.
 > Nepal live work는 sibling 저장소의 운영/portfolio sidecar다. 본 저장소의 다음 병목은
 > **C1b pooling sensitivity → source-region method freeze → Korea input preflight → untouched Korea transfer**다.
 
@@ -33,6 +34,7 @@
 
 
 이 파일이 **입구**입니다. 처음 보는 사람(또는 새 컴퓨터의 나)은 여기부터 읽습니다.
+실험 번호 없이 먼저 이해하려면 **[`docs/RESEARCH_TOPIC_ALIGNMENT_2026_09_01.md`](docs/RESEARCH_TOPIC_ALIGNMENT_2026_09_01.md)**를 읽습니다.
 
 ## 이 폴더의 위치와 두 저장소의 관계
 

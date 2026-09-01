@@ -3,11 +3,11 @@
 > 이 파일이 이 프로젝트의 단일 진실 공급원(SSOT)입니다.
 > 에이전트든 사람이든, 작업 시작 전에 읽고 / 끝나면 Worklog와 상태를 갱신합니다.
 
-> **2026-09-01 재시작 경계:** 현재 활성 기준점은 MS-87/commit `1c3e02a`이다.
+> **2026-09-01 재시작 경계:** 현재 활성 기준점은 MS-90A/commit `7892767`이다.
 > Nepal M66–M85는 보존된 역사이며 전용 구현·산출물은 sibling 저장소
 > `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. MS-86 mechanism audit과 MS-87
 > Presto C1a까지 완료했으며 현재 실행 순서는 `Presto C1b native sensitivity →
-> GeoContextGate/naive fusion → nested label-budget → Korea preflight/untouched transfer`다.
+> naive-fusion closure → GeoContextGate 판정 → nested label-budget → Korea preflight/untouched transfer`다.
 > 자세한 금지 주장과 읽는 순서는 `RESTART_HERE.md`가 우선한다.
 
 ## 미션 — Decision-Continuous Earth Intelligence
@@ -3127,6 +3127,13 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   manifest `aad49d14…`, spot-check PASS, 표본 `(128,128,128)` float16으로 runner 기대값과 일치했다.
   새 코드는 아직 서버에 업로드하지 않았고 C1b 학습 실행은 0건이다.
 
-### 2026-09-01 — M88·M89·M90
-- 함: 토큰 규모 외부 라벨 대조 통과(0.846, 고전 0.750/0.694), 강 층화 통과(강 밖 0.846/0.873), 확률 융합은 사전 기준 불통과(3/8; macro +0.006) → 학습 게이트 필요 결론.
-- GPU: M88–M90 전부 CPU. GPU1 유휴 유지.
+### 2026-09-01 — NP-88·NP-89B·MS-90A 재판정
+- NP-88의 외부 proxy 정합 AUROC `.846`은 생존한다. NP-89B(legacy M89)는 선택된 OSM
+  `simulation_route` 300/600 m 밖에서도 `.846/.873`을 보였지만 전체 수계·지류 confound를
+  제거한 것이 아니며 |ΔNDVI| 하나만 비교했다. NP-89A의 strong post-NDWI·block CI 반증이 우선한다.
+- MS-90A(legacy M90)는 F_mean macro `+.0063`, 사전 기준 `3/8` FAIL. 이는 fixed mean/max/
+  val-alpha가 불충분하다는 결과이며 learned gate 필요성·성공 증거가 아니다. 등록 naive 4종 중
+  AND/OR/logit-mean, calibration, tie-correct AP, source hash가 남아 MS-90B 전에는 precondition 미완료다.
+- 연구 주제를 `새 지역에서 frozen Earth embedding cache를 언제 재사용하고 언제 raw model과
+  결합/재계산할 것인가`로 쉬운 문장에 고정했다. Nepal은 real-event case study이고 본선 표본이 아니다.
+- 산출물: `docs/RESEARCH_TOPIC_ALIGNMENT_2026_09_01.md`. NP-88~MS-90A는 CPU이며 GPU1은 사용하지 않았다.

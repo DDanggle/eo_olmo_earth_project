@@ -44,6 +44,7 @@
 |---|---|
 | `confirmatory_mechanism_audit_v1.json` | M65의 72 test JSONL을 다시 읽은 M86 CPU 감사. 8지역 empty-tile FP, paired P2/P4 tile win/loss, target-label oracle headroom, 모든 source SHA-256과 금지 주장 포함 |
 | `nepal_np89_robustness_audit_v1.json` | sibling Nepal의 NP-88을 사후 재감사. AUPRC·기관별 결과·강한 수분지수/spectral baseline·5.12 km 공간 block·같은 창/강거리 조건부 AUROC와 source SHA 포함. 122,558 토큰은 독립 n이 아니며 event n=1 |
+| `fusion_prob_level/report.json` | MS-90A 부분 naive fusion. primary F_mean positive-tile macro IoU는 +.0063이나 지역 gate 3/8 FAIL. mean/max/val-alpha만 포함하며 정확 tie AP·source manifest·등록 naive 4종 closure 전에는 primary IoU 외 주장 금지 |
 
 | 파일 | 내용 |
 |---|---|
