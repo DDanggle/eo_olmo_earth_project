@@ -1,0 +1,28 @@
+{
+  "name": "geocontextgate_implementation_v2",
+  "registered": "2026-09-02",
+  "registered_before_running": true,
+  "supersedes_nothing": "v1(config/geocontextgate_impl_v1.json)의 실패는 MS-91로 장부에 남으며 철회하지 않는다. v2는 v1의 진단에 따른 새 설계이며 승급 기준은 config/geocontextgate_promotion_gate.json 원본 그대로 사용한다(완화 금지).",
+
+  "v1_diagnosis_driving_this_change": "v1의 0.5 임계 이득(+0.0137)은 순위 개선이 아니라 작동점 이동이었다. arm 간 확률 스케일이 달라(P2가 empty tile에서 FP를 더 냄) 블렌딩이 FP 예산을 소모했고, FP를 맞추면 이득이 −0.0171로 뒤집혔다.",
+
+  "single_design_change": {
+    "what": "게이트 이전에 arm별 FP-예산 정합(pre-gate FP calibration)을 넣는다. 각 arm a에 대해 empty-tile FP 총량이 P4 seed-median 예산과 같아지는 임계 t_a 를 구하고, 확률을 logit 공간에서 t_a → 0.5 로 평행이동한다: p_a' = sigmoid(logit(p_a) − logit(t_a)). 게이트와 블렌딩은 p' 위에서 수행한다.",
+    "why": "두 arm 을 같은 FP 작동점에 올려 놓아야 게이트가 '작동점 이동'이 아니라 '어느 arm 이 더 맞는가'만으로 이득을 낼 수 있다.",
+    "calibration_source": "t_a 는 **source 지역(나머지 7개)** 의 empty tile 에서 구한다. 타깃 지역 라벨은 쓰지 않는다(label_free_gate 유지). 최종 평가의 FP 매칭 작동점은 기존과 동일하게 타깃 지역에서 모든 arm 에 동일 적용하는 분석 관행으로 유지한다."
+  },
+
+  "unchanged_from_v1": [
+    "leave-one-region-out, source-only 학습과 라벨",
+    "특징 51개 구성과 source-fit PCA/스케일러",
+    "primary logistic regression + GroupKFold C 선택, secondary MLP",
+    "hard/soft 변형, seed 1/2/3 독립, 지표 정의"
+  ],
+
+  "additional_reporting_required": [
+    "FP 매칭 작동점에서의 tile-oracle 상한 (v1 에는 없었음). 이 값이 최고 단일 arm 과 거의 같으면 '이 작동점에서는 선택 문제 자체에 여지가 없다'가 결론이며, 그 경우 학습 게이트 방향을 논문 method 로 추진하지 않는다.",
+    "게이트 확률의 분포와 지역별 alpha 평균 (게이트가 상수로 붕괴했는지 확인)"
+  ],
+
+  "stop_rule": "v2 도 promotion_rules 를 통과하지 못하면 GeoContextGate 계열을 method 후보에서 내리고, 논문은 '재사용 가능성 + 대조군 + 융합 음성 결과' 구성으로 확정한다. v3 를 만들지 않는다."
+}
