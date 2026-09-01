@@ -1,0 +1,238 @@
+{
+ "schema": "p2p4-prob-fusion-v1",
+ "measurement_id": "M90",
+ "preregistered": "primary F_mean pos-tile macro IoU@0.5 >= best single +0.01 in >=5/8 regions; secondary F_max, val-tuned alpha; seeds matched then averaged",
+ "regions": {
+  "hiroshima": {
+   "P2": {
+    "pos_tile_macro_iou": 0.21600350395140053,
+    "pixel_ap": 0.4613471979652671
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.27820554216834975,
+    "pixel_ap": 0.5018297912974343
+   },
+   "F_mean": {
+    "pos_tile_macro_iou": 0.3182335229129567,
+    "pixel_ap": 0.5834543396115249
+   },
+   "F_max": {
+    "pos_tile_macro_iou": 0.22947478742651092,
+    "pixel_ap": 0.5148966546509556
+   },
+   "F_alpha": {
+    "pos_tile_macro_iou": 0.3103345737005893,
+    "pixel_ap": 0.5807051216560132
+   },
+   "alpha_from_val_per_seed": [
+    0.5,
+    0.5,
+    0.6000000000000001
+   ],
+   "gain_F_mean_vs_best_single": 0.04002798074460695
+  },
+  "hokkaido": {
+   "P2": {
+    "pos_tile_macro_iou": 0.21545076597015544,
+    "pixel_ap": 0.22505472100984672
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.385631944363147,
+    "pixel_ap": 0.6719171098084239
+   },
+   "F_mean": {
+    "pos_tile_macro_iou": 0.377285186278173,
+    "pixel_ap": 0.5760905941191398
+   },
+   "F_max": {
+    "pos_tile_macro_iou": 0.29937950309199457,
+    "pixel_ap": 0.5554928725094642
+   },
+   "F_alpha": {
+    "pos_tile_macro_iou": 0.359361942053887,
+    "pixel_ap": 0.5595964191166031
+   },
+   "alpha_from_val_per_seed": [
+    0.5,
+    0.4,
+    0.5
+   ],
+   "gain_F_mean_vs_best_single": -0.008346758084974037
+  },
+  "indonesia": {
+   "P2": {
+    "pos_tile_macro_iou": 0.2836352856696797,
+    "pixel_ap": 0.3473045881353986
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.27234792775095723,
+    "pixel_ap": 0.4524494834689268
+   },
+   "F_mean": {
+    "pos_tile_macro_iou": 0.3068977196922585,
+    "pixel_ap": 0.4391674695029288
+   },
+   "F_max": {
+    "pos_tile_macro_iou": 0.2857417157845649,
+    "pixel_ap": 0.44205824870400523
+   },
+   "F_alpha": {
+    "pos_tile_macro_iou": 0.31658481389595733,
+    "pixel_ap": 0.43333473065566314
+   },
+   "alpha_from_val_per_seed": [
+    0.5,
+    0.4,
+    0.4
+   ],
+   "gain_F_mean_vs_best_single": 0.02326243402257877
+  },
+  "itogon": {
+   "P2": {
+    "pos_tile_macro_iou": 0.1476908986393992,
+    "pixel_ap": 0.22530121623362712
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.1516945762473829,
+    "pixel_ap": 0.3079649635266947
+   },
+   "F_mean": {
+    "pos_tile_macro_iou": 0.1701759817729387,
+    "pixel_ap": 0.32186177374280106
+   },
+   "F_max": {
+    "pos_tile_macro_iou": 0.13642801089635567,
+    "pixel_ap": 0.2884990994119574
+   },
+   "F_alpha": {
+    "pos_tile_macro_iou": 0.16829711611053869,
+    "pixel_ap": 0.332961414001301
+   },
+   "alpha_from_val_per_seed": [
+    0.8,
+    0.7000000000000001,
+    0.6000000000000001
+   ],
+   "gain_F_mean_vs_best_single": 0.0184814055255558
+  },
+  "kyrgyzstan1": {
+   "P2": {
+    "pos_tile_macro_iou": 0.19247238347988457,
+    "pixel_ap": 0.23178827343920147
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.2813246413000771,
+    "pixel_ap": 0.4627400907812928
+   },
+   "F_mean": {
+    "pos_tile_macro_iou": 0.27509335520614553,
+    "pixel_ap": 0.4342269706950168
+   },
+   "F_max": {
+    "pos_tile_macro_iou": 0.2374922409311916,
+    "pixel_ap": 0.34668440844025666
+   },
+   "F_alpha": {
+    "pos_tile_macro_iou": 0.2813246413000771,
+    "pixel_ap": 0.4627400907812928
+   },
+   "alpha_from_val_per_seed": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "gain_F_mean_vs_best_single": -0.006231286093931587
+  },
+  "kyrgyzstan2": {
+   "P2": {
+    "pos_tile_macro_iou": 0.10692489383493044,
+    "pixel_ap": 0.12996178042003806
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.20776949956436622,
+    "pixel_ap": 0.3597470662083126
+   },
+   "F_mean": {
+    "pos_tile_macro_iou": 0.20701258859478133,
+    "pixel_ap": 0.3088667215030203
+   },
+   "F_max": {
+    "pos_tile_macro_iou": 0.11872598146176083,
+    "pixel_ap": 0.25158752370672127
+   },
+   "F_alpha": {
+    "pos_tile_macro_iou": 0.21976258002519666,
+    "pixel_ap": 0.3418181283629256
+   },
+   "alpha_from_val_per_seed": [
+    0.6000000000000001,
+    0.7000000000000001,
+    0.8
+   ],
+   "gain_F_mean_vs_best_single": -0.0007569109695848841
+  },
+  "newzealand": {
+   "P2": {
+    "pos_tile_macro_iou": 0.1787516266393239,
+    "pixel_ap": 0.3275219420458003
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.24154721117163905,
+    "pixel_ap": 0.41714895305283983
+   },
+   "F_mean": {
+    "pos_tile_macro_iou": 0.2306981556523219,
+    "pixel_ap": 0.4404642775951122
+   },
+   "F_max": {
+    "pos_tile_macro_iou": 0.2403786278746333,
+    "pixel_ap": 0.401022552975788
+   },
+   "F_alpha": {
+    "pos_tile_macro_iou": 0.2457399123420797,
+    "pixel_ap": 0.4501583234099517
+   },
+   "alpha_from_val_per_seed": [
+    0.7000000000000001,
+    0.7000000000000001,
+    0.6000000000000001
+   ],
+   "gain_F_mean_vs_best_single": -0.010849055519317141
+  },
+  "thrissur": {
+   "P2": {
+    "pos_tile_macro_iou": 0.23150592110526955,
+    "pixel_ap": 0.34597174681399173
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.35883522870345347,
+    "pixel_ap": 0.5856539136995904
+   },
+   "F_mean": {
+    "pos_tile_macro_iou": 0.3422080043729876,
+    "pixel_ap": 0.5592122639532208
+   },
+   "F_max": {
+    "pos_tile_macro_iou": 0.30870525806077476,
+    "pixel_ap": 0.5012241747855775
+   },
+   "F_alpha": {
+    "pos_tile_macro_iou": 0.31252352576478876,
+    "pixel_ap": 0.5223065128358227
+   },
+   "alpha_from_val_per_seed": [
+    0.5,
+    0.30000000000000004,
+    0.4
+   ],
+   "gain_F_mean_vs_best_single": -0.016627224330465873
+  }
+ },
+ "primary_pass_regions": 3,
+ "primary_pass": false,
+ "macro_P2": 0.19655440991125542,
+ "macro_P4": 0.2721695714086716,
+ "macro_F_mean": 0.2784505643103204,
+ "macro_F_max": 0.23204076569097332,
+ "macro_F_alpha": 0.27674113814913937
+}
