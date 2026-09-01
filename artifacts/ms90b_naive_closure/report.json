@@ -1,0 +1,628 @@
+{
+ "schema": "ms90b-naive-closure-v1",
+ "preregistered": "registered naive set average/AND/OR/logit-mean, with and without per-arm validation temperature calibration; metrics positive-tile macro IoU@0.5 and tie-correct pixel AP; verdict limited to sufficiency of fixed rules; no claim that a learned gate is necessary or will succeed",
+ "input_sha256": {
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed1/prob_maps/holdout_hiroshima/P2_test_probs_index.json": "72e681e9336c2a1450552ccf528d347ea74c5cfb982e1d318494d76c68367327",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed1/prob_maps/holdout_hiroshima/P2_test_probs_u8.npy": "4126a185629752d7be4cd86441e998b19b8072eb1e56bab290ebff659a0bbdb4",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed1/prob_maps/holdout_hiroshima/P4_test_probs_index.json": "72e681e9336c2a1450552ccf528d347ea74c5cfb982e1d318494d76c68367327",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed1/prob_maps/holdout_hiroshima/P4_test_probs_u8.npy": "946e802ba88305099c00c5d482e271fe9eea4bea7c58224b8df36d0203d37587",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_hiroshima/mask_u8/hiroshima_s2_1000.npy": "397ae118c29a7255b75178541cf373b810f045fef933b1ca4e0077fa14c4713a",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_hiroshima/mask_u8/hiroshima_s2_997.npy": "a455dbb3d1e769a8d516fdee5fd55d1910fe08534891062af48300c4c6278ff8",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed2/prob_maps/holdout_hiroshima/P2_test_probs_index.json": "72e681e9336c2a1450552ccf528d347ea74c5cfb982e1d318494d76c68367327",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed2/prob_maps/holdout_hiroshima/P2_test_probs_u8.npy": "c10ae14cb601cfe4877e04ccf2cf13ed498e9af3d6be5476f3d1e2845ac6a7e2",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed2/prob_maps/holdout_hiroshima/P4_test_probs_index.json": "72e681e9336c2a1450552ccf528d347ea74c5cfb982e1d318494d76c68367327",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed2/prob_maps/holdout_hiroshima/P4_test_probs_u8.npy": "25ff2cbef417888765884fa7348f8ff29936ca33f48ff4a81f60afa51b979502",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed3/prob_maps/holdout_hiroshima/P2_test_probs_index.json": "72e681e9336c2a1450552ccf528d347ea74c5cfb982e1d318494d76c68367327",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P2_seed3/prob_maps/holdout_hiroshima/P2_test_probs_u8.npy": "6d84b1ce92db443fe761b39f19c5f4bee80c43de8aff28db7584a3ca9cae05f3",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed3/prob_maps/holdout_hiroshima/P4_test_probs_index.json": "72e681e9336c2a1450552ccf528d347ea74c5cfb982e1d318494d76c68367327",
+  "/home/work/data/olmoearth/confirmatory/holdout_hiroshima/P4_seed3/prob_maps/holdout_hiroshima/P4_test_probs_u8.npy": "651717a00f26c340d3972a83dd0d897480e4a5e15a9f9c322f9ea14057ba498c",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed1/prob_maps/holdout_hokkaido/P2_test_probs_index.json": "71b36f447f81f7942474783f291ae7d1d48d4c027fb36d864183effc52813c04",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed1/prob_maps/holdout_hokkaido/P2_test_probs_u8.npy": "572396c50aad005bcc71535f3f497a488bb4350323986fc3173568697da5fa60",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed1/prob_maps/holdout_hokkaido/P4_test_probs_index.json": "71b36f447f81f7942474783f291ae7d1d48d4c027fb36d864183effc52813c04",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed1/prob_maps/holdout_hokkaido/P4_test_probs_u8.npy": "e27ebe208b203fe7d713db3749cf1b5e68cc2732a10368c5267f715ecb9eac34",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_hokkaido/mask_u8/hokkaido_s2_1006.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_hokkaido/mask_u8/hokkaido_s2_998.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed2/prob_maps/holdout_hokkaido/P2_test_probs_index.json": "71b36f447f81f7942474783f291ae7d1d48d4c027fb36d864183effc52813c04",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed2/prob_maps/holdout_hokkaido/P2_test_probs_u8.npy": "121a8e677429eb2e6fa4687c0eba55b800878ec3106c54b248ba181742650cda",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed2/prob_maps/holdout_hokkaido/P4_test_probs_index.json": "71b36f447f81f7942474783f291ae7d1d48d4c027fb36d864183effc52813c04",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed2/prob_maps/holdout_hokkaido/P4_test_probs_u8.npy": "86def74ee2cfabce9105fe1997ae6895c1b2b9701f8bb0db6de4eed1910771b8",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed3/prob_maps/holdout_hokkaido/P2_test_probs_index.json": "71b36f447f81f7942474783f291ae7d1d48d4c027fb36d864183effc52813c04",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P2_seed3/prob_maps/holdout_hokkaido/P2_test_probs_u8.npy": "84dd6d36e5fa197f864c0f5e79fc858f774bc29ba3cc0543e1e78c24fc2cde76",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed3/prob_maps/holdout_hokkaido/P4_test_probs_index.json": "71b36f447f81f7942474783f291ae7d1d48d4c027fb36d864183effc52813c04",
+  "/home/work/data/olmoearth/confirmatory/holdout_hokkaido/P4_seed3/prob_maps/holdout_hokkaido/P4_test_probs_u8.npy": "8424eb30d53d82037562a9c2ed5cccaddc0b9df075858b260556f27cc684eb09",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed1/prob_maps/holdout_indonesia/P2_test_probs_index.json": "f9f4abd56e1db0e43eedf6418a20e68ba1cdf52ac2be99b96f425939c641420d",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed1/prob_maps/holdout_indonesia/P2_test_probs_u8.npy": "b38394fca4a255b675b976bbd3c7a3cc2fb811478434348a8907ed63a861e92c",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed1/prob_maps/holdout_indonesia/P4_test_probs_index.json": "f9f4abd56e1db0e43eedf6418a20e68ba1cdf52ac2be99b96f425939c641420d",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed1/prob_maps/holdout_indonesia/P4_test_probs_u8.npy": "59a986bed52a30a8650c6a4243c64067244b8965ba0c76aec90ce9d1a482fd6b",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_indonesia/mask_u8/indonesia_s2_1001.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_indonesia/mask_u8/indonesia_s2_997.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed2/prob_maps/holdout_indonesia/P2_test_probs_index.json": "f9f4abd56e1db0e43eedf6418a20e68ba1cdf52ac2be99b96f425939c641420d",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed2/prob_maps/holdout_indonesia/P2_test_probs_u8.npy": "aa9de2ee9a29e1a18591a1a2d2c36d7c411d248918564fbc5bf55654e9ece245",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed2/prob_maps/holdout_indonesia/P4_test_probs_index.json": "f9f4abd56e1db0e43eedf6418a20e68ba1cdf52ac2be99b96f425939c641420d",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed2/prob_maps/holdout_indonesia/P4_test_probs_u8.npy": "09baec07ce7bbe83d52cc672bdb608d9ebc42e9ebdc8e8283c10985e6e140d1d",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed3/prob_maps/holdout_indonesia/P2_test_probs_index.json": "f9f4abd56e1db0e43eedf6418a20e68ba1cdf52ac2be99b96f425939c641420d",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P2_seed3/prob_maps/holdout_indonesia/P2_test_probs_u8.npy": "388232c58a2284b6da23f3d53c6e39534ea3c9a8898097a9926c82d19b9fba2d",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed3/prob_maps/holdout_indonesia/P4_test_probs_index.json": "f9f4abd56e1db0e43eedf6418a20e68ba1cdf52ac2be99b96f425939c641420d",
+  "/home/work/data/olmoearth/confirmatory/holdout_indonesia/P4_seed3/prob_maps/holdout_indonesia/P4_test_probs_u8.npy": "9ff57e220fcded6314e384af9ab6841aadaf2407aa88e0dc74e4c658c6d425a8",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed1/prob_maps/holdout_itogon/P2_test_probs_index.json": "15edf389e42531dbf189266c7c9af9a8c95ad1e9e6154caafa54a96f3e242b9c",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed1/prob_maps/holdout_itogon/P2_test_probs_u8.npy": "8736a03ca4bb82922712a883df3bede5128bbb88e9136a9a0f19dd38f7c24082",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed1/prob_maps/holdout_itogon/P4_test_probs_index.json": "15edf389e42531dbf189266c7c9af9a8c95ad1e9e6154caafa54a96f3e242b9c",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed1/prob_maps/holdout_itogon/P4_test_probs_u8.npy": "86e78b3b34953c66d5e73c8432ee36fca42b9ca136c6006e8fe8b88add029ca5",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_itogon/mask_u8/itogon_s2_1012.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_itogon/mask_u8/itogon_s2_986.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed2/prob_maps/holdout_itogon/P2_test_probs_index.json": "15edf389e42531dbf189266c7c9af9a8c95ad1e9e6154caafa54a96f3e242b9c",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed2/prob_maps/holdout_itogon/P2_test_probs_u8.npy": "7ca62cf342eea66e513d654f7568f552ec16e27ff224945975681b9781782b88",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed2/prob_maps/holdout_itogon/P4_test_probs_index.json": "15edf389e42531dbf189266c7c9af9a8c95ad1e9e6154caafa54a96f3e242b9c",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed2/prob_maps/holdout_itogon/P4_test_probs_u8.npy": "2039e2d9dc573638c0b254dccc57284282f09a6d12f7d164a0cc563246b0e2ca",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed3/prob_maps/holdout_itogon/P2_test_probs_index.json": "15edf389e42531dbf189266c7c9af9a8c95ad1e9e6154caafa54a96f3e242b9c",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P2_seed3/prob_maps/holdout_itogon/P2_test_probs_u8.npy": "947a466bed07cd1c505a74886e322e475777fc52644d1f09e6b2201d96bed8b7",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed3/prob_maps/holdout_itogon/P4_test_probs_index.json": "15edf389e42531dbf189266c7c9af9a8c95ad1e9e6154caafa54a96f3e242b9c",
+  "/home/work/data/olmoearth/confirmatory/holdout_itogon/P4_seed3/prob_maps/holdout_itogon/P4_test_probs_u8.npy": "0ebdfae510c9113279df38cde1d5ddf07aa47fb642f128572fd54e3259d1c98f",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed1/prob_maps/holdout_kyrgyzstan1/P2_test_probs_index.json": "5d0e3b4fb8666c304557a6502e06ba0847b915b131cbf06f0f3e8d2222172498",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed1/prob_maps/holdout_kyrgyzstan1/P2_test_probs_u8.npy": "55edea073d08454833c8477f88d0a2677159dd2284476dea180abdaa6572a4af",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed1/prob_maps/holdout_kyrgyzstan1/P4_test_probs_index.json": "5d0e3b4fb8666c304557a6502e06ba0847b915b131cbf06f0f3e8d2222172498",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed1/prob_maps/holdout_kyrgyzstan1/P4_test_probs_u8.npy": "785a793ff9afe8c29773e2bfdd16839e6caf818b77b41bc800ffae3d0f5cf501",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_kyrgyzstan1/mask_u8/kyrgyzstan1_s2_10.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_kyrgyzstan1/mask_u8/kyrgyzstan1_s2_99.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed2/prob_maps/holdout_kyrgyzstan1/P2_test_probs_index.json": "5d0e3b4fb8666c304557a6502e06ba0847b915b131cbf06f0f3e8d2222172498",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed2/prob_maps/holdout_kyrgyzstan1/P2_test_probs_u8.npy": "bb5553dd1b09793201f0165fe50e8f0a4ca36b3c5c6ab717352f9da812eaab7a",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed2/prob_maps/holdout_kyrgyzstan1/P4_test_probs_index.json": "5d0e3b4fb8666c304557a6502e06ba0847b915b131cbf06f0f3e8d2222172498",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed2/prob_maps/holdout_kyrgyzstan1/P4_test_probs_u8.npy": "566757a33d21ded09b10f9b39ea423c9884b34b53912ce685e41f022a45e4f80",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed3/prob_maps/holdout_kyrgyzstan1/P2_test_probs_index.json": "5d0e3b4fb8666c304557a6502e06ba0847b915b131cbf06f0f3e8d2222172498",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P2_seed3/prob_maps/holdout_kyrgyzstan1/P2_test_probs_u8.npy": "ace7a09821852f36dd666b565a48e911db7dd7b9ab18b4c539ccefc79f8f1d15",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed3/prob_maps/holdout_kyrgyzstan1/P4_test_probs_index.json": "5d0e3b4fb8666c304557a6502e06ba0847b915b131cbf06f0f3e8d2222172498",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan1/P4_seed3/prob_maps/holdout_kyrgyzstan1/P4_test_probs_u8.npy": "a169349c328fdc09edbdd58bc78ac1ccfe7ba6b0fd2b8f953e440148fcc9f037",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed1/prob_maps/holdout_kyrgyzstan2/P2_test_probs_index.json": "d432e68280e4cfe71cfb349177c85745c18d74d92e51497f9ec9feec9108c669",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed1/prob_maps/holdout_kyrgyzstan2/P2_test_probs_u8.npy": "5db43702d1abcd9fd80d3d6dee0149edaca0ae0c78473584902653fd5c41f0a9",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed1/prob_maps/holdout_kyrgyzstan2/P4_test_probs_index.json": "d432e68280e4cfe71cfb349177c85745c18d74d92e51497f9ec9feec9108c669",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed1/prob_maps/holdout_kyrgyzstan2/P4_test_probs_u8.npy": "c35d79c795a8bee78226b45b10584de6b734f04a40dbecdb73c6f9b09bc79dc6",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_kyrgyzstan2/mask_u8/kyrgyzstan2_s2_10015.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_kyrgyzstan2/mask_u8/kyrgyzstan2_s2_9780.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed2/prob_maps/holdout_kyrgyzstan2/P2_test_probs_index.json": "d432e68280e4cfe71cfb349177c85745c18d74d92e51497f9ec9feec9108c669",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed2/prob_maps/holdout_kyrgyzstan2/P2_test_probs_u8.npy": "6a8fda66fad434fc01c8392c8823937568d5e92ea8f9c220d235de289e03b05c",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed2/prob_maps/holdout_kyrgyzstan2/P4_test_probs_index.json": "d432e68280e4cfe71cfb349177c85745c18d74d92e51497f9ec9feec9108c669",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed2/prob_maps/holdout_kyrgyzstan2/P4_test_probs_u8.npy": "c75845ad15b8ba12d91acb2a3ff13ace15bf3d91061c46f8ba8067c272acc248",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed3/prob_maps/holdout_kyrgyzstan2/P2_test_probs_index.json": "d432e68280e4cfe71cfb349177c85745c18d74d92e51497f9ec9feec9108c669",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P2_seed3/prob_maps/holdout_kyrgyzstan2/P2_test_probs_u8.npy": "b94964cdc9a7ef2893bf7ade998460ad5c9da5ed4587139e03fe96f4d96663c3",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed3/prob_maps/holdout_kyrgyzstan2/P4_test_probs_index.json": "d432e68280e4cfe71cfb349177c85745c18d74d92e51497f9ec9feec9108c669",
+  "/home/work/data/olmoearth/confirmatory/holdout_kyrgyzstan2/P4_seed3/prob_maps/holdout_kyrgyzstan2/P4_test_probs_u8.npy": "c3d5432c15575b334dd4812cfcbdd8ecb9f4b11c3d85bbd13bafe773b94ddaeb",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed1/prob_maps/holdout_newzealand/P2_test_probs_index.json": "4887cd4789d98575985d8631fcab263199845637037930caea9310bbd5db57aa",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed1/prob_maps/holdout_newzealand/P2_test_probs_u8.npy": "67426b42b1f9316b6ccbcd4ad203fe2792741f50ec3e4986d7439ece10f86b5b",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed1/prob_maps/holdout_newzealand/P4_test_probs_index.json": "4887cd4789d98575985d8631fcab263199845637037930caea9310bbd5db57aa",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed1/prob_maps/holdout_newzealand/P4_test_probs_u8.npy": "7e511ebdebaa33c21fef45209b61964a1b4658456015c1bace8c7434fc002b41",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_newzealand/mask_u8/newzealand_s2_1000.npy": "fda89da355099de6540b3d27e39c1919c66cb16524087a831b5ad70d9b82a9a8",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_newzealand/mask_u8/newzealand_s2_991.npy": "b7b496c2c0708ad24d988b9ed43ff5237dc43fb558b31242c7d76274733d0f2b",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed2/prob_maps/holdout_newzealand/P2_test_probs_index.json": "4887cd4789d98575985d8631fcab263199845637037930caea9310bbd5db57aa",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed2/prob_maps/holdout_newzealand/P2_test_probs_u8.npy": "a364357d83cb045e168f3f9985c48b18979c2ecffcd83c8ef7d8dfb3b3a5eb68",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed2/prob_maps/holdout_newzealand/P4_test_probs_index.json": "4887cd4789d98575985d8631fcab263199845637037930caea9310bbd5db57aa",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed2/prob_maps/holdout_newzealand/P4_test_probs_u8.npy": "64b8f37aa3701a8dfc4e18afe98508109ba74ec72a1f0dde9fc0eb50577410f2",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed3/prob_maps/holdout_newzealand/P2_test_probs_index.json": "4887cd4789d98575985d8631fcab263199845637037930caea9310bbd5db57aa",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P2_seed3/prob_maps/holdout_newzealand/P2_test_probs_u8.npy": "492d33a1a89b0bdfb36bd50f7e2d79671d6a0e4f2bdac3b1859eedb863fbbeb3",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed3/prob_maps/holdout_newzealand/P4_test_probs_index.json": "4887cd4789d98575985d8631fcab263199845637037930caea9310bbd5db57aa",
+  "/home/work/data/olmoearth/confirmatory/holdout_newzealand/P4_seed3/prob_maps/holdout_newzealand/P4_test_probs_u8.npy": "047e166fe1f72c895a62fb4e721c24adc4398ed1af567e57a1a64ed3af4f2321",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed1/prob_maps/holdout_thrissur/P2_test_probs_index.json": "a3f860f134a9594ed400e674eff7e4c7e186a6f8dd2ca59d62a4b93e3a057c71",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed1/prob_maps/holdout_thrissur/P2_test_probs_u8.npy": "908fade12d640d5ece655023eb917fbfa079f8a47595ae2d8709d31be63922e7",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed1/prob_maps/holdout_thrissur/P4_test_probs_index.json": "a3f860f134a9594ed400e674eff7e4c7e186a6f8dd2ca59d62a4b93e3a057c71",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed1/prob_maps/holdout_thrissur/P4_test_probs_u8.npy": "8848c8f4943913cdcdfc3511fffa1703a90ff577b9459f78e045807d04d61548",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_thrissur/mask_u8/thrissur_s2_1001.npy": "47ed81c2d01c27fe956bfd8682051a7ad315c2c25948b2175a5b88c437997c22",
+  "/home/work/data/olmoearth/sen12_pilot/holdout_thrissur/mask_u8/thrissur_s2_998.npy": "9d65f2459aa152ebb1605fce1b8317b4ffd380d3e39c77633e7d6327a7531b29",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed2/prob_maps/holdout_thrissur/P2_test_probs_index.json": "a3f860f134a9594ed400e674eff7e4c7e186a6f8dd2ca59d62a4b93e3a057c71",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed2/prob_maps/holdout_thrissur/P2_test_probs_u8.npy": "e76089987f79df5587206c4a932276a1e676ce8df9d54658574467da94b17b50",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed2/prob_maps/holdout_thrissur/P4_test_probs_index.json": "a3f860f134a9594ed400e674eff7e4c7e186a6f8dd2ca59d62a4b93e3a057c71",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed2/prob_maps/holdout_thrissur/P4_test_probs_u8.npy": "3905d3d9db7672b5bbec9934d1e17094db2bc6bb7a60d295873e0bf454ae7ae7",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed3/prob_maps/holdout_thrissur/P2_test_probs_index.json": "a3f860f134a9594ed400e674eff7e4c7e186a6f8dd2ca59d62a4b93e3a057c71",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P2_seed3/prob_maps/holdout_thrissur/P2_test_probs_u8.npy": "493f9ba64eb8bd1064957d9f5ccf07631fbc145122375b576221d7f86ac7c551",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed3/prob_maps/holdout_thrissur/P4_test_probs_index.json": "a3f860f134a9594ed400e674eff7e4c7e186a6f8dd2ca59d62a4b93e3a057c71",
+  "/home/work/data/olmoearth/confirmatory/holdout_thrissur/P4_seed3/prob_maps/holdout_thrissur/P4_test_probs_u8.npy": "80bc98eb8d81f1c7525849ba8c4dac10ab36392af627cb7100fbf658cce322ef"
+ },
+ "regions": {
+  "hiroshima": {
+   "T2": [
+    1.9999999999999998,
+    1.7817974362806785,
+    1.5874010519681994
+   ],
+   "T4": [
+    2.244924096618746,
+    2.82842712474619,
+    1.9999999999999998
+   ],
+   "P2": {
+    "pos_tile_macro_iou": 0.21600350395140053,
+    "tie_ap": 0.46067958912810364
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.27820554216834975,
+    "tie_ap": 0.5005333147307852
+   },
+   "average": {
+    "pos_tile_macro_iou": 0.3182335229129567,
+    "tie_ap": 0.583426800209128,
+    "gain_iou_vs_best_single": 0.04002798074460695
+   },
+   "average_cal": {
+    "pos_tile_macro_iou": 0.3213921470705196,
+    "tie_ap": 0.602098530781769,
+    "gain_iou_vs_best_single": 0.043186604902169856
+   },
+   "and_min": {
+    "pos_tile_macro_iou": 0.26736086996748204,
+    "tie_ap": 0.5608691334711399,
+    "gain_iou_vs_best_single": -0.010844672200867711
+   },
+   "and_min_cal": {
+    "pos_tile_macro_iou": 0.26736086996748204,
+    "tie_ap": 0.5635470168446951,
+    "gain_iou_vs_best_single": -0.010844672200867711
+   },
+   "or_max": {
+    "pos_tile_macro_iou": 0.22947478742651092,
+    "tie_ap": 0.5142600547637876,
+    "gain_iou_vs_best_single": -0.04873075474183883
+   },
+   "or_max_cal": {
+    "pos_tile_macro_iou": 0.22947478742651092,
+    "tie_ap": 0.5065426875355793,
+    "gain_iou_vs_best_single": -0.04873075474183883
+   },
+   "logit_mean": {
+    "pos_tile_macro_iou": 0.318258321432142,
+    "tie_ap": 0.6028444169079172,
+    "gain_iou_vs_best_single": 0.04005277926379225
+   },
+   "logit_mean_cal": {
+    "pos_tile_macro_iou": 0.3213921470705196,
+    "tie_ap": 0.6091732571420507,
+    "gain_iou_vs_best_single": 0.043186604902169856
+   }
+  },
+  "hokkaido": {
+   "T2": [
+    1.2599210498948732,
+    1.7817974362806785,
+    1.2599210498948732
+   ],
+   "T4": [
+    2.244924096618746,
+    2.244924096618746,
+    2.244924096618746
+   ],
+   "P2": {
+    "pos_tile_macro_iou": 0.21545076597015544,
+    "tie_ap": 0.2248222581237677
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.385631944363147,
+    "tie_ap": 0.6710058564925984
+   },
+   "average": {
+    "pos_tile_macro_iou": 0.377285186278173,
+    "tie_ap": 0.576102282907695,
+    "gain_iou_vs_best_single": -0.008346758084974037
+   },
+   "average_cal": {
+    "pos_tile_macro_iou": 0.3498082502981788,
+    "tie_ap": 0.5722993657517138,
+    "gain_iou_vs_best_single": -0.035823694064968215
+   },
+   "and_min": {
+    "pos_tile_macro_iou": 0.2935500524232808,
+    "tie_ap": 0.5368643400463038,
+    "gain_iou_vs_best_single": -0.09208189193986621
+   },
+   "and_min_cal": {
+    "pos_tile_macro_iou": 0.2935500524232808,
+    "tie_ap": 0.5353270768007238,
+    "gain_iou_vs_best_single": -0.09208189193986621
+   },
+   "or_max": {
+    "pos_tile_macro_iou": 0.29937950309199457,
+    "tie_ap": 0.5544050674060902,
+    "gain_iou_vs_best_single": -0.08625244127115245
+   },
+   "or_max_cal": {
+    "pos_tile_macro_iou": 0.29937950309199457,
+    "tie_ap": 0.4160683870824912,
+    "gain_iou_vs_best_single": -0.08625244127115245
+   },
+   "logit_mean": {
+    "pos_tile_macro_iou": 0.3773305829272869,
+    "tie_ap": 0.6066521986535496,
+    "gain_iou_vs_best_single": -0.008301361435860133
+   },
+   "logit_mean_cal": {
+    "pos_tile_macro_iou": 0.3498082502981788,
+    "tie_ap": 0.5636284846841805,
+    "gain_iou_vs_best_single": -0.035823694064968215
+   }
+  },
+  "indonesia": {
+   "T2": [
+    0.7071067811865475,
+    0.8908987181403392,
+    1.0
+   ],
+   "T4": [
+    1.7817974362806785,
+    1.9999999999999998,
+    1.9999999999999998
+   ],
+   "P2": {
+    "pos_tile_macro_iou": 0.2836352856696797,
+    "tie_ap": 0.34743576063844445
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.27234792775095723,
+    "tie_ap": 0.4527374475378371
+   },
+   "average": {
+    "pos_tile_macro_iou": 0.3068977196922585,
+    "tie_ap": 0.4390569647460882,
+    "gain_iou_vs_best_single": 0.02326243402257877
+   },
+   "average_cal": {
+    "pos_tile_macro_iou": 0.3184368393565591,
+    "tie_ap": 0.4481400373332752,
+    "gain_iou_vs_best_single": 0.03480155368687937
+   },
+   "and_min": {
+    "pos_tile_macro_iou": 0.27491428038372095,
+    "tie_ap": 0.42120023770964327,
+    "gain_iou_vs_best_single": -0.00872100528595876
+   },
+   "and_min_cal": {
+    "pos_tile_macro_iou": 0.27491428038372095,
+    "tie_ap": 0.4323283786460162,
+    "gain_iou_vs_best_single": -0.00872100528595876
+   },
+   "or_max": {
+    "pos_tile_macro_iou": 0.2857417157845649,
+    "tie_ap": 0.4427481139299925,
+    "gain_iou_vs_best_single": 0.002106430114885205
+   },
+   "or_max_cal": {
+    "pos_tile_macro_iou": 0.2857417157845649,
+    "tie_ap": 0.39268592999529844,
+    "gain_iou_vs_best_single": 0.002106430114885205
+   },
+   "logit_mean": {
+    "pos_tile_macro_iou": 0.30686366549336747,
+    "tie_ap": 0.4557001505979244,
+    "gain_iou_vs_best_single": 0.02322837982368775
+   },
+   "logit_mean_cal": {
+    "pos_tile_macro_iou": 0.3184368393565591,
+    "tie_ap": 0.4404125920851816,
+    "gain_iou_vs_best_single": 0.03480155368687937
+   }
+  },
+  "itogon": {
+   "T2": [
+    1.2599210498948732,
+    1.2599210498948732,
+    1.2599210498948732
+   ],
+   "T4": [
+    1.0,
+    1.9999999999999998,
+    2.244924096618746
+   ],
+   "P2": {
+    "pos_tile_macro_iou": 0.1476908986393992,
+    "tie_ap": 0.22490128849217242
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.1516945762473829,
+    "tie_ap": 0.3082739633595234
+   },
+   "average": {
+    "pos_tile_macro_iou": 0.1701759817729387,
+    "tie_ap": 0.3217992010231931,
+    "gain_iou_vs_best_single": 0.0184814055255558
+   },
+   "average_cal": {
+    "pos_tile_macro_iou": 0.17067784061408056,
+    "tie_ap": 0.32316359418538504,
+    "gain_iou_vs_best_single": 0.018983264366697672
+   },
+   "and_min": {
+    "pos_tile_macro_iou": 0.17639609123340746,
+    "tie_ap": 0.30569042626241655,
+    "gain_iou_vs_best_single": 0.024701514986024575
+   },
+   "and_min_cal": {
+    "pos_tile_macro_iou": 0.17639609123340746,
+    "tie_ap": 0.30696794422525,
+    "gain_iou_vs_best_single": 0.024701514986024575
+   },
+   "or_max": {
+    "pos_tile_macro_iou": 0.13642801089635567,
+    "tie_ap": 0.28808042263800193,
+    "gain_iou_vs_best_single": -0.015266565351027217
+   },
+   "or_max_cal": {
+    "pos_tile_macro_iou": 0.13642801089635567,
+    "tie_ap": 0.2774617828167594,
+    "gain_iou_vs_best_single": -0.015266565351027217
+   },
+   "logit_mean": {
+    "pos_tile_macro_iou": 0.1701759817729387,
+    "tie_ap": 0.3222522295456493,
+    "gain_iou_vs_best_single": 0.0184814055255558
+   },
+   "logit_mean_cal": {
+    "pos_tile_macro_iou": 0.17067784061408056,
+    "tie_ap": 0.3184994966761629,
+    "gain_iou_vs_best_single": 0.018983264366697672
+   }
+  },
+  "kyrgyzstan1": {
+   "T2": [
+    1.2599210498948732,
+    1.2599210498948732,
+    1.4142135623730947
+   ],
+   "T4": [
+    0.7937005259840998,
+    2.244924096618746,
+    1.7817974362806785
+   ],
+   "P2": {
+    "pos_tile_macro_iou": 0.19247238347988457,
+    "tie_ap": 0.23136476353562796
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.2813246413000771,
+    "tie_ap": 0.4621781775335518
+   },
+   "average": {
+    "pos_tile_macro_iou": 0.27509335520614553,
+    "tie_ap": 0.43415568607083893,
+    "gain_iou_vs_best_single": -0.006231286093931587
+   },
+   "average_cal": {
+    "pos_tile_macro_iou": 0.2758113330971988,
+    "tie_ap": 0.4414128314655672,
+    "gain_iou_vs_best_single": -0.00551330820287832
+   },
+   "and_min": {
+    "pos_tile_macro_iou": 0.23178872959451743,
+    "tie_ap": 0.4275205572547797,
+    "gain_iou_vs_best_single": -0.04953591170555968
+   },
+   "and_min_cal": {
+    "pos_tile_macro_iou": 0.23178872959451743,
+    "tie_ap": 0.4331264759760234,
+    "gain_iou_vs_best_single": -0.04953591170555968
+   },
+   "or_max": {
+    "pos_tile_macro_iou": 0.2374922409311916,
+    "tie_ap": 0.34653019454981876,
+    "gain_iou_vs_best_single": -0.04383240036888553
+   },
+   "or_max_cal": {
+    "pos_tile_macro_iou": 0.2374922409311916,
+    "tie_ap": 0.32533205512671487,
+    "gain_iou_vs_best_single": -0.04383240036888553
+   },
+   "logit_mean": {
+    "pos_tile_macro_iou": 0.2750782647239538,
+    "tie_ap": 0.4476620787635599,
+    "gain_iou_vs_best_single": -0.006246376576123314
+   },
+   "logit_mean_cal": {
+    "pos_tile_macro_iou": 0.2758113330971988,
+    "tie_ap": 0.4490145213932777,
+    "gain_iou_vs_best_single": -0.00551330820287832
+   }
+  },
+  "kyrgyzstan2": {
+   "T2": [
+    1.5874010519681994,
+    1.4142135623730947,
+    1.2599210498948732
+   ],
+   "T4": [
+    1.9999999999999998,
+    1.0,
+    0.8908987181403392
+   ],
+   "P2": {
+    "pos_tile_macro_iou": 0.10692489383493044,
+    "tie_ap": 0.1300450934358599
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.20776949956436622,
+    "tie_ap": 0.36105791294819695
+   },
+   "average": {
+    "pos_tile_macro_iou": 0.20701258859478133,
+    "tie_ap": 0.3088195888433975,
+    "gain_iou_vs_best_single": -0.0007569109695848841
+   },
+   "average_cal": {
+    "pos_tile_macro_iou": 0.21031885751000726,
+    "tie_ap": 0.30439690510032263,
+    "gain_iou_vs_best_single": 0.00254935794564104
+   },
+   "and_min": {
+    "pos_tile_macro_iou": 0.21767914372117025,
+    "tie_ap": 0.29177568346436134,
+    "gain_iou_vs_best_single": 0.009909644156804037
+   },
+   "and_min_cal": {
+    "pos_tile_macro_iou": 0.21767914372117025,
+    "tie_ap": 0.27981213761104884,
+    "gain_iou_vs_best_single": 0.009909644156804037
+   },
+   "or_max": {
+    "pos_tile_macro_iou": 0.11872598146176083,
+    "tie_ap": 0.25380968028719825,
+    "gain_iou_vs_best_single": -0.08904351810260538
+   },
+   "or_max_cal": {
+    "pos_tile_macro_iou": 0.11872598146176083,
+    "tie_ap": 0.2775279005446665,
+    "gain_iou_vs_best_single": -0.08904351810260538
+   },
+   "logit_mean": {
+    "pos_tile_macro_iou": 0.2070226240858064,
+    "tie_ap": 0.31307171319098426,
+    "gain_iou_vs_best_single": -0.0007468754785598108
+   },
+   "logit_mean_cal": {
+    "pos_tile_macro_iou": 0.21031885751000726,
+    "tie_ap": 0.32037301699747994,
+    "gain_iou_vs_best_single": 0.00254935794564104
+   }
+  },
+  "newzealand": {
+   "T2": [
+    0.7937005259840998,
+    1.1224620483093728,
+    1.1224620483093728
+   ],
+   "T4": [
+    0.7937005259840998,
+    0.8908987181403392,
+    1.5874010519681994
+   ],
+   "P2": {
+    "pos_tile_macro_iou": 0.1787516266393239,
+    "tie_ap": 0.32731579029767627
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.24154721117163905,
+    "tie_ap": 0.41684913091624126
+   },
+   "average": {
+    "pos_tile_macro_iou": 0.2306981556523219,
+    "tie_ap": 0.44046956126827874,
+    "gain_iou_vs_best_single": -0.010849055519317141
+   },
+   "average_cal": {
+    "pos_tile_macro_iou": 0.23256534165635726,
+    "tie_ap": 0.44154644122757075,
+    "gain_iou_vs_best_single": -0.008981869515281793
+   },
+   "and_min": {
+    "pos_tile_macro_iou": 0.17197510819287679,
+    "tie_ap": 0.4151487473687916,
+    "gain_iou_vs_best_single": -0.06957210297876226
+   },
+   "and_min_cal": {
+    "pos_tile_macro_iou": 0.17197510819287679,
+    "tie_ap": 0.41983983659013235,
+    "gain_iou_vs_best_single": -0.06957210297876226
+   },
+   "or_max": {
+    "pos_tile_macro_iou": 0.2403786278746333,
+    "tie_ap": 0.40096965005420326,
+    "gain_iou_vs_best_single": -0.0011685832970057541
+   },
+   "or_max_cal": {
+    "pos_tile_macro_iou": 0.2403786278746333,
+    "tie_ap": 0.4039730814550995,
+    "gain_iou_vs_best_single": -0.0011685832970057541
+   },
+   "logit_mean": {
+    "pos_tile_macro_iou": 0.23071112983084205,
+    "tie_ap": 0.4474514011447208,
+    "gain_iou_vs_best_single": -0.010836081340797
+   },
+   "logit_mean_cal": {
+    "pos_tile_macro_iou": 0.23253863647670284,
+    "tie_ap": 0.4491425320795754,
+    "gain_iou_vs_best_single": -0.009008574694936211
+   }
+  },
+  "thrissur": {
+   "T2": [
+    0.8908987181403392,
+    0.7937005259840998,
+    1.0
+   ],
+   "T4": [
+    1.4142135623730947,
+    1.5874010519681994,
+    1.9999999999999998
+   ],
+   "P2": {
+    "pos_tile_macro_iou": 0.23150592110526955,
+    "tie_ap": 0.34577996469991107
+   },
+   "P4": {
+    "pos_tile_macro_iou": 0.35883522870345347,
+    "tie_ap": 0.5857470987307571
+   },
+   "average": {
+    "pos_tile_macro_iou": 0.3422080043729876,
+    "tie_ap": 0.5592096755334289,
+    "gain_iou_vs_best_single": -0.016627224330465873
+   },
+   "average_cal": {
+    "pos_tile_macro_iou": 0.31909287319084184,
+    "tie_ap": 0.5527129300612778,
+    "gain_iou_vs_best_single": -0.03974235551261163
+   },
+   "and_min": {
+    "pos_tile_macro_iou": 0.26639511216611395,
+    "tie_ap": 0.5791845236645093,
+    "gain_iou_vs_best_single": -0.09244011653733952
+   },
+   "and_min_cal": {
+    "pos_tile_macro_iou": 0.26639511216611395,
+    "tie_ap": 0.561630880147388,
+    "gain_iou_vs_best_single": -0.09244011653733952
+   },
+   "or_max": {
+    "pos_tile_macro_iou": 0.30870525806077476,
+    "tie_ap": 0.5010461155817493,
+    "gain_iou_vs_best_single": -0.05012997064267871
+   },
+   "or_max_cal": {
+    "pos_tile_macro_iou": 0.30870525806077476,
+    "tie_ap": 0.4513691838544853,
+    "gain_iou_vs_best_single": -0.05012997064267871
+   },
+   "logit_mean": {
+    "pos_tile_macro_iou": 0.3422080043729876,
+    "tie_ap": 0.6031059684978929,
+    "gain_iou_vs_best_single": -0.016627224330465873
+   },
+   "logit_mean_cal": {
+    "pos_tile_macro_iou": 0.31909287319084184,
+    "tie_ap": 0.5759467272769134,
+    "gain_iou_vs_best_single": -0.03974235551261163
+   }
+  }
+ },
+ "macro_iou_P2": 0.19655440991125542,
+ "macro_tieap_P2": 0.28654306354394543,
+ "macro_iou_P4": 0.2721695714086716,
+ "macro_tieap_P4": 0.4697978627811864,
+ "macro_iou_average": 0.2784505643103204,
+ "macro_tieap_average": 0.45787997007525605,
+ "macro_iou_and_min": 0.23750742346032122,
+ "macro_tieap_and_min": 0.4422817061552432,
+ "macro_iou_or_max": 0.23204076569097332,
+ "macro_tieap_or_max": 0.4127311624013552,
+ "macro_iou_logit_mean": 0.2784560718299156,
+ "macro_tieap_logit_mean": 0.4748425196627748,
+ "macro_iou_average_cal": 0.2747629353492179,
+ "macro_tieap_average_cal": 0.4607213294883602,
+ "macro_iou_and_min_cal": 0.23750742346032122,
+ "macro_tieap_and_min_cal": 0.44157246835515973,
+ "macro_iou_or_max_cal": 0.23204076569097332,
+ "macro_tieap_or_max_cal": 0.3813701260513868,
+ "macro_iou_logit_mean_cal": 0.27475959720176113,
+ "macro_tieap_logit_mean_cal": 0.4657738285418528,
+ "pass_regions_average": 3,
+ "pass_regions_and_min": 1,
+ "pass_regions_or_max": 0,
+ "pass_regions_logit_mean": 3,
+ "pass_regions_average_cal": 3,
+ "pass_regions_and_min_cal": 1,
+ "pass_regions_or_max_cal": 0,
+ "pass_regions_logit_mean_cal": 3
+}

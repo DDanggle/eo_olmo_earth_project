@@ -4124,6 +4124,28 @@ logit-mean 4종이다. MS-90A는 mean/max/val-α만 실행했으므로 precondit
 않는다. primary IoU 표만 post-hoc screen으로 보존한다. MS-90B에서 calibration·정확 AP·hash와 빠진
 baseline을 닫는다. 지역 선별 없이 8/8 전부 공개하며 hiroshima +.040 단독으로 일반화하지 않는다.
 
+## MS-90B. 등록 naive fusion 완결 — 고정 규칙 전부 사전 게이트 불통과, 승급 조건의 naive 항목 닫힘 (2026-09-01)
+
+**성격**: MS-90A의 남은 등록 항목 완결(CPU, 재학습 없음). 봉인 prob_maps·mask 만 읽고 입력 파일 SHA-256 을 결과에 봉인.
+등록 4종(average · AND=min · OR=max · logit-mean=σ(평균 logit)) 각각을 무보정/온도보정(val NLL 격자) 두 조건으로,
+지표는 positive-tile macro IoU@0.5(승급 게이트 지표)와 tie-correct pixel AP(동점 평균 순위).
+`code/ms90b_naive_closure.py`, `artifacts/ms90b_naive_closure/report.json`.
+
+| 규칙 | macro IoU | 보정 후 | ≥+0.01 지역/8 | macro tie-AP |
+|---|---:|---:|---:|---:|
+| P2 단독 | .1966 | — | — | .2865 |
+| **P4 단독 (기준)** | **.2722** | — | — | .4698 |
+| average | .2785 | .2748 | **3** | .4579 |
+| logit-mean | .2785 | .2748 | **3** | **.4748** |
+| AND(min) | .2375 | .2375 | 1 | .4423 |
+| OR(max) | .2320 | .2320 | 0 | .4127 |
+
+**판정**: 등록된 고정 규칙은 보정 여부와 무관하게 전부 사전 게이트(≥5/8) 불통과 — **"고정 naive 융합은 불충분"이 확정**.
+average 값이 MS-90A와 일치(.2785, 회귀 검증). logit-mean 은 tie-AP 에서 P4 를 +.005 넘지만 게이트 지표(IoU)에서는 동률 수준.
+이로써 `config/geocontextgate_promotion_gate.json` 의 naive-fusion 선행 항목이 닫힘. **주의**: 이 결과는 학습 gate 의
+필요성·성공을 증명하지 않음 — "시험해볼 가치"의 근거일 뿐. 남은 선행 조건은 C1b(native-grid) — GPU1 이 타 사용자 점유라
+감시자(`code/c1b_gpu1_watcher.sh`)가 빈 시점에 자동 기동 예정.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
