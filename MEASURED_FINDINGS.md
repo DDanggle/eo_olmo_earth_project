@@ -4171,6 +4171,36 @@ average 값이 MS-90A와 일치(.2785, 회귀 검증). logit-mean 은 tie-AP 에
 
 **봉인**: `code/geocontextgate_v1.py`, `artifacts/geocontextgate_v1/report.json`.
 
+## MS-92. GeoContextGate v2 + oracle 재측정 — **M86 headroom 자체가 작동점 인공물이었음** (2026-09-02)
+
+**사전 등록**: `config/geocontextgate_impl_v2.json`(실행 전 커밋). v1 진단대로 **게이트 이전에 arm별 FP 예산 정합**을
+넣었다: source 지역 empty tile 에서 각 arm 의 FP 총량이 P4 예산과 같아지는 임계 t_a 를 구해 logit 평행이동
+(p' = σ(logit p − logit t_a)). 타깃 라벨 미사용. 나머지 설계는 v1과 동일. 승급 기준은 원본 그대로.
+
+| macro (seed 평균) | P2 | P4 | average | gate_hard | gate_soft | **tile oracle** |
+|---|---:|---:|---:|---:|---:|---:|
+| IoU@0.5 (정합 후) | .1966 | .2722 | .2518 | .2656 | .2728 | **.2803** |
+| FP 매칭 작동점 | .1633 | .2722 | .2840 | .2648 | .2727 | **.2685** |
+
+**판정: 불통과.** gate_soft 는 3 seed 전부에서 naive 를 이기지만 이득이 **+0.0006**(단일 최고 대비)으로
+realized_headroom 규칙(+0.01 또는 oracle의 50%) 미달. 등록된 `stop_rule` 에 따라 **GeoContextGate 계열을
+method 후보에서 내리고 v3 를 만들지 않는다.**
+
+**이번 실행의 핵심 발견(음성이지만 가장 값진 결과)**: 두 arm 을 같은 FP 작동점에 올려놓자
+**라벨을 보고 타일마다 최선의 arm 을 고르는 oracle 조차 P4 단독 대비 +0.008(0.5) / −0.004(FP 매칭)** 에 그친다.
+즉 M86 이 보고한 oracle headroom **+0.0238 은 두 arm 을 서로 다른 작동점에서 비교한 데서 생긴 인공물**이었고,
+raw arm 과 embedding arm 사이에 실제로 이용할 상보성은 **거의 없다**. 게이트가 붕괴한 것이 아니다
+(alpha 표준편차 .21–.34, P4 선택 비율 .50–.70 로 지역마다 다르게 작동함) — 문제 자체에 여지가 없었다.
+
+**M86 해석 정정**: "P2/P4 상보성이 존재하며 선택 메커니즘이 +0.024 를 회수할 수 있다" → **"작동점을 맞추면
+상보성은 +0.008 이하이며 FP 매칭에서는 사라진다"**. M86 의 empty-tile FP 비(중앙값 5.0×)는 여전히 유효하나,
+그것은 상보성이 아니라 **P4 가 더 보수적인 작동점에 있다는 사실**을 재서술한 것에 가깝다.
+
+**논문에 미치는 영향**: 융합/게이트 방향은 **증거로 닫힘**(소진이 아니라 반증). 논문 구성은
+'재사용 가능성(M65) + 표현 특이성 대조(M87/C1b) + 융합 음성 결과와 그 메커니즘(MS-90B/91/92)' 로 확정한다.
+
+**봉인**: `code/geocontextgate_v2.py`, `artifacts/geocontextgate_v2/report.json`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의

@@ -3142,3 +3142,9 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 확인: GPU1은 타 사용자 학습 2개(71+7.6 GB) 점유 → 규약대로 C1b 미기동, `code/c1b_gpu1_watcher.sh`(10분 폴링, <100 MiB일 때만 러너 기동, 48h 한도) 가동.
 - 함: 서버 root `pilot_sen12_gp_heads.py`를 커밋본(bc1cfa5, P4native 포함)으로 교체 — 사전 c559345a… → 사후 8f805359… 기록. 확증 실행 중 아님(4c 위반 아님). `sen12_official_baselines.py` root 사본 보충.
 - 실행 중: MS-90B(등록 naive 4종 ± 온도 보정, tie-correct AP, 입력 SHA 봉인) CPU.
+
+### 2026-09-02 — 방법 방향 종결(증거 기반)
+- MS-91 GeoContextGate v1: 0.5 임계 +0.0137 → FP 매칭에서 −0.0171. 사전 등록 FP 규칙이 허위 이득을 잡음. 불통과.
+- MS-92 v2(arm별 FP 정합 후 게이트): 이득 +0.0006, 불통과. **oracle 조차 +0.008/−0.004** → M86 headroom은 작동점 인공물로 정정.
+- 등록 stop_rule 발동: GeoContextGate 계열 method 후보에서 하차, v3 없음. 논문은 재사용+대조군+융합 음성 결과 구성으로 확정.
+- C1b 21/24 진행 중(kyrgyzstan2 seed3), GPU1 공유 경합으로 fold당 시간 증가.
