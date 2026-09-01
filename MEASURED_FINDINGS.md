@@ -1,9 +1,13 @@
 # 측정 장부 — 실제로 잰 것만
 
-최종 갱신: 2026-08-31
+최종 갱신: 2026-09-01
 
-> **활성 연구 cutoff는 M65다.** M66–M85는 Nepal 운영 sidecar에서 얻은 역사적 측정으로
-> 삭제하지 않지만 현재 transfer/CVPR queue의 증거로 자동 승격하지 않는다. Nepal 원본과
+> **측정 ID namespace:** 본선과 Nepal sibling이 각각 M86 이후 번호를 사용해 충돌했다.
+> 기존 ID는 보존하되 앞으로 본선은 `MS-`, Nepal sidecar는 `NP-`를 붙인다.
+> 본선 M86/M87 = MS-86/MS-87, Nepal M86/M88 = NP-86/NP-88이다.
+
+> **활성 본선 cutoff는 MS-87이다.** Nepal 운영 sidecar 측정은 삭제하지 않지만
+> 현재 transfer/CVPR queue의 증거로 자동 승격하지 않는다. Nepal 원본과
 > 실행 코드는 `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관됐다.
 
 이 파일에는 **실행해서 나온 수치만** 넣는다. 계획·설계·문헌 판단은 넣지 않는다
@@ -47,14 +51,16 @@
 | M27 | 공식 구조는 이미 결정적 — 치환 1개가 수학적으로 동일 | **구조 변경 0. diff 3.3e-16** | 완료 |
 | M28 | AI-Hub 원천 영상 정체 + STAC 물질화 게이트 | **RGB uint8 3밴드였음. STAC 게이트 4/4 통과** | 완료 |
 | M65 | frozen-v2 확증 8-region region-macro | **P4 .2722 > P2 .1966 > P3 .1834; P4−P2 +.0756, 지역 승리 6/8** | 봉인 집계 완료 |
-| M87 | C1a Presto common-grid matched control | **8/8 지역 P4·P2에 패배, macro .1092 vs P4 .2722 (+.1629)** | retrospective, native C1b·label-budget 남음 |
-| M86 | M65 전 8지역 FP·P2/P4 상보성 재감사 | **P4 empty-FP 7/8 우세, 중앙 P2/P4 5.02×; tile-oracle headroom +.02375, 5/8 ≥.02** | 기존 72 JSONL CPU 재계산 |
+| MS-86 | M65 전 8지역 FP·P2/P4 상보성 재감사 | **P4 empty-FP 7/8 우세, 중앙 P2/P4 5.02×; tile-oracle headroom +.02375, 5/8 ≥.02** | 기존 72 JSONL CPU 재계산 |
+| MS-87 | C1a Presto common-grid matched control | **8/8 지역 P4·P2에 패배, macro .1092 vs P4 .2722 (+.1629)** | retrospective/off-domain, native C1b·label-budget 남음 |
+| NP-88 | Nepal 40 m token 외부 proxy 정합 | **AUROC .8459, AUPRC .2548(기저율 .0547)** | 독립 사건 n=1; AI 우월성은 NP-89에서 철회 |
+| NP-89 | NP-88 강한 baseline·공간 의존성 사후 감사 | **post-NDWI AUPRC .2911 > OLMo .2548; block AUROC 차 +.0077, CI 0 포함** | external-label agreement만 생존 |
 | M75 | Nepal S1 입력계약 결함 | **기존 S1 포함 주장 폐기; 선형 intensity를 dB 계약으로 재실행 필요** | 결함·영향범위 확정 |
 | M76 | Nepal dB 교정 재실행 | **5앵커·27창 사전등록 기준 미달; live detection 주장 없음** | 봉인 완료 |
 | M77 | Tadi Khola 잠정 음성 대조 | **공통 임계 3.58%, control-local 임계 0.55%; 현장 무변화 라벨은 없음** | 개발 대조 완료 |
 | M78 | S1-only·S1+S2 radar value | **S1-only ≥.70은 2/7; fusion +.03 gate는 0/7** | 7지역 690패치 완료 |
 
-**아직 confirmatory하게 측정하지 않은 것**: 두 번째 frozen GeoFM과의 matched 비교,
+**아직 confirmatory하게 측정하지 않은 것**: 두 번째 frozen GeoFM의 미열람 외부 비교와 native-grid sensitivity,
 한국 공공데이터의 **표현 기여**(접근·인벤토리·split 감사는 M9·M10에서 했으나 모델 성능 기여는 0),
 스위스·네팔 산악 데이터, 압축(PQ/int8) 하에서의 거동, label-free region action prediction.
 
@@ -4012,10 +4018,10 @@ n=39 탐색적 결과. "다음 홍수에서 어느 구간이 위험한가"로 �
 버전을 바꿀 근거가 없음 — v1 유지. v1을 쓴 이유는 애초 확증 실험(M57/58)·정규화 설정·봉인 계약이 v1 기준이었기 때문이며 측정에 근거한 선택은 아니었음(정직 기록). 이제는 측정 근거가 생김.
 봉인: `artifacts/sen12_radar_value_v1_2/report.json`.
 
-## M88. 동결 외부 라벨과 40 m 토큰 규모 대조 — 창 규모 무판별(M86)의 다음 관문 통과 (2026-09-01)
+## NP-88 (기존 M88). 동결 외부 라벨과 40 m 토큰 규모 대조 — 창 규모 무판별(NP-86)의 다음 관문 통과 (2026-09-01)
 
 **근거**: `code/score_external_tokens.py`, `code/score_external_tokens_classical.py`,
-`artifacts/external_label_score/token_report.json`, `token_classical.json`. 라벨은 M86과 동일한
+`artifacts/external_label_score/token_report.json`, `token_classical.json`. 라벨은 NP-86과 동일한
 2026-08-31 동결본(IWM PlanetScope · TASA FORMOSAT-5 · JAXA ALOS-2 합집합), 순위·문턱·Δ 래스터 일절 재계산 없음.
 사전 등록: pooled 토큰 AUROC ≥0.60 → 순위 지지, ≤0.50 → 토큰 규모에서도 무판별로 기록.
 
@@ -4023,18 +4029,48 @@ n=39 탐색적 결과. "다음 홍수에서 어느 구간이 위험한가"로 �
 |---|---|
 | 채점 토큰 (47창, 유효만) | 122,558 |
 | 라벨 토큰 기저율 | 5.47% |
-| **OlmoEarth Δz pooled AUROC** | **0.846** |
+| **OlmoEarth Δz pooled AUROC / AUPRC** | **0.846 / 0.255** |
 | 고전 \|ΔNDVI\| (같은 토큰·라벨) | 0.750 |
 | 고전 \|Δ밴드\| 평균 | 0.694 |
 | 창별 AUROC 중앙값 (IQR) | 0.884 (0.818–0.927) |
 | AUROC ≥0.60 창 | 39/40 |
 
-**읽기**: 창(2.56 km) 규모에서 무판별이던 외부 라벨(M86: 기저율 87.8%)이 40 m 토큰 규모에서는
-분리 가능해지고, OlmoEarth Δz가 홍수 대리 라벨 토큰을 비라벨 토큰보다 뚜렷이 높게 매김 —
-그리고 같은 조건의 고전 변화량보다 +0.10/+0.15 높음. 네팔 축이 처음으로 독립 제3자 라벨과 정합함.
+**읽기**: 창(2.56 km) 규모에서 무판별이던 외부 라벨(NP-86: 기저율 87.8%)이 40 m 토큰 규모에서는
+분리 가능해지고, OlmoEarth Δz가 홍수 대리 라벨 토큰을 비라벨 토큰보다 뚜렷이 높게 매김.
+네팔 축이 처음으로 독립 제3자 라벨과 정합함.
 **한계**: 라벨은 홍수 '대리'(피해 확정 아님)·발표 수일 내 제작물이라 자체 오류 가능; 중심점 래스터화
 규칙의 경계 오차; 라벨이 강줄기를 따르므로 "강을 찾는 능력"과 "변화를 찾는 능력"이 얽혀 있음(강 마스크
-층화 분석이 후속). specificity·피해 면적·확률 주장은 여전히 하지 않음.
+층화 분석이 후속). `122,558` 토큰은 겹치는 창의 공간상관 표본이며 독립 사건 수는 1이다.
+specificity·피해 면적·확률 주장은 여전히 하지 않음. 초기의 “고전보다 +.10~+.15” 해석은
+강한 수분지수 baseline을 빠뜨렸고 NP-89에서 철회했다.
+
+## NP-89. NP-88 사후 강건성 감사 — 외부 정합은 생존, AI 우월성은 철회 (2026-09-01)
+
+**근거**: `code/audit_nepal_m88_robustness.py`,
+`artifacts/nepal_np89_robustness_audit_v1.json` (SHA-256
+`360ab91bb22e9960b2932aca109ee4bed19ee07030faf73f2070ad32daf098c6`).
+
+NP-88 개봉 후 수행한 사후 진단이다. 동일 47창·122,558 유효 토큰·동결 provider label을 유지하고
+AUPRC, 기관별 결과, 물 민감 spectral baseline, 5.12 km 공간 블록, 강거리 조건부 AUROC를 추가했다.
+
+| score | pooled AUROC | pooled AUPRC | 5.12 km block-macro AUROC |
+|---|---:|---:|---:|
+| OlmoEarth Δz | **.8459** | .2548 | **.8573** |
+| post-event NDWI | .8276 | **.2911** | .8497 |
+| spectral angle | .7896 | .1493 | .7928 |
+| abs ΔNDVI | .7503 | .1881 | .7518 |
+
+- 기관별 Olmo AUROC는 IWM `.8865`, TASA `.8783`, JAXA `.7961`로 모두 0.5보다 높다.
+- 그러나 post-NDWI가 AUPRC에서 Olmo를 이겼고, 19개 공간 블록의 Olmo−post-NDWI 평균 AUROC
+  차이는 `+.00768`, block bootstrap 95% CI `[-.06198, .09016]`로 0을 포함한다.
+- 같은 창·같은 80 m 강거리 bin 내 conditional AUROC는 Olmo `.8006`, post-NDWI `.7518`이다.
+  강 위치만 찾는 효과로 전부 설명되지는 않을 가능성이 있으나 사후·단일 사건 가설이다.
+
+**허용 해석**: Olmo Δz가 세 독립 기관의 flood proxy와 정합한다. 2.56 km 창보다 40 m readout이
+필요하다는 case-study 증거다.
+
+**금지 해석**: Olmo가 고전 flood mapping보다 우월하다; 토큰 122,558개가 독립 표본이다;
+현장 피해를 검출했다; 이 단일 flood case가 MS-65 산사태 transfer의 외부 일반화를 닫는다.
 
 ## 이 장부에 없는 것 (혼동 방지)
 
@@ -4050,7 +4086,8 @@ M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그�
 | 사람 판독 라벨 | **0** |
 
 Sen12Landslides frozen OLMo의 본선 수치는 M65에서 8 held-out 지역·P2/P3/P4×3 seed로 닫혔다.
-다만 두 번째 frozen GeoFM full comparison은 0이고, 한국 external transfer도 0이다. 네팔
+두 번째 frozen GeoFM은 MS-87 Presto C1a common-grid까지 완료했지만 C1b native-grid와
+한국 first-look가 남았다. 한국 external transfer는 0이다. 네팔
 BIPAD/ICIMOD와 스위스 event join은 이 본선에서 여전히 0이다.
 
 ---
@@ -4064,7 +4101,7 @@ BIPAD/ICIMOD와 스위스 event join은 이 본선에서 여전히 0이다.
 4. **세 번째 릴리스** — Clay v1.0/v1.5는 둘 다 공개돼 있고 Major TOM에 v1.5 임베딩도 있다.
 5. **embeddings-stac gap 이슈/PR** — M2가 이미 1차 증거다.
 
-## M86. M65 메커니즘 재감사 — FP 신호와 P2/P4 상보성 screen이 전 8지역에서 생존
+## MS-86 (기존 M86). M65 메커니즘 재감사 — FP 신호와 P2/P4 상보성 screen이 전 8지역에서 생존
 
 **근거**: `code/audit_confirmatory_mechanism.py`,
 `artifacts/confirmatory_mechanism_audit_v1.json` (SHA-256 `ac462a295fb0d92a2ff8322f55e59cb3629c0aa505c41b323026042647f212d0`)
@@ -4103,7 +4140,7 @@ JSONL(P2/P3/P4 × 3 seed × 8 region)을 CPU에서 독립 집계해, 세 초기 
 2. oracle은 target label을 본다. deployable router 또는 달성 가능한 성능으로 부르지 않는다.
 3. 이 결과는 새 test가 아니라 M65 출력의 사후 메커니즘 분석이다.
 
-## M87. C1a — Presto common-grid retrospective matched control이 전 8지역에서 P4·P2에 패배 (2026-09-01)
+## MS-87 (기존 M87). C1a — Presto common-grid retrospective matched control이 전 8지역에서 P4·P2에 패배 (2026-09-01)
 
 계약 `config/presto_c1_contract.json`(v2)의 primary readout을 실행했다. frozen Presto
 (default_model.pt, 822,682 param, sha 대조 2/2)로 6,834타일 per-pixel 캐시(128×128×128 fp16,

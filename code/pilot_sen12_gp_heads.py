@@ -344,11 +344,42 @@ def main() -> None:
             self.head = nn.Conv2d(base // 4, 1, 1)
 
         def forward(self, x):
+            if tuple(x.shape[-2:]) != (32, 32):
+                raise RuntimeError(
+                    f"EmbDecoder expects the registered 32x32 grid, got {tuple(x.shape[-2:])}. "
+                    "Use P4native for the registered C1b 128x128 sensitivity.")
             x = self.proj(x)
             x = self.u1(F.interpolate(x, scale_factor=2, mode="bilinear", align_corners=False))
             x = self.u2(F.interpolate(x, scale_factor=2, mode="bilinear", align_corners=False))
             return F.interpolate(self.head(x), size=(128, 128), mode="bilinear",
                                  align_corners=False)
+
+    class EmbDecoderNative(nn.Module):
+        """C1b — native 128x128 Presto grid with P4-parameter-matched layers.
+
+        C1a/P4 and C1b have the same trainable layer shapes after ``cin`` is
+        fixed.  The only decoder change is spatial execution: C1b keeps both
+        convolution blocks on the native 128x128 grid instead of inserting
+        two 2x interpolation steps.  It is therefore a high-compute product
+        sensitivity, not the representation-family primary comparison.
+        """
+
+        def __init__(self, cin=128, base=128):
+            super().__init__()
+            self.proj = nn.Sequential(nn.Conv2d(cin, base, 1), nn.BatchNorm2d(base),
+                                      nn.ReLU(inplace=True))
+            self.u1, self.u2 = conv_bn(base, base // 2), conv_bn(base // 2, base // 4)
+            self.head = nn.Conv2d(base // 4, 1, 1)
+
+        def forward(self, x):
+            if tuple(x.shape[-2:]) != (128, 128):
+                raise RuntimeError(
+                    f"EmbDecoderNative expects the registered 128x128 grid, "
+                    f"got {tuple(x.shape[-2:])}.")
+            x = self.proj(x)
+            x = self.u1(x)
+            x = self.u2(x)
+            return self.head(x)
 
     class EmbDecoderBig(nn.Module):
         """P4c — 같은 frozen 캐시에 용량이 큰 convolutional decoder.
@@ -413,6 +444,8 @@ def main() -> None:
         "P2_tiny": ("raw", UNet3D,
                     "M25의 P2-tiny stand-in. 참고용으로만 보존 (strong baseline 아님)"),
         "P4": ("emb", EmbDecoder, "frozen OlmoEarth v1 + spatial decoder"),
+        "P4native": ("emb", EmbDecoderNative,
+                     "C1b native-grid embedding + P4-parameter-matched decoder"),
         # E1 요인설계: 캐시(--cache로 교체) x decoder 용량
         "P4c": ("emb", EmbDecoderBig,
                 "frozen OlmoEarth v1 + 큰 decoder (P2와 자릿수 맞춤)"),
@@ -441,6 +474,20 @@ def main() -> None:
         else:
             model = cls().to(device)
         n_par = sum(p.numel() for p in model.parameters() if p.requires_grad)
+        parameter_parity = None
+        if arm == "P4native":
+            reference = EmbDecoder(cin=emb_cin)
+            reference_n_par = sum(p.numel() for p in reference.parameters()
+                                  if p.requires_grad)
+            parameter_parity = {
+                "reference_arm": "P4 with the same embedding channel count",
+                "reference_trainable_params": reference_n_par,
+                "passed": n_par == reference_n_par,
+            }
+            if not parameter_parity["passed"]:
+                raise RuntimeError(
+                    f"C1b parameter-parity gate failed: {n_par} != {reference_n_par}")
+            del reference
 
         # pos_weight는 표본 300개 근사가 아니라 train mask **전체**에서 계산한다.
         pos = neg = 0
@@ -639,6 +686,10 @@ def main() -> None:
 
         results[arm] = {
             "desc": desc, "trainable_params": n_par, "pos_weight": round(pw, 3),
+            "embedding_input_shape": (
+                list(np.load(emb_cache / "emb_fp16" / f"{splits['train'][0]}.npy",
+                             mmap_mode="r").shape) if kind == "emb" else None),
+            "parameter_parity": parameter_parity,
             "fit_plus_epoch_val_seconds": round(train_s, 1),
             "best_val_epoch": best["epoch"], "best_val_iou": round(best["val_iou"], 5),
             "history": history,
@@ -688,7 +739,7 @@ def main() -> None:
                                     "lr": args.lr, "grad_clip": args.grad_clip,
                           "model_selection": "best val IoU; test never used for selection",
                           "decision_threshold": 0.5,
-                          "lr": LR, "weight_decay": WD,
+                          "weight_decay": WD,
                           "pos_weight_cap": POS_WEIGHT_CAP,
                           "pos_weight_source": "all train masks, exact",
                           "raw_norm": "uint16/10000, clamp[0,1.5]",

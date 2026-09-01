@@ -1,6 +1,6 @@
 # 논문 서사 SSOT — M65 이후 transfer 본선
 
-갱신: 2026-08-31. 이 문서는 M65 이후 논문 주장과 실험 우선순위의 단일 기준이다.
+갱신: 2026-09-01. 이 문서는 M65 이후 논문 주장과 실험 우선순위의 단일 기준이다.
 과거 router·live-residual·Nepal 계획은 역사로 보존하지만 이 문서의 실행 queue를 덮지 않는다.
 
 ## 한 줄 판정
@@ -63,7 +63,9 @@ P2/P3보다 높은 region-macro를 보였다는 사실을 봉인했다. 다음 �
 
 ### B. 반드시 채워야 하는 방어벽
 
-1. **Presto C1**: OLMo 고유 효과인지 일반 frozen representation 효과인지 분리.
+1. **Presto C1**: C1a common-grid는 완료(MS-87: `.1092`, P4/P2에 8/8 패배). 이것은
+   `generic frozen effect`를 한 모델에서 반증하지만 off-domain Presto·pooling·retrospective
+   한계를 가진다. C1b native와 Korea first-look 전에는 OLMo 고유성 일반 주장을 금지한다.
 2. **두 readout을 함께 보고**:
    - `common-grid`: Presto 128²를 32²로 사전등록 pooling해 P4와 동일 decoder/upscale 경로 사용.
    - `native-grid`: 각 encoder의 native spatial product로 실제 사용 성능 보고.
@@ -87,7 +89,7 @@ P2/P3보다 높은 region-macro를 보였다는 사실을 봉인했다. 다음 �
 - 평가는 평균 IoU만이 아니라 고정 empty-tile FP budget에서 positive-tile IoU와 risk–coverage를 본다.
 
 그러나 Clay-CNN hybrid와 일반 feature fusion이 이미 존재하므로 **바로 성능 실험으로 가지 않는다.**
-먼저 기존 P2/P4 예측에서 per-tile oracle headroom을 재는 M86 screen을 실행했다. region-macro
+먼저 기존 P2/P4 예측에서 per-tile oracle headroom을 재는 MS-86 screen을 실행했다. region-macro
 headroom은 **+.023753**, 5/8 지역이 +.02 이상으로 사전 gate를 통과했다. empty-tile FP도 P4가
 7/8 지역에서 낮았고 P2/P4 비 중앙값은 **5.0226×**였다. 따라서 development prototype은 열 수
 있지만, target label oracle·threshold .5 분석이므로 deployable method 증거는 아니다.
@@ -100,17 +102,16 @@ exchangeability가 깨지므로, calibration guarantee를 새로 증명하거나
 
 | 순서 | 작업 | 판정 |
 |---|---|---|
-| **0 완료** | 기존 72 per-sample 결과 CPU-only 메커니즘 감사(M86) | FP screen PASS · fusion oracle screen PASS; 새 confirmatory/제품 주장 금지 |
-| **1** | Presto 16/64/256-pixel smoke → 6,834 cache seal | GPU1 유휴, exact month/WGS84, deterministic/finite/content seal |
-| **2** | C1 common-grid + native-grid, 8지역×3seed | OLMo 고유성·해상도 confound 분리; retrospective control 명시 |
-| **3** | label-budget pilot → full curve | nested subsets, ≥3 subset seeds, same IDs across arms |
-| **4** | Korea v2 40-sample preflight → full health/ontology audit | v1 0-fill cube 사용 금지; task equivalence 실패 시 stress test로 강등 |
-| **5** | Korea sealed external test 1회 | P4/P2/P3/C1 recipe와 primary metric을 개봉 전에 봉인 |
-| **6** | GeoContextGate 또는 집필 | M86은 필요조건만 통과. Presto 뒤 naive fusion을 먼저 이겨야 method로 승격. 승격 기준은 `config/geocontextgate_promotion_gate.json`(2026-08-31 사전등록)에 고정 — oracle headroom은 상한이므로 실현 이득 ≥ +0.01 또는 headroom의 50%, 고정 FP budget, label-free gate, 사후 완화 금지 |
+| **0 완료** | 기존 72 per-sample 결과 CPU-only 메커니즘 감사(MS-86) | FP screen PASS · fusion oracle screen PASS; 새 confirmatory/제품 주장 금지 |
+| **1 완료** | Presto smoke → 6,834 cache seal → C1a common-grid 8지역×3seed | MS-87 `.1092`; P4/P2에 8/8 패배, retrospective/off-domain 경계 유지 |
+| **2** | C1b native-grid 8지역×3seed | 4×4 pooling confound 분리; C1a primary를 사후 교체하지 않음 |
+| **3** | naive fusion → GeoContextGate development | source regions only. `config/geocontextgate_promotion_gate.json` 전 규칙 통과 전 method 주장 금지 |
+| **4** | label-budget pilot → full curve | nested subsets, ≥3 subset seeds, same IDs across arms |
+| **5** | Korea v2 40-sample preflight → full health/ontology audit | v1 0-fill cube 사용 금지; task equivalence 실패 시 stress test로 강등 |
+| **6** | Korea sealed external test 1회 | P4/P2/P3/C1과 승격된 gate recipe를 개봉 전에 봉인 |
 
-현재 H200은 2026-08-31 확인 시 GPU0/1 모두 약 68.5 GiB, utilization 99%였다. 새 GPU 실행은
-시작하지 않는다. confirmatory에는 72 test JSONL과 288 probability-map 파일이 있어 순서 0은 CPU로
-가능하다.
+2026-09-01 확인 시 GPU0/1 memory는 모두 0 MiB였다. GPU0은 사용자 규칙상 계속 사용하지 않고,
+GPU1 C1b는 snapshot·OUTROOT preflight 뒤에만 시작한다.
 
 ## 이번 사이클에서 빼는 것
 

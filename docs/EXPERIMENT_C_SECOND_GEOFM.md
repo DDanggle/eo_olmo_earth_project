@@ -1,6 +1,6 @@
 # 실험 C — 두 번째 frozen GeoFM: "OLMo 고유 효과인가, 일반 GeoFM 효과인가"
 
-작성 2026-08-27, 상태 갱신 2026-08-28. M61의 최우선 미착수 축이다.
+작성 2026-08-27, 상태 갱신 2026-09-01. C1a common-grid는 MS-87에서 완료했고 C1b가 남았다.
 
 > **지위 정정:** P2/P3/P4의 8-region 결과가 모두 개봉된 뒤 C1을 실행하게 됐다. 따라서 같은
 > 8지역의 Presto 비교는 설정을 지금 봉인한 **matched retrospective control**이지 untouched
@@ -42,8 +42,9 @@ Presto가 이례적으로 잘 맞음: **S2 밴드 10개(B01·B09 제외)가 Sen1
 - `center_lat/lon` 속성은 projected 값이므로 그대로 넣지 않는다. NetCDF CRS와 x/y로 각 픽셀의
   WGS84 좌표를 계산한다.
 
-기계 판독 계약은 `config/presto_c1_contract.json`이다. 아직 안 닫힌 것은 full 128×128 cache
-추출기·throughput/memory smoke·cache seal·matched decoder 실행이다.
+기계 판독 계약은 `config/presto_c1_contract.json`이다. 6,834타일 cache와 C1a common-grid
+8지역×3seed는 MS-87에서 닫혔다. C1a region macro `.1092`로 P4 `.2722`와 P2 `.1966`보다
+8/8 지역에서 낮았다. 아직 안 닫힌 것은 C1b native-grid sensitivity와 label-budget이다.
 
 ## Arm 정의 (동일 fold·동일 S12q·동일 seed 1/2/3·동일 선택 규칙)
 
@@ -51,7 +52,7 @@ Presto가 이례적으로 잘 맞음: **S2 밴드 10개(B01·B09 제외)가 Sen1
 |---|---|---|---|
 | B (기존) | frozen OlmoEarth v1 | 768ch @ 32×32 (40 m) | 작은 판독기 cin=768 |
 | **C1a primary** | frozen Presto | 128ch @ 32×32 (native 128²를 고정 4×4 mean-pool) | **P4와 같은 공간 경로** cin=128 |
-| **C1b sensitivity** | frozen Presto | 128ch @ 128×128 (10 m, 픽셀별) | native-grid small decoder |
+| **C1b sensitivity** | frozen Presto | 128ch @ 128×128 (10 m, 픽셀별) | `P4native`: P4와 같은 trainable layer, interpolation 없이 128²에서 실행 |
 | **C2** | frozen Clay v1.5 | d @ 패치격자 (시간 평균) | 같은 구조 cin=d |
 | C2b (RQ3) | frozen Clay v1.0 | 〃 | 〃 |
 | A (기존) | — (scratch P2/P3) | — | — |
@@ -61,7 +62,10 @@ Presto가 이례적으로 잘 맞음: **S2 밴드 10개(B01·B09 제외)가 Sen1
   arithmetic mean으로 32²에 고정한 뒤 P4와 같은 spatial decoder/upscale path를 쓴다. signed
   feature라 GeM을 사후 선택하지 않는다.
 - **C1b는 product-level sensitivity**다. native grid를 유지해 실제로 더 세밀한 Presto product를
-  쓸 때의 성능과 비용을 보고한다. C1b로 OLMo 고유 우월성을 판정하지 않는다.
+  쓸 때의 성능과 비용을 보고한다. P4와 동일한 1×1 projection·두 conv-BN block·head를 쓰되
+  두 interpolation을 제거하고 모든 block을 128²에서 실행한다. 따라서 trainable parameter는
+  같고 spatial support·FLOPs만 달라진다. 이 세부 architecture는 C1a 개봉 뒤 고정됐으므로 C1b로
+  OLMo 고유 우월성을 판정하거나 C1a primary를 교체하지 않는다.
 - 두 arm 모두 입력 채널 projection 외 trainable parameter·FLOPs를 기록한다. pooling/readout을
   숨은 구현 상세로 두지 않는다.
 - encoder·캐시 생성 FLOPs 포함 (M38 방식)
@@ -91,16 +95,21 @@ positive/negative tile로 층화한다. subset seed는 20260827·20260828·20260
 - C1·C2 모두 A 이하이면 → "frozen GeoFM 일반 효과" 주장 기각, OLMo 결과는 고유 효과로 격상하되 원인 분해 실험 필수
 - B−C1 격차가 seed 폭 이내이면 → "OLMo 고유" 주장 금지, 일반 GeoFM 효과로 서술
 
-## 실행 순서 — 2026-08-28 현재
+## 실행 순서 — 2026-09-01 현재
 
 1. ~~Presto 5샘플 feasibility probe~~ — **8/8 통과**.
 2. ~~정규화·upstream commit·month API 확인~~ — **완료**, contract v1 봉인.
-3. GPU1이 비면 16/64/256픽셀 smoke로 peak memory와 pixels/s를 재고, 128×128 한 타일을
-   exact-month·WGS84 lat/lon으로 인코딩해 determinism·shape·finite를 감사한다.
-4. 6,834 sample 전체 Presto fp16 cache를 한 번 만들고 file set·sample SHA·입력 계약을 봉인한다.
-5. **새 C1 결과를 보기 전에** C1a fixed mean-pool/common-grid를 primary, C1b native-grid를
-   sensitivity로 두고 동일 small decoder, seed 1/2/3, model selection, primary metric을
-   `recipe_frozen_v3`로 등록한다. 8지역은 retrospective matched comparison으로 전부 보고한다.
-6. C1이 학습·비용 gate를 통과한 뒤 label budget {1,5,10,100%}을 3 subset seed로 연다.
-7. 한국 external transfer recipe에는 P4/P2/P3/C1을 함께 등록하고, test를 처음 열어
+3. ~~16/64/256픽셀 smoke + exact-month/WGS84/determinism/finite 감사~~ — **완료**.
+4. ~~6,834 sample Presto fp16 cache + content/file seal~~ — **완료** (`da18f121…`).
+5. ~~C1a fixed mean-pool/common-grid, 동일 decoder·seed 1/2/3~~ — **완료 MS-87**.
+6. `P4native`의 exact 128² shape·P4 parameter parity와
+   `code/run_c1b_presto_native.sh`의 native cache seal·source snapshot·새 OUTROOT preflight를 통과한다.
+7. C1b native-grid를 같은 split·seed로 실행하되 C1a를 primary에서 사후 교체하지 않는다.
+8. C1b 뒤 naive fusion/GeoContextGate를 source regions에서 닫고, 승격 recipe를 Korea 개봉 전에 봉인한다.
+9. label budget {1,5,10,100%}을 3 subset seed로 연다.
+10. 한국 external transfer recipe에는 P4/P2/P3/C1과 승격된 gate를 함께 등록하고, test를 처음 열어
    OLMo-vs-Presto의 untouched 비교를 만든다.
+
+**MS-87 claim boundary:** 결과는 “M65 이득이 이 matched Presto control에는 확장되지 않았다”를
+지지한다. Presto의 native 12개월 use case 밖이고 common-grid pooling이 있으므로 “OLMoEarth가
+다른 GeoFM보다 일반적으로 우월하다”는 문장은 금지한다.

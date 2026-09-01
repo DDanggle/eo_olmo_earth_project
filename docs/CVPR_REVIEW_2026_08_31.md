@@ -7,7 +7,8 @@
 | 주장 | 근거 | 상태 |
 |---|---|---|
 | frozen OlmoEarth reuse가 8지역 확증에서 region-macro **.2722 vs P2 .1966 (+.0756)**, per-region 6/8 승 | M65, recipe v2 clean 절차(M58) | **생존.** 단 M61 강등: "사전학습 > scratch"는 viability이지 우월성 아님 |
-| 빈 타일 FP가 P4에서 더 낮은 경향 | M59·M63·M64, M86 | **8지역 중 7지역 생존**, 지역 중앙 P2/P4 5.02×. 단 threshold .5 기술통계이며 FP-budget matching 전에는 운영·인과 주장 금지 |
+| 빈 타일 FP가 P4에서 더 낮은 경향 | M59·M63·M64, MS-86 | **8지역 중 7지역 생존**, 지역 중앙 P2/P4 5.02×. 단 threshold .5 기술통계이며 FP-budget matching 전에는 운영·인과 주장 금지 |
+| Presto C1a common-grid | MS-87 | `.1092`로 P4/P2에 8/8 패배. generic frozen effect 한 모델 반증; off-domain/native-grid/retrospective 경계 유지 |
 | 지역 이득 이질성 실재(thrissur +.127 vs hiroshima +.062; indonesia 패배, itogon all-seed 실패; M60 val↔test 해리) | M60·M63·M65 | 생존 — D·E(적응/라우팅) 동기부여로 사용 |
 | 확증 절차 자체(위반 자기신고 M57 → 재설계 M58 → clean 3연승) | M57–M64 | 생존 — 논문 부록의 자산 |
 
@@ -16,7 +17,7 @@
 - `P4`는 새 2단 architecture가 아니라 **frozen cache + small decoder arm**이다. confirmatory
   procedure는 provenance protocol이므로 방법 기여로 올리지 않는다.
 - `P2`는 우리 S12q·LOCO 계약의 matched official-architecture baseline이지 supervised SOTA가 아니다.
-- 세 초기 지역의 오경보 5~21배 관찰은 M86에서 전 8지역으로 다시 집계했다. P4가 7/8에서
+- 세 초기 지역의 오경보 5~21배 관찰은 MS-86에서 전 8지역으로 다시 집계했다. P4가 7/8에서
   낮고 P2/P4 중앙값은 5.02×지만 threshold 0.5 결과이므로 FP-budget-matched 감사 전에는
   공간 문맥의 원인 증거가 아니라 가설이다.
 - Korea의 polygon 면적 유사성만으로 annotation match 또는 `T-m−T-x=annotation effect`를
@@ -24,9 +25,8 @@
 - 상세 claim과 queue는 `PAPER_NARRATIVE_2026_08_31.md`가 최종 근거다.
 
 ## 2. 복기에서 확인한 문제·정정 필요
-1. **C1(Presto) 상태 서술 불일치**: M62는 "정규화 미확정"이라 했으나 EXPERIMENT_C 문서 2026-08-28 갱신에서
-   공식 정규화(shift 0, /1e4)·commit 고정(11e207a…)·month 2-D 텐서까지 닫힘. **M62의 '미해결 4건' 중 1·2번은 해소됨** —
-   장부에 갱신 주석 필요. 남은 것: full 128×128 cache 추출기, throughput smoke, cache seal, matched decoder 3-seed.
+1. **C1(Presto) 완료 범위**: 정규화·commit·month·WGS84·6,834 cache·C1a matched decoder 3-seed가
+   MS-87에서 닫혔다. 남은 것은 native 128² C1b sensitivity와 label-budget이다.
 2. **C1은 이제 untouched가 아님**: 8지역 결과 개봉 후 실행이므로 matched retrospective control로만 서술 가능.
    untouched OLMo-vs-GeoFM은 한국 cohort가 맡는다(문서에 이미 명시 — 논문 서술도 이 구분 유지).
 3. **네팔 사이드카의 M79가 C1을 선점하지 않음**: M79는 Δz(비지도 변화) 과제에서 Presto 하한 비교(6/7 OLMo 우위)였고,
@@ -41,21 +41,22 @@
    M52는 M54·M55로 강등된 서술만 인용.
 8. **한국 자산**: M9(공식 split 누수)·M10(13 cluster 동결)·M29/M35(12밴드 물질화, 24.6% 격자 밖 정정) — T-m(한국 전이) 실행 전
    AI-Hub 물질화 재검(M35의 실패 타일 제외 목록)이 선행 조건.
-9. **서버 상태**: GPU1 0 MiB 가용, GPU0 타 프로젝트 62.6 GB 점유(규칙 4b 유지). Sen12·Presto vendoring·S1asc까지 서버에 있음.
+9. **서버 상태**: 2026-09-01 GPU0/1 memory 0 MiB. 규칙 4b에 따라 GPU0은 사용하지 않고 GPU1만 쓴다.
    nepal 관련 임시 산출물이 artifacts를 크게 만들었으니 본선 실행 전 디스크 확인 권장.
 
 ## 3. CVPR까지의 실행 순서 (2차 claim 감사 반영)
-0. **완료 — M86 CPU audit**: P4 empty-FP 7/8·중앙 5.02×, P2/P4 tile-oracle
+0. **완료 — MS-86 CPU audit**: P4 empty-FP 7/8·중앙 5.02×, P2/P4 tile-oracle
    region-macro +.02375·5/8 ≥.02. method 필요조건만 통과.
-1. **C1 full**: Presto 128×128 cache 추출기 + smoke + seal → common/native-grid 3-seed, 8지역 matched control. (게이트 1c)
-2. **label-budget 축**(1/5/10/100%) — nested region/class subset, 최소 3 subset seed. 한 subset으로 crossover 특정 금지.
-3. **C2(Clay v1.5/v1.0)** — RQ3 release-pair 겸용.
-4. **한국 sealed external transfer** (M35 정정 + ontology/time/provenance 감사 후) — test first-look는 여기서만.
-5. R-event 재설계는 시간 남을 때만; 아니면 음성 결과로 한 문단.
-6. 집필: 뼈대 = §1 표 + 이질성 + 절차 부록. 마감·템플릿은 CVPR 2027 공지 확인 필요(미검증 — 예년 기준 11월 중순 제출).
+1. **완료 — MS-87 C1a**: Presto cache seal + common-grid 8지역×3seed.
+2. **C1b native-grid**: pooling confound를 분리하되 product sensitivity로 보고.
+3. **naive fusion + GeoContextGate**: source-region method를 Korea 개봉 전에 승격/폐기.
+4. **label-budget 축**(1/5/10/100%) — nested region/class subset, 최소 3 subset seed.
+5. **한국 sealed external transfer** (M35 정정 + ontology/time/provenance 감사 후) — test first-look는 여기서만.
+6. **C2 Clay release pair**는 위 본선이 닫힌 뒤 breadth로만 검토.
 
 ## 4. 즉시 할 일 (다음 세션)
-- [ ] M62에 "정규화·commit 해소(2026-08-28 계약 감사)" 갱신 주석 추가
-- [x] `audit_confirmatory_mechanism.py`를 72개 test JSONL에 실행해 M86 FP/fusion screen 고정
-- [ ] Presto full-cache 추출기 작성 → GPU1 유휴 후 smoke (64타일 처리율·메모리)
+- [x] M62 정규화·commit·full cache·C1a 상태 갱신
+- [x] `audit_confirmatory_mechanism.py`를 72개 test JSONL에 실행해 MS-86 FP/fusion screen 고정
+- [x] Presto full-cache + C1a common-grid(MS-87)
+- [ ] C1b native-grid runner snapshot·OUTROOT preflight 후 GPU1 실행
 - [ ] 디스크·artifacts 용량 점검, nepal 임시 npz 정리 목록 작성(삭제는 사용자 확인 후)

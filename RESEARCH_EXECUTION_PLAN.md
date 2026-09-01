@@ -1,10 +1,10 @@
 # 연구 실행계획 — MountainShift 우선순위 교정
 
-갱신일: 2026-08-31
+갱신일: 2026-09-01
 실행 자원: **H200 GPU1 전용** (2026-08-25 사용자 지시로 변경. 이전 표기는 GPU0였음).
 모든 학습·추론은 `CUDA_VISIBLE_DEVICES=1`. GPU0은 건드리지 않는다.
 
-> 활성 과학 기준점은 M65/`4862483`. Nepal 전용 구현·데이터는 sibling 저장소로 이관됐으며
+> 활성 과학 기준점은 MS-87/`1c3e02a`. Nepal 전용 구현·데이터는 sibling 저장소로 이관됐으며
 > 아래 R1–R6 queue를 선점하지 않는다. `RESTART_HERE.md`가 새 세션의 첫 문서다.
 
 ## 2026-08-28 실행 queue — transfer 본선 복귀
@@ -19,23 +19,27 @@
   P4−P2 +.0756, per-region win 6/8(M65).
 - Presto feasibility 8/8, upstream commit·code·weight·normalization `/10000` byte match, exact 12-month
   vector API 확인. `config/presto_c1_contract.json`으로 봉인.
+- MS-87 C1a 완료: 6,834 cache seal, common-grid 8지역×3seed. C1a `.1092`, P4 `.2722`, P2 `.1966`.
 - Nepal live work는 `docs/NEPAL_SIDECAR_HANDOFF_2026_08_28.md`에 주차. `live_mode=null`이며
   CVPR queue를 대체하거나 선점하지 않는다.
 
 | 순서 | 산출물 | 사전 gate / 중단 조건 |
 |---|---|---|
 | **R0 완료** | 8-region aggregate + M65 | 8 post manifest PASS, recipe SHA 일치, equal-region macro |
-| **R0.5 완료** | 72 per-sample CPU mechanism audit(M86) | P4 empty-FP 7/8·중앙 5.02×, tile-oracle +.02375·5/8 ≥.02. 새 confirmatory/router로 부르지 않음 |
-| **R1 준비** | Presto 16/64/256픽셀 + 1타일 cache smoke | GPU1 가용; exact month·WGS84 lat/lon; deterministic; finite; peak memory·pixels/s 기록 |
-| **R2** | 6,834 sample Presto fp16 cache | same S12q IDs 100%, file/content seal, 예상 용량은 실측 후에만 확정 |
-| **R3** | P4/P2/P3/C1, 8지역×3seed matched retrospective table | 결과 보기 전 recipe v3; Presto common-grid와 native-grid를 분리; C1은 confirmatory라 부르지 않음 |
-| **R4** | {1,5,10,100%} label-budget curve | C1 뒤에만; nested region×class subset, 최소 3 subset seed. optimizer seed만으로 sampling uncertainty를 대신하지 않음 |
-| **R5** | Korea input/split/ontology preflight + sealed recipe | v2/대체 canonical S2, M10 split, label phenomenon/time/provenance를 감사하고 P4/P2/P3/C1 등록 후 test 개봉 |
+| **R0.5 완료** | 72 per-sample CPU mechanism audit(MS-86) | P4 empty-FP 7/8·중앙 5.02×, tile-oracle +.02375·5/8 ≥.02. 새 confirmatory/router로 부르지 않음 |
+| **R1 완료** | 6,834 sample Presto cache + C1a common-grid | content seal, same IDs·decoder·3 seed; C1a `.1092`, P4/P2에 8/8 패배(MS-87) |
+| **R2 준비** | Presto C1b native-grid 8지역×3seed | `P4native`·GPU1 전용 snapshot runner 작성. CPU 정적 검사 뒤 서버 cache seal/shape smoke를 통과해야 시작; product sensitivity이며 사후 primary 교체 금지 |
+| **R3** | naive fusion + GeoContextGate development | source regions only; `config/geocontextgate_promotion_gate.json` 전 규칙 통과 전 method 주장 금지 |
+| **R4** | {1,5,10,100%} label-budget curve | nested region×class subset, 최소 3 subset seed. optimizer seed만으로 sampling uncertainty를 대신하지 않음 |
+| **R5** | Korea input/split/ontology preflight + sealed recipe | v2/대체 canonical S2, M10 split, label phenomenon/time/provenance를 감사하고 모든 arm 등록 후 test 개봉 |
 | **R6** | Korea external transfer + cost table | cluster-macro/LOCO/CI, cold cache·warm head·deployment 비용 분리. paired re-annotation 없이는 annotation effect 주장 금지 |
 
-2026-08-31 재확인 시 GPU0/1은 다른 프로세스가 각각 약 68.5 GiB, utilization 99%를 쓰므로
-R1은 시작하지 않는다. 점유가 풀리기
-전에는 extractor·audit·recipe만 준비한다. 실행 중 confirmatory 네 코드 경로는 수정하지 않는다.
+2026-09-01 재확인 시 GPU0/1 memory는 모두 0 MiB였다. 사용자 규칙에 따라 GPU0은 계속
+건드리지 않는다. 기존 P4 decoder는 128² 입력을 512²까지 키웠다가 128²로 줄이므로 C1b에 그대로
+쓰면 안 된다. `P4native`는 같은 trainable layer를 128²에서 interpolation 없이 실행하고 shape·parameter
+parity를 fail-closed로 검사한다. `code/run_c1b_presto_native.sh`가 소스 사본·cache seal·OUTROOT를
+봉인한 뒤에만 GPU1 R2를 시작한다.
+실행 중 confirmatory 네 코드 경로는 수정하지 않는다.
 
 **논문 경계:** R3까지는 “OLMo가 일반 GeoFM보다 낫다”를 금지한다. R5 전에는 한국 전이를
 주장하지 않는다. 지역별 P4 gain 편차는 보였지만 label-free winner predictor가 없으므로 router는

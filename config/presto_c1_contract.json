@@ -1,6 +1,6 @@
 {
   "schema": "presto-c1-input-contract-v2",
-  "status": "PINNED_NOT_EXECUTED",
+  "status": "C1A_COMPLETE_C1B_CACHE_PREFLIGHT_PASS_CODE_DEPLOY_PENDING",
   "purpose": "Second frozen GeoFM control for the completed Sen12 S12q OLMo/raw benchmark",
   "upstream": {
     "repository": "https://github.com/nasaharvest/presto",
@@ -55,12 +55,12 @@
     "spatial_output": "128 channels x 128 x 128 native pixel grid",
     "registered_readouts": {
       "primary_common_grid": "Non-overlapping channel-wise 4x4 arithmetic mean pooling to 128 channels x 32 x 32, then the same spatial decoder/upscale path as P4.",
-      "sensitivity_native_grid": "Keep 128 channels x 128 x 128 and use the declared native-grid small decoder. This is a product-level sensitivity, not the primary model-family comparison.",
+      "sensitivity_native_grid": "Keep 128 channels x 128 x 128. Use the C1b-native decoder: the same trainable layers as C1a/P4 (1x1 projection 128->128, two conv_bn blocks 128->64->32, 1x1 head) but perform both conv blocks at 128x128 with no spatial interpolation. Assert an exact 128x128 input and output. This keeps trainable parameters matched while changing spatial support and compute. This decoder detail was fixed after C1a was visible, so C1b remains a retrospective product-level sensitivity, not a replacement primary comparison.",
       "forbidden": "Do not choose a pooling rule after seeing C1 performance; do not use the native-grid result alone to claim OlmoEarth-specific superiority."
     }
   },
   "decoder_and_evaluation": {
-    "decoder": "Primary C1a uses fixed 4x4 mean pooling and the same P4 spatial path with cin changed 768 to 128. C1b is a separately reported native-grid sensitivity.",
+    "decoder": "Primary C1a uses fixed 4x4 mean pooling and the same P4 spatial path with cin changed 768 to 128. C1b uses the parameter-matched P4native path declared in registered_readouts: no spatial upsampling, exact 128x128 input/output, separately reported as a retrospective native-grid sensitivity.",
     "seeds": [
       1,
       2,
@@ -93,12 +93,36 @@
   "evidence_boundary": {
     "probe": "8/8 feasibility checks passed, including deterministic 16-pixel encode.",
     "normalization_and_commit": "Resolved by byte-identical comparison with the pinned upstream commit.",
-    "remaining_before_full_run": [
-      "Implement and audit the 128x128 per-pixel cache extractor.",
-      "Measure a small GPU1 throughput/memory smoke before extrapolating the approximately 28.7 GB fp16 cache.",
-      "Verify exact per-timestep months and WGS84 pixel coordinates on sampled NetCDF files.",
-      "Seal cache file sets and sample IDs before decoder training."
+    "completed_c1a": {
+      "sample_count": 6834,
+      "cache_content_sha256": "da18f121e7ae5f87b6eabbfa183497a4ea623a1b03db0b249fef30e3216910ef",
+      "common_grid_content_sha256": "33e11d6692dac6381109c1543b1f523c0dac30867a48ad1cd117a6318d65d6f3",
+      "region_macro_positive_tile_iou": 0.109217,
+      "p4_region_macro_reference": 0.272137,
+      "p2_region_macro_reference": 0.196558,
+      "p4_beats_c1a_regions": 8,
+      "p2_beats_c1a_regions": 8,
+      "artifact": "artifacts/c1a_presto_control_v1.json"
+    },
+    "c1b_read_only_server_preflight_2026_09_01": {
+      "session": "h200-dev",
+      "gpu_memory_mib": {
+        "gpu0": 0,
+        "gpu1": 0
+      },
+      "native_cache_files": 6834,
+      "native_cache_manifest_sha256": "aad49d14f94f36dacaedd6abba3b136cada0ca14c61649afd8ea632a05da162b",
+      "spot_check_40_pass": true,
+      "sample_shape": [128, 128, 128],
+      "sample_dtype": "float16",
+      "code_uploaded": false,
+      "training_runs_started": 0
+    },
+    "remaining": [
+      "Deploy the locally validated C1b runner and pass its source-snapshot, output-path, parameter-parity, and cost-accounting gates before the first full run.",
+      "Run and report the native 128x128 C1b sensitivity without replacing C1a as the primary comparison.",
+      "Run the nested multi-subset-seed label-budget audit after C1b."
     ],
-    "interpretation": "Because P2/P3/P4 outcomes on all eight regions are already open, C1 is a frozen retrospective matched control, not a newly untouched confirmatory release. Common-grid C1a is the primary representation-family comparison; native-grid C1b is a product sensitivity. The first sealed first-look OLMo-vs-Presto transfer must be Korea or another unopened external cohort."
+    "interpretation": "C1a shows that the M65 gain did not extend to this matched frozen Presto control under the S12q event contract. It does not establish universal OlmoEarth superiority because Presto is outside its native 12-month use case, C1a pools 128x128 to 32x32, and the comparison is retrospective. Common-grid C1a remains primary; native-grid C1b is a product sensitivity. The first sealed first-look OlmoEarth-vs-Presto transfer must be Korea or another unopened external cohort."
   }
 }

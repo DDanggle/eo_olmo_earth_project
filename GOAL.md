@@ -3,11 +3,11 @@
 > 이 파일이 이 프로젝트의 단일 진실 공급원(SSOT)입니다.
 > 에이전트든 사람이든, 작업 시작 전에 읽고 / 끝나면 Worklog와 상태를 갱신합니다.
 
-> **2026-08-31 재시작 경계:** 현재 활성 기준점은 M65/commit `4862483`이다.
+> **2026-09-01 재시작 경계:** 현재 활성 기준점은 MS-87/commit `1c3e02a`이다.
 > Nepal M66–M85는 보존된 역사이며 전용 구현·산출물은 sibling 저장소
-> `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. M86의 기존-output mechanism
-> audit까지 완료했으며 현재 실행 순서는 `Presto matched control → nested label-budget
-> audit → Korea input preflight → Korea untouched transfer`다.
+> `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. MS-86 mechanism audit과 MS-87
+> Presto C1a까지 완료했으며 현재 실행 순서는 `Presto C1b native sensitivity →
+> GeoContextGate/naive fusion → nested label-budget → Korea preflight/untouched transfer`다.
 > 자세한 금지 주장과 읽는 순서는 `RESTART_HERE.md`가 우선한다.
 
 ## 미션 — Decision-Continuous Earth Intelligence
@@ -3095,3 +3095,34 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 실행 상태: H200 GPU0/1 모두 약 68.5 GiB·99% 사용 중이라 새 GPU 작업을 시작하지 않았다.
   서버 compact 결과를 `artifacts/confirmatory_mechanism_audit_v1.json`으로 회수했고 source 72파일
   SHA를 포함했다. synthetic test 1개 통과.
+
+### 2026-09-01 — MS-87/NP-88 교수 재감사와 임계경로 갱신 (완료)
+
+- MS-87 실물 확인: Presto 6,834 cache(content `da18f121…`)와 common-grid(`33e11d66…`)가
+  봉인됐고 동일 decoder path·8지역×3seed에서 C1a `.1092`, P4 `.2722`, P2 `.1966`이었다.
+  P4/P2 모두 8/8 승리. 단 Presto는 12개월 모델의 off-domain 사건 계약이고 4×4 pooling이
+  있으므로 “Olmo universal superiority” 대신 “이 matched Presto control로 확장되지 않았다”만 허용.
+- 측정 ID 충돌 발견: 본선 M86/M87과 Nepal M86/M88을 앞으로 MS-86/MS-87, NP-86/NP-88로
+  namespace한다. 기존 파일/커밋은 계보 보존을 위해 바꾸지 않는다.
+- NP-89 사후 재계산: NP-88 동일 47창·122,558토큰·IWM/TASA/JAXA label에서 Olmo AUROC/AUPRC
+  `.8459/.2548`; 기관별 AUROC `.8865/.8783/.7961`. 외부 proxy 정합은 생존했다.
+- 반증: 강한 post-event NDWI가 AUPRC `.2911`로 Olmo `.2548`을 이겼고 5.12 km block-macro
+  AUROC는 `.8497` vs `.8573`; Olmo−NDWI block bootstrap CI `[-.0620,.0902]`. 초기
+  “고전보다 +.10~+.15” 우월성 주장은 철회. 같은 창·80 m 강거리 bin conditional AUROC는
+  Olmo `.8006` vs NDWI `.7518`이나 post-hoc·event n=1 가설로 제한.
+- 산출물: `docs/PROFESSOR_AUDIT_M87_NP88_2026_09_01.md`,
+  `code/audit_nepal_m88_robustness.py`, `artifacts/nepal_np89_robustness_audit_v1.json`
+  (SHA `360ab91b…`, source manifest 포함).
+- 실행 결정: Nepal은 case study로 닫고 GPU queue를 선점하지 않는다. 다음은 GPU1의 C1b native,
+  그 뒤 naive fusion/GeoContextGate, label budget, Korea 순이다. 2026-09-01 확인 시 GPU0/1 memory
+  0 MiB였으나 GPU0은 사용자 규칙상 사용하지 않는다.
+- C1b 실행 감사: 기존 P4 decoder에 128² native cache를 넣으면 512²까지 불필요하게 확대한 뒤
+  128²로 축소하는 오류 경로임을 발견했다. parameter-matched·no-interpolation `P4native`, exact-shape/
+  parameter-parity gate, native manifest seal·source snapshot·OUTROOT fail-closed runner를 추가했다.
+  CPU syntax/JSON 검증은 통과했지만 서버 preflight와 GPU 24실행은 아직 시작하지 않았다.
+- runner 기록 정확성도 정리했다: `development_protocol_v2`의 중복 `lr` 키가 CLI `--lr` 값을
+  상수로 덮어쓰던 provenance 결함을 제거했다. 기본 recipe 수치는 바뀌지 않으며 향후 non-default
+  안정화 실행의 기록만 정확해진다.
+- 서버 read-only preflight: `h200-dev` RUNNING, GPU0/1 모두 0 MiB. native cache는 6,834파일,
+  manifest `aad49d14…`, spot-check PASS, 표본 `(128,128,128)` float16으로 runner 기대값과 일치했다.
+  새 코드는 아직 서버에 업로드하지 않았고 C1b 학습 실행은 0건이다.

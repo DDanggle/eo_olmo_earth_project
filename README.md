@@ -1,9 +1,9 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-08-31
+최종 갱신: 2026-09-01
 
 > **새 세션은 [`RESTART_HERE.md`](RESTART_HERE.md)부터 읽는다.** 활성 과학 기준점은
-> M65/`4862483`이며, Nepal 전용 앱·코드·데이터는
+> MS-87/`1c3e02a`이며, Nepal 전용 앱·코드·데이터는
 > `/Users/dgyi/dong/ai_projects/nepal-live-twin`으로 분리했다. 아래 M66–M85 서술은
 > 삭제되지 않은 감사 이력이지 현재 실행 queue가 아니다.
 
@@ -16,9 +16,10 @@
 >
 > 공식 P2/P3와 frozen-small P4의 8-region 확증이 끝났다. P4/P2/P3 region-macro는
 > **.2722/.1966/.1834**, P4−P2 **+.0756**, 사전등록 지역 승리 **6/8**이다(M65).
-> 현재 병목은 **Presto cache smoke → 동일 decoder 3-seed 비교 → 한국 untouched transfer**다.
+> Presto C1a common-grid는 `.1092`로 P4 `.2722`와 P2 `.1966`에 8/8 지역에서 졌다(MS-87).
+> 현재 병목은 **Presto C1b native-grid preflight/실행 → GeoContextGate/naive fusion → label budget → 한국 sealed transfer**다.
 > Nepal live work는 sibling 저장소의 운영/portfolio sidecar다. 본 저장소의 다음 병목은
-> **Presto matched control → Korea input preflight → untouched Korea transfer**다.
+> **C1b pooling sensitivity → source-region method freeze → Korea input preflight → untouched Korea transfer**다.
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에
@@ -106,7 +107,7 @@ kt cloud AI Nexus의 **H200 ×2**.
   최대 ×26 리프트의 유사지 검색이 가능함을 정량 검증. few-shot 프로토타입은 지역·유형을
   건너뛰어 전이됨(완도 해상 김양식 → 제주 육상 수조, 9/9가 상위 4% 내).
 
-### 2026-08-30 현재판 — 8-region 확증 완료, 두 번째 GeoFM·한국 transfer가 남음
+### 2026-09-01 현재판 — 8-region 확증 + Presto C1a 완료, native readout·한국 transfer가 남음
 
 동결 recipe v2의 8개 held-out 지역 72실행이 모두 끝났고 release post-gate를 통과했다.
 주지표인 positive-tile macro IoU의 region-macro는 **P4 frozen OLMoEarth .272166**, P2 UNet3D
@@ -114,10 +115,11 @@ kt cloud AI Nexus의 **H200 ×2**.
 +.068220이다. P4는 6/8 지역에서 사전등록 승리했고 Indonesia에서는 패배, Itogon에서는 seed
 일관성 규칙을 실패했다. 결과와 출처 검증은 `artifacts/confirmatory_8region_summary.json`과 M65에 있다.
 
-이 결과는 “frozen OLMoEarth가 지역 전이에 쓸 만하다”를 지지한다. 아직 “OLMo 고유 효과”는 아니다.
-Presto의 upstream commit·weight·정규화(`/10000`)·exact-month API를 봉인했지만 full 128×128 cache와
-동일 decoder 비교는 미실행이다. 기존 8지역은 이미 열렸으므로 Presto C1은 retrospective matched
-control이고, 최초 untouched OLMo-vs-Presto 비교는 한국 test에서 만든다.
+이 결과는 “frozen OLMoEarth가 지역 전이에 쓸 만하다”를 지지한다. MS-87에서 Presto full cache와
+사전등록 common-grid 동일 decoder 비교까지 닫았고, C1a `.1092`로 P4·P2보다 8/8 낮았다. 따라서
+M65가 아무 frozen GeoFM에서 자동으로 생기는 결과는 아니지만, 12개월용 Presto를 사건 계약에 넣은
+off-domain retrospective control이며 native 128² 감도가 남아 있다. 최초 untouched
+OLMo-vs-Presto 비교는 한국 test에서 만든다.
 
 Nepal sidecar는 입력계약을 고친 M76에서 5앵커·27창 모두 사전등록 검출 기준을
 통과하지 못했다. M77은 Tadi Khola를 관측성이 나은 잠정 음성 대조로 추가했고,
