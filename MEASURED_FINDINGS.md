@@ -4303,6 +4303,38 @@ A4s(scratch)는 floor 로만 보고. primary = FP 매칭 positive-tile macro IoU
 
 **봉인**: `code/fewshot_a1_a4.py`, `artifacts/fewshot_a1_a4/{fu_scratch,fe_a1,fu_a4w,fe_a4w}/report_*.json`, source P2 `cachetune_source_p2_v1/`(스냅샷 SHA 포함).
 
+## MS-96. 8지역 확증 — target 라벨 5·20장에서 캐시 재사용+디코더 적응(A1)이 raw 재학습(A4w)을 **8/8** 이김 (2026-09-02, fixed-update)
+
+**사전 등록**: `config/fewshot_a1_vs_a4_prereg_v0.json → confirmatory_protocol_registered_now`(개발 게이트 MS-95 통과 전에 등록).
+manifest: 지역별 PT-0 규칙(ann_id 그룹·10 km block·3 km buffer) — **배정 규칙 v2**(pool 양성 상한 45%)로 8지역 재봉인
+(v1 은 hokkaido 에서 query 양성 0 을 만들어 지표 열람 전에 변경, `artifacts/fewshot_confirmatory_manifests/`).
+체크포인트: 기존 확증 `confirmatory/holdout_<r>/P4_seed{1,2,3}`(A0/A1) 과 `P2_seed{1,2,3}`(A4w) — 재학습 없음. 고정 300 update, target validation 0.
+
+| 지역 | A0 (재사용) | **A1 K=5** | A4w K=5 | **A1 K=20** | A4w K=20 |
+|---|---:|---:|---:|---:|---:|
+| hiroshima | .264 | .328 | .266 | .372 | .353 |
+| hokkaido | .265 | **.477** | .327 | **.486** | .319 |
+| **indonesia** (반증 지역) | .312 | .288 ↓ | .160 | .333 | .256 |
+| itogon (바닥) | .131 | .118 ↓ | .078 | .155 | .141 |
+| kyrgyzstan1 | .256 | .280 | .093 | .286 | .142 |
+| kyrgyzstan2 | .202 | .213 | .110 | .216 | .133 |
+| newzealand | .255 | .235 ↓ | .144 | .280 | .188 |
+| thrissur | .376 | .410 | .255 | .406 | .299 |
+| **macro** | .258 | **.294** | .179 | **.317** | .229 |
+
+**등록 판정**
+- `reuse_wins`(A1−A4w ≥ +0.01, K=5, ≥6/8): **8/8 통과**. K=20 도 8/8.
+- `crossover`(A4w 가 K=20 에서 동률·승 ≥5/8): **0/8 — 교차 없음**(K≤20 구간).
+- `retrain_wins`: 0/8.
+- `indonesia_rule`(반증 지역 별도): A1 K=5 .288 < A0 .312 — **적응이 K=5 에서 소폭 해침**, K=20 에서는 회복(.333). itogon·newzealand 도 K=5 에서 A0 미만.
+  → "라벨 5장 적응은 항상 이득"이 아니라 **3/8 지역에서는 K=5 적응이 무적응보다 나쁨**. 이건 결론의 조건절이 된다: A1 ≫ A4w 는 8/8 이지만, A1 > A0 는 K=5 에서 5/8, K=20 에서 8/8.
+- **A4w 는 K=5 에서 8/8 지역 모두 A0 미만**(macro .179 < .258): 소스 학습된 raw 모델을 소량 target 라벨로 적응하면 소스 성능을 잃는다. 캐시 위 디코더는 이 붕괴를 겪지 않는다.
+
+**허용 해석**: "새 지역에서 target 라벨이 5–20장일 때, 얼린 캐시 위 디코더 적응이 소스 초기화 raw 재학습보다 낫다(8/8 사전등록). raw 재학습은 이 라벨 구간에서 오히려 소스 성능을 파괴한다. 단, 무적응(A0) 대비 K=5 적응 이득은 지역 의존(5/8)이며 K=20 에서 8/8."
+**아직 아닌 것**: fixed-exposure 확증(OOM 으로 재실행 대기) — 두 exposure 결론이 같아야 확정. P3(U-TAE) 감도, K>20 미탐색, 벤치마크 1개.
+
+**봉인**: `artifacts/fewshot_confirmatory/fu/report_fixed_update.json`(120 run), `summary.json`, `code/fewshot_conf_summary.py`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
