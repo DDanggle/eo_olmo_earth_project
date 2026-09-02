@@ -1,0 +1,32 @@
+{
+  "schema": "fewshot-a1-vs-a4-preregistration-v0",
+  "registered": "2026-09-02",
+  "registered_before_running": true,
+  "question": "With K target support labels (K=5,20), does adapting only the decoder on a frozen OlmoEarth cache (A1) beat retraining a raw model (A4) on the same K tiles? This is the target-few-shot axis of 'Reuse or Retrain?'. MS-94 established A1 > A0 by +0.068..+0.080; the missing comparator is raw.",
+  "manifests": "identical to CacheTune PT-0 (artifacts/cachetune_pt0/*_manifest.json): same support draws, same query, same seeds — A1 numbers are recomputed in-run for comparability",
+  "arms": {
+    "A0": "source P4 decoder, no adaptation (reference)",
+    "A1": "source P4 decoder, all decoder params adapted on support; BN statistics frozen; Adam lr 1e-4 wd 1e-4",
+    "A4s": "OfficialUNet3D(in_channels=11: 10 bands + month channel, pilot input contract) trained FROM SCRATCH on the K support tiles only; BN in train mode (no source statistics exist); Adam lr 1e-3 wd 1e-4",
+    "A4w": "OfficialUNet3D initialised from the source-trained P2 checkpoint of the same development fold and seed (trained now with the sealed pilot snapshot, arm P2), then adapted on support with BN frozen; Adam lr 1e-4 wd 1e-4. This is the fair 'retrain' comparator: same source supervision as A1, raw pixels instead of cache."
+  },
+  "fixed_before_results": {
+    "updates": 300, "batch": "min(K, 8) with replacement", "loss": "BCEWithLogits, pos_weight = support neg/pos capped 50",
+    "target_validation": "none; no epoch selection", "seeds": "support draw seed s paired with source checkpoint seed s, s in {1,2,3}",
+    "primary_metric": "positive-tile macro IoU at the FP-matched operating point (budget = A0 empty-tile FP at 0.5 on query, applied equally)",
+    "secondary": ["IoU@0.5", "tie-correct AP", "trainable params", "GPU seconds", "raw bytes read (A4 reads raw_u16; A1 reads none)"]
+  },
+  "verdict_rules": {
+    "reuse_wins": "A1 - A4w >= +0.01 in both development regions at a given K (same direction) -> 'cache reuse + head adaptation beats raw retraining at that label budget'",
+    "retrain_wins": "A4w - A1 >= +0.01 in both regions -> record honestly; the reuse story narrows to K=0",
+    "indeterminate": "otherwise",
+    "scratch_reference": "A4s is reported but never used as the headline comparator (a from-scratch model at K=5 is expected to fail; that is a floor, not a finding)",
+    "no_post_hoc_relaxation": true
+  },
+  "cost_accounting_required": ["raw bytes read per arm", "GPU seconds per arm", "trainable parameters", "cache validity (A1: valid; A4: n/a)"],
+  "limitations_declared": [
+    "development regions only (china, chimanimani) — a screen, not the confirmatory matrix",
+    "300 fixed updates may favour one arm; this is why A4w (source-initialised) is the headline comparator and A4s only a floor",
+    "K=20 < K=5 anomaly observed for A1 in MS-94 is not analysed post hoc here"
+  ]
+}
