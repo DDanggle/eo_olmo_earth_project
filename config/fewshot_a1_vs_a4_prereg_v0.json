@@ -70,5 +70,25 @@
     "Presto: 'the effect did not extend to a matched Presto control, and native grid did not change the ranking' — not generic GeoFM superiority",
     "Nepal: 'embedding-based prioritisation consistent with external flood proxies' — not 'superior to classical change detection' (post-event NDWI AUPRC .291 > OLMo .255; spatial-block CI includes 0)",
     "MS-94 A1 gain is a strong development signal on two exposed regions, not a paper result"
-  ]
+  ],
+  "addendum_v1_2026_09_03_registered_before_running": {
+    "why": "Professor review of MS-96: the 2x2 (representation x adaptation) has an empty cell, and A1 vs A4w confounds trainable-parameter count (237,537 vs 2,693,121) with representation.",
+    "new_arms": {
+      "A4w0": "source-trained P2 (same checkpoint as A4w) evaluated on query with NO target adaptation. Fills the raw/no-adaptation cell; enables the 'does raw adaptation hurt raw' test (A4w vs A4w0).",
+      "A4h": "parameter-matched raw adaptation: source P2 with encoder, downsamplers, upsamplers and all but the LAST decoder block frozen; only dec[-1] (ConvBlock3D 128->64) + head are adapted; BN frozen; Adam lr 1e-4 wd 1e-4. Trainable count reported and must be within 2x of A1's 237,537 to count as matched.",
+      "A4p": "raw partial: A4h plus the last upsampler (up[-1]) unfrozen — sensitivity only"
+    },
+    "random_support_sensitivity": "in addition to the stratified support (>=40% positive tiles), draw K tiles uniformly at random from the same support pool (seeds 101,102,103), same query; run A0/A1/A4w/A4w0/A4h. If the A1 advantage disappears under random support, the claim narrows to 'K-tile support containing >= ceil(0.4K) positive dense masks'.",
+    "verdict_rules_added": {
+      "raw_adaptation_hurts_raw": "A4w < A4w0 by >= 0.01 in >= 6/8 regions at K=5 -> 'few-shot full raw adaptation degrades the source raw model'",
+      "representation_vs_capacity": "if A1 > A4h by >= 0.01 in >= 6/8 -> the advantage is not explained by trainable-parameter count alone; if A4h ~ A1 (within 0.01) in >= 5/8 -> demote to 'small-head adaptation is what matters, representation-agnostic'",
+      "support_stratification": "if under random support A1 > A4w drops below 6/8 -> report both conditions and narrow the claim as above"
+    },
+    "deployment_threshold_note": "FP-matched threshold uses query empty-tile labels: scientific ranking only. A deployable threshold must come from source validation or support-only calibration; registered as a separate later item.",
+    "not_run_yet": [
+      "U-TAE warm-start sensitivity",
+      "support-only A0/A1 selector",
+      "second task"
+    ]
+  }
 }
