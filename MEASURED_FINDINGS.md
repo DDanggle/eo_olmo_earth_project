@@ -4335,6 +4335,19 @@ manifest: 지역별 PT-0 규칙(ann_id 그룹·10 km block·3 km buffer) — **�
 
 **봉인**: `artifacts/fewshot_confirmatory/fu/report_fixed_update.json`(120 run), `summary.json`, `code/fewshot_conf_summary.py`.
 
+## MS-96-정정. "A4w K=5 가 8/8 지역에서 무적응 미만" 은 과장 — 정확히는 6/8, 그리고 비교 대상이 다름 (2026-09-03)
+
+`f0b422e` 커밋 메시지와 MS-96 본문의 "A4w 는 K=5 에서 8/8 지역 모두 A0 미만" 은 **틀림**. 재계산: A4w(K=5) < A0 는 **6/8**
+(hiroshima +.001, hokkaido +.062 예외). 더 중요한 오류: **A0 는 raw 무적응이 아니라 OlmoEarth cache + source decoder** 다.
+A4w 를 A0 와 비교하면 표현·모델 크기·입력·적응 여부가 동시에 바뀌므로 "raw 적응이 raw 모델을 망친다(catastrophic forgetting)"
+는 결론은 **아직 측정되지 않았다**. 그 주장을 하려면 동일 P2 를 적응하지 않은 **A4w0** 가 필요하다(2×2 의 빈 칸).
+
+성립하는 문장: **A1 > A4w 8/8(K=5·20)**, 그리고 tie-AP 에서도 8/8·8/8, IoU@0.5 에서 7/8·8/8 — 중심 비교는 지표에 둔감함.
+성립하지 않는 문장: "raw 적응은 무적응보다 해롭다"(A4w0 미측정), "K=5 이면 A1 을 하라"(A1>A0 는 FP-매칭 5/8·AP 4/8·IoU@0.5 4/8 —
+query 라벨 없이 A0/A1 을 고르는 selector 가 없으므로 운영 규칙이 아님).
+원인 미분리: A1(237,537 trainable) vs A4w(2,693,121, 11.3×) — "작은 decoder 적응이 강한 정규화" 설명과 "cache 표현의 이점" 설명이 섞여 있음.
+→ parameter-matched raw 적응(A4h: encoder 동결·마지막 decoder block+head 만), A4w0, random-support 감도를 등록해 실행함(MS-97 예정).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의

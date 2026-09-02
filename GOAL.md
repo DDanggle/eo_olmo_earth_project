@@ -3230,3 +3230,4 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 문서: RESEARCH_TOPIC_ALIGNMENT 에 주장 정정 표 추가. 발표 덱 v1 게시(사용자 자율 열람).
 - MS-95: A1 vs A4w 개발 게이트 통과(K=5 +.065/+.108, fe 도 동일 방향). A4w 는 K=20 에서 A0 미만. 다음: 8지역 확증(등록 규칙) manifest 봉인 후 실행.
 - MS-96: 8지역 확증 fixed-update — A1>A4w 8/8(K5·K20), 교차 없음, A4w 는 K5 에서 8/8 A0 미만. A1>A0 는 K5 5/8, K20 8/8(indonesia·itogon·newzealand 예외). fe 는 타 사용자 OOM 으로 재실행 대기(감시자).
+- MS-96 정정: 'A4w<A0 8/8' → 6/8 이며 A0 는 raw 무적응이 아님(A4w0 미측정). 성립 문장은 A1>A4w 8/8(IoU·AP). A4w0·A4h·random-support 등록·실행(MS-97).
