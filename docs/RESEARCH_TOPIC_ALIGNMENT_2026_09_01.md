@@ -103,3 +103,24 @@ task에 작은 adapter로 맞추고, 부족할 때만 비싼 재임베딩을 선
 | Nepal | "고전 변화탐지보다 우월" | "외부 flood proxy 와 40 m 규모로 정합한 embedding 기반 우선순위" — post-event NDWI AUPRC .291 > OLMo .255, 공간 block CI 0 포함, 600 m 밖 .873 은 route confound 하나만 약화 | NP-88/89 |
 | MS-94 A1 | "첫 양성 paper result" | "두 exposed 지역의 강한 개발 신호(+.068/+.080)" — 확증은 A1 vs A4w 게이트 후 8지역에서 | MS-94, fewshot prereg |
 | Tadi 대조 | 1.3% / 3.6% | **2.3% / 6.2%** (장면 밖 35% 0-채움 제외) | M77 정정 |
+
+
+## MS-96 이후 논문 프레임 갱신 (2026-09-03, 교수 검토 반영)
+
+**성립하는 중심 문장**: Sen12-Landslides 8개 지리 holdout 에서 target dense tile 5·20장이 주어졌을 때 frozen OlmoEarth cache 위
+decoder 적응(A1)이 source-trained UNet3D 전체 적응(A4w)보다 **8/8** 우수(FP-매칭 IoU; tie-AP 8/8; IoU@0.5 7/8·8/8). 부호검정 p≈.0078.
+
+**성립하지 않는(정정한) 문장**: "raw 적응이 무적응보다 해롭다"(A4w0 미측정), "K=5 이면 A1 하라"(A1>A0 5/8, query 라벨 없이 고를 selector 없음).
+**미분리 원인**: trainable 237k vs 2.69M(11.3×) — 정규화 효과와 표현 효과가 섞임 → A4h(parameter-matched raw) 로 분리 중.
+
+**주장 사다리**: 약함 "frozen OlmoEarth > UNet3D" → 중간 "라벨 희소에서 decoder 적응이 full raw 적응보다 안정" → **강함 "geographic shift·라벨 희소 아래에서
+cache-compatible action(A0/A1/A4)을 고르는 검증 가능한 결정 프로토콜"**. CVPR 노벨티는 세 번째에만 있음(PEFT>full FT 자체는 CVPR24·CrossEarth-Gate 등 선행).
+
+**의사결정 지도(현재 증거 기준)**: K=0 → A0 재사용. K=5 → full raw 적응은 피함; A0 기본, support-only 안정성 검증 통과 또는 라벨 추가 시 A1. K=20 → A1(8/8 양성, fe 확증 필요).
+K>20·다른 task → 미측정(raw PEFT 와 crossover 측정).
+
+**외적 타당성 구멍**: K=5 support 는 "양성 dense mask ≥2장 포함 층화 표본" — 운영상 라벨 5장이 아님 → random-support 감도(MS-97) 로 범위 확정.
+**평가 한계**: FP-매칭 임계는 query empty-tile 라벨 사용 → 과학적 순위용. 배포 임계는 source validation 또는 support-only calibration 으로 별도.
+
+**우선순위(교수안 그대로)**: ① fe 8지역 완료 ② A4w0 ③ parameter-matched raw(A4h/A4p) ④ random-support ⑤ 두 번째 과업 ⑥ support-only A0/A1 selector(성공 시 method paper).
+목표별: Ai2 취업 — 이미 강함(cache reuse + safe adaptation 실증). 박사/CVPR — "왜 그런가"와 "query 라벨 없이 action 선택"이 관건. 사업 — warm-cache 경제성(A1 GPU ~5 s·raw I/O 0 vs A4w 26–38 s·~1.4 GB)이지 cold-start 아님.
