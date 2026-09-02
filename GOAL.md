@@ -3223,3 +3223,8 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - MS-94: CacheTune A2-strict 불통과(A2s−A1 −.05~−.08, 두 지역·두 K). 공간 문맥 기여 0. stop rule 발동 → method 하차.
 - 양성: A1(decoder 적응) K=5 로 A0 대비 +.08/+.07. 다음 질문 = A1 vs A4 raw few-shot vs A3 PEFT (미실행, 승인 필요).
 - M77 정정: Tadi 창 35% 0-채움 발견(발표 이미지 육안 확인) → 후보 비율 6.2%/2.3% 로 상향, 앱·README 동기화. 계약에 0-채움 감사 추가 예정.
+
+### 2026-09-02 (4) — A1 vs A4 착수
+- 등록: `config/fewshot_a1_vs_a4_prereg_v0.json`(A4w=source-init P2 헤드라인, A4s floor, fixed-update/fixed-exposure, 8지역 확증 규칙 동시 등록, 주장 정정 5건).
+- 실행: A0/A1/A4s fixed-update 진행, source P2 6 run 학습(경합 ~3h), 체인이 A1 fe → A4w fu → A4w fe 자동.
+- 문서: RESEARCH_TOPIC_ALIGNMENT 에 주장 정정 표 추가. 발표 덱 v1 게시(사용자 자율 열람).
