@@ -3174,3 +3174,47 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   (b) drop_last/validation-frequency/threshold+FP-budget 최종 동결. 그 전에는 GPU label run을 시작하지 않는다.
 - 전체 pytest는 로컬 환경의 PyYAML 부재로 collection 5건이 중단됐다. 변경 파일 검증은 JSON parse,
   Python compile, `git diff --check`로 별도 통과시킨다.
+
+### 2026-09-02 (4) — cache-compatible post-training으로 method 축 재정렬 (계획)
+
+- 사용자 요청에 따라 source-label curve만 수행하는 measurement 논문에서 멈추지 않고,
+  embedding cache·low-rank adaptation·transfer·조건부 MoE를 하나의 engineering decision 문제로
+  묶는다. 단, generic LoRA/MoE를 새 방법이라고 부르지 않는다.
+- 중심 후보는 frozen OLMoEarth가 만든 `768×32×32` cache를 보존한 채 spatial low-rank residual만
+  target few-shot으로 적응하는 `CacheTune`이다. encoder APLA/LoRA는 cache를 무효화하고 raw
+  재입력·재임베딩이 필요한 ceiling comparator로 둔다.
+- 현재 P4 decoder의 첫 `1×1 768→128` 투영이 이미 channel bottleneck이므로, adapter와 decoder를
+  함께 자유롭게 학습해 얻은 이득은 method evidence로 세지 않는다. source decoder를 동결한
+  adapter-only arm, 동일 decoder를 적응하는 head-only arm, parameter-matched non-spatial control을
+  분리하는 identifiability gate를 먼저 등록한다.
+- P2/P4 prediction fusion은 MS-90B/91/92 stop rule로 닫혔다. MoE는 이를 이름만 바꿔 되살리지
+  않고, 지역별 cache adapter cross-transfer oracle이 사전 기준을 통과할 때만 support-set 단위의
+  sparse adapter mixture로 연다.
+- 기존 432-run source-label manifest는 폐기하거나 열지 않는다. raw recipe audit과 CPU target
+  support/query split audit는 유지하되, GPU 대량 실행은 exposed-region CacheTune viability gate 뒤로
+  순서를 바꿀지 명세에서 판정한다.
+- 이번 항목은 문헌·저장소 감사와 preregistration 설계만 수행한다. GPU 실행, protected runner 수정,
+  Korea test 개봉은 하지 않는다.
+- 결과: 중심 질문을 `Cache, Adapt, or Recompute?`로 재정의하고 A0 reuse / A1 head / A2
+  cache-compatible low-rank spatial residual / A3 encoder APLA·LoRA / A4 raw retrain의 action ladder를
+  `docs/CACHE_COMPATIBLE_POSTTRAINING_2026_09_02.md`에 고정했다.
+- PT-1은 exposed 2지역 × K={5,20} × A1/A2-strict/A2-nospatial × 3반복 = 36-run으로 제한했다.
+  source decoder 동결, U=0 초기화, target spatial support/query 분리, raw I/O·cache invalidation 비용,
+  A2 method·systems kill gate를 `config/cachetune_pt0_preregistration_v0.json`에 기계 판독형으로 기록했다.
+- MoE는 P2/P4 예측융합이 아니라 작은 cache adapter mixture로만 정의했고, adapter oracle이 single
+  shared adapter보다 +.02 이상인 개발지역/다중 task가 생기기 전에는 CLOSED 상태로 뒀다. 첫 policy는
+  learned router가 아닌 deterministic Pareto action planner다.
+- 기존 432-run source-label manifest와 MS-93 결과는 변경하지 않았다. label curve는 target label 0인
+  baseline으로 보존하고, raw recipe audit + PT-0 + PT-1 뒤 대량 GPU 순서를 최종 확정한다.
+- 문헌 감사: generic label curve, GeoFM LoRA/PEFT, embedding product, multimodal MoE는 각각 선행이
+  강해 단독 novelty에서 제외했다. 현재 차별점은 stored embedding product의 유효성을 유지하는
+  target few-shot adaptation과 encoder PEFT의 re-embedding 비용을 같은 frontier에서 재는 조합이다.
+- 동기화: `RESTART_HERE.md`, `docs/CRITICAL_PATH.md`, 쉬운 연구 정렬, 교수 감사, label-budget config,
+  `STUDY.md` 카드 #50–51을 갱신했다. JSON 2개 `jq empty`, `git diff --check`를 통과했다. GPU·서버·
+  protected runner·Korea test는 건드리지 않았다.
+
+### 2026-09-02 (2) — CacheTune PT-0 완료·PT-1 대기, 지역 역할 고정
+- 함: PT-0 manifest 봉인(china/chimanimani, ann_id 그룹 → 10 km block, 3 km buffer, 양성 40% 규칙, K=5/20 × 3 draw). 겹침 0.
+- 함: 개발 폴드 source P4(2 fold × 3 seed) 봉인 러너 GPU1 실행 중(공유 경합, 회당 ~17분). 완료 시 `cachetune_pt1_chain.sh` 가 PT-1(36 run) 자동 기동.
+- 함: `docs/REGION_ROLES_2026_09_02.md` — 지역=역할 배정(indonesia=반증 지역, itogon=바닥, china=소표본 스트레스 등), PT-1 결과 보기 전 커밋.
+- 남음: PT-1 판정(등록 gate) → 통과 시 A3 ceiling(K=20) → PT-3 8지역 매트릭스; 불통과 시 method 하차.
