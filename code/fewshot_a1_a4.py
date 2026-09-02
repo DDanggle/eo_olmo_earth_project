@@ -10,7 +10,7 @@ if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_D
 ROOT=Path("/home/work/data/olmoearth"); CACHE=ROOT/"sen12_pilot/holdout_chimanimani"
 SRC4=ROOT/"cachetune_source_p4_v1"; SRC2=ROOT/"cachetune_source_p2_v1"; PT0=ROOT/"artifacts/cachetune_pt0"
 ap=argparse.ArgumentParser(); ap.add_argument("--arms",default="A0,A1,A4s"); ap.add_argument("--exposure",default="fixed_update",choices=["fixed_update","fixed_exposure"])
-ap.add_argument("--out",default=str(ROOT/"artifacts/fewshot_a1_a4")); a=ap.parse_args()
+ap.add_argument("--out",default=str(ROOT/"artifacts/fewshot_a1_a4")); ap.add_argument("--confirmatory",action="store_true",help="8 확증 지역: confirmatory/holdout_<r>/P{4,2}_seed<s>/checkpoints 사용, manifest=fewshot_confirmatory_manifests"); a=ap.parse_args()
 OUT=Path(a.out); OUT.mkdir(parents=True,exist_ok=True); ARMS=a.arms.split(",")
 spec=importlib.util.spec_from_file_location("ob", ROOT/"sen12_official_baselines.py"); ob=importlib.util.module_from_spec(spec); spec.loader.exec_module(ob)
 sys.path.insert(0,str(ROOT/"code")); 
@@ -81,12 +81,17 @@ def train(model, Xs, Ys, steps, lr, wd, seed, bn_train):
     torch.cuda.synchronize(); model.eval(); return {"trainable_params":sum(p.numel() for p in params),"pos_weight":pw,"gpu_s":time.perf_counter()-t0,"final_loss":float(loss.item()),"steps":steps}
 rep={"schema":"fewshot-a1-a4-v1","preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
 outfile=OUT/f"report_{a.exposure}.json"
-for region in ("china","chimanimani"):
+REGIONS=("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
+MANDIR=ROOT/"artifacts/fewshot_confirmatory_manifests" if a.confirmatory else PT0
+def ck_path(region,arm,seed):
+    if a.confirmatory: return ROOT/"confirmatory"/f"holdout_{region}"/f"{arm}_seed{seed}"/"checkpoints"/f"holdout_{region}"/f"{arm}_best.pt"
+    return (SRC4 if arm=="P4" else SRC2)/f"holdout_{region}_seed{seed}/checkpoints/holdout_{region}/{arm}_best.pt"
+for region in REGIONS:
     fold=next(f for f in FOLDS["folds"] if f["fold"]==f"holdout_{region}"); stats=emb_stats(members(fold,"train"))
-    man=json.loads((PT0/f"{region}_manifest.json").read_text()); qids=man["query"]["ids"]; Yq=load_masks(qids); Yq_np=Yq.squeeze(1).numpy()
+    man=json.loads((MANDIR/f"{region}_manifest.json").read_text()); qids=man["query"]["ids"]; Yq=load_masks(qids); Yq_np=Yq.squeeze(1).numpy()
     Xq_emb=load_emb(qids,stats); Xq_raw,raw_q_bytes=(load_raw(qids) if any(x.startswith("A4") for x in ARMS) else (None,0))
     for seed in (1,2,3):
-        ck4=torch.load(SRC4/f"holdout_{region}_seed{seed}/checkpoints/holdout_{region}/P4_best.pt",map_location="cpu")["model_state"]
+        ck4=torch.load(ck_path(region,"P4",seed),map_location="cpu")["model_state"]
         dec0=EmbDecoder().to(dev); dec0.load_state_dict(ck4,strict=True); dec0.eval(); P0=probs(dec0,Xq_emb); budget=empty_fp(P0,Yq_np.astype(bool),0.5)
         if "A0" in ARMS:
             rep["runs"].append({"region":region,"seed":seed,"K":None,"arm":"A0","eval":evaluate(P0,Yq_np,budget),"train":{"trainable_params":0,"raw_bytes_read":0},"fp_budget":budget}); print(region,seed,"A0",round(rep["runs"][-1]["eval"]["iou_fp_matched"],4),flush=True)
@@ -99,7 +104,7 @@ for region in ("china","chimanimani"):
                 elif arm=="A4s":
                     m=ob.OfficialUNet3D(in_channels=11).to(dev); Xs,nb=load_raw(sids); tr=train(m,Xs,Ys,steps,1e-3,1e-4,seed*1000+K,bn_train=True); P=probs(m,Xq_raw,bs=8); tr["raw_bytes_read"]=nb+raw_q_bytes
                 elif arm=="A4w":
-                    ck2=torch.load(SRC2/f"holdout_{region}_seed{seed}/checkpoints/holdout_{region}/P2_best.pt",map_location="cpu")["model_state"]
+                    ck2=torch.load(ck_path(region,"P2",seed),map_location="cpu")["model_state"]
                     m=ob.OfficialUNet3D(in_channels=11).to(dev); m.load_state_dict(ck2,strict=True); Xs,nb=load_raw(sids); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_raw,bs=8); tr["raw_bytes_read"]=nb+raw_q_bytes
                 else: continue
                 ev=evaluate(P,Yq_np,budget); rep["runs"].append({"region":region,"seed":seed,"K":K,"arm":arm,"eval":ev,"train":tr,"fp_budget":budget})

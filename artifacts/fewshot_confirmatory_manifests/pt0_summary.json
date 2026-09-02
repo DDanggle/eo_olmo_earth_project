@@ -1,0 +1,215 @@
+{
+ "schema": "fewshot-confirmatory-manifest-v2",
+ "assignment_rule": "v2: pool positive cap 45% (block-level knapsack in x order); changed before any metric was read because v1 gave hokkaido a zero-positive query",
+ "rules": "\ud655\uc99d 8\uc9c0\uc5ed target support/query \uacf5\uac04\ubd84\ub9ac manifest \u2014 PT-0 \uaddc\uce59 \uadf8\ub300\ub85c(fewshot_a1_vs_a4_prereg_v0.confirmatory_protocol_registered_now) (CPU, \ubaa8\ub378 \uc9c0\ud45c \ubbf8\uc5f4\ub78c).\n\n\uc0ac\uc804 \ub4f1\ub85d: config/cachetune_pt0_preregistration_v0.json. \uac1c\ubc1c \uc9c0\uc5ed \ud6c4\ubcf4 china\u00b7chimanimani.\n\uaddc\uce59(\uacb0\uacfc \ubcf4\uae30 \uc804 \uace0\uc815):\n  - \ud0c0\uc77c footprint 1.28 km. \uac19\uc740 ann_id(\uc774\ubca4\ud2b8)\ub97c \uacf5\uc720\ud558\ub294 \ud0c0\uc77c\uc740 \ud55c \uadf8\ub8f9. \uadf8\ub8f9 \uc911\uc2ec\uc744 10 km \uaca9\uc790 \uc140\uc5d0 \ubb36\uc5b4 spatial block.\n  - block \uc744 x \uc88c\ud45c \uc21c\uc73c\ub85c \uc815\ub82c\ud574 \uc55e\ucabd\ubd80\ud130 support pool \uc5d0 \ubc30\uc815\ud558\ub418 support pool \uc591\uc131 \ud0c0\uc77c\uc774 \uc804\uccb4 \uc591\uc131\uc758 40% \uc5d0 \ub3c4\ub2ec\ud558\uba74 \ub098\uba38\uc9c0\ub294 query.\n  - buffer: query \ud0c0\uc77c \uc911 support pool \ud0c0\uc77c\uacfc \uc911\uc2ec \uac70\ub9ac < 3 km \uc778 \uac83\uc740 \uc81c\uac70(\uc591\ucabd \uacbd\uacc4 \uc624\uc5fc \ubc29\uc9c0).\n  - support draw: K\u2208{5,20}, 3\ud68c(seed 1,2,3). \uc591\uc131 \ud0c0\uc77c \ucd5c\uc18c ceil(K*0.4) \ud3ec\ud568, \ub098\uba38\uc9c0\ub294 pool \uc804\uccb4\uc5d0\uc11c \ubb34\uc791\uc704. \uac19\uc740 ID \ub97c \ubaa8\ub4e0 arm \uc774 \uacf5\uc720.\n  - K \uc2e4\ud604 \ubd88\uac00(pool \uc591\uc131 < ceil(K*0.4) \ub610\ub294 query \uc591\uc131 < 10) \uc774\uba74 \uadf8 K \ub294 infeasible \ub85c \ubd09\uc778\ud558\uace0 \ubaa8\ub378 \uacb0\uacfc \uc5c6\uc774 \ub300\uccb4 \uc0ac\uc720 \uae30\ub85d.\n",
+ "regions": {
+  "hiroshima": {
+   "region": "hiroshima",
+   "crs": [
+    "EPSG:32653"
+   ],
+   "n_tiles": 862,
+   "n_positive_tiles": 457,
+   "n_groups": 651,
+   "n_blocks": 42,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "69df6b711e8f105562bb0182c74bff54409d546ede0d84ad04b528ca8a42a32f",
+   "support_pool_n_pos": [
+    421,
+    196
+   ],
+   "query_n_pos": [
+    385,
+    216
+   ],
+   "buffer_dropped_n": 56,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "hokkaido": {
+   "region": "hokkaido",
+   "crs": [
+    "EPSG:32654"
+   ],
+   "n_tiles": 290,
+   "n_positive_tiles": 150,
+   "n_groups": 152,
+   "n_blocks": 24,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "723828949820a6042dbe473c04712138a46f39b573579ee583ae9bf9513c77a4",
+   "support_pool_n_pos": [
+    154,
+    14
+   ],
+   "query_n_pos": [
+    52,
+    52
+   ],
+   "buffer_dropped_n": 84,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "indonesia": {
+   "region": "indonesia",
+   "crs": [
+    "EPSG:32750"
+   ],
+   "n_tiles": 573,
+   "n_positive_tiles": 300,
+   "n_groups": 422,
+   "n_blocks": 44,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "10766fcb12c2d320d172e0d3ac3deeb7aac3babb539185a962662f7b9ff84bcc",
+   "support_pool_n_pos": [
+    190,
+    122
+   ],
+   "query_n_pos": [
+    333,
+    140
+   ],
+   "buffer_dropped_n": 50,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "itogon": {
+   "region": "itogon",
+   "crs": [
+    "EPSG:32651"
+   ],
+   "n_tiles": 235,
+   "n_positive_tiles": 125,
+   "n_groups": 200,
+   "n_blocks": 21,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "401cd9689450ff7fdb560572175ff7076dc75af693e2013c14eaa4730e5064d5",
+   "support_pool_n_pos": [
+    92,
+    52
+   ],
+   "query_n_pos": [
+    125,
+    62
+   ],
+   "buffer_dropped_n": 18,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "kyrgyzstan1": {
+   "region": "kyrgyzstan1",
+   "crs": [
+    "EPSG:32643"
+   ],
+   "n_tiles": 1566,
+   "n_positive_tiles": 786,
+   "n_groups": 1229,
+   "n_blocks": 128,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "a5dac784d21c63b91220f5effc63c66f3bf375537aebbbb0648988fef4703e3e",
+   "support_pool_n_pos": [
+    712,
+    319
+   ],
+   "query_n_pos": [
+    816,
+    435
+   ],
+   "buffer_dropped_n": 38,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "kyrgyzstan2": {
+   "region": "kyrgyzstan2",
+   "crs": [
+    "EPSG:32643"
+   ],
+   "n_tiles": 416,
+   "n_positive_tiles": 215,
+   "n_groups": 368,
+   "n_blocks": 129,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "02a5520e01ba26750678b263b9a5522fefbab44a32933cd7f11616287e4498f8",
+   "support_pool_n_pos": [
+    256,
+    90
+   ],
+   "query_n_pos": [
+    137,
+    104
+   ],
+   "buffer_dropped_n": 23,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "newzealand": {
+   "region": "newzealand",
+   "crs": [
+    "EPSG:32759"
+   ],
+   "n_tiles": 1173,
+   "n_positive_tiles": 584,
+   "n_groups": 811,
+   "n_blocks": 127,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "5a9139c477947dbacf0e58bec595e773916cf39b3c21bf50fb56ecb9f9bd3f43",
+   "support_pool_n_pos": [
+    464,
+    247
+   ],
+   "query_n_pos": [
+    677,
+    308
+   ],
+   "buffer_dropped_n": 32,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "thrissur": {
+   "region": "thrissur",
+   "crs": [
+    "EPSG:32643"
+   ],
+   "n_tiles": 427,
+   "n_positive_tiles": 221,
+   "n_groups": 318,
+   "n_blocks": 46,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "ccbdbc221c0869a2da5c0c9cc315ec86f4bf8ae656ed2fdc2204a6851fedebdc",
+   "support_pool_n_pos": [
+    140,
+    91
+   ],
+   "query_n_pos": [
+    280,
+    128
+   ],
+   "buffer_dropped_n": 7,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  }
+ }
+}
