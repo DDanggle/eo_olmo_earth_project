@@ -4276,6 +4276,33 @@ target-few-shot 축을 닫는 실험이며, 다음 GPU 후보다. 한국 개봉 
 **읽기**: 대조 결론(리드 25.4%/13.3% 대비 크게 낮음)은 유지되지만 수치는 상향 정정. 앱·README·장부의 1.3%/3.6% 를 모두 교체함.
 **더 나은 대조는 p009**(사전 등록, 0-채움 0%, 관측 97%, 1.0%). 앞으로 대조·스캔 창 생성 시 **0-채움 비율 감사를 계약에 추가**(>1% 이면 창 제외).
 
+## MS-95. A1(캐시+디코더 적응) vs A4w(source-init raw 재학습) — 개발 게이트 통과, 두 exposure 결론 동일 (2026-09-02)
+
+**사전 등록**: `config/fewshot_a1_vs_a4_prereg_v0.json`(실행 전 커밋 `89992a8`/`46601ea`). PT-0 와 동일 support/query manifest·seed 짝.
+A4w = 같은 개발 폴드에서 소스 지역으로 학습한 P2(UNet3D, 봉인 스냅샷 pilot)를 target K 장으로 적응(BN 동결, lr 1e-4) — A1 과 소스 감독이 동일, 입력만 raw vs cache.
+A4s(scratch)는 floor 로만 보고. primary = FP 매칭 positive-tile macro IoU, seed 3 평균 ± sd.
+
+| 지역 | K | A0 | **A1** fu / fe | **A4w** fu / fe | A1−A4w fu / fe | A4s fu |
+|---|---:|---:|---|---|---|---:|
+| china | 5 | .078 | **.158** / **.158** | .093 / .093 | **+.065 / +.065** | .034 |
+| china | 20 | .078 | **.144** / **.163** | .074 / .060 | **+.070 / +.103** | .024 |
+| chimanimani | 5 | .196 | **.264** / **.264** | .156 / .156 | **+.108 / +.108** | .073 |
+| chimanimani | 20 | .196 | **.223** / **.269** | .151 / .136 | **+.072 / +.133** | .116 |
+
+(fu = fixed-update 300; fe = fixed-exposure, K=20 은 1200 update 로 타일당 노출을 K=5 와 동일하게.)
+
+**판정(등록 규칙 그대로)**
+- `reuse_wins`: K=5 에서 A1−A4w ≥ +0.01, 두 지역 같은 방향 → **통과** (+.065, +.108). K=20 도 A1 우세 → K≤20 에서 crossover 없음.
+- exposure 감도: fixed-update 와 fixed-exposure 에서 결론 동일 → **optimization-sensitive 아님**. 오히려 노출을 늘리면 A1 은 오르고(K=20 .223→.269) A4w 는 내려감(.151→.136).
+- **A4w 는 K=20 에서 A0(무적응) 보다 낮음**(china .060–.074 < .078; chimanimani .136–.151 < .196): raw 모델을 소량 라벨로 적응하면 소스 성능을 잃는다. 캐시 위 디코더 적응은 두 지역·두 K·두 exposure 전부에서 A0 위.
+- MS-94 의 "K=20 < K=5" 는 고정 300 update 의 학습 부족으로 확정(fe 에서 K=20 ≥ K=5).
+
+**허용 해석**: 개발 2지역에서 "target 라벨 5–20장 구간에서는 캐시 재사용 + 디코더 적응이 raw 재학습(소스 초기화 포함)을 이긴다"는 **결정 경계 후보**. 논문 문장으로 올리려면 등록된 8지역 확증(A1>A4w ≥6/8 at K=5)이 필요함 — 다음 단계.
+**한계(먼저)**: 개발 지역 2곳; P2 source 가 소표본 val 폴드에서 선택돼 출발점이 약할 가능성(폴드 설계는 두 arm 공통); P3(U-TAE) 감도 미실행; 300/1200 update 외 스케줄 미탐색; 시드 분산 china ~.02.
+**비용**: A1 raw 읽기 0 byte·GPU 5 s; A4w raw 읽기 support+query 전부·GPU 37–200 s; 파라미터 237k vs 2.69M.
+
+**봉인**: `code/fewshot_a1_a4.py`, `artifacts/fewshot_a1_a4/{fu_scratch,fe_a1,fu_a4w,fe_a4w}/report_*.json`, source P2 `cachetune_source_p2_v1/`(스냅샷 SHA 포함).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
