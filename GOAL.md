@@ -3218,3 +3218,7 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 함: 개발 폴드 source P4(2 fold × 3 seed) 봉인 러너 GPU1 실행 중(공유 경합, 회당 ~17분). 완료 시 `cachetune_pt1_chain.sh` 가 PT-1(36 run) 자동 기동.
 - 함: `docs/REGION_ROLES_2026_09_02.md` — 지역=역할 배정(indonesia=반증 지역, itogon=바닥, china=소표본 스트레스 등), PT-1 결과 보기 전 커밋.
 - 남음: PT-1 판정(등록 gate) → 통과 시 A3 ceiling(K=20) → PT-3 8지역 매트릭스; 불통과 시 method 하차.
+
+### 2026-09-02 (3) — PT-1 판정
+- MS-94: CacheTune A2-strict 불통과(A2s−A1 −.05~−.08, 두 지역·두 K). 공간 문맥 기여 0. stop rule 발동 → method 하차.
+- 양성: A1(decoder 적응) K=5 로 A0 대비 +.08/+.07. 다음 질문 = A1 vs A4 raw few-shot vs A3 PEFT (미실행, 승인 필요).

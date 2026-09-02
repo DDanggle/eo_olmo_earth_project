@@ -4232,6 +4232,36 @@ artifact `artifacts/c1b_presto_native_compact_v1.json`(파일 SHA-256 `0516c23b�
 SHA·실행 snapshot SHA·seed-level metric 포함). compact 재생성 코드는
 `code/summarize_c1b_native.py`다.
 
+## MS-94. CacheTune PT-1 — 사전 등록 method gate 불통과; 라벨 5장 디코더 적응(A1)이 지배 (2026-09-02)
+
+**사전 등록**: `config/cachetune_pt0_preregistration_v0.json`(실행 전), PT-0 manifest `artifacts/cachetune_pt0/`(공간분리·SHA 봉인),
+러너 `code/cachetune_pt1.py`. source decoder 는 봉인 스냅샷 pilot 로 개발 폴드(holdout_china·holdout_chimanimani)×3 seed 학습
+(`cachetune_source_p4_v1/`). 36 adaptation run, 고정 300 update, target validation 없음. 불변식 전부 통과
+(A2 zero-init 이 A0 logit 과 max|Δ| = 0.0, 동결 decoder 해시 전후 동일, trainable 25,522 vs 237,537 = 9.3×).
+
+primary = FP 매칭 작동점 positive-tile macro IoU (query, seed 3 평균 ± sd):
+
+| region | K | A0 (재사용) | **A1 (decoder 적응)** | A2-strict (CacheTune) | A2-nospatial | A2s − A1 |
+|---|---:|---:|---:|---:|---:|---:|
+| china | 5 | .0778 ±.008 | **.1578** ±.018 | .0795 ±.012 | .0868 ±.018 | **−.078** |
+| china | 20 | .0778 | **.1441** ±.010 | .0934 ±.028 | .0903 ±.027 | **−.051** |
+| chimanimani | 5 | .1962 ±.024 | **.2637** ±.006 | .1868 ±.015 | .1838 ±.010 | **−.077** |
+| chimanimani | 20 | .1962 | **.2229** ±.020 | .1456 ±.005 | .1541 ±.015 | **−.077** |
+
+**판정: 불통과.** rule1(A2s−A1 ≥ +0.01, 두 지역 같은 방향) ✗, rule2(−0.01 이내 & 파라미터 5× 절감) ✗ — 두 K 모두.
+A2-strict ≈ A2-nospatial → 공간 문맥(DWConv3×3)의 기여도 없음. 등록된 `fail` 조항대로 **encoder PEFT·MoE·전체 method matrix 를 열지 않는다.**
+CacheTune 은 논문에서 method 가 아니라 negative/analysis 로만 보고한다. v2 를 만들지 않는다(설계문서 stop rule).
+
+**양성 부산물(등록 지표 그대로 읽음)**: cache 를 유지하는 **A1(decoder-only 적응)** 이 라벨 **5장**으로 zero-shot 재사용(A0) 대비
+china +.080, chimanimani +.068 을 냄. 즉 "cache 위에서 가장 싼 유효 action" 은 새 adapter 가 아니라 **작은 decoder 재학습**이며,
+A1 도 raw 입력·재임베딩 없이 cache 유효성을 유지한다. K=20 이 K=5 보다 낮은 지역(chimanimani A1 .264→.223)은 고정 300 update·
+pos_weight 재산정의 상호작용으로 보이나 **원인 미확정**(사후 분석 금지, 관찰만 기록).
+
+**남은 방법론적 질문(측정 안 됨)**: 같은 K 에서 raw 모델 few-shot(A4)·encoder PEFT(A3) 와 A1 의 비교. 이것이 "reuse or retrain" 의
+target-few-shot 축을 닫는 실험이며, 다음 GPU 후보다. 한국 개봉 조건(A2 생존)은 충족되지 않았으므로 한국은 A1 vs A4 protocol 로 재등록해야 한다.
+
+**봉인**: `artifacts/cachetune_pt1/report.json`(36 run + A0 6개), `artifacts/cachetune_pt0/`, 서버 `logs/cachetune_pt1.log`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의

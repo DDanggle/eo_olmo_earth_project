@@ -1,0 +1,239 @@
+{
+  "schema": "cachetune-pt0-preregistration-v0",
+  "status": "PT1_RUN_COMPLETE_METHOD_GATE_FAILED",
+  "date": "2026-09-02",
+  "working_title": "Cache, Adapt, or Recompute? Budgeted Post-Training of Earth Embedding Products under Geographic Shift",
+  "method_name": "CacheTune",
+  "primary_question": "With K target support labels, can a low-rank spatial residual adapt a frozen OlmoEarth embedding cache better than head-only adaptation without raw input reads or cache invalidation?",
+  "existing_evidence_not_reestimated": {
+    "zero_target_transfer": "M65/MS-87/MS-93",
+    "p4_region_macro": 0.272166,
+    "p2_region_macro": 0.196558,
+    "p3_region_macro": 0.183436,
+    "closed_branch": "MS-90B/MS-91/MS-92 P2/P4 prediction fusion and GeoContextGate; do not rename as MoE"
+  },
+  "development_regions": {
+    "candidates": [
+      "china",
+      "chimanimani"
+    ],
+    "selection_rule": "Use these already exposed regions only if a label-blind CPU audit confirms enough spatially disjoint events/components for every K. If either fails, replace it before any model result is read and seal the reason and manifest.",
+    "confirmatory_status": "development screen only"
+  },
+  "target_support": {
+    "primary_k_tiles": [
+      5,
+      20
+    ],
+    "later_k_tiles": [
+      50
+    ],
+    "support_draws": 3,
+    "same_ids_across_arms": true,
+    "split": "event_or_connected_component_grouped spatial blocks with a predeclared buffer",
+    "target_full_validation": false,
+    "target_query_used_for_selection": false,
+    "source_supervision_for_pt1": "full source training data and source-selected source decoder checkpoint"
+  },
+  "cache_contract": {
+    "encoder": "OlmoEarth v1 frozen",
+    "shape": [
+      768,
+      32,
+      32
+    ],
+    "dtype": "float16 source artifact",
+    "primary_layer": "registered final spatial cache",
+    "cache_checksum_required": true,
+    "raw_input_allowed_for_a0_a1_a2": false,
+    "int8_product_sensitivity_after_pt1": true
+  },
+  "arms": {
+    "A0_reuse": {
+      "trainable": "none",
+      "source_decoder": "frozen",
+      "cache_valid": true,
+      "raw_input": false
+    },
+    "A1_head": {
+      "trainable": "source-initialized decoder only",
+      "cache_valid": true,
+      "raw_input": false
+    },
+    "A2_cachetune_strict": {
+      "trainable": "rank-16 low-rank spatial cache adapter plus scalar calibration",
+      "source_decoder": "frozen",
+      "cache_valid": true,
+      "raw_input": false,
+      "formula": "z_prime = z + U(gelu(DWConv3x3(V(LN(z)))))",
+      "initialization": "U is zero-initialized so step-0 predictions equal A0"
+    },
+    "A2_nospatial_control": {
+      "trainable": "parameter-matched V-GELU-U residual plus scalar calibration",
+      "source_decoder": "frozen",
+      "cache_valid": true,
+      "raw_input": false
+    },
+    "A2_joint_sensitivity": {
+      "trainable": "cache adapter plus decoder",
+      "primary_evidence": false,
+      "reason": "Joint adaptation can be absorbed by the existing 1x1 768-to-128 decoder projection."
+    },
+    "A3_encoder_peft_later": {
+      "trainable": "rslearn APLA or audited LoRA in OlmoEarth encoder",
+      "cache_valid": false,
+      "raw_input": true,
+      "promotion": "open only after PT-1 passes"
+    },
+    "A4_raw_later": {
+      "trainable": "source-selected U-TAE or UNet3D recipe",
+      "cache_valid": "not used",
+      "raw_input": true,
+      "promotion": "use after raw recipe audit"
+    }
+  },
+  "adapter": {
+    "rank_primary": 16,
+    "rank_sensitivity_after_primary": [
+      8,
+      32
+    ],
+    "layer_norm": "per cached channel; affine policy must be frozen before implementation",
+    "spatial_operator": "rank-channel depthwise 3x3 convolution",
+    "forbidden": "Do not call this encoder LoRA and do not train the source decoder in the strict primary arm."
+  },
+  "pt0_cpu_gates": [
+    "Build and seal target support/query manifests without reading model metrics.",
+    "Verify event/component grouping, spatial buffer, no sample overlap, and K feasibility.",
+    "Implement adaptation in a new runner; do not modify protected confirmatory execution paths during an active run.",
+    "Verify checkpoint initialization and freeze policies with trainable-parameter snapshots.",
+    "Verify pos_weight, normalization, and loader exposure use only the declared data contract.",
+    "Verify A2 zero initialization reproduces A0 logits within a predeclared numeric tolerance.",
+    "Seal code snapshot, cache checksum, source checkpoint, support IDs, and fixed update count before GPU."
+  ],
+  "pt1_run_count": {
+    "formula": "2 exposed regions x 2 K values x 3 trained arms (A1, A2-strict, A2-nospatial) x 3 support/optimizer pairs",
+    "total": 36,
+    "a0": "reused fixed checkpoint predictions; no target training"
+  },
+  "primary_evaluation": {
+    "metric": "positive-tile macro IoU at a source-development-selected operating point under the registered empty-tile FP rule",
+    "secondary": [
+      "exact pixel average precision",
+      "empty-tile false-positive pixels",
+      "calibration",
+      "worst spatial block",
+      "label-learning-curve area"
+    ],
+    "statistical_unit": "geographic region; support and optimizer runs are repeated measurements, not independent regions"
+  },
+  "method_gate": {
+    "pass_if_either": [
+      "A2-strict minus A1 is at least +0.01 primary IoU and has the same direction in both exposed regions.",
+      "A2-strict is within -0.01 of A1 while using at least 5x fewer trainable parameters."
+    ],
+    "strong_evidence": "At least +0.02 label-learning-curve area or at least 50 percent fewer target labels for matched performance.",
+    "fail": "If only A2-joint improves, demote the result to decoder adaptation; if A2-strict fails both pass conditions, do not open encoder PEFT, MoE, or the full method matrix."
+  },
+  "systems_gate_after_a3": {
+    "condition": "Only defined if A3 minus A1 is positive.",
+    "gain_recovery": "(A2 - A1) / (A3 - A1) at least 0.80",
+    "resource_ratio": "A2 raw bytes plus encoder GPU time at most 0.10 of A3",
+    "required_costs": [
+      "raw bytes read",
+      "cache bytes read and written",
+      "number of samples re-embedded",
+      "GPU seconds",
+      "peak VRAM",
+      "trainable and total parameters",
+      "adapter and cache artifact bytes",
+      "cold and warm latency"
+    ]
+  },
+  "moe_promotion": {
+    "status": "CLOSED_UNTIL_ORACLE_COMPLEMENTARITY",
+    "experts": "small region/task cache adapters, never P2/P4 prediction experts",
+    "router_unit": "region or support set, not pixel or tile winner prediction",
+    "open_only_if": "FP-matched adapter oracle exceeds one shared adapter by at least +0.02 in at least three development regions or two tasks with consistent seeds.",
+    "forbidden_inputs": [
+      "held-out target query labels",
+      "region ID shortcut",
+      "target test metrics"
+    ]
+  },
+  "action_planner": {
+    "first_version": "deterministic Pareto selector, not a learned router",
+    "inputs": [
+      "target label count",
+      "raw input availability",
+      "cache encoder and contract checksum",
+      "GPU, latency, storage, and risk budget"
+    ],
+    "outputs": [
+      "A0",
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "abstain_and_request_labels"
+    ],
+    "learned_promotion": "Open a ranker or contextual bandit only after reproducible action crossovers exist and the deterministic policy has material oracle regret. PPO or multi-step RL is out of scope without cache-age trajectories."
+  },
+  "active_support_optional": {
+    "status": "CLOSED_UNTIL_A2_METHOD_GATE_PASSES",
+    "proposal": "Spatially separated target support selection using Olmo embedding diversity plus source-head uncertainty.",
+    "baselines": [
+      "spatial random",
+      "uncertainty only",
+      "raw spectral diversity"
+    ],
+    "promotion": "At least 20 percent fewer labels for matched performance or at least +0.02 learning-curve area, without worse worst-region performance beyond 0.01.",
+    "forbidden": "Do not use the final query block, target labels, or multiple patches from one event as independent acquisition rewards."
+  },
+  "execution_order": [
+    "Keep the raw recipe audit for the A4 baseline.",
+    "Complete PT-0 CPU manifest and runner invariants.",
+    "Run the 36-run PT-1 exposed-region screen on GPU1 only.",
+    "If PT-1 passes, add the A3 encoder-PEFT ceiling at K=20.",
+    "Freeze the method and run a new-method preregistered Sen12 matrix.",
+    "Open Korea once for spatially disjoint external few-shot and three-task cache amortization.",
+    "Open MoE, active acquisition, or bandit stages only after their oracle headroom gates pass."
+  ],
+  "relation_to_source_label_curve": {
+    "manifest_status": "preserve sealed 1/5/10 percent manifests",
+    "scientific_role": "necessary source-supervision baseline, not the method novelty",
+    "queue": "do not use the first 144 runs as a paper conclusion; decide full 432-run execution after PT-1 viability and raw recipe audit without changing sealed IDs"
+  },
+  "external_roles": {
+    "korea": "final spatially disjoint target few-shot plus shared-cache land-cover, deforestation, and landslide system test",
+    "nepal": "K=0 operational embedding-delta case study only",
+    "switzerland": "later missing-band and sensor-contract stress; not equivalent transfer"
+  },
+  "forbidden_claims": [
+    "Generic LoRA or MoE is novel.",
+    "A2-joint improvement proves cache-space representation adaptation.",
+    "Prediction-level P2/P4 MoE is reopened.",
+    "Sen12 new-method evaluation is an untouched dataset.",
+    "Korea is used for both method selection and final external testing.",
+    "Trainable parameter count alone proves lower operational cost."
+  ],
+  "pt1_result_2026_09_02": {
+    "measurement": "MS-94",
+    "A2s_minus_A1_fp_matched": {
+      "china": {
+        "5": -0.0783,
+        "20": -0.0506
+      },
+      "chimanimani": {
+        "5": -0.0769,
+        "20": -0.0774
+      }
+    },
+    "rule1": false,
+    "rule2": false,
+    "promoted": false,
+    "fail_action_applied": "encoder PEFT, MoE, full method matrix not opened; CacheTune reported as negative/analysis only",
+    "positive_side_result": "A1 decoder-only adaptation with K=5 tiles beats A0 by +0.080 (china) / +0.068 (chimanimani) FP-matched IoU while keeping the cache valid",
+    "next_registered_question": "A1 vs A4 raw few-shot vs A3 encoder PEFT at matched K (not yet run)"
+  }
+}

@@ -1,0 +1,58 @@
+{
+ "schema": "cachetune-pt0-manifest-v1",
+ "rules": "PT-0 \u2014 CacheTune target support/query \uacf5\uac04\ubd84\ub9ac manifest (CPU, \ubaa8\ub378 \uc9c0\ud45c \ubbf8\uc5f4\ub78c).\n\n\uc0ac\uc804 \ub4f1\ub85d: config/cachetune_pt0_preregistration_v0.json. \uac1c\ubc1c \uc9c0\uc5ed \ud6c4\ubcf4 china\u00b7chimanimani.\n\uaddc\uce59(\uacb0\uacfc \ubcf4\uae30 \uc804 \uace0\uc815):\n  - \ud0c0\uc77c footprint 1.28 km. \uac19\uc740 ann_id(\uc774\ubca4\ud2b8)\ub97c \uacf5\uc720\ud558\ub294 \ud0c0\uc77c\uc740 \ud55c \uadf8\ub8f9. \uadf8\ub8f9 \uc911\uc2ec\uc744 10 km \uaca9\uc790 \uc140\uc5d0 \ubb36\uc5b4 spatial block.\n  - block \uc744 x \uc88c\ud45c \uc21c\uc73c\ub85c \uc815\ub82c\ud574 \uc55e\ucabd\ubd80\ud130 support pool \uc5d0 \ubc30\uc815\ud558\ub418 support pool \uc591\uc131 \ud0c0\uc77c\uc774 \uc804\uccb4 \uc591\uc131\uc758 40% \uc5d0 \ub3c4\ub2ec\ud558\uba74 \ub098\uba38\uc9c0\ub294 query.\n  - buffer: query \ud0c0\uc77c \uc911 support pool \ud0c0\uc77c\uacfc \uc911\uc2ec \uac70\ub9ac < 3 km \uc778 \uac83\uc740 \uc81c\uac70(\uc591\ucabd \uacbd\uacc4 \uc624\uc5fc \ubc29\uc9c0).\n  - support draw: K\u2208{5,20}, 3\ud68c(seed 1,2,3). \uc591\uc131 \ud0c0\uc77c \ucd5c\uc18c ceil(K*0.4) \ud3ec\ud568, \ub098\uba38\uc9c0\ub294 pool \uc804\uccb4\uc5d0\uc11c \ubb34\uc791\uc704. \uac19\uc740 ID \ub97c \ubaa8\ub4e0 arm \uc774 \uacf5\uc720.\n  - K \uc2e4\ud604 \ubd88\uac00(pool \uc591\uc131 < ceil(K*0.4) \ub610\ub294 query \uc591\uc131 < 10) \uc774\uba74 \uadf8 K \ub294 infeasible \ub85c \ubd09\uc778\ud558\uace0 \ubaa8\ub378 \uacb0\uacfc \uc5c6\uc774 \ub300\uccb4 \uc0ac\uc720 \uae30\ub85d.\n",
+ "regions": {
+  "china": {
+   "region": "china",
+   "crs": [
+    "EPSG:32648"
+   ],
+   "n_tiles": 159,
+   "n_positive_tiles": 81,
+   "n_groups": 133,
+   "n_blocks": 29,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "08f94971e76a111675fdd5287ff171e61d94c8451f05660807e5fa3451a7a8ab",
+   "support_pool_n_pos": [
+    92,
+    48
+   ],
+   "query_n_pos": [
+    52,
+    22
+   ],
+   "buffer_dropped_n": 15,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "chimanimani": {
+   "region": "chimanimani",
+   "crs": [
+    "EPSG:32736"
+   ],
+   "n_tiles": 1133,
+   "n_positive_tiles": 423,
+   "n_groups": 924,
+   "n_blocks": 32,
+   "block_m": 10000,
+   "buffer_m": 3000,
+   "sha256": "b5243e2060635bd1610bb0a3ef668ca8f2747c37b8024e340ba0249de1942bdf",
+   "support_pool_n_pos": [
+    690,
+    187
+   ],
+   "query_n_pos": [
+    359,
+    195
+   ],
+   "buffer_dropped_n": 84,
+   "K_feasible": {
+    "5": true,
+    "20": true
+   }
+  }
+ }
+}
