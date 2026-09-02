@@ -4201,6 +4201,34 @@ raw arm 과 embedding arm 사이에 실제로 이용할 상보성은 **거의 �
 
 **봉인**: `code/geocontextgate_v2.py`, `artifacts/geocontextgate_v2/report.json`.
 
+## MS-93 (C1b). Presto native-grid 8지역 완결 — pooling 반론 종결 (2026-09-02)
+
+봉인 러너 `code/run_c1b_presto_native.sh`(코드 스냅샷·캐시 seal 검증 통과), 24/24 fold, GPU1.
+계약대로 C1a(common-grid)가 primary 이고 C1b 는 사후 product sensitivity 다.
+
+| region | P4 (frozen OlmoEarth) | P2 (UNet3D raw) | P3 (U-TAE raw) | C1a (Presto pooled) | C1b (Presto native) |
+|---|---:|---:|---:|---:|---:|
+| hiroshima | .2782 | .2160 | .1780 | .1965 | .2075 |
+| hokkaido | .3856 | .2154 | .2210 | .1273 | .0954 |
+| indonesia | .2723 | .2836 | .2650 | .1438 | .1294 |
+| itogon | .1517 | .1477 | .1050 | .0632 | .0881 |
+| kyrgyzstan1 | .2813 | .1925 | .1730 | .0687 | .0915 |
+| kyrgyzstan2 | .2078 | .1069 | .1040 | .0660 | .0984 |
+| newzealand | .2415 | .1788 | .1880 | .0694 | .0907 |
+| thrissur | .3588 | .2315 | .2320 | .1388 | .2075 |
+| **macro** | **.2722** | .1966 | .1834 | .1092 | **.1261** |
+
+- native 격자는 Presto 를 macro **+.0169**(.1092→.1261) 올리지만 **순위를 바꾸지 못한다**: C1b 는 P4 에 **8/8**,
+  P2 에 **8/8** 패배. "C1a 의 낮은 값은 4×4 pooling 탓"이라는 반론이 닫힌다.
+- 시드 분산이 크다(hiroshima .3072/.2616/**.0536**, kyrgyzstan1 .1271/.1056/**.0416**) — 지역 평균만으로 미세비교 금지.
+- 여전히 Presto 는 4시점 계약(원래 12개월 모델) 밖에서 평가되므로 이 수치는 **Presto 의 하한**이다.
+
+**부수 확인(중요)**: 확증 세트에는 P3(U-TAE)도 8지역×3시드로 존재한다. **P3 macro .1834 로 P2(.1966)보다도 낮다.**
+즉 frozen 재사용(P4)은 이 벤치마크의 대표 공개 아키텍처 **두 개**를 모두 크게 앞서며(+.076 / +.089),
+"raw baseline 이 약해서 이긴 것"이라는 반론의 여지가 줄어든다. 최고 raw arm 기준 지역 승패는 **7승 1패**(indonesia 패, itogon 근소).
+
+**봉인**: `presto_c1b_native_runs_v1/`(24 fold), 로그 `logs/c1b_native.log`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
