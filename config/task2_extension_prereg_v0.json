@@ -1,0 +1,88 @@
+{
+  "schema": "task2-extension-preregistration-v0",
+  "status": "REGISTERED_NO_DOWNLOAD_NO_RUN",
+  "date": "2026-09-02",
+  "doc": "docs/MULTITASK_EXTENSION_2026_09_02.md",
+  "question": "Does the frozen-OlmoEarth cache-reuse advantage measured on Sen12Landslides (M65: P4 .2722 vs best raw .1966, 7/8 regions vs best raw arm) reproduce on a second and third task with a different domain, under the identical recipe and geographic leave-one-region-out protocol?",
+  "selection_rules_fixed_before_data": [
+    "10 m Sentinel-2 multi-temporal input (Sentinel-1 optional)",
+    "pixel masks (segmentation) preferred; tile labels only as head sensitivity",
+    "natural geographic grouping enabling leave-one-region-out",
+    "contract already solved (rslearn-format or OlmoEarth-evaluated public dataset)",
+    "domain priority: disaster > land change > static land cover"
+  ],
+  "tasks": {
+    "task2_primary": {
+      "name": "satlas_solar_farm",
+      "source": "gs://ai2-olmoearth-projects-public-data/evals/partner_tasks/solar_farm.tar (rslearn_projects olmoearth_evals README); config in olmoearth_run_data/satlas_solar_farm",
+      "input": "Sentinel-2, 4 timesteps, 12 bands (model view B02 B03 B04 B08 B05 B06 B07 B8A B11 B12 B01 B09)",
+      "label": "binary segmentation mask",
+      "geographic_grouping": "UTM zone (fallback: continent), balanced into 8 folds",
+      "why": "global coverage gives real geographic shift; binary segmentation matches the landslide recipe exactly; anthropogenic, season-independent target widens the domain axis"
+    },
+    "task3": {
+      "name": "Sen1Floods11",
+      "source": "https://github.com/cloudtostreet/Sen1Floods11 (also in OlmoEarth and PANGAEA evaluation suites)",
+      "input": "Sentinel-1 + Sentinel-2, single date (requires single-timestep handling in the cache extractor)",
+      "label": "flood segmentation mask",
+      "geographic_grouping": "11 flood events = event-level leave-one-out",
+      "why": "disaster domain with mandatory radar; tests whether cache reuse survives a water-body task"
+    },
+    "head_sensitivity": {
+      "name": "forest_loss_driver",
+      "source": "olmoearth_run_data/forest_loss_driver (do not modify those two files; copy); partner tar",
+      "input": "Sentinel-2 4 pre + 4 post",
+      "label": "10-class tile classification",
+      "why": "before/after structure isomorphic to landslides; classification head only"
+    },
+    "deferred": ["mangrove (100k samples)", "PASTIS-R (variable timestep rule needed)", "SenForFlood (254 GB)", "lfmc (regression)"],
+    "rejected_contract_mismatch": ["xBD (VHR)", "Landslide4Sense (single date; rejected earlier)", "HLS Burn Scars (Landsat)", "DynamicEarthNet (Planet)"]
+  },
+  "protocol_identical_to_sen12": {
+    "arms": ["P2 UNet3D raw", "P3 U-TAE raw", "P4 frozen OlmoEarth 768x32x32 + EmbDecoder"],
+    "recipe": "40 epoch, BCEWithLogits, pos_weight=neg/pos capped 50, Adam lr 1e-3 wd 1e-4, batch 16, best epoch on the fold's val region",
+    "seeds": [1, 2, 3],
+    "metrics": ["positive-tile macro IoU (primary)", "FP-matched operating point IoU", "tie-correct pixel AP"],
+    "statistical_unit": "fold (region); seeds are repeated measurements"
+  },
+  "verdict_rule": {
+    "reproduces": "P4 beats the best raw arm in >= 5 of 8 folds",
+    "domain_dependent": "otherwise; the paper narrows the reuse claim to sparse natural-change tasks and reports this as a boundary, not a failure",
+    "no_post_hoc_relaxation": true
+  },
+  "few_shot_followup": {
+    "arms": ["A0 reuse", "A1 decoder-only adaptation", "A4 raw few-shot"],
+    "excluded": "A2 CacheTune family (MS-94 stop rule applies across tasks)",
+    "K": [5, 20],
+    "development_folds": 2,
+    "manifest_rule": "same as cachetune_pt0 (event/component grouping, 10 km blocks, 3 km buffer, >= 40% positive support)"
+  },
+  "cost_estimate": {
+    "cache_extraction": "one pass over all tiles x 4 timesteps on GPU1",
+    "training_runs": "8 folds x 3 arms x 3 seeds = 72 runs; ~16 min each on Sen12 => ~19 GPU hours, x1.5 under sharing"
+  },
+  "new_files": [
+    "code/fetch_task2_solar_farm.sh",
+    "code/audit_task2_contract.py",
+    "code/build_task2_geo_folds.py",
+    "code/extract_task2_cache.py",
+    "code/run_task2_confirmatory.sh"
+  ],
+  "protected_files_untouched": ["pilot_sen12_gp_heads.py", "sen12_official_baselines.py", "extract_sen12_fold_cache.py", "audit_sen12_fold_cache.py"],
+  "step0_parallel_cpu": "Korea preflight without opening labels: AIHUB_CUBE_V2_CONTRACT 40-tile pilot gate, model_view_10band, keep M10 spatial split",
+  "forbidden_claims": [
+    "OlmoEarth is superior to all GeoFMs (Prithvi/Clay/TerraMind not run)",
+    "reuse always beats retraining",
+    "Korea used for development"
+  ],
+  "references": [
+    "https://arxiv.org/abs/2511.13655",
+    "https://github.com/allenai/rslearn_projects/blob/master/rslp/olmoearth_evals/README.md",
+    "https://arxiv.org/abs/2412.04204",
+    "https://openaccess.thecvf.com/content/CVPR2024/html/Scheibenreif_Parameter_Efficient_Self-Supervised_Geospatial_Domain_Adaptation_CVPR_2024_paper.html",
+    "https://openaccess.thecvf.com/content/ICCV2025/html/Thoreau_Parameter-Efficient_Adaptation_of_Geospatial_Foundation_Models_through_Embedding_Deflection_ICCV_2025_paper.html",
+    "https://arxiv.org/abs/2507.22291",
+    "https://github.com/GEOHUM-PLUS/SenForFlood",
+    "https://github.com/cloudtostreet/Sen1Floods11"
+  ]
+}
