@@ -8,13 +8,24 @@
     "A0": "source P4 decoder, no adaptation (reference)",
     "A1": "source P4 decoder, all decoder params adapted on support; BN statistics frozen; Adam lr 1e-4 wd 1e-4",
     "A4s": "OfficialUNet3D(in_channels=11: 10 bands + month channel, pilot input contract) trained FROM SCRATCH on the K support tiles only; BN in train mode (no source statistics exist); Adam lr 1e-3 wd 1e-4",
-    "A4w": "OfficialUNet3D initialised from the source-trained P2 checkpoint of the same development fold and seed (trained now with the sealed pilot snapshot, arm P2), then adapted on support with BN frozen; Adam lr 1e-4 wd 1e-4. This is the fair 'retrain' comparator: same source supervision as A1, raw pixels instead of cache."
+    "A4w": "OfficialUNet3D initialised from the source-trained P2 checkpoint of the same development fold and seed (trained now with the sealed pilot snapshot, arm P2), then adapted on support with BN frozen; Adam lr 1e-4 wd 1e-4. This is the fair 'retrain' comparator: same source supervision as A1, raw pixels instead of cache.",
+    "A4w_p3_sensitivity": "OfficialUTAE source-initialised from a P3 source checkpoint — sensitivity only, run after the P2 primary if GPU allows"
   },
   "fixed_before_results": {
-    "updates": 300, "batch": "min(K, 8) with replacement", "loss": "BCEWithLogits, pos_weight = support neg/pos capped 50",
-    "target_validation": "none; no epoch selection", "seeds": "support draw seed s paired with source checkpoint seed s, s in {1,2,3}",
+    "updates": 300,
+    "batch": "min(K, 8) with replacement",
+    "loss": "BCEWithLogits, pos_weight = support neg/pos capped 50",
+    "target_validation": "none; no epoch selection",
+    "seeds": "support draw seed s paired with source checkpoint seed s, s in {1,2,3}",
     "primary_metric": "positive-tile macro IoU at the FP-matched operating point (budget = A0 empty-tile FP at 0.5 on query, applied equally)",
-    "secondary": ["IoU@0.5", "tie-correct AP", "trainable params", "GPU seconds", "raw bytes read (A4 reads raw_u16; A1 reads none)"]
+    "secondary": [
+      "IoU@0.5",
+      "tie-correct AP",
+      "trainable params",
+      "GPU seconds",
+      "raw bytes read (A4 reads raw_u16; A1 reads none)"
+    ],
+    "exposure_sensitivity": "fixed-exposure variant: updates = 300 * K/5 (K=5 → 300, K=20 → 1200) so every support tile is exposed ~480 times in both K; reported for A1 and A4w. If the K-ordering conclusion differs between fixed-update and fixed-exposure, the result is demoted to 'optimization-sensitive'."
   },
   "verdict_rules": {
     "reuse_wins": "A1 - A4w >= +0.01 in both development regions at a given K (same direction) -> 'cache reuse + head adaptation beats raw retraining at that label budget'",
@@ -23,10 +34,41 @@
     "scratch_reference": "A4s is reported but never used as the headline comparator (a from-scratch model at K=5 is expected to fail; that is a floor, not a finding)",
     "no_post_hoc_relaxation": true
   },
-  "cost_accounting_required": ["raw bytes read per arm", "GPU seconds per arm", "trainable parameters", "cache validity (A1: valid; A4: n/a)"],
+  "cost_accounting_required": [
+    "raw bytes read per arm",
+    "GPU seconds per arm",
+    "trainable parameters",
+    "cache validity (A1: valid; A4: n/a)"
+  ],
   "limitations_declared": [
     "development regions only (china, chimanimani) — a screen, not the confirmatory matrix",
     "300 fixed updates may favour one arm; this is why A4w (source-initialised) is the headline comparator and A4s only a floor",
     "K=20 < K=5 anomaly observed for A1 in MS-94 is not analysed post hoc here"
+  ],
+  "confirmatory_protocol_registered_now": {
+    "trigger": "development gate passes (A1 - A4w >= +0.01 at K=5 in both china and chimanimani, same direction)",
+    "regions": "the 8 confirmatory Sen12 regions (hiroshima, hokkaido, indonesia, itogon, kyrgyzstan1, kyrgyzstan2, newzealand, thrissur)",
+    "source_checkpoints": "existing confirmatory P4_seed{1,2,3} and P2_seed{1,2,3} in /home/work/data/olmoearth/confirmatory/holdout_<region>/ (no retraining)",
+    "manifests": "same PT-0 rule per region: ann_id grouping, 10 km blocks, 3 km buffer, >=40% positive support, K in {5,20}, 3 draws, sealed before any metric is read",
+    "arms": [
+      "A0",
+      "A1",
+      "A4w"
+    ],
+    "metric": "FP-matched positive-tile macro IoU, region as statistical unit",
+    "verdict": {
+      "reuse_wins": "A1 > A4w by >= +0.01 in >= 6/8 regions at K=5",
+      "crossover": "A1 wins at K=5 in >= 6/8 and A4w wins or ties at K=20 in >= 5/8",
+      "retrain_wins": "A4w > A1 by >= +0.01 in >= 6/8 at both K",
+      "indonesia_rule": "report the falsifier region separately regardless of the aggregate"
+    },
+    "no_post_hoc_relaxation": true
+  },
+  "claim_corrections_adopted_2026_09_02": [
+    "M65 headline = 6/8 preregistered wins (5/8 strong); '7/8 vs best raw' is a region-mean observation, not the headline",
+    "raw-baseline objection is 'substantially weakened' (two raw temporal architectures both lose), not 'closed' — P3 is a matched reimplementation, not the leaderboard recipe; 40-epoch BCE vs 75-epoch BCE+Dice audit pending",
+    "Presto: 'the effect did not extend to a matched Presto control, and native grid did not change the ranking' — not generic GeoFM superiority",
+    "Nepal: 'embedding-based prioritisation consistent with external flood proxies' — not 'superior to classical change detection' (post-event NDWI AUPRC .291 > OLMo .255; spatial-block CI includes 0)",
+    "MS-94 A1 gain is a strong development signal on two exposed regions, not a paper result"
   ]
 }
