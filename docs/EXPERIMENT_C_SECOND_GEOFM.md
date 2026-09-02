@@ -1,6 +1,6 @@
 # 실험 C — 두 번째 frozen GeoFM: "OLMo 고유 효과인가, 일반 GeoFM 효과인가"
 
-작성 2026-08-27, 상태 갱신 2026-09-01. C1a common-grid는 MS-87에서 완료했고 C1b가 남았다.
+작성 2026-08-27, 상태 갱신 2026-09-02. C1a common-grid와 C1b native-grid를 모두 완료했다.
 
 > **지위 정정:** P2/P3/P4의 8-region 결과가 모두 개봉된 뒤 C1을 실행하게 됐다. 따라서 같은
 > 8지역의 Presto 비교는 설정을 지금 봉인한 **matched retrospective control**이지 untouched
@@ -44,7 +44,8 @@ Presto가 이례적으로 잘 맞음: **S2 밴드 10개(B01·B09 제외)가 Sen1
 
 기계 판독 계약은 `config/presto_c1_contract.json`이다. 6,834타일 cache와 C1a common-grid
 8지역×3seed는 MS-87에서 닫혔다. C1a region macro `.1092`로 P4 `.2722`와 P2 `.1966`보다
-8/8 지역에서 낮았다. 아직 안 닫힌 것은 C1b native-grid sensitivity와 label-budget이다.
+8/8 지역에서 낮았다. C1b도 `.1261`로 P4/P2에 8/8 패배해 pooling이 순위를 설명하지 못했다.
+아직 안 닫힌 것은 raw recipe audit, label-budget, Korea external first-look다.
 
 ## Arm 정의 (동일 fold·동일 S12q·동일 seed 1/2/3·동일 선택 규칙)
 
@@ -95,21 +96,25 @@ positive/negative tile로 층화한다. subset seed는 20260827·20260828·20260
 - C1·C2 모두 A 이하이면 → "frozen GeoFM 일반 효과" 주장 기각, OLMo 결과는 고유 효과로 격상하되 원인 분해 실험 필수
 - B−C1 격차가 seed 폭 이내이면 → "OLMo 고유" 주장 금지, 일반 GeoFM 효과로 서술
 
-## 실행 순서 — 2026-09-01 현재
+## 실행 순서 — 2026-09-02 현재
 
 1. ~~Presto 5샘플 feasibility probe~~ — **8/8 통과**.
 2. ~~정규화·upstream commit·month API 확인~~ — **완료**, contract v1 봉인.
 3. ~~16/64/256픽셀 smoke + exact-month/WGS84/determinism/finite 감사~~ — **완료**.
 4. ~~6,834 sample Presto fp16 cache + content/file seal~~ — **완료** (`da18f121…`).
 5. ~~C1a fixed mean-pool/common-grid, 동일 decoder·seed 1/2/3~~ — **완료 MS-87**.
-6. `P4native`의 exact 128² shape·P4 parameter parity와
-   `code/run_c1b_presto_native.sh`의 native cache seal·source snapshot·새 OUTROOT preflight를 통과한다.
-7. C1b native-grid를 같은 split·seed로 실행하되 C1a를 primary에서 사후 교체하지 않는다.
-8. C1b 뒤 naive fusion/GeoContextGate를 source regions에서 닫고, 승격 recipe를 Korea 개봉 전에 봉인한다.
-9. label budget {1,5,10,100%}을 3 subset seed로 연다.
-10. 한국 external transfer recipe에는 P4/P2/P3/C1과 승격된 gate를 함께 등록하고, test를 처음 열어
+6. ~~`P4native` exact shape·parameter parity·cache seal·source snapshot preflight~~ — **완료**.
+7. ~~C1b 8지역×3seed~~ — **완료 MS-93**, `.1261`; C1a primary 유지.
+8. ~~naive fusion/GeoContextGate~~ — **MS-90B/91/92 불통과, stop rule로 종료**. 승격 gate 없음.
+9. raw current/official-like recipe를 source-only validation으로 감사한 뒤 label budget
+   {1,5,10,100%}을 3 subset seed×3 optimizer seed로 연다(432 new runs).
+10. 한국 external transfer recipe에는 P4/P2/P3/C1과 label-budget 결과를 함께 등록하고, test를 처음 열어
    OLMo-vs-Presto의 untouched 비교를 만든다.
 
 **MS-87 claim boundary:** 결과는 “M65 이득이 이 matched Presto control에는 확장되지 않았다”를
 지지한다. Presto의 native 12개월 use case 밖이고 common-grid pooling이 있으므로 “OLMoEarth가
 다른 GeoFM보다 일반적으로 우월하다”는 문장은 금지한다.
+
+**MS-93 추가 경계:** native readout은 pooling 반론을 약화하지만 Presto의 설계영역 불일치를
+해결하지 않는다. `artifacts/c1b_presto_native_compact_v1.json`이 24개 원시 결과와 실행 snapshot
+hash를 보존한다.

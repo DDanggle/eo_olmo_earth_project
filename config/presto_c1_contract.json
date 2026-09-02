@@ -1,6 +1,6 @@
 {
   "schema": "presto-c1-input-contract-v2",
-  "status": "C1A_COMPLETE_C1B_CACHE_PREFLIGHT_PASS_CODE_DEPLOY_PENDING",
+  "status": "C1A_AND_C1B_COMPLETE_LABEL_BUDGET_PENDING",
   "purpose": "Second frozen GeoFM control for the completed Sen12 S12q OLMo/raw benchmark",
   "upstream": {
     "repository": "https://github.com/nasaharvest/presto",
@@ -118,11 +118,24 @@
       "code_uploaded": false,
       "training_runs_started": 0
     },
+    "completed_c1b_2026_09_02": {
+      "run_count": 24,
+      "region_macro_positive_tile_iou": 0.12605070833333334,
+      "c1a_reference": 0.109217,
+      "p4_reference": 0.27216575,
+      "p2_reference": 0.196558375,
+      "p4_beats_c1b_regions": 8,
+      "p2_beats_c1b_regions": 8,
+      "compact_artifact": "artifacts/c1b_presto_native_compact_v1.json",
+      "compact_artifact_sha256": "0516c23b9166b23b1531a148662ba5d4fdf9689d4c9c34fd9d13f233f5efb023",
+      "executed_pilot_snapshot_sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "interpretation": "Native resolution improves the Presto macro over C1a but does not change its ordering against P4 or P2. C1b remains a retrospective product sensitivity."
+    },
     "remaining": [
-      "Deploy the locally validated C1b runner and pass its source-snapshot, output-path, parameter-parity, and cost-accounting gates before the first full run.",
-      "Run and report the native 128x128 C1b sensitivity without replacing C1a as the primary comparison.",
-      "Run the nested multi-subset-seed label-budget audit after C1b."
+      "Resolve the raw-baseline recipe audit before opening low-budget outcomes.",
+      "Seal nested subset manifests and run the multi-subset-seed source-label-budget audit.",
+      "Run the first untouched OlmoEarth-vs-Presto transfer on Korea or another unopened external cohort."
     ],
-    "interpretation": "C1a shows that the M65 gain did not extend to this matched frozen Presto control under the S12q event contract. It does not establish universal OlmoEarth superiority because Presto is outside its native 12-month use case, C1a pools 128x128 to 32x32, and the comparison is retrospective. Common-grid C1a remains primary; native-grid C1b is a product sensitivity. The first sealed first-look OlmoEarth-vs-Presto transfer must be Korea or another unopened external cohort."
+    "interpretation": "C1a and C1b show that the M65 gain did not extend to this matched frozen Presto control under the S12q event contract. Native-grid C1b weakens the pooling explanation but does not establish universal OlmoEarth superiority because Presto is outside its native 12-month use case and the comparison is retrospective. Common-grid C1a remains primary; native-grid C1b is a product sensitivity. The first sealed first-look OlmoEarth-vs-Presto transfer must be Korea or another unopened external cohort."
   }
 }

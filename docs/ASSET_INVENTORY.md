@@ -152,7 +152,7 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 |---|---|---|
 | **Sen12 전수 task contract** | **0 (C0)** | **통과** — 13,628 readable, retrospective 2건 fail-closed 제외, 10-region LOCO 봉인 |
 | **full frozen OLMo probe 결과** | **1 (G-P)** | **완료** — 8-region P4/P2/P3 .2722/.1966/.1834, P4−P2 +.0756, 6/8 win |
-| **두 번째 frozen GeoFM full 결과** | **1c (C1)** | Presto 6,834 cache와 C1a common-grid 8지역×3seed 완료(MS-87). C1b native-grid만 미실행 |
+| **두 번째 frozen GeoFM full 결과** | **1c (C1)** | Presto 6,834 cache와 C1a/C1b 8지역×3seed 완료(MS-87/MS-93). pooled/native `.1092/.1261`; compact provenance 로컬 봉인 |
 | **matched head/baseline 1 run 시간** | **G-C** | fixed 40-epoch: P2 1,491초; E1 tiled small/large 866.6/1,596.2초 + cache 1,130초. practical early-stop·deployment inference 미측정 |
 | 71363의 12밴드 물질화 | 2·3의 대안 경로 | v1 2,539 파일은 M35에서 철회. 624개 severe zero hole; <1% zero 1,912도 후보일 뿐. v2 mosaic/coverage contract 필요 |
 | Sen12 ↔ 71363 공통 입력 계약 | 2·3 | 양쪽 다 B02–B12 10밴드라 **같은 결측 구조**임 — 유리함 |
@@ -161,8 +161,8 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 
 ## 7. 한 줄 판정
 
-> **Sen12 확증과 Presto C1a는 닫혔다.** 현재 병목은 **Presto C1b native sensitivity →
-> MS-90B naive closure → GeoContextGate 판정 → 그 결과를 포함한 Korea recipe 동결 → 한국 untouched transfer**다. Nepal은
+> **Sen12 확증과 Presto C1a/C1b, 융합 stop-rule 판정은 닫혔다.** 현재 병목은 **raw recipe
+> audit → 432-run nested source-label curve → Korea recipe 동결 → 한국 untouched transfer**다. Nepal은
 > baseline/placebo만 봉인된 parked sidecar이며 본 경로를 막지 않는다.
 
 ---
@@ -177,7 +177,7 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 | OLMo v1 캐시 — 9개 LOCO fold 전부 | `olmoearth/sen12_pilot/holdout_*` | fold당 emb 10.75 GB + raw/mask (chimanimani 실측 36 GB) | prefetch 완료. 확증 sweep의 기반 |
 | full-context(1×128) 캐시 | `sen12_pilot_full128` | 10.3 GB | 보유하되 **비채택**(M37·M52) |
 | 확증 산출물 8지역 | `olmoearth/confirmatory/` | 72 arm×seed 실행, 지역당 pilot JSON·per-sample·체크포인트·확률맵·코드 스냅샷 | **8/8 post gate PASS**. compact 집계 `artifacts/confirmatory_8region_summary.json` |
-| Presto 코드+가중치·cache | `olmoearth/models/presto`, `presto_c1` | model 3.3 MB/822K; cache 6,834타일 26.7 GiB | full cache seal + C1a common-grid 완료(MS-87), C1b pending |
+| Presto 코드+가중치·cache | `olmoearth/models/presto`, `presto_c1` | model 3.3 MB/822K; cache 6,834타일 26.7 GiB | C1a/C1b 완료(MS-87/MS-93), compact artifact `artifacts/c1b_presto_native_compact_v1.json` |
 | 증거 번들 | 로컬 `evidence/` | ~10 MB, 90+ 파일 | per-sample 재계산 검증 통과분만 |
 
 ## B. 사용자 제공·신청으로 확보한 원천 (변동 없음 — 08-26 실사 유지)
@@ -193,7 +193,7 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 ## C. 사용 판정 요약
 
 - **지금 쓰는 것**: Sen12 38 GB + OLMo 캐시 9 fold + 8지역 확증 산출물
-- **다음**: Presto C1b native-grid→MS-90B naive closure→GeoContextGate 판정, 그 뒤 AI-Hub/Korea untouched transfer
+- **다음**: raw recipe audit→nested source-label curve→AI-Hub/Korea preflight·untouched transfer
 - **대기**: Clay(Presto 뒤), AI-Hub 라벨(큐브 v2/입력계약 gate 뒤)
 - **폐기·비채택**: s2_12band v1(오염), full-context 캐시(성능 열세), P2_tiny stand-in
 - **기상(GK2A·ASOS)**: 아직 성능 기여로 세지 않음 — E_live는 static transfer(사슬 5) 뒤 순서 유지

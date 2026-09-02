@@ -1,28 +1,35 @@
 # 임계경로 한 장 — transferable · refreshable Earth embedding
 
-갱신 2026-09-01. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
+갱신 2026-09-02. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
 `docs/ASSET_INVENTORY.md`, arm·통계의 상세는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`를 따른다.
 
 > **재시작 경계:** M65/`4862483` 이후 Nepal 전용 구현과 데이터는 sibling 저장소로 분리했다.
-> 이 저장소의 활성 사슬은 1c Presto C1b native sensitivity → GeoContextGate development → nested label-budget audit → Korea
+> 이 저장소의 활성 사슬은 raw baseline recipe audit → nested source-label budget audit → Korea
 > input/split preflight → Korea untouched transfer다. Nepal은 외부 stress/operations sidecar이며
 > 이 사슬의 선행조건이 아니다. MS-86 mechanism audit은 기존 72개 결과만 사용해 완료했으므로
 > 새 GPU 실험이나 confirmatory evidence로 세지 않는다.
 
+> **2026-09-02 MS-93·MS-92:** C1b native 24/24는 macro `.1261`로 C1a `.1092`보다 올랐지만
+> P4/P2에 8/8 패배했다. MS-90B/91/92의 naive/learned fusion도 모두 사전 gate를 실패했고,
+> FP-matched oracle headroom은 `-.004`였다. 등록 stop rule에 따라 fusion v3는 만들지 않는다.
+> 다음 label curve는 target-region k-label이 아니라 **target label 0인 source-label efficiency**다.
+> 3 subset seed와 3 optimizer seed를 모두 지키면 432회이며 144회만으로 결론을 내리지 않는다.
+
 > **2026-09-01 MS-87:** C1a common-grid 6,834 cache·8지역×3seed 완료. C1a `.1092`는
 > P4 `.2722`와 P2 `.1966`보다 8/8 지역에서 낮았다. 이는 효과가 아무 frozen GeoFM에나
 > 생기지 않음을 보이나 Presto off-domain 계약·4×4 pooling·retrospective 비교이므로 universal
-> OLMo superiority가 아니다. C1b와 Korea first-look가 남았다.
+> OLMo superiority가 아니다. C1b는 이후 MS-93에서 완료됐고 Korea first-look가 남았다.
 
 > **C1b 실행 경계:** 기존 P4 decoder는 32² 입력을 두 번 확대하도록 고정돼 있어 native 128²에
 > 그대로 쓰면 512² 중간 표현을 만든 뒤 다시 128²로 축소한다. C1b는 같은 trainable layer를
 > interpolation 없이 native grid에서 실행하는 `P4native`로만 수행한다. exact input shape,
 > P4-parameter parity, native cache seal, immutable source snapshot, 새 OUTROOT가 모두 통과해야 GPU1을 쓴다.
 
-> **2026-09-01 MS-90A:** 봉인된 P2/P4 확률의 mean/max/val-alpha screen은 F_mean macro
+> **[역사] 2026-09-01 MS-90A:** 봉인된 P2/P4 확률의 mean/max/val-alpha screen은 F_mean macro
 > `+.0063`이지만 사전 기준 `3/8`로 실패했다. fixed mean이 충분하지 않다는 결과만 허용한다.
 > learned gate의 필요성·성공은 아직 증명되지 않았고, 등록된 naive 4종·calibration·정확 AP·source
-> manifest를 MS-90B로 닫기 전에는 GeoContextGate precondition 완료로 세지 않는다.
+> manifest를 MS-90B로 닫기 전에는 GeoContextGate precondition 완료로 세지 않는다. 이후
+> MS-90B/91/92까지 완료했고 위 2026-09-02 stop-rule 판정이 이 상태를 대체한다.
 
 > **2026-08-31 claim 교정:** P4는 새 2단 method가 아니라 frozen-cache arm이고, M57–M58의
 > confirmatory 절차는 provenance protocol이다. P2는 SOTA가 아니라 matched official-architecture
@@ -102,8 +109,10 @@ exact date/gap 정렬 실험은 없는 문제를 고치는 것이므로 하지 �
 | **0** | **C0 data contract** | 13,628파일 shape/band/time/static-mask/pre-post/SCL + LOCO 해시 | **통과** |
 | **1a** | **G-P smoke** | GPU1, 64표본에서 OLMo 입력·메모리·cache runtime | **통과** |
 | **1b** | **G-P full** | S12q에서 frozen OLMo가 matched task model에 지역 전이되는가 | 개발 95% gate **FAIL(82.0%)**; 확증 8-region macro **P4 .2722 > P2 .1966**, 6/8 win — **완료** |
-| **1c** | **C1 second GeoFM** | 같은 S12q·decoder에서 효과가 아무 frozen GeoFM에나 생기는가 | **C1a 완료 MS-87** — Presto `.1092`, P4/P2에 8/8 패배; C1b `P4native` runner CPU 준비, 서버 preflight·실행 남음 |
-| **1c-0** | **mechanism audit** | 기존 72 test JSONL에서 8지역 FP·P2/P4 상보성이 재현되는가 | **완료 MS-86** — FP 7/8·중앙 5.02×, oracle +.02375·5/8 ≥.02 |
+| **1c** | **C1 second GeoFM** | 같은 S12q·decoder에서 효과가 아무 frozen GeoFM에나 생기는가 | **완료 MS-87/MS-93** — Presto pooled/native `.1092/.1261`, 둘 다 P4/P2에 8/8 패배; off-domain 한 모델의 retrospective control |
+| **1c-0** | **mechanism audit** | 기존 72 test JSONL에서 8지역 FP·P2/P4 상보성이 재현되는가 | MS-86 screen 뒤 MS-92에서 정정 — FP-matched oracle `-.004`, 이용 가능한 상보성 없음 |
+| **1c-1** | **raw recipe audit** | P2/P3 열세가 공통 40ep BCE recipe 때문인가 | **미실행** — official-like 75ep BCEDice를 source-only validation으로 비교 후 label curve freeze |
+| **1c-2** | **source-label budget** | train label 1/5/10%에서 P4/P2 transfer frontier | **설계 감사 완료·실행 0%** — 432 new runs, full val supervision 고정, target label 0 |
 | **1d** | **R-event probe** | 같은 cache가 retrieval에도 raw spectral보다 나은가 | P@10 masked .538 > raw .432이나 사전 2×-base gate **FAIL**; 기존 AP@100 철회·재실행 대기 |
 | **2** | **Korea contract gate** | input grid와 landslide ontology/time/provenance가 source task와 연결 가능한가 | split만 봉인; v2 mosaic·label-equivalence 미완 |
 | **3** | **Korea external transfer** | joint geographic/dataset shift에서 zero/1/5/10% transfer | 0% |

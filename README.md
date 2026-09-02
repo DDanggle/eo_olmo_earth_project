@@ -1,9 +1,9 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-09-01
+최종 갱신: 2026-09-02
 
 > **새 세션은 [`RESTART_HERE.md`](RESTART_HERE.md)부터 읽는다.** 활성 과학 기준점은
-> MS-90A/`7892767`이며, Nepal 전용 앱·코드·데이터는
+> MS-93/`0dc68c3`이며, Nepal 전용 앱·코드·데이터는
 > `/Users/dgyi/dong/ai_projects/nepal-live-twin`으로 분리했다. 아래 M66–M85 서술은
 > 삭제되지 않은 감사 이력이지 현재 실행 queue가 아니다.
 
@@ -16,11 +16,12 @@
 >
 > 공식 P2/P3와 frozen-small P4의 8-region 확증이 끝났다. P4/P2/P3 region-macro는
 > **.2722/.1966/.1834**, P4−P2 **+.0756**, 사전등록 지역 승리 **6/8**이다(M65).
-> Presto C1a common-grid는 `.1092`로 P4 `.2722`와 P2 `.1966`에 8/8 지역에서 졌다(MS-87).
-> 봉인 확률의 단순 mean 융합은 macro `+.0063`이지만 사전 gate는 3/8로 실패했다(MS-90A).
-> 현재 병목은 **Presto C1b native-grid → naive-fusion closure → GeoContextGate 판정 → label budget → 한국 sealed transfer**다.
+> Presto C1a/C1b는 `.1092/.1261`로 둘 다 P4와 P2에 8/8 지역에서 졌다(MS-87/MS-93).
+> MS-90B/91/92에서 naive fusion과 GeoContextGate v1/v2가 모두 사전 gate를 실패했고, FP를
+> 맞추면 oracle 이득도 `+.008/-.004`로 사라져 등록 stop rule에 따라 이 방향을 종료했다.
+> 현재 병목은 **raw recipe audit → 432-run nested label budget → 한국 preflight/sealed transfer**다.
 > Nepal live work는 sibling 저장소의 운영/portfolio sidecar다. 본 저장소의 다음 병목은
-> **C1b pooling sensitivity → source-region method freeze → Korea input preflight → untouched Korea transfer**다.
+> **baseline-strength audit → source-label/compute frontier → Korea input preflight → untouched Korea transfer**다.
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에

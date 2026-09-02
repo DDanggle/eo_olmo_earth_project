@@ -1,6 +1,6 @@
 # 논문 서사 SSOT — M65 이후 transfer 본선
 
-갱신: 2026-09-01. 이 문서는 M65 이후 논문 주장과 실험 우선순위의 단일 기준이다.
+갱신: 2026-09-02. 이 문서는 M65 이후 논문 주장과 실험 우선순위의 단일 기준이다.
 과거 router·live-residual·Nepal 계획은 역사로 보존하지만 이 문서의 실행 queue를 덮지 않는다.
 
 ## 한 줄 판정
@@ -16,7 +16,9 @@ P2/P3보다 높은 region-macro를 보였다는 사실을 봉인했다. 다음 �
 > **재사용 가능한 frozen Earth embedding은 지리적으로 분리된 산사태 분할에서 언제 raw
 > task model보다 유리하며, 그 이득은 모델 family·label budget·입력/라벨 계약이 바뀌어도 남는가?**
 
-이 질문은 이미 기각된 label-free router를 되살리지 않는다. `reuse / refresh` 의사결정은 장기
+이 질문은 이미 기각된 label-free router를 되살리지 않는다. 현재 비교 arm은 cache 재계산이 아니라
+frozen cache 재사용 대 raw task model 재학습이므로 작업명은 **`Reuse or Retrain?`**으로 고친다.
+`reuse / refresh` 의사결정은 장기
 프로그램에 남지만 이번 논문의 실증 단위는 **representation family × region × label budget**이다.
 
 ## 이미 닫힌 사실
@@ -65,7 +67,8 @@ P2/P3보다 높은 region-macro를 보였다는 사실을 봉인했다. 다음 �
 
 1. **Presto C1**: C1a common-grid는 완료(MS-87: `.1092`, P4/P2에 8/8 패배). 이것은
    `generic frozen effect`를 한 모델에서 반증하지만 off-domain Presto·pooling·retrospective
-   한계를 가진다. C1b native와 Korea first-look 전에는 OLMo 고유성 일반 주장을 금지한다.
+   한계를 가진다. C1b native에서도 순위는 유지됐지만 Korea first-look 전에는 OLMo 고유성 일반
+   주장을 금지한다.
 2. **두 readout을 함께 보고**:
    - `common-grid`: Presto 128²를 32²로 사전등록 pooling해 P4와 동일 decoder/upscale 경로 사용.
    - `native-grid`: 각 encoder의 native spatial product로 실제 사용 성능 보고.
@@ -79,20 +82,18 @@ P2/P3보다 높은 region-macro를 보였다는 사실을 봉인했다. 다음 �
    B01/B09는 양쪽에서 missing 처리한다. 통과 전에는 동일 task가 아니라 joint
    geographic+annotation+acquisition shift다.
 
-### C. CVPR method로 승격할 수 있는 단 하나의 단기 후보
+### C. 종료된 method 후보
 
-**가칭 `GeoContextGate`: false-alarm-budgeted context/detail fusion.**
+**`GeoContextGate`: false-alarm-budgeted context/detail fusion — MS-90B/91/92에서 종료.**
 
 - frozen Earth embedding branch는 coarse context와 낮은 empty-tile FP 후보를 제공한다.
 - raw temporal branch는 10 m detail을 제공한다.
 - target label 없이 source-region에서 학습한 작은 gate가 `review / suppress / refine`를 고른다.
 - 평가는 평균 IoU만이 아니라 고정 empty-tile FP budget에서 positive-tile IoU와 risk–coverage를 본다.
 
-그러나 Clay-CNN hybrid와 일반 feature fusion이 이미 존재하므로 **바로 성능 실험으로 가지 않는다.**
-먼저 기존 P2/P4 예측에서 per-tile oracle headroom을 재는 MS-86 screen을 실행했다. region-macro
-headroom은 **+.023753**, 5/8 지역이 +.02 이상으로 사전 gate를 통과했다. empty-tile FP도 P4가
-7/8 지역에서 낮았고 P2/P4 비 중앙값은 **5.0226×**였다. 따라서 development prototype은 열 수
-있지만, target label oracle·threshold .5 분석이므로 deployable method 증거는 아니다.
+MS-86의 threshold .5 oracle headroom `+.023753`은 작동점을 맞추자 `+.008/-.004`로 사라졌다.
+naive fusion과 learned gate v1/v2 모두 사전 승급 기준을 실패했고 stop rule이 발동했다. 이 결과는
+method가 아니라 **operating-point-aware negative analysis**로 보존하며 v3는 만들지 않는다.
 
 Conformal review-budget은 그 다음 stretch다. spatial dependence와 unseen-region shift에서 단순
 exchangeability가 깨지므로, calibration guarantee를 새로 증명하거나 block/group calibration을
@@ -104,14 +105,16 @@ exchangeability가 깨지므로, calibration guarantee를 새로 증명하거나
 |---|---|---|
 | **0 완료** | 기존 72 per-sample 결과 CPU-only 메커니즘 감사(MS-86) | FP screen PASS · fusion oracle screen PASS; 새 confirmatory/제품 주장 금지 |
 | **1 완료** | Presto smoke → 6,834 cache seal → C1a common-grid 8지역×3seed | MS-87 `.1092`; P4/P2에 8/8 패배, retrospective/off-domain 경계 유지 |
-| **2** | C1b native-grid 8지역×3seed | 4×4 pooling confound 분리; C1a primary를 사후 교체하지 않음 |
-| **3 부분 완료** | naive fusion → GeoContextGate development | MS-90A mean/max/val-alpha는 3/8 FAIL. 이것은 learned gate 증거가 아니며 AND/OR/logit-mean·calibration·정확 AP·hash를 MS-90B로 닫은 뒤 source-only gate를 시험 |
-| **4** | label-budget pilot → full curve | nested subsets, ≥3 subset seeds, same IDs across arms |
+| **2 완료** | C1b native-grid 8지역×3seed | `.1261`; pooling은 순위를 설명하지 못함, C1a primary 유지 |
+| **3 종료** | naive fusion → GeoContextGate | MS-90B/91/92 FAIL, FP-matched oracle headroom 없음, v3 금지 |
+| **3.5** | raw recipe audit | current 40ep BCE vs official-like 75ep BCEDice, source-only validation |
+| **4** | label-budget pilot → full curve | nested subsets×3 optimizer seeds = 432 new runs; source-label efficiency로만 명명 |
 | **5** | Korea v2 40-sample preflight → full health/ontology audit | v1 0-fill cube 사용 금지; task equivalence 실패 시 stress test로 강등 |
 | **6** | Korea sealed external test 1회 | P4/P2/P3/C1과 승격된 gate recipe를 개봉 전에 봉인 |
 
 2026-09-01 확인 시 GPU0/1 memory는 모두 0 MiB였다. GPU0은 사용자 규칙상 계속 사용하지 않고,
-GPU1 C1b는 snapshot·OUTROOT preflight 뒤에만 시작한다.
+GPU1 C1b는 snapshot·OUTROOT preflight 아래 24/24 완료했다. 다음 GPU 실행은 raw recipe audit과
+label-budget manifest를 먼저 봉인한 뒤에만 시작한다.
 
 ## 이번 사이클에서 빼는 것
 

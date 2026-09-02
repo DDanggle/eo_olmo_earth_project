@@ -1,0 +1,102 @@
+{
+  "schema": "label-budget-curve-draft-v1",
+  "status": "SUBSET_MANIFEST_SEALED_DESIGN_REVIEW_REQUIRED_NO_RUN",
+  "date": "2026-09-02",
+  "working_title": "Reuse or Retrain? Label-efficient geographic transfer of cached Earth embeddings",
+  "primary_question": "When source-region training labels are limited and the target region remains unlabeled, does a frozen OlmoEarth cache plus a small decoder transfer better than the strongest matched raw temporal model?",
+  "not_answered_by_this_experiment": "What to do when k labels are available inside the new target region. That requires a spatially disjoint target-adaptation design.",
+  "arms": {
+    "primary": [
+      "P4 frozen OlmoEarth v1 cache + small decoder",
+      "P2 raw OfficialUNet3D-like matched baseline"
+    ],
+    "endpoint_only": [
+      "P3 U-TAE-like raw baseline at 100%",
+      "C1a/C1b Presto controls at 100%"
+    ],
+    "selection_disclosure": "P2 is chosen as the primary raw curve after its 100% macro exceeded P3. This retrospective arm selection is declared before any low-budget result is opened."
+  },
+  "fractions_new_runs": [0.01, 0.05, 0.1],
+  "full_fraction_reference": 1.0,
+  "subset": {
+    "seeds": [20260827, 20260828, 20260829],
+    "nested": true,
+    "strata": "source region x label_positive",
+    "selection": "For every seed and stratum, sort sample IDs by SHA-256(seed || NUL || sample_id) and take the ceil(fraction * stratum_size) prefix.",
+    "same_ids_across_arms_and_optimizer_seeds": true,
+    "manifest": {
+      "compact_path": "artifacts/source_label_budget_subsets_compact_v1.json",
+      "compact_file_sha256": "280159b79c48d14a07458f2b349618bfa5591fc60bf29f225da5df935b42cf1e",
+      "server_full_path": "/home/work/data/olmoearth/artifacts/source_label_budget_subsets_v1.json",
+      "server_full_sha256": "8f3c355178b8c5d789dc5f5c437c537ca5c499e399df8d89a605e04e1523124a",
+      "model_metrics_read": false
+    },
+    "report": [
+      "sample IDs and SHA-256",
+      "labeled tiles",
+      "positive tiles",
+      "positive pixels",
+      "loader batches and dropped examples per epoch"
+    ]
+  },
+  "optimizer_seeds": [1, 2, 3],
+  "new_run_count": {
+    "formula": "3 fractions x 2 arms x 8 folds x 3 subset seeds x 3 optimizer seeds",
+    "total": 432,
+    "first_subset_seed_engineering_stage": 144,
+    "remaining_confirmatory_completion": 288,
+    "rule": "Complete the remaining 288 irrespective of the direction of the first 144, unless a predeclared engineering invariant fails. The 144-run stage cannot support the paper conclusion."
+  },
+  "cpu_preflight_observed_ranges": {
+    "train_tiles_at_100_percent": [4852, 6026],
+    "one_percent_tiles_after_per_stratum_ceil": [57, 69],
+    "one_percent_positive_tiles": [27, 33],
+    "batch_size": 16,
+    "one_percent_full_batches_with_drop_last_true": [3, 4],
+    "zero_batch_risk": false,
+    "drop_last_bias_requires_explicit_decision": true
+  },
+  "supervision_contract": {
+    "target_region_labels": 0,
+    "training_label_fraction": "fraction applies only to train split",
+    "validation_labels": "full source validation region remains fixed; therefore this is not a total-label-budget claim",
+    "unlabeled_source_pool": "available at every fraction",
+    "embedding_normalization": "compute once from the full unlabeled source train pool, never from target data",
+    "pos_weight": "compute from the labeled subset only"
+  },
+  "optimization": {
+    "current_primary_candidate": "40 epochs, same current arm recipes, best source-val checkpoint",
+    "must_resolve_before_preregistration": [
+      "current vs official-like raw recipe audit",
+      "drop_last true vs false and whether 100% must be rerun",
+      "whether validation frequency remains every epoch",
+      "whether arm-specific source-selected recipes or one controlled recipe is primary"
+    ],
+    "forbidden": "Do not change epochs, loss, update budget, augmentation, or subset rule after opening low-budget target metrics."
+  },
+  "evaluation": {
+    "statistical_unit": "held-out geographic region",
+    "primary_candidate": "positive-tile macro IoU at a source-validation-selected threshold under a predeclared empty-tile false-positive budget",
+    "secondary": [
+      "exact pixel average precision",
+      "positive-tile macro IoU at threshold 0.5 for continuity",
+      "empty-tile false-positive pixels",
+      "calibration",
+      "cold and warm wall-clock cost",
+      "cache bytes and cache construction cost"
+    ],
+    "aggregation": "equal-weight region macro; nested uncertainty over region, subset seed, then optimizer seed",
+    "crossover_rule": "Estimate a crossover only if observed curves cross. Otherwise report no observed crossover through 100%; do not extrapolate one.",
+    "forbidden_independence_claim": "The 432 runs are not 432 independent geographic samples."
+  },
+  "gates_before_gpu": [
+    "DONE: C1b compact artifact exists and verifies 24/24 source hashes",
+    "raw recipe audit is frozen using source-only validation",
+    "DONE: all nested subset IDs and counts are sealed without reading model metrics",
+    "one CPU loader smoke confirms identical IDs across arms and no target leakage",
+    "evaluation threshold and false-positive budget are fixed"
+  ],
+  "claim_if_positive": "Under label-limited source supervision with an unlabeled target region, cached frozen OlmoEarth features provide a better label-compute transfer frontier than the selected matched raw temporal baseline.",
+  "claim_if_no_crossover": "No raw-model crossover was observed up to the full source-label budget under this S12q protocol.",
+  "claim_if_negative": "The full-data reuse gain does not persist under label-sampling uncertainty; report the budget and regions where it fails without changing the endpoint or subset rule."
+}

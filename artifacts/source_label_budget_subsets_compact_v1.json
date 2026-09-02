@@ -1,0 +1,1038 @@
+{
+  "content_sha256_without_this_field": "6f2dc764c66a6f3979a2f16b20580da7b6f272bb2ab3052f8a2761031ee6f69c",
+  "folds": {
+    "holdout_hiroshima": {
+      "actual_cached_positive_train_tiles": 2735,
+      "actual_cached_train_ids_sha256": "264d1571d02ce89e16d19e3c0de77b25cb0ee63e1b7f1dfc3c73c5812ae9069d",
+      "actual_cached_train_tiles": 5682,
+      "subsets": {
+        "20260827": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.01,
+            "labeled_tiles": 65,
+            "positive_pixels": 17265,
+            "positive_tiles": 31,
+            "sample_ids_sha256": "f8bdc8495d753dd1f0053f2595a990ce045735ebbf3ad310c981e7bee6da2121"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 19,
+            "batches_drop_last_true": 18,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.05,
+            "labeled_tiles": 293,
+            "positive_pixels": 68101,
+            "positive_tiles": 142,
+            "sample_ids_sha256": "7ceeddf69b4e297d3343a9694821c54e4be7cf92efbaa67f900429ad41ff5416"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 36,
+            "batches_drop_last_true": 35,
+            "examples_dropped_per_epoch_if_drop_last_true": 15,
+            "fraction": 0.1,
+            "labeled_tiles": 575,
+            "positive_pixels": 146801,
+            "positive_tiles": 278,
+            "sample_ids_sha256": "155a0745d08b12bdcfa10a914ddcfe627951bc4676c34f0222b921724e2c08d6"
+          }
+        },
+        "20260828": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.01,
+            "labeled_tiles": 65,
+            "positive_pixels": 15070,
+            "positive_tiles": 31,
+            "sample_ids_sha256": "7c4b04ad75abc56ad74c9e18a60c8c6d4ffafd2c22bb0173cac87582630c714c"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 19,
+            "batches_drop_last_true": 18,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.05,
+            "labeled_tiles": 293,
+            "positive_pixels": 65994,
+            "positive_tiles": 142,
+            "sample_ids_sha256": "0a941a9e56018a3e549d93e92564e2957e43bb84f3cb5b5dca2676b026f3faf7"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 36,
+            "batches_drop_last_true": 35,
+            "examples_dropped_per_epoch_if_drop_last_true": 15,
+            "fraction": 0.1,
+            "labeled_tiles": 575,
+            "positive_pixels": 143133,
+            "positive_tiles": 278,
+            "sample_ids_sha256": "da6fe50cadf416be4ce1411440bfd72587cb925f91877b67d5df35f97fd8e03c"
+          }
+        },
+        "20260829": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.01,
+            "labeled_tiles": 65,
+            "positive_pixels": 9296,
+            "positive_tiles": 31,
+            "sample_ids_sha256": "bb9bc00d73bf132b67dfe0f633d0db0d4113370e1c50ab9b524c7792a2f7c734"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 19,
+            "batches_drop_last_true": 18,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.05,
+            "labeled_tiles": 293,
+            "positive_pixels": 80139,
+            "positive_tiles": 142,
+            "sample_ids_sha256": "67fc9620467d88e39ff630d1dcbac7e0d58333c185eebdc652bcb96534221e03"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 36,
+            "batches_drop_last_true": 35,
+            "examples_dropped_per_epoch_if_drop_last_true": 15,
+            "fraction": 0.1,
+            "labeled_tiles": 575,
+            "positive_pixels": 152216,
+            "positive_tiles": 278,
+            "sample_ids_sha256": "c92afcb61863c34fe277aa9e36c1f00149f28f685d880ac667825887190c989a"
+          }
+        }
+      },
+      "test_region": "hiroshima",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "hokkaido"
+    },
+    "holdout_hokkaido": {
+      "actual_cached_positive_train_tiles": 2892,
+      "actual_cached_train_ids_sha256": "3820d720b3c3b018ea9e5a6352a2001dad9d7facbc5449ddfde35f1cd781800e",
+      "actual_cached_train_tiles": 5971,
+      "subsets": {
+        "20260827": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.01,
+            "labeled_tiles": 69,
+            "positive_pixels": 18227,
+            "positive_tiles": 33,
+            "sample_ids_sha256": "6aec406bb38c33b2f9f3a2eaf44c3bca613ddc8aa2ef17113078d0fba6b8208e"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 20,
+            "batches_drop_last_true": 19,
+            "examples_dropped_per_epoch_if_drop_last_true": 4,
+            "fraction": 0.05,
+            "labeled_tiles": 308,
+            "positive_pixels": 66667,
+            "positive_tiles": 150,
+            "sample_ids_sha256": "417c11c600d4a659725cc754db8f13818e37933b661196545220293a4615fedb"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 38,
+            "batches_drop_last_true": 37,
+            "examples_dropped_per_epoch_if_drop_last_true": 12,
+            "fraction": 0.1,
+            "labeled_tiles": 604,
+            "positive_pixels": 142135,
+            "positive_tiles": 294,
+            "sample_ids_sha256": "9096cee46329911913f97ba3b2f5be2d230ba759bde11bd6a710fe789945b666"
+          }
+        },
+        "20260828": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.01,
+            "labeled_tiles": 69,
+            "positive_pixels": 15243,
+            "positive_tiles": 33,
+            "sample_ids_sha256": "2c5eac56cc8024b5975580c1720d08cf34aac70953cc9e9e5bf40928f01e4395"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 20,
+            "batches_drop_last_true": 19,
+            "examples_dropped_per_epoch_if_drop_last_true": 4,
+            "fraction": 0.05,
+            "labeled_tiles": 308,
+            "positive_pixels": 65855,
+            "positive_tiles": 150,
+            "sample_ids_sha256": "2c0e7394fbd7990214cb650b44d8a6a85820dbe0dbaf9ae3ce940589eea92c10"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 38,
+            "batches_drop_last_true": 37,
+            "examples_dropped_per_epoch_if_drop_last_true": 12,
+            "fraction": 0.1,
+            "labeled_tiles": 604,
+            "positive_pixels": 143859,
+            "positive_tiles": 294,
+            "sample_ids_sha256": "8dff4f70ae3177968a46cc67994ff2fb622b6de3e7c5d62d863502d2ee75708f"
+          }
+        },
+        "20260829": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.01,
+            "labeled_tiles": 69,
+            "positive_pixels": 9391,
+            "positive_tiles": 33,
+            "sample_ids_sha256": "6468ea466215ffe0c2a14060e0bfc7756aff68695f54ee60612c635874958f23"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 20,
+            "batches_drop_last_true": 19,
+            "examples_dropped_per_epoch_if_drop_last_true": 4,
+            "fraction": 0.05,
+            "labeled_tiles": 308,
+            "positive_pixels": 79663,
+            "positive_tiles": 150,
+            "sample_ids_sha256": "2be31506b14dc5be1228664c54afd721507ce1fb223a7cbe486b07425782d705"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 38,
+            "batches_drop_last_true": 37,
+            "examples_dropped_per_epoch_if_drop_last_true": 12,
+            "fraction": 0.1,
+            "labeled_tiles": 604,
+            "positive_pixels": 159906,
+            "positive_tiles": 294,
+            "sample_ids_sha256": "3b5a25bd4a0bde9f9b178bf533a3c9f3a41f989212cb57f3de2a137df9c1c585"
+          }
+        }
+      },
+      "test_region": "hokkaido",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "indonesia"
+    },
+    "holdout_indonesia": {
+      "actual_cached_positive_train_tiles": 2917,
+      "actual_cached_train_ids_sha256": "de12aa0cac5f16d6d011e234b50502d24f277c2002bed1c62bb8ae7d8a8b717d",
+      "actual_cached_train_tiles": 6026,
+      "subsets": {
+        "20260827": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.01,
+            "labeled_tiles": 69,
+            "positive_pixels": 24220,
+            "positive_tiles": 33,
+            "sample_ids_sha256": "66271092c1ebb02b4fdd095ec5079e6a7b6fc9a676cd064c26820a1a77b522ae"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 20,
+            "batches_drop_last_true": 19,
+            "examples_dropped_per_epoch_if_drop_last_true": 6,
+            "fraction": 0.05,
+            "labeled_tiles": 310,
+            "positive_pixels": 83398,
+            "positive_tiles": 151,
+            "sample_ids_sha256": "9ee1608339ded5908d92fa4090ef577bcdd7eea9a1825d93b952ed1caf923560"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 39,
+            "batches_drop_last_true": 38,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.1,
+            "labeled_tiles": 609,
+            "positive_pixels": 170797,
+            "positive_tiles": 296,
+            "sample_ids_sha256": "5f1a484139599562ee7f15c1c3c88e0213eb6d9518a801209877bca638a24d7f"
+          }
+        },
+        "20260828": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.01,
+            "labeled_tiles": 69,
+            "positive_pixels": 20019,
+            "positive_tiles": 33,
+            "sample_ids_sha256": "ae9ff9816f014f645e22d7b55a6a4bf0f96199063224483e406d418745bc024e"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 20,
+            "batches_drop_last_true": 19,
+            "examples_dropped_per_epoch_if_drop_last_true": 6,
+            "fraction": 0.05,
+            "labeled_tiles": 310,
+            "positive_pixels": 79877,
+            "positive_tiles": 151,
+            "sample_ids_sha256": "05c04c56f984bba6af98d50bbbb626e59e5fa52f7f1aee2d05ae6826e3068a5e"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 39,
+            "batches_drop_last_true": 38,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.1,
+            "labeled_tiles": 609,
+            "positive_pixels": 182671,
+            "positive_tiles": 296,
+            "sample_ids_sha256": "5f2a32d3782664528fbc8b788949501b15c363ac0cb9768f9d11d7f78d1b29d0"
+          }
+        },
+        "20260829": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 5,
+            "batches_drop_last_true": 4,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.01,
+            "labeled_tiles": 69,
+            "positive_pixels": 11335,
+            "positive_tiles": 33,
+            "sample_ids_sha256": "c26a79ae1b91f0eb52067b2a073eb0b8d95f370f8031636b278935c99336e894"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 20,
+            "batches_drop_last_true": 19,
+            "examples_dropped_per_epoch_if_drop_last_true": 6,
+            "fraction": 0.05,
+            "labeled_tiles": 310,
+            "positive_pixels": 97849,
+            "positive_tiles": 151,
+            "sample_ids_sha256": "d8fb4279d9fe65042f927e509793a28080bd6c1179b97c5b1fe02546362f53e4"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 39,
+            "batches_drop_last_true": 38,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.1,
+            "labeled_tiles": 609,
+            "positive_pixels": 196047,
+            "positive_tiles": 296,
+            "sample_ids_sha256": "972e5c4855767c7a30573eb6d9cbd983129c26b42b1722960c701e6fbd8308e4"
+          }
+        }
+      },
+      "test_region": "indonesia",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "itogon"
+    },
+    "holdout_itogon": {
+      "actual_cached_positive_train_tiles": 2431,
+      "actual_cached_train_ids_sha256": "8461cc99c17a0f18634b846bb29d9071022f3a820d7cae4777032af657f48f93",
+      "actual_cached_train_tiles": 5033,
+      "subsets": {
+        "20260827": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.01,
+            "labeled_tiles": 59,
+            "positive_pixels": 19644,
+            "positive_tiles": 28,
+            "sample_ids_sha256": "4c27340fec474a4a5456572179469ab4a279ded4bd96721e3b38781363c676a0"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 4,
+            "fraction": 0.05,
+            "labeled_tiles": 260,
+            "positive_pixels": 72796,
+            "positive_tiles": 126,
+            "sample_ids_sha256": "6a28bef78f7b8c87a376d696b9f7a303990b6f57ccd20827b9b124e4f038e792"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 32,
+            "batches_drop_last_true": 31,
+            "examples_dropped_per_epoch_if_drop_last_true": 14,
+            "fraction": 0.1,
+            "labeled_tiles": 510,
+            "positive_pixels": 152468,
+            "positive_tiles": 247,
+            "sample_ids_sha256": "b0190981c978a06326693a38b7487b25126fcb3d745ee6bc3df8d15f1099d16d"
+          }
+        },
+        "20260828": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.01,
+            "labeled_tiles": 59,
+            "positive_pixels": 17647,
+            "positive_tiles": 28,
+            "sample_ids_sha256": "b749bd65b569160a54de3b0de44c4dedd136a21e7ab18ac4137a21d9e7152d59"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 4,
+            "fraction": 0.05,
+            "labeled_tiles": 260,
+            "positive_pixels": 70906,
+            "positive_tiles": 126,
+            "sample_ids_sha256": "aeacc3d310cceb4a8c8de6009aaaa8b0c8c64d12e7dbd2a94981c774c227e73d"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 32,
+            "batches_drop_last_true": 31,
+            "examples_dropped_per_epoch_if_drop_last_true": 14,
+            "fraction": 0.1,
+            "labeled_tiles": 510,
+            "positive_pixels": 148926,
+            "positive_tiles": 247,
+            "sample_ids_sha256": "21f7640aeb9317069df03c0d1d3671615a8d82d5b7b171de1ca624f0e323c608"
+          }
+        },
+        "20260829": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.01,
+            "labeled_tiles": 59,
+            "positive_pixels": 9383,
+            "positive_tiles": 28,
+            "sample_ids_sha256": "fedbdaacc3d5909ae8a76cf31c010cd38acb22ea396e55cab3c2cf1308360e84"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 4,
+            "fraction": 0.05,
+            "labeled_tiles": 260,
+            "positive_pixels": 84364,
+            "positive_tiles": 126,
+            "sample_ids_sha256": "5890c6194c4b5516873e6b35939acdfd82c160dd1257feb28537bf797d874aae"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 32,
+            "batches_drop_last_true": 31,
+            "examples_dropped_per_epoch_if_drop_last_true": 14,
+            "fraction": 0.1,
+            "labeled_tiles": 510,
+            "positive_pixels": 161975,
+            "positive_tiles": 247,
+            "sample_ids_sha256": "2d9fa04da501b6c6d781d542c770caec5087aef17959ad1377e849e2b159ae83"
+          }
+        }
+      },
+      "test_region": "itogon",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "kyrgyzstan2",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "kyrgyzstan1"
+    },
+    "holdout_kyrgyzstan1": {
+      "actual_cached_positive_train_tiles": 2341,
+      "actual_cached_train_ids_sha256": "20294116fa29cf24a26b7b18a4ba2d48f1baa57a66dbb70ed7a340f6e3022238",
+      "actual_cached_train_tiles": 4852,
+      "subsets": {
+        "20260827": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 9,
+            "fraction": 0.01,
+            "labeled_tiles": 57,
+            "positive_pixels": 19416,
+            "positive_tiles": 27,
+            "sample_ids_sha256": "215f3a44bfe7d2474a00c5f07468ae4ebb03ee21dd58421af878230527f27e97"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 16,
+            "batches_drop_last_true": 15,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.05,
+            "labeled_tiles": 251,
+            "positive_pixels": 71755,
+            "positive_tiles": 122,
+            "sample_ids_sha256": "d403b211db28a085a9f2ed40234a7b8cf7f20b1aafc80be2a2b08b5ea2bb44bb"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 31,
+            "batches_drop_last_true": 30,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.1,
+            "labeled_tiles": 491,
+            "positive_pixels": 149373,
+            "positive_tiles": 238,
+            "sample_ids_sha256": "418ffd92c145b9471e7a357802910c950c9e12cbd22b31922371a197131ec7af"
+          }
+        },
+        "20260828": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 9,
+            "fraction": 0.01,
+            "labeled_tiles": 57,
+            "positive_pixels": 17469,
+            "positive_tiles": 27,
+            "sample_ids_sha256": "3b92841a605801c205488aaf8443a3e19a17d931966b32fad9ba9fd6d91fe440"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 16,
+            "batches_drop_last_true": 15,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.05,
+            "labeled_tiles": 251,
+            "positive_pixels": 70279,
+            "positive_tiles": 122,
+            "sample_ids_sha256": "2de90636c61ca23a49d2efdebdfcdfa08810d1c7889473f18906d4c69816b7d6"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 31,
+            "batches_drop_last_true": 30,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.1,
+            "labeled_tiles": 491,
+            "positive_pixels": 147044,
+            "positive_tiles": 238,
+            "sample_ids_sha256": "d9e6526f9c4e87fa473568229cd2d5ad42467f58c7db004347ae6b9a006bfa61"
+          }
+        },
+        "20260829": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 9,
+            "fraction": 0.01,
+            "labeled_tiles": 57,
+            "positive_pixels": 9200,
+            "positive_tiles": 27,
+            "sample_ids_sha256": "2326cb7f6f0fb21b046ef488ca9a50db03a9fb6730c2ca51250cbb7042feeac4"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 16,
+            "batches_drop_last_true": 15,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.05,
+            "labeled_tiles": 251,
+            "positive_pixels": 83013,
+            "positive_tiles": 122,
+            "sample_ids_sha256": "4bfa2c3d3b3023c48c4e5643d131f3e17dd6826baf3575249294c8f11cd009f0"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 31,
+            "batches_drop_last_true": 30,
+            "examples_dropped_per_epoch_if_drop_last_true": 11,
+            "fraction": 0.1,
+            "labeled_tiles": 491,
+            "positive_pixels": 159135,
+            "positive_tiles": 238,
+            "sample_ids_sha256": "9cdb4d181f4d943e65e96df272f1dba92e5356ab3bf3f0d8a14ce7718ee8f1b8"
+          }
+        }
+      },
+      "test_region": "kyrgyzstan1",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "newzealand",
+        "thrissur"
+      ],
+      "val_region": "kyrgyzstan2"
+    },
+    "holdout_kyrgyzstan2": {
+      "actual_cached_positive_train_tiles": 2543,
+      "actual_cached_train_ids_sha256": "c1159c0166f4900217bb9fe68612458cc93a73ed6d709902452cde0d30ea8e07",
+      "actual_cached_train_tiles": 5245,
+      "subsets": {
+        "20260827": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.01,
+            "labeled_tiles": 61,
+            "positive_pixels": 15972,
+            "positive_tiles": 29,
+            "sample_ids_sha256": "2483403252c2fa40cc35c48c73cba281411e8cd5ecfcd789b9e07703648e54d7"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 14,
+            "fraction": 0.05,
+            "labeled_tiles": 270,
+            "positive_pixels": 67058,
+            "positive_tiles": 132,
+            "sample_ids_sha256": "bcb7b92c5431dd0f636fa5a5400dafa0c4efd39f42ec7de9bfdcf8ddc946621c"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 2,
+            "fraction": 0.1,
+            "labeled_tiles": 530,
+            "positive_pixels": 132051,
+            "positive_tiles": 258,
+            "sample_ids_sha256": "cadb511ecde0512fe012fb80643c364dd5a837b498a8539a03a8e5e1af666d53"
+          }
+        },
+        "20260828": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.01,
+            "labeled_tiles": 61,
+            "positive_pixels": 16422,
+            "positive_tiles": 29,
+            "sample_ids_sha256": "7d06b61507cf4a9747dea97002af904a6bf49fbea042c4e5a06ce97007f28310"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 14,
+            "fraction": 0.05,
+            "labeled_tiles": 270,
+            "positive_pixels": 58798,
+            "positive_tiles": 132,
+            "sample_ids_sha256": "f37c517d512ec857b0d48b9ae72c048915d49bd871c5b57d92a1eed7b1449a57"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 2,
+            "fraction": 0.1,
+            "labeled_tiles": 530,
+            "positive_pixels": 140128,
+            "positive_tiles": 258,
+            "sample_ids_sha256": "79bd4d8d9acaca7b35ffbbac02717eb3e172e62595fc96e44b3aa7d4617a5c86"
+          }
+        },
+        "20260829": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.01,
+            "labeled_tiles": 61,
+            "positive_pixels": 9358,
+            "positive_tiles": 29,
+            "sample_ids_sha256": "a7766deaf1a31b311af391f7c0154d1e259c47dfa95820db6c11e503379731b0"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 14,
+            "fraction": 0.05,
+            "labeled_tiles": 270,
+            "positive_pixels": 61690,
+            "positive_tiles": 132,
+            "sample_ids_sha256": "41b3a498990008d5bc5618208d6328a0a8020244b599e2fe20ae421f5e4d50e4"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 2,
+            "fraction": 0.1,
+            "labeled_tiles": 530,
+            "positive_pixels": 136829,
+            "positive_tiles": 258,
+            "sample_ids_sha256": "8e6a91b0197dadf47c20ab76fa3b0b16fb01ee3a3d921c31bfd1625bfd8fbd12"
+          }
+        }
+      },
+      "test_region": "kyrgyzstan2",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "thrissur"
+      ],
+      "val_region": "newzealand"
+    },
+    "holdout_newzealand": {
+      "actual_cached_positive_train_tiles": 2537,
+      "actual_cached_train_ids_sha256": "19b6bf3099793dd4b1236247fbd217e24822ddbddf2a40506968cd5de9d730e7",
+      "actual_cached_train_tiles": 5234,
+      "subsets": {
+        "20260827": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.01,
+            "labeled_tiles": 61,
+            "positive_pixels": 14834,
+            "positive_tiles": 29,
+            "sample_ids_sha256": "55078eae0bd6e530b33a77397bc1eba0961fc73197378e4837f2e0ccbe573a5e"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.05,
+            "labeled_tiles": 269,
+            "positive_pixels": 65320,
+            "positive_tiles": 131,
+            "sample_ids_sha256": "4c2cc989170a9df9f24f1e70669cc4147452acd5cb4e96f46f57e680dedd692f"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.1,
+            "labeled_tiles": 529,
+            "positive_pixels": 126487,
+            "positive_tiles": 257,
+            "sample_ids_sha256": "e516a9018bc2b2c0cae7d0fcd21e959530a8258f5dc4b1d44db88cc87a55994a"
+          }
+        },
+        "20260828": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.01,
+            "labeled_tiles": 61,
+            "positive_pixels": 15780,
+            "positive_tiles": 29,
+            "sample_ids_sha256": "67e4f3924825c621a5d4a247f331e2e2eb4b47afe0e82e1c2eebd77351510350"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.05,
+            "labeled_tiles": 269,
+            "positive_pixels": 54004,
+            "positive_tiles": 131,
+            "sample_ids_sha256": "321e728385b9f046ed2982a7218a5524fc81890633f0ad416aa76637c88cbc9a"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.1,
+            "labeled_tiles": 529,
+            "positive_pixels": 134341,
+            "positive_tiles": 257,
+            "sample_ids_sha256": "84f1be96dc1a7d5ca004646ed7f2f2f69d0c3b795058beb378820b13e09edd6c"
+          }
+        },
+        "20260829": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.01,
+            "labeled_tiles": 61,
+            "positive_pixels": 9836,
+            "positive_tiles": 29,
+            "sample_ids_sha256": "813d8403daa357c84aa72e1d1f3cfebbf457a831022c545fd729abdb942721c5"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 13,
+            "fraction": 0.05,
+            "labeled_tiles": 269,
+            "positive_pixels": 59574,
+            "positive_tiles": 131,
+            "sample_ids_sha256": "6abce93dc5f39ddf840b297def2fd8b10b2726a31909119c8cac8d35bf386e0d"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 1,
+            "fraction": 0.1,
+            "labeled_tiles": 529,
+            "positive_pixels": 133000,
+            "positive_tiles": 257,
+            "sample_ids_sha256": "e4af185bdcde60d1303db03666815a677cbb51bb76683e832a224041059b0a05"
+          }
+        }
+      },
+      "test_region": "newzealand",
+      "train_regions": [
+        "chimanimani",
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2"
+      ],
+      "val_region": "thrissur"
+    },
+    "holdout_thrissur": {
+      "actual_cached_positive_train_tiles": 2698,
+      "actual_cached_train_ids_sha256": "be2a8d760dfcf78db56a57abbe65e2323e32620b093068041ace158c0f918b27",
+      "actual_cached_train_tiles": 5274,
+      "subsets": {
+        "20260827": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 12,
+            "fraction": 0.01,
+            "labeled_tiles": 60,
+            "positive_pixels": 22425,
+            "positive_tiles": 30,
+            "sample_ids_sha256": "de856841dffa09ec9b2967cbb167c7978ee330f174ee22f6b5e9f6e49aadb690"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 15,
+            "fraction": 0.05,
+            "labeled_tiles": 271,
+            "positive_pixels": 78162,
+            "positive_tiles": 139,
+            "sample_ids_sha256": "fb811483100c5e4dd3e34d2ee53ede6a38fb7667e04779e3311930524215719b"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.1,
+            "labeled_tiles": 533,
+            "positive_pixels": 162440,
+            "positive_tiles": 273,
+            "sample_ids_sha256": "a6a9bb7696db8b7f2c7dda8a5148225684b4ef1cc6dc9d8c70512ea54357adab"
+          }
+        },
+        "20260828": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 12,
+            "fraction": 0.01,
+            "labeled_tiles": 60,
+            "positive_pixels": 15886,
+            "positive_tiles": 30,
+            "sample_ids_sha256": "8db81b4bb22e85815d02628c4bd4fcbc811c30ef53d0785245e2e3582eee0d65"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 15,
+            "fraction": 0.05,
+            "labeled_tiles": 271,
+            "positive_pixels": 73149,
+            "positive_tiles": 139,
+            "sample_ids_sha256": "9d466e2336d81d793bb4c6c53b001742fd350cbe97b96780adb9e963547bbe73"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.1,
+            "labeled_tiles": 533,
+            "positive_pixels": 171919,
+            "positive_tiles": 273,
+            "sample_ids_sha256": "ca92578d3e63a95a2334516b98800e8838395990fe2d7082cbfbeba5ce90afd0"
+          }
+        },
+        "20260829": {
+          "0.01": {
+            "batch_size": 16,
+            "batches_drop_last_false": 4,
+            "batches_drop_last_true": 3,
+            "examples_dropped_per_epoch_if_drop_last_true": 12,
+            "fraction": 0.01,
+            "labeled_tiles": 60,
+            "positive_pixels": 11324,
+            "positive_tiles": 30,
+            "sample_ids_sha256": "709db588cda11d001ea4c407b0f8a0f1cb9c4756bcfba97ccf8edf6974de9c2a"
+          },
+          "0.05": {
+            "batch_size": 16,
+            "batches_drop_last_false": 17,
+            "batches_drop_last_true": 16,
+            "examples_dropped_per_epoch_if_drop_last_true": 15,
+            "fraction": 0.05,
+            "labeled_tiles": 271,
+            "positive_pixels": 93313,
+            "positive_tiles": 139,
+            "sample_ids_sha256": "c3992403320d51f64c7ecb2359d6d0dba19f94dc4bf923cf412a46a007ef9df7"
+          },
+          "0.10": {
+            "batch_size": 16,
+            "batches_drop_last_false": 34,
+            "batches_drop_last_true": 33,
+            "examples_dropped_per_epoch_if_drop_last_true": 5,
+            "fraction": 0.1,
+            "labeled_tiles": 533,
+            "positive_pixels": 187759,
+            "positive_tiles": 273,
+            "sample_ids_sha256": "4786d86df3ee46451a6aa8354d70986c4e01b3b2997d2e69b6a96816e022ce7b"
+          }
+        }
+      },
+      "test_region": "thrissur",
+      "train_regions": [
+        "china",
+        "hiroshima",
+        "hokkaido",
+        "indonesia",
+        "itogon",
+        "kyrgyzstan1",
+        "kyrgyzstan2",
+        "newzealand"
+      ],
+      "val_region": "chimanimani"
+    }
+  },
+  "fractions": [
+    0.01,
+    0.05,
+    0.1
+  ],
+  "full_manifest": {
+    "note": "Full sample-ID manifest is server-resident; this compact seal plus the generator and source contracts reproduce it.",
+    "path": "/home/work/data/olmoearth/artifacts/source_label_budget_subsets_v1.json",
+    "sha256": "8f3c355178b8c5d789dc5f5c437c537ca5c499e399df8d89a605e04e1523124a"
+  },
+  "preflight_summary": {
+    "actual_cached_train_tiles_range": [
+      4852,
+      6026
+    ],
+    "one_percent_labeled_tiles_range": [
+      57,
+      69
+    ],
+    "one_percent_positive_tiles_range": [
+      27,
+      33
+    ],
+    "target_region_labels_in_subsets": 0,
+    "zero_batch_fold_seed_pairs": 0
+  },
+  "schema": "source-label-budget-subsets-v1",
+  "selection_rule": "Within each source-region x label-positive stratum, sort by SHA256(str(subset_seed) || NUL || sample_id) and take ceil(fraction*n) prefix.",
+  "source": {
+    "cache_root": "/home/work/data/olmoearth/sen12_pilot",
+    "contract": "/home/work/data/olmoearth/sen12_gp_contract/sample_contract.jsonl",
+    "contract_sha256": "dcdfef9a6c9bde5ccb5e81e29dff32f67727a04ec320118b08c991a2bbec8733",
+    "folds": "/home/work/data/olmoearth/sen12_gp_contract/loco_folds.json",
+    "folds_sha256": "cedabe32bd6b6e8f62d4efdb2bef1a2bffe9d9c94767eda40762aa06d0ab28b4"
+  },
+  "status": "COMPACT_SUBSET_SEAL_NO_MODEL_METRICS_READ",
+  "subset_seeds": [
+    20260827,
+    20260828,
+    20260829
+  ]
+}

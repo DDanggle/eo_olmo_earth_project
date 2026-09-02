@@ -3,11 +3,11 @@
 > 이 파일이 이 프로젝트의 단일 진실 공급원(SSOT)입니다.
 > 에이전트든 사람이든, 작업 시작 전에 읽고 / 끝나면 Worklog와 상태를 갱신합니다.
 
-> **2026-09-01 재시작 경계:** 현재 활성 기준점은 MS-90A/commit `7892767`이다.
+> **2026-09-02 재시작 경계:** 현재 활성 기준점은 MS-93/commit `0dc68c3`이다.
 > Nepal M66–M85는 보존된 역사이며 전용 구현·산출물은 sibling 저장소
 > `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. MS-86 mechanism audit과 MS-87
-> Presto C1a까지 완료했으며 현재 실행 순서는 `Presto C1b native sensitivity →
-> naive-fusion closure → GeoContextGate 판정 → nested label-budget → Korea preflight/untouched transfer`다.
+> Presto C1a/C1b와 naive-fusion/GeoContextGate 판정까지 완료했으며 gate는 stop rule로 종료했다.
+> 현재 실행 순서는 `raw recipe audit → nested label-budget(432 new runs) → Korea preflight/untouched transfer`다.
 > 자세한 금지 주장과 읽는 순서는 `RESTART_HERE.md`가 우선한다.
 
 ## 미션 — Decision-Continuous Earth Intelligence
@@ -3148,3 +3148,29 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - MS-92 v2(arm별 FP 정합 후 게이트): 이득 +0.0006, 불통과. **oracle 조차 +0.008/−0.004** → M86 headroom은 작동점 인공물로 정정.
 - 등록 stop_rule 발동: GeoContextGate 계열 method 후보에서 하차, v3 없음. 논문은 재사용+대조군+융합 음성 결과 구성으로 확정.
 - C1b 21/24 진행 중(kyrgyzstan2 seed3), GPU1 공유 경합으로 fold당 시간 증가.
+
+### 2026-09-02 (2) — MS-93 이후 교수 감사·라벨 예산 재설계 계획
+- C1b 24/24 원시 JSON·실행 snapshot·hash를 서버에서 다시 대조하고, 장부만 있는 현재 상태를
+  로컬 compact artifact로 봉인한다.
+- MS-90B/MS-91/MS-92의 사전등록 순서·작동점·oracle 해석을 재검사해 융합 음성 결과의 허용
+  주장과 금지 주장을 고정한다.
+- label-budget은 기존 계약의 nested subset seed 3개와 optimizer seed 3개를 분리해 수량·비용을
+  다시 계산하고, 1%에서 희소 양성·zero-batch·threshold calibration이 깨지지 않는지 실행 전에
+  preflight한다.
+- 최근 GeoFM benchmark 문헌과 대조해 논문 질문을 `Reuse or Recompute?`가 아니라 실제 arm에
+  맞는 `Reuse or Retrain?`으로 좁힐지 판정한 뒤, 활성 문서와 실행 queue를 동기화한다.
+
+### 2026-09-02 (3) — 교수 감사 결과·provenance와 subset 선봉인
+- 논문 질문을 `Reuse or Retrain?`으로 좁혔다. 현재 label curve는 새 지역 k-label이 아니라
+  target label 0에서 **source train label만 줄이는 실험**임을 분리했다. 3 fraction×2 arm×8 fold×
+  3 subset seed×3 optimizer seed = **432 new runs**이며, 144회는 engineering stage일 뿐이다.
+- C1b 24/24 원시 JSON을 다시 읽어 모든 기록 code SHA가 실제 snapshot `8f805359…`와 같고,
+  native shape·parameter parity가 전부 통과함을 확인했다. compact artifact
+  `artifacts/c1b_presto_native_compact_v1.json`(파일 SHA `0516c23b…`)을 추가했다.
+- 성능을 읽지 않고 nested subset ID를 먼저 생성·봉인했다. 실제 cache 기준 train 4,852–6,026,
+  1%는 57–69타일·양성 27–33타일, zero-batch 0. full manifest SHA `8f3c3551…`, 로컬 compact
+  `artifacts/source_label_budget_subsets_compact_v1.json`(파일 SHA `280159b7…`).
+- 남은 실행 전 gate: (a) current 40ep BCE vs official-like 75ep BCEDice raw recipe audit,
+  (b) drop_last/validation-frequency/threshold+FP-budget 최종 동결. 그 전에는 GPU label run을 시작하지 않는다.
+- 전체 pytest는 로컬 환경의 PyYAML 부재로 collection 5건이 중단됐다. 변경 파일 검증은 JSON parse,
+  Python compile, `git diff --check`로 별도 통과시킨다.

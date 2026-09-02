@@ -4227,7 +4227,10 @@ raw arm 과 embedding arm 사이에 실제로 이용할 상보성은 **거의 �
 즉 frozen 재사용(P4)은 이 벤치마크의 대표 공개 아키텍처 **두 개**를 모두 크게 앞서며(+.076 / +.089),
 "raw baseline 이 약해서 이긴 것"이라는 반론의 여지가 줄어든다. 최고 raw arm 기준 지역 승패는 **7승 1패**(indonesia 패, itogon 근소).
 
-**봉인**: `presto_c1b_native_runs_v1/`(24 fold), 로그 `logs/c1b_native.log`.
+**봉인**: 서버 `presto_c1b_native_runs_v1/`(24 fold), 로그 `logs/c1b_native.log`; 로컬 compact
+artifact `artifacts/c1b_presto_native_compact_v1.json`(파일 SHA-256 `0516c23b…`, 24 source-result
+SHA·실행 snapshot SHA·seed-level metric 포함). compact 재생성 코드는
+`code/summarize_c1b_native.py`다.
 
 ## 이 장부에 없는 것 (혼동 방지)
 
