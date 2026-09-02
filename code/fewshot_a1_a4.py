@@ -10,7 +10,8 @@ if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_D
 ROOT=Path("/home/work/data/olmoearth"); CACHE=ROOT/"sen12_pilot/holdout_chimanimani"
 SRC4=ROOT/"cachetune_source_p4_v1"; SRC2=ROOT/"cachetune_source_p2_v1"; PT0=ROOT/"artifacts/cachetune_pt0"
 ap=argparse.ArgumentParser(); ap.add_argument("--arms",default="A0,A1,A4s"); ap.add_argument("--exposure",default="fixed_update",choices=["fixed_update","fixed_exposure"])
-ap.add_argument("--out",default=str(ROOT/"artifacts/fewshot_a1_a4")); ap.add_argument("--confirmatory",action="store_true",help="8 확증 지역: confirmatory/holdout_<r>/P{4,2}_seed<s>/checkpoints 사용, manifest=fewshot_confirmatory_manifests"); a=ap.parse_args()
+ap.add_argument("--out",default=str(ROOT/"artifacts/fewshot_a1_a4")); ap.add_argument("--support",default="stratified",choices=["stratified","random"],help="random: pool 에서 K 타일 균등 추출(seed 100+s), 양성 강제 없음")
+ap.add_argument("--confirmatory",action="store_true",help="8 확증 지역: confirmatory/holdout_<r>/P{4,2}_seed<s>/checkpoints 사용, manifest=fewshot_confirmatory_manifests"); a=ap.parse_args()
 OUT=Path(a.out); OUT.mkdir(parents=True,exist_ok=True); ARMS=a.arms.split(",")
 spec=importlib.util.spec_from_file_location("ob", ROOT/"sen12_official_baselines.py"); ob=importlib.util.module_from_spec(spec); spec.loader.exec_module(ob)
 sys.path.insert(0,str(ROOT/"code")); 
@@ -79,7 +80,7 @@ def train(model, Xs, Ys, steps, lr, wd, seed, bn_train):
     for _ in range(steps):
         idx=torch.randint(0,K,(bs,),generator=g); z=Xs[idx].to(dev); y=Ys[idx].to(dev); loss=lossf(model(z),y); opt.zero_grad(set_to_none=True); loss.backward(); opt.step()
     torch.cuda.synchronize(); model.eval(); return {"trainable_params":sum(p.numel() for p in params),"pos_weight":pw,"gpu_s":time.perf_counter()-t0,"final_loss":float(loss.item()),"steps":steps}
-rep={"schema":"fewshot-a1-a4-v1","preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
+rep={"schema":"fewshot-a1-a4-v2","support":a.support,"preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
 outfile=OUT/f"report_{a.exposure}.json"
 REGIONS=("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
 MANDIR=ROOT/"artifacts/fewshot_confirmatory_manifests" if a.confirmatory else PT0
@@ -96,13 +97,28 @@ for region in REGIONS:
         if "A0" in ARMS:
             rep["runs"].append({"region":region,"seed":seed,"K":None,"arm":"A0","eval":evaluate(P0,Yq_np,budget),"train":{"trainable_params":0,"raw_bytes_read":0},"fp_budget":budget}); print(region,seed,"A0",round(rep["runs"][-1]["eval"]["iou_fp_matched"],4),flush=True)
         for K in (5,20):
-            draw=next(x for x in man["draws"][str(K)]["draws"] if x["seed"]==seed); sids=draw["support_ids"]; Ys=load_masks(sids)
+            if a.support=="stratified":
+                draw=next(x for x in man["draws"][str(K)]["draws"] if x["seed"]==seed); sids=draw["support_ids"]
+            else:
+                import random as _r; rng=_r.Random(100+seed+K*7); sids=sorted(rng.sample(man["support_pool"]["ids"], K))
+            Ys=load_masks(sids)
             steps=BASE_STEPS if a.exposure=="fixed_update" else BASE_STEPS*K//5
-            for arm in [x for x in ARMS if x!="A0"]:
+            for arm in [x for x in ARMS if x!="A0" and not (x=="A4w0" and K!=5)]:
                 if arm=="A1":
                     m=EmbDecoder().to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0
                 elif arm=="A4s":
                     m=ob.OfficialUNet3D(in_channels=11).to(dev); Xs,nb=load_raw(sids); tr=train(m,Xs,Ys,steps,1e-3,1e-4,seed*1000+K,bn_train=True); P=probs(m,Xq_raw,bs=8); tr["raw_bytes_read"]=nb+raw_q_bytes
+                elif arm=="A4w0":
+                    ck2=torch.load(ck_path(region,"P2",seed),map_location="cpu")["model_state"]
+                    m=ob.OfficialUNet3D(in_channels=11).to(dev); m.load_state_dict(ck2,strict=True); m.eval(); P=probs(m,Xq_raw,bs=8); tr={"trainable_params":0,"gpu_s":0.0,"steps":0,"raw_bytes_read":raw_q_bytes,"pos_weight":None,"final_loss":None}
+                elif arm in ("A4h","A4p"):
+                    ck2=torch.load(ck_path(region,"P2",seed),map_location="cpu")["model_state"]
+                    m=ob.OfficialUNet3D(in_channels=11).to(dev); m.load_state_dict(ck2,strict=True)
+                    for prm in m.parameters(): prm.requires_grad_(False)
+                    for prm in list(m.dec[-1].parameters())+list(m.head.parameters()): prm.requires_grad_(True)
+                    if arm=="A4p":
+                        for prm in m.up[-1].parameters(): prm.requires_grad_(True)
+                    Xs,nb=load_raw(sids); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_raw,bs=8); tr["raw_bytes_read"]=nb+raw_q_bytes
                 elif arm=="A4w":
                     ck2=torch.load(ck_path(region,"P2",seed),map_location="cpu")["model_state"]
                     m=ob.OfficialUNet3D(in_channels=11).to(dev); m.load_state_dict(ck2,strict=True); Xs,nb=load_raw(sids); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_raw,bs=8); tr["raw_bytes_read"]=nb+raw_q_bytes
