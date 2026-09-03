@@ -3,6 +3,8 @@
   "status": "SUBSET_MANIFEST_SEALED_DESIGN_REVIEW_REQUIRED_NO_RUN",
   "date": "2026-09-02",
   "working_title": "Reuse or Retrain? Label-efficient geographic transfer of cached Earth embeddings",
+  "method_role": "Necessary source-supervision baseline, not the CacheTune method novelty.",
+  "execution_queue": "Preserve all sealed IDs. Complete the raw recipe audit, CacheTune PT-0 CPU invariants, and the exposed-region PT-1 viability gate before deciding when to launch the full 432 runs. Never use the first 144 runs as the paper conclusion.",
   "primary_question": "When source-region training labels are limited and the target region remains unlabeled, does a frozen OlmoEarth cache plus a small decoder transfer better than the strongest matched raw temporal model?",
   "not_answered_by_this_experiment": "What to do when k labels are available inside the new target region. That requires a spatially disjoint target-adaptation design.",
   "arms": {

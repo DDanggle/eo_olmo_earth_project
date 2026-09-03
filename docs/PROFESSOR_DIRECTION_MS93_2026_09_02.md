@@ -177,3 +177,31 @@ embedding products에도 재사용 가능하도록 코드·manifest가 공개돼
 **지금 GPU에 144회를 바로 올리지 않는다.** 먼저 논문 질문을 A(source-label efficiency)로 고정하고,
 raw recipe audit·subset manifest·평가 작동점을 봉인한다. 그 다음 432회를 결과와 무관하게 완주한다.
 Korea는 이를 통과한 뒤에만 열고, 새 지역 k-label 의사결정은 Korea의 spatial few-shot으로 답한다.
+
+## 2026-09-02 method 확장 정정 — measurement를 버리지 않고 engineering novelty를 앞에 둔다
+
+위 권고의 `432회 완주 → Korea에서만 target few-shot` 순서는 measurement paper를 닫는 데는
+타당하지만, generic label curve의 선행연구 중복을 감안하면 CVPR method 가능성을 먼저 반증하는
+순서로는 비효율적이다. 사용자 요청에 따라 다음처럼 **실행 순서만** 정정한다.
+
+1. raw recipe audit와 봉인된 source-label manifest는 그대로 보존한다.
+2. CPU에서 target support/query spatial split과 adaptation runner invariants를 먼저 닫는다.
+3. exposed 2지역 36-run으로 low-rank spatial cache adapter가 head-only와 실제로 다른 이득을
+   내는지 본다.
+4. 통과하면 encoder APLA/LoRA ceiling과 source-label curve를 하나의 action frontier로 확장한다.
+5. 실패하면 CacheTune·MoE를 즉시 접고 원래 432-run measurement queue로 돌아간다.
+6. Korea는 어느 경우에도 protocol 선택에 쓰지 않고 final external test로 보존한다.
+
+이 정정은 MS-93 결과나 sealed subset ID를 바꾸지 않는다. 새 method의 SSOT와 수치 gate는
+`docs/CACHE_COMPATIBLE_POSTTRAINING_2026_09_02.md` 및
+`config/cachetune_pt0_preregistration_v0.json`이다.
+
+### 왜 LoRA와 MoE를 그대로 headline으로 쓰지 않는가
+
+- GeoFM LoRA/adapter, limited-label curve, multimodal MoE는 이미 강한 선행이 있다.
+- rslearn 환경에도 APLA callback이 있어 encoder PEFT 자체는 강한 baseline이지 새 기여가 아니다.
+- MS-90B/91/92는 P2/P4 prediction mixture의 이용 가능한 상보성이 없음을 이미 보였다.
+
+따라서 headline은 **stored Earth embedding product를 무효화하지 않는 target post-training**이다.
+MoE는 지역/task별 작은 cache adapter가 실제로 전문화됐다는 oracle matrix가 나온 뒤에만 여는
+parameterization이다. 이 분리가 과거 EarthRoute처럼 필요성 증명 전에 router부터 만드는 오류를 막는다.

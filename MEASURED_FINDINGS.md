@@ -4394,6 +4394,11 @@ source-trained raw UNet3D 의 full 적응(8/8)·parameter-matched 적응(7/8)·�
 **재현성 구멍**: random report 에 support_ids·양성 수·prevalence·manifest SHA 미기록 → 동일 deterministic draw 를 재구성해 감사 산출물로 봉인(재학습 없음, `random_support_audit.json`).
 **다음 arm 우선순위**: **A3**(OlmoEarth encoder PEFT/LoRA + re-embed) — 지금의 retrain 은 raw UNet 적응이라 "reuse vs re-embed" 질문이 비어 있음. A3 가 A1 을 이겨도 논문은 죽지 않고 정확도–재계산 비용 frontier 가 생김.
 
+
+**random-support 감사 결과(`artifacts/fewshot_confirmatory/random_support_audit.json`)**: pool 양성 비율 hokkaido 9.1% … thrissur 65.0%.
+K=5 무작위 draw 중 **양성 타일 0장**인 support 가 3건(hokkaido s1·s3, kyrgyzstan2 s1) — 그 경우에도 A1 은 A4w 를 이겼으나(빈 타일만으로 "적응"한 셈),
+이는 A1 이 support 에서 배운 것이 아니라 소스 디코더의 강건성일 수 있음 → K=5 random 결과 해석 시 이 3건을 별도 표기. K=20 draw 는 전부 양성 ≥1(최소 hokkaido 0–1장).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의

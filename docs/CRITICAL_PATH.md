@@ -4,10 +4,18 @@
 `docs/ASSET_INVENTORY.md`, arm·통계의 상세는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`를 따른다.
 
 > **재시작 경계:** M65/`4862483` 이후 Nepal 전용 구현과 데이터는 sibling 저장소로 분리했다.
-> 이 저장소의 활성 사슬은 raw baseline recipe audit → nested source-label budget audit → Korea
-> input/split preflight → Korea untouched transfer다. Nepal은 외부 stress/operations sidecar이며
-> 이 사슬의 선행조건이 아니다. MS-86 mechanism audit은 기존 72개 결과만 사용해 완료했으므로
-> 새 GPU 실험이나 confirmatory evidence로 세지 않는다.
+> 2026-09-02 method 재정렬 뒤 활성 사슬은 raw baseline recipe audit + CacheTune PT-0 CPU 계약 →
+> exposed-region low-rank cache-adapter gate → source-label baseline / encoder-PEFT ceiling → Korea
+> external few-shot·3-task다. Nepal은 외부 stress/operations sidecar이며 이 사슬의 선행조건이 아니다.
+> MS-86 mechanism audit은 기존 72개 결과만 사용했으므로 새 확증으로 세지 않는다.
+
+> **2026-09-02 CacheTune 설계:** generic LoRA/MoE나 432-run label curve 자체는 novelty가 아니다.
+> method 후보는 frozen `768×32×32` embedding product 위 low-rank spatial residual을 target few-shot으로
+> 적응해 cache를 보존하는 A2다. head-only A1, cache를 무효화하는 encoder APLA/LoRA A3, raw A4와
+> accuracy–label–I/O–storage frontier를 비교한다. 현재 P4 decoder의 `1×1 768→128` 병목과 식별하기
+> 위해 primary A2에서는 source decoder를 동결한다. prediction-level P2/P4 MoE는 stop rule로 계속
+> 닫혀 있으며, adapter oracle headroom이 생길 때만 sparse adapter mixture를 연다. SSOT는
+> `docs/CACHE_COMPATIBLE_POSTTRAINING_2026_09_02.md`다. 현재 GPU 실행은 0회다.
 
 > **2026-09-02 MS-93·MS-92:** C1b native 24/24는 macro `.1261`로 C1a `.1092`보다 올랐지만
 > P4/P2에 8/8 패배했다. MS-90B/91/92의 naive/learned fusion도 모두 사전 gate를 실패했고,
@@ -112,14 +120,16 @@ exact date/gap 정렬 실험은 없는 문제를 고치는 것이므로 하지 �
 | **1c** | **C1 second GeoFM** | 같은 S12q·decoder에서 효과가 아무 frozen GeoFM에나 생기는가 | **완료 MS-87/MS-93** — Presto pooled/native `.1092/.1261`, 둘 다 P4/P2에 8/8 패배; off-domain 한 모델의 retrospective control |
 | **1c-0** | **mechanism audit** | 기존 72 test JSONL에서 8지역 FP·P2/P4 상보성이 재현되는가 | MS-86 screen 뒤 MS-92에서 정정 — FP-matched oracle `-.004`, 이용 가능한 상보성 없음 |
 | **1c-1** | **raw recipe audit** | P2/P3 열세가 공통 40ep BCE recipe 때문인가 | **미실행** — official-like 75ep BCEDice를 source-only validation으로 비교 후 label curve freeze |
-| **1c-2** | **source-label budget** | train label 1/5/10%에서 P4/P2 transfer frontier | **설계 감사 완료·실행 0%** — 432 new runs, full val supervision 고정, target label 0 |
+| **1c-2** | **source-label budget** | train label 1/5/10%에서 P4/P2 transfer frontier | **manifest 봉인·실행 0%** — 432 new runs, full source val, target label 0; novelty가 아니라 baseline |
+| **1c-3** | **CacheTune PT-0/PT-1** | target K={5,20}에서 head-only 대비 cache low-rank spatial adaptation | **설계만·실행 0%** — CPU spatial manifest 뒤 exposed 2지역 36-run kill gate |
+| **1c-4** | **encoder PEFT ceiling** | cache-preserving A2가 APLA/LoRA gain을 재임베딩 없이 얼마나 회수하는가 | **닫힘/조건부** — PT-1 통과 뒤에만 개방 |
 | **1d** | **R-event probe** | 같은 cache가 retrieval에도 raw spectral보다 나은가 | P@10 masked .538 > raw .432이나 사전 2×-base gate **FAIL**; 기존 AP@100 철회·재실행 대기 |
 | **2** | **Korea contract gate** | input grid와 landslide ontology/time/provenance가 source task와 연결 가능한가 | split만 봉인; v2 mosaic·label-equivalence 미완 |
 | **3** | **Korea external transfer** | joint geographic/dataset shift에서 zero/1/5/10% transfer | 0% |
 | **4** | **Italy annotation stress** | 다른 annotator/MMU에서 성능이 얼마나 민감한가 | 0%; 인과적 annotation effect로 부르지 않음 |
 | **5** | **E_static** | DEM/slope/기후평년을 더한 transfer 변화 | 0% |
 | **6** | **E_live** | cutoff-valid 관측조건·강수 residual | 배관만 있음 |
-| **7** | **R-cache** | task별 action 가치와 cost를 예측하는 router | 설계 후보 |
+| **7** | **R-cache** | label·contract·cost에 따른 A0 reuse/A1 head/A2 cache/A3 PEFT/A4 raw action | deterministic frontier 먼저; learned router는 action crossover 뒤 조건부 |
 | **8** | external stress | 한국 + 접근·label provenance 통과 시 Nepal/Swiss | 한국 split 봉인; Nepal prospective input은 live seal **HOLD(S1 3/4)** |
 
 0~1b는 닫혔다. Korea test는 C1 cache/decoder recipe와 한국 입력·split gate를 동결하기 전에는

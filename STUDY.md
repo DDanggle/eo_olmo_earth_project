@@ -28,6 +28,29 @@
 
 ## 개념 카드
 
+### #51 cache adapter와 decoder의 식별 가능성 (2026-09-02, CacheTune 설계)
+
+P4 decoder의 첫 층은 이미 `1×1 Conv 768→128`로 cached channel을 학습해 투영한다. 그 앞에
+`768→r→768` adapter를 붙이고 두 모듈을 함께 학습하면, 좋아진 이유를 표현 residual과 더 큰
+decoder capacity로 분리하기 어렵다. 특히 연속된 선형 투영은 합성될 수 있어 “low-rank cache
+adaptation”이라는 이름만 남을 수 있다. 그래서 primary A2는 source decoder를 동결하고 adapter만
+적응하며, 같은 decoder를 target에서 적응하는 A1과 parameter-matched non-spatial residual을 별도
+control로 둔다. joint adapter+decoder는 sensitivity일 뿐 method 증거가 아니다.
+
+**확인 질문**: cache adapter와 decoder를 동시에 학습한 성능 향상이 cache representation을
+고쳤다는 증거가 아닌 이유를 행렬 합성으로 설명하고, 어떤 freeze/control arm이 필요한지 말하라.
+
+### #50 PEFT 성능과 embedding-product 유효성은 다른 비용축이다 (2026-09-02, CacheTune 설계)
+
+encoder LoRA/APLA는 trainable parameter가 작아도 encoder 함수 `E_theta`를 바꾼다. 따라서 기존에
+저장한 `z=E_theta(x)`는 새 model과 일치하지 않아 target 또는 전체 gallery를 다시 임베딩해야 한다.
+반대로 stored `z` 뒤의 cache adapter는 raw 영상을 읽거나 encoder를 다시 실행하지 않고 adapter
+artifact만 바꾼다. 그러므로 PEFT 비교는 parameter 수와 학습시간만 재면 불완전하며 raw bytes,
+재임베딩 sample 수, 새 cache bytes, cold/warm serving 비용, version checksum을 함께 재야 한다.
+
+**확인 질문**: encoder LoRA가 1% 미만의 parameter만 학습해도 planetary embedding service에서는
+cache adapter보다 비쌀 수 있는 이유와, 이를 공정하게 비교할 cold/warm 비용식을 설명하라.
+
 ### #49 현재 위험 추정과 action utility 추정은 다른 문제다 (2026-08-26, M37 claim 확장)
 
 새 target batch의 정확도를 label 없이 추정하는 GdScore·ODD·agreement·IUPM이 이미 있다. 하지만
