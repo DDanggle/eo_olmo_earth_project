@@ -1,0 +1,97 @@
+{
+ "schema": "task2-solar-farm-contract-audit-v1",
+ "n_windows": 3561,
+ "n_full_4x12band": 3434,
+ "s2_timesteps_dist": {
+  "4": 3434,
+  "0": 127
+ },
+ "size_px_dist": {
+  "(489, 486)": 35,
+  "(443, 441)": 29,
+  "(442, 440)": 25,
+  "(414, 412)": 23,
+  "(490, 486)": 21
+ },
+ "crs_utm_zones": 58,
+ "crs_top": [
+  [
+   "EPSG:32630",
+   225
+  ],
+  [
+   "EPSG:32632",
+   197
+  ],
+  [
+   "EPSG:32633",
+   187
+  ],
+  [
+   "EPSG:32636",
+   182
+  ],
+  [
+   "EPSG:32634",
+   182
+  ],
+  [
+   "EPSG:32638",
+   177
+  ],
+  [
+   "EPSG:32635",
+   165
+  ],
+  [
+   "EPSG:32637",
+   149
+  ],
+  [
+   "EPSG:32631",
+   128
+  ],
+  [
+   "EPSG:32629",
+   122
+  ],
+  [
+   "EPSG:32618",
+   120
+  ],
+  [
+   "EPSG:32650",
+   108
+  ],
+  [
+   "EPSG:32643",
+   97
+  ],
+  [
+   "EPSG:32644",
+   90
+  ],
+  [
+   "EPSG:32619",
+   83
+  ]
+ ],
+ "split_dist": {
+  "train": 3115,
+  "val": 446
+ },
+ "label_values": {
+  "0": 512974864,
+  "1": 6708241
+ },
+ "label_missing": 0,
+ "positive_tiles": 1803,
+ "positive_tile_rate": 0.506318449873631,
+ "positive_px_total": 6708241,
+ "bounds_overlaps_same_crs": 201,
+ "notes": [
+  "label positive = value>0 (semantics to be confirmed from config.json label class map)",
+  "time_range 6 months; S2 4 timesteps if .0-.3 completed",
+  "UTM zone = geographic grouping candidate"
+ ]
+}
