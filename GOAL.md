@@ -3232,3 +3232,10 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - MS-96: 8지역 확증 fixed-update — A1>A4w 8/8(K5·K20), 교차 없음, A4w 는 K5 에서 8/8 A0 미만. A1>A0 는 K5 5/8, K20 8/8(indonesia·itogon·newzealand 예외). fe 는 타 사용자 OOM 으로 재실행 대기(감시자).
 - MS-96 정정: 'A4w<A0 8/8' → 6/8 이며 A0 는 raw 무적응이 아님(A4w0 미측정). 성립 문장은 A1>A4w 8/8(IoU·AP). A4w0·A4h·random-support 등록·실행(MS-97).
 - MS-97: A1>A4h(param-matched raw) 7/8 → 이점은 표현에서(용량 설명 기각). raw 적응 해롭다 4/8 불통과(정정 옳음). random support 7/8 통과. fe 8/8. 다음: Task-2(태양광) CPU 감사 → GPU.
+
+### 2026-09-03 — MS-97 검토 반영·Task-2 착수
+- 함: MS-97 문구 3건 하향(원인 확정→"용량·층화·스케줄로 설명 안 됨, cache pathway 특이"; A4h 문장; "5장"=dense tile 5장·pool 양성 9–65%), 신호등 고정.
+- 함: random-support 재현성 감사 봉인(support_ids·양성 수·prevalence·manifest SHA). K=5 무작위 draw 중 양성 0장 3건 별도 표기.
+- 함: Task-2 addendum(라벨 열람 전) — few-shot 결정을 태양광에서 재현(A0/A1/A4w/A4h, K=5/20, 8폴드·5폴드 fallback 사전 고정, 층화+random, 규칙 고정). A3(OlmoEarth encoder PEFT+re-embed) 등록.
+- 진행: solar_farm.tar 126 GB 다운로드·SHA 봉인 완료, 압축 해제 중(31 GB/…). 다음: contract 감사(좌표·UTM·누수·양성 분포·4시점 12밴드) → 폴드 봉인 → 캐시 추출.
+- 병렬 세션 문서 5건+1 신규 커밋(계보 정리).
