@@ -163,5 +163,15 @@
       "A3_clearly_wins": "shift the paper to finding where cache validity breaks"
     },
     "scope": "development folds first (china, chimanimani), K=20, 3 seeds; confirmatory only if gate rules are met; costs must be reported per arm"
+  },
+  "addendum_v2_2026_09_03_sample_unit_and_folds_fixed_before_metrics": {
+    "contract_facts_from_partial_audit": "variable windows ~410-490 px @10 m, S2 4 timesteps x 12 bands (+B10), 58 UTM zones, binary label PNG, official split train/val only, 201 same-CRS bounds overlaps",
+    "sample_unit": "one 128x128 px chip per window = the window's CENTER chip (label-blind, deterministic). Keeps Sen12 tile geometry so P4 EmbDecoder (768x32x32), UNet3D and all few-shot arms run unchanged. Sensitivity (if compute allows): 4 chips per window on a fixed 2x2 grid around the center.",
+    "exclusions": "windows with <4 completed S2 timesteps or incomplete band groups are excluded before any metric (audit lists them)",
+    "raw_cache_contract": "raw_u16 = 10 bands (B02 B03 B04 B08 B05 B06 B07 B8A B11 B12) x 4 timesteps x 128 x 128 uint16; months from layer item timestamps; emb_fp16 = frozen OlmoEarth v1 Base 768x32x32 on the same 12-band (B01/B09 present, B10 dropped) 4-timestep stack; mask_u8 = label_raster center crop >0",
+    "geographic_folds": "group = UTM zone; windows whose bounds overlap in the same CRS are merged into one group (leakage guard). Groups are packed into 8 folds by greedy balancing of window counts in sorted-zone order; val region for a fold = next fold in the sealed order (as in Sen12). Fold assignment sealed with SHA before any model is trained.",
+    "full_data_prerequisite": "P4 and P2 source decoders per fold with the Sen12 recipe (40 epoch, BCE, pos_weight cap 50); reported as the M65-style replication",
+    "headline": "few-shot replication per addendum_v1 (A0/A1/A4w/A4h, K=5/20, stratified+random)",
+    "compute_note": "~10k chips ≈ 1.5x Sen12; embedding extraction one pass on GPU1"
   }
 }
