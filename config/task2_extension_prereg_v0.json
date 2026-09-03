@@ -35,14 +35,36 @@
       "label": "10-class tile classification",
       "why": "before/after structure isomorphic to landslides; classification head only"
     },
-    "deferred": ["mangrove (100k samples)", "PASTIS-R (variable timestep rule needed)", "SenForFlood (254 GB)", "lfmc (regression)"],
-    "rejected_contract_mismatch": ["xBD (VHR)", "Landslide4Sense (single date; rejected earlier)", "HLS Burn Scars (Landsat)", "DynamicEarthNet (Planet)"]
+    "deferred": [
+      "mangrove (100k samples)",
+      "PASTIS-R (variable timestep rule needed)",
+      "SenForFlood (254 GB)",
+      "lfmc (regression)"
+    ],
+    "rejected_contract_mismatch": [
+      "xBD (VHR)",
+      "Landslide4Sense (single date; rejected earlier)",
+      "HLS Burn Scars (Landsat)",
+      "DynamicEarthNet (Planet)"
+    ]
   },
   "protocol_identical_to_sen12": {
-    "arms": ["P2 UNet3D raw", "P3 U-TAE raw", "P4 frozen OlmoEarth 768x32x32 + EmbDecoder"],
+    "arms": [
+      "P2 UNet3D raw",
+      "P3 U-TAE raw",
+      "P4 frozen OlmoEarth 768x32x32 + EmbDecoder"
+    ],
     "recipe": "40 epoch, BCEWithLogits, pos_weight=neg/pos capped 50, Adam lr 1e-3 wd 1e-4, batch 16, best epoch on the fold's val region",
-    "seeds": [1, 2, 3],
-    "metrics": ["positive-tile macro IoU (primary)", "FP-matched operating point IoU", "tie-correct pixel AP"],
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "metrics": [
+      "positive-tile macro IoU (primary)",
+      "FP-matched operating point IoU",
+      "tie-correct pixel AP"
+    ],
     "statistical_unit": "fold (region); seeds are repeated measurements"
   },
   "verdict_rule": {
@@ -51,9 +73,16 @@
     "no_post_hoc_relaxation": true
   },
   "few_shot_followup": {
-    "arms": ["A0 reuse", "A1 decoder-only adaptation", "A4 raw few-shot"],
+    "arms": [
+      "A0 reuse",
+      "A1 decoder-only adaptation",
+      "A4 raw few-shot"
+    ],
     "excluded": "A2 CacheTune family (MS-94 stop rule applies across tasks)",
-    "K": [5, 20],
+    "K": [
+      5,
+      20
+    ],
     "development_folds": 2,
     "manifest_rule": "same as cachetune_pt0 (event/component grouping, 10 km blocks, 3 km buffer, >= 40% positive support)"
   },
@@ -68,7 +97,12 @@
     "code/extract_task2_cache.py",
     "code/run_task2_confirmatory.sh"
   ],
-  "protected_files_untouched": ["pilot_sen12_gp_heads.py", "sen12_official_baselines.py", "extract_sen12_fold_cache.py", "audit_sen12_fold_cache.py"],
+  "protected_files_untouched": [
+    "pilot_sen12_gp_heads.py",
+    "sen12_official_baselines.py",
+    "extract_sen12_fold_cache.py",
+    "audit_sen12_fold_cache.py"
+  ],
   "step0_parallel_cpu": "Korea preflight without opening labels: AIHUB_CUBE_V2_CONTRACT 40-tile pilot gate, model_view_10band, keep M10 spatial split",
   "forbidden_claims": [
     "OlmoEarth is superior to all GeoFMs (Prithvi/Clay/TerraMind not run)",
@@ -84,5 +118,50 @@
     "https://arxiv.org/abs/2507.22291",
     "https://github.com/GEOHUM-PLUS/SenForFlood",
     "https://github.com/cloudtostreet/Sen1Floods11"
-  ]
+  ],
+  "addendum_v1_2026_09_03_fewshot_confirmatory_registered_before_label_look": {
+    "why": "The registered Task-2 plan replicated M65 (full-data P2/P3/P4) but did not replicate the new headline (MS-96/97 few-shot decision). Reviewers would note the label-budget decision rests on one task.",
+    "status_at_registration": "solar_farm.tar downloaded and SHA-sealed (e08e5349a51ba057f4a27cd6878349cb31f97c17a253f437dabe627d905bd39f); archive not yet inspected; no label statistics viewed",
+    "design": {
+      "arms": [
+        "A0",
+        "A1",
+        "A4w",
+        "A4h"
+      ],
+      "K": [
+        5,
+        20
+      ],
+      "folds": "all 8 geographic folds; if compute forces a cut, the first 5 folds in the sealed fold order are used and this is decided before any Task-2 metric is read",
+      "support": [
+        "stratified (>= ceil(0.4K) positive tiles)",
+        "random (uniform from pool, seeds 101-103)"
+      ],
+      "metrics": [
+        "FP-matched positive-tile macro IoU (primary)",
+        "tie-correct AP",
+        "IoU@0.5"
+      ],
+      "schedule": "fixed-update 300; fixed-exposure as sensitivity",
+      "statistical_unit": "fold"
+    },
+    "success_rule": {
+      "replicates": "A1 - A4w >= +0.01 in >= 6/8 folds at K=5 (>= 4/5 if 5 folds) AND same direction at K=20",
+      "representation_rule": "A1 - A4h >= +0.01 in >= 6/8 (4/5)",
+      "fails": "otherwise the label-budget decision is reported as landslide-specific; no relaxation"
+    },
+    "prerequisite_full_data_arms": "source P4/P2 decoders per fold must first be trained under the Sen12 recipe (this is the M65-style step) — reported, but the paper headline for Task-2 is the few-shot replication",
+    "independence_note": "Solar Farm is an official OlmoEarth partner task: strong for the Ai2 link, not a fully independent external test. A public external task (Sen1Floods11 or an EarthShift split) is registered as Task-3 for independence."
+  },
+  "A3_encoder_peft_registered_2026_09_03": {
+    "arm": "A3 = OlmoEarth v1 Base encoder PEFT (LoRA on attention q/v or rslearn APLA; rank 8 primary) fine-tuned on the same K support tiles from raw pixels, then re-embedded; decoder from A1 protocol",
+    "purpose": "closes 'reuse vs re-embed': today's 'retrain' arm is raw UNet, so the question 'why not adapt the OlmoEarth encoder itself?' is open",
+    "interpretation_fixed": {
+      "A1_wins": "strong cache-compatible post-training result",
+      "A3_slightly_wins": "re-embedding only when cost is justified; report accuracy-vs-recompute frontier (raw bytes, GPU s, cache invalidation)",
+      "A3_clearly_wins": "shift the paper to finding where cache validity breaks"
+    },
+    "scope": "development folds first (china, chimanimani), K=20, 3 seeds; confirmatory only if gate rules are met; costs must be reported per arm"
+  }
 }
