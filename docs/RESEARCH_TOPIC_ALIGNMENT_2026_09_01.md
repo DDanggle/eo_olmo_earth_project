@@ -126,3 +126,8 @@ K>20·다른 task → 미측정(raw PEFT 와 crossover 측정).
 목표별: Ai2 취업 — 이미 강함(cache reuse + safe adaptation 실증). 박사/CVPR — "왜 그런가"와 "query 라벨 없이 action 선택"이 관건. 사업 — warm-cache 경제성(A1 GPU ~5 s·raw I/O 0 vs A4w 26–38 s·~1.4 GB)이지 cold-start 아님.
 
 **MS-97 반영(2026-09-03, 문구 하향판)**: parameter-matched raw 적응(A4h)도 A1 에 7/8 패, parameter matching 은 raw 를 체계적으로 개선하지 못함 → 이점은 **파라미터 수·support 층화·update 스케줄로 설명되지 않으며 pretrained cache pathway 에 특이적**(원인 확정 아님 — 사전학습·구조·적응 위치 혼재). random support 7/8. 격상 조건: Task-2 에서 **few-shot 질문 자체를 반복** + A3(encoder PEFT+re-embed).
+
+
+**MS-98/99 반영(2026-09-03)**: 두 번째 과업(Solar Farm, 전지구 인공 구조물)에서 zero-target 재사용 8/8(+.26)과 few-shot 결정(A1 > A4w·A4h 8/8·8/8, fe 8/8) 재현 → "여러 과업·여러 지역 재현" 조건 충족(2과업·16 holdout).
+**의사결정 지도 갱신**: K=0 → A0. **K=5 → A0 기본값**(random·양성 0 support 에서 A1 이 A0 아래로 붕괴; Task-2 random K5 1/8) — 양성 확인 시에만 A1. K=20 → A1(두 과업 8/8, random 도 8/8). raw 재학습(A4)은 K≤20 어디서도 선택하지 않음.
+CVPR 격상 조건 중 "두 번째 과업" 칸이 채워짐. 남은 것: A3(encoder PEFT+re-embed), Task-3 외부 과업, support-only 양성 판별(selector).

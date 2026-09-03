@@ -1,0 +1,126 @@
+{
+ "schema": "task2-fewshot-manifest-v1",
+ "rule": "v2 (pool positive cap 45%), groups = same-CRS overlapping bounds",
+ "regions": {
+  "task2_fold0": {
+   "pool": [
+    163,
+    31
+   ],
+   "query": [
+    266,
+    41
+   ],
+   "dropped": 1,
+   "feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "task2_fold1": {
+   "pool": [
+    141,
+    30
+   ],
+   "query": [
+    288,
+    45
+   ],
+   "dropped": 0,
+   "feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "task2_fold2": {
+   "pool": [
+    183,
+    37
+   ],
+   "query": [
+    245,
+    54
+   ],
+   "dropped": 1,
+   "feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "task2_fold3": {
+   "pool": [
+    182,
+    29
+   ],
+   "query": [
+    245,
+    43
+   ],
+   "dropped": 3,
+   "feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "task2_fold4": {
+   "pool": [
+    269,
+    21
+   ],
+   "query": [
+    160,
+    30
+   ],
+   "dropped": 0,
+   "feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "task2_fold5": {
+   "pool": [
+    102,
+    17
+   ],
+   "query": [
+    323,
+    21
+   ],
+   "dropped": 4,
+   "feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "task2_fold6": {
+   "pool": [
+    227,
+    21
+   ],
+   "query": [
+    202,
+    27
+   ],
+   "dropped": 0,
+   "feasible": {
+    "5": true,
+    "20": true
+   }
+  },
+  "task2_fold7": {
+   "pool": [
+    124,
+    18
+   ],
+   "query": [
+    303,
+    24
+   ],
+   "dropped": 2,
+   "feasible": {
+    "5": true,
+    "20": true
+   }
+  }
+ }
+}

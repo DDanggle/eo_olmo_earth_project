@@ -4435,6 +4435,31 @@ Solar Farm(Ai2 파트너 과업, rslearn 형식, tar 126 GB SHA `e08e5349…`). 
 과업이 쉬워(P4 ≈ .6) few-shot 격차는 천장 효과 가능. 중심 칩 규칙으로 양성 칩이 윈도우 양성의 ~30%만 잡힘(폴드당 40–91 양성 칩) — 라벨 무관 규칙이라 편향은 아니지만 표본이 줄었음.
 **봉인**: `task2_source_v1/`(48 run + 코드 스냅샷 SHA), `artifacts/task2_solar_farm/{task2_geo_folds,contract_audit}.json`, `artifacts/task2_fewshot/verdict.json`(source 절).
 
+## MS-99. Task-2 (Solar Farm) few-shot 헤드라인 재현 — 층화 support 8/8·8/8, fixed-exposure 8/8·8/8, A4h 대비 8/8; **random K=5 는 불통과(5/8)** (2026-09-03)
+
+**사전 등록**: `config/task2_extension_prereg_v0.json` addendum_v1(few-shot 확증 설계, 라벨 열람 전)·v2(샘플 단위·폴드). manifest 규칙 v2, 8폴드 전부 실현.
+arm: A0(cache 무적응) / A1(cache+decoder 적응) / A4w(source P2 full 적응) / A4h(P2 parameter-matched 적응). 소스 체크포인트 = MS-98 의 48 run. FP 매칭 IoU, 시드 3 평균.
+
+| 조건 | A0 | A1 K5 | A4w K5 | A4h K5 | A1 K20 | A4w K20 | A4h K20 | A1>A4w K5/K20 | A1>A4h K5/K20 | A1>A0 K5/K20 |
+|---|---:|---:|---:|---:|---:|---:|---:|---|---|---|
+| **층화**(fixed-update) | .591 | **.582** | .240 | .257 | **.609** | .245 | .291 | **8/8 · 8/8** | **8/8 · 8/8** | 5/8 · 7/8 |
+| 층화(fixed-exposure) | — | **.584** | .240 | — | **.600** | .235 | — | **8/8 · 8/8** | — | — |
+| **random** | .591 | .426 | .260 | .268 | **.584** | .268 | .288 | **5/8** · 8/8 | 6/8 · 8/8 | **1/8** · 7/8 |
+
+**판정(등록 규칙)**
+- `replicates`(A1−A4w ≥+.01 ≥6/8 at K5 & K20 같은 방향): 층화 **통과(8/8·8/8)**, fixed-exposure **통과(8/8·8/8)**. `representation`(A1−A4h ≥6/8): **통과(8/8·8/8)**.
+  → **MS-96/97 의 few-shot 결정이 두 번째 과업(인공 구조물·전지구)에서 재현됨.** Sen12 보다 격차 더 큼(K5 +.34, K20 +.36).
+- **random support K=5: 불통과(5/8; A4w>A1 2/8)**, A1 macro .426 로 **A0(.591) 아래**(A1>A0 1/8). 원인 감사: Task-2 중심 칩의 pool 양성 비율이 8–21% 로 낮아
+  무작위 5장 중 **양성 0장인 draw 가 24 중 12**(fold7 은 3/3 전부 0). 빈 마스크만으로 300 update 적응하면 소스 디코더가 "전부 음성"으로 밀려 붕괴.
+  K=20 random 은 회복(8/8, A1 .584 ≈ A0). Sen12 random(양성 비율 9–65%)에서 7/8 이었던 것과 일관된 메커니즘.
+- 천장 효과: A0 가 이미 .59 라 K=5 층화 적응의 A0 대비 이득은 5/8 지역·평균 −.009 로 없음(K=20 +.018). 이 과업에서 A1 의 가치는 "A0 보다 나음"이 아니라 **"raw 재학습보다 압도적으로 나음(+.34)"** 임.
+
+**허용 문장**: "두 과업(산사태·태양광)·16개 지리 holdout 에서, target dense tile 5·20장의 cache decoder 적응은 source-trained raw UNet3D 의 full·parameter-matched 적응을
+전부(16/16, 16/16) 이겼다. 다만 support 가 무작위이고 양성이 없으면 K=5 적응은 무적응보다 나빠질 수 있어(Task-2 random K5: A1 .43 < A0 .59) **K=5 의 기본값은 A0** 이며,
+적응은 support 에 양성이 확인되거나 K≥20 일 때로 제한한다." — 이것이 교수가 요구한 K=5 결정 규칙의 첫 실증 근거.
+**아직 아닌 것**: raw 상대 UNet3D 만; A3(encoder PEFT) 미실행; 두 과업 모두 OlmoEarth 파트너/공개 벤치마크 계열(Task-3 외부성 필요); 배포 임계 미정; support-only 양성 판별 selector 미구현.
+**봉인**: `artifacts/task2_fewshot/{fu,fu_random,fe}/report.json`(168/168/96 run), `verdict.json`, `artifacts/task2_fewshot_manifests/summary.json`, 서버 `task2_source_v1/`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
