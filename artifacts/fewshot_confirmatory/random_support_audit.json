@@ -1,0 +1,958 @@
+{
+ "schema": "random-support-audit-v1",
+ "draw_rule": "random.Random(100+seed+K*7).sample(sorted pool ids as stored in manifest['support_pool']['ids'], K); sorted",
+ "regions": {
+  "hiroshima": {
+   "manifest_sha256": "6241fd580298fcbe8cfd7d9d579be2197f4a0308da5dde53c283cd4265b2b0ab",
+   "pool_n": 421,
+   "pool_positive_tiles": 196,
+   "pool_positive_rate": 0.4655581947743468,
+   "draws": {
+    "K5_s1": {
+     "support_ids": [
+      "hiroshima_s2_1085",
+      "hiroshima_s2_553",
+      "hiroshima_s2_556",
+      "hiroshima_s2_647",
+      "hiroshima_s2_691"
+     ],
+     "positive_tiles": 4,
+     "pixel_prevalence": 0.0089599609375
+    },
+    "K5_s2": {
+     "support_ids": [
+      "hiroshima_s2_1110",
+      "hiroshima_s2_211",
+      "hiroshima_s2_255",
+      "hiroshima_s2_441",
+      "hiroshima_s2_542"
+     ],
+     "positive_tiles": 1,
+     "pixel_prevalence": 0.000146484375
+    },
+    "K5_s3": {
+     "support_ids": [
+      "hiroshima_s2_256",
+      "hiroshima_s2_418",
+      "hiroshima_s2_505",
+      "hiroshima_s2_573",
+      "hiroshima_s2_837"
+     ],
+     "positive_tiles": 1,
+     "pixel_prevalence": 0.00140380859375
+    },
+    "K20_s1": {
+     "support_ids": [
+      "hiroshima_s2_110",
+      "hiroshima_s2_1131",
+      "hiroshima_s2_154",
+      "hiroshima_s2_190",
+      "hiroshima_s2_317",
+      "hiroshima_s2_367",
+      "hiroshima_s2_374",
+      "hiroshima_s2_484",
+      "hiroshima_s2_485",
+      "hiroshima_s2_65",
+      "hiroshima_s2_657",
+      "hiroshima_s2_715",
+      "hiroshima_s2_748",
+      "hiroshima_s2_763",
+      "hiroshima_s2_830",
+      "hiroshima_s2_839",
+      "hiroshima_s2_869",
+      "hiroshima_s2_875",
+      "hiroshima_s2_887",
+      "hiroshima_s2_920"
+     ],
+     "positive_tiles": 5,
+     "pixel_prevalence": 0.000775146484375
+    },
+    "K20_s2": {
+     "support_ids": [
+      "hiroshima_s2_101",
+      "hiroshima_s2_1032",
+      "hiroshima_s2_198",
+      "hiroshima_s2_258",
+      "hiroshima_s2_266",
+      "hiroshima_s2_284",
+      "hiroshima_s2_346",
+      "hiroshima_s2_463",
+      "hiroshima_s2_503",
+      "hiroshima_s2_606",
+      "hiroshima_s2_619",
+      "hiroshima_s2_636",
+      "hiroshima_s2_648",
+      "hiroshima_s2_649",
+      "hiroshima_s2_730",
+      "hiroshima_s2_745",
+      "hiroshima_s2_871",
+      "hiroshima_s2_877",
+      "hiroshima_s2_936",
+      "hiroshima_s2_975"
+     ],
+     "positive_tiles": 10,
+     "pixel_prevalence": 0.0109405517578125
+    },
+    "K20_s3": {
+     "support_ids": [
+      "hiroshima_s2_1012",
+      "hiroshima_s2_1077",
+      "hiroshima_s2_114",
+      "hiroshima_s2_128",
+      "hiroshima_s2_193",
+      "hiroshima_s2_290",
+      "hiroshima_s2_369",
+      "hiroshima_s2_423",
+      "hiroshima_s2_433",
+      "hiroshima_s2_463",
+      "hiroshima_s2_493",
+      "hiroshima_s2_551",
+      "hiroshima_s2_573",
+      "hiroshima_s2_645",
+      "hiroshima_s2_682",
+      "hiroshima_s2_690",
+      "hiroshima_s2_692",
+      "hiroshima_s2_802",
+      "hiroshima_s2_869",
+      "hiroshima_s2_980"
+     ],
+     "positive_tiles": 8,
+     "pixel_prevalence": 0.0215728759765625
+    }
+   }
+  },
+  "hokkaido": {
+   "manifest_sha256": "bc4f2b205d468e8e0624c4e037b7a1b5d1ecc814343885c05e7236eee6aced6e",
+   "pool_n": 154,
+   "pool_positive_tiles": 14,
+   "pool_positive_rate": 0.09090909090909091,
+   "draws": {
+    "K5_s1": {
+     "support_ids": [
+      "hokkaido_s2_1128",
+      "hokkaido_s2_654",
+      "hokkaido_s2_656",
+      "hokkaido_s2_889",
+      "hokkaido_s2_949"
+     ],
+     "positive_tiles": 0,
+     "pixel_prevalence": 0.0
+    },
+    "K5_s2": {
+     "support_ids": [
+      "hokkaido_s2_1141",
+      "hokkaido_s2_148",
+      "hokkaido_s2_158",
+      "hokkaido_s2_424",
+      "hokkaido_s2_616"
+     ],
+     "positive_tiles": 1,
+     "pixel_prevalence": 0.00303955078125
+    },
+    "K5_s3": {
+     "support_ids": [
+      "hokkaido_s2_158",
+      "hokkaido_s2_204",
+      "hokkaido_s2_383",
+      "hokkaido_s2_568",
+      "hokkaido_s2_693"
+     ],
+     "positive_tiles": 0,
+     "pixel_prevalence": 0.0
+    },
+    "K20_s1": {
+     "support_ids": [
+      "hokkaido_s2_1026",
+      "hokkaido_s2_1135",
+      "hokkaido_s2_1201",
+      "hokkaido_s2_129",
+      "hokkaido_s2_1317",
+      "hokkaido_s2_135",
+      "hokkaido_s2_233",
+      "hokkaido_s2_262",
+      "hokkaido_s2_263",
+      "hokkaido_s2_327",
+      "hokkaido_s2_339",
+      "hokkaido_s2_485",
+      "hokkaido_s2_551",
+      "hokkaido_s2_830",
+      "hokkaido_s2_842",
+      "hokkaido_s2_890",
+      "hokkaido_s2_907",
+      "hokkaido_s2_913",
+      "hokkaido_s2_94",
+      "hokkaido_s2_968"
+     ],
+     "positive_tiles": 1,
+     "pixel_prevalence": 0.0019378662109375
+    },
+    "K20_s2": {
+     "support_ids": [
+      "hokkaido_s2_1006",
+      "hokkaido_s2_1017",
+      "hokkaido_s2_1062",
+      "hokkaido_s2_1069",
+      "hokkaido_s2_1073",
+      "hokkaido_s2_135",
+      "hokkaido_s2_173",
+      "hokkaido_s2_180",
+      "hokkaido_s2_204",
+      "hokkaido_s2_220",
+      "hokkaido_s2_315",
+      "hokkaido_s2_423",
+      "hokkaido_s2_436",
+      "hokkaido_s2_568",
+      "hokkaido_s2_656",
+      "hokkaido_s2_806",
+      "hokkaido_s2_83",
+      "hokkaido_s2_847",
+      "hokkaido_s2_889",
+      "hokkaido_s2_890"
+     ],
+     "positive_tiles": 1,
+     "pixel_prevalence": 0.0001983642578125
+    },
+    "K20_s3": {
+     "support_ids": [
+      "hokkaido_s2_1006",
+      "hokkaido_s2_1069",
+      "hokkaido_s2_1092",
+      "hokkaido_s2_1094",
+      "hokkaido_s2_1202",
+      "hokkaido_s2_1253",
+      "hokkaido_s2_1317",
+      "hokkaido_s2_212",
+      "hokkaido_s2_335",
+      "hokkaido_s2_407",
+      "hokkaido_s2_419",
+      "hokkaido_s2_436",
+      "hokkaido_s2_556",
+      "hokkaido_s2_652",
+      "hokkaido_s2_693",
+      "hokkaido_s2_847",
+      "hokkaido_s2_886",
+      "hokkaido_s2_932",
+      "hokkaido_s2_94",
+      "hokkaido_s2_949"
+     ],
+     "positive_tiles": 0,
+     "pixel_prevalence": 0.0
+    }
+   }
+  },
+  "indonesia": {
+   "manifest_sha256": "08eb49f5ef3d0779958a317310dbddc66707863c9c2dd38c4111a13748162ff5",
+   "pool_n": 190,
+   "pool_positive_tiles": 122,
+   "pool_positive_rate": 0.6421052631578947,
+   "draws": {
+    "K5_s1": {
+     "support_ids": [
+      "indonesia_s2_120",
+      "indonesia_s2_361",
+      "indonesia_s2_363",
+      "indonesia_s2_450",
+      "indonesia_s2_501"
+     ],
+     "positive_tiles": 4,
+     "pixel_prevalence": 0.012841796875
+    },
+    "K5_s2": {
+     "support_ids": [
+      "indonesia_s2_123",
+      "indonesia_s2_193",
+      "indonesia_s2_202",
+      "indonesia_s2_279",
+      "indonesia_s2_355"
+     ],
+     "positive_tiles": 3,
+     "pixel_prevalence": 0.01605224609375
+    },
+    "K5_s3": {
+     "support_ids": [
+      "indonesia_s2_202",
+      "indonesia_s2_265",
+      "indonesia_s2_327",
+      "indonesia_s2_375",
+      "indonesia_s2_76"
+     ],
+     "positive_tiles": 3,
+     "pixel_prevalence": 0.0281982421875
+    },
+    "K20_s1": {
+     "support_ids": [
+      "indonesia_s2_106",
+      "indonesia_s2_121",
+      "indonesia_s2_156",
+      "indonesia_s2_165",
+      "indonesia_s2_172",
+      "indonesia_s2_215",
+      "indonesia_s2_221",
+      "indonesia_s2_235",
+      "indonesia_s2_312",
+      "indonesia_s2_451",
+      "indonesia_s2_454",
+      "indonesia_s2_528",
+      "indonesia_s2_592",
+      "indonesia_s2_63",
+      "indonesia_s2_634",
+      "indonesia_s2_739",
+      "indonesia_s2_786",
+      "indonesia_s2_83",
+      "indonesia_s2_841",
+      "indonesia_s2_940"
+     ],
+     "positive_tiles": 12,
+     "pixel_prevalence": 0.03424072265625
+    },
+    "K20_s2": {
+     "support_ids": [
+      "indonesia_s2_102",
+      "indonesia_s2_111",
+      "indonesia_s2_116",
+      "indonesia_s2_173",
+      "indonesia_s2_203",
+      "indonesia_s2_205",
+      "indonesia_s2_208",
+      "indonesia_s2_220",
+      "indonesia_s2_302",
+      "indonesia_s2_327",
+      "indonesia_s2_406",
+      "indonesia_s2_409",
+      "indonesia_s2_433",
+      "indonesia_s2_450",
+      "indonesia_s2_451",
+      "indonesia_s2_547",
+      "indonesia_s2_56",
+      "indonesia_s2_581",
+      "indonesia_s2_830",
+      "indonesia_s2_890"
+     ],
+     "positive_tiles": 10,
+     "pixel_prevalence": 0.0200042724609375
+    },
+    "K20_s3": {
+     "support_ids": [
+      "indonesia_s2_102",
+      "indonesia_s2_1181",
+      "indonesia_s2_157",
+      "indonesia_s2_161",
+      "indonesia_s2_172",
+      "indonesia_s2_209",
+      "indonesia_s2_229",
+      "indonesia_s2_266",
+      "indonesia_s2_268",
+      "indonesia_s2_302",
+      "indonesia_s2_316",
+      "indonesia_s2_359",
+      "indonesia_s2_375",
+      "indonesia_s2_449",
+      "indonesia_s2_496",
+      "indonesia_s2_498",
+      "indonesia_s2_501",
+      "indonesia_s2_63",
+      "indonesia_s2_73",
+      "indonesia_s2_83"
+     ],
+     "positive_tiles": 13,
+     "pixel_prevalence": 0.026104736328125
+    }
+   }
+  },
+  "itogon": {
+   "manifest_sha256": "bfccd983bb22615b463d78b5eb306a31a2cada78189b996d768c30f73f19f8a8",
+   "pool_n": 92,
+   "pool_positive_tiles": 52,
+   "pool_positive_rate": 0.5652173913043478,
+   "draws": {
+    "K5_s1": {
+     "support_ids": [
+      "itogon_s2_158",
+      "itogon_s2_463",
+      "itogon_s2_464",
+      "itogon_s2_504",
+      "itogon_s2_526"
+     ],
+     "positive_tiles": 4,
+     "pixel_prevalence": 0.01195068359375
+    },
+    "K5_s2": {
+     "support_ids": [
+      "itogon_s2_188",
+      "itogon_s2_314",
+      "itogon_s2_316",
+      "itogon_s2_415",
+      "itogon_s2_461"
+     ],
+     "positive_tiles": 1,
+     "pixel_prevalence": 8.544921875e-05
+    },
+    "K5_s3": {
+     "support_ids": [
+      "itogon_s2_316",
+      "itogon_s2_387",
+      "itogon_s2_430",
+      "itogon_s2_466",
+      "itogon_s2_557"
+     ],
+     "positive_tiles": 2,
+     "pixel_prevalence": 0.000341796875
+    },
+    "K20_s1": {
+     "support_ids": [
+      "itogon_s2_113",
+      "itogon_s2_178",
+      "itogon_s2_216",
+      "itogon_s2_244",
+      "itogon_s2_283",
+      "itogon_s2_341",
+      "itogon_s2_342",
+      "itogon_s2_351",
+      "itogon_s2_379",
+      "itogon_s2_423",
+      "itogon_s2_505",
+      "itogon_s2_507",
+      "itogon_s2_539",
+      "itogon_s2_542",
+      "itogon_s2_543",
+      "itogon_s2_545",
+      "itogon_s2_547",
+      "itogon_s2_552",
+      "itogon_s2_557",
+      "itogon_s2_66"
+     ],
+     "positive_tiles": 13,
+     "pixel_prevalence": 0.0123504638671875
+    },
+    "K20_s2": {
+     "support_ids": [
+      "itogon_s2_112",
+      "itogon_s2_130",
+      "itogon_s2_156",
+      "itogon_s2_283",
+      "itogon_s2_317",
+      "itogon_s2_331",
+      "itogon_s2_349",
+      "itogon_s2_415",
+      "itogon_s2_420",
+      "itogon_s2_430",
+      "itogon_s2_464",
+      "itogon_s2_498",
+      "itogon_s2_499",
+      "itogon_s2_502",
+      "itogon_s2_504",
+      "itogon_s2_505",
+      "itogon_s2_540",
+      "itogon_s2_541",
+      "itogon_s2_542",
+      "itogon_s2_98"
+     ],
+     "positive_tiles": 11,
+     "pixel_prevalence": 0.0080841064453125
+    },
+    "K20_s3": {
+     "support_ids": [
+      "itogon_s2_112",
+      "itogon_s2_139",
+      "itogon_s2_157",
+      "itogon_s2_216",
+      "itogon_s2_231",
+      "itogon_s2_283",
+      "itogon_s2_332",
+      "itogon_s2_351",
+      "itogon_s2_409",
+      "itogon_s2_411",
+      "itogon_s2_420",
+      "itogon_s2_427",
+      "itogon_s2_463",
+      "itogon_s2_466",
+      "itogon_s2_504",
+      "itogon_s2_522",
+      "itogon_s2_526",
+      "itogon_s2_545",
+      "itogon_s2_550",
+      "itogon_s2_66"
+     ],
+     "positive_tiles": 9,
+     "pixel_prevalence": 0.0034088134765625
+    }
+   }
+  },
+  "kyrgyzstan1": {
+   "manifest_sha256": "18a669221c295e6e7c8253efe0a633c618502f8fc1b6f8a1f0938b379f72e50a",
+   "pool_n": 712,
+   "pool_positive_tiles": 319,
+   "pool_positive_rate": 0.44803370786516855,
+   "draws": {
+    "K5_s1": {
+     "support_ids": [
+      "kyrgyzstan1_s2_1530",
+      "kyrgyzstan1_s2_2976",
+      "kyrgyzstan1_s2_2995",
+      "kyrgyzstan1_s2_3369",
+      "kyrgyzstan1_s2_3576"
+     ],
+     "positive_tiles": 1,
+     "pixel_prevalence": 0.0056884765625
+    },
+    "K5_s2": {
+     "support_ids": [
+      "kyrgyzstan1_s2_1564",
+      "kyrgyzstan1_s2_1986",
+      "kyrgyzstan1_s2_2060",
+      "kyrgyzstan1_s2_2545",
+      "kyrgyzstan1_s2_2917"
+     ],
+     "positive_tiles": 3,
+     "pixel_prevalence": 0.00831298828125
+    },
+    "K5_s3": {
+     "support_ids": [
+      "kyrgyzstan1_s2_2063",
+      "kyrgyzstan1_s2_2147",
+      "kyrgyzstan1_s2_2472",
+      "kyrgyzstan1_s2_279",
+      "kyrgyzstan1_s2_3038"
+     ],
+     "positive_tiles": 3,
+     "pixel_prevalence": 0.03382568359375
+    },
+    "K20_s1": {
+     "support_ids": [
+      "kyrgyzstan1_s2_1109",
+      "kyrgyzstan1_s2_1538",
+      "kyrgyzstan1_s2_1719",
+      "kyrgyzstan1_s2_1843",
+      "kyrgyzstan1_s2_1955",
+      "kyrgyzstan1_s2_1970",
+      "kyrgyzstan1_s2_2234",
+      "kyrgyzstan1_s2_2236",
+      "kyrgyzstan1_s2_2328",
+      "kyrgyzstan1_s2_2353",
+      "kyrgyzstan1_s2_2656",
+      "kyrgyzstan1_s2_2660",
+      "kyrgyzstan1_s2_3394",
+      "kyrgyzstan1_s2_3434",
+      "kyrgyzstan1_s2_3688",
+      "kyrgyzstan1_s2_447",
+      "kyrgyzstan1_s2_489",
+      "kyrgyzstan1_s2_615",
+      "kyrgyzstan1_s2_716",
+      "kyrgyzstan1_s2_941"
+     ],
+     "positive_tiles": 10,
+     "pixel_prevalence": 0.028302001953125
+    },
+    "K20_s2": {
+     "support_ids": [
+      "kyrgyzstan1_s2_10",
+      "kyrgyzstan1_s2_1253",
+      "kyrgyzstan1_s2_1400",
+      "kyrgyzstan1_s2_1973",
+      "kyrgyzstan1_s2_2070",
+      "kyrgyzstan1_s2_2093",
+      "kyrgyzstan1_s2_2148",
+      "kyrgyzstan1_s2_2309",
+      "kyrgyzstan1_s2_2533",
+      "kyrgyzstan1_s2_2584",
+      "kyrgyzstan1_s2_2768",
+      "kyrgyzstan1_s2_2982",
+      "kyrgyzstan1_s2_3198",
+      "kyrgyzstan1_s2_3258",
+      "kyrgyzstan1_s2_3313",
+      "kyrgyzstan1_s2_3374",
+      "kyrgyzstan1_s2_339",
+      "kyrgyzstan1_s2_394",
+      "kyrgyzstan1_s2_432",
+      "kyrgyzstan1_s2_477"
+     ],
+     "positive_tiles": 8,
+     "pixel_prevalence": 0.0071563720703125
+    },
+    "K20_s3": {
+     "support_ids": [
+      "kyrgyzstan1_s2_1039",
+      "kyrgyzstan1_s2_1294",
+      "kyrgyzstan1_s2_1463",
+      "kyrgyzstan1_s2_1725",
+      "kyrgyzstan1_s2_1799",
+      "kyrgyzstan1_s2_1962",
+      "kyrgyzstan1_s2_2151",
+      "kyrgyzstan1_s2_2333",
+      "kyrgyzstan1_s2_2484",
+      "kyrgyzstan1_s2_2506",
+      "kyrgyzstan1_s2_2583",
+      "kyrgyzstan1_s2_2722",
+      "kyrgyzstan1_s2_2945",
+      "kyrgyzstan1_s2_3043",
+      "kyrgyzstan1_s2_336",
+      "kyrgyzstan1_s2_3493",
+      "kyrgyzstan1_s2_357",
+      "kyrgyzstan1_s2_3579",
+      "kyrgyzstan1_s2_637",
+      "kyrgyzstan1_s2_883"
+     ],
+     "positive_tiles": 10,
+     "pixel_prevalence": 0.0394500732421875
+    }
+   }
+  },
+  "kyrgyzstan2": {
+   "manifest_sha256": "963baea2310c2d89e55168ff4a91f3c2ff8bcc3cc1ca756c823e9b9a35df46ec",
+   "pool_n": 256,
+   "pool_positive_tiles": 90,
+   "pool_positive_rate": 0.3515625,
+   "draws": {
+    "K5_s1": {
+     "support_ids": [
+      "kyrgyzstan2_s2_2381",
+      "kyrgyzstan2_s2_5024",
+      "kyrgyzstan2_s2_7575",
+      "kyrgyzstan2_s2_7616",
+      "kyrgyzstan2_s2_9076"
+     ],
+     "positive_tiles": 0,
+     "pixel_prevalence": 0.0
+    },
+    "K5_s2": {
+     "support_ids": [
+      "kyrgyzstan2_s2_2708",
+      "kyrgyzstan2_s2_4808",
+      "kyrgyzstan2_s2_4984",
+      "kyrgyzstan2_s2_6198",
+      "kyrgyzstan2_s2_6800"
+     ],
+     "positive_tiles": 3,
+     "pixel_prevalence": 0.0046875
+    },
+    "K5_s3": {
+     "support_ids": [
+      "kyrgyzstan2_s2_4985",
+      "kyrgyzstan2_s2_5109",
+      "kyrgyzstan2_s2_6071",
+      "kyrgyzstan2_s2_6668",
+      "kyrgyzstan2_s2_7933"
+     ],
+     "positive_tiles": 4,
+     "pixel_prevalence": 0.0096435546875
+    },
+    "K20_s1": {
+     "support_ids": [
+      "kyrgyzstan2_s2_1432",
+      "kyrgyzstan2_s2_2302",
+      "kyrgyzstan2_s2_2417",
+      "kyrgyzstan2_s2_3288",
+      "kyrgyzstan2_s2_360",
+      "kyrgyzstan2_s2_4131",
+      "kyrgyzstan2_s2_4133",
+      "kyrgyzstan2_s2_4371",
+      "kyrgyzstan2_s2_4372",
+      "kyrgyzstan2_s2_4542",
+      "kyrgyzstan2_s2_4617",
+      "kyrgyzstan2_s2_4648",
+      "kyrgyzstan2_s2_5339",
+      "kyrgyzstan2_s2_5398",
+      "kyrgyzstan2_s2_5429",
+      "kyrgyzstan2_s2_5605",
+      "kyrgyzstan2_s2_5733",
+      "kyrgyzstan2_s2_6318",
+      "kyrgyzstan2_s2_6319",
+      "kyrgyzstan2_s2_634"
+     ],
+     "positive_tiles": 7,
+     "pixel_prevalence": 0.005291748046875
+    },
+    "K20_s2": {
+     "support_ids": [
+      "kyrgyzstan2_s2_1095",
+      "kyrgyzstan2_s2_1292",
+      "kyrgyzstan2_s2_1800",
+      "kyrgyzstan2_s2_1951",
+      "kyrgyzstan2_s2_203",
+      "kyrgyzstan2_s2_4703",
+      "kyrgyzstan2_s2_5012",
+      "kyrgyzstan2_s2_5024",
+      "kyrgyzstan2_s2_5125",
+      "kyrgyzstan2_s2_5230",
+      "kyrgyzstan2_s2_5580",
+      "kyrgyzstan2_s2_6193",
+      "kyrgyzstan2_s2_6209",
+      "kyrgyzstan2_s2_6237",
+      "kyrgyzstan2_s2_6659",
+      "kyrgyzstan2_s2_6677",
+      "kyrgyzstan2_s2_759",
+      "kyrgyzstan2_s2_8392",
+      "kyrgyzstan2_s2_8840",
+      "kyrgyzstan2_s2_9573"
+     ],
+     "positive_tiles": 4,
+     "pixel_prevalence": 0.00255126953125
+    },
+    "K20_s3": {
+     "support_ids": [
+      "kyrgyzstan2_s2_1149",
+      "kyrgyzstan2_s2_1968",
+      "kyrgyzstan2_s2_2262",
+      "kyrgyzstan2_s2_2296",
+      "kyrgyzstan2_s2_360",
+      "kyrgyzstan2_s2_3748",
+      "kyrgyzstan2_s2_3888",
+      "kyrgyzstan2_s2_4498",
+      "kyrgyzstan2_s2_4623",
+      "kyrgyzstan2_s2_4859",
+      "kyrgyzstan2_s2_5128",
+      "kyrgyzstan2_s2_5230",
+      "kyrgyzstan2_s2_5700",
+      "kyrgyzstan2_s2_5952",
+      "kyrgyzstan2_s2_6073",
+      "kyrgyzstan2_s2_6187",
+      "kyrgyzstan2_s2_6237",
+      "kyrgyzstan2_s2_6548",
+      "kyrgyzstan2_s2_7506",
+      "kyrgyzstan2_s2_7933"
+     ],
+     "positive_tiles": 5,
+     "pixel_prevalence": 0.0039215087890625
+    }
+   }
+  },
+  "newzealand": {
+   "manifest_sha256": "a1e64e87e7a46603bdc9a8adf937791e1a61aa3c11bca1a63b82a218a39640cf",
+   "pool_n": 464,
+   "pool_positive_tiles": 247,
+   "pool_positive_rate": 0.5323275862068966,
+   "draws": {
+    "K5_s1": {
+     "support_ids": [
+      "newzealand_s2_1162",
+      "newzealand_s2_2059",
+      "newzealand_s2_2062",
+      "newzealand_s2_2322",
+      "newzealand_s2_2475"
+     ],
+     "positive_tiles": 4,
+     "pixel_prevalence": 0.02681884765625
+    },
+    "K5_s2": {
+     "support_ids": [
+      "newzealand_s2_1172",
+      "newzealand_s2_1485",
+      "newzealand_s2_1501",
+      "newzealand_s2_1824",
+      "newzealand_s2_1994"
+     ],
+     "positive_tiles": 4,
+     "pixel_prevalence": 0.006640625
+    },
+    "K5_s3": {
+     "support_ids": [
+      "newzealand_s2_151",
+      "newzealand_s2_1748",
+      "newzealand_s2_1945",
+      "newzealand_s2_2075",
+      "newzealand_s2_2722"
+     ],
+     "positive_tiles": 3,
+     "pixel_prevalence": 0.0494384765625
+    },
+    "K20_s1": {
+     "support_ids": [
+      "newzealand_s2_1167",
+      "newzealand_s2_1291",
+      "newzealand_s2_1427",
+      "newzealand_s2_1601",
+      "newzealand_s2_1664",
+      "newzealand_s2_1673",
+      "newzealand_s2_1893",
+      "newzealand_s2_2325",
+      "newzealand_s2_2372",
+      "newzealand_s2_2493",
+      "newzealand_s2_2563",
+      "newzealand_s2_259",
+      "newzealand_s2_2678",
+      "newzealand_s2_2724",
+      "newzealand_s2_2738",
+      "newzealand_s2_2967",
+      "newzealand_s2_529",
+      "newzealand_s2_578",
+      "newzealand_s2_677",
+      "newzealand_s2_840"
+     ],
+     "positive_tiles": 9,
+     "pixel_prevalence": 0.024530029296875
+    },
+    "K20_s2": {
+     "support_ids": [
+      "newzealand_s2_1000",
+      "newzealand_s2_1070",
+      "newzealand_s2_1452",
+      "newzealand_s2_1527",
+      "newzealand_s2_1543",
+      "newzealand_s2_1565",
+      "newzealand_s2_1662",
+      "newzealand_s2_1830",
+      "newzealand_s2_1938",
+      "newzealand_s2_2178",
+      "newzealand_s2_2234",
+      "newzealand_s2_2279",
+      "newzealand_s2_2323",
+      "newzealand_s2_2324",
+      "newzealand_s2_2527",
+      "newzealand_s2_2560",
+      "newzealand_s2_2755",
+      "newzealand_s2_2803",
+      "newzealand_s2_3213",
+      "newzealand_s2_368"
+     ],
+     "positive_tiles": 10,
+     "pixel_prevalence": 0.013934326171875
+    },
+    "K20_s3": {
+     "support_ids": [
+      "newzealand_s2_1001",
+      "newzealand_s2_1126",
+      "newzealand_s2_1300",
+      "newzealand_s2_1328",
+      "newzealand_s2_1437",
+      "newzealand_s2_1566",
+      "newzealand_s2_1666",
+      "newzealand_s2_1750",
+      "newzealand_s2_1816",
+      "newzealand_s2_1830",
+      "newzealand_s2_1907",
+      "newzealand_s2_2018",
+      "newzealand_s2_2075",
+      "newzealand_s2_232",
+      "newzealand_s2_2407",
+      "newzealand_s2_2472",
+      "newzealand_s2_2653",
+      "newzealand_s2_419",
+      "newzealand_s2_675",
+      "newzealand_s2_955"
+     ],
+     "positive_tiles": 13,
+     "pixel_prevalence": 0.02955322265625
+    }
+   }
+  },
+  "thrissur": {
+   "manifest_sha256": "a4530621c23e1dc84655525652782d78ea1aa411349241cd082423e62691da34",
+   "pool_n": 140,
+   "pool_positive_tiles": 91,
+   "pool_positive_rate": 0.65,
+   "draws": {
+    "K5_s1": {
+     "support_ids": [
+      "thrissur_s2_177",
+      "thrissur_s2_664",
+      "thrissur_s2_665",
+      "thrissur_s2_788",
+      "thrissur_s2_846"
+     ],
+     "positive_tiles": 3,
+     "pixel_prevalence": 0.01435546875
+    },
+    "K5_s2": {
+     "support_ids": [
+      "thrissur_s2_189",
+      "thrissur_s2_348",
+      "thrissur_s2_381",
+      "thrissur_s2_562",
+      "thrissur_s2_659"
+     ],
+     "positive_tiles": 3,
+     "pixel_prevalence": 0.01617431640625
+    },
+    "K5_s3": {
+     "support_ids": [
+      "thrissur_s2_381",
+      "thrissur_s2_403",
+      "thrissur_s2_530",
+      "thrissur_s2_612",
+      "thrissur_s2_707"
+     ],
+     "positive_tiles": 4,
+     "pixel_prevalence": 0.01300048828125
+    },
+    "K20_s1": {
+     "support_ids": [
+      "thrissur_s2_138",
+      "thrissur_s2_167",
+      "thrissur_s2_185",
+      "thrissur_s2_239",
+      "thrissur_s2_290",
+      "thrissur_s2_306",
+      "thrissur_s2_341",
+      "thrissur_s2_342",
+      "thrissur_s2_429",
+      "thrissur_s2_434",
+      "thrissur_s2_442",
+      "thrissur_s2_477",
+      "thrissur_s2_480",
+      "thrissur_s2_578",
+      "thrissur_s2_579",
+      "thrissur_s2_793",
+      "thrissur_s2_796",
+      "thrissur_s2_928",
+      "thrissur_s2_929",
+      "thrissur_s2_98"
+     ],
+     "positive_tiles": 11,
+     "pixel_prevalence": 0.01650390625
+    },
+    "K20_s2": {
+     "support_ids": [
+      "thrissur_s2_104",
+      "thrissur_s2_107",
+      "thrissur_s2_157",
+      "thrissur_s2_158",
+      "thrissur_s2_160",
+      "thrissur_s2_342",
+      "thrissur_s2_387",
+      "thrissur_s2_388",
+      "thrissur_s2_403",
+      "thrissur_s2_428",
+      "thrissur_s2_476",
+      "thrissur_s2_561",
+      "thrissur_s2_571",
+      "thrissur_s2_612",
+      "thrissur_s2_665",
+      "thrissur_s2_753",
+      "thrissur_s2_789",
+      "thrissur_s2_797",
+      "thrissur_s2_846",
+      "thrissur_s2_928"
+     ],
+     "positive_tiles": 11,
+     "pixel_prevalence": 0.009686279296875
+    },
+    "K20_s3": {
+     "support_ids": [
+      "thrissur_s2_104",
+      "thrissur_s2_158",
+      "thrissur_s2_164",
+      "thrissur_s2_167",
+      "thrissur_s2_242",
+      "thrissur_s2_257",
+      "thrissur_s2_296",
+      "thrissur_s2_341",
+      "thrissur_s2_370",
+      "thrissur_s2_419",
+      "thrissur_s2_478",
+      "thrissur_s2_523",
+      "thrissur_s2_533",
+      "thrissur_s2_557",
+      "thrissur_s2_571",
+      "thrissur_s2_596",
+      "thrissur_s2_663",
+      "thrissur_s2_707",
+      "thrissur_s2_797",
+      "thrissur_s2_843"
+     ],
+     "positive_tiles": 15,
+     "pixel_prevalence": 0.01444091796875
+    }
+   }
+  }
+ }
+}
