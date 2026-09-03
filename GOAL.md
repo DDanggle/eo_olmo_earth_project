@@ -3239,3 +3239,4 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 함: Task-2 addendum(라벨 열람 전) — few-shot 결정을 태양광에서 재현(A0/A1/A4w/A4h, K=5/20, 8폴드·5폴드 fallback 사전 고정, 층화+random, 규칙 고정). A3(OlmoEarth encoder PEFT+re-embed) 등록.
 - 진행: solar_farm.tar 126 GB 다운로드·SHA 봉인 완료, 압축 해제 중(31 GB/…). 다음: contract 감사(좌표·UTM·누수·양성 분포·4시점 12밴드) → 폴드 봉인 → 캐시 추출.
 - 병렬 세션 문서 5건+1 신규 커밋(계보 정리).
+- Task-2 부분 감사: 가변 크기(~450 px)·S2 4시점·UTM 58존·이진 라벨·양성 50.6%·겹침 201·test split 없음. 압축 해제 중단 발견→재기동. 샘플 단위(윈도우 vs 128 칩) 결정 필요(라벨 전 고정).

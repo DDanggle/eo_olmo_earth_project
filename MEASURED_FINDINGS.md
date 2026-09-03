@@ -4399,6 +4399,18 @@ source-trained raw UNet3D 의 full 적응(8/8)·parameter-matched 적응(7/8)·�
 K=5 무작위 draw 중 **양성 타일 0장**인 support 가 3건(hokkaido s1·s3, kyrgyzstan2 s1) — 그 경우에도 A1 은 A4w 를 이겼으나(빈 타일만으로 "적응"한 셈),
 이는 A1 이 support 에서 배운 것이 아니라 소스 디코더의 강건성일 수 있음 → K=5 random 결과 해석 시 이 3건을 별도 표기. K=20 draw 는 전부 양성 ≥1(최소 hokkaido 0–1장).
 
+## Task-2 계약 감사 (부분, 3,561/약 1만 윈도우 압축 해제 시점; 모델 지표 없음) — 2026-09-03
+
+Solar Farm(Ai2 파트너 과업, rslearn 형식, tar 126 GB SHA `e08e5349…`). 부분 트리에서 확인된 계약 사실(전량 해제 후 재감사 예정):
+- 윈도우 = rslearn window, 단일 그룹 `default`, **크기 가변 ≈ 410–490 px @10 m(≈4.3 km)** — Sen12 의 128 px 고정 타일과 다름 → 샘플 단위·토큰 격자 정의를 **결과 보기 전에 고정해야 함**(후보: (a) 윈도우 그대로 임베딩(OlmoEarth 는 patch 배수면 가변 크기 가능, decoder 는 conv) (b) 128 px 칩으로 분할).
+- **S2 4 시점**(sentinel2 … sentinel2.3), 밴드 그룹 3(B02-B08 / B05-B12 / B01,B09,B10) — 12밴드 계약 충족(B10 여분). 127 윈도우는 S2 시점 0 → 제외 대상. S1 asc/desc 4시점·Landsat·GSE 임베딩 레이어도 동봉(미사용).
+- **CRS = UTM 존 58개**(EPSG:32630 225 … ) → 지리 폴드는 UTM 존 묶음으로 구성 가능(대륙 fallback 불필요할 듯).
+- 라벨 `label_raster` PNG 이진(0/1), 양성 픽셀 1.3%, **양성 윈도우 50.6%**(1,803/3,561) — Sen12(≈50%)와 유사한 균형.
+- split = train 3,115 / val 446, **test 없음** → 우리 LORO 가 유일한 시험 설계(공식 split 미사용).
+- **같은 CRS 안 bounds 겹침 201건** → 공간 누수 위험. 폴드 구성 시 겹치는 윈도우를 같은 그룹으로 묶어야 함(PT-0 의 ann_id 그룹 역할).
+- Sen12 와의 차이 명시: 시점 12→4, 타일 128→~450 px, 마스크 의미(산사태→태양광 시설). "같은 평가 논리"이지 "동일 입력 recipe" 아님.
+압축 해제가 SSH 세션 붕괴로 중단됐음을 발견(3,561 개만) → setsid 로 재기동, 완료 후 전량 재감사(`logs/task2_audit_full.log`).
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
