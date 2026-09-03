@@ -8,15 +8,17 @@ from pathlib import Path
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
 ROOT=Path("/home/work/data/olmoearth"); CACHE=ROOT/"sen12_pilot/holdout_chimanimani"
+if "--task2" in sys.argv: CACHE=ROOT/"task2_cache"
 SRC4=ROOT/"cachetune_source_p4_v1"; SRC2=ROOT/"cachetune_source_p2_v1"; PT0=ROOT/"artifacts/cachetune_pt0"
 ap=argparse.ArgumentParser(); ap.add_argument("--arms",default="A0,A1,A4s"); ap.add_argument("--exposure",default="fixed_update",choices=["fixed_update","fixed_exposure"])
 ap.add_argument("--out",default=str(ROOT/"artifacts/fewshot_a1_a4")); ap.add_argument("--support",default="stratified",choices=["stratified","random"],help="random: pool 에서 K 타일 균등 추출(seed 100+s), 양성 강제 없음")
+ap.add_argument("--task2",action="store_true",help="Task-2 Solar Farm: task2_cache, task2_contract, task2_source_v1 checkpoints, task2_fewshot_manifests, regions task2_fold0..7")
 ap.add_argument("--confirmatory",action="store_true",help="8 확증 지역: confirmatory/holdout_<r>/P{4,2}_seed<s>/checkpoints 사용, manifest=fewshot_confirmatory_manifests"); a=ap.parse_args()
 OUT=Path(a.out); OUT.mkdir(parents=True,exist_ok=True); ARMS=a.arms.split(",")
 spec=importlib.util.spec_from_file_location("ob", ROOT/"sen12_official_baselines.py"); ob=importlib.util.module_from_spec(spec); spec.loader.exec_module(ob)
 sys.path.insert(0,str(ROOT/"code")); 
 dev=torch.device("cuda"); EPS=1e-7; BASE_STEPS=300
-FOLDS=json.loads((ROOT/"sen12_gp_contract/loco_folds.json").read_text()); CONTRACT=ROOT/"sen12_gp_contract/sample_contract.jsonl"
+FOLDS=json.loads(((ROOT/"task2_contract/loco_folds.json") if "--task2" in sys.argv else (ROOT/"sen12_gp_contract/loco_folds.json")).read_text()); CONTRACT=(ROOT/"task2_contract/sample_contract.jsonl") if "--task2" in sys.argv else ROOT/"sen12_gp_contract/sample_contract.jsonl"
 MONTHS={json.loads(l)["sample_id"]:json.loads(l)["months_0_11"] for l in (CACHE/"months.jsonl").read_text().splitlines() if l}
 def conv_bn(i,o,k=3):
     return nn.Sequential(nn.Conv2d(i,o,k,padding=k//2),nn.BatchNorm2d(o),nn.ReLU(inplace=True),nn.Conv2d(o,o,k,padding=k//2),nn.BatchNorm2d(o),nn.ReLU(inplace=True))
@@ -82,9 +84,10 @@ def train(model, Xs, Ys, steps, lr, wd, seed, bn_train):
     torch.cuda.synchronize(); model.eval(); return {"trainable_params":sum(p.numel() for p in params),"pos_weight":pw,"gpu_s":time.perf_counter()-t0,"final_loss":float(loss.item()),"steps":steps}
 rep={"schema":"fewshot-a1-a4-v2","support":a.support,"preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
 outfile=OUT/f"report_{a.exposure}.json"
-REGIONS=("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
-MANDIR=ROOT/"artifacts/fewshot_confirmatory_manifests" if a.confirmatory else PT0
+REGIONS=tuple(f"task2_fold{k}" for k in range(8)) if a.task2 else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
+MANDIR=ROOT/"artifacts/task2_fewshot_manifests" if a.task2 else ROOT/"artifacts/fewshot_confirmatory_manifests" if a.confirmatory else PT0
 def ck_path(region,arm,seed):
+    if a.task2: return ROOT/"task2_source_v1"/f"holdout_{region}_seed{seed}_{arm}"/"checkpoints"/f"holdout_{region}"/f"{arm}_best.pt"
     if a.confirmatory: return ROOT/"confirmatory"/f"holdout_{region}"/f"{arm}_seed{seed}"/"checkpoints"/f"holdout_{region}"/f"{arm}_best.pt"
     return (SRC4 if arm=="P4" else SRC2)/f"holdout_{region}_seed{seed}/checkpoints/holdout_{region}/{arm}_best.pt"
 for region in REGIONS:
