@@ -3231,3 +3231,4 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - MS-95: A1 vs A4w 개발 게이트 통과(K=5 +.065/+.108, fe 도 동일 방향). A4w 는 K=20 에서 A0 미만. 다음: 8지역 확증(등록 규칙) manifest 봉인 후 실행.
 - MS-96: 8지역 확증 fixed-update — A1>A4w 8/8(K5·K20), 교차 없음, A4w 는 K5 에서 8/8 A0 미만. A1>A0 는 K5 5/8, K20 8/8(indonesia·itogon·newzealand 예외). fe 는 타 사용자 OOM 으로 재실행 대기(감시자).
 - MS-96 정정: 'A4w<A0 8/8' → 6/8 이며 A0 는 raw 무적응이 아님(A4w0 미측정). 성립 문장은 A1>A4w 8/8(IoU·AP). A4w0·A4h·random-support 등록·실행(MS-97).
+- MS-97: A1>A4h(param-matched raw) 7/8 → 이점은 표현에서(용량 설명 기각). raw 적응 해롭다 4/8 불통과(정정 옳음). random support 7/8 통과. fe 8/8. 다음: Task-2(태양광) CPU 감사 → GPU.

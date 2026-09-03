@@ -4348,6 +4348,37 @@ query 라벨 없이 A0/A1 을 고르는 selector 가 없으므로 운영 규칙�
 원인 미분리: A1(237,537 trainable) vs A4w(2,693,121, 11.3×) — "작은 decoder 적응이 강한 정규화" 설명과 "cache 표현의 이점" 설명이 섞여 있음.
 → parameter-matched raw 적응(A4h: encoder 동결·마지막 decoder block+head 만), A4w0, random-support 감도를 등록해 실행함(MS-97 예정).
 
+## MS-97. 원인 분리·감도 확증 — 이점은 "파라미터가 적어서"가 아니라 **표현(cache)** 에서 온다; random support 에서도 유지; fe 8/8 (2026-09-03)
+
+**사전 등록**: `config/fewshot_a1_vs_a4_prereg_v0.json` addendum_v1(실행 전 커밋 `2141e89`). 8지역, 기존 확증 체크포인트, 고정 300 update.
+새 arm: **A4w0** = source P2 무적응(2×2 빈 칸), **A4h** = raw parameter-matched(encoder·up/down 동결, 마지막 decoder block+head 332,225 trainable — A1 237,537 의 1.4×, 매칭 인정), A4p = +up[-1](397,825).
+
+| region | A0 | A4w0 | A1 K5 | **A4h K5** | A4w K5 | A1 K20 | A4h K20 | A4w K20 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| hiroshima | .264 | .122 | .328 | .227 | .266 | .372 | .319 | .353 |
+| hokkaido | .265 | .206 | .477 | .226 | .327 | .486 | .226 | .319 |
+| indonesia | .312 | .279 | .288 | .192 | .160 | .333 | .243 | .256 |
+| itogon | .131 | .125 | .118 | .110 | .078 | .155 | .155 | .141 |
+| kyrgyzstan1 | .256 | .104 | .280 | .098 | .093 | .286 | .126 | .142 |
+| kyrgyzstan2 | .202 | .118 | .213 | .107 | .110 | .216 | .120 | .133 |
+| newzealand | .255 | .179 | .235 | .168 | .144 | .280 | .194 | .188 |
+| thrissur | .376 | .189 | .410 | .230 | .255 | .406 | .229 | .299 |
+| **macro** | .258 | .165 | **.294** | .170 | .179 | **.317** | .202 | .229 |
+
+**등록 규칙 판정**
+- `representation_vs_capacity`: A1 > A4h(+.01) **7/8 (K=5), 7/8 (K=20)**; A4h≈A1(±.01) 1/8 → **통과**: 이점은 trainable 파라미터 수로 설명되지 않는다.
+  더 강하게: parameter-matched raw 적응(A4h .170/.202)은 full raw 적응(A4w .179/.229)보다도 **낫지 않다** — "작게 튜닝하는 것"이 메커니즘이 아니다. raw 는 작게 튠해도 안 되고, cache 는 작게 튠하면 된다.
+- `raw_adaptation_hurts_raw`: A4w < A4w0(+.01) K=5 **4/8**, K=20 1/8 → **불통과** — raw 적응이 raw 를 망친다는 주장은 성립하지 않음(MS-96 정정이 옳았음). raw 적응은 대체로 중립~소폭 개선.
+- `support_stratification`: random support(양성 강제 없음)에서 A1 > A4w **7/8**, A1 > A4h **7/8** → ≥6/8 **통과**. 주장은 "5 tile support" 로 유지 가능(층화 조건 불필요). 단 A1 > A0(K=5)는 층화 5/8·random 5/8 로 여전히 지역 의존.
+- fixed-exposure 확증: A1 > A4w **8/8 (K=5), 8/8 (K=20)**, macro A1 .294/.303 vs A4w .179/.213 → fu 와 결론 동일, optimization-sensitive 아님.
+- 부수: A0(cache 무적응) > A4w0(raw 무적응) 7/8 — M65 의 zero-target 우위가 query 부분집합에서도 재현.
+
+**허용 문장(갱신)**: "Sen12-Landslides 8개 지리 holdout 에서, target dense tile 5·20장이 주어졌을 때 frozen OlmoEarth cache 위 decoder 적응은
+source-trained raw UNet3D 의 full 적응(8/8)·parameter-matched 적응(7/8)·무적응(6/8) 모두를 이기며, 이 이점은 trainable 파라미터 수, support 층화, update/exposure 스케줄로 설명되지 않는다."
+**여전히 아닌 것**: raw 적응이 해롭다(4/8) · K=5 에서 A1 을 무조건 하라(A1>A0 5/8) · 다른 과업 · U-TAE 감도 · 배포 임계.
+
+**봉인**: `artifacts/fewshot_confirmatory/{fe,fu_rawctl,fu_random}/report.json`(96/120/192 run), `ms97_verdict.json`, `code/fewshot_ms97_verdict.py`.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의

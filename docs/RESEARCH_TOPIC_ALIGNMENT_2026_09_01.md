@@ -124,3 +124,5 @@ K>20·다른 task → 미측정(raw PEFT 와 crossover 측정).
 
 **우선순위(교수안 그대로)**: ① fe 8지역 완료 ② A4w0 ③ parameter-matched raw(A4h/A4p) ④ random-support ⑤ 두 번째 과업 ⑥ support-only A0/A1 selector(성공 시 method paper).
 목표별: Ai2 취업 — 이미 강함(cache reuse + safe adaptation 실증). 박사/CVPR — "왜 그런가"와 "query 라벨 없이 action 선택"이 관건. 사업 — warm-cache 경제성(A1 GPU ~5 s·raw I/O 0 vs A4w 26–38 s·~1.4 GB)이지 cold-start 아님.
+
+**MS-97 반영(2026-09-03)**: 주장 사다리의 '중간'이 '표현 특이'로 승격 — parameter-matched raw 적응(A4h)도 A1 에 7/8 패, A4h 가 A4w 보다 낫지도 않음 → "작게 튜닝하면 좋다"(PEFT 일반론)가 아니라 **cache 표현 위에서만 소량 적응이 작동**한다. random support 에서도 7/8. 남은 격상 조건은 두 번째 과업.
