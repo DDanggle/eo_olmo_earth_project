@@ -4379,6 +4379,21 @@ source-trained raw UNet3D 의 full 적응(8/8)·parameter-matched 적응(7/8)·�
 
 **봉인**: `artifacts/fewshot_confirmatory/{fe,fu_rawctl,fu_random}/report.json`(96/120/192 run), `ms97_verdict.json`, `code/fewshot_ms97_verdict.py`.
 
+## MS-97-문구. 교수 재검토 반영 — 세 문장 하향, 신호등 고정 (2026-09-03)
+
+1. "이점은 표현(cache)에서 온다" → **"이점은 trainable 파라미터 수 alone·support 양성 층화·update 스케줄로 설명되지 않으며, pretrained OlmoEarth cache pathway 에 특이적이었다."**
+   A4h 가 제거한 것은 파라미터 수 차이만이다. 대규모 사전학습·backbone 구조·고정 encoder 용량·적응 layer 위치·raw vs embedding 정보 형태·source 체크포인트 품질은 여전히 혼재.
+   → "원인 확정"이 아니라 **"경쟁 설명 셋(용량·층화·스케줄)을 통과, cache pathway 가 가장 유력한 설명으로 남음"**.
+2. "A4h 는 A4w 보다 낫지도 않다" → **"parameter matching 은 raw 적응을 체계적으로 개선하지 못했고 macro 도 full 적응을 넘지 못했다"** (K=5 에서 A4h > A4w +.01 인 지역 3/8 존재).
+3. "라벨 5장 표현 유지 가능" → **"Sen12 의 동결 support pool 에서 무작위로 뽑은 dense segmentation tile 5장"**. 분류 라벨 5개가 아니라 1.28 km 픽셀 마스크 5장이며,
+   pool 양성 비율이 지역별 9–65%(hiroshima 46.6·indonesia 64.2·itogon 56.5·thrissur 65.0·hokkaido 9.1)로 label-rich → "아무 지역에서 5장만 찍으면 된다"로 일반화 금지.
+
+**신호등** — 초록(그대로): A1>A4w 8/8(K5·20), fixed-exposure 8/8, A4h·random 에서 사전 기준 7/8 통과, AP 에서도 8/8·8/8.
+노랑(조건절): 세 대안 설명으로 설명되지 않음; K=5 는 평균적으로 A1 우세지만 A0 보다 안전하다고 지역마다 보장 안 됨(5/8).
+빨강(금지): 표현이 유일 원인 증명 · raw 적응은 항상 해롭다(4/8) · 5장이면 무조건 A1 · 모든 EO task 에서 재사용>재학습.
+**재현성 구멍**: random report 에 support_ids·양성 수·prevalence·manifest SHA 미기록 → 동일 deterministic draw 를 재구성해 감사 산출물로 봉인(재학습 없음, `random_support_audit.json`).
+**다음 arm 우선순위**: **A3**(OlmoEarth encoder PEFT/LoRA + re-embed) — 지금의 retrain 은 raw UNet 적응이라 "reuse vs re-embed" 질문이 비어 있음. A3 가 A1 을 이겨도 논문은 죽지 않고 정확도–재계산 비용 frontier 가 생김.
+
 ## 이 장부에 없는 것 (혼동 방지)
 
 M23 이후 개발 pilot에는 Sen12Landslides S2가 실제로 들어갔다. 그러나 아래 지역·공공데이터의
