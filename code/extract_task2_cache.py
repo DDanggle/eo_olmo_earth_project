@@ -20,10 +20,14 @@ TS=["sentinel2","sentinel2.1","sentinel2.2","sentinel2.3"]
 dev=torch.device("cuda"); wrapper=OlmoEarth(patch_size=4, model_id=ModelID.OLMOEARTH_V1_BASE, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(dev).eval()
 rows=[json.loads(l) for l in open(IDX)]; elig=[r for r in rows if r["s2_timesteps"]==4 and r["s2_bands_complete"]]
 months=open(OUT/"months.jsonl","w"); done=0; skipped=[]
+from rasterio.enums import Resampling
 def read_center(path, bands_in_file, want):
+    """그룹별 자기 해상도 격자(10/20/40 m)에서 10 m 기준 128 px 에 해당하는 중심 영역을 잘라 128x128 로 리샘플(bilinear)."""
     with rasterio.open(path) as ds:
-        H,W=ds.height,ds.width; y0=(H-128)//2; x0=(W-128)//2
-        arr=ds.read(window=((y0,y0+128),(x0,x0+128)))  # (nb,128,128)
+        res=ds.res[0]; n=int(round(128*10.0/res))            # 10m→128, 20m→64, 40m→32
+        H,W=ds.height,ds.width; y0=max(0,(H-n)//2); x0=max(0,(W-n)//2)
+        if H<n or W<n: raise ValueError(f"raster {W}x{H} smaller than crop {n} at res {res}")
+        arr=ds.read(window=((y0,y0+n),(x0,x0+n)), out_shape=(ds.count,128,128), resampling=Resampling.bilinear)
     return {b:arr[i] for i,b in enumerate(bands_in_file) if b in want}, (y0,x0)
 @torch.no_grad()
 def embed(cube12, times):  # (12,4,128,128) float32 → (768,32,32)
@@ -52,8 +56,8 @@ for r in elig:
             tt=None
             if items:
                 try:
-                    lay=items.get(t) or items.get(t.split(".")[0]); it=(lay[0]["items"][0] if isinstance(lay,list) else None)
-                    tt=datetime.fromisoformat(it["geometry"]["time_range"][0]) if it else None
+                    ent=next(e for e in items if e.get("layer_name")=="sentinel2"); grp=ent["serialized_item_groups"][ti]
+                    tt=datetime.fromisoformat(grp[0]["geometry"]["time_range"][0])
                 except Exception: tt=None
             if tt is None:
                 tr=r.get("time_range"); a,b=[datetime.fromisoformat(x) for x in tr]; tt=a+(b-a)*(ti+0.5)/4
@@ -64,7 +68,7 @@ for r in elig:
         np.save(OUT/"raw_u16"/f"{r['id']}.npy", cube[:10]); np.save(OUT/"mask_u8"/f"{r['id']}.npy", mask)
         emb=embed(cube.astype("float32"), times); np.save(OUT/"emb_fp16"/f"{r['id']}.npy", emb.numpy().astype("float16"))
         months.write(json.dumps({"sample_id":r["id"],"months_0_11":[t.month-1 for t in times]})+"\n"); done+=1
-        if done%200==0: print(done,"chips",flush=True)
+        if done%250==0: print(done,"chips",flush=True)
     except Exception as e:
         skipped.append({"id":r["id"],"err":str(e)[:120]})
 months.close()
