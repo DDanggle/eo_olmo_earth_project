@@ -4592,3 +4592,23 @@ content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비
 - 등록 규칙 판정: R4 ≥ .9·R0 AP 두 폴드(0.995, 0.928) ✔, R4−R1 ≥ .05 두 폴드(+.947, +.855) ✔ → **screen_pass_R4 = true**. R5 공간 스티치는 규칙상 실행하지 않음.
 - 읽기: (1) M1(제주)의 "identity 붕괴"가 downstream head에서도 그대로 재현됨(AP .97→.02). CKA .70–.74로 높아 보여도 head는 죽음 → "CKA는 downstream 연속성을 보증 못 함"의 직접 근거. (2) 라벨 없는 선형 브리지로 새 head(R6)와 거의 같은 수준 복구. fold0는 R6와 −.009/−.013 AP 차이, fold1은 Procrustes가 R6보다 −.020. (3) 평균 이동은 무용 → 채널 회전이 본질(M1의 Procrustes 부분 성공과 일치). (4) 동결 임계값에서 affine의 IoU 저하(fold1 .504)는 보정 이동 → FP-matched로는 .519. 배포 시 임계 재보정 필요.
 - 말할 수 없는 것: 8폴드 확증 전, 다른 과업·다른 family(Clay v1→v1.5) 전, 인덱스(검색) 유지율은 4,000 토큰 표본이라 M1의 216장면 sealed 결과와 직접 비교 불가.
+
+## MS-101 (2026-09-04) — Clay v1.5 캐시 v0(탐색): **cache-first가 재현되지 않음** — Clay P4 .153 < raw .197 < OlmoEarth P4 .272; few-shot도 A1 < raw 적응
+- 무엇: `config/second_fm_cache_prereg_v0.json` 프로토콜의 v0 실행. Clay v1.5(patch 8, dim 1024) native 16×16 토큰을 32×32로 bilinear 확대해 동일 EmbDecoder(cin 1024)·동일 레시피·8폴드×3시드. few-shot은 raw arm을 같은 리포트에서 실행(FP 예산 = Clay A0). `clay_source_v1/`, `artifacts/clay_fewshot/{fu,clay_v0_summary.json}`.
+- 근거 상태: **탐색(exploratory)**. 등록 B-v1(공통 80 m 격자·256차원 / native 트랙)이 아니라 보간 프로토콜이므로 "Clay 표현이 나쁘다"의 확정 근거가 아님. 단, 같은 보간 어댑터를 OlmoEarth에 적용한 것이 아니어서 비대칭도 있음.
+
+| 지역 | Clay P4 | OlmoEarth P4 | raw P2 |
+|---|---|---|---|
+| hiroshima | .127 | .278 | .216 |
+| hokkaido | .178 | .386 | .215 |
+| indonesia | .207 | .272 | .284 |
+| itogon | .083 | .152 | .148 |
+| kyrgyzstan1 | .129 | .281 | .192 |
+| kyrgyzstan2 | .140 | .208 | .107 |
+| newzealand | .176 | .242 | .179 |
+| thrissur | .184 | .359 | .232 |
+| macro | **.153** | .272 | .197 |
+
+- Clay > raw 1/8, Clay > OlmoEarth 0/8. few-shot(층화): K5 A0 .164 / A1 .150 / A4w .191 / A4h .192, A1>A4w 3/8; K20 A1 .175 / A4w .221, A1>A4w 2/8. 등록 판정 규칙(2nd FM > P2 ≥6/8 & A1>A4w ≥6/8) **불통과**.
+- 읽기: (1) "얼린 캐시가 raw를 이긴다"는 표현에 의존함. 같은 디코더·레시피에서 Clay v0는 raw에도 짐. 이는 논문의 질문을 "캐시를 써라"에서 **"어느 표현이 캐시할 가치가 있는가, 그리고 그것을 라벨 없이 어떻게 판별하는가"**로 옮기는 근거. (2) OlmoEarth 우위 원인은 확정 못 함: 시계열 12시점 native 처리(Clay는 시점별 독립 인코딩 후 평균), 40 m 토큰 해상도(Clay 80 m→보간), 사전학습 데이터, 셋 중 무엇인지 B-v1 native 트랙과 시점 감도가 분리해야 함. (3) v0 결과를 헤드라인에 쓰지 않음. B-v1 이후에만 "family 일반성" 문장을 씀.
+- 다음: B-v1 native 트랙(16×16 그리드에 맞춘 디코더, OlmoEarth 2×2 평균 대조), Clay 시점 처리 감도(중앙 시점 1장 vs 평균), 그리고 A(마이그레이션)의 Clay v1→v1.5 페어.

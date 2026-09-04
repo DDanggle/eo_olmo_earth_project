@@ -3289,3 +3289,5 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 마찰: 원격 `pkill -f "<script>"`가 자기 SSH 셸까지 죽여 체인이 2개 뜸 → `pgrep -f "^bash code/..."`로 고정, 단일 체인 확인.
 - 2026-09-04 (방향): 서칭(CVPR'26 OlmoEarth·TESSERA 본회의, GEO-Bench-2 축 확인, 호환성 선행은 검색 수준) 후 논문 몸통을 **버전 전환 연속성 벤치마크**로 이동. `docs/BIG_PICTURE_2026_09_04.md`. 사용자 결정: 벤치마크가 산출물, 2번(배포자 쪽 호환 패치)은 한국 기반 OlmoEarth-KR로, 에이전트(EarthRoute)는 벤치마크를 환경으로 다음 학회. Solar v1.2 페어 3,434 완료, A 체인(R6 head→브리지 스크린) 기동.
 - 2026-09-04 (A): MS-100 스크린 통과 — v1 head를 v1.2 emb에 identity로 쓰면 AP .97→.02, Procrustes/affine 브리지(라벨 0, 200타일, CPU 수 초)로 .96/.88 복구, 새 head .97/.90. 8폴드 확증 기동. Clay v0 소스 24/24 완료 → Clay few-shot 실행 중. 그림 2장 커밋.
+- 2026-09-04 (Clay v0): MS-101 — Clay 캐시 .153 < raw .197 < OlmoEarth .272, few-shot A1<A4w. 탐색 프로토콜이라 확정 아님. 논문 질문을 "어느 표현이 캐시 가치가 있나"로 이동. B-v1 native 트랙 필요.
+- 2026-09-04 (GK2A): 08-28~09-01 5일 미수집 발견, 09-02/03 보충 실행, launchd 매일 2회 등록.
