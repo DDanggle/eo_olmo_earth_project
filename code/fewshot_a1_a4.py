@@ -12,6 +12,7 @@ if "--task2" in sys.argv: CACHE=ROOT/"task2_cache"
 SRC4=ROOT/"cachetune_source_p4_v1"; SRC2=ROOT/"cachetune_source_p2_v1"; PT0=ROOT/"artifacts/cachetune_pt0"
 ap=argparse.ArgumentParser(); ap.add_argument("--arms",default="A0,A1,A4s"); ap.add_argument("--exposure",default="fixed_update",choices=["fixed_update","fixed_exposure"])
 ap.add_argument("--out",default=str(ROOT/"artifacts/fewshot_a1_a4")); ap.add_argument("--support",default="stratified",choices=["stratified","random"],help="random: pool 에서 K 타일 균등 추출(seed 100+s), 양성 강제 없음")
+ap.add_argument("--clay",action="store_true",help="second-FM cache: emb from clay_cache (cin inferred), P4 ckpts from clay_source_v1; regions = 8 confirmatory; raw arms unavailable")
 ap.add_argument("--task2",action="store_true",help="Task-2 Solar Farm: task2_cache, task2_contract, task2_source_v1 checkpoints, task2_fewshot_manifests, regions task2_fold0..7")
 ap.add_argument("--confirmatory",action="store_true",help="8 확증 지역: confirmatory/holdout_<r>/P{4,2}_seed<s>/checkpoints 사용, manifest=fewshot_confirmatory_manifests"); a=ap.parse_args()
 OUT=Path(a.out); OUT.mkdir(parents=True,exist_ok=True); ARMS=a.arms.split(",")
@@ -31,10 +32,11 @@ def members(fold, split):
     recs=[json.loads(l) for l in CONTRACT.read_text().splitlines() if l]; regions=(fold["train_regions"] if split=="train" else [fold["val_region"]] if split=="val" else [fold["test_region"]])
     return sorted(r["sample_id"] for r in recs if r["region"] in regions and not r.get("error") and r.get("s15_eligible",True) and (CACHE/"mask_u8"/f"{r['sample_id']}.npy").exists())
 def emb_stats(train_ids, sample=400):
-    idx=np.linspace(0,len(train_ids)-1,min(sample,len(train_ids))).astype(int); acc=np.zeros(768); acc2=np.zeros(768); n=0
-    for j in idx: x=np.load(CACHE/"emb_fp16"/f"{train_ids[j]}.npy").astype("float32"); acc+=x.mean(axis=(1,2)); acc2+=(x**2).mean(axis=(1,2)); n+=1
+    idx=np.linspace(0,len(train_ids)-1,min(sample,len(train_ids))).astype(int); C=np.load(EMB/"emb_fp16"/f"{train_ids[0]}.npy",mmap_mode="r").shape[0]; acc=np.zeros(C); acc2=np.zeros(C); n=0
+    for j in idx: x=np.load(EMB/"emb_fp16"/f"{train_ids[j]}.npy").astype("float32"); acc+=x.mean(axis=(1,2)); acc2+=(x**2).mean(axis=(1,2)); n+=1
     mean=acc/n; var=np.maximum(acc2/n-mean**2,1e-6); return torch.tensor(mean,dtype=torch.float32).view(-1,1,1), torch.tensor(np.sqrt(var),dtype=torch.float32).view(-1,1,1)
-def load_emb(ids,stats): X=np.stack([np.load(CACHE/"emb_fp16"/f"{s}.npy").astype("float32") for s in ids]); return (torch.from_numpy(X)-stats[0])/stats[1]
+EMB=(ROOT/"clay_cache") if "--clay" in sys.argv else CACHE
+def load_emb(ids,stats): X=np.stack([np.load(EMB/"emb_fp16"/f"{s}.npy").astype("float32") for s in ids]); return (torch.from_numpy(X)-stats[0])/stats[1]
 def load_raw(ids):
     xs=[]; nbytes=0
     for s in ids:
@@ -82,11 +84,12 @@ def train(model, Xs, Ys, steps, lr, wd, seed, bn_train):
     for _ in range(steps):
         idx=torch.randint(0,K,(bs,),generator=g); z=Xs[idx].to(dev); y=Ys[idx].to(dev); loss=lossf(model(z),y); opt.zero_grad(set_to_none=True); loss.backward(); opt.step()
     torch.cuda.synchronize(); model.eval(); return {"trainable_params":sum(p.numel() for p in params),"pos_weight":pw,"gpu_s":time.perf_counter()-t0,"final_loss":float(loss.item()),"steps":steps}
-rep={"schema":"fewshot-a1-a4-v2","support":a.support,"preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
+rep={"schema":"fewshot-a1-a4-v2","support":a.support,"emb_source":("clay_cache" if a.clay else "task2_cache" if a.task2 else "olmoearth"),"preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
 outfile=OUT/f"report_{a.exposure}.json"
-REGIONS=tuple(f"task2_fold{k}" for k in range(8)) if a.task2 else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
-MANDIR=ROOT/"artifacts/task2_fewshot_manifests" if a.task2 else ROOT/"artifacts/fewshot_confirmatory_manifests" if a.confirmatory else PT0
+REGIONS=tuple(f"task2_fold{k}" for k in range(8)) if a.task2 else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.clay else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
+MANDIR=ROOT/"artifacts/task2_fewshot_manifests" if a.task2 else ROOT/"artifacts/fewshot_confirmatory_manifests" if (a.confirmatory or a.clay) else PT0
 def ck_path(region,arm,seed):
+    if a.clay and arm=="P4": return ROOT/"clay_source_v1"/f"holdout_{region}_seed{seed}"/"checkpoints"/f"holdout_{region}"/"P4_best.pt"
     if a.task2: return ROOT/"task2_source_v1"/f"holdout_{region}_seed{seed}_{arm}"/"checkpoints"/f"holdout_{region}"/f"{arm}_best.pt"
     if a.confirmatory: return ROOT/"confirmatory"/f"holdout_{region}"/f"{arm}_seed{seed}"/"checkpoints"/f"holdout_{region}"/f"{arm}_best.pt"
     return (SRC4 if arm=="P4" else SRC2)/f"holdout_{region}_seed{seed}/checkpoints/holdout_{region}/{arm}_best.pt"
@@ -96,7 +99,8 @@ for region in REGIONS:
     Xq_emb=load_emb(qids,stats); Xq_raw,raw_q_bytes=(load_raw(qids) if any(x.startswith("A4") for x in ARMS) else (None,0))
     for seed in (1,2,3):
         ck4=torch.load(ck_path(region,"P4",seed),map_location="cpu")["model_state"]
-        dec0=EmbDecoder().to(dev); dec0.load_state_dict(ck4,strict=True); dec0.eval(); P0=probs(dec0,Xq_emb); budget=empty_fp(P0,Yq_np.astype(bool),0.5)
+        CIN=ck4["proj.0.weight"].shape[1]
+        dec0=EmbDecoder(cin=CIN).to(dev); dec0.load_state_dict(ck4,strict=True); dec0.eval(); P0=probs(dec0,Xq_emb); budget=empty_fp(P0,Yq_np.astype(bool),0.5)
         if "A0" in ARMS:
             rep["runs"].append({"region":region,"seed":seed,"K":None,"arm":"A0","eval":evaluate(P0,Yq_np,budget),"train":{"trainable_params":0,"raw_bytes_read":0},"fp_budget":budget}); print(region,seed,"A0",round(rep["runs"][-1]["eval"]["iou_fp_matched"],4),flush=True)
         for K in (5,20):
@@ -108,7 +112,7 @@ for region in REGIONS:
             steps=BASE_STEPS if a.exposure=="fixed_update" else BASE_STEPS*K//5
             for arm in [x for x in ARMS if x!="A0" and not (x=="A4w0" and K!=5)]:
                 if arm=="A1":
-                    m=EmbDecoder().to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0
+                    m=EmbDecoder(cin=CIN).to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0
                 elif arm=="A4s":
                     m=ob.OfficialUNet3D(in_channels=11).to(dev); Xs,nb=load_raw(sids); tr=train(m,Xs,Ys,steps,1e-3,1e-4,seed*1000+K,bn_train=True); P=probs(m,Xq_raw,bs=8); tr["raw_bytes_read"]=nb+raw_q_bytes
                 elif arm=="A4w0":
