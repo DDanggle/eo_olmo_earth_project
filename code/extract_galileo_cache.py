@@ -21,25 +21,18 @@ for l in (SRC/"months.jsonl").read_text().splitlines():
     if l: r=json.loads(l); months[r["sample_id"]]=r["months_0_11"]
 ids=sorted(p.stem for p in (SRC/"emb_fp16").glob("*.npy")); done=0; skipped=[]
 @torch.no_grad()
-def encode_crop(x,mo):  # x (10,T,64,64) -> (D,16,16); same 4x64px tiling as the OlmoEarth extractor
-    T=x.shape[1]; s2=torch.from_numpy(np.ascontiguousarray(x)).permute(2,3,1,0).contiguous()
-    m=construct_galileo_input(s2=s2,months=mo,normalize=True)
-    args=[t.unsqueeze(0).to(dev).float() for t in (m.space_time_x,m.space_x,m.time_x,m.static_x)]+[t.unsqueeze(0).to(dev) for t in (m.space_time_mask,m.space_mask,m.time_mask,m.static_mask)]
-    with torch.autocast("cuda",dtype=torch.bfloat16):
-        out=enc(*args, m.months.unsqueeze(0).to(dev).long(), patch_size=a.patch)
-    s_t_x,s_t_m=out[0].float(),out[4]
-    if a.probe: print("space_time_x",tuple(s_t_x.shape),"mask",tuple(s_t_m.shape),"mask uniq",torch.unique(s_t_m).tolist(),"space_x",tuple(out[1].shape),"time_x",tuple(out[2].shape),"static",tuple(out[3].shape),flush=True)
-    keep=(s_t_m==0).unsqueeze(-1).float()
-    tok=(s_t_x*keep).sum(dim=(3,4))/keep.sum(dim=(3,4)).clamp(min=1)
-    return tok[0].permute(2,0,1)
 def embed(sid):
     x=np.load(SRC/"raw_u16"/f"{sid}.npy").astype("float32")[perm]; T=x.shape[1]; mo=torch.tensor(months.get(sid,list(range(T)))[:T],dtype=torch.long)
-    g=64//a.patch; feat=None
-    for y0,x0 in ((0,0),(0,64),(64,0),(64,64)):
-        f=encode_crop(x[:,:,y0:y0+64,x0:x0+64],mo)
-        if feat is None: feat=torch.empty((f.shape[0],128//a.patch,128//a.patch))
-        feat[:,y0//a.patch:y0//a.patch+g,x0//a.patch:x0//a.patch+g]=f.cpu()
-    if a.probe: return None
+    crops=[x[:,:,y0:y0+64,x0:x0+64] for y0,x0 in ((0,0),(0,64),(64,0),(64,64))]
+    ms=[construct_galileo_input(s2=torch.from_numpy(np.ascontiguousarray(c)).permute(2,3,1,0).contiguous(),months=mo,normalize=True) for c in crops]
+    args=[torch.stack([getattr(m,k) for m in ms]).to(dev).float() for k in ("space_time_x","space_x","time_x","static_x")]+[torch.stack([getattr(m,k) for m in ms]).to(dev) for k in ("space_time_mask","space_mask","time_mask","static_mask")]
+    with torch.autocast("cuda",dtype=torch.bfloat16):
+        out=enc(*args, torch.stack([m.months for m in ms]).to(dev).long(), patch_size=a.patch)
+    s_t_x,s_t_m=out[0].float(),out[4]
+    if a.probe: print("space_time_x",tuple(s_t_x.shape),"mask uniq",torch.unique(s_t_m).tolist(),flush=True); return None
+    keep=(s_t_m==0).unsqueeze(-1).float(); tok=((s_t_x*keep).sum(dim=(3,4))/keep.sum(dim=(3,4)).clamp(min=1)).permute(0,3,1,2).cpu()   # (4,D,16,16)
+    g=64//a.patch; feat=torch.empty((tok.shape[1],128//a.patch,128//a.patch))
+    for k,(y0,x0) in enumerate(((0,0),(0,64),(64,0),(64,64))): feat[:,y0//a.patch:y0//a.patch+g,x0//a.patch:x0//a.patch+g]=tok[k]
     return feat.numpy().astype("float16")
 for sid in (ids[:2] if a.probe else ids):
     o=OUT/"emb_fp16"/f"{sid}.npy"
