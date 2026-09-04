@@ -23,9 +23,9 @@ python3 - <<'PY'
 import json
 from pathlib import Path
 expected = {
-    Path("artifacts/clay_fewshot/fu/report.json"): 168,
-    Path("artifacts/clay_fewshot/fu_random/report.json"): 120,
-    Path("artifacts/clay_fewshot/fe/report.json"): 48,
+    Path("artifacts/clay_fewshot/fu/report_fixed_update.json"): 168,
+    Path("artifacts/clay_fewshot/fu_random/report_fixed_update.json"): 120,
+    Path("artifacts/clay_fewshot/fe/report_fixed_exposure.json"): 48,
 }
 for path, n in expected.items():
     obj = json.loads(path.read_text())

@@ -3285,3 +3285,5 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 다음: P0 Solar 증거 복구 → A exposed-2fold migration screen → Clay B-v1 → C A3 ceiling/
   deterministic guardrail → Korea/Task-3 first-look. 과거 실패한 CacheTune A2·prediction fusion·
   label-free router·MoE는 다시 열지 않는다.
+- 2026-09-04 (계속): 병렬 세션의 A/B/C 통합 설계·검토 3건(Clay 16→32 보간 불공정, FP 예산 불일치, DONE 마커) 반영. A/B-v1/C 사전등록 커밋(efce8b8). 실행 중 Clay v0는 exploratory로 격리(삭제 안 함). Clay few-shot 체인을 raw arm 동일 리포트(공유 FP 예산)로 재구성·재기동. 러너 파일(run_clay_source.sh, clay_chain.sh)은 실행 중이라 서버 미푸시(로컬만 갱신). C0 정책 오프라인 재생(C0-dev) 기록 — Solar 붕괴 제거, Sen12 random K5는 A1보다 낮음.
+- 마찰: 원격 `pkill -f "<script>"`가 자기 SSH 셸까지 죽여 체인이 2개 뜸 → `pgrep -f "^bash code/..."`로 고정, 단일 체인 확인.

@@ -4559,3 +4559,20 @@ content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비
   감도와 label-budget 축이 남아 있으므로 최종 서술은 그 뒤에 닫는다.
 - 산출물: `artifacts/c1a_presto_control_v1.json`, 서버 `presto_c1a_runs/` (확률맵 포함,
   FP-budget 분석 재사용 가능), 캐시 잠금 완료(a-w).
+
+## C0-dev (2026-09-04) — 안전 정책 C0 오프라인 재생 (development screen, 확증 아님)
+- 무엇: `config/safe_cache_action_prereg_draft_v0.json`의 결정론 정책 C0(support 라벨만 입력: 양성 타일 0 → A0 재사용, 아니면 A1 head 적응)를 **기존 few-shot 리포트 위에 재생**함. 새 학습·새 라벨 없음. support id는 러너 RNG로 복원, 양성 수는 mask에서 셈. `code/c0_policy_replay.py`, `artifacts/c0_policy_replay/report.json`.
+- 근거 상태: 개발 화면. 정책을 결과 열람 후 평가했으므로 확증 증거 아님. untouched 과업(C 초안 규칙)에서만 확증 가능.
+- 지역 평균 FP-matched IoU (지역 8, 시드 3):
+
+| 과업·support·K | 양성0 run | A0 | A1(항상 적응) | A4w(raw 적응) | **C0** | oracle | C0>A1 / tie | C0>A0 / tie |
+|---|---|---|---|---|---|---|---|---|
+| Solar random K5 | 11/24 | .5907 | .4262 | .2598 | **.5946** | .6056 | 6/8 / 2 | 6/8 / 1 |
+| Solar random K20 | 1/24 | .5907 | .5844 | .2675 | **.6082** | .6100 | 1/8 / 7 | 8/8 |
+| Solar strat K5 / K20 | 0 | .5907 | .5816 / .6087 | .24 | =A1 | .6077/.6171 | tie 8 | 5/8, 7/8 |
+| Sen12 random K5 | 3/24 | .2578 | .2885 | .1690 | .2759 | .3014 | **1/8** / 6 | 5/8 |
+| Sen12 random K20 | 1/24 | .2578 | .2959 | .2082 | .2972 | .3000 | 1/8 / 7 | 8/8 |
+| Sen12 strat K5 / K20 | 0 | .2578 | .2937 / .3166 | .18/.23 | =A1 | .3028/.3184 | tie 8 | 5/8, 8/8 |
+
+- 읽기: (1) C0는 A4w(blanket raw fine-tune)를 8/8 전 조건에서 이김 — 그러나 이는 이미 MS-97/99 결과의 재표현. (2) Solar random K5의 A1 붕괴(.426)를 C0가 제거함(.595, A0 대비 +.004, oracle과 −.011). (3) **Sen12 random K5에서는 C0가 A1보다 낮음**(.2759 < .2885): 양성 0 support로도 A1이 A0를 이긴 run이 있음(hard-negative 학습이 도움). 즉 "양성 0 → 재사용" 규칙은 Solar에는 맞고 Sen12에는 손해. 과업 무관 결정론 규칙 하나로는 부족 → C 초안의 leave-one-tile-out 이득 하한 또는 support-only 검증 신호가 필요함.
+- 판정: C0a("양성 0이면 재사용")는 **부분 통과**. A1 붕괴 방지는 되나 oracle과의 잔여 갭은 Solar .011·Sen12 .026. 정책의 경제적 가치는 "A1 최악 −.16 붕괴 제거"이지 평균 상승이 아님. 확증은 untouched 과업(Task-3 또는 Korea 1회 개봉)에서만.
