@@ -10,7 +10,7 @@ import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
 ROOT=Path("/home/work/data/olmoearth")
 ap=argparse.ArgumentParser(); ap.add_argument("--cache",required=True); ap.add_argument("--fold",required=True); ap.add_argument("--seed",type=int,default=1); ap.add_argument("--epochs",type=int,default=40)
-ap.add_argument("--folds",default=str(ROOT/"sen12_pilot/holdout_chimanimani/loco_folds.json")); ap.add_argument("--contract",default=str(ROOT/"sen12_pilot/holdout_chimanimani/sample_contract.jsonl")); ap.add_argument("--out",required=True)
+ap.add_argument("--folds",default=str(ROOT/"sen12_gp_contract/loco_folds.json")); ap.add_argument("--contract",default=str(ROOT/"sen12_gp_contract/sample_contract.jsonl")); ap.add_argument("--out",required=True)
 a=ap.parse_args(); CACHE=ROOT/a.cache; OUT=ROOT/a.out; OUT.mkdir(parents=True,exist_ok=True); dev=torch.device("cuda")
 torch.manual_seed(a.seed); np.random.seed(a.seed)
 FOLDS=json.loads(Path(a.folds).read_text()); fold=next(f for f in FOLDS["folds"] if f["fold"]==a.fold)
