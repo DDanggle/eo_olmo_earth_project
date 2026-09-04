@@ -1,7 +1,22 @@
-# 임계경로 한 장 — transferable · refreshable Earth embedding
+# 임계경로 한 장 — Earth Embedding Continuity
 
-갱신 2026-09-02. **이 문서가 실행 순서의 최종 근거다.** 자산의 실물 상태는
+갱신 2026-09-04. **현재 실행 순서의 최종 근거는 이 문서와
+`docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md`다.** 자산의 실물 상태는
 `docs/ASSET_INVENTORY.md`, arm·통계의 상세는 `docs/MOUNTAINSHIFT_EXPERIMENT_DESIGN.md`를 따른다.
+
+> **2026-09-04 활성 사슬:** P0 Solar 증거 복구 → A OlmoEarth v1→v1.2 downstream migration →
+> B Clay common-physical/native 재실행 → C support-only safe action → Korea/Task-3 one-shot.
+> 기존 CacheTune A2는 MS-94 stop rule로 종료했고, prediction fusion·label-free router도 다시 열지
+> 않는다. A/B/C의 정확한 gate와 forbidden claim은
+> `docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md`와 세 DRAFT config가 소유한다.
+
+> **Clay v0 격리:** `e56561d..a346eab` 경로는 native 16×16 embedding을 32×32로 bilinear
+> 확대했고, few-shot primary의 FP budget도 historical raw arm과 다르다. 실행 산출물은 탐색적
+> deployment-adapter baseline으로만 보존한다. B confirmatory로 승격하지 않으며 실행 중 서버 코드는
+> push하지 않는다.
+
+> 아래 2026-09-02 CacheTune 문단과 기존 measurement table은 실패 계보와 역사적 계약을 보존하기
+> 위한 것이다. 현재 우선순위를 정할 때는 위 활성 사슬이 이를 대체한다.
 
 > **재시작 경계:** M65/`4862483` 이후 Nepal 전용 구현과 데이터는 sibling 저장소로 분리했다.
 > 2026-09-02 method 재정렬 뒤 활성 사슬은 raw baseline recipe audit + CacheTune PT-0 CPU 계약 →

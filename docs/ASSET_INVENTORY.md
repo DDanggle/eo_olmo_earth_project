@@ -178,6 +178,8 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 | full-context(1×128) 캐시 | `sen12_pilot_full128` | 10.3 GB | 보유하되 **비채택**(M37·M52) |
 | 확증 산출물 8지역 | `olmoearth/confirmatory/` | 72 arm×seed 실행, 지역당 pilot JSON·per-sample·체크포인트·확률맵·코드 스냅샷 | **8/8 post gate PASS**. compact 집계 `artifacts/confirmatory_8region_summary.json` |
 | Presto 코드+가중치·cache | `olmoearth/models/presto`, `presto_c1` | model 3.3 MB/822K; cache 6,834타일 26.7 GiB | C1a/C1b 완료(MS-87/MS-93), compact artifact `artifacts/c1b_presto_native_compact_v1.json` |
+| Task-2 Solar raw/cache·few-shot | `olmoearth/task2_*` | 3,561 window, 8 UTM-zone fold group, OLMo cache·MS-98/99 결과 | 두 번째 task 재현 완료. random support 원시 ID/SHA·WGS84 cross-CRS audit·A4w0 local mirror는 P0 미완 |
+| Clay v1.5 v0 cache | `olmoearth/clay_cache` | 6,834/6,834, 1024×32×32, 실패 0 | **탐색 전용** — native 16×16을 bilinear 32×32로 확대. B1/B2 confirmatory로 사용 금지 |
 | 증거 번들 | 로컬 `evidence/` | ~10 MB, 90+ 파일 | per-sample 재계산 검증 통과분만 |
 
 ## B. 사용자 제공·신청으로 확보한 원천 (변동 없음 — 08-26 실사 유지)
@@ -192,8 +194,8 @@ sidecar다. 웹 화면의 READY 표시는 아래 실물 계약과 항상 일치�
 
 ## C. 사용 판정 요약
 
-- **지금 쓰는 것**: Sen12 38 GB + OLMo 캐시 9 fold + 8지역 확증 산출물
-- **다음**: raw recipe audit→nested source-label curve→AI-Hub/Korea preflight·untouched transfer
-- **대기**: Clay(Presto 뒤), AI-Hub 라벨(큐브 v2/입력계약 gate 뒤)
+- **지금 쓰는 것**: Sen12 38 GB + OLMo 캐시 9 fold + 8지역 확증 + Solar MS-98/99
+- **다음**: P0 Solar 증거 복구 → v1/v1.2 migration → Clay B-v1 → safe action → Korea/Task-3
+- **격리**: Clay v0 16→32 bilinear chain(실행 가능성 screen만), AI-Hub 라벨(큐브 v2/입력계약 gate 뒤)
 - **폐기·비채택**: s2_12band v1(오염), full-context 캐시(성능 열세), P2_tiny stand-in
 - **기상(GK2A·ASOS)**: 아직 성능 기여로 세지 않음 — E_live는 static transfer(사슬 5) 뒤 순서 유지

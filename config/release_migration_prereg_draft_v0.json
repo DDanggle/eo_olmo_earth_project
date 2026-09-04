@@ -1,0 +1,71 @@
+{
+  "schema": "olmoearth-release-migration-prereg-draft-v0",
+  "status": "REGISTERED_2026_09_04_commit_before_any_A_output",
+  "date": "2026-09-04",
+  "basis": {
+    "M1": "v1/v1.2 exact-scene identity, Procrustes and affine-ridge retrieval compatibility gates failed on the sealed Jeju cohort",
+    "M85": "task-adjacent version comparison only; not a downstream cache migration experiment",
+    "MS98_MS99": "Solar Farm supplies a full 12-band downstream task and sealed geographic folds"
+  },
+  "question": "Can unlabeled exact-scene paired spatial embeddings from OlmoEarth v1 and v1.2 preserve an old v1 downstream head and index after the encoder release changes, without rereading and re-encoding the historical raw archive? New query imagery is still read normally by the v1.2 encoder.",
+  "primary_scenario": "query-side backward compatibility: keep the old v1 cache, index and v1-trained head; map new v1.2 embeddings into the v1 contract",
+  "primary_task": "Task-2 Solar Farm because its OlmoEarth view has all 12 Sentinel-2 bands required symmetrically by v1 and v1.2",
+  "split": {
+    "unit": "existing sealed Task-2 held-out UTM-zone fold group",
+    "bridge_fit": "paired v1/v1.2 embeddings from source-train windows only; no segmentation labels",
+    "bridge_select": "source validation fold only",
+    "final_evaluation": "held-out target fold labels used only after bridge and threshold are frozen"
+  },
+  "arms": {
+    "R0_old_reference": "old v1 head on old v1 embeddings",
+    "R1_identity": "old v1 head directly on v1.2 embeddings",
+    "R2_mean_shift": "source-only channel mean translation",
+    "R3_procrustes": "source-only paired orthogonal Procrustes",
+    "R4_affine_ridge": "source-only paired affine ridge; M1 strongest simple bridge",
+    "R5_spatial_stitch": "source-only paired 3x3 depthwise plus 1x1 residual bridge, trained only if the two-fold simple-bridge screen fails; architecture and loss must be committed before its first run",
+    "R6_new_native_ceiling": "new v1.2 head trained on v1.2 source embeddings under the same decoder recipe",
+    "R7_full_reembed_cost_reference": "new v1.2 cache plus new head; accuracy and total backfill cost reference"
+  },
+  "metrics": {
+    "primary": [
+      "tie-correct pixel AP",
+      "positive-tile macro IoU at a threshold selected on source validation and then frozen"
+    ],
+    "secondary": [
+      "same-token cosine",
+      "R@1 and neighborhood overlap",
+      "linear CKA",
+      "empty-tile false positives at the frozen threshold"
+    ],
+    "cost": [
+      "bridge fit GPU/CPU seconds",
+      "bridge inference seconds per tile",
+      "raw bytes read",
+      "encoder GPU seconds avoided",
+      "old and new cache bytes",
+      "number of downstream heads preserved"
+    ]
+  },
+  "screen": {
+    "scope": "two exposed Task-2 folds, three seeds",
+    "pass": "R4 retains at least 90% of R0 AP in both folds and improves over R1 by at least 0.05 AP in both folds",
+    "fail": "if R4 fails, run only the precommitted R5 spatial-stitch screen; if R5 also fails, report that exact-scene linear/spatial bridging is insufficient and stop before eight-fold expansion"
+  },
+  "confirmatory_gate": {
+    "compatibility": "best preselected bridge is within 0.02 AP absolute and within 5% relative primary IoU of R0 in at least 6/8 folds",
+    "better_than_naive": "bridge beats R1 by at least 0.01 AP in at least 6/8 folds",
+    "cost": "incremental bridge plus migration cost consumes at most 10% of the historical full-archive reread and v1.2 re-embedding cost; normal raw input for each new v1.2 query is counted and is not claimed to be zero",
+    "no_post_hoc_relaxation": true
+  },
+  "controls": [
+    "shuffled exact-scene pairs",
+    "unpaired mean/covariance alignment",
+    "source-validation threshold frozen before target evaluation"
+  ],
+  "forbidden_claims": [
+    "M85 already proves migration",
+    "high CKA implies task compatibility",
+    "no-backfill for cache-side old-to-new conversion",
+    "universal backward compatibility from one release pair or one task"
+  ]
+}

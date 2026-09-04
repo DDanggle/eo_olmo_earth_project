@@ -3244,8 +3244,44 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - MS-98: Task-2 태양광 zero-target 재현 8/8 (P4 .593 vs P2 .333, 최소 +.21). few-shot 헤드라인 체인 09:40 시작(fu→random→fe).
 - MS-99: Task-2 few-shot 재현 — 층화 8/8·8/8, fe 8/8·8/8, A4h 대비 8/8; random K5 불통과(양성 0 draw 12/24 → A1 붕괴) → K=5 기본값 A0 규칙 실증. 결정 지도 갱신.
 
+### 2026-09-04 — A/B/C 확장 교수 감사·설계 계획
+- 목표: 지금까지의 `world shift` 결과(MS-96/97/99)와 `model shift` 결과(M1/M85)를 하나의
+  **Earth embedding continuity** 프로그램으로 연결한다. A=릴리스/제품 마이그레이션,
+  B=제품 무관 비교 계약, C=support-only 안전 적응/재계산 판단이다.
+- 먼저 확인할 것: M85는 v1/v1.2 radar-value 비교이지 cache migration 실험이 아니며, migration의
+  직접 근거는 M1이다. Task-2의 full 12-band 계약을 첫 downstream migration testbed로 쓸 수 있는지,
+  second-FM v0의 grid/temporal contract가 Clay·AlphaEarth 공식 사양과 맞는지 감사한다.
+- 이번 작업 범위: 공식 문서 재검증, 기존 결과와 겹치는 방향 제거, 실행 전 DRAFT config와 통합
+  프로그램 문서 작성, 재시작 문서 동기화. GPU 실행·Korea test 개봉·protected runner 수정은 하지 않는다.
+- 판정 원칙: A/B/C를 세 논문으로 벌리지 않는다. A를 method/system spine, B를 외적 타당성,
+  C를 support/contract-aware action policy로 둔다. 과거에 실패한 prediction fusion·label-free router·
+  CacheTune A2는 이름을 바꿔 되살리지 않는다.
+
 ### 2026-09-04 — 두 번째 FM(Clay v1.5) 캐시 실험 착수
 - 등록: `config/second_fm_cache_prereg_v0.json`(Clay 우선, AlphaEarth 제품 비교, Prithvi 감도; 동일 디코더·폴드·지표; 판정 규칙 사전 고정).
 - 서버 세션 자동 회수(6h 유휴) 발견 → `nx up` 으로 복구, 데이터 무손실.
 - Clay v1.5(dim 1024, patch 8) 클론·가중치(5.2 GB) 수신·python-box 의존성 해결. Sen12 6,834타일 캐시 추출 중(시점별 인코딩→평균→32×32).
 - 체인: 캐시 감사 통과 → P4-style decoder 8폴드×3시드(`run_clay_source.sh`, 스냅샷) 자동. 이후 few-shot(A0/A1 on Clay) 예정.
+
+### 2026-09-04 — A/B/C 확장 교수 감사 결과·Clay v0 격리
+- 통합 설계: `docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md`. A=OlmoEarth v1→v1.2 old-head/index
+  migration, B=common-physical/native product 비교, C=support-only safe action으로 묶었다.
+- 실행 전 기계 초안 3건: `release_migration_prereg_draft_v0.json`,
+  `second_fm_cache_prereg_v1_draft.json`, `safe_cache_action_prereg_draft_v0.json`. 모두 **DRAFT**이며
+  결과 생성 전에 commit돼야 active preregistration이다. GPU·Korea sealed target은 열지 않았다.
+- 공식 계약 재검증: OlmoEarth Base 768-d/patch 4의 32×32, Clay v1.5 patch 8의 native 16×16,
+  AlphaEarth의 annual 10 m·64-d product, Prithvi HLS 6-band·30 m를 서로 같은 시간/공간 계약으로
+  강제하지 않도록 B1/B2를 분리했다. 공식 OlmoEarth FT 기준은 LayerDecayAdamW로 고쳤다.
+- **Clay v0 경계 발견**: cache 6,834/6,834·실패 0이지만 native 16×16을 32×32 bilinear로
+  확대했다. `all_gates_pass`는 파일 완결성만 뜻한다. v0는 interpolated deployment-adapter
+  exploratory baseline으로만 보존하고 B1/B2 confirmatory에 쓰지 않는다.
+- **작동점 결함 발견**: Clay few-shot FP-matched IoU는 Clay A0 budget, historical raw A4는
+  OlmoEarth A0 budget이므로 report 간 primary 직접 비교가 무효다. B-v1은 동일 report와
+  source-validation threshold/공통 budget에서 raw·Olmo·Clay를 재평가한다.
+- **완료 marker 결함 발견**: 두 shell chain이 하위 run 실패/timeout 뒤에도 DONE을 남길 수 있었다.
+  로컬에 `set -euo pipefail`, timeout/exit-code/checkpoint·run-count gate를 추가했다. 서버 source
+  chain이 실행 중이므로 코드 push는 하지 않았다; v0 완료는 marker가 아니라 24 checkpoint와
+  72/72/48 run·snapshot으로 사후 판정한다.
+- 다음: P0 Solar 증거 복구 → A exposed-2fold migration screen → Clay B-v1 → C A3 ceiling/
+  deterministic guardrail → Korea/Task-3 first-look. 과거 실패한 CacheTune A2·prediction fusion·
+  label-free router·MoE는 다시 열지 않는다.

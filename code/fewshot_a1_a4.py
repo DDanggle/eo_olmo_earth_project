@@ -91,7 +91,7 @@ MANDIR=ROOT/"artifacts/task2_fewshot_manifests" if a.task2 else ROOT/"artifacts/
 def ck_path(region,arm,seed):
     if a.clay and arm=="P4": return ROOT/"clay_source_v1"/f"holdout_{region}_seed{seed}"/"checkpoints"/f"holdout_{region}"/"P4_best.pt"
     if a.task2: return ROOT/"task2_source_v1"/f"holdout_{region}_seed{seed}_{arm}"/"checkpoints"/f"holdout_{region}"/f"{arm}_best.pt"
-    if a.confirmatory: return ROOT/"confirmatory"/f"holdout_{region}"/f"{arm}_seed{seed}"/"checkpoints"/f"holdout_{region}"/f"{arm}_best.pt"
+    if a.confirmatory or a.clay: return ROOT/"confirmatory"/f"holdout_{region}"/f"{arm}_seed{seed}"/"checkpoints"/f"holdout_{region}"/f"{arm}_best.pt"
     return (SRC4 if arm=="P4" else SRC2)/f"holdout_{region}_seed{seed}/checkpoints/holdout_{region}/{arm}_best.pt"
 for region in REGIONS:
     fold=next(f for f in FOLDS["folds"] if f["fold"]==f"holdout_{region}"); stats=emb_stats(members(fold,"train"))

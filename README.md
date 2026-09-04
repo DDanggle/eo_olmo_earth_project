@@ -1,27 +1,29 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-09-02
+최종 갱신: 2026-09-04
 
 > **새 세션은 [`RESTART_HERE.md`](RESTART_HERE.md)부터 읽는다.** 활성 과학 기준점은
-> MS-93/`0dc68c3`이며, Nepal 전용 앱·코드·데이터는
-> `/Users/dgyi/dong/ai_projects/nepal-live-twin`으로 분리했다. 아래 M66–M85 서술은
-> 삭제되지 않은 감사 이력이지 현재 실행 queue가 아니다.
+> **MS-96/97 + MS-98/99 + A/B/C Earth Embedding Continuity 설계**다. Nepal 전용 앱·코드·데이터는
+> `/Users/dgyi/dong/ai_projects/nepal-live-twin`으로 분리했다. 아래의 예전 CacheTune·router·Nepal
+> queue 서술은 삭제되지 않은 감사 이력이며 현재 실행 순서는 아니다.
 
 > ## 북극성 — 우선순위가 헷갈리면 이것부터
-> **frozen OLMoEarth embedding이 산사태 표현으로 여러 지역에 전이되고, raw task model 및 다른
-> frozen GeoFM보다 언제 유리한지를 공정한 입력·비용 계약에서 밝힌 뒤 한국으로 옮긴다.**
-> label-free action router는 현재 주장이 아니라, 지역별 action 이질성과 예측 가능성이 모두
-> 확인될 때만 다시 여는 후속 방법이다.
-> → **`docs/CRITICAL_PATH.md`**, **`docs/EXPERIMENT_C_SECOND_GEOFM.md`**
+> **세계·과업·모델 release가 바뀔 때 저장된 Earth embedding과 downstream head를 reuse / adapt /
+> migrate / re-embed / request 중 무엇으로 처리할지, task utility와 label·GPU·raw-I/O·cache 비용으로
+> 결정한다.** A=OlmoEarth release migration, B=다른 embedding product 외적 타당성,
+> C=support-only safe action이다.
+> → **[`docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md`](docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md)**,
+> **[`docs/CRITICAL_PATH.md`](docs/CRITICAL_PATH.md)**
 >
-> 공식 P2/P3와 frozen-small P4의 8-region 확증이 끝났다. P4/P2/P3 region-macro는
-> **.2722/.1966/.1834**, P4−P2 **+.0756**, 사전등록 지역 승리 **6/8**이다(M65).
-> Presto C1a/C1b는 `.1092/.1261`로 둘 다 P4와 P2에 8/8 지역에서 졌다(MS-87/MS-93).
-> MS-90B/91/92에서 naive fusion과 GeoContextGate v1/v2가 모두 사전 gate를 실패했고, FP를
-> 맞추면 oracle 이득도 `+.008/-.004`로 사라져 등록 stop rule에 따라 이 방향을 종료했다.
-> 현재 병목은 **raw recipe audit → 432-run nested label budget → 한국 preflight/sealed transfer**다.
-> Nepal live work는 sibling 저장소의 운영/portfolio sidecar다. 본 저장소의 다음 병목은
-> **baseline-strength audit → source-label/compute frontier → Korea input preflight → untouched Korea transfer**다.
+> Task-1 Sen12에서 cache P4 `.2722` > raw P2/P3 `.1966/.1834`; Task-2 Solar에서 cache A0 `.591`
+> > raw P2 `.333`, few-shot cache pathway가 raw adaptation을 두 task 모두 8/8 이겼다.
+> 그러나 A1이 A0보다 항상 좋은 것은 아니다: Solar random K=5의 12/24 support draw에는 양성이
+> 없었고 A1이 `.426`으로 붕괴했으며, AP도 A0가 더 높았다. 이것이 C의 직접 근거다.
+>
+> **Clay v0 주의:** 서버의 6,834-tile cache는 완결됐지만 native 16×16을 32×32로 bilinear 확대했다.
+> 현재 chain 결과는 exploratory deployment-adapter baseline으로만 보존하며 B1/B2 확증으로 쓰지
+> 않는다. Clay A0와 historical raw A4의 FP budget도 달라 FP-matched IoU를 report 간 직접 비교하지
+> 않는다. 현재 순서는 **P0 증거 복구 → A release migration → B-v1 → C → Korea/Task-3**다.
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에

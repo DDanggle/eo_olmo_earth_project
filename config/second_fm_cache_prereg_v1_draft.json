@@ -1,0 +1,78 @@
+{
+  "schema": "second-fm-cache-preregistration-v1-draft",
+  "status": "REGISTERED_2026_09_04_commit_before_any_B_v1_output; the in-flight Clay v0 run (16->32 bilinear, v0 protocol) is EXPLORATORY 'interpolated deployment adapter' evidence only",
+  "date": "2026-09-04",
+  "parent": "config/second_fm_cache_prereg_v0.json at commit f2f816a7f4e234c1fbcf31c99114eff7c6034ce2",
+  "why_revision_is_needed": [
+    "Clay v1.5 patch size 8 yields a native 16x16 grid for the project's 128 px tiles, so upsampling every model to 32x32 is not an information-matched comparison",
+    "AlphaEarth is an annual 10 m 64-d embedding product and cannot share an event-timing gate with Sen12 without temporal leakage",
+    "one additional model family is evidence across two families, not a universal product-agnostic principle"
+  ],
+  "tracks": {
+    "B1_common_physical_cache": {
+      "purpose": "readout-controlled compact-cache comparison at common physical support and equal decoder parameters; not a pure causal estimate of representation family because PCA is fit separately per model",
+      "grid": "16x16 at 80 m support",
+      "olmoearth": "fixed 2x2 arithmetic mean from 32x32 to 16x16",
+      "clay": "native 16x16 patch grid from a 128 px Sentinel-2 tile",
+      "channels": "source-only IncrementalPCA to 256 dimensions, fit separately per model with the same algorithm and sample IDs",
+      "decoder": "exactly identical 256-channel decoder, seeds, folds, optimizer and metrics"
+    },
+    "B2_native_product": {
+      "purpose": "usable product performance, not an architecture-causal comparison",
+      "contract": "retain each product's native grid, channels, normalization and temporal receptive field; report trainable parameters, FLOPs, cache bytes and cold extraction cost"
+    }
+  },
+  "candidates": [
+    {
+      "name": "Clay v1.5",
+      "role": "primary like-for-like spatial ViT family",
+      "documented_contract": "Sentinel-2 L2A 10 bands, patch size 8, encoder dimension 1024, Apache-2.0",
+      "temporal_rule": "encode each selected timestep independently, then arithmetic mean; no pooling choice after metrics are seen",
+      "tasks": [
+        "Sen12Landslides",
+        "Task-2 Solar Farm"
+      ],
+      "tracks": [
+        "B1_common_physical_cache",
+        "B2_native_product"
+      ]
+    },
+    {
+      "name": "AlphaEarth Satellite Embedding V1 annual",
+      "role": "shipped embedding-product comparison",
+      "documented_contract": "annual 2017-2025 COGs, 10 m, 64-d unit vectors, CC-BY 4.0, provider-pays GCS as of July 2026",
+      "tasks": [
+        "Task-2 Solar Farm",
+        "future static land-cover task"
+      ],
+      "excluded": "event-timed Sen12 headline; annual receptive field can include observations after the event"
+    },
+    {
+      "name": "Prithvi-EO-2.0",
+      "role": "contract-shift sensitivity after Clay",
+      "documented_contract": "HLS six bands, 30 m, temporal ViT, Apache-2.0",
+      "warning": "S2-to-HLS band mapping and GSD change are part of the product contract and prevent a clean model-only comparison"
+    }
+  ],
+  "claim_ladder": {
+    "clay_two_tasks_pass": "evidence across two spatial GeoFM families; not universal product agnosticism",
+    "alphaearth_static_pass": "the workflow extends to a ready-made annual embedding product for static mapping only",
+    "product_agnostic": "requires at least two non-OlmoEarth families plus an independent Task-3 under precommitted task-appropriate contracts"
+  },
+  "metrics": [
+    "positive-tile macro IoU",
+    "tie-correct AP",
+    "deployment-threshold IoU with threshold selected on source validation",
+    "cold extraction and warm-head cost",
+    "cache bytes"
+  ],
+  "forbidden": [
+    "bilinear upsampling of Clay 16x16 tokens presented as common-resolution evidence",
+    "forcing AlphaEarth annual embeddings into an event-timed headline",
+    "calling Clay source-code v1.0 and model-weight v1.5 a verified release pair without two weight artifacts",
+    "claiming universal superiority or product agnosticism from Clay alone",
+    "choosing B1 or B2 as the headline after seeing which is better",
+    "treating the active v0 16x16-to-32x32 bilinear cache as either the B1 common-physical or B2 native confirmatory result",
+    "comparing Clay FP-matched IoU against a historical raw report whose false-positive budget was set by a different A0 model"
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "schema": "safe-cache-action-prereg-draft-v0",
+  "status": "REGISTERED_2026_09_04_commit_before_untouched_task_or_Korea_opening",
+  "date": "2026-09-04",
+  "question": "Can support labels, cached embeddings, declared input contracts and measured costs select A0 reuse, A1 head adaptation, A3 encoder adaptation plus re-embedding, or REQUEST_MORE_LABELS without using target-query labels?",
+  "not_the_old_router": "This is a region/support-set policy justified by observed A0/A1 crossover and harmful adaptation in MS-99. It is not the failed label-free block router or P2/P4 prediction fusion.",
+  "actions": {
+    "A0_REUSE": "source cache plus source decoder unchanged",
+    "A1_HEAD_ADAPT": "existing cache retained; decoder adapted on support",
+    "A3_REEMBED": "OlmoEarth encoder adapted on support, then target data re-embedded; unavailable until the A3 ceiling is measured",
+    "REQUEST_MORE_LABELS": "fail closed when support cannot justify an update"
+  },
+  "utility_contract": "The policy receives the deployment objective. It must not infer one universal winner across FP-matched IoU and AP, because Solar MS-99 exhibits metric-dependent A0/A1 preference.",
+  "features_allowed": {
+    "support_label": [
+      "K",
+      "positive_tile_count",
+      "positive_pixel_fraction",
+      "component_count",
+      "between-tile label diversity"
+    ],
+    "A0_support": [
+      "BCE",
+      "tie-correct AP",
+      "predicted positive fraction",
+      "entropy"
+    ],
+    "cache_shift": [
+      "source-target mean distance",
+      "diagonal covariance distance",
+      "support coverage in source cache"
+    ],
+    "adaptation_probe": [
+      "10-step support loss slope",
+      "gradient norm",
+      "parameter displacement"
+    ],
+    "cost": [
+      "GPU seconds",
+      "raw bytes read",
+      "cache invalidation",
+      "new cache bytes"
+    ]
+  },
+  "forbidden_inputs": [
+    "target-query labels",
+    "query empty-tile labels used to set FP-matched thresholds",
+    "test-region action outcomes during policy fitting"
+  ],
+  "C0_deterministic_policy": {
+    "rule0": "if positive_tile_count == 0, do not adapt; choose A0_REUSE or REQUEST_MORE_LABELS",
+    "rule1": "otherwise allow A1 only if tile-level leave-one-out support gain has a one-sided lower confidence bound above zero under the declared deployment utility",
+    "rule2": "if the interval is inconclusive, REQUEST_MORE_LABELS rather than forcing A1",
+    "note": "positive support is necessary for this first policy, not assumed sufficient"
+  },
+  "A3_ceiling": {
+    "primary": "OlmoEarth official LayerDecayAdamW encoder plus decoder adaptation",
+    "sensitivity": "attention q/v LoRA rank 8; generic PEFT comparator, not novelty",
+    "development": "Sen12 china and chimanimani plus Task-2 folds 0 and 1, K=20, three seeds",
+    "cost_required": [
+      "support and query raw bytes",
+      "encoder GPU seconds",
+      "re-embedding seconds",
+      "invalidated cache bytes",
+      "trainable and total parameters"
+    ],
+    "outcomes": {
+      "A1_wins": "cache-compatible post-training is sufficient at K=20 in the development scope",
+      "A3_small_gain": "report an accuracy-cost frontier; no blanket re-embedding",
+      "A3_large_gain": "shift the paper toward identifying cache-validity boundaries"
+    }
+  },
+  "development_data": "existing Sen12 8-region and Solar 8-fold support draws; all results are exposed and may only be used for feature/rule development",
+  "untouched_evaluation": "independent Task-3 or Korea sealed target, opened once after policy and deployment thresholds are frozen",
+  "baselines": [
+    "always A0",
+    "always A1",
+    "positive-count-only",
+    "embedding-distance-only",
+    "oracle action using query labels for evaluation only"
+  ],
+  "metrics": {
+    "primary": "action regret = oracle query utility minus selected-action query utility",
+    "safety": "harmful adaptation rate where selected A1 is at least 0.01 worse than A0",
+    "coverage": "fraction decided without REQUEST_MORE_LABELS",
+    "cost": "total label, raw-I/O, GPU and cache-invalidation cost"
+  },
+  "promotion_gate": {
+    "regret": "at least 30% lower than the best fixed action",
+    "harm": "at most 5% harmful-adaptation rate",
+    "coverage": "at least 60%",
+    "external": "same direction on the untouched task or Korea target",
+    "failure": "retain deterministic guardrails only; do not build a learned MoE/router"
+  },
+  "label_free_placebo": {
+    "status": "DEFERRED",
+    "minimum_evidence": "at least 20-30 label-independent historical windows plus independent event labels",
+    "allowed_before_then": [
+      "drift alarm",
+      "cache-validity alarm",
+      "ABSTAIN",
+      "RE-EMBED request"
+    ],
+    "forbidden_before_then": "claiming pseudo-label/self-training accuracy improvement"
+  }
+}
