@@ -1,0 +1,25 @@
+{
+  "schema": "second-fm-cache-preregistration-v0",
+  "registered": "2026-09-04",
+  "registered_before_running": true,
+  "question": "Is the cache-reuse advantage (M65/MS-98 zero-target; MS-96/97/99 few-shot) specific to OlmoEarth, or does it hold for other spatial Earth foundation models when their embeddings are cached under the identical protocol? Presto (pixel time-series, 0.8M params) is not a like-for-like architecture, so MS-87 does not answer this.",
+  "candidates_in_order": [
+    {"name": "Clay v1/v1.5", "why": "spatial ViT MAE, native Sentinel-2 input, permissive licence; closest like-for-like", "contract": "S2 bands mapped to Clay's expected band set; 4 timesteps embedded per timestep then mean-pooled to one 768-like grid unless the model natively accepts a stack (record which)"},
+    {"name": "AlphaEarth Foundations (Google)", "why": "a shipped embedding PRODUCT (64-d annual fields on Earth Engine) — the most direct 'cache product' comparator", "contract": "requires Earth Engine access; annual embedding, no event timing; registered as product comparison, not like-for-like"},
+    {"name": "Prithvi-EO-2.0", "why": "NASA/IBM ViT temporal", "contract": "HLS 6-band mapping from S2; sensitivity only"}
+  ],
+  "identical_protocol": {
+    "cache_grid": "C x 32 x 32 tokens per 128 px tile (patch 4 equivalent). If the FM's native patch differs, embeddings are bilinearly resampled to 32x32 and the channel dim is passed to EmbDecoder(cin=C) (already supported: 'Generalize emb arm channel dim').",
+    "arms": ["P4-style decoder on the second FM cache (zero-target, Sen12 8 folds, 3 seeds)", "few-shot A0/A1 on that cache with the same PT-0 manifests (china/chimanimani first, then 8 confirmatory regions)"],
+    "comparators": "P2 raw UNet3D and OlmoEarth P4 from the sealed runs; no re-running of OlmoEarth arms",
+    "metrics": "positive-tile macro IoU (primary), tie-correct AP, FP-matched IoU",
+    "statistical_unit": "region/fold"
+  },
+  "verdict_rules": {
+    "general_principle": "second FM cache beats raw P2 in >= 6/8 Sen12 regions AND its A1 beats A4w in >= 6/8 -> claim broadens to 'Earth embedding caches' (paper identity: product-agnostic protocol)",
+    "olmoearth_specific": "second FM cache fails either rule -> claim stays OlmoEarth-specific; report honestly; the gap OlmoEarth minus second FM becomes a finding about representation quality, not about the protocol",
+    "no_post_hoc_relaxation": true
+  },
+  "forbidden": ["choosing pooling/resampling after seeing results", "tuning the second FM's decoder recipe differently from P4", "claiming generality from Clay alone if AlphaEarth is not run — Clay closes 'like-for-like', AlphaEarth closes 'product'"],
+  "cost": "one embedding pass over 6,834 Sen12 tiles per FM on GPU1 + 24 decoder runs (8 folds x 3 seeds) + few-shot (~1 h)"
+}
