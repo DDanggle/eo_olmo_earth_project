@@ -54,7 +54,7 @@ for region in a.folds.split(","):
     # secondary geometry on a token sample from the test fold (label-free)
     sidx=torch.from_numpy(np.random.RandomState(1).choice(E1t.shape[0]*1024,4000,replace=False)); T1=tokens(E1t)[sidx]
     for seed in [int(s) for s in a.seeds.split(",")]:
-        ck=torch.load(ROOT/"task2_source_v1"/f"holdout_{region}_seed{seed}_P4/checkpoints/holdout_{region}/P4_best.pt",map_location="cpu"); ck=ck.get("state_dict",ck)
+        ck=torch.load(ROOT/"task2_source_v1"/f"holdout_{region}_seed{seed}_P4/checkpoints/holdout_{region}/P4_best.pt",map_location="cpu"); ck=ck.get("model_state",ck.get("state_dict",ck))
         head=EmbDecoder(cin=ck["proj.0.weight"].shape[1]).to(dev); head.load_state_dict(ck,strict=True); head.eval()
         norm1=lambda X:(X-st1[0])/st1[1]
         Pv0=probs(head,norm1(E1v)); thr=best_thr(Pv0,Yv)  # frozen on source val with R0
@@ -69,7 +69,7 @@ for region in a.folds.split(","):
             rec(name,probs(head,norm1(Eb)),{"geom":{"cos":float(F.cosine_similarity(Tb.float(),T1.float(),dim=1).mean()),"cka":cka(Tb,T1),"r1":r_at_1(Tb,T1)},"cost":{"fit_s":fs,"infer_s_per_tile":ipt,"bytes":bytes_pairs},"meta":meta})
         ck6=ROOT/"task2_source_v12"/f"holdout_{region}_seed{seed}_P4/checkpoints/holdout_{region}/P4_best.pt"
         if ck6.exists():
-            c6=torch.load(ck6,map_location="cpu"); c6=c6.get("state_dict",c6); h6=EmbDecoder(cin=c6["proj.0.weight"].shape[1]).to(dev); h6.load_state_dict(c6,strict=True); h6.eval()
+            c6=torch.load(ck6,map_location="cpu"); c6=c6.get("model_state",c6.get("state_dict",c6)); h6=EmbDecoder(cin=c6["proj.0.weight"].shape[1]).to(dev); h6.load_state_dict(c6,strict=True); h6.eval()
             norm12=lambda X:(X-st12[0])/st12[1]; thr6=best_thr(probs(h6,norm12(E12v)),Yv); P6=probs(h6,norm12(E12t)); ev=evaluate(P6,Yt,budget); ev.update({"iou_frozen_thr":pos_macro_iou(P6,Yt,thr6),"empty_fp_frozen_thr":empty_fp(P6,Yt,thr6)})
             rep["runs"].append({"region":region,"seed":seed,"arm":"R6_new_native_head","frozen_thr":thr6,"fp_budget":budget,"eval":ev,"cost":{"note":"new head training under source recipe + full v1.2 re-extraction of the archive (R7 reference)"}}); print(region,seed,"R6 AP %.4f"%ev["tie_ap"],flush=True)
     (OUT/"report.json").write_text(json.dumps(rep,indent=1))
