@@ -5,13 +5,13 @@ Clay 계약: 밴드 순서 blue,green,red,rededge1,rededge2,rededge3,nir,nir08,s
 metadata.yaml 의 mean/std 정규화, waves = 파장(µm), gsd=10, time=[sin/cos(week), sin/cos(hour)], latlon=[sin/cos(lat), sin/cos(lon)] (Clay inference 튜토리얼 규약).
 근사(등록): 시각은 월 인덱스(months.jsonl)에서 주=월*4.35+2, 시각=10.5h(S2 강하 시각). 타일 중심은 nc 속성 center(UTM)+crs 를 WGS84 로 변환.
 출력: /home/work/data/olmoearth/clay_cache/emb_fp16/<sid>.npy (D,32,32) + cache_audit.json + 소스 캐시의 mask_u8/raw_u16 는 심볼릭 링크."""
-import os, sys, json, math, glob
+import argparse, os, sys, json, math, glob
 from pathlib import Path
 import numpy as np, torch, torch.nn.functional as F, yaml
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
 sys.path.insert(0,"/home/work/data/olmoearth/third_party/pydeps"); sys.path.insert(0,"/home/work/data/olmoearth/third_party/clay")
 from claymodel.module import ClayMAEModule
-ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/"sen12_pilot/holdout_chimanimani"; OUT=ROOT/"clay_cache"; NC=Path("/home/work/data/sen12landslides/extracted")
+ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/"sen12_pilot/holdout_chimanimani"; OUT=(ROOT/_a.out) if _a.out else ROOT/"clay_cache"; NC=Path("/home/work/data/sen12landslides/extracted")
 CK="/home/work/data/clay/clay-v1.5.ckpt"; META="/home/work/data/olmoearth/third_party/clay/configs/metadata.yaml"
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
 for d in ("mask_u8","raw_u16"):
@@ -49,7 +49,8 @@ def embed_tile(sid):
     with torch.autocast("cuda",dtype=torch.bfloat16):
         out=enc(cube)[0]                                                               # (T, 1+L, D)
     tok=out[:,1:,:].float(); g=128//P; tok=tok.reshape(T,g,g,D).permute(0,3,1,2)      # (T,D,g,g)
-    tok=F.interpolate(tok,size=(32,32),mode="bilinear",align_corners=False).mean(0)   # (D,32,32)
+    if _a.grid=="up32": tok=F.interpolate(tok,size=(32,32),mode="bilinear",align_corners=False)   # v0 interpolated adapter
+    tok=tok[-1] if _a.temporal=="last" else tok.mean(0)                                              # (D,g,g)
     return tok.cpu().numpy().astype("float16")
 for sid in ids:
     o=OUT/"emb_fp16"/f"{sid}.npy"
@@ -59,5 +60,5 @@ for sid in ids:
     if done%500==0: print(done,"tiles",flush=True)
 fs=sorted((OUT/"emb_fp16").glob("*.npy")); a=np.load(fs[0],mmap_mode="r")
 audit={"schema":"clay-cache-audit-v1","all_gates_pass":len(fs)==len(ids) and tuple(a.shape)==(D,32,32),"n_tiles":len(fs),"expected":len(ids),"shape":list(a.shape),"dtype":str(a.dtype),"model":"Clay v1.5","patch":P,"dim":D,
-       "contract":"per-timestep encode, mean over 12 timesteps, 16x16->32x32 bilinear; band reorder to Clay S2 order; metadata mean/std; week from month index, hour 10.5; latlon from nc center+crs","skipped":skipped[:30],"n_skipped":len(skipped)}
+       "grid":_a.grid,"temporal":_a.temporal,"contract":"per-timestep encode, mean over 12 timesteps, 16x16->32x32 bilinear; band reorder to Clay S2 order; metadata mean/std; week from month index, hour 10.5; latlon from nc center+crs","skipped":skipped[:30],"n_skipped":len(skipped)}
 (OUT/"cache_audit.json").write_text(json.dumps(audit,indent=1)); print(json.dumps({k:audit[k] for k in ("all_gates_pass","n_tiles","n_skipped","dim","patch")})); print("CLAY CACHE DONE")
