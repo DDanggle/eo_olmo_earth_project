@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
 ROOT=Path("/home/work/data/olmoearth"); CACHE=ROOT/"task2_cache"; C12=ROOT/"task2_cache_v12"; CONTRACT=ROOT/"task2_contract/sample_contract.jsonl"; FOLDS=json.loads((ROOT/"task2_contract/loco_folds.json").read_text())
-ap=argparse.ArgumentParser(); ap.add_argument("--folds",default="task2_fold0,task2_fold1"); ap.add_argument("--seeds",default="1,2,3"); ap.add_argument("--out",default=str(ROOT/"artifacts/release_migration/screen")); ap.add_argument("--fit-tiles",type=int,default=200); ap.add_argument("--val-tiles",type=int,default=60)
+ap=argparse.ArgumentParser(); ap.add_argument("--folds",default="task2_fold0,task2_fold1"); ap.add_argument("--seeds",default="1,2,3"); ap.add_argument("--out",default=str(ROOT/"artifacts/release_migration/screen")); ap.add_argument("--fit-tiles",type=int,default=200); ap.add_argument("--val-tiles",type=int,default=60); ap.add_argument("--r5",action="store_true",help="add R5: R4 affine (frozen) + zero-init residual [3x3 depthwise conv -> 1x1 conv], trained on source-train pairs (MSE in v1 std units), early-stop on source-val pairs; 300 steps Adam 1e-3 batch 8")
 a=ap.parse_args(); OUT=Path(a.out); OUT.mkdir(parents=True,exist_ok=True); dev=torch.device("cuda")
 sys.argv=[sys.argv[0],"--task2"]  # reuse helpers from the few-shot runner without triggering its main loop
 src=(ROOT/"code/fewshot_a1_a4.py").read_text().split("rep={\"schema\"")[0]; ns={}; exec(compile(src,"fewshot_helpers","exec"),ns)
@@ -33,6 +33,30 @@ def fit_bridges(X2,X1,V2,V1):
         if best is None or mse<best[0]: best=(mse,lam,Wr)
     mse,lam,Wr=best; out["R4_affine_ridge"]=((lambda Z:(Z-m2)@Wr+m1),time.perf_counter()-t0,{"lambda_rel":lam,"val_mse":mse})
     return out
+def fit_r5(fn4,E12f_raw,E1f_raw,E12v_raw,E1v_raw,sd1,seed):
+    """R5 spatial stitch on top of frozen R4. Inputs are raw (N,C,32,32) tiles."""
+    torch.manual_seed(seed); C=E1f_raw.shape[1]
+    class Res(nn.Module):
+        def __init__(s):
+            super().__init__(); s.dw=nn.Conv2d(C,C,3,padding=1,groups=C); s.pw=nn.Conv2d(C,C,1); nn.init.zeros_(s.pw.weight); nn.init.zeros_(s.pw.bias)
+        def forward(s,x): return x+s.pw(F.gelu(s.dw(x)))
+    base=lambda X: apply_bridge(fn4,X)[0]
+    Xf=base(E12f_raw); Xv=base(E12v_raw); sdv=sd1.view(1,-1,1,1)
+    Yf=E1f_raw; Yv=E1v_raw; net=Res().to(dev); opt=torch.optim.Adam(net.parameters(),lr=1e-3); g=torch.Generator().manual_seed(seed); t0=time.perf_counter()
+    def vloss():
+        net.eval()
+        with torch.no_grad(): return float((((net(Xv.to(dev))-Yv.to(dev))/sdv.to(dev))**2).mean())
+    best=(vloss(),{k:v.clone() for k,v in net.state_dict().items()},0)
+    for step in range(1,301):
+        net.train(); idx=torch.randint(0,len(Xf),(8,),generator=g); x=Xf[idx].to(dev); y=Yf[idx].to(dev)
+        loss=(((net(x)-y)/sdv.to(dev))**2).mean(); opt.zero_grad(set_to_none=True); loss.backward(); opt.step()
+        if step%25==0:
+            v=vloss()
+            if v<best[0]: best=(v,{k:t.clone() for k,t in net.state_dict().items()},step)
+    net.load_state_dict(best[1]); net.eval(); fit_s=time.perf_counter()-t0
+    def fn5(X):  # raw (N,C,32,32) -> bridged raw
+        with torch.no_grad(): return torch.cat([net(base(X[i:i+32]).to(dev)).cpu() for i in range(0,len(X),32)])
+    return fn5,fit_s,{"val_mse_std_units":best[0],"best_step":best[2],"params":sum(p.numel() for p in net.parameters())}
 def apply_bridge(fn,X):  # X (N,C,32,32) raw -> bridged raw
     N,C,H,W=X.shape; Z=tokens(X); t0=time.perf_counter(); Y=fn(Z).float(); dt=time.perf_counter()-t0
     return Y.reshape(N,H,W,C).permute(0,3,1,2).contiguous(), dt/N
@@ -66,6 +90,10 @@ for region in a.folds.split(","):
         Tb=tokens(E12t)[sidx]; rec("R1_identity",probs(head,norm1(E12t)),{"geom":{"cos":float(F.cosine_similarity(Tb.float(),T1.float(),dim=1).mean()),"cka":cka(Tb,T1),"r1":r_at_1(Tb,T1)},"cost":{"fit_s":0,"infer_s_per_tile":0,"bytes":0}})
         for name,(fn,fs,meta) in bridges.items():
             Eb,ipt=apply_bridge(fn,E12t); Tb=tokens(Eb)[sidx]
+            rec(name,probs(head,norm1(Eb)),{"geom":{"cos":float(F.cosine_similarity(Tb.float(),T1.float(),dim=1).mean()),"cka":cka(Tb,T1),"r1":r_at_1(Tb,T1)},"cost":{"fit_s":fs,"infer_s_per_tile":ipt,"bytes":bytes_pairs},"meta":meta})
+        if a.r5:
+            fn4=bridges["R4_affine_ridge"][0]; E12f=load_raw_emb(C12,fit_ids); E1f=load_raw_emb(CACHE,fit_ids); E12v=load_raw_emb(C12,vfit_ids); E1v=load_raw_emb(CACHE,vfit_ids)
+            fn5,fs5,meta5=fit_r5(fn4,E12f,E1f,E12v,E1v,st1[1].view(-1),seed); t0=time.perf_counter(); Eb=fn5(E12t); ipt=(time.perf_counter()-t0)/len(E12t); Tb=tokens(Eb)[sidx]; name="R5_spatial_stitch"; fs=fs5+bridges["R4_affine_ridge"][1]; meta=meta5
             rec(name,probs(head,norm1(Eb)),{"geom":{"cos":float(F.cosine_similarity(Tb.float(),T1.float(),dim=1).mean()),"cka":cka(Tb,T1),"r1":r_at_1(Tb,T1)},"cost":{"fit_s":fs,"infer_s_per_tile":ipt,"bytes":bytes_pairs},"meta":meta})
         ck6=ROOT/"task2_source_v12"/f"holdout_{region}_seed{seed}_P4/checkpoints/holdout_{region}/P4_best.pt"
         if ck6.exists():
