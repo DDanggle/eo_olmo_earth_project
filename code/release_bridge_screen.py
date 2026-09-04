@@ -92,8 +92,8 @@ for region in a.folds.split(","):
             Eb,ipt=apply_bridge(fn,E12t); Tb=tokens(Eb)[sidx]
             rec(name,probs(head,norm1(Eb)),{"geom":{"cos":float(F.cosine_similarity(Tb.float(),T1.float(),dim=1).mean()),"cka":cka(Tb,T1),"r1":r_at_1(Tb,T1)},"cost":{"fit_s":fs,"infer_s_per_tile":ipt,"bytes":bytes_pairs},"meta":meta})
         if a.r5:
-            fn4=bridges["R4_affine_ridge"][0]; E12f=load_raw_emb(C12,fit_ids); E1f=load_raw_emb(CACHE,fit_ids); E12v=load_raw_emb(C12,vfit_ids); E1v=load_raw_emb(CACHE,vfit_ids)
-            fn5,fs5,meta5=fit_r5(fn4,E12f,E1f,E12v,E1v,st1[1].view(-1),seed); t0=time.perf_counter(); Eb=fn5(E12t); ipt=(time.perf_counter()-t0)/len(E12t); Tb=tokens(Eb)[sidx]; name="R5_spatial_stitch"; fs=fs5+bridges["R4_affine_ridge"][1]; meta=meta5
+            fn4=bridges["R4_affine_ridge"][0]; E12f=load_raw_emb(C12,fit_ids); E1f=load_raw_emb(CACHE,fit_ids); E12vf=load_raw_emb(C12,vfit_ids); E1vf=load_raw_emb(CACHE,vfit_ids)
+            fn5,fs5,meta5=fit_r5(fn4,E12f,E1f,E12vf,E1vf,st1[1].view(-1),seed); t0=time.perf_counter(); Eb=fn5(E12t); ipt=(time.perf_counter()-t0)/len(E12t); Tb=tokens(Eb)[sidx]; name="R5_spatial_stitch"; fs=fs5+bridges["R4_affine_ridge"][1]; meta=meta5
             rec(name,probs(head,norm1(Eb)),{"geom":{"cos":float(F.cosine_similarity(Tb.float(),T1.float(),dim=1).mean()),"cka":cka(Tb,T1),"r1":r_at_1(Tb,T1)},"cost":{"fit_s":fs,"infer_s_per_tile":ipt,"bytes":bytes_pairs},"meta":meta})
         ck6=ROOT/"task2_source_v12"/f"holdout_{region}_seed{seed}_P4/checkpoints/holdout_{region}/P4_best.pt"
         if ck6.exists():

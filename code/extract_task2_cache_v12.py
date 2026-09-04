@@ -8,11 +8,12 @@ from datetime import datetime
 import numpy as np, rasterio
 from PIL import Image
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
-import torch
+import torch, argparse
+_ap=argparse.ArgumentParser(); _ap.add_argument("--release",default="v12",choices=["v11","v12"]); _a=_ap.parse_args()
 from olmoearth_pretrain_minimal import ModelID
 from rslearn.models.olmoearth_pretrain.model import OlmoEarth
 from rslearn.train.model_context import ModelContext, RasterImage
-ROOT=Path("/home/work/data/task2_solar_farm/extracted/windows/default"); OUT=Path("/home/work/data/olmoearth/task2_cache_v12"); V1=Path("/home/work/data/olmoearth/task2_cache"); IDX=Path("/home/work/data/olmoearth/artifacts/task2_solar_farm/window_index.jsonl")
+ROOT=Path("/home/work/data/task2_solar_farm/extracted/windows/default"); OUT=Path("/home/work/data/olmoearth/task2_cache_"+_a.release); V1=Path("/home/work/data/olmoearth/task2_cache"); IDX=Path("/home/work/data/olmoearth/artifacts/task2_solar_farm/window_index.jsonl")
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
 for d in ("raw_u16","mask_u8"):
     if not (OUT/d).exists(): (OUT/d).symlink_to(V1/d)
@@ -20,7 +21,7 @@ if not (OUT/"months.jsonl").exists(): (OUT/"months.jsonl").symlink_to(V1/"months
 MODEL_BANDS=["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12","B01","B09"]; RAW_BANDS=MODEL_BANDS[:10]
 GROUPS={"B02_B03_B04_B08":["B02","B03","B04","B08"],"B05_B06_B07_B8A_B11_B12":["B05","B06","B07","B8A","B11","B12"],"B01_B09_B10":["B01","B09","B10"]}
 TS=["sentinel2","sentinel2.1","sentinel2.2","sentinel2.3"]
-dev=torch.device("cuda"); wrapper=OlmoEarth(patch_size=4, model_id=ModelID.OLMOEARTH_V1_2_BASE, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(dev).eval()
+dev=torch.device("cuda"); wrapper=OlmoEarth(patch_size=4, model_id=(ModelID.OLMOEARTH_V1_1_BASE if _a.release=="v11" else ModelID.OLMOEARTH_V1_2_BASE), token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(dev).eval()
 rows=[json.loads(l) for l in open(IDX)]; v1ids={p.stem for p in (V1/"emb_fp16").glob("*.npy")}; elig=[r for r in rows if r["s2_timesteps"]==4 and r["s2_bands_complete"] and r["id"] in v1ids]
 done=0; skipped=[]; cos=[]
 from rasterio.enums import Resampling
@@ -76,7 +77,7 @@ for r in elig:
         if done%250==0: print(done,"chips",flush=True)
     except Exception as e:
         skipped.append({"id":r["id"],"err":str(e)[:120]})
-audit={"schema":"task2-cache-v12-audit-v1","release":"OlmoEarth v1.2 Base (ModelID.OLMOEARTH_V1_2_BASE, .venv-master)","paired_with":"task2_cache (v1) same chip ids, same 12-band 4-timestep input","same_token_cosine_v1_v12_mean":(float(np.mean(cos)) if cos else None),"n_cos":len(cos),"all_gates_pass":True,"n_chips":done,"n_skipped":len(skipped),"skipped":skipped[:50],"contract":"center 128px chip; raw 10 bands x4T uint16; emb Cx32x32 fp16 OlmoEarth v1.2 Base 12-band; mask label>0",
+audit={"schema":"task2-cache-v12-audit-v1","release":"OlmoEarth "+_a.release+" Base (.venv-master ModelID)","paired_with":"task2_cache (v1) same chip ids, same 12-band 4-timestep input","same_token_cosine_v1_v12_mean":(float(np.mean(cos)) if cos else None),"n_cos":len(cos),"all_gates_pass":True,"n_chips":done,"n_skipped":len(skipped),"skipped":skipped[:50],"contract":"center 128px chip; raw 10 bands x4T uint16; emb Cx32x32 fp16 OlmoEarth v1.2 Base 12-band; mask label>0",
        "note":"all_gates_pass set after count/shape spot check below"}
 ok=True
 fs0=sorted((OUT/"emb_fp16").glob("*.npy")); EMB_SHAPE=tuple(np.load(fs0[0],mmap_mode="r").shape) if fs0 else None; audit["emb_shape"]=EMB_SHAPE

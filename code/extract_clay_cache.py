@@ -11,7 +11,7 @@ import numpy as np, torch, torch.nn.functional as F, yaml
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
 sys.path.insert(0,"/home/work/data/olmoearth/third_party/pydeps"); sys.path.insert(0,"/home/work/data/olmoearth/third_party/clay")
 from claymodel.module import ClayMAEModule
-_ap=argparse.ArgumentParser(); _ap.add_argument("--grid",default="up32",choices=["up32","native16"]); _ap.add_argument("--temporal",default="mean",choices=["mean","last"]); _ap.add_argument("--out",default=None); _a=_ap.parse_args()
+_ap=argparse.ArgumentParser(); _ap.add_argument("--grid",default="up32",choices=["up32","native16","in256"]); _ap.add_argument("--temporal",default="mean",choices=["mean","last"]); _ap.add_argument("--out",default=None); _a=_ap.parse_args()
 ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/"sen12_pilot/holdout_chimanimani"; OUT=(ROOT/_a.out) if _a.out else ROOT/"clay_cache"; NC=Path("/home/work/data/sen12landslides/extracted")
 CK="/home/work/data/clay/clay-v1.5.ckpt"; META="/home/work/data/olmoearth/third_party/clay/configs/metadata.yaml"
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
@@ -46,10 +46,12 @@ def embed_tile(sid):
     mo=months.get(sid,[0]*T)[:T]; week=[(m*4.35+2)/52.0 for m in mo]; hour=10.5/24.0
     time=torch.tensor([[math.sin(2*math.pi*w),math.cos(2*math.pi*w),math.sin(2*math.pi*hour),math.cos(2*math.pi*hour)] for w in week],dtype=torch.float32)
     pix=((x.permute(1,0,2,3)-mean)/std).to(dev)                                       # (T,10,128,128)
+    if _a.grid=="in256": pix=F.interpolate(pix,size=(256,256),mode="bilinear",align_corners=False); 
+
     cube={"pixels":pix,"time":time.to(dev),"latlon":latlon.to(dev),"gsd":torch.tensor(10.0,device=dev),"waves":waves.to(dev)}
     with torch.autocast("cuda",dtype=torch.bfloat16):
         out=enc(cube)[0]                                                               # (T, 1+L, D)
-    tok=out[:,1:,:].float(); g=128//P; tok=tok.reshape(T,g,g,D).permute(0,3,1,2)      # (T,D,g,g)
+    tok=out[:,1:,:].float(); g=(256 if _a.grid=="in256" else 128)//P; tok=tok.reshape(T,g,g,D).permute(0,3,1,2)      # (T,D,g,g)
     if _a.grid=="up32": tok=F.interpolate(tok,size=(32,32),mode="bilinear",align_corners=False)   # v0 interpolated adapter
     tok=tok[-1] if _a.temporal=="last" else tok.mean(0)                                              # (D,g,g)
     return tok.cpu().numpy().astype("float16")
