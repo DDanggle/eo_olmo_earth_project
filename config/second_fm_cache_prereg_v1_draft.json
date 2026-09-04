@@ -82,7 +82,8 @@
       "clay_cache_native16": "Clay v1.5 native 16x16, per-timestep encode, mean over 12 timesteps",
       "clay_cache_native16_last": "Clay v1.5 native 16x16, last timestep only (temporal-pooling sensitivity)",
       "galileo_cache": "Galileo base (nasaharvest, ICML 2025) S2-only, T=12 native, patch 4 -> 768x32x32, 4x64px tiling as OlmoEarth",
-      "prithvi_cache": "Prithvi-EO-2.0-300M (temporal 3D-patch ViT), 6 S2 bands mapped to HLS order at 10 m (contract shift acknowledged), T=4 (indices 1,4,7,10 of 12), patch (1,16,16) -> 1024x8x8; decoder G=8 (8->16->32->128, identical params)"
+      "prithvi_cache": "Prithvi-EO-2.0-300M (temporal 3D-patch ViT), 6 S2 bands mapped to HLS order at 10 m (contract shift acknowledged), T=4 (indices 1,4,7,10 of 12), patch (1,16,16) -> 1024x8x8; decoder G=8 (8->16->32->128, identical params)",
+      "clay_cache_in256": "Clay v1.5 with the 128 px tile bilinearly upsampled to 256 px before encoding (input-side adapter; gsd still declared 10 m), native 32x32 tokens, mean over 12 timesteps -> 1024x32x32 (resolution-matched to OlmoEarth)"
     },
     "readout": {
       "olmo_pool16_still_beats_raw_>=6/8": "token resolution is not the reason Clay v0 failed",
@@ -90,9 +91,11 @@
       "clay_last<clay_mean": "temporal averaging helps; not the cause",
       "galileo_beats_raw_>=6/8": "a second temporally-native family reproduces cache-first -> the lead is 'temporal-native multimodal masked pretraining'; then run 3 seeds + few-shot A0/A1 on Galileo",
       "galileo_fails": "cache-first is OlmoEarth-specific among the families tested; report as such",
-      "prithvi": "contract-shift sensitivity only (band/GSD mismatch is part of the product contract); counted as family evidence only if it beats raw >=6/8 despite the shift; failure is not evidence against the family"
+      "prithvi": "contract-shift sensitivity only (band/GSD mismatch is part of the product contract); counted as family evidence only if it beats raw >=6/8 despite the shift; failure is not evidence against the family",
+      "clay_in256_vs_native16": "if in256 >> native16 then token resolution dominates the Clay deficit; if in256 still < raw in >=5/8, the Clay representation itself is not cache-worthy for this task"
     },
     "raw_reference": "raw_strong P2 per fold from artifacts/confirmatory_8region_summary.json",
-    "status": "REGISTERED_AT_COMMIT_before_any_diagnostic_metric_is_read"
+    "status": "REGISTERED_AT_COMMIT_before_any_diagnostic_metric_is_read",
+    "first_result_note": "olmo_cache_pool16 (6 folds, seed 1): macro .225 vs 32x32 .263 same folds, beats raw 3/6 -> token resolution alone removes most of the OlmoEarth margin; read before Clay native results, recorded here for honesty"
   }
 }

@@ -67,5 +67,10 @@
     "high CKA implies task compatibility",
     "no-backfill for cache-side old-to-new conversion",
     "universal backward compatibility from one release pair or one task"
-  ]
+  ],
+  "addendum_v1_2026_09_05_three_release_chain": {
+    "v1_1": "OlmoEarth v1.1 Base embeddings on the same 3,434 Solar chips (task2_cache_v11); screen R0..R5 with v1 head; tests whether bridge quality tracks release distance (v1->v1.1 vs v1->v1.2)",
+    "r5_status": "architecture/loss committed d53959c before first run; 8-fold run in flight",
+    "sen12_v12": "deferred: Sen12 lacks B01/B09; v1.2 has one 12-band group and ignores MISSING (M7/M8) so v1/v1.2 pairs would be contract-asymmetric; registered as a separate 'asymmetric-contract' sensitivity, not a clean pair"
+  }
 }

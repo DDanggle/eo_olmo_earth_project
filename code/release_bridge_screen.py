@@ -7,9 +7,9 @@ import json, os, sys, time, argparse
 from pathlib import Path
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
-ROOT=Path("/home/work/data/olmoearth"); CACHE=ROOT/"task2_cache"; C12=ROOT/"task2_cache_v12"; CONTRACT=ROOT/"task2_contract/sample_contract.jsonl"; FOLDS=json.loads((ROOT/"task2_contract/loco_folds.json").read_text())
-ap=argparse.ArgumentParser(); ap.add_argument("--folds",default="task2_fold0,task2_fold1"); ap.add_argument("--seeds",default="1,2,3"); ap.add_argument("--out",default=str(ROOT/"artifacts/release_migration/screen")); ap.add_argument("--fit-tiles",type=int,default=200); ap.add_argument("--val-tiles",type=int,default=60); ap.add_argument("--r5",action="store_true",help="add R5: R4 affine (frozen) + zero-init residual [3x3 depthwise conv -> 1x1 conv], trained on source-train pairs (MSE in v1 std units), early-stop on source-val pairs; 300 steps Adam 1e-3 batch 8")
-a=ap.parse_args(); OUT=Path(a.out); OUT.mkdir(parents=True,exist_ok=True); dev=torch.device("cuda")
+ROOT=Path("/home/work/data/olmoearth"); CACHE=ROOT/"task2_cache"; C12=None; CONTRACT=ROOT/"task2_contract/sample_contract.jsonl"; FOLDS=json.loads((ROOT/"task2_contract/loco_folds.json").read_text())
+ap=argparse.ArgumentParser(); ap.add_argument("--folds",default="task2_fold0,task2_fold1"); ap.add_argument("--seeds",default="1,2,3"); ap.add_argument("--out",default=str(ROOT/"artifacts/release_migration/screen")); ap.add_argument("--fit-tiles",type=int,default=200); ap.add_argument("--val-tiles",type=int,default=60); ap.add_argument("--new-cache",default="task2_cache_v12",help="paired new-release cache dir under ROOT"); ap.add_argument("--r5",action="store_true",help="add R5: R4 affine (frozen) + zero-init residual [3x3 depthwise conv -> 1x1 conv], trained on source-train pairs (MSE in v1 std units), early-stop on source-val pairs; 300 steps Adam 1e-3 batch 8")
+a=ap.parse_args(); C12=ROOT/a.new_cache; OUT=Path(a.out); OUT.mkdir(parents=True,exist_ok=True); dev=torch.device("cuda")
 sys.argv=[sys.argv[0],"--task2"]  # reuse helpers from the few-shot runner without triggering its main loop
 src=(ROOT/"code/fewshot_a1_a4.py").read_text().split("rep={\"schema\"")[0]; ns={}; exec(compile(src,"fewshot_helpers","exec"),ns)
 EmbDecoder,members,load_masks,probs,pos_macro_iou,empty_fp,tie_ap,evaluate=[ns[k] for k in ("EmbDecoder","members","load_masks","probs","pos_macro_iou","empty_fp","tie_ap","evaluate")]
@@ -66,7 +66,7 @@ def r_at_1(Q,G):  # fraction of query tokens whose nearest gallery token is its 
     Qn=F.normalize(Q.float(),dim=1); Gn=F.normalize(G.float(),dim=1); nn_=(Qn@Gn.T).argmax(1); return float((nn_==torch.arange(len(Q))).float().mean())
 def best_thr(P,Y):
     ths=np.linspace(0.05,0.95,19); v=[pos_macro_iou(P,Y,t) or 0 for t in ths]; return float(ths[int(np.argmax(v))])
-rep={"schema":"release-migration-screen-v1","preregistration":"config/release_migration_prereg_draft_v0.json","folds":a.folds,"seeds":a.seeds,"bridge_fit":"source-train paired tokens, no labels; lambda on source-val pairs","runs":[]}
+rep={"schema":"release-migration-screen-v1","new_cache":a.new_cache,"preregistration":"config/release_migration_prereg_draft_v0.json","folds":a.folds,"seeds":a.seeds,"bridge_fit":"source-train paired tokens, no labels; lambda on source-val pairs","runs":[]}
 for region in a.folds.split(","):
     fold=next(f for f in FOLDS["folds"] if f["fold"]==f"holdout_{region}"); tr_ids=members(fold,"train"); va_ids=members(fold,"val"); te_ids=members(fold,"test")
     st1=stats(CACHE,tr_ids); st12=stats(C12,tr_ids)
