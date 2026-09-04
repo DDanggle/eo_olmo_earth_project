@@ -74,5 +74,23 @@
     "choosing B1 or B2 as the headline after seeing which is better",
     "treating the active v0 16x16-to-32x32 bilinear cache as either the B1 common-physical or B2 native confirmatory result",
     "comparing Clay FP-matched IoU against a historical raw report whose false-positive budget was set by a different A0 model"
-  ]
+  ],
+  "addendum_v1a_2026_09_04_diagnostics_registered_before_metrics": {
+    "why": "MS-101 (Clay v0, interpolated) failed cache-first. Before any B-v1 headline, three confounders are separated with single-seed diagnostics on the 8 confirmatory Sen12 folds, all trained by code/cache_decoder_train.py (re-implementation of the sealed pilot P4 recipe; calibrated on OlmoEarth 32x32 hiroshima seed 1 against the sealed pilot before any diagnostic is read).",
+    "caches": {
+      "olmo_cache_pool16": "OlmoEarth 32x32 -> 2x2 mean -> 768x16x16 (resolution confounder control)",
+      "clay_cache_native16": "Clay v1.5 native 16x16, per-timestep encode, mean over 12 timesteps",
+      "clay_cache_native16_last": "Clay v1.5 native 16x16, last timestep only (temporal-pooling sensitivity)",
+      "galileo_cache": "Galileo base (nasaharvest, ICML 2025) S2-only, T=12 native, patch 4 -> 768x32x32, 4x64px tiling as OlmoEarth"
+    },
+    "readout": {
+      "olmo_pool16_still_beats_raw_>=6/8": "token resolution is not the reason Clay v0 failed",
+      "clay_native16_beats_raw_>=6/8": "the v0 failure was the interpolation adapter; Clay joins the family evidence",
+      "clay_last<clay_mean": "temporal averaging helps; not the cause",
+      "galileo_beats_raw_>=6/8": "a second temporally-native family reproduces cache-first -> the lead is 'temporal-native multimodal masked pretraining'; then run 3 seeds + few-shot A0/A1 on Galileo",
+      "galileo_fails": "cache-first is OlmoEarth-specific among the families tested; report as such"
+    },
+    "raw_reference": "raw_strong P2 per fold from artifacts/confirmatory_8region_summary.json",
+    "status": "REGISTERED_AT_COMMIT_before_any_diagnostic_metric_is_read"
+  }
 }
