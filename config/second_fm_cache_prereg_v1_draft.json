@@ -81,14 +81,16 @@
       "olmo_cache_pool16": "OlmoEarth 32x32 -> 2x2 mean -> 768x16x16 (resolution confounder control)",
       "clay_cache_native16": "Clay v1.5 native 16x16, per-timestep encode, mean over 12 timesteps",
       "clay_cache_native16_last": "Clay v1.5 native 16x16, last timestep only (temporal-pooling sensitivity)",
-      "galileo_cache": "Galileo base (nasaharvest, ICML 2025) S2-only, T=12 native, patch 4 -> 768x32x32, 4x64px tiling as OlmoEarth"
+      "galileo_cache": "Galileo base (nasaharvest, ICML 2025) S2-only, T=12 native, patch 4 -> 768x32x32, 4x64px tiling as OlmoEarth",
+      "prithvi_cache": "Prithvi-EO-2.0-300M (temporal 3D-patch ViT), 6 S2 bands mapped to HLS order at 10 m (contract shift acknowledged), T=4 (indices 1,4,7,10 of 12), patch (1,16,16) -> 1024x8x8; decoder G=8 (8->16->32->128, identical params)"
     },
     "readout": {
       "olmo_pool16_still_beats_raw_>=6/8": "token resolution is not the reason Clay v0 failed",
       "clay_native16_beats_raw_>=6/8": "the v0 failure was the interpolation adapter; Clay joins the family evidence",
       "clay_last<clay_mean": "temporal averaging helps; not the cause",
       "galileo_beats_raw_>=6/8": "a second temporally-native family reproduces cache-first -> the lead is 'temporal-native multimodal masked pretraining'; then run 3 seeds + few-shot A0/A1 on Galileo",
-      "galileo_fails": "cache-first is OlmoEarth-specific among the families tested; report as such"
+      "galileo_fails": "cache-first is OlmoEarth-specific among the families tested; report as such",
+      "prithvi": "contract-shift sensitivity only (band/GSD mismatch is part of the product contract); counted as family evidence only if it beats raw >=6/8 despite the shift; failure is not evidence against the family"
     },
     "raw_reference": "raw_strong P2 per fold from artifacts/confirmatory_8region_summary.json",
     "status": "REGISTERED_AT_COMMIT_before_any_diagnostic_metric_is_read"
