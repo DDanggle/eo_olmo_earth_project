@@ -9,7 +9,7 @@ import os, sys, json, math, glob
 from pathlib import Path
 import numpy as np, torch, torch.nn.functional as F, yaml
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
-sys.path.insert(0,"/home/work/data/olmoearth/third_party/clay")
+sys.path.insert(0,"/home/work/data/olmoearth/third_party/pydeps"); sys.path.insert(0,"/home/work/data/olmoearth/third_party/clay")
 from claymodel.module import ClayMAEModule
 ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/"sen12_pilot/holdout_chimanimani"; OUT=ROOT/"clay_cache"; NC=Path("/home/work/data/sen12landslides/extracted")
 CK="/home/work/data/clay/clay-v1.5.ckpt"; META="/home/work/data/olmoearth/third_party/clay/configs/metadata.yaml"
