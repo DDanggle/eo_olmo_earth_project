@@ -4576,3 +4576,19 @@ content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비
 
 - 읽기: (1) C0는 A4w(blanket raw fine-tune)를 8/8 전 조건에서 이김 — 그러나 이는 이미 MS-97/99 결과의 재표현. (2) Solar random K5의 A1 붕괴(.426)를 C0가 제거함(.595, A0 대비 +.004, oracle과 −.011). (3) **Sen12 random K5에서는 C0가 A1보다 낮음**(.2759 < .2885): 양성 0 support로도 A1이 A0를 이긴 run이 있음(hard-negative 학습이 도움). 즉 "양성 0 → 재사용" 규칙은 Solar에는 맞고 Sen12에는 손해. 과업 무관 결정론 규칙 하나로는 부족 → C 초안의 leave-one-tile-out 이득 하한 또는 support-only 검증 신호가 필요함.
 - 판정: C0a("양성 0이면 재사용")는 **부분 통과**. A1 붕괴 방지는 되나 oracle과의 잔여 갭은 Solar .011·Sen12 .026. 정책의 경제적 가치는 "A1 최악 −.16 붕괴 제거"이지 평균 상승이 아님. 확증은 untouched 과업(Task-3 또는 Korea 1회 개봉)에서만.
+
+## MS-100 (2026-09-04) — A 릴리스 마이그레이션 스크린: v1 head를 v1.2 임베딩에 그대로 쓰면 붕괴(AP .02), 라벨 없는 선형 브리지가 AP 94–99% 복구 — **등록 스크린 통과**
+- 무엇: `config/release_migration_prereg_draft_v0.json`(커밋 efce8b8) 스크린. Task-2 Solar, 노출 폴드 0·1, 3시드. 옛 v1 캐시 + v1 학습 P4 head(task2_source_v1)를 유지하고, 같은 3,434 칩의 **v1.2 임베딩**(task2_cache_v12, 동일 12밴드·4시점 입력)을 v1 계약으로 사상. 브리지는 **source-train 페어 토큰 200타일로만 적합(라벨 없음)**, λ는 source-val 페어 재구성 MSE로 선택, 임계값은 R0로 source-val에서 동결. 코드 `code/release_bridge_screen.py`, 리포트 `artifacts/release_migration/screen/report.json`.
+- 근거 상태: 스크린(2폴드). 8폴드 확증 실행 중(`artifacts/release_migration/confirmatory_8fold`). 과업 1개(Solar). Sen12·Clay 미실행.
+
+| 폴드 | R0 옛 head+옛 emb | R1 무대책(identity) | R2 평균이동 | R3 Procrustes | R4 affine ridge | R6 v1.2 새 head |
+|---|---|---|---|---|---|---|
+| fold0 AP | .970 | **.018** | .036 | .961 | .965 | .974 |
+| fold0 IoU(FP매칭) | .664 | .000 | .001 | .658 | .663 | .679 |
+| fold1 AP | .935 | **.013** | .011 | .881 | .868 | .901 |
+| fold1 IoU(FP매칭) | .581 | .002 | .000 | .554 | .519 | .525 |
+
+- 기하(테스트 토큰 4,000 표본): identity 코사인 −.005·R@1 0 → Procrustes 코사인 .84·R@1 .97–.99, affine 코사인 .92·R@1 .97·CKA .90. 브리지 적합 비용 CPU 4–15초, 라벨 0, 페어 200타일.
+- 등록 규칙 판정: R4 ≥ .9·R0 AP 두 폴드(0.995, 0.928) ✔, R4−R1 ≥ .05 두 폴드(+.947, +.855) ✔ → **screen_pass_R4 = true**. R5 공간 스티치는 규칙상 실행하지 않음.
+- 읽기: (1) M1(제주)의 "identity 붕괴"가 downstream head에서도 그대로 재현됨(AP .97→.02). CKA .70–.74로 높아 보여도 head는 죽음 → "CKA는 downstream 연속성을 보증 못 함"의 직접 근거. (2) 라벨 없는 선형 브리지로 새 head(R6)와 거의 같은 수준 복구. fold0는 R6와 −.009/−.013 AP 차이, fold1은 Procrustes가 R6보다 −.020. (3) 평균 이동은 무용 → 채널 회전이 본질(M1의 Procrustes 부분 성공과 일치). (4) 동결 임계값에서 affine의 IoU 저하(fold1 .504)는 보정 이동 → FP-matched로는 .519. 배포 시 임계 재보정 필요.
+- 말할 수 없는 것: 8폴드 확증 전, 다른 과업·다른 family(Clay v1→v1.5) 전, 인덱스(검색) 유지율은 4,000 토큰 표본이라 M1의 216장면 sealed 결과와 직접 비교 불가.
