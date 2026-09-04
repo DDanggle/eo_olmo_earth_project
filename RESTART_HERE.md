@@ -1,4 +1,5 @@
 # OLMoEarth 연구 재시작 지점
+> **2026-09-04 갱신**: 큰 그림은 `docs/BIG_PICTURE_2026_09_04.md`(버전 전환 연속성 벤치마크 + A 브리지 + OlmoEarth-KR + FoldRefresh + C). 실행 중: Clay v0(탐색), A 체인(`logs/release_chain.log`).
 
 갱신: 2026-09-04
 활성 과학 기준점: **MS-96/97 + MS-98/99 + Earth Embedding Continuity A/B/C 설계**
