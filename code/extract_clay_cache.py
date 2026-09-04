@@ -11,6 +11,7 @@ import numpy as np, torch, torch.nn.functional as F, yaml
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
 sys.path.insert(0,"/home/work/data/olmoearth/third_party/pydeps"); sys.path.insert(0,"/home/work/data/olmoearth/third_party/clay")
 from claymodel.module import ClayMAEModule
+_ap=argparse.ArgumentParser(); _ap.add_argument("--grid",default="up32",choices=["up32","native16"]); _ap.add_argument("--temporal",default="mean",choices=["mean","last"]); _ap.add_argument("--out",default=None); _a=_ap.parse_args()
 ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/"sen12_pilot/holdout_chimanimani"; OUT=(ROOT/_a.out) if _a.out else ROOT/"clay_cache"; NC=Path("/home/work/data/sen12landslides/extracted")
 CK="/home/work/data/clay/clay-v1.5.ckpt"; META="/home/work/data/olmoearth/third_party/clay/configs/metadata.yaml"
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
