@@ -4631,3 +4631,6 @@ content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비
 - 등록 게이트 판정: better_than_naive(브리지−R1 ≥ .01, ≥6/8) **8/8 통과**. compatibility(AP ±.02 이내 AND IoU 상대 5% 이내, ≥6/8) **Procrustes 2/8, affine 2/8 불통과**(AP만 보면 3/8). cost(브리지 적합 CPU 수 초 vs 전량 재임베딩) 통과.
 - 읽기: 라벨 없는 선형 브리지는 "붕괴 → 대부분 복구"(AP .015 → .90, R0의 97.6%)이지만, **옛 head와 동등**(±.02)까지는 못 감. 잔여 손실 AP −.02~−.05, IoU −.03~−.13(fold4). 즉 선형 사상으로 잡히지 않는 릴리스 간 차이가 있음. 등록 규칙대로 R5 공간 스티치(3×3 depthwise + 1×1 residual, 아키텍처·손실 커밋 후 실행)가 다음 arm. R6 새 head(2폴드에서 .974/.901)와의 격차도 R5의 목표.
 - 말할 수 있는 것: 릴리스 전환에서 "그대로 쓰기"는 전멸, 회전 브리지가 대부분 복구, 평균 이동은 무용. 말할 수 없는 것: "재학습 없이 동등". 그것은 R5 또는 릴리스 쪽 패치가 보여야 함.
+
+## B-v1 보정 (2026-09-04) — 공용 캐시 디코더 학습기 `code/cache_decoder_train.py`가 봉인 pilot의 P4를 재현함
+- OlmoEarth 32×32, holdout_hiroshima, 시드1: 새 학습기 test positive-patch macro IoU **.300** / micro IoU .358 vs 봉인 pilot 시드1 **.309** / .391(pilot 시드 3개 .236/.290/.309). 시드 잡음 안 → 16×16·8×8 캐시 진단(addendum_v1a)에 사용 가능. 단 pilot과 동일 코드가 아니므로 헤드라인 수치는 항상 pilot 산출을 씀.
