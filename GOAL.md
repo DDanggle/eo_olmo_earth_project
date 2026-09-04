@@ -3243,3 +3243,9 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - Task-2 전량 확정 3,561 윈도우(추가 용량은 S1/Landsat/GSE). 8폴드 봉인(각 ~430, 양성 159–328). 캐시 추출 1차 전멸 원인 = 밴드 그룹별 해상도(10/20/40 m) 미고려 → 그룹별 격자 크롭+리샘플로 수정, 재실행.
 - MS-98: Task-2 태양광 zero-target 재현 8/8 (P4 .593 vs P2 .333, 최소 +.21). few-shot 헤드라인 체인 09:40 시작(fu→random→fe).
 - MS-99: Task-2 few-shot 재현 — 층화 8/8·8/8, fe 8/8·8/8, A4h 대비 8/8; random K5 불통과(양성 0 draw 12/24 → A1 붕괴) → K=5 기본값 A0 규칙 실증. 결정 지도 갱신.
+
+### 2026-09-04 — 두 번째 FM(Clay v1.5) 캐시 실험 착수
+- 등록: `config/second_fm_cache_prereg_v0.json`(Clay 우선, AlphaEarth 제품 비교, Prithvi 감도; 동일 디코더·폴드·지표; 판정 규칙 사전 고정).
+- 서버 세션 자동 회수(6h 유휴) 발견 → `nx up` 으로 복구, 데이터 무손실.
+- Clay v1.5(dim 1024, patch 8) 클론·가중치(5.2 GB) 수신·python-box 의존성 해결. Sen12 6,834타일 캐시 추출 중(시점별 인코딩→평균→32×32).
+- 체인: 캐시 감사 통과 → P4-style decoder 8폴드×3시드(`run_clay_source.sh`, 스냅샷) 자동. 이후 few-shot(A0/A1 on Clay) 예정.
