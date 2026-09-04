@@ -98,3 +98,8 @@ rsync -a ~/dong/ai_projects/data/gk2a/  <서버>:/home/work/data/olmoearth/gk2a/
 README 배너는 scheduler가 아니다. launchd/별도 상시 호스트, 마지막 성공시각 alert, 원격 replica,
 KMA archive recovery drill은 아직 없다. 따라서 현재 상태는 **2일치 완전 수집 + 수동 운영**이지
 무인 production pipeline이 아니다.
+
+## 2026-09-04 갱신 — 자동화 등록
+- 2026-08-28 ~ 09-01 **5일 미수집**(수동 실행이 끊김). 경량화 endpoint 창(D-2)을 넘어 이 경로로는 복구 불가. 대체 archive(API Hub L2/NetCDF)에서의 동일성은 미감사.
+- 09-02·09-03은 오늘 `--gaps`로 보충함(결과는 `~/Library/Logs/gk2a/daily.log`).
+- launchd 등록: `~/Library/LaunchAgents/kr.dgyi.gk2a.daily.plist` → `bin/gk2a_daily.sh`, 매일 09:30·21:30(놓친 회차 대비 하루 2회, 멱등). 맥이 꺼져 있으면 실행 안 됨 → 이틀 연속 꺼두면 손실. 확인: `launchctl list | grep gk2a`, `tail ~/Library/Logs/gk2a/daily.log`.
