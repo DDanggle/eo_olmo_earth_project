@@ -31,7 +31,7 @@ def embed_crop(crop,ts):
     return pooled
 def embed(sid):
     raw=np.load(SRC/"raw_u16"/f"{sid}.npy").astype("float32"); T=raw.shape[1]; cube=np.zeros((12,T,128,128),dtype="float32"); cube[:10]=raw
-    ts=[datetime(2020,int(m)+1,1)+timedelta(days=1+i) for i,m in enumerate(months.get(sid,[0]*T)[:T])]  # unique, month-correct; feat=None
+    ts=[datetime(2020,int(m)+1,1)+timedelta(days=1+i) for i,m in enumerate(months.get(sid,[0]*T)[:T])]; feat=None
     for y0,x0 in ((0,0),(0,64),(64,0),(64,64)):
         f=embed_crop(np.ascontiguousarray(cube[:,:,y0:y0+64,x0:x0+64]),ts)
         if feat is None: feat=torch.empty((f.shape[0],32,32))
