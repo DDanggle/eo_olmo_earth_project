@@ -146,3 +146,5 @@ commit하면 사전등록이 아니다.
 
 공식 Ai2 checkout `..`에는 사용자 수정이 남아 있다. 연구 재시작 작업에서
 `olmoearth_run_data/forest_loss_driver/{dataset.json,model.yaml}`과 `.pnpm-store/`를 건드리지 않는다.
+
+> **2026-09-05 18:30 추가**: 서버 체인 `code/arch_axes_chain.sh`(`logs/arch_axes.log`, 끝 표시 `ARCH_AXES_DONE`) — 아키텍처 축 7캐시(olmo_nano/tiny/base_half, galileo_nano/tiny/base_half, clay_in256_half) → 8폴드 디코더. 표: `code/bv1_summary.py`에 캐시 이름 추가해 실행. 가설·판독 규칙: `config/second_fm_cache_prereg_v1_draft.json` addendum_v1b.
