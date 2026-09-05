@@ -1,4 +1,27 @@
 # OLMoEarth 연구 재시작 지점
+> ## 2026-09-05 인수인계 (다른 컴퓨터에서 이어가기)
+>
+> **중심 질문(확정)**: 하나의 OlmoEarth 표현(캐시)을 여러 task·새 지역에서 0/5/20장 라벨로 재사용할 수 있는가. 버전 마이그레이션(A)은 부록. `docs/BIG_PICTURE_2026_09_04.md` + 이 절이 SSOT.
+>
+> **확정된 결과(장부 MEASURED_FINDINGS.md)**: M65·MS-98 재사용 우위(산사태 6/8, 태양광 8/8) · MS-96/97/99 few-shot A1>raw 16/16(단 A1>A0는 5/8·5/8) · C0-dev(안전정책 개발화면) · MS-100(브리지: identity 붕괴 AP .02→.90 복구, 동등 게이트 2/8 불통과, R5 무익, v1.1 동일) · MS-101/102(Clay·Galileo·Prithvi 캐시는 raw에 짐, OlmoEarth만 통과; 해상도는 부분 원인; 추출 코드 감사 통과) · M104(한국 큐브 v2 파일럿 통과).
+>
+> **서버(ainexus h200-dev, `./bin/nx`만 사용, GPU1만)에서 돌고 있는 것(9/5 14:00 KST 기준)**
+> - `logs/bv1_chain.log` ← `code/bv1_chain4.sh`: Galileo 그룹-concat readout 캐시(`galileo_cache_groupcat`) 추출 → 8폴드 디코더. 끝 표시 `BV1_CHAIN4_DONE`. 결과 표: `env -u PYTHONPATH ./.venv-master/bin/python code/bv1_summary.py`.
+> - `logs/aihub_v2_full.log` ← `code/aihub_v2_full_chain.sh`: 한국 AI-Hub 큐브 v2 전량 물질화 4샤드(`aihub/s2_12band_v2_shard{0..3}`) → 병합 → 전수 감사(`aihub/s2_12band_v2/audit_full.json`). 끝 표시 `AIHUB_V2_FULL_DONE`. 예상 ~12시간(네트워크 병목).
+> - 로컬 맥 launchd(09:30/21:30) + GitHub Actions(`DDanggle/gk2a-archive`, 09:40/21:40 KST): GK2A 일일 수집. 상태 `gh run list -R DDanggle/gk2a-archive`.
+>
+> **다른 컴퓨터에서 시작하기**
+> 1. `git clone git@github.com:DDanggle/eo_olmo_earth_project.git _work` (이 저장소). 서버 접속 CLI는 별도 저장소 `h100-setup`(nexus)이며 `bin/nx`가 그것을 부름. `.env`(API 키)는 저장소에 없음 — 수동 복사.
+> 2. `./bin/nx tunnel up` → `./bin/nx sh 'nvidia-smi'`. 터널이 자주 끊김: `pkill -f "backend.ai app h200-dev sshd"; ./bin/nx tunnel up`.
+> 3. 서버 코드 위치 `/home/work/data/olmoearth/code/` (로컬 `code/`를 `./bin/nx push $PWD/code/<f> olmoearth/code/`로 동기화). 보호 4파일(pilot_sen12_gp_heads.py, sen12_official_baselines.py, extract_sen12_fold_cache.py, audit_sen12_fold_cache.py)은 확증 실행 중 푸시 금지.
+> 4. 원격 명령 안에서 `pkill -f "<스크립트명>"`은 자기 셸까지 죽임 → `pgrep -f "^bash code/<name>"` 또는 `^\./\.venv-master/bin/python code/<name>` 패턴으로.
+>
+> **다음 순서(등록됨)**
+> 1. Galileo groupcat 결과 → MS-102 유지/수정 기록.
+> 2. v2 전수 감사 → 제외율·희소 class 편향 보고 → 칩 격자·OlmoEarth v1 캐시(10밴드 view) 1회 추출·해시.
+> 3. `config/korea_shared_cache_3task_prereg_v0.json` 확정 커밋 → 라벨 1회 개봉 → O0/O1/R0/R1/FULL × 3 task × K=5/20 × 3시드.
+> 4. 중단 규칙: 5주차 말(10월 초)까지 한국 곡선 없으면 KR 계속-사전학습은 "열린 문제"로 하향.
+>
 > **2026-09-04 갱신**: 큰 그림은 `docs/BIG_PICTURE_2026_09_04.md`(버전 전환 연속성 벤치마크 + A 브리지 + OlmoEarth-KR + FoldRefresh + C). 실행 중: Clay v0(탐색), A 체인(`logs/release_chain.log`).
 
 갱신: 2026-09-04
