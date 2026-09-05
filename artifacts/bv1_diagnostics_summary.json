@@ -1,0 +1,602 @@
+{
+ "schema": "bv1-diagnostics-summary-v1",
+ "status": "single seed diagnostics (addendum_v1a); not headline",
+ "rows": {
+  "olmo_cache_pool16": {
+   "holdout_hiroshima": {
+    "iou": 0.2053525447845459,
+    "micro": 0.2976592183113098,
+    "ap": 0.40769432697006114,
+    "best_epoch": 38,
+    "shape": [
+     768,
+     16,
+     16
+    ]
+   },
+   "holdout_hokkaido": {
+    "iou": 0.35575321316719055,
+    "micro": 0.4073907136917114,
+    "ap": 0.5836208695004501,
+    "best_epoch": 36,
+    "shape": [
+     768,
+     16,
+     16
+    ]
+   },
+   "holdout_indonesia": {
+    "iou": 0.25839999318122864,
+    "micro": 0.24050526320934296,
+    "ap": 0.4027524366307162,
+    "best_epoch": 17,
+    "shape": [
+     768,
+     16,
+     16
+    ]
+   },
+   "holdout_itogon": {
+    "iou": 0.10726439952850342,
+    "micro": 0.1002003625035286,
+    "ap": 0.2074391845876867,
+    "best_epoch": 26,
+    "shape": [
+     768,
+     16,
+     16
+    ]
+   },
+   "holdout_kyrgyzstan1": {
+    "iou": 0.27293655276298523,
+    "micro": 0.27165377140045166,
+    "ap": 0.45962971403330793,
+    "best_epoch": 8,
+    "shape": [
+     768,
+     16,
+     16
+    ]
+   },
+   "holdout_kyrgyzstan2": {
+    "iou": 0.14982327818870544,
+    "micro": 0.11248581856489182,
+    "ap": 0.35855513536852174,
+    "best_epoch": 7,
+    "shape": [
+     768,
+     16,
+     16
+    ]
+   },
+   "holdout_newzealand": {
+    "iou": 0.1248728483915329,
+    "micro": 0.14603708684444427,
+    "ap": 0.3250482171556686,
+    "best_epoch": 23,
+    "shape": [
+     768,
+     16,
+     16
+    ]
+   },
+   "holdout_thrissur": {
+    "iou": 0.2800697982311249,
+    "micro": 0.32423534989356995,
+    "ap": 0.5085272395721003,
+    "best_epoch": 39,
+    "shape": [
+     768,
+     16,
+     16
+    ]
+   }
+  },
+  "clay_cache_native16": {
+   "holdout_hiroshima": {
+    "iou": 0.15197168290615082,
+    "micro": 0.17645326256752014,
+    "ap": 0.2944798183207976,
+    "best_epoch": 12,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_hokkaido": {
+    "iou": 0.1203148290514946,
+    "micro": 0.11764799058437347,
+    "ap": 0.23621025942349455,
+    "best_epoch": 27,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_indonesia": {
+    "iou": 0.24122034013271332,
+    "micro": 0.22916023433208466,
+    "ap": 0.3235703875964354,
+    "best_epoch": 31,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_itogon": {
+    "iou": 0.10670251399278641,
+    "micro": 0.0707826316356659,
+    "ap": 0.09558393899050804,
+    "best_epoch": 27,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_kyrgyzstan1": {
+    "iou": 0.1432397961616516,
+    "micro": 0.1257646679878235,
+    "ap": 0.17465559354099053,
+    "best_epoch": 38,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_kyrgyzstan2": {
+    "iou": 0.14042259752750397,
+    "micro": 0.11590536683797836,
+    "ap": 0.25121601730462695,
+    "best_epoch": 27,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_newzealand": {
+    "iou": 0.17355653643608093,
+    "micro": 0.2220158874988556,
+    "ap": 0.3680480395706983,
+    "best_epoch": 21,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_thrissur": {
+    "iou": 0.16050729155540466,
+    "micro": 0.2064162939786911,
+    "ap": 0.312805086473848,
+    "best_epoch": 14,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   }
+  },
+  "clay_cache_native16_last": {
+   "holdout_hiroshima": {
+    "iou": 0.043205734342336655,
+    "micro": 0.04796485975384712,
+    "ap": 0.04179344203284317,
+    "best_epoch": 32,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_hokkaido": {
+    "iou": 0.11461878567934036,
+    "micro": 0.07564962655305862,
+    "ap": 0.08404916873218293,
+    "best_epoch": 27,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_indonesia": {
+    "iou": 0.1563410460948944,
+    "micro": 0.16847722232341766,
+    "ap": 0.22555342715082213,
+    "best_epoch": 31,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_itogon": {
+    "iou": 0.056590065360069275,
+    "micro": 0.027341611683368683,
+    "ap": 0.08143073214441504,
+    "best_epoch": 11,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_kyrgyzstan1": {
+    "iou": 0.1149476021528244,
+    "micro": 0.09107016772031784,
+    "ap": 0.10615678723900915,
+    "best_epoch": 8,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_kyrgyzstan2": {
+    "iou": 0.08720114082098007,
+    "micro": 0.07280360162258148,
+    "ap": 0.13130086240714905,
+    "best_epoch": 17,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_newzealand": {
+    "iou": 0.1521012932062149,
+    "micro": 0.12122481316328049,
+    "ap": 0.1681268497442586,
+    "best_epoch": 16,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   },
+   "holdout_thrissur": {
+    "iou": 0.15371842682361603,
+    "micro": 0.14730462431907654,
+    "ap": 0.1927535069769559,
+    "best_epoch": 8,
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   }
+  },
+  "galileo_cache": {
+   "holdout_hiroshima": {
+    "iou": 0.16705113649368286,
+    "micro": 0.17517346143722534,
+    "ap": 0.3138345500046057,
+    "best_epoch": 12,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "holdout_hokkaido": {
+    "iou": 0.19931234419345856,
+    "micro": 0.1590871512889862,
+    "ap": 0.2033532151505317,
+    "best_epoch": 28,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "holdout_indonesia": {
+    "iou": 0.2320389747619629,
+    "micro": 0.21855217218399048,
+    "ap": 0.3323453090162,
+    "best_epoch": 31,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "holdout_itogon": {
+    "iou": 0.05405164510011673,
+    "micro": 0.03293324634432793,
+    "ap": 0.17098248224399212,
+    "best_epoch": 26,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "holdout_kyrgyzstan1": {
+    "iou": 0.09750080853700638,
+    "micro": 0.07649557292461395,
+    "ap": 0.07935533255310051,
+    "best_epoch": 23,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "holdout_kyrgyzstan2": {
+    "iou": 0.10776617377996445,
+    "micro": 0.07820616662502289,
+    "ap": 0.1892098634982824,
+    "best_epoch": 24,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "holdout_newzealand": {
+    "iou": 0.1373928040266037,
+    "micro": 0.17213007807731628,
+    "ap": 0.22924917460783742,
+    "best_epoch": 33,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "holdout_thrissur": {
+    "iou": 0.22808969020843506,
+    "micro": 0.1947154849767685,
+    "ap": 0.40813922555815735,
+    "best_epoch": 26,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   }
+  },
+  "prithvi_cache": {
+   "holdout_hiroshima": {
+    "iou": 0.014475980773568153,
+    "micro": 0.02968398481607437,
+    "ap": 0.036852640737015024,
+    "best_epoch": 9,
+    "shape": [
+     1024,
+     8,
+     8
+    ]
+   },
+   "holdout_hokkaido": {
+    "iou": 0.06043139845132828,
+    "micro": 0.0815306082367897,
+    "ap": 0.09693461718395785,
+    "best_epoch": 9,
+    "shape": [
+     1024,
+     8,
+     8
+    ]
+   },
+   "holdout_indonesia": {
+    "iou": 0.03371667116880417,
+    "micro": 0.04102981463074684,
+    "ap": 0.08032185520940173,
+    "best_epoch": 6,
+    "shape": [
+     1024,
+     8,
+     8
+    ]
+   },
+   "holdout_itogon": {
+    "iou": 0.008327952586114407,
+    "micro": 0.008297662250697613,
+    "ap": 0.007481453394052277,
+    "best_epoch": 5,
+    "shape": [
+     1024,
+     8,
+     8
+    ]
+   },
+   "holdout_kyrgyzstan1": {
+    "iou": 0.01456846110522747,
+    "micro": 0.03510565310716629,
+    "ap": 0.03568015287229945,
+    "best_epoch": 29,
+    "shape": [
+     1024,
+     8,
+     8
+    ]
+   },
+   "holdout_kyrgyzstan2": {
+    "iou": 0.009366895072162151,
+    "micro": 0.010616790503263474,
+    "ap": 0.010813096019886413,
+    "best_epoch": 4,
+    "shape": [
+     1024,
+     8,
+     8
+    ]
+   },
+   "holdout_newzealand": {
+    "iou": 0.0536595843732357,
+    "micro": 0.08440684527158737,
+    "ap": 0.10984069927966635,
+    "best_epoch": 3,
+    "shape": [
+     1024,
+     8,
+     8
+    ]
+   },
+   "holdout_thrissur": {
+    "iou": 0.002108145970851183,
+    "micro": 0.005534320138394833,
+    "ap": 0.019722694200874004,
+    "best_epoch": 4,
+    "shape": [
+     1024,
+     8,
+     8
+    ]
+   }
+  },
+  "clay_cache_in256": {
+   "holdout_hiroshima": {
+    "iou": 0.18934094905853271,
+    "micro": 0.17378313839435577,
+    "ap": 0.5224597621520377,
+    "best_epoch": 12,
+    "shape": [
+     1024,
+     32,
+     32
+    ]
+   },
+   "holdout_hokkaido": {
+    "iou": 0.25304117798805237,
+    "micro": 0.22395673394203186,
+    "ap": 0.28784103211324935,
+    "best_epoch": 15,
+    "shape": [
+     1024,
+     32,
+     32
+    ]
+   },
+   "holdout_indonesia": {
+    "iou": 0.30192920565605164,
+    "micro": 0.25473111867904663,
+    "ap": 0.38775464508961704,
+    "best_epoch": 31,
+    "shape": [
+     1024,
+     32,
+     32
+    ]
+   },
+   "holdout_itogon": {
+    "iou": 0.09830392897129059,
+    "micro": 0.06792302429676056,
+    "ap": 0.15300225676665358,
+    "best_epoch": 25,
+    "shape": [
+     1024,
+     32,
+     32
+    ]
+   },
+   "holdout_kyrgyzstan1": {
+    "iou": 0.18485459685325623,
+    "micro": 0.1381535679101944,
+    "ap": 0.20833655739320917,
+    "best_epoch": 24,
+    "shape": [
+     1024,
+     32,
+     32
+    ]
+   },
+   "holdout_kyrgyzstan2": {
+    "iou": 0.1280948966741562,
+    "micro": 0.08705175668001175,
+    "ap": 0.28385942204833703,
+    "best_epoch": 18,
+    "shape": [
+     1024,
+     32,
+     32
+    ]
+   },
+   "holdout_newzealand": {
+    "iou": 0.19051063060760498,
+    "micro": 0.23874016106128693,
+    "ap": 0.3652910176693273,
+    "best_epoch": 28,
+    "shape": [
+     1024,
+     32,
+     32
+    ]
+   },
+   "holdout_thrissur": {
+    "iou": 0.21478582918643951,
+    "micro": 0.2907564640045166,
+    "ap": 0.46541240664078337,
+    "best_epoch": 21,
+    "shape": [
+     1024,
+     32,
+     32
+    ]
+   }
+  }
+ },
+ "verdict": {
+  "olmo_cache_pool16": {
+   "n": 8,
+   "macro": 0.21930907852947712,
+   "raw_macro_same_folds": 0.196558375,
+   "olmo_macro_same_folds": 0.27216575,
+   "beats_raw": 4,
+   "beats_olmo": 0,
+   "rule_beats_raw_ge6of8": false
+  },
+  "clay_cache_native16": {
+   "n": 8,
+   "macro": 0.1547419484704733,
+   "raw_macro_same_folds": 0.196558375,
+   "olmo_macro_same_folds": 0.27216575,
+   "beats_raw": 1,
+   "beats_olmo": 0,
+   "rule_beats_raw_ge6of8": false
+  },
+  "clay_cache_native16_last": {
+   "n": 8,
+   "macro": 0.10984051181003451,
+   "raw_macro_same_folds": 0.196558375,
+   "olmo_macro_same_folds": 0.27216575,
+   "beats_raw": 0,
+   "beats_olmo": 0,
+   "rule_beats_raw_ge6of8": false
+  },
+  "galileo_cache": {
+   "n": 8,
+   "macro": 0.15290044713765383,
+   "raw_macro_same_folds": 0.196558375,
+   "olmo_macro_same_folds": 0.27216575,
+   "beats_raw": 1,
+   "beats_olmo": 0,
+   "rule_beats_raw_ge6of8": false
+  },
+  "prithvi_cache": {
+   "n": 8,
+   "macro": 0.02458188618766144,
+   "raw_macro_same_folds": 0.196558375,
+   "olmo_macro_same_folds": 0.27216575,
+   "beats_raw": 0,
+   "beats_olmo": 0,
+   "rule_beats_raw_ge6of8": false
+  },
+  "clay_cache_in256": {
+   "n": 8,
+   "macro": 0.19510765187442303,
+   "raw_macro_same_folds": 0.196558375,
+   "olmo_macro_same_folds": 0.27216575,
+   "beats_raw": 4,
+   "beats_olmo": 1,
+   "rule_beats_raw_ge6of8": false
+  }
+ }
+}

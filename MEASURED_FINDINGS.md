@@ -4634,3 +4634,25 @@ content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비
 
 ## B-v1 보정 (2026-09-04) — 공용 캐시 디코더 학습기 `code/cache_decoder_train.py`가 봉인 pilot의 P4를 재현함
 - OlmoEarth 32×32, holdout_hiroshima, 시드1: 새 학습기 test positive-patch macro IoU **.300** / micro IoU .358 vs 봉인 pilot 시드1 **.309** / .391(pilot 시드 3개 .236/.290/.309). 시드 잡음 안 → 16×16·8×8 캐시 진단(addendum_v1a)에 사용 가능. 단 pilot과 동일 코드가 아니므로 헤드라인 수치는 항상 pilot 산출을 씀.
+
+## MS-102 (2026-09-05) — B-v1 진단(시드 1, 8확증 폴드): **시험한 4개 family 중 캐시 가치가 있는 표현은 OlmoEarth뿐**. 해상도는 원인의 일부, 전부가 아님
+- 무엇: addendum_v1a 등록 진단. 공용 디코더 학습기(pilot 레시피 재구현, 보정 통과) · 시드 1 · positive-patch macro IoU@0.5. 기준: 봉인 pilot OlmoEarth P4(3시드 평균)와 raw P2(raw_strong). `artifacts/bv1_diagnostics_summary.json`, `bv1_runs/`.
+
+| 캐시 | 격자 | macro | > raw(.197) | > OlmoEarth(.272) |
+|---|---|---|---|---|
+| OlmoEarth 2×2 풀링 | 16×16 (80 m) | .219 | 4/8 | 0/8 |
+| Clay v1.5 native, 시점 평균 | 16×16 | .155 | 1/8 | 0/8 |
+| Clay v1.5 native, 마지막 시점 | 16×16 | .110 | 0/8 | 0/8 |
+| **Clay v1.5, 입력 256px 업샘플** | 32×32 | **.195** | 4/8 | 1/8 |
+| **Galileo base(시계열 native, S2)** | 32×32 | **.153** | 1/8 | 0/8 |
+| Prithvi-EO-2.0(HLS 계약 이동) | 8×8 | .025 | 0/8 | 0/8 |
+
+- 판독(등록 규칙): (1) OlmoEarth를 80 m로 풀면 .272→.219, raw 우위 4/8 → 토큰 해상도가 격차의 큰 부분. (2) Clay를 32×32로 맞추면 .155→.195로 회복돼 raw와 동률(4/8)이나 OlmoEarth에 −.077. (3) 시점 평균은 도움(마지막 시점 .110). (4) **Galileo는 같은 32×32·12시점 native인데도 .153으로 raw에 짐** → "시계열 native 계열이면 된다"는 실마리는 **기각**. (5) Prithvi는 계약 이동으로 무의미(등록대로 family 증거로 세지 않음).
+- 결론: 시험 범위(Clay·Galileo·Prithvi) 안에서 cache-first는 **OlmoEarth 특이**. 원인 후보로 남는 것: 사전학습 데이터·목적(stable latent), 토큰 풀링 방식. 해상도·시계열은 필요조건이지 충분조건이 아님.
+- 말할 수 없는 것: 시드 1개. Galileo는 S2 단독 입력(S1·기상 결측 마스킹)이라 native 조건보다 불리할 수 있음(단, 제품으로서의 조건은 동일). Clay in256는 gsd 선언 10 m 그대로.
+- 논문에 대한 의미: "캐시를 써라"는 일반 명제가 아님 → **"어느 표현이 캐시 가치가 있는지 라벨 없이 판별하는 것"**이 벤치마크·정책의 핵심 열이 됨. OlmoEarth 우위 자체는 Ai2에 유리한 발견이지만 원인은 미확정.
+
+## MS-100-R5 / MS-103 (2026-09-05) — R5 공간 스티치는 R4에 더하는 것이 없음(.901 = .901). v1→v1.1도 동일 그림(identity .027, 브리지 .90)
+- R5(등록 아키텍처 d53959c): 8폴드 macro AP .901(R4 .901, R3 .903), 엄격 게이트 2/8(동일). 등록 규칙대로 **"exact-scene 선형/공간 브리지로는 동등 불가"** 기록. 잔여 −.02~−.05 AP는 비선형 또는 새 head 필요.
+- v1.1(task2_cache_v11, 동일 3,434칩): identity AP .027, R3 .908 / R4 .900 / R5 .902, 엄격 게이트 1/8. **릴리스 거리가 짧아도(v1→v1.1) 붕괴·복구 폭이 같음** → 호환성은 "얼마나 바뀌었나"보다 "좌표계가 바뀌었나"의 문제. (v1.1 표의 R6 열은 v1.2 head를 잘못 로드한 값이라 무효.)
+- `artifacts/release_migration/{r5_8fold,v11_8fold}/gate_summary.json`.
