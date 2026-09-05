@@ -4660,3 +4660,8 @@ content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비
 ## MS-102-감사 (2026-09-05) — "Clay·Galileo가 그럴 리 없다"에 대한 코드 감사: 추출 버그 없음
 - `code/audit_second_fm_caches.py`, `artifacts/second_fm_cache_audit.json`. 라벨 없이 확인: (1) Galileo 입력은 라이브러리 정규화(사전학습 통계, DN 스케일 S2 평균 1,395–2,750 ↔ 우리 raw 평균 1,610) 통과, 5/7 그룹 seen(S1·NDVI 마스크), 월 0–11, exit layernorm. 토큰 공간 구조 정상(인접 코사인 .885 vs 무작위 .372), 죽은 채널 0. (2) Clay 입력은 metadata 평균/표준편차(DN), 파장·gsd·시간·위경도 튜토리얼 규약; 상수 채널 58/1024(모델 특성), 인접 .88 vs 무작위 .50. (3) Prithvi는 토큰이 거의 붕괴(무작위 코사인 .77) — 등록대로 계약 이동 감도.
 - 남은 의심 하나: Galileo 토큰을 5개 밴드그룹·12시점에 대해 **단순 평균**한 readout이 정보를 뭉갰을 가능성. OlmoEarth는 모델 내부의 학습된 풀링(token_pooling)을 씀. → 그룹 concat(3840채널) readout을 등록·실행 중(`galileo_cache_groupcat`). 이것도 raw에 지면 MS-102 결론 유지.
+
+## M104 (2026-09-05) — AI-Hub 큐브 v2 층화 파일럿 40: 39 생성(공통 커버리지 최소 .99999) + 1 fail-closed 제외, 검사 실패 0
+- 계약 `docs/AIHUB_CUBE_V2_CONTRACT.md` 게이트 1–3. 선택: v1 심각(all-band-zero ≥10%) 20 + 정상(<0.1%) 20, (날짜,플랫폼) 분산, seed 0(`aihub/s2_12band_v2/pilot40_selection.json`). 감사 `audit_aihub_v2.py` → `audit_pilot40.json`: 플랫폼 일치·12밴드·(12,1024,1024) uint16·커버리지 ≥.999 모두 통과, p05 커버리지 .999998. 제외 1건은 `insufficient_common_coverage`(모자이크로도 99.9% 미달) — v1이라면 0으로 채워 "성공"으로 세었을 사례.
+- 게이트 2 문구는 "40/40"인데 실제는 39 생성 + 1 결정론 제외. 임계값을 낮추지 않았고 제외는 계약이 요구하는 fail-closed 동작이므로 전량 실행으로 진행함. 단 이 해석을 여기 기록하고, 전량 제외율이 높으면 규칙 5대로 v2 결과로 남기고 v3 계약을 새로 씀. 앞서 돌린 비층화 스모크 40(38 생성·2 `no_stac_item`)은 게이트 판정에 쓰지 않음.
+- 전량 2,699 관측쌍 물질화 시작(`logs/aihub_v2_full.log`, 완료 후 전수 감사 자동).
