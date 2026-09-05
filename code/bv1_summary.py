@@ -3,7 +3,7 @@ import json, glob, numpy as np
 from pathlib import Path
 ROOT=Path("/home/work/data/olmoearth"); ref={x["fold"]:x["primary_mean"] for x in json.load(open(ROOT/"artifacts/confirmatory_8region_summary.json"))["regions"]}
 folds=["holdout_hiroshima","holdout_hokkaido","holdout_indonesia","holdout_itogon","holdout_kyrgyzstan1","holdout_kyrgyzstan2","holdout_newzealand","holdout_thrissur"]
-caches=["olmo_cache_pool16","clay_cache_native16","clay_cache_native16_last","galileo_cache","prithvi_cache","clay_cache_in256"]
+caches=["olmo_cache_pool16","clay_cache_native16","clay_cache_native16_last","galileo_cache","prithvi_cache","clay_cache_in256","galileo_cache_groupcat"]
 out={"schema":"bv1-diagnostics-summary-v1","status":"single seed diagnostics (addendum_v1a); not headline","rows":{},"verdict":{}}
 for c in caches:
     r={}

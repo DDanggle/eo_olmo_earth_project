@@ -83,7 +83,8 @@
       "clay_cache_native16_last": "Clay v1.5 native 16x16, last timestep only (temporal-pooling sensitivity)",
       "galileo_cache": "Galileo base (nasaharvest, ICML 2025) S2-only, T=12 native, patch 4 -> 768x32x32, 4x64px tiling as OlmoEarth",
       "prithvi_cache": "Prithvi-EO-2.0-300M (temporal 3D-patch ViT), 6 S2 bands mapped to HLS order at 10 m (contract shift acknowledged), T=4 (indices 1,4,7,10 of 12), patch (1,16,16) -> 1024x8x8; decoder G=8 (8->16->32->128, identical params)",
-      "clay_cache_in256": "Clay v1.5 with the 128 px tile bilinearly upsampled to 256 px before encoding (input-side adapter; gsd still declared 10 m), native 32x32 tokens, mean over 12 timesteps -> 1024x32x32 (resolution-matched to OlmoEarth)"
+      "clay_cache_in256": "Clay v1.5 with the 128 px tile bilinearly upsampled to 256 px before encoding (input-side adapter; gsd still declared 10 m), native 32x32 tokens, mean over 12 timesteps -> 1024x32x32 (resolution-matched to OlmoEarth)",
+      "galileo_cache_groupcat": "Galileo base, mean over T but the 5 seen S2 band-group tokens concatenated (3840x32x32) instead of averaged; readout sensitivity — tests whether naive group averaging (not the representation) caused the Galileo deficit"
     },
     "readout": {
       "olmo_pool16_still_beats_raw_>=6/8": "token resolution is not the reason Clay v0 failed",
@@ -96,6 +97,13 @@
     },
     "raw_reference": "raw_strong P2 per fold from artifacts/confirmatory_8region_summary.json",
     "status": "REGISTERED_AT_COMMIT_before_any_diagnostic_metric_is_read",
-    "first_result_note": "olmo_cache_pool16 (6 folds, seed 1): macro .225 vs 32x32 .263 same folds, beats raw 3/6 -> token resolution alone removes most of the OlmoEarth margin; read before Clay native results, recorded here for honesty"
+    "first_result_note": "olmo_cache_pool16 (6 folds, seed 1): macro .225 vs 32x32 .263 same folds, beats raw 3/6 -> token resolution alone removes most of the OlmoEarth margin; read before Clay native results, recorded here for honesty",
+    "extraction_audit_2026_09_05": {
+      "file": "artifacts/second_fm_cache_audit.json",
+      "galileo": "input scale matches Galileo pretraining stats (DN; S2 means ~1400-2750), 5/7 groups seen (S1, NDVI masked), months 0-11, layernorm on exit; token spatial autocorrelation present (adjacent cos .885 vs random .372); no dead channels",
+      "clay": "metadata mean/std in DN (blue 1105 ...), waves/gsd/time/latlon per tutorial; 58/1024 constant channels; adjacent cos .88 vs random .50",
+      "prithvi": "tokens near-collapsed (random cos .77) — contract shift (30 m model on 10 m) as registered",
+      "verdict": "no extraction bug found; MS-102 stands, pending the groupcat readout sensitivity"
+    }
   }
 }

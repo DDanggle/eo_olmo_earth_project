@@ -4,7 +4,7 @@ Output per tile: mean over T and over seen S2 band-group tokens -> (D,32,32) fp1
 import argparse, os, sys, json
 from pathlib import Path
 import numpy as np, torch
-ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base"); ap.add_argument("--patch",type=int,default=4); ap.add_argument("--out",default="galileo_cache"); ap.add_argument("--probe",action="store_true"); a=ap.parse_args()
+ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base"); ap.add_argument("--patch",type=int,default=4); ap.add_argument("--out",default="galileo_cache"); ap.add_argument("--probe",action="store_true"); ap.add_argument("--readout",default="mean",choices=["mean","groupcat"],help="mean: average over T and seen groups (768); groupcat: average over T, concatenate the 5 seen S2 groups (3840)"); a=ap.parse_args()
 sys.path.insert(0,"/home/work/data/olmoearth/third_party/pydeps"); sys.path.insert(0,"/home/work/data/olmoearth/third_party/galileo")
 from single_file_galileo import Encoder
 from src.data.utils import construct_galileo_input
@@ -30,7 +30,12 @@ def embed(sid):
         out=enc(*args, torch.stack([m.months for m in ms]).to(dev).long(), patch_size=a.patch)
     s_t_x,s_t_m=out[0].float(),out[4]
     if a.probe: print("space_time_x",tuple(s_t_x.shape),"mask uniq",torch.unique(s_t_m).tolist(),flush=True); return None
-    keep=(s_t_m==0).unsqueeze(-1).float(); tok=((s_t_x*keep).sum(dim=(3,4))/keep.sum(dim=(3,4)).clamp(min=1)).permute(0,3,1,2).cpu()   # (4,D,16,16)
+    keep=(s_t_m==0).unsqueeze(-1).float()
+    if a.readout=="groupcat":
+        seen=[gi for gi in range(s_t_m.shape[4]) if bool((s_t_m[...,gi]==0).all())]
+        tok=torch.cat([s_t_x[:,:,:,:,gi,:].mean(3) for gi in seen],dim=-1).permute(0,3,1,2).cpu()   # (4,5*D,16,16)
+    else:
+        tok=((s_t_x*keep).sum(dim=(3,4))/keep.sum(dim=(3,4)).clamp(min=1)).permute(0,3,1,2).cpu()   # (4,D,16,16)
     g=64//a.patch; feat=torch.empty((tok.shape[1],128//a.patch,128//a.patch))
     for k,(y0,x0) in enumerate(((0,0),(0,64),(64,0),(64,64))): feat[:,y0//a.patch:y0//a.patch+g,x0//a.patch:x0//a.patch+g]=tok[k]
     return feat.numpy().astype("float16")
@@ -47,5 +52,5 @@ for sid in (ids[:2] if a.probe else ids):
 if a.probe: sys.exit(0)
 fs=sorted((OUT/"emb_fp16").glob("*.npy")); arr=np.load(fs[0],mmap_mode="r")
 audit={"schema":"galileo-cache-audit-v1","model":f"Galileo {a.size}","patch":a.patch,"shape":list(arr.shape),"n_tiles":len(fs),"expected":len(ids),"n_skipped":len(skipped),"skipped":skipped[:30],"all_gates_pass":len(fs)==len(ids) and tuple(arr.shape[1:])==(128//a.patch,128//a.patch),
-       "contract":"S2 10 bands (Galileo order), T=12, months from cache, normalize=True (pretraining stats), other modalities absent/masked; mean over T and seen band-group tokens"}
+       "readout":a.readout,"contract":"S2 10 bands (Galileo order), T=12, months from cache, normalize=True (pretraining stats), other modalities absent/masked; mean over T and seen band-group tokens"}
 (OUT/"galileo_audit.json").write_text(json.dumps(audit,indent=1)); print(json.dumps({k:audit[k] for k in ("all_gates_pass","n_tiles","n_skipped","shape")})); print("GALILEO CACHE DONE")

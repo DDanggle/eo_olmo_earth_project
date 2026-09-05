@@ -4656,3 +4656,7 @@ content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비
 - R5(등록 아키텍처 d53959c): 8폴드 macro AP .901(R4 .901, R3 .903), 엄격 게이트 2/8(동일). 등록 규칙대로 **"exact-scene 선형/공간 브리지로는 동등 불가"** 기록. 잔여 −.02~−.05 AP는 비선형 또는 새 head 필요.
 - v1.1(task2_cache_v11, 동일 3,434칩): identity AP .027, R3 .908 / R4 .900 / R5 .902, 엄격 게이트 1/8. **릴리스 거리가 짧아도(v1→v1.1) 붕괴·복구 폭이 같음** → 호환성은 "얼마나 바뀌었나"보다 "좌표계가 바뀌었나"의 문제. (v1.1 표의 R6 열은 v1.2 head를 잘못 로드한 값이라 무효.)
 - `artifacts/release_migration/{r5_8fold,v11_8fold}/gate_summary.json`.
+
+## MS-102-감사 (2026-09-05) — "Clay·Galileo가 그럴 리 없다"에 대한 코드 감사: 추출 버그 없음
+- `code/audit_second_fm_caches.py`, `artifacts/second_fm_cache_audit.json`. 라벨 없이 확인: (1) Galileo 입력은 라이브러리 정규화(사전학습 통계, DN 스케일 S2 평균 1,395–2,750 ↔ 우리 raw 평균 1,610) 통과, 5/7 그룹 seen(S1·NDVI 마스크), 월 0–11, exit layernorm. 토큰 공간 구조 정상(인접 코사인 .885 vs 무작위 .372), 죽은 채널 0. (2) Clay 입력은 metadata 평균/표준편차(DN), 파장·gsd·시간·위경도 튜토리얼 규약; 상수 채널 58/1024(모델 특성), 인접 .88 vs 무작위 .50. (3) Prithvi는 토큰이 거의 붕괴(무작위 코사인 .77) — 등록대로 계약 이동 감도.
+- 남은 의심 하나: Galileo 토큰을 5개 밴드그룹·12시점에 대해 **단순 평균**한 readout이 정보를 뭉갰을 가능성. OlmoEarth는 모델 내부의 학습된 풀링(token_pooling)을 씀. → 그룹 concat(3840채널) readout을 등록·실행 중(`galileo_cache_groupcat`). 이것도 raw에 지면 MS-102 결론 유지.
