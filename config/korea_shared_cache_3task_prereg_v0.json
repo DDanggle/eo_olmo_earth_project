@@ -1,0 +1,71 @@
+{
+  "schema": "korea-shared-cache-3task-preregistration-v0",
+  "status": "DRAFT_UNTIL_COMMIT; labels sealed; cube v2 pilot gate pending",
+  "date": "2026-09-05",
+  "question": "Does one frozen OlmoEarth embedding cache of Korean 12-band Sentinel-2 cubes serve three tasks (land cover, deforestation, landslide) in new spatial clusters with 0/5/20 labels better than per-task raw models, and what is the amortized cost as tasks are added?",
+  "data": {
+    "source": "AI-Hub 71363, 594 tiles / 2,699 observation pairs, EPSG:32652 10 m 1024 px",
+    "cubes": "AIHUB_CUBE_V2_CONTRACT (mosaic, 12-band common coverage >=99.9%, fail-closed); only experiment_eligible cubes",
+    "split": "M10 frozen AOI-cluster spatial holdout: train C01,C11,C13 (393 tiles) / val C04,C09,C10 (84) / test C02,C03,C05,C06,C07,C08,C12 (113); sha256 in artifacts/aihub71363_spatial_holdout.json",
+    "model_view": "primary = 10-band model view (B01/B09 missing in both Sen12 and Korea); 12-band = OlmoEarth-only sensitivity",
+    "tile_unit": "128 px chips on a fixed grid within each 1024 px tile (64 chips/tile) or full-tile embedding at 32x32 tokens per 128 px — decided before labels are opened (default: 128 px chips, same geometry as Sen12/Solar)"
+  },
+  "tasks": {
+    "T1_land_cover": {
+      "label": "AI-Hub polygons -> pixel mask, classes forest/field/building/road (+background)",
+      "metric": "per-cluster mIoU (4 classes), tie-correct AP per class",
+      "source_head": "none -> O0 not defined; report O1/R1 and full-label references"
+    },
+    "T2_deforestation": {
+      "label": "binary mask (167 labelled tiles in inventory)",
+      "metric": "FP-matched positive-tile macro IoU, AP",
+      "source_head": "none (forest_loss_driver is tile classification, different contract) -> O0 not defined"
+    },
+    "T3_landslide": {
+      "label": "binary mask (90 labelled tiles)",
+      "metric": "FP-matched positive-tile macro IoU, AP",
+      "source_head": "Sen12 P4 (cache) and P2 (raw) confirmatory heads -> O0/R0 defined; this is the external transfer Sen12 -> Korea"
+    }
+  },
+  "arms": {
+    "O0": "frozen cache + source head, 0 Korea labels (T3 only)",
+    "O1": "frozen cache + head adapted with K support chips (A1 protocol: BN frozen, 300 updates, lr 1e-4, stratified support from train clusters)",
+    "R0": "raw source model, 0 labels (T3 only)",
+    "R1": "raw UNet3D adapted with the same K chips (A4w for T3; scratch/floor for T1/T2 since no raw source model)",
+    "FULL_cache": "cache head trained on all train-cluster labels (reference ceiling)",
+    "FULL_raw": "raw UNet3D trained on all train-cluster labels (reference ceiling)"
+  },
+  "K": [
+    5,
+    20
+  ],
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "support_rule": "from train clusters only; query = the 7 test clusters; val clusters for threshold/epoch selection only",
+  "statistical_unit": "test cluster (7) x task; success counted per cluster",
+  "success_rules": {
+    "multi_task_reuse": "O1 - R1 >= +0.01 in >= 5/7 clusters for >= 2 of 3 tasks at K=5 AND same direction at K=20",
+    "external_transfer_T3": "O0 >= R0 in >= 5/7 clusters (Sen12 -> Korea) and O1 > R1 >= 5/7",
+    "cost": "cache computed once; per-task adapter cost, raw bytes re-read, encoder GPU s, cache bytes reported; break-even number of tasks where cache pathway total cost < raw pathway total cost",
+    "no_post_hoc_relaxation": true
+  },
+  "forbidden": [
+    "opening any Korea label before cubes, manifests, chips, source heads and this file are committed and hashed",
+    "using test clusters for any selection",
+    "claiming 'label-free cache-worthiness'"
+  ],
+  "reporting": [
+    "per-task exclusion rate after v2 coverage gate (selection-bias audit, contract gate 6)",
+    "rare-class tile counts per cluster",
+    "one opening only; results recorded whatever the sign"
+  ],
+  "prerequisites": [
+    "AIHUB_CUBE_V2_CONTRACT pilot 40 gate pass",
+    "full v2 materialization + audit (coverage distribution)",
+    "chip grid + OlmoEarth v1 cache (10-band view) over all eligible cubes, extracted once, hashed",
+    "Sen12 P4/P2 confirmatory heads reused unchanged"
+  ]
+}
