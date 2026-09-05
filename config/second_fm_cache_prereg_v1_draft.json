@@ -105,5 +105,29 @@
       "prithvi": "tokens near-collapsed (random cos .77) — contract shift (30 m model on 10 m) as registered",
       "verdict": "no extraction bug found; MS-102 stands, pending the groupcat readout sensitivity"
     }
+  },
+  "addendum_v1b_2026_09_05_architecture_axes_registered_before_metrics": {
+    "why": "MS-102 says only OlmoEarth is cache-worthy among Clay/Galileo/Prithvi; a family-specific fact is weak. Three architecture axes are tested with the same decoder (single seed, 8 confirmatory folds) so the finding becomes a trend, not a brand.",
+    "axes": {
+      "depth": "final-layer tokens vs tokens after ~half the blocks: OlmoEarth base (12->6 blocks), Galileo base (exit_after 6 of 12), Clay v1.5 in256 (24->12 layers)",
+      "scale": "OlmoEarth nano/tiny/base; Galileo nano/tiny/base (final layer)",
+      "objective": "read from the above: OlmoEarth (latent-target, stable latent) vs Galileo (latent-target global/local) vs Clay (pixel MAE)"
+    },
+    "hypotheses": {
+      "H1_depth": "mid-depth tokens beat final tokens for the pixel-MAE model (Clay) by >= +0.02 macro IoU, and by less for latent-target models; if OlmoEarth final > OlmoEarth mid the dense usefulness of its final layer is itself a finding",
+      "H2_scale": "macro IoU increases with size within each family; the OlmoEarth-Galileo gap at matched size (base vs base, tiny vs tiny) remains >= 0.05 -> scale does not explain the family gap",
+      "H3_objective": "if Galileo (latent) stays below Clay-in256 (pixel MAE) at matched grid, 'latent objective' alone is rejected as the cause"
+    },
+    "caches": [
+      "olmo_nano",
+      "olmo_tiny",
+      "olmo_base_half",
+      "galileo_nano",
+      "galileo_tiny",
+      "galileo_base_half",
+      "clay_in256_half"
+    ],
+    "readout": "same code/cache_decoder_train.py, seed 1, positive-patch macro IoU vs sealed OlmoEarth base (.272) and raw (.197)",
+    "status": "REGISTERED_AT_COMMIT_before_any_of_these_caches_is_trained"
   }
 }

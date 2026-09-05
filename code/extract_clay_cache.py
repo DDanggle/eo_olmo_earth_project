@@ -11,7 +11,7 @@ import numpy as np, torch, torch.nn.functional as F, yaml
 if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
 sys.path.insert(0,"/home/work/data/olmoearth/third_party/pydeps"); sys.path.insert(0,"/home/work/data/olmoearth/third_party/clay")
 from claymodel.module import ClayMAEModule
-_ap=argparse.ArgumentParser(); _ap.add_argument("--grid",default="up32",choices=["up32","native16","in256"]); _ap.add_argument("--temporal",default="mean",choices=["mean","last"]); _ap.add_argument("--out",default=None); _a=_ap.parse_args()
+_ap=argparse.ArgumentParser(); _ap.add_argument("--grid",default="up32",choices=["up32","native16","in256"]); _ap.add_argument("--temporal",default="mean",choices=["mean","last"]); _ap.add_argument("--out",default=None); _ap.add_argument("--depth-frac",type=float,default=1.0,help="keep the first frac of transformer layers (depth sensitivity)"); _a=_ap.parse_args()
 ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/"sen12_pilot/holdout_chimanimani"; OUT=(ROOT/_a.out) if _a.out else ROOT/"clay_cache"; NC=Path("/home/work/data/sen12landslides/extracted")
 CK="/home/work/data/clay/clay-v1.5.ckpt"; META="/home/work/data/olmoearth/third_party/clay/configs/metadata.yaml"
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
@@ -26,6 +26,8 @@ RAW=["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12"]; CLAY=["B02","
 dev=torch.device("cuda")
 model=ClayMAEModule.load_from_checkpoint(CK, metadata_path=META, mask_ratio=0.0, shuffle=False, map_location="cpu").to(dev).eval()
 enc=model.model.encoder; D=enc.dim; P=enc.patch_size; print("clay dim",D,"patch",P,flush=True)
+if _a.depth_frac<1.0:
+    import torch.nn as _nn; L=enc.transformer.layers; k=max(1,int(round(len(L)*_a.depth_frac))); enc.transformer.layers=_nn.ModuleList(list(L)[:k]); print("clay depth",k,"/",len(L),flush=True)
 months={json.loads(l)["sample_id"]:json.loads(l)["months_0_11"] for l in open(SRC/"months.jsonl") if l.strip()}
 import xarray as xr
 from pyproj import Transformer
@@ -63,5 +65,5 @@ for sid in ids:
     if done%500==0: print(done,"tiles",flush=True)
 fs=sorted((OUT/"emb_fp16").glob("*.npy")); a=np.load(fs[0],mmap_mode="r")
 audit={"schema":"clay-cache-audit-v1","all_gates_pass":len(fs)==len(ids) and tuple(a.shape)==(D,32,32),"n_tiles":len(fs),"expected":len(ids),"shape":list(a.shape),"dtype":str(a.dtype),"model":"Clay v1.5","patch":P,"dim":D,
-       "grid":_a.grid,"temporal":_a.temporal,"contract":"per-timestep encode, mean over 12 timesteps, 16x16->32x32 bilinear; band reorder to Clay S2 order; metadata mean/std; week from month index, hour 10.5; latlon from nc center+crs","skipped":skipped[:30],"n_skipped":len(skipped)}
+       "grid":_a.grid,"depth_frac":_a.depth_frac,"temporal":_a.temporal,"contract":"per-timestep encode, mean over 12 timesteps, 16x16->32x32 bilinear; band reorder to Clay S2 order; metadata mean/std; week from month index, hour 10.5; latlon from nc center+crs","skipped":skipped[:30],"n_skipped":len(skipped)}
 (OUT/"cache_audit.json").write_text(json.dumps(audit,indent=1)); print(json.dumps({k:audit[k] for k in ("all_gates_pass","n_tiles","n_skipped","dim","patch")})); print("CLAY CACHE DONE")
