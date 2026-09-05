@@ -1,8 +1,8 @@
 # CLAUDE.md — 이 작업공간에서 일하는 방법
 
 OlmoEarth 연구 작업공간입니다. **`RESTART_HERE.md`를 먼저 읽으세요.** 활성 과학 기준점은
-MS-96/97·MS-98/99와 2026-09-04 Earth Embedding Continuity A/B/C 설계이며, Nepal 전용 작업은
-sibling 저장소 `../../nepal-live-twin`이 소유합니다. 그다음 `README.md`와 `GOAL.md`를 읽습니다.
+MS-96/97·MS-98/99와 2026-09-04 Earth Embedding Continuity A/B/C 설계이며, Nepal 전용 작업(`../../nepal-live-twin`, GitHub DDanggle/eo-rasuwa)은 2026-09-05부로
+**이 작업공간에서 관리하지 않습니다**(별도 유지, 여기서 동기화·푸시하지 않음). 그다음 `README.md`와 `GOAL.md`를 읽습니다.
 
 ## 두 저장소의 역할
 
