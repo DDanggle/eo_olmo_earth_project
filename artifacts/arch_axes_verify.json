@@ -1,0 +1,506 @@
+{
+ "extraction": {
+  "olmo_nano": {
+   "state": "ok",
+   "gate": {
+    "all_gates_pass": true,
+    "n_tiles": 6834,
+    "n_skipped": 0,
+    "shape": [
+     128,
+     32,
+     32
+    ]
+   },
+   "done_marker": true
+  },
+  "olmo_tiny": {
+   "state": "ok",
+   "gate": {
+    "all_gates_pass": true,
+    "n_tiles": 6834,
+    "n_skipped": 0,
+    "shape": [
+     192,
+     32,
+     32
+    ]
+   },
+   "done_marker": true
+  },
+  "olmo_base_half": {
+   "state": "ok",
+   "gate": {
+    "all_gates_pass": true,
+    "n_tiles": 6834,
+    "n_skipped": 0,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "done_marker": true
+  },
+  "galileo_nano": {
+   "state": "ok",
+   "gate": {
+    "all_gates_pass": true,
+    "n_tiles": 6834,
+    "n_skipped": 0,
+    "shape": [
+     128,
+     32,
+     32
+    ]
+   },
+   "done_marker": true
+  },
+  "galileo_tiny": {
+   "state": "ok",
+   "gate": {
+    "all_gates_pass": true,
+    "n_tiles": 6834,
+    "n_skipped": 0,
+    "shape": [
+     192,
+     32,
+     32
+    ]
+   },
+   "done_marker": true
+  },
+  "clay_in256_half": {
+   "state": "ok",
+   "gate": {
+    "all_gates_pass": true,
+    "n_tiles": 6834,
+    "n_skipped": 0,
+    "dim": 1024,
+    "patch": 8
+   },
+   "done_marker": true
+  },
+  "galileo_base_half": {
+   "state": "ok",
+   "gate": {
+    "all_gates_pass": true,
+    "n_tiles": 6834,
+    "n_skipped": 0,
+    "shape": [
+     768,
+     32,
+     32
+    ]
+   },
+   "done_marker": true
+  }
+ },
+ "decoders": {
+  "olmo_nano": {
+   "done": 8,
+   "of": 8,
+   "folds": [
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+   ],
+   "files": {
+    "hiroshima": {
+     "bytes": 4448,
+     "sha256": "02705f13d657c60ff6bc189e0ffe7e5992881f49b63cd053e781882243058263",
+     "positive_patch_macro_iou": 0.1948174089193344
+    },
+    "hokkaido": {
+     "bytes": 4460,
+     "sha256": "ea841e98f62c7e19d230456fceb4fe50356564d70ee1e72654221d50d37f2324",
+     "positive_patch_macro_iou": 0.32533350586891174
+    },
+    "indonesia": {
+     "bytes": 4481,
+     "sha256": "3f4902e17263e4f3fdb33130a3747069fa3f6253cf92c6b9b8a4d28e224e6e5a",
+     "positive_patch_macro_iou": 0.27326226234436035
+    },
+    "itogon": {
+     "bytes": 4463,
+     "sha256": "78ddbf4f8879b93c918cd404c68cd31734142051e33e8aaef59c890aec724c96",
+     "positive_patch_macro_iou": 0.06564588844776154
+    },
+    "kyrgyzstan1": {
+     "bytes": 4466,
+     "sha256": "c066fbb25815002bf942a6fbe014b6a0384f35a871d9e8ca59c6955ba4a2d389",
+     "positive_patch_macro_iou": 0.16906368732452393
+    },
+    "kyrgyzstan2": {
+     "bytes": 4469,
+     "sha256": "eb59132ee50b0eaa7449fb1f875cfda9708c4b7386a600c2b45f560ffb8391b8",
+     "positive_patch_macro_iou": 0.13370567560195923
+    },
+    "newzealand": {
+     "bytes": 4455,
+     "sha256": "d35b3abe8822f49c2c0b29b6b9ffdfd51f3e052c063bb1faf13acebd7f373b13",
+     "positive_patch_macro_iou": 0.13204512000083923
+    },
+    "thrissur": {
+     "bytes": 4476,
+     "sha256": "7bfcc483e08da7fb69a3cf74a36ef92c3bc7a7662c0f62234655bca44137573b",
+     "positive_patch_macro_iou": 0.25996434688568115
+    }
+   }
+  },
+  "olmo_tiny": {
+   "done": 8,
+   "of": 8,
+   "folds": [
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+   ],
+   "files": {
+    "hiroshima": {
+     "bytes": 4438,
+     "sha256": "3708dd3cb16f37fce6d90c6f334a9029ff5b7d8b725324b0653a3845859866c7",
+     "positive_patch_macro_iou": 0.28619471192359924
+    },
+    "hokkaido": {
+     "bytes": 4456,
+     "sha256": "f8b75c998d7d8c8fe1629262894db88e392b96aff4ebd78d4fa0e78095960fda",
+     "positive_patch_macro_iou": 0.3374166786670685
+    },
+    "indonesia": {
+     "bytes": 4490,
+     "sha256": "761590fc3839b4f16f480eec338122961938c3663d700e0071e68516cc093e17",
+     "positive_patch_macro_iou": 0.27993127703666687
+    },
+    "itogon": {
+     "bytes": 4449,
+     "sha256": "7d57f589938ac210d4ba95b02e4e1109eafbcfb51941accd64d9c9070a7949c9",
+     "positive_patch_macro_iou": 0.07914498448371887
+    },
+    "kyrgyzstan1": {
+     "bytes": 4492,
+     "sha256": "34981e994c1435b13520ccc201144e560d173eb58850fbe37c62547fc8edb4a6",
+     "positive_patch_macro_iou": 0.21144019067287445
+    },
+    "kyrgyzstan2": {
+     "bytes": 4476,
+     "sha256": "b6b1597ce27d2c8857c6fe3665ae9f672bf0c924879d7ec23efa25a4df27ef52",
+     "positive_patch_macro_iou": 0.15443846583366394
+    },
+    "newzealand": {
+     "bytes": 4452,
+     "sha256": "c748578af4be110c89c8566e07bea9a98320f149e488e3bc803f7b165f8a5e31",
+     "positive_patch_macro_iou": 0.17492681741714478
+    },
+    "thrissur": {
+     "bytes": 4480,
+     "sha256": "be62c84e1076fb8ac5596e555eadb85f886e72a6a4664f8da62043fa350e1624",
+     "positive_patch_macro_iou": 0.2981955409049988
+    }
+   }
+  },
+  "olmo_base_half": {
+   "done": 8,
+   "of": 8,
+   "folds": [
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+   ],
+   "files": {
+    "hiroshima": {
+     "bytes": 4447,
+     "sha256": "a9ca76984eb79207017789807bc82d1eff7ca81c30e053776b8600be816b18fd",
+     "positive_patch_macro_iou": 0.2936232089996338
+    },
+    "hokkaido": {
+     "bytes": 4457,
+     "sha256": "c3611035188cab488e80741f9117074aa0fa9c1b4dcbbcc0247047f9014053d0",
+     "positive_patch_macro_iou": 0.31902074813842773
+    },
+    "indonesia": {
+     "bytes": 4484,
+     "sha256": "2fd39c5f9107eb078bd2b56e4b9eb500a86077bbf83dfc711a721954dffdcd7d",
+     "positive_patch_macro_iou": 0.2885224521160126
+    },
+    "itogon": {
+     "bytes": 4458,
+     "sha256": "9508c346eb6c38893bdf16b2dfddda11ce9f6200c7b67645c86ba85c91526e46",
+     "positive_patch_macro_iou": 0.12662723660469055
+    },
+    "kyrgyzstan1": {
+     "bytes": 4487,
+     "sha256": "0b4e4effe8e1e84f1e4e67c60ce8cf6daba721792847ef2e13f1069860e60273",
+     "positive_patch_macro_iou": 0.19717158377170563
+    },
+    "kyrgyzstan2": {
+     "bytes": 4478,
+     "sha256": "0c0ef54b7673779f406a8a4fe57f7514f28416b786651ffa887692dcb4e5d13c",
+     "positive_patch_macro_iou": 0.09606152027845383
+    },
+    "newzealand": {
+     "bytes": 4465,
+     "sha256": "8ef5d48dd64ed191b135bdde3b2f3998ccd254621ead1cdf5bb812c327098ec5",
+     "positive_patch_macro_iou": 0.1388222873210907
+    },
+    "thrissur": {
+     "bytes": 4500,
+     "sha256": "15a630951238dc3f2fb908b70b1a9b15ccd67310503fd50e74bbb0e929e533f1",
+     "positive_patch_macro_iou": 0.312009334564209
+    }
+   }
+  },
+  "galileo_nano": {
+   "done": 8,
+   "of": 8,
+   "folds": [
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+   ],
+   "files": {
+    "hiroshima": {
+     "bytes": 4457,
+     "sha256": "be39d4e9f3483a18f6c332a633524ba49489532fccaf2baba3747b18bf6c246a",
+     "positive_patch_macro_iou": 0.11731861531734467
+    },
+    "hokkaido": {
+     "bytes": 4458,
+     "sha256": "07e945e21fda54f25ffe6353738fcf3aa227f9fc643736914091f9efe7b3b5e4",
+     "positive_patch_macro_iou": 0.15390834212303162
+    },
+    "indonesia": {
+     "bytes": 4503,
+     "sha256": "785d55bef48b349b1897c8c411c741ebe0d7f25ba7483f81546ab88c73e8127a",
+     "positive_patch_macro_iou": 0.1922084093093872
+    },
+    "itogon": {
+     "bytes": 4460,
+     "sha256": "33b22fa197ac944f25ba736b49aa830536172c7145dc07963d832718b140d1f3",
+     "positive_patch_macro_iou": 0.03481743484735489
+    },
+    "kyrgyzstan1": {
+     "bytes": 4484,
+     "sha256": "7b39407c154d4ef54ea49011b3083892ebad95eb0fa35e229413bf5f0174ae2d",
+     "positive_patch_macro_iou": 0.08444002270698547
+    },
+    "kyrgyzstan2": {
+     "bytes": 4453,
+     "sha256": "c2da5c16c35b14df093e73cbde8b626ec96afc51ff3a6e656de6c6cb17396cd1",
+     "positive_patch_macro_iou": 0.07982518523931503
+    },
+    "newzealand": {
+     "bytes": 4460,
+     "sha256": "544c7f99401b9b3f2c40952826141760b51dceb7cf221c5418ffcd66aff70125",
+     "positive_patch_macro_iou": 0.1032632440328598
+    },
+    "thrissur": {
+     "bytes": 4475,
+     "sha256": "923ab30635ec25c66fdb242402eaa5cc77a25b6496ec680b49b67ae1e942c5cd",
+     "positive_patch_macro_iou": 0.12837843596935272
+    }
+   }
+  },
+  "galileo_tiny": {
+   "done": 8,
+   "of": 8,
+   "folds": [
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+   ],
+   "files": {
+    "hiroshima": {
+     "bytes": 4465,
+     "sha256": "52f8866ad7de619e2ce0c4dcfc1cf811da8d34d9add33a8e3c1d144e3707a91e",
+     "positive_patch_macro_iou": 0.13932694494724274
+    },
+    "hokkaido": {
+     "bytes": 4459,
+     "sha256": "5e1b9324763475515eef0051b66444b5850c83aa5cfeef022f30d3e799a866f9",
+     "positive_patch_macro_iou": 0.1444149911403656
+    },
+    "indonesia": {
+     "bytes": 4505,
+     "sha256": "8f657cad97e111530d5e0be1835c88a19480599f4c594bc67ea4e89390d6c6c7",
+     "positive_patch_macro_iou": 0.210945263504982
+    },
+    "itogon": {
+     "bytes": 4459,
+     "sha256": "ea00bfa51428be14d8d6c003889e022e13d5f076c64229592a4e014285cefe5f",
+     "positive_patch_macro_iou": 0.038498882204294205
+    },
+    "kyrgyzstan1": {
+     "bytes": 4488,
+     "sha256": "9866833028414031de3e4da3d78a6c4536f6790dfee7894eb71a92612e16a44d",
+     "positive_patch_macro_iou": 0.12803539633750916
+    },
+    "kyrgyzstan2": {
+     "bytes": 4463,
+     "sha256": "ca7edde4c2b7858e90a68e97d3b9a852dff220a3fedf8770c99ab694382d81e3",
+     "positive_patch_macro_iou": 0.09800603985786438
+    },
+    "newzealand": {
+     "bytes": 4479,
+     "sha256": "f092dc01b3bc4ee21166acdcfead60e28d62e530b692b6eb172bf1d18d0b4819",
+     "positive_patch_macro_iou": 0.11920914798974991
+    },
+    "thrissur": {
+     "bytes": 4485,
+     "sha256": "055d6364f44a47f970b881b34d776a802bb9c4642d53ad5ce3e14fed874580bf",
+     "positive_patch_macro_iou": 0.15024422109127045
+    }
+   }
+  },
+  "clay_in256_half": {
+   "done": 8,
+   "of": 8,
+   "folds": [
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+   ],
+   "files": {
+    "hiroshima": {
+     "bytes": 4466,
+     "sha256": "4624284cbffe8e70163f4b0ae4f2cb4d3723ef9c502e6c1f1730f58e5f68c717",
+     "positive_patch_macro_iou": 0.09257249534130096
+    },
+    "hokkaido": {
+     "bytes": 4471,
+     "sha256": "2ec86ac8d831e1076d93f12ff3de7344e8a25d9db0471e786394920209125509",
+     "positive_patch_macro_iou": 0.1792304664850235
+    },
+    "indonesia": {
+     "bytes": 4498,
+     "sha256": "e8e9d8717996983dc8f16fd021f29c93bdd2e796543617a630b0ada4a9884f51",
+     "positive_patch_macro_iou": 0.2595577836036682
+    },
+    "itogon": {
+     "bytes": 4471,
+     "sha256": "0b1540145a84f7515c5caf5e94b5abe20af7e650b97a4691f8365cb017d3e066",
+     "positive_patch_macro_iou": 0.04768399894237518
+    },
+    "kyrgyzstan1": {
+     "bytes": 4498,
+     "sha256": "59dba7d2c4043c7ff077946f3fc442ebe4f985acfcb84f0080e55002b9547647",
+     "positive_patch_macro_iou": 0.11355511099100113
+    },
+    "kyrgyzstan2": {
+     "bytes": 4463,
+     "sha256": "dd728bebfa0739cff76f2cadc969b49c537f003388632156e0d5256f3d10356c",
+     "positive_patch_macro_iou": 0.11493612080812454
+    },
+    "newzealand": {
+     "bytes": 4467,
+     "sha256": "f4780082970d84f59d8516fd127eae1533ac8c24f8aa1471db35a9513e94bda6",
+     "positive_patch_macro_iou": 0.09925168752670288
+    },
+    "thrissur": {
+     "bytes": 4485,
+     "sha256": "75032949f87ada5cdfc597ec2f88591fa0a6c922a9a20ad034a90979c9297bf7",
+     "positive_patch_macro_iou": 0.08815482258796692
+    }
+   }
+  },
+  "galileo_base_half": {
+   "done": 8,
+   "of": 8,
+   "folds": [
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+   ],
+   "files": {
+    "hiroshima": {
+     "bytes": 4478,
+     "sha256": "50ac7827096f4a495d495f97c80f9e2732725a5d9bc5d25570806f7ce48e4709",
+     "positive_patch_macro_iou": 0.15769422054290771
+    },
+    "hokkaido": {
+     "bytes": 4455,
+     "sha256": "f93c47aabf800ea53bf928c5f9124392c7035977f7d3489c1bd0760e58bdd34c",
+     "positive_patch_macro_iou": 0.16907663643360138
+    },
+    "indonesia": {
+     "bytes": 4500,
+     "sha256": "2d850e1e27c4e5e50d6c2c99303eb9e59b6d6b6764ff6d73b8e37d088a23c5bd",
+     "positive_patch_macro_iou": 0.23350927233695984
+    },
+    "itogon": {
+     "bytes": 4470,
+     "sha256": "e9bff217031f10c9b17751e0819fed963d8b4970d29eecb0c0cf73b39eb0a85a",
+     "positive_patch_macro_iou": 0.059388935565948486
+    },
+    "kyrgyzstan1": {
+     "bytes": 4488,
+     "sha256": "1dfb5990d6f6b1d1532d08d98bfdb32f86456af056423a51b923e58326e87b89",
+     "positive_patch_macro_iou": 0.1081814169883728
+    },
+    "kyrgyzstan2": {
+     "bytes": 4475,
+     "sha256": "71553a28c82021f49d6645169cf37924d1c44a2322b748c7287adae3ebe47408",
+     "positive_patch_macro_iou": 0.06259417533874512
+    },
+    "newzealand": {
+     "bytes": 4470,
+     "sha256": "45f47674a2a6cb6fa0179f70abc261106b79bb63adc135c6c0d0b37106893e3d",
+     "positive_patch_macro_iou": 0.12801821529865265
+    },
+    "thrissur": {
+     "bytes": 4489,
+     "sha256": "24aecd2302556654ea8c2ac2737ea30ffd6c93cc7da2bb0bb5f0dfbbf3da2b1b",
+     "positive_patch_macro_iou": 0.18426044285297394
+    }
+   }
+  }
+ },
+ "missing": [],
+ "invalid": [],
+ "summary": {
+  "extraction_ok": 7,
+  "extraction_of": 7,
+  "extraction_bad": [],
+  "decoder_done": 56,
+  "decoder_of": 56,
+  "decoder_invalid": 0,
+  "chain_alive": null,
+  "ARCH_AXES_DONE": true
+ },
+ "note": "logs/arch_axes.log의 rc= 값은 date의 종료코드다. 이 보고서는 rc를 무시하고 게이트 JSON과 holdout_*.json 실물만 센다."
+}

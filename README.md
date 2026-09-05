@@ -1,6 +1,6 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-09-04
+최종 갱신: 2026-09-06
 
 > **새 세션은 [`RESTART_HERE.md`](RESTART_HERE.md)부터 읽는다.** 활성 과학 기준점은
 > **MS-96/97 + MS-98/99 + A/B/C Earth Embedding Continuity 설계**다. Nepal 전용 앱·코드·데이터는
@@ -13,17 +13,18 @@
 > 결정한다.** A=OlmoEarth release migration, B=다른 embedding product 외적 타당성,
 > C=support-only safe action이다.
 > → **[`docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md`](docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md)**,
-> **[`docs/CRITICAL_PATH.md`](docs/CRITICAL_PATH.md)**
+> **[`docs/CRITICAL_PATH.md`](docs/CRITICAL_PATH.md)**,
+> **[`docs/PAPER_STATE_2026_09_06.md`](docs/PAPER_STATE_2026_09_06.md)**
 >
 > Task-1 Sen12에서 cache P4 `.2722` > raw P2/P3 `.1966/.1834`; Task-2 Solar에서 cache A0 `.591`
 > > raw P2 `.333`, few-shot cache pathway가 raw adaptation을 두 task 모두 8/8 이겼다.
 > 그러나 A1이 A0보다 항상 좋은 것은 아니다: Solar random K=5의 12/24 support draw에는 양성이
 > 없었고 A1이 `.426`으로 붕괴했으며, AP도 A0가 더 높았다. 이것이 C의 직접 근거다.
 >
-> **Clay v0 주의:** 서버의 6,834-tile cache는 완결됐지만 native 16×16을 32×32로 bilinear 확대했다.
-> 현재 chain 결과는 exploratory deployment-adapter baseline으로만 보존하며 B1/B2 확증으로 쓰지
-> 않는다. Clay A0와 historical raw A4의 FP budget도 달라 FP-matched IoU를 report 간 직접 비교하지
-> 않는다. 현재 순서는 **P0 증거 복구 → A release migration → B-v1 → C → Korea/Task-3**다.
+> **현재 논문 상태:** release 붕괴·bridge의 부분 복구, 두 과업의 cache-first/few-shot 우위,
+> readout·모델 규모 통제까지는 측정됐다. 즉 현상과 재사용 경계는 있으나, 처음 보는 과업에서
+> CACHE/RAW를 고르는 규칙은 아직 검증되지 않았다. 현재 순서는 **P0 증거 복구 → 공개 untouched
+> Task-3 → 실측 비용 → Korea 3-task 1회 개봉**이다. 상세 재판정은 위 `PAPER_STATE_2026_09_06.md`.
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에
@@ -508,3 +509,4 @@ echo $! > /home/work/data/.jobs/이름.pid
 - `ISSUE_DRAFT_lfmc.md` 검토 후 Ai2에 제출 (웹 붙여넣기 또는 `gh` 설치 후)
 - `olmoearth_projects` 레포의 `fix/sample-annotation-oe-schema` 브랜치 PR 제출
 - MARC/테크포임팩트에 제주 변화 데모를 보여줄지 (v5 검증 통과 후)
+- `docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md` — CVPR 큰그림 재감사: 증명/가설/결함 3단 분류, 후퇴 문장, D1–D4 결정 실험, 4–6주 순서

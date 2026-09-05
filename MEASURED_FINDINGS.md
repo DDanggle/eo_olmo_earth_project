@@ -4665,3 +4665,172 @@ content `da18f121…`, manifest `aad49d14…`)를 만들고, 사전등록된 비
 - 계약 `docs/AIHUB_CUBE_V2_CONTRACT.md` 게이트 1–3. 선택: v1 심각(all-band-zero ≥10%) 20 + 정상(<0.1%) 20, (날짜,플랫폼) 분산, seed 0(`aihub/s2_12band_v2/pilot40_selection.json`). 감사 `audit_aihub_v2.py` → `audit_pilot40.json`: 플랫폼 일치·12밴드·(12,1024,1024) uint16·커버리지 ≥.999 모두 통과, p05 커버리지 .999998. 제외 1건은 `insufficient_common_coverage`(모자이크로도 99.9% 미달) — v1이라면 0으로 채워 "성공"으로 세었을 사례.
 - 게이트 2 문구는 "40/40"인데 실제는 39 생성 + 1 결정론 제외. 임계값을 낮추지 않았고 제외는 계약이 요구하는 fail-closed 동작이므로 전량 실행으로 진행함. 단 이 해석을 여기 기록하고, 전량 제외율이 높으면 규칙 5대로 v2 결과로 남기고 v3 계약을 새로 씀. 앞서 돌린 비층화 스모크 40(38 생성·2 `no_stac_item`)은 게이트 판정에 쓰지 않음.
 - 전량 2,699 관측쌍 물질화 시작(`logs/aihub_v2_full.log`, 완료 후 전수 감사 자동).
+
+## MS-105 (2026-09-05) — Galileo group-concat readout도 raw에 짐: MS-102의 readout 반론 종결
+
+- 무엇: MS-102-감사가 남긴 마지막 의심("Galileo 토큰을 5 밴드그룹 × 12시점에 단순 평균한
+  readout이 정보를 뭉갰다")에 대한 등록 실행. 그룹 concat 3,840채널 readout으로 캐시를
+  다시 뽑아 동일 디코더·동일 8확증 폴드·시드 1로 학습. `logs/bv1_chain.log` → `BV1_CHAIN4_DONE`
+  2026-09-05T09:14:37Z. 집계 `code/bv1_summary.py` → `artifacts/bv1_diagnostics_summary.json`.
+
+| 캐시 | macro | > raw (.197) | > OlmoEarth (.272) |
+|---|---:|---:|---:|
+| galileo_cache (평균 readout) | .153 | 1/8 | 0/8 |
+| **galileo_cache_groupcat (3840ch)** | **.168** | **1/8** | **0/8** |
+
+폴드별: hiroshima .207 / hokkaido .209 / indonesia .241 / itogon .087 / kyrgyzstan1 .122 /
+kyrgyzstan2 .113 / newzealand .146 / thrissur .215.
+
+- 판독: readout을 고쳐도 +.015에 그치고 raw를 넘지 못한다. 등록 규칙대로 **MS-102 결론 유지** —
+  시험 범위(Clay·Galileo·Prithvi) 안에서 raw를 확실히 상회하는 캐시는 OlmoEarth뿐.
+- **문구 정정**: "OlmoEarth만 캐시 가치가 있다"는 과장이다. `clay_cache_in256` .195는
+  raw .197과 사실상 동률이고 4/8에서 raw를 이긴다. 쓸 수 있는 문장은 **"raw를 확실히 넘는
+  것은 OlmoEarth뿐이고, Clay는 입력 해상도를 맞추면 raw와 동률까지 올라오나 넘지는 못한다"**.
+- 말할 수 없는 것: 시드 1개. Galileo는 S2 단독 입력이라 native 조건보다 불리할 수 있음.
+
+## MS-102-검증 (2026-09-05) — 요약 표 6/6이 원시 산출물에서 재계산 일치
+
+- `code/audit_summary_vs_raw.py`(신규) → `artifacts/summary_vs_raw_audit.json`.
+  MS-102 표의 macro를 `bv1_runs/<cache>/holdout_<fold>_seed1.json`의
+  `test.positive_patch_macro_iou` 8폴드 평균으로 재계산.
+
+| 캐시 | 재계산 | 장부 | 일치(3자리) |
+|---|---:|---:|:--:|
+| olmo_cache_pool16 | .2193 | .219 | ✅ |
+| clay_cache_native16 | .1547 | .155 | ✅ |
+| clay_cache_native16_last | .1098 | .110 | ✅ |
+| clay_cache_in256 | .1951 | .195 | ✅ |
+| galileo_cache | .1529 | .153 | ✅ |
+| prithvi_cache | .0246 | .025 | ✅ |
+
+- **이 스크립트의 초판 결함(보존)**: 지표 키 이름을 잘못 추측해 8폴드 전부를 "키 없음"으로
+  건너뛰고도 `판정: 모든 요약값이 원본에서 재계산됨`을 출력했다. 0건을 검증하고 통과한
+  것이다. 수정판은 대조 건수가 0이면 "검증 불능(통과 아님)"으로 판정한다. 같은 부류의
+  결함이 실행 체인의 `rc=$?`에도 있다(아래 M107).
+
+## M104-전량 (2026-09-05) — 한국 v2 2,536칩 파일 감사 통과, experiment eligibility 미완료
+
+- `logs/aihub_v2_full.log` → `AIHUB_V2_FULL_DONE` 2026-09-05T10:14:51Z. 4샤드 병렬 → 병합 →
+  전수 감사. 산출물 `aihub/s2_12band_v2/audit_full.json` (444B, sha256 `c8da0a3b125a15bc73ad…`).
+
+```
+n_manifest 2536 / n_excluded 163 / n_fail 0 / fails []
+coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
+제외 사유: no_stac_item 148, insufficient_common_coverage 5, error 6, no_candidate_under_cloud_max 4
+```
+
+- 선택 2,699 = 유지 2,536 + 제외 163 (제외율 **6.0%**). shape/dtype/common-coverage 기준으로는
+  M35 오염(all-band-zero를 0으로 채워 "성공"으로 세던 v1)을 대체할 후보 cube가 확보됐다.
+- **9/5 재감사 정정**: excluded의 `error` 6건은 `docs/AIHUB_CUBE_V2_CONTRACT.md`에서 명시한
+  재시도 대상이지 과학적 제외가 아니다. 그러나 `audit_aihub_v2.py`는 error를 deterministic
+  exclusion으로 설명하고 `gate_pass=true`를 내며, `aihub_v2_shards.py`는 reason과 무관하게
+  excluded key를 done으로 세어 재시도하지 않는다. 따라서 위 raw `gate_pass`는 **파일 감사기의
+  출력일 뿐 scientific/experiment gate 통과가 아니다**. error 6건 재시도와 split/class
+  selection-bias gate 뒤에만 `experiment_eligible`을 선언한다.
+- 말할 수 없는 것: 이 cube의 모델 성능 기여는 0이며, Korea label은 아직 열지 않았다.
+
+## M106 (2026-09-05) — v2 제외 163건은 시간 결측이 지배하지만 공간 소실도 남는다
+
+- `code/analyze_aihub_v2_exclusion_bias.py`(신규). 사전 등록 기준 G1–G4를 결과 보기 전에 고정.
+  산출물 `aihub/s2_12band_v2/exclusion_bias.json`.
+
+| 기준 | 값 | 발동 |
+|---|---|:--:|
+| G1 전체 date를 잃은 tile | 6개 (`SB1300000000/01/02`, `SB1300010000/01/02`) | 발동 |
+| G2 상위 10% tile이 제외의 50%↑ | 42.3% | 미발동 |
+| G3 단일 date가 제외의 30%↑ | `20220824` 57건 = 35.0% | 발동 |
+| G4 split 제외율 격차 3%p↑ | train 5.13% vs valid 13.33% = 8.2%p | 발동 |
+
+- **지배 원인**: 4개 날짜가 선택된 키를 100% 잃었다 — 20220824 (57/57), 20220220 (51/51),
+  20201229 (33/33), 20190513 (12/12) = 153건 = 전체 제외의 **93.9%**, 전부 `no_stac_item` 계열.
+  원인은 날짜의 STAC item 부재에 집중됐다.
+- **G1은 파생**: 소실된 6 tile은 전부 `SB13*` 인접 블록(129.07–129.35°E, 36.31–36.47°N,
+  경북 동해안), 전부 train, 각 tile이 date를 1개만 가졌는데 그게 죽은 날짜였다. 594 tile 중 1.0%.
+- **G4도 파생**: valid는 date가 13종뿐이라 죽은 날짜 2개에 13.3%가 날아간다(train은 56종 중 3개).
+  **date 다양성 train 56→53, valid 13→11 (−15%)**.
+- 결정에 미치는 영향: 계절성 task(작물·토지피복)에서 valid의 계절 커버리지가 비례적으로
+  더 얇다. 한국 3-task 라벨 개봉 **전에** 4개 날짜의 실제 결측 여부를 1회 재조회해야 한다
+  (`docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md` D1).
+- 따라서 "지리 편향이 아니다"는 과장이다. **원인은 시간 결측이 지배하지만, 결과로 6 spatial
+  tile 소실과 split별 date coverage 차이가 남는다**가 정확한 결론이다.
+
+## M107 (2026-09-05) — 실행 체인의 `rc=` 로그가 전부 거짓이었다 (인프라 결함, 결과는 무사)
+
+- `arch_axes_chain.sh`·`aihub_v2_full_chain.sh` 공통 패턴:
+  `run code/... ; echo "$(date -u +%FT%TZ) name rc=$?" >> $LOG`.
+  `$(date)`가 먼저 실행되며 `$?`를 덮어쓴다. 로컬 확인:
+  `bash -c 'false; echo "$(date ...) test rc=$?"'` → `test rc=0`.
+- 따라서 `logs/arch_axes.log`·`logs/aihub_v2_full.log`의 모든 `rc=0`은 `date`의 종료코드이며
+  단계 성공의 증거가 아니다.
+- **오늘까지의 model-cache 결과는 독립 감사로 구제됐다**: 추출은 로그의 `all_gates_pass` JSON과
+  원시 report로 재검증했다. 한국 v2는 shape/dtype/coverage 파일은 확인됐지만 M104-전량 정정대로
+  error 6건과 selection-bias gate가 남아 scientific completion으로 구제된 것은 아니다.
+- **조치**: 돌아가는 스크립트는 편집하지 않는다(bash는 실행 중 파일을 바이트 오프셋으로
+  이어 읽어 실행이 깨진다). 실물 검증기 `code/verify_arch_axes.py`를 대신 쓴다.
+  스크립트 수정(`rc=$?; ... "rc=$rc"`)은 다음 실행분부터.
+- **실패 계보(L3)**: MS-102-검증 초판의 "0건 검증하고 통과 출력"과 같은 부류 —
+  *검증이 아무것도 하지 않아도 성공으로 보이는 형태*. 규칙: 감사·체인 스크립트는
+  "무엇을 몇 건 검사했는가"를 반드시 출력하고, 0건이면 통과라고 말하지 않는다.
+
+## MS-100-계약 재감사 (2026-09-05) — 저장 gate가 등록 IoU field를 쓰지 않았다
+
+- `code/release_gate_summary.py`는 migration report의 `eval.iou_fp_matched`를 집계했다. 이 값은
+  target-test empty labels에서 false-positive budget을 얻으므로, preregistration의 source-validation
+  frozen-threshold primary인 `eval.iou_frozen_thr`와 다르다.
+- 신규 감사 `code/audit_release_gate_contract.py`가 원 report를 덮어쓰지 않고 두 지표를 나란히
+  재계산했다. 산출물 `artifacts/release_migration/gate_contract_audit_20260905.json`.
+- 등록 지표의 compatibility count:
+  - v1→v1.2: R3 Procrustes `2/8`, R4 affine `3/8`, R5 stitch `3/8`
+  - v1→v1.1: R3 `4/8`, R4 `1/8`, R5 `1/8`
+- 모두 등록 gate 6/8을 실패한다. AP retention(v1.2 R3 .976, R4 .973, R5 .973)은 변하지 않는다.
+  결론은 **ranking/AP 대부분 복구, fixed decision equivalence 실패**다.
+- 별도 provenance 결함: `release_bridge_screen.py`는 `--new-cache task2_cache_v11`일 때도 R6 checkpoint를
+  `task2_source_v12`에서 읽는다. v1.1 report의 R6는 무효이며 표에서 제외한다. bridge gate는 R6를
+  사용하지 않아 위 결론에는 영향이 없다.
+
+## MS-108 (2026-09-06) — architecture 축(규모·깊이): cache/raw 경계가 scale·family에 조건부이며 parameter count만으로 설명되지 않는다
+
+- 무엇: addendum_v1b 등록 진단. `code/arch_axes_chain.sh` → `code/arch_axes_summary.py`
+  → `artifacts/arch_axes_summary.json`. 시드 1, 동일 8확증 폴드, 공용 디코더(B-v1 보정 통과),
+  positive-patch macro IoU@0.5. 기준선 = 봉인 pilot OlmoEarth P4 `.272`, raw P2 `.197`.
+  추출 7/7 전부 `all_gates_pass`(n_tiles 6834, n_skipped 0).
+
+| 캐시 | family | 축 | n | macro | family full 대비 | >raw | >olmo |
+|---|---|---|---:|---:|---:|---:|---:|
+| olmo_tiny | OlmoEarth | scale=tiny | 8 | .228 | −.044 | 5/8 | 2/8 |
+| olmo_base_half | OlmoEarth | depth=50% | 8 | .221 | −.051 | 5/8 | 2/8 |
+| olmo_nano | OlmoEarth | scale=nano | 8 | **.194** | −.078 | **3/8** | 1/8 |
+| clay_in256_half | Clay | depth=50% | 8 | .124 | −.071 | 1/8 | 0/8 |
+| galileo_tiny | Galileo | scale=tiny | 8 | .129 | −.024 | 0/8 | 0/8 |
+| galileo_nano | Galileo | scale=nano | 8 | .112 | −.041 | 0/8 | 0/8 |
+| galileo_base_half | Galileo | depth=50% | 8 | .138 | −.015 | 0/8 | 0/8 |
+
+- **판독 1 — 관측된 scale 경계**: OlmoEarth cache 성능은 규모·깊이를 줄인 설정에서 낮아지고
+  **nano에서 raw 아래로 내려간다(.194 < .197, >raw 3/8)**. 사전 6/8 gate를 안정적으로 넘은 것은
+  full base뿐이다. 다만 차이는 `.003`, 과업·시드 각 1개이므로 이를 보편적인 **용량 필요조건**이라
+  부르지 않는다. 정확한 소득은 cache/raw 행동이 바뀌는 경험적 경계가 관측됐다는 것이다.
+- **판독 2 — parameter count만으로 설명되지 않음**: Galileo는 nano·tiny·base-half 어디서도 raw를
+  **0/8**로 못 넘고, full base(.153)가 OlmoEarth **nano**(.194)보다 낮다. 따라서
+  **MS-102의 family 격차는 용량 교란으로 설명되지 않는다.** 이것이 이 측정의 핵심 소득이다.
+- **판독 3 — 깊이 절반의 피해가 family마다 다르다**: Clay −.071(.195→.124)로 파괴적,
+  OlmoEarth −.051로 버팀. 중간층 표현의 안정성 차이.
+- **F2 완화 근거의 한계**: 시드는 여전히 1이고 Galileo 0/8이 네 configuration(base full,
+  base-half, tiny, nano)에서 같은 방향이다. 그러나 같은 데이터·폴드·시드를 공유하므로
+  **독립 반복이 아니라 상관된 설정 반복**이다. parameter-count-only 설명은 약화하지만 확률적
+  불확실성을 없애지는 않는다.
+- **EarthCache에서의 자리**: 모델 규모·깊이는 **라벨 없이 읽히는 계약 필드**이므로 D3 판별자의
+  candidate feature가 될 수 있다. 이 표는 feature를 선택할 근거이지, 아직 predictor 검증은 아니다.
+- **선행연구와의 구분**: `How to Embed Matters`(CVPRW 2026)는 *임베딩 품질의 설계 선택*을 재고,
+  이 표는 *raw 재학습 대비 캐시 재사용의 손익 경계*를 잰다. 산출물이 "어떤 설계가 좋은가"가
+  아니라 "어느 지점 아래로는 캐시하면 손해인가"다.
+- **완결성 검증**: `ARCH_AXES_DONE` 2026-09-05T16:05:15Z. 강화한
+  `code/verify_arch_axes.py`가 추출 7/7, decoder JSON 56/56, schema/fold/seed/metric 범위,
+  파일 SHA-256을 확인했고 missing/invalid는 0. 로컬 봉인:
+  `artifacts/arch_axes_verify.json` sha256 `ca1d7730…`,
+  `artifacts/arch_axes_summary.json` sha256 `405cb800…`.
+- **말할 수 없는 것**: 시드 1. nano/tiny는 사전학습 체크포인트가 다른 것이지 동일 모델의
+  절단이 아니므로 **"규모"는
+  사전학습 예산과 교락**돼 있다. 동일 가중치 내 절단은 `depth=50%`뿐이다.
+- **운영 오염**: 마지막 `galileo_base_half/holdout_thrissur` 실행 중 다른 GPU 1 프로세스가
+  약 72 GiB를 사용하기 시작했다. 우리 프로세스는 GPU 1 약 1.3 GiB로 완료했고 metric JSON은
+  유효하지만 해당 fold의 wall-clock은 비용 근거로 쓰지 않는다.

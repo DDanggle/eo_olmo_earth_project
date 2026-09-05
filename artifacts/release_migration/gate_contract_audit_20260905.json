@@ -1,0 +1,386 @@
+{
+  "audits": [
+    {
+      "interpretation": "Only registered_summary is eligible for the preregistered compatibility claim. The legacy summary is retained to quantify the effect of the implementation mismatch.",
+      "legacy_target_test_dependent_summary": {
+        "gates": {
+          "R2_mean_shift": {
+            "ap_retention": 0.021352883826241842,
+            "beats_identity_count": 2,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 0,
+            "compatibility_required": 6,
+            "macro_ap": 0.019759815527126513,
+            "macro_iou": 0.0004028221425674095,
+            "per_region_compatibility": {
+              "task2_fold0": false,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          },
+          "R3_procrustes": {
+            "ap_retention": 0.976091551971913,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 2,
+            "compatibility_required": 6,
+            "macro_ap": 0.9032685777481817,
+            "macro_iou": 0.6176046584147141,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": true
+            }
+          },
+          "R4_affine_ridge": {
+            "ap_retention": 0.9731684651212901,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 2,
+            "compatibility_required": 6,
+            "macro_ap": 0.9005635727751722,
+            "macro_iou": 0.6041398849277924,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": true
+            }
+          },
+          "R5_spatial_stitch": {
+            "ap_retention": 0.9734199012957251,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 2,
+            "compatibility_required": 6,
+            "macro_ap": 0.9007962501251785,
+            "macro_iou": 0.5998504803665511,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": true
+            }
+          }
+        },
+        "metric": "iou_fp_matched",
+        "regions": [
+          "task2_fold0",
+          "task2_fold1",
+          "task2_fold2",
+          "task2_fold3",
+          "task2_fold4",
+          "task2_fold5",
+          "task2_fold6",
+          "task2_fold7"
+        ]
+      },
+      "n_runs": 150,
+      "new_cache": null,
+      "registered_summary": {
+        "gates": {
+          "R2_mean_shift": {
+            "ap_retention": 0.021352883826241842,
+            "beats_identity_count": 2,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 0,
+            "compatibility_required": 6,
+            "macro_ap": 0.019759815527126513,
+            "macro_iou": 0.013440921529975518,
+            "per_region_compatibility": {
+              "task2_fold0": false,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          },
+          "R3_procrustes": {
+            "ap_retention": 0.976091551971913,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 2,
+            "compatibility_required": 6,
+            "macro_ap": 0.9032685777481817,
+            "macro_iou": 0.6328138481748539,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": true
+            }
+          },
+          "R4_affine_ridge": {
+            "ap_retention": 0.9731684651212901,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 3,
+            "compatibility_required": 6,
+            "macro_ap": 0.9005635727751722,
+            "macro_iou": 0.6164598239238289,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": true,
+              "task2_fold6": false,
+              "task2_fold7": true
+            }
+          },
+          "R5_spatial_stitch": {
+            "ap_retention": 0.9734199012957251,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 3,
+            "compatibility_required": 6,
+            "macro_ap": 0.9007962501251785,
+            "macro_iou": 0.6144887409422273,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": true,
+              "task2_fold6": false,
+              "task2_fold7": true
+            }
+          }
+        },
+        "metric": "iou_frozen_thr",
+        "regions": [
+          "task2_fold0",
+          "task2_fold1",
+          "task2_fold2",
+          "task2_fold3",
+          "task2_fold4",
+          "task2_fold5",
+          "task2_fold6",
+          "task2_fold7"
+        ]
+      },
+      "schema": "release-migration-gate-contract-audit-v1",
+      "source_report": "artifacts/release_migration/r5_8fold/report.json",
+      "source_report_bytes": 96472,
+      "source_report_sha256": "a21da8b173132d2e661e269646ebe3ab8566398aaa4d1b90a69cb4bc0128eac3"
+    },
+    {
+      "interpretation": "Only registered_summary is eligible for the preregistered compatibility claim. The legacy summary is retained to quantify the effect of the implementation mismatch.",
+      "legacy_target_test_dependent_summary": {
+        "gates": {
+          "R2_mean_shift": {
+            "ap_retention": 0.01415130389336612,
+            "beats_identity_count": 0,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 0,
+            "compatibility_required": 6,
+            "macro_ap": 0.013095521742012716,
+            "macro_iou": 0.0003142602560337551,
+            "per_region_compatibility": {
+              "task2_fold0": false,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          },
+          "R3_procrustes": {
+            "ap_retention": 0.9809488720108974,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 1,
+            "compatibility_required": 6,
+            "macro_ap": 0.9077635091451574,
+            "macro_iou": 0.6019211500820089,
+            "per_region_compatibility": {
+              "task2_fold0": false,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": true,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          },
+          "R4_affine_ridge": {
+            "ap_retention": 0.9727571920968147,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 1,
+            "compatibility_required": 6,
+            "macro_ap": 0.9001829834758042,
+            "macro_iou": 0.5892348952962689,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          },
+          "R5_spatial_stitch": {
+            "ap_retention": 0.9747607237658213,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 1,
+            "compatibility_required": 6,
+            "macro_ap": 0.9020370382491305,
+            "macro_iou": 0.5863329684344701,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          }
+        },
+        "metric": "iou_fp_matched",
+        "regions": [
+          "task2_fold0",
+          "task2_fold1",
+          "task2_fold2",
+          "task2_fold3",
+          "task2_fold4",
+          "task2_fold5",
+          "task2_fold6",
+          "task2_fold7"
+        ]
+      },
+      "n_runs": 150,
+      "new_cache": "task2_cache_v11",
+      "registered_summary": {
+        "gates": {
+          "R2_mean_shift": {
+            "ap_retention": 0.01415130389336612,
+            "beats_identity_count": 0,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 0,
+            "compatibility_required": 6,
+            "macro_ap": 0.013095521742012716,
+            "macro_iou": 0.009148024696276347,
+            "per_region_compatibility": {
+              "task2_fold0": false,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": false,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          },
+          "R3_procrustes": {
+            "ap_retention": 0.9809488720108974,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 4,
+            "compatibility_required": 6,
+            "macro_ap": 0.9077635091451574,
+            "macro_iou": 0.6106096621459638,
+            "per_region_compatibility": {
+              "task2_fold0": true,
+              "task2_fold1": true,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": true,
+              "task2_fold6": true,
+              "task2_fold7": false
+            }
+          },
+          "R4_affine_ridge": {
+            "ap_retention": 0.9727571920968147,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 1,
+            "compatibility_required": 6,
+            "macro_ap": 0.9001829834758042,
+            "macro_iou": 0.6034986102742387,
+            "per_region_compatibility": {
+              "task2_fold0": false,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": true,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          },
+          "R5_spatial_stitch": {
+            "ap_retention": 0.9747607237658213,
+            "beats_identity_count": 8,
+            "compatibility_gate_pass": false,
+            "compatibility_pass_count": 1,
+            "compatibility_required": 6,
+            "macro_ap": 0.9020370382491305,
+            "macro_iou": 0.6054826379300656,
+            "per_region_compatibility": {
+              "task2_fold0": false,
+              "task2_fold1": false,
+              "task2_fold2": false,
+              "task2_fold3": false,
+              "task2_fold4": false,
+              "task2_fold5": true,
+              "task2_fold6": false,
+              "task2_fold7": false
+            }
+          }
+        },
+        "metric": "iou_frozen_thr",
+        "regions": [
+          "task2_fold0",
+          "task2_fold1",
+          "task2_fold2",
+          "task2_fold3",
+          "task2_fold4",
+          "task2_fold5",
+          "task2_fold6",
+          "task2_fold7"
+        ]
+      },
+      "schema": "release-migration-gate-contract-audit-v1",
+      "source_report": "artifacts/release_migration/v11_8fold/report.json",
+      "source_report_bytes": 96789,
+      "source_report_sha256": "47194e23487f5d22fdaec9a9c6af14e23c485a6bf5ce74769e69eb55d3eaf75c"
+    }
+  ]
+}

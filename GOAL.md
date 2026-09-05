@@ -3293,3 +3293,133 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 2026-09-04 (GK2A): 08-28~09-01 5일 미수집 발견, 09-02/03 보충 실행, launchd 매일 2회 등록.
 - 2026-09-05: 밤새 체인 완료. MS-102(B-v1 진단: OlmoEarth만 캐시 가치, Galileo 기각, 해상도 부분 원인), MS-100-R5(스티치 무익), MS-103(v1.1 동일 그림). 논문 질문을 "어느 표현이 캐시 가치가 있나 + 라벨 없는 판별"로 확정.
 - 2026-09-05 14:00: 인수인계 절을 RESTART_HERE.md 상단에 작성. 서버 진행: Galileo groupcat 추출 3,128/6,834, 한국 v2 4샤드 물질화 70/2,621. GitHub 푸시.
+
+### 2026-09-05 — 최신 기준 CVPR 큰그림 재감사 (계획)
+- 목표: MS-96/97·MS-98/99, MS-100~104, 2026-09-04 A/B/C 설계와 현재 서버 실행을 하나의
+  증거 계보로 다시 맞추고, **현재 증명된 주장 / 아직 가설인 주장 / CVPR 본회의를 막는 결함 / 가장
+  작은 결정 실험**을 분리한다.
+- 먼저 확인할 것: 원시 산출물과 요약 수치의 일치, model/region/task/label-budget 계약의 공정성,
+  Solar 폴드의 독립성, 두 번째 foundation model 비교의 해상도·readout 교란, Korea v2의 봉인 상태,
+  실행 중 체인의 실제 진행·실패 여부다.
+- 외부 최신성: CVPR 공식 일정과 OlmoEarth·Earth foundation model benchmark·feature compatibility
+  선행연구는 공식 학회 페이지·원 논문 기준으로만 재확인한다.
+- 산출물: `docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md`를 단일 상세 감사본으로 만들고,
+  제출 가능한 한 문장 주장·Figure/Table 설계·필수/선택 실험·kill criteria·4~6주 실행순서를 남긴다.
+- 이번 범위: 읽기·분석·문서화와 안전한 상태 점검만 한다. GPU 실행, sealed Korea/Task-3 결과 개봉,
+  protected confirmatory runner 수정·서버 push는 하지 않는다.
+
+### 2026-09-05 — CVPR 큰그림 재감사 (결과, 통합 정정)
+- 산출물: `docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md` 상세 통합본. 장부 등재 MS-105,
+  MS-102-검증, M104-전량, M106, M107, MS-100-계약 재감사.
+- **완료 표식이 있는 체인 2건**: `BV1_CHAIN4_DONE` 09:14Z (Galileo groupcat),
+  `AIHUB_V2_FULL_DONE` 10:14Z. 단 DONE/`rc=0` 자체는 M107 결함 때문에 성공 증거가 아니며 실물로
+  재감사했다. 한국은 2,536 cube의 shape/dtype/coverage fail 0이지만 excluded `error` 6건과
+  selection-bias gate가 남아 **experiment_eligible이 아니다**.
+- **MS-102 유지**: Galileo group-concat readout .168 — readout을 고쳐도 raw .197을 못 넘음
+  (>raw 1/8). 마지막 반론 종결. 단 문구는 정정 — `clay_cache_in256` .195가 raw와 동률(4/8)이라
+  "OlmoEarth만 캐시 가치 있음"은 과장. "raw를 확실히 넘는 것은 OlmoEarth뿐"이 정확.
+- **요약↔원본 일치 검증 통과**: MS-102 표 6/6이 `bv1_runs/` 원시 JSON에서 재계산 일치(3자리).
+- **한국 v2 제외 편향 규명**: 163건 중 153건(93.9%)이 4개 날짜의 100% STAC 결측으로 시간 결측이
+  지배한다. 그러나 파생 피해로 `SB13*` 6 spatial tile 소실(경북 동해안, 594 중 1.0%)과 valid
+  date 다양성 13→11(−15%, train 56→53)이 남으므로 “지리 편향 없음”이라고 단정하지 않는다.
+- **마찰 1 — 실행 체인 `rc=` 전부 거짓**: `echo "$(date) name rc=$?"`에서 `$(date)`가 `$?`를
+  덮어씀. 두 체인 스크립트 공통. 오늘까지 결과는 독립 감사로 무사. 돌아가는 스크립트는
+  편집 금지(bash 바이트 오프셋)라 실물 검증기 `code/verify_arch_axes.py`로 대응.
+- **마찰 2 — 내 감사 스크립트도 같은 부류의 결함**: `audit_summary_vs_raw.py` 초판이 지표 키를
+  못 찾아 0건 검증하고 "통과"를 출력. 수정판은 대조 0건이면 "검증 불능". 실패 계보 등재.
+- **release gate 정정**: 저장 summary가 target-test-dependent `iou_fp_matched`를 사용했다.
+  등록 `iou_frozen_thr`로 재계산하면 v1.2 R3/R4/R5=`2/8,3/8,3/8`, v1.1=`4/8,1/8,1/8`로 모두
+  6/8 gate 실패. AP 97% 복구·decision equivalence 실패라는 결론은 유지. v1.1 R6는 v1.2 head를
+  잘못 읽어 무효.
+- **서버 최신 상태 (23:28 KST 직접 확인, 앞선 "세션 종료" 기록을 폐기)**: `arch_axes_chain`은
+  죽지 않았다. **추출 7/7 완료(전부 all_gates_pass), 디코더 41/56.** PID 202719 생존,
+  현재 `cache_decoder_train --cache clay_in256_half`. GPU1만 사용·GPU0 미사용.
+  앞선 `./bin/nx status` 공백은 **SSH 터널 단절**이었다(`Connection refused` → `tunnel up` 후 정상).
+  실측 디코더 속도는 폴드당 ~2분으로 초기 추정(20분)의 1/10 → 잔여 15폴드 ETA 약 40분.
+  **판정 규칙**: 체인 생사는 `nx status`로 보지 않는다. `tunnel up` 뒤
+  `pgrep -af "^bash code/<name>"` + GPU 점유 + 로그 mtime, 완료는 `code/verify_arch_axes.py`.
+- **논문 중심**: static model ranking이나 linear bridge가 아니라, 새 region/task/release에서
+  REUSE/ADAPT/RE-EMBED/REQUEST 중 최소 안전 행동을 support+contract로 고르고
+  utility–harm–cost regret를 재는 `EarthCache`로 동결한다.
+- **다음 임계경로**: P0(error 6 재시도·selection bias·Solar cross-CRS·release report 재생성·Korea
+  rare-class amendment) → 공개 untouched Task-3(Sen1Floods11 우선) → Korea 3-task 1회 개봉 →
+  실제 cold/warm/re-embed/storage 비용. 10/09 CVPR go/no-go.
+- 외부 최신성: CVPR 2027 등록 11/10, 본문 11/16, supplement 11/23 AoE를 공식 페이지에서 확인.
+  OlmoEarth 공식 최신 family v1.2와 EarthShift·GEO-Bench-2·PANGAEA·TESSERA v2·Earth embedding
+  product·stitching/BCT 경계를 문서와 `PAPER_READING_LIST.md`에 반영했다.
+- 검증: 신규 `code/audit_release_gate_contract.py` 실행 성공, JSON 산출물 생성.
+  `git diff --check`·JSON parse·Python AST parse 통과, 대표 credential pattern secret scan 0건.
+  감사 코드/결과/문서 SHA-256은 `b89ba15c…` / `b92fa3ad…` / `f145537d…`.
+
+### 2026-09-06 00:30 — 두 컴퓨터 교차검증 + architecture 축 결과
+- **MS-108 신규(당시 부분값, 아래 최종 재감사에서 문구 교정)**: 구조 축 7캐시 중 6개 8/8
+  완료. **cache/raw 경계는 scale에 따라 움직이지만 parameter count만으로 family 차이를
+  설명하지 못한다** — OlmoEarth nano `.194` < raw `.197`(우위 소멸)인데, Galileo는
+  nano/tiny/base-half/base-full 4개 설정 전부 raw 대비 **0/8**이고 full base `.153` <
+  OlmoEarth nano `.194`. 즉 MS-102의 family 격차는 용량 교란으로 설명되지 않는다.
+- 부수 소득: Galileo 0/8이 상관된 configuration 4개에서 반복돼 parameter-count-only 설명을
+  약화한다. 모델 규모·깊이는 라벨 없이 읽히는 계약 필드라 D3 판별자의 candidate feature다.
+- **교차검증 채택 5건**: error 6 재시도 필요(그쪽 지적 수용), A1>A4h는 Sen12 7/8(내 8/8 정정),
+  release summary의 target-test-dependent IoU(단 결론 불변), CVPR 2027 본문 11/16 AoE, EarthCache 고정.
+- **교차검증 정정 2건**: (1) 그쪽 서버 상태 41/56은 23:28 시점 — 00:19 기준 **50/56**, 추출 7/7.
+  (2) **architecture 축이 그쪽 증거표에서 누락** — 그대로 두면 "How to Embed Matters에 점유됨"으로
+  오분류돼 GPU 5시간이 폐기된다. 구분 명시: 그 논문은 임베딩 품질의 설계 선택, 우리는 raw 대비
+  캐시 손익의 결정 경계.
+- **보완 3건**: (B1) "한국 landslide positive가 test 7 cluster 중 3개뿐"은 봉인 라벨 메타데이터
+  열람이므로 disclosed-audit 기록 필요(설계 사실이지 결과가 아님을 명시). (B2) 비용 축은 "없음"이
+  아니라 **M38이 있고 가정 3개가 미검증**(벽시계 오염→FLOPs 대체, backward 2배 가정, baseline
+  의존). (B3) F2 완화는 위와 같음.
+- 산출물: `docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md` §1.8·§23 추가(839줄),
+  `code/arch_axes_summary.py`, `artifacts/arch_axes_summary.json`.
+- 다음: `ARCH_AXES_DONE` 후 galileo_base_half n=2→8 갱신 → MS-108 확정. 이후 P0 무결성 복구.
+### 2026-09-06 — MS-105/108 진척도 재감사와 논문 큰 그림 교정 (계획)
+
+- 사용자 질문: readout·모델 용량 반론을 닫았는데도 "된 것이 없는가"를 원시 산출물 기준으로 재평가한다.
+- 확인 계약: MS-105/108의 캐시별 8-fold 수치·raw 기준·실행 완료/오류 수를 재계산하고, 요약과 원본이 다르면 원본을 우선한다.
+- 해석 계약: **현상 발견/대안 설명 제거/선택기 검증/외부 일반화**를 분리해, 방어 실험을 방법론 완성으로 과장하지도 단순 무성과로 축소하지도 않는다.
+- 서버 계약: 상태 확인만 `./bin/nx`로 수행하고 GPU 1만 본다. 새 학습·추론, 한국 라벨 개봉, 확증 실행 경로 푸시는 하지 않는다.
+- 산출물: 큰 그림 감사 문서와 재시작 문서에 현재 최소 성립 논문, CVPR main에 실제로 남은 한 단계, 즉시 실행 순서를 반영한다.
+
+### 2026-09-06 — MS-105/108 진척도 재감사와 논문 큰 그림 교정 (결과)
+
+- **약점 우선**: untouched Task-3의 action selector, 한국 공공데이터의 task 성능 기여,
+  실측 cold/warm/re-embed/storage 비용은 여전히 0이다. 따라서 현재 증거는 EarthCache의
+  **문제 존재·재사용 경계**를 지지하지만 “우리가 행동을 잘 고른다”는 중심 method 주장을
+  아직 지지하지 않는다.
+- **MS-105 원본 복구**: 로컬 `artifacts/bv1_diagnostics_summary.json`이 group-concat 전의
+  6-cache 구버전임을 발견했다. 서버 8폴드 원본을 포함한 7-cache summary로 동기화했다
+  (sha256 `055fc477…`). `galileo_cache_groupcat` n=8, macro `.167599`, raw `.196558`,
+  raw 우위 1/8로 장부 `.168`과 일치한다.
+- **MS-108 완결**: `ARCH_AXES_DONE` 2026-09-05T16:05:15Z. 강화된 실물 검증에서 추출 7/7,
+  decoder JSON 56/56, schema/cache/fold/seed/metric/shape 통과, missing/invalid 0.
+  `galileo_base_half` 최종 macro `.137840`, raw 우위 0/8. 로컬 봉인:
+  `artifacts/arch_axes_verify.json` sha256 `ca1d7730…`,
+  `artifacts/arch_axes_summary.json` sha256 `405cb800…`.
+- **해석 교정**: “용량은 필요조건”은 철회했다. 정확한 문장은 **시험한 OlmoEarth scale
+  series에서 full base만 사전 6/8 gate를 안정적으로 넘었고 nano `.194`는 raw `.197` 경계
+  아래였다**다. `.003` 차이·한 과업·시드 1개라 보편적 필요조건이 아니다. Galileo 네 설정도
+  독립 반복이 아니라 같은 데이터·폴드·시드를 공유한 상관된 configuration 반복이다.
+  현재 지지되는 결론은 **readout-only와 parameter-count-only 설명이 시험 범위에서 지지되지
+  않고, cache/raw 효용이 scale·family에 조건부**라는 것이다. 규모·깊이는 label-free predictor가
+  아니라 아직 candidate feature다.
+- **논문 재판정**: “된 것이 없음”은 틀리다. 지금도 성립하는 후퇴선은 release identity 붕괴,
+  bridge의 ranking 복구/decision 비동등, 두 과업 cache-first/few-shot 우위, family·scale별
+  cache/raw 교차를 묶은 **EarthCacheBench characterization**이다. CVPR main 승격 조건은 복잡한
+  5-way 정책이 아니라 공개 untouched Task-3에서 단순 `CACHE / RAW-or-REEMBED` support-rule의
+  oracle 대비 regret와 실측 비용을 보이는 것이다.
+- **코드 품질**: `verify_arch_axes.py`가 파일 존재만 세던 것을 JSON 계약·유한 metric·SHA까지
+  검증하도록 강화했다. 완료 뒤 `arch_axes_chain.sh`와 `aihub_v2_full_chain.sh`의 거짓 `rc=0`
+  기록을 실제 rc 저장·실패 시 DONE 금지로 수정해 서버에 동기화했다. 서버/로컬 SHA 일치:
+  arch chain `ee7e017c…`, AI-Hub chain `50b78e43…`. 보호 4파일의 SHA·mtime은 전후 불변.
+- **운영 마찰**: 마지막 Galileo/Thrissur fold 도중 다른 GPU 1 프로세스가 약 72 GiB를 사용했다.
+  우리 프로세스는 GPU 1 약 1.3 GiB로 정상 완결했으나 해당 wall-clock은 비용 근거에서 제외한다.
+  direct SSH는 RSA host-key changed(`zBP7cfCx…`, known_hosts 96행) 경고를 계속 냈으며 임의로
+  known_hosts를 지우지 않았다. 또한 `./bin/nx pull`의 상대 로컬 경로는 접속 저장소 기준으로
+  해석됨을 발견해 잘못 생긴 한 복사본을 즉시 제거하고 이후 절대경로만 사용했다.
+- **산출물**: 쉬운 큰그림 `docs/PAPER_STATE_2026_09_06.md`, Figure 후보
+  `artifacts/figures/cache_utility_boundary_ms108.png`(sha256 `1894b5ac…`), plotting code,
+  `README.md`·`RESTART_HERE.md`·상세 CVPR 감사·측정 장부·STUDY 카드 #52 동기화.
+- **검증**: shell `bash -n`, Python compile, JSON parse, `git diff --check` 통과. Figure는 직접
+  렌더링해 label clipping과 범례를 육안 확인했다.
+- **다음 임계경로**: P0 무결성 복구 → 공개 Task-3 baseline/계약 → 동결 support-rule one-shot
+  action-regret → 실측 비용 → Korea 3-task 외부 사례. 새 GPU 실험은 이번 작업에서 시작하지 않았다.

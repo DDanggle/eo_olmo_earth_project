@@ -28,6 +28,19 @@
 
 ## 개념 카드
 
+### #52 관측된 경계와 필요조건은 다르다 (2026-09-06, MS-108 재판정)
+
+OlmoEarth base `.272`, tiny `.228`, nano `.194`가 raw `.197`의 위아래를 가른 것은 이 과업에서
+**경계가 관측됐다**는 증거다. 그러나 nano와 raw 차이는 `.003`이고 architecture 축은 시드 1개다.
+따라서 “큰 용량이 cache 가치의 필요조건”이라고 쓰면 한 표본의 교차를 논리적 필요조건으로
+과장한다. 정확한 주장은 “시험한 OLMo scale series에서 full base만 사전 gate를 안정적으로
+넘었다”이다. 마찬가지로 Galileo 네 설정은 같은 데이터·폴드·시드를 공유하므로 독립 반복이
+아니라 상관된 설정 반복이다. 이 결과는 parameter-count-only 설명을 약화시키지만, pretraining
+data·objective·modality를 분리하지 않는다.
+
+**확인 질문**: Olmo nano가 raw보다 `.003` 낮은 결과만으로 모델 용량을 cache 가치의 필요조건이라
+부를 수 없는 이유와, 이를 필요조건에 가까운 주장으로 승격하려면 필요한 반복은 무엇인가?
+
 ### #51 cache adapter와 decoder의 식별 가능성 (2026-09-02, CacheTune 설계)
 
 P4 decoder의 첫 층은 이미 `1×1 Conv 768→128`로 cached channel을 학습해 투영한다. 그 앞에

@@ -541,6 +541,96 @@
      32
     ]
    }
+  },
+  "galileo_cache_groupcat": {
+   "holdout_hiroshima": {
+    "iou": 0.20716889202594757,
+    "micro": 0.23496338725090027,
+    "ap": 0.4015865374673423,
+    "best_epoch": 12,
+    "shape": [
+     3840,
+     32,
+     32
+    ]
+   },
+   "holdout_hokkaido": {
+    "iou": 0.20884092152118683,
+    "micro": 0.19183315336704254,
+    "ap": 0.26424057099802,
+    "best_epoch": 28,
+    "shape": [
+     3840,
+     32,
+     32
+    ]
+   },
+   "holdout_indonesia": {
+    "iou": 0.241069033741951,
+    "micro": 0.23855037987232208,
+    "ap": 0.3537957621816997,
+    "best_epoch": 31,
+    "shape": [
+     3840,
+     32,
+     32
+    ]
+   },
+   "holdout_itogon": {
+    "iou": 0.08712436258792877,
+    "micro": 0.06399710476398468,
+    "ap": 0.2340870140367678,
+    "best_epoch": 39,
+    "shape": [
+     3840,
+     32,
+     32
+    ]
+   },
+   "holdout_kyrgyzstan1": {
+    "iou": 0.12224206328392029,
+    "micro": 0.08363484591245651,
+    "ap": 0.09428309569404582,
+    "best_epoch": 27,
+    "shape": [
+     3840,
+     32,
+     32
+    ]
+   },
+   "holdout_kyrgyzstan2": {
+    "iou": 0.1133304089307785,
+    "micro": 0.07853364944458008,
+    "ap": 0.21569893482071711,
+    "best_epoch": 16,
+    "shape": [
+     3840,
+     32,
+     32
+    ]
+   },
+   "holdout_newzealand": {
+    "iou": 0.1462721824645996,
+    "micro": 0.1994628757238388,
+    "ap": 0.2709127871219994,
+    "best_epoch": 28,
+    "shape": [
+     3840,
+     32,
+     32
+    ]
+   },
+   "holdout_thrissur": {
+    "iou": 0.2147432267665863,
+    "micro": 0.23087410628795624,
+    "ap": 0.37871617819180314,
+    "best_epoch": 10,
+    "shape": [
+     3840,
+     32,
+     32
+    ]
+   }
   }
  },
  "verdict": {
@@ -596,6 +686,15 @@
    "olmo_macro_same_folds": 0.27216575,
    "beats_raw": 4,
    "beats_olmo": 1,
+   "rule_beats_raw_ge6of8": false
+  },
+  "galileo_cache_groupcat": {
+   "n": 8,
+   "macro": 0.16759888641536236,
+   "raw_macro_same_folds": 0.196558375,
+   "olmo_macro_same_folds": 0.27216575,
+   "beats_raw": 1,
+   "beats_olmo": 0,
    "rule_beats_raw_ge6of8": false
   }
  }

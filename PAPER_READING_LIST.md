@@ -1,6 +1,6 @@
 # OlmoEarth × K-Earth 논문 검색·독서 장부
 
-최종 갱신: 2026-08-24  
+최종 갱신: 2026-09-05
 역할: 논문 제목을 모으는 목록이 아니라 **어떤 선행연구가 어떤 주장을 이미 차지했고,
 그 결과 우리 실험을 어떻게 바꿔야 하는지** 기록하는 살아 있는 장부다.
 
@@ -21,6 +21,32 @@ OlmoEarth v1 한 편의 상세 정독 내용은 `PAPER_NOTES_v1.md`에 둔다. �
 - `최초`, `아무도`, `최고` 같은 부재·우월 주장은 체계적 검색 로그 없이 쓰지 않는다.
 - AAAI/NeurIPS 수상 여부는 방법의 타당성을 대신하지 않는다. 이 장부는 수상 경력보다 연구 설계에
   미치는 결정을 우선한다.
+
+## 2026-09-05 최신 경계 — CVPR 2027 큰그림 재감사
+
+상세 수치·실험 계약·제출 gate는 `docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md`가 SSOT다.
+최신 문헌을 다시 맞춘 결과, 논문 중심을 다음처럼 좁혔다.
+
+> 저장된 Earth embedding cache를 새 지리·새 task·새 model release에서 언제 REUSE, ADAPT,
+> RE-EMBED 또는 REQUEST할지 support label과 contract만으로 고르고, 그 선택을 utility–harm–cost
+> regret로 평가한다.
+
+| 최신 문헌 경계 | 이미 차지한 것 | 이번 논문에서 남길 것 |
+|---|---|---|
+| [EarthShift](https://earthshift.github.io/) | 8 GFM·11 task·5 real shift의 OOD robustness | shift 존재가 아니라 최소 충분 행동 선택 |
+| [GEO-Bench-2](https://arxiv.org/abs/2511.15658) | 19 공개 dataset의 capability-aware model 비교 | static model ranking이 아닌 stored-cache lifecycle |
+| [How to Embed Matters](https://openaccess.thecvf.com/content/CVPR2026W/EarthVision/html/Gilch_How_to_Embed_Matters_Evaluation_of_EO_Embedding_Design_Choices_CVPRW_2026_paper.html) | backbone·objective·depth·pooling·결합 | architecture axis는 diagnostic/ablation |
+| [TESSERA v2](https://arxiv.org/abs/2607.03949) | scaling·distillation·Matryoshka storage | 압축 자체가 아닌 utility와 갱신 결정 |
+| [Better Together](https://arxiv.org/abs/2605.18667) | aligned Earth embedding fusion | 단순 multi-embedding 결합 제외 |
+| [Model Stitching](https://openaccess.thecvf.com/content/CVPR2026/html/Mai_Revisiting_Model_Stitching_In_the_Foundation_Model_Era_CVPR_2026_paper.html) | heterogeneous VFM stitching | linear bridge는 release case study/appendix |
+| [BCT](https://openaccess.thecvf.com/content_CVPR_2020/html/Shen_Towards_Backward-Compatible_Representation_Learning_CVPR_2020_paper.html)·[XBT](https://openaccess.thecvf.com/content/ICCV2025/html/Jang_Towards_Cross-modal_Backward-compatible_Representation_Learning_for_Vision-Language_Models_ICCV_2025_paper.html) | backfill-free representation update | dense EO time/band/GSD 계약과 decision equivalence |
+| [CrossEarth-Gate](https://openaccess.thecvf.com/content/CVPR2026/html/Cao_CrossEarth-Gate_Fisher-Guided_Adaptive_Tuning_Engine_for_Efficient_Adaptation_of_Cross-Domain_CVPR_2026_paper.html) | cross-domain EO PEFT | PEFT는 행동 arm/ceiling이지 단독 novelty 아님 |
+| [Brewing Stronger Features](https://openaccess.thecvf.com/content/CVPR2026/html/Wolf_Brewing_Stronger_Features_Dual-Teacher_Distillation_for_Multispectral_Earth_Observation_CVPR_2026_paper.html) | multispectral multi-teacher distillation | 다른 backbone teacher transfer는 후속축 |
+
+CVPR 2027 공식 일정은 등록 2026-11-10, 본문 11-16, supplement 11-23 AoE다.
+[공식 일정](https://cvpr.thecvf.com/Conferences/2027/Dates) 공개 Task-3, support-only action regret,
+실제 cold/warm/re-embed 비용이 이번 사이클의 세 제출 gate다. 한국 공공 API·VLM·Alps/ICIMOD·
+federated learning은 이 세 gate를 대체하지 않는다.
 
 ## 2026-08-23 (3차) 조사 — 첨부 26편 재감사와 CVPR 경계
 

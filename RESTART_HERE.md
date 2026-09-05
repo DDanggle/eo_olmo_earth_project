@@ -1,13 +1,31 @@
 # OLMoEarth 연구 재시작 지점
-> ## 2026-09-05 인수인계 (다른 컴퓨터에서 이어가기)
+> ## 2026-09-06 인수인계 (다른 컴퓨터에서 이어가기)
 >
-> **중심 질문(확정)**: 하나의 OlmoEarth 표현(캐시)을 여러 task·새 지역에서 0/5/20장 라벨로 재사용할 수 있는가. 버전 마이그레이션(A)은 부록. `docs/BIG_PICTURE_2026_09_04.md` + 이 절이 SSOT.
+> **중심 질문(확정)**: 하나의 Earth 표현 캐시를 새 task·새 지역에서 언제 REUSE/ADAPT/RE-EMBED/
+> REQUEST할 것인가. 버전 마이그레이션(A)은 model-shift 부록이다.
+> 최신 상세 감사 `docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md`, 쉬운 큰그림 재판정
+> `docs/PAPER_STATE_2026_09_06.md` + 이 절이 SSOT다.
 >
-> **확정된 결과(장부 MEASURED_FINDINGS.md)**: M65·MS-98 재사용 우위(산사태 6/8, 태양광 8/8) · MS-96/97/99 few-shot A1>raw 16/16(단 A1>A0는 5/8·5/8) · C0-dev(안전정책 개발화면) · MS-100(브리지: identity 붕괴 AP .02→.90 복구, 동등 게이트 2/8 불통과, R5 무익, v1.1 동일) · MS-101/102(Clay·Galileo·Prithvi 캐시는 raw에 짐, OlmoEarth만 통과; 해상도는 부분 원인; 추출 코드 감사 통과) · M104(한국 큐브 v2 파일럿 통과).
+> **확정된 결과(장부 MEASURED_FINDINGS.md)**: M65·MS-98 재사용 우위(산사태 6/8, 태양광 8/8) ·
+> MS-96/97/99 few-shot A1>A4w 16/16, A1>A4h는 산사태 7/8·태양광 8/8(단 A1>A0 K5는
+> 두 task 모두 5/8) · C0-dev(안전정책 개발화면) · MS-100(브리지: identity AP .02→.90 복구,
+> 단 저장 gate summary는 IoU field 수정 필요, R5 무익, v1.1 R6 무효) · MS-101/102(두 번째 FM은
+> single-seed diagnostic이며 보편 우월 근거 아님) · MS-105(group-concat `.168`, readout-only 설명
+> 기각) · MS-108(architecture 7캐시×8폴드 완결, scale/family별 cache/raw 경계) ·
+> M104(한국 큐브 v2 파일 감사를 통과했으나 experiment_eligible 아님).
 >
-> **서버(ainexus h200-dev, `./bin/nx`만 사용, GPU1만)에서 돌고 있는 것(9/5 14:00 KST 기준)**
-> - `logs/bv1_chain.log` ← `code/bv1_chain4.sh`: Galileo 그룹-concat readout 캐시(`galileo_cache_groupcat`) 추출 → 8폴드 디코더. 끝 표시 `BV1_CHAIN4_DONE`. 결과 표: `env -u PYTHONPATH ./.venv-master/bin/python code/bv1_summary.py`.
-> - `logs/aihub_v2_full.log` ← `code/aihub_v2_full_chain.sh`: 한국 AI-Hub 큐브 v2 전량 물질화 4샤드(`aihub/s2_12band_v2_shard{0..3}`) → 병합 → 전수 감사(`aihub/s2_12band_v2/audit_full.json`). 끝 표시 `AIHUB_V2_FULL_DONE`. 예상 ~12시간(네트워크 병목).
+> **서버(ainexus h200-dev, `./bin/nx`만 사용, GPU1만) 최신 상태(9/6 01:05 KST)**
+> - `BV1_CHAIN4_DONE`: Galileo group-concat `.168`, raw보다 우위 1/8 — readout만 바꿔 rescue되지 않음.
+> - `AIHUB_V2_FULL_DONE`: inventory 2,699 중 manifest 2,536, excluded 163. 그러나 excluded에 재시도
+>   대상 `error` 6건이 섞였고 audit가 이를 통과시킨 결함이 있어 **experiment_eligible 아님**.
+> - `arch_axes_chain.sh` **완료**: `ARCH_AXES_DONE` 2026-09-05T16:05:15Z. 추출 7/7,
+>   decoder 56/56, schema/fold/seed/metric/SHA 검사 missing·invalid 0.
+>   `galileo_base_half` 최종 `.138`, raw 우위 0/8. 검증/요약은
+>   `artifacts/arch_axes_verify.json`(`ca1d7730…`)과
+>   `artifacts/arch_axes_summary.json`(`405cb800…`). 마지막 fold는 다른 GPU 1 프로세스와
+>   겹쳤으므로 wall-clock을 비용 근거로 쓰지 않는다. 현재 우리 GPU job은 없다.
+> - direct SSH는 RSA host-key changed(`zBP7cfCx…`, known_hosts 96행) 경고를 낸다. 관리 터널로
+>   접속은 됐지만 키는 임의 삭제하지 않았다. 다음 운영 전에 플랫폼에서 fingerprint를 확인한다.
 > - 로컬 맥 launchd(09:30/21:30) + GitHub Actions(`DDanggle/gk2a-archive`, 09:40/21:40 KST): GK2A 일일 수집. 상태 `gh run list -R DDanggle/gk2a-archive`.
 >
 > **다른 컴퓨터에서 시작하기**
@@ -16,17 +34,20 @@
 > 3. 서버 코드 위치 `/home/work/data/olmoearth/code/` (로컬 `code/`를 `./bin/nx push $PWD/code/<f> olmoearth/code/`로 동기화). 보호 4파일(pilot_sen12_gp_heads.py, sen12_official_baselines.py, extract_sen12_fold_cache.py, audit_sen12_fold_cache.py)은 확증 실행 중 푸시 금지.
 > 4. 원격 명령 안에서 `pkill -f "<스크립트명>"`은 자기 셸까지 죽임 → `pgrep -f "^bash code/<name>"` 또는 `^\./\.venv-master/bin/python code/<name>` 패턴으로.
 >
-> **다음 순서(등록됨)**
-> 1. Galileo groupcat 결과 → MS-102 유지/수정 기록.
-> 2. v2 전수 감사 → 제외율·희소 class 편향 보고 → 칩 격자·OlmoEarth v1 캐시(10밴드 view) 1회 추출·해시.
-> 3. `config/korea_shared_cache_3task_prereg_v0.json` 확정 커밋 → 라벨 1회 개봉 → O0/O1/R0/R1/FULL × 3 task × K=5/20 × 3시드.
-> 4. 중단 규칙: 5주차 말(10월 초)까지 한국 곡선 없으면 KR 계속-사전학습은 "열린 문제"로 하향.
+> **다음 순서(9/5 감사로 수정)**
+> 1. P0 무결성: AI-Hub error 6건 재시도·selection-bias gate, Solar cross-CRS 누수 감사,
+>    release gate의 `iou_frozen_thr` 재생성, v1.1 R6 무효 표기.
+> 2. Korea 희소 class의 eligible-cluster metric과 128-chip unit를 label 개봉 전에 dated amendment로 동결.
+> 3. 공개 Task-3(Sen1Floods11 우선)의 CACHE/RAW baseline + 단순 support-only action rule 동결.
+> 4. Task-3 one-shot action-regret와 cold/warm/re-embed/storage 실측 비용을 먼저 닫는다.
+> 5. 그 뒤 Korea 3-task를 외부 사례로 한 번 개봉한다. 10/09에 CVPR go/no-go.
 >
 > **2026-09-04 갱신**: 큰 그림은 `docs/BIG_PICTURE_2026_09_04.md`(버전 전환 연속성 벤치마크 + A 브리지 + OlmoEarth-KR + FoldRefresh + C). 실행 중: Clay v0(탐색), A 체인(`logs/release_chain.log`).
 
-갱신: 2026-09-04
+갱신: 2026-09-06
 활성 과학 기준점: **MS-96/97 + MS-98/99 + Earth Embedding Continuity A/B/C 설계**
-로컬 HEAD: `a346eab` — Clay v0 실행기까지. 아래 A/B/C 문서·config는 아직 미커밋 DRAFT다.
+감사 시작 기준 HEAD: `95ed699`. A/B/C config는 `efce8b8`, Korea 3-task config는 `6f47156`에
+커밋됐으나 파일명/status의 `draft` 표시는 과거 상태라 dated amendment로만 정정한다.
 
 이 파일은 새 세션의 첫 진입점이다. Nepal 대응 데모는 현재 CVPR/transfer 임계경로가 아니며,
 전용 코드·문서·원본·중간 산출물은 sibling 저장소
@@ -55,7 +76,7 @@
 - source-only frozen OlmoEarth cache + decoder(P4): region-macro `.2722`.
 - raw UNet3D(P2) `.1966`, raw U-TAE(P3) `.1834`; 최고 raw 대비 7/8 지역 우위.
 - target tile K=5/20에서 A1 cache-head adaptation은 raw full A4w를 8/8, parameter-matched
-  A4h를 방향 기준 8/8 이겼다(MS-96/97). fixed-exposure에서도 A1>A4w 8/8이다.
+  A4h를 방향 기준 **7/8** 이겼다(MS-96/97). fixed-exposure에서도 A1>A4w 8/8이다.
 - 그러나 K=5에서 A1>A0는 5/8뿐이다. `라벨 5장이면 항상 적응`은 금지한다.
 
 ### Task 2 — Solar Farm, 8개 UTM-zone fold group
@@ -135,14 +156,14 @@ AlphaEarth는 Solar/static mapping B2 뒤에만 둔다. 연간 64-d product이�
 6. `docs/PAPER_NARRATIVE_2026_08_31.md` — 이전 narrative, 현재 A/B/C 문서가 실행 방향을 대체
 7. `GOAL.md` 마지막 Worklog
 
-기계 판독 DRAFT:
+기계 판독 사전등록 파일(파일명에는 `draft`가 남았으나 `efce8b8`에 실험 전 커밋됨):
 
 - `config/release_migration_prereg_draft_v0.json`
 - `config/second_fm_cache_prereg_v1_draft.json`
 - `config/safe_cache_action_prereg_draft_v0.json`
 
-`DRAFT`는 실험 전 커밋되어야 active preregistration이 된다. 결과가 나온 뒤 문구·gate를 고쳐
-commit하면 사전등록이 아니다.
+결과 뒤 발견된 gate/metric 결함은 원 파일을 조용히 고치지 않고 dated amendment와 재생성 report로
+남긴다. 결과가 나온 뒤 문구·gate를 바꾸면 사전등록이 아니다.
 
 공식 Ai2 checkout `..`에는 사용자 수정이 남아 있다. 연구 재시작 작업에서
 `olmoearth_run_data/forest_loss_driver/{dataset.json,model.yaml}`과 `.pnpm-store/`를 건드리지 않는다.
