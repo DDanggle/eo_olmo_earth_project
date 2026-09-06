@@ -101,6 +101,18 @@ def retrieve_source(fold,stats,Xq_field,M=200):
     D=(torch.from_numpy(np.stack(desc))-stats[0].view(-1))/stats[1].view(-1); D=torch.nn.functional.normalize(D,dim=1); sim=(D@tgt)
     top=torch.topk(sim,min(M,len(tr_ids))).indices.tolist(); return [tr_ids[i] for i in top], float(sim[top].mean())
 
+@torch.no_grad()
+def knn_probs(Xq,Xl,Yl,k=20,chunk=64):
+    """Training-free nonparametric transfer (arm N): per query token, cosine kNN among labelled tokens (support ∪ retrieved), prob = similarity-weighted positive fraction; token grid -> 128 px bilinear."""
+    N,C,G,_=Xq.shape; ym=torch.nn.functional.interpolate(Yl,size=(G,G),mode="nearest").squeeze(1)      # (M,G,G) token labels (nearest)
+    L=torch.nn.functional.normalize(Xl.permute(0,2,3,1).reshape(-1,C),dim=1).to(dev); lab=ym.reshape(-1).to(dev)
+    out=[]
+    for i in range(0,N,chunk):
+        q=torch.nn.functional.normalize(Xq[i:i+chunk].permute(0,2,3,1).reshape(-1,C),dim=1).to(dev); sim=q@L.T
+        v,idx=torch.topk(sim,k,dim=1); w=torch.softmax(v*10,dim=1); pr=(w*lab[idx]).sum(1).reshape(-1,G,G)
+        out.append(torch.nn.functional.interpolate(pr.unsqueeze(1),size=(128,128),mode="bilinear",align_corners=False).squeeze(1).cpu())
+    return torch.cat(out).numpy()
+
 rep={"schema":"fewshot-a1-a4-v2","support":a.support,"emb_source":("clay_cache" if a.clay else "task2_cache" if a.task2 else "olmoearth"),"preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
 outfile=OUT/f"report_{a.exposure}.json"
 REGIONS=tuple(f"task2_fold{k}" for k in range(8)) if a.task2 else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.clay else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
@@ -134,6 +146,10 @@ for region in REGIONS:
             for arm in [x for x in ARMS if x!="A0" and not (x=="A4w0" and K!=5)]:
                 if arm=="A1":
                     m=EmbDecoder(cin=CIN).to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0
+                elif arm in ("A1N","A1NR"):
+                    Xs=load_emb(sids,stats); Xl,Yl=Xs,Ys; extra={"k":20}
+                    if arm=="A1NR": rids,msim=retrieve_source(fold,stats,Xq_emb,M=200); Xl=torch.cat([Xs,load_emb(rids,stats)]); Yl=torch.cat([Ys,load_masks(rids)]); extra.update({"retrieved":len(rids),"retrieval_sim":msim})
+                    t0=time.perf_counter(); P=knn_probs(Xq_emb,Xl,Yl); tr={"trainable_params":0,"gpu_s":time.perf_counter()-t0,"steps":0,"raw_bytes_read":0}; tr.update(extra); m=nn.Identity()
                 elif arm in ("A1T","A1R","A1TR","A1P"):
                     m=EmbDecoder(cin=CIN).to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); Ys_=Ys; extra={}
                     if arm in ("A1T","A1TR"): extra["bn_layers"]=adabn(m,Xq_emb)
