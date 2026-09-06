@@ -4934,3 +4934,10 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 - 비용 실측(적응 단계만): HEAD_ADAPT gpu 11–43 s·raw 0 B; RAW_FINETUNE gpu 58–215 s·raw 2.7–11.2 GB. 진짜 REEMBED는 여전히 미측정(입력에 없음). 소스 head 학습·캐시 추출 비용은 별도.
 - 읽기: 개발 2과업에서는 "항상 캐시(+라벨 있으면 head 적응)"가 oracle과 사실상 같음 → 선택기 필요성은 **아직 없음**. 결론은 검토 의견 그대로: EarthCacheBench 특성화는 성립, CVPR main(selector)은 GEO-Bench 외부 과업 action matrix에서 G0가 통과해야만.
 - 검토 반영 대조: 고정 anchor·IIA·RAW_FINETUNE 분리·support_label_count·예산을 반복 추정치에 적용·실제 시드(이전 커밋 d63261f) ✔ / 시드 placeholder "s1" 단일행 → 시드별 행 ✔(이번) / 비용 추정치 → 실측 ✔(이번, 적응 단계) / 진짜 REEMBED ✗(미측정) / Core-6 확보: benv2 ✔, DEN ✔(OlmoEarth 캐시 추출 중), fotw ✔, BioMassters·PASTIS sha256 불일치 ✗.
+
+## MS-112 (2026-09-06) — 선택기 headroom이 0이었던 이유: 에피소드를 "과업"으로만 잡았기 때문. 배포 조건(support 품질·캐시 계약)을 에피소드에 넣으면 anchor headroom .085, 승자 3종
+- 무엇: `code/build_g0_dev_input_v3.py` → `artifacts/g0_dev/g0_dev_input_v3.json`(42행, 전부 기존 실측). 에피소드 = 과업 × support 조건(K=5 층화/무작위, 시드 3) + 캐시 계약(Sen12 전량 라벨에서 배포 캐시가 Galileo-base / Clay-in256 / OlmoEarth-nano·tiny·base일 때 CACHED_HEAD vs RAW_FINETUNE; 캐시 쪽 시드 1). anchor는 v2와 동일(고정).
+- 결과(`g0_dev_output_v3*.json`): 과업으로 묶으면 G0-A 불통과(v2와 같음). **배포 그룹으로 묶으면 G0-A 통과**(robust 승자 CACHED_HEAD·HEAD_ADAPT·RAW_FINETUNE 3종, 7그룹), **G0-B 통과**(무제한 예산 anchor headroom **.085** > .02; raw 읽기 금지 예산에서는 0 — RAW가 빠지면 CACHED/ADAPT 차이만 남음).
+- 규칙 정책 시험(라벨 없는·싼 특징만): support가 무작위(양성 0 가능)→CACHED, 층화→ADAPT, 캐시≠OlmoEarth-base→RAW_FINETUNE. 7에피소드 중 6 oracle 일치; 틀린 1개는 Sen12 무작위(양성 0이어도 A1이 A0를 이김, C0-dev와 동일). 규칙 regret .093 vs best-static regret .014(단 best-static 산식은 액션이 없는 에피소드를 제외한 낙관치) → **규칙은 support 양성 수를 실제로 세는 C0 형태여야 하고, 그래도 Sen12 무작위는 남는 오차**.
+- 말할 수 있는 것: 선택할 이유는 과업 정체성이 아니라 **배포 조건**(라벨 품질, 캐시 계약, 릴리스 일치)에서 생김. 그 조건은 test 라벨 없이 읽힘(support 양성 수, 모델 id·크기, 릴리스). 말할 수 없는 것: 그룹들은 같은 데이터·폴드를 공유해 독립이 아님. 캐시 계약 행은 시드 1. 비용은 few-shot 행만 실측. 릴리스 전환 에피소드(AP 지표)는 anchor 척도가 달라 아직 미포함.
+- 다음(등록 후): GEO-Bench 외부 과업에서 에피소드 정의를 **과업 × support 조건 × 캐시 계약**으로 두고 action matrix를 채움. 선택기는 learned가 아니라 C0+계약 규칙부터.

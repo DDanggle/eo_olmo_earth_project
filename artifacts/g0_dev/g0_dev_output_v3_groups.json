@@ -1,0 +1,333 @@
+{
+  "schema": "earthcache-action-headroom-v1",
+  "status": "DIAGNOSTIC_ONLY_NOT_A_SELECTOR_RESULT",
+  "thresholds": {
+    "oracle_headroom": 0.02,
+    "native_margin": 0.0,
+    "minimum_reversal_groups": 2
+  },
+  "budgets": [
+    {
+      "budget": {
+        "name": "unlimited"
+      },
+      "n_episodes": 7,
+      "n_tasks": 7,
+      "common_static_actions": [
+        "CACHED_HEAD",
+        "RAW_FINETUNE"
+      ],
+      "task_native_best_actions": {
+        "sen12_full_cache=clay_in256": "RAW_FINETUNE",
+        "sen12_full_cache=galileo_base": "RAW_FINETUNE",
+        "sen12_full_cache=olmo_base": "CACHED_HEAD",
+        "sen12_random_K5": "CACHED_HEAD",
+        "sen12_stratified_K5": "CACHED_HEAD",
+        "solar_random_K5": "CACHED_HEAD",
+        "solar_stratified_K5": "CACHED_HEAD"
+      },
+      "n_unique_task_best_actions": 2,
+      "episodes": [
+        {
+          "episode_id": "sen12_full_cache=clay_in256",
+          "task": "sen12_full_cache=clay_in256",
+          "native_best_action": "RAW_FINETUNE",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.0014507231255769804,
+          "shared_seed_count": 1,
+          "best_seed_wins": 1,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "sen12_full_cache=galileo_base",
+          "task": "sen12_full_cache=galileo_base",
+          "native_best_action": "RAW_FINETUNE",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.04365792786234618,
+          "shared_seed_count": 1,
+          "best_seed_wins": 1,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "sen12_full_cache=olmo_base",
+          "task": "sen12_full_cache=olmo_base",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "RAW_FINETUNE",
+          "native_margin": 0.07560737499999998,
+          "shared_seed_count": 1,
+          "best_seed_wins": 1,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "sen12_random_K5",
+          "task": "sen12_random_K5",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "RAW_FINETUNE",
+          "native_margin": 0.08876761139049255,
+          "shared_seed_count": 3,
+          "best_seed_wins": 3,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT",
+            "RAW_FINETUNE"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "sen12_stratified_K5",
+          "task": "sen12_stratified_K5",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "RAW_FINETUNE",
+          "native_margin": 0.07874103326475479,
+          "shared_seed_count": 3,
+          "best_seed_wins": 3,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT",
+            "RAW_FINETUNE"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "solar_random_K5",
+          "task": "solar_random_K5",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "RAW_FINETUNE",
+          "native_margin": 0.33089224422326785,
+          "shared_seed_count": 3,
+          "best_seed_wins": 3,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT",
+            "RAW_FINETUNE"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "solar_stratified_K5",
+          "task": "solar_stratified_K5",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "RAW_FINETUNE",
+          "native_margin": 0.3510512573992278,
+          "shared_seed_count": 3,
+          "best_seed_wins": 3,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT",
+            "RAW_FINETUNE"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "RAW_FINETUNE"
+          ],
+          "has_anchor": true
+        }
+      ],
+      "normalization": "fixed per-episode anchors",
+      "best_static_action": "CACHED_HEAD",
+      "best_static_normalized_score": 0.57196469626323,
+      "oracle_normalized_score": 0.6571957071041002,
+      "oracle_headroom": 0.08523101084087026
+    },
+    {
+      "budget": {
+        "name": "no_raw_read",
+        "max_raw_bytes": 0.0
+      },
+      "n_episodes": 7,
+      "n_tasks": 7,
+      "common_static_actions": [
+        "CACHED_HEAD"
+      ],
+      "task_native_best_actions": {
+        "sen12_full_cache=clay_in256": "CACHED_HEAD",
+        "sen12_full_cache=galileo_base": "CACHED_HEAD",
+        "sen12_full_cache=olmo_base": "CACHED_HEAD",
+        "sen12_random_K5": "CACHED_HEAD",
+        "sen12_stratified_K5": "CACHED_HEAD",
+        "solar_random_K5": "CACHED_HEAD",
+        "solar_stratified_K5": "CACHED_HEAD"
+      },
+      "n_unique_task_best_actions": 1,
+      "episodes": [
+        {
+          "episode_id": "sen12_full_cache=clay_in256",
+          "task": "sen12_full_cache=clay_in256",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.0,
+          "shared_seed_count": 1,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "sen12_full_cache=galileo_base",
+          "task": "sen12_full_cache=galileo_base",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.0,
+          "shared_seed_count": 1,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "sen12_full_cache=olmo_base",
+          "task": "sen12_full_cache=olmo_base",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.0,
+          "shared_seed_count": 1,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "sen12_random_K5",
+          "task": "sen12_random_K5",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.0,
+          "shared_seed_count": 3,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "sen12_stratified_K5",
+          "task": "sen12_stratified_K5",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.0,
+          "shared_seed_count": 3,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "solar_random_K5",
+          "task": "solar_random_K5",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.0,
+          "shared_seed_count": 3,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ],
+          "has_anchor": true
+        },
+        {
+          "episode_id": "solar_stratified_K5",
+          "task": "solar_stratified_K5",
+          "native_best_action": "CACHED_HEAD",
+          "native_runner_up": "CACHED_HEAD",
+          "native_margin": 0.0,
+          "shared_seed_count": 3,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ],
+          "has_anchor": true
+        }
+      ],
+      "normalization": "fixed per-episode anchors",
+      "best_static_action": "CACHED_HEAD",
+      "best_static_normalized_score": 0.57196469626323,
+      "oracle_normalized_score": 0.57196469626323,
+      "oracle_headroom": 0.0
+    }
+  ],
+  "G0A_action_heterogeneity": {
+    "pass": true,
+    "distinct_robust_winners": [
+      "CACHED_HEAD",
+      "RAW_FINETUNE"
+    ],
+    "n_task_groups_with_robust_winner": 7,
+    "explanation": "native-metric winners that beat their runner on every shared seed"
+  },
+  "G0B_operational_value": {
+    "pass": true,
+    "computable": true,
+    "anchored_headrooms": [
+      0.08523101084087026,
+      0.0
+    ],
+    "explanation": "anchor-normalized oracle headroom over best static; None if anchors absent"
+  },
+  "G0_pass": true,
+  "interpretation": "G0 needs BOTH heterogeneity (G0-A) and anchored+measured value (G0-B). Native margins and cost are still estimates until measured; seeds, LOTO, and LOFO validation remain required before any selector claim."
+}
