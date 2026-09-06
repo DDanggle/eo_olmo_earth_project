@@ -4834,3 +4834,44 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 - **운영 오염**: 마지막 `galileo_base_half/holdout_thrissur` 실행 중 다른 GPU 1 프로세스가
   약 72 GiB를 사용하기 시작했다. 우리 프로세스는 GPU 1 약 1.3 GiB로 완료했고 metric JSON은
   유효하지만 해당 fold의 wall-clock은 비용 근거로 쓰지 않는다.
+
+## MS-109 (2026-09-06) — Solar(태양광)에서 두 번째 과업 확증: OlmoEarth 캐시 > Galileo 캐시 8/8
+
+- 무엇: MS-102(Sen12)의 "어느 표현이 캐시 가치 있나"를 **독립 두 번째 과업**에서 복제.
+  같은 디코더·같은 8 UTM-zone 폴드·시드 1. `extract_galileo_cache.py --src task2_cache`로
+  Galileo를 Solar 타일에 추출(detach 버그 수정 후, 게이트 통과 n_skipped 0),
+  `code/solar_second_fm_chain.sh`. 결과 `bv1_runs_task2/`.
+
+| 캐시 | macro IoU | AP | 폴드별 IoU |
+|---|---:|---:|---|
+| task2_cache (OlmoEarth) | **0.608** | 0.926 | .639 .566 .631 .592 .619 .610 .554 .654 |
+| galileo_task2 (Galileo) | 0.459 | 0.795 | .496 .348 .472 .402 .465 .477 .425 .584 |
+
+- **8/8 폴드 전부 OlmoEarth 우위**, IoU +0.149, AP +0.131.
+- 의미: MS-102는 Sen12 한 과업이었다. 이제 성격이 완전히 다른 두 번째 과업(전지구 인공구조물
+  분할)에서 같은 순서가 재현됐다. "OlmoEarth 캐시 우위"가 단일 과업 인공물이 아니라는 증거.
+- 말할 수 없는 것: 시드 1. Galileo는 S2 단독(S1·기상 결측)이라 제품 조건상 불리할 수 있음
+  (단 MS-105에서 readout 반론은 이미 닫힘). Clay/Prithvi의 Solar 비교는 아직 없음(다음).
+
+## MS-110 (2026-09-06) — 라벨 없는 프로브는 "예측기"가 아니라 "family 판별기"다 (자가 반증)
+
+- 배경: MS(프로브 실험)에서 effective_rank ρ=+.635 CI[+.13,+.88]을 "유망 리드"로 기록했다.
+  두 번째 컴퓨터 감사가 "row 14개를 독립 표본처럼 재추출해 CI가 과도하게 좁다"고 지적.
+  **직접 재계산해 수용한다.**
+- `code/probe_correlation.py`에 평균순위 동점 처리 + 순열검정 추가(argsort(argsort())는 동점을
+  임의로 깨서 부정확). 재계산:
+
+| 프로브 | row ρ (n=14) | 순열 p | **family 평균 ρ (n=4)** |
+|---|---:|---:|---:|
+| effective_rank | +.635 | .018 | **+.400** |
+| participation_ratio | +.631 | .018 | +.400 |
+| phys_r2_pca_mean | +.481 | .085 | +.800 |
+
+- **결정적 반증(per-cache)**: Clay 계열 **내부에서** effective_rank와 성능이 거꾸로다 —
+  clay_in256 (rank 17.8 → macro .195, Clay 최고) vs clay_native_last (rank 30.5 → macro .110).
+  즉 상관은 **family 간 분리**(OlmoEarth 높음+높음, Prithvi 낮음+낮음)가 만든 것이고,
+  "어느 캐시가 좋은가"라는 실제 질문(family 내부)에는 답하지 못한다.
+- family를 일반화 단위로 보면 ρ=.400, 유의하지 않다(n=4). **프로브는 검증된 예측기가 아니라
+  "이게 OlmoEarth인가"를 라벨 없이 맞히는 판별기다.** 논문 주장으로 승격 금지, 탐색적 관찰로 강등.
+- 교훈: n=14 상관에서 부트스트랩 CI는 상관된 반복을 독립처럼 세어 과신을 만든다.
+  일반화 단위(family, 과업)를 먼저 정하고 그 단위로 검정한다.

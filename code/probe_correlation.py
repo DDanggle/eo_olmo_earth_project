@@ -34,12 +34,37 @@ def family_of(c):
     return "?"
 
 
+def _rankdata_avg(a):
+    """평균순위 동점 처리 (scipy 없이). argsort(argsort()) 는 동점을 임의로 깨므로 쓰지 않는다."""
+    a = np.asarray(a, float); order = np.argsort(a, kind="mergesort")
+    ranks = np.empty(len(a)); ranks[order] = np.arange(len(a)); sa = a[order]; i = 0
+    while i < len(a):
+        j = i
+        while j + 1 < len(a) and sa[j + 1] == sa[i]:
+            j += 1
+        if j > i:
+            avg = (i + j) / 2.0
+            for k in range(i, j + 1):
+                ranks[order[k]] = avg
+        i = j + 1
+    return ranks
+
+
 def spearman(a, b):
     a, b = np.asarray(a, float), np.asarray(b, float)
     if len(a) < 3 or np.std(a) == 0 or np.std(b) == 0:
         return float("nan")
-    ra = np.argsort(np.argsort(a)); rb = np.argsort(np.argsort(b))
-    return float(np.corrcoef(ra, rb)[0, 1])
+    return float(np.corrcoef(_rankdata_avg(a), _rankdata_avg(b))[0, 1])
+
+
+def perm_p(x, y, n=20000, seed=0):
+    """순열검정 p값. 부트스트랩보다 소표본에서 정직하다."""
+    rng = np.random.default_rng(seed); x = np.asarray(x, float); y = np.asarray(y, float)
+    obs = abs(spearman(x, y))
+    if np.isnan(obs):
+        return float("nan")
+    c = sum(abs(spearman(x, rng.permutation(y))) >= obs - 1e-12 for _ in range(n))
+    return (c + 1) / (n + 1)
 
 
 def boot_ci(a, b, n=2000, seed=0):

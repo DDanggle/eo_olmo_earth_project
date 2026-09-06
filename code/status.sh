@@ -28,9 +28,14 @@ for d in fotw pastis dynamic_earthnet; do
   if [ -d "$p" ]; then
     sz=$(du -sb "$p" 2>/dev/null | cut -f1)
     parts=$(ls -d $p/*.parts 2>/dev/null | wc -l)
+    # 상태 = .parts 유무가 아니라 DONE/FAILED 마커로 판정 (2026-09-06: pastis sha 실패를 완료로 오표시한 버그)
+    st="받는중"
+    [ -e "logs/${d}_DONE.json" ] && st="완료  "
+    [ -e "logs/${d}_FAILED.json" ] && st="실패!!"
+    [ $parts -gt 0 ] && st="받는중"
     v=artifacts/geobench_verify_$d.json
     vs="미검증"; [ -e "$v" ] && vs=$(python3 -c "import json;print('검증OK' if json.load(open('$v'))['ok'] else '검증FAIL')" 2>/dev/null)
-    printf "  %-18s %7.2f GB  %s  %s\n" "$d" "$(echo $sz | awk '{print $1/1e9}')" "$([ $parts -gt 0 ] && echo '받는중' || echo '완료  ')" "$vs"
+    printf "  %-18s %7.2f GB  %s  %s\n" "$d" "$(echo $sz | awk '{print $1/1e9}')" "$st" "$vs"
   else
     printf "  %-18s 없음\n" "$d"
   fi
