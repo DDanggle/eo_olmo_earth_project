@@ -84,6 +84,23 @@ def train(model, Xs, Ys, steps, lr, wd, seed, bn_train):
     for _ in range(steps):
         idx=torch.randint(0,K,(bs,),generator=g); z=Xs[idx].to(dev); y=Ys[idx].to(dev); loss=lossf(model(z),y); opt.zero_grad(set_to_none=True); loss.backward(); opt.step()
     torch.cuda.synchronize(); model.eval(); return {"trainable_params":sum(p.numel() for p in params),"pos_weight":pw,"gpu_s":time.perf_counter()-t0,"final_loss":float(loss.item()),"steps":steps}
+
+@torch.no_grad()
+def adabn(model,Xq,bs=32):
+    """Transductive normalisation (arm T): re-estimate every BatchNorm running mean/var on the target field (all query embeddings), cumulative average, no labels."""
+    bns=[mm for mm in model.modules() if isinstance(mm,(nn.BatchNorm2d,nn.BatchNorm3d))]
+    for b in bns: b.reset_running_stats(); b.momentum=None; b.train()
+    for i in range(0,len(Xq),bs): model(Xq[i:i+bs].to(dev))
+    model.eval(); return len(bns)
+def retrieve_source(fold,stats,Xq_field,M=200):
+    """Arm R: rank source-train tiles by cosine between tile descriptor (mean token) and the target field descriptor (mean of query tile descriptors); return top-M ids. Labels are the true source masks."""
+    tr_ids=members(fold,"train"); tgt=torch.nn.functional.normalize(Xq_field.mean(dim=(0,2,3)),dim=0)
+    desc=[]; 
+    for s in tr_ids:
+        x=np.load(EMB/"emb_fp16"/f"{s}.npy").astype("float32").mean(axis=(1,2)); desc.append(x)
+    D=(torch.from_numpy(np.stack(desc))-stats[0].view(-1))/stats[1].view(-1); D=torch.nn.functional.normalize(D,dim=1); sim=(D@tgt)
+    top=torch.topk(sim,min(M,len(tr_ids))).indices.tolist(); return [tr_ids[i] for i in top], float(sim[top].mean())
+
 rep={"schema":"fewshot-a1-a4-v2","support":a.support,"emb_source":("clay_cache" if a.clay else "task2_cache" if a.task2 else "olmoearth"),"preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
 outfile=OUT/f"report_{a.exposure}.json"
 REGIONS=tuple(f"task2_fold{k}" for k in range(8)) if a.task2 else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.clay else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
@@ -101,6 +118,9 @@ for region in REGIONS:
         ck4=torch.load(ck_path(region,"P4",seed),map_location="cpu")["model_state"]
         CIN=ck4["proj.0.weight"].shape[1]
         dec0=EmbDecoder(cin=CIN).to(dev); dec0.load_state_dict(ck4,strict=True); dec0.eval(); P0=probs(dec0,Xq_emb); budget=empty_fp(P0,Yq_np.astype(bool),0.5)
+        if "A0T" in ARMS:
+            mt=EmbDecoder(cin=CIN).to(dev); mt.load_state_dict(ck4,strict=True); nb_=adabn(mt,Xq_emb); Pt=probs(mt,Xq_emb)
+            rep["runs"].append({"region":region,"seed":seed,"K":None,"arm":"A0T","eval":evaluate(Pt,Yq_np,budget),"train":{"trainable_params":0,"raw_bytes_read":0,"bn_layers":nb_},"fp_budget":budget}); print(region,seed,"A0T",round(rep["runs"][-1]["eval"]["iou_fp_matched"],4),flush=True); del mt
         if "A0" in ARMS:
             rep["runs"].append({"region":region,"seed":seed,"K":None,"arm":"A0","eval":evaluate(P0,Yq_np,budget),"train":{"trainable_params":0,"raw_bytes_read":0},"fp_budget":budget}); print(region,seed,"A0",round(rep["runs"][-1]["eval"]["iou_fp_matched"],4),flush=True)
         for K in ((len(man["support_pool"]["ids"]),) if a.support=="pool" else (5,20)):
@@ -114,6 +134,29 @@ for region in REGIONS:
             for arm in [x for x in ARMS if x!="A0" and not (x=="A4w0" and K!=5)]:
                 if arm=="A1":
                     m=EmbDecoder(cin=CIN).to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0
+                elif arm in ("A1T","A1R","A1TR","A1P"):
+                    m=EmbDecoder(cin=CIN).to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); Ys_=Ys; extra={}
+                    if arm in ("A1T","A1TR"): extra["bn_layers"]=adabn(m,Xq_emb)
+                    if arm in ("A1R","A1TR"):
+                        rids,msim=retrieve_source(fold,stats,Xq_emb,M=200); Xr=load_emb(rids,stats); Yr=load_masks(rids)
+                        Xs=torch.cat([Xs.repeat(5,1,1,1),Xr]); Ys_=torch.cat([Ys.repeat(5,1,1,1),Yr]); extra.update({"retrieved":len(rids),"retrieval_sim":msim,"support_upweight":5})
+                    if arm=="A1P":
+                        # prototype-guided self-training: train A1, pseudo-label query tokens whose prob is confident AND close to support-positive prototype; accept only if support-val IoU does not drop
+                        tr0=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P1=probs(m,Xq_emb); base_sup=pos_macro_iou(probs(m,Xs),Ys.squeeze(1).numpy().astype(bool),0.5) or 0
+                        with torch.no_grad():
+                            ysm=torch.nn.functional.interpolate(Ys,size=(Xs.shape[2],Xs.shape[3]),mode="nearest").squeeze(1)
+                            proto=torch.nn.functional.normalize(Xs.permute(0,2,3,1)[ysm>0.5].mean(0),dim=0) if (ysm>0.5).any() else None
+                        if proto is not None:
+                            Pq=torch.from_numpy(P1); Xn=torch.nn.functional.normalize(Xq_emb.permute(0,2,3,1),dim=-1); cos=(Xn@proto).float(); cos_up=torch.nn.functional.interpolate(cos.unsqueeze(1),size=(128,128),mode="bilinear",align_corners=False).squeeze(1)
+                            pos=((Pq>0.8)&(cos_up>0.6)).float(); neg=((Pq<0.05)).float(); Ypl=pos; W=(pos+neg)  # only confident tokens contribute
+                            m2=EmbDecoder(cin=CIN).to(dev); m2.load_state_dict(m.state_dict()); sel=(W.flatten(1).sum(1)>0); Xpl=torch.cat([Xs,Xq_emb[sel]]); Ypl_=torch.cat([Ys,Ypl[sel].unsqueeze(1)])
+                            tr=train(m2,Xpl,Ypl_,steps,1e-4,1e-4,seed*1000+K+7,bn_train=False); sup2=pos_macro_iou(probs(m2,Xs),Ys.squeeze(1).numpy().astype(bool),0.5) or 0
+                            if sup2>=base_sup-1e-6: m=m2; extra.update({"accepted":True,"pseudo_tiles":int(sel.sum()),"support_iou_before":base_sup,"support_iou_after":sup2})
+                            else: tr=tr0; extra.update({"accepted":False,"support_iou_before":base_sup,"support_iou_after":sup2})
+                        else: tr=tr0; extra.update({"accepted":False,"reason":"no positive support"})
+                        P=probs(m,Xq_emb); tr["raw_bytes_read"]=0; tr.update(extra)
+                    else:
+                        st_=(steps*2 if arm in ("A1R","A1TR") else steps); tr=train(m,Xs,Ys_,st_,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0; tr.update(extra)
                 elif arm=="A4s":
                     m=ob.OfficialUNet3D(in_channels=11).to(dev); Xs,nb=load_raw(sids); tr=train(m,Xs,Ys,steps,1e-3,1e-4,seed*1000+K,bn_train=True); P=probs(m,Xq_raw,bs=8); tr["raw_bytes_read"]=nb+raw_q_bytes
                 elif arm=="A4w0":
