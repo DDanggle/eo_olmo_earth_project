@@ -3498,3 +3498,52 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   OlmoEarth 토큰 추출 시 칩 격자(chipping) 설계가 필요 — 라벨 개봉 전 결정할 것(한국 prereg의
   `tile_unit`과 같은 종류의 결정).
 - 커밋 `605ac23`.
+
+### 2026-09-06 — GEO-Bench-2 기반 재설계 상태 감사 (결과)
+
+- **약점부터**: 새 GEO-Bench 과업에서 cache/raw/adapt 성능은 아직 **0건**이다. 지금 확보된 것은
+  데이터·로더 인프라이지 selector 증거가 아니다. 따라서 CVPR main 판정은 여전히 보류한다.
+- **서버 실물**: fotw는 SHA+적재 검증 완료(4,000/1,000/2,000), DynamicEarthNet은 3파트 SHA와
+  적재 검증 완료(700/100/200, S2 10밴드+Planet 4밴드). PASTIS는 3파트 중 0000만 SHA 통과했고
+  0001의 SHA 불일치로 첫 실행이 중단됐다. 재시도 패치의 모킹 테스트는 통과했고 재수신이 실제로
+  실행 중임을 PID·로그로 확인했다. `status.sh`는 `.parts` 디렉터리 유무만으로 완료를 판정해
+  당시 PASTIS를 거짓 `완료`로 표시했다. expected paths/SHA/DONE marker 기반으로 바꿔야 한다.
+- **프로브 주장 정정 필요**: effective-rank와 Sen12 macro의 행 단위 Spearman은 표준 tie 처리에서도
+  `rho=.635, p=.0147`이지만, 14행은 독립 모델 14개가 아니라 같은 4 family의 scale/readout 반복이다.
+  family 평균 4점으로 줄이면 `rho=.400, p=.600`; 현재 i.i.d. row bootstrap CI `[.13,.88]`은
+  군집 의존성을 무시해 `0 배제` 근거로 쓸 수 없다. 따라서 결과 상태는 **exploratory lead**이지
+  predictor evidence가 아니다. 구현의 `argsort(argsort())`는 tie 평균 rank가 아니며 emb_dim rho도
+  `-.262`에서 표준 Spearman `-.194`로 바뀌므로 tie-correct/group-aware 재계산이 선행돼야 한다.
+- **`n=70` 정정**: `14 cache x 5 task`는 70개 독립 표본이 아니라 crossed repeated-measures grid다.
+  일반화 단위는 task와 model family이며, leave-one-task-out + leave-one-family-out 및 task/family
+  group bootstrap으로 평가한다. 5개 task이면 task-level 독립성은 최대 5에 가깝다.
+- **예측 대상 정정**: 현재 코드는 Sen12의 절대 macro IoU를 예측한다. 서로 다른 task의 절대 metric은
+  직접 비교할 수 없고 task 난이도를 맞히는 것으로 오인될 수 있다. target은 task 내부의
+  `action gain(cache/raw/adapt 대비)` 또는 cost를 포함한 oracle-normalized regret로 고정한다.
+  프로브도 각 task의 train/support input에서 라벨 없이 다시 계산하고 test label은 outcome 계산에만 쓴다.
+- **GEO-Bench 관계**: 공식 19-dataset·capability benchmark의 data/split을 재사용하는 선택은 좋다.
+  다만 현재 다섯 과업은 모두 dense segmentation 계열이고 공식 leaderboard는 HPO+최소 5 seed의
+  fine-tuning 프로토콜이므로 현재 숫자와 직접 비교하지 않는다. `GEO-Bench 전반`을 주장하려면
+  classification/regression 1개 이상을 넣고, 아니면 제목·주장을 dense EO task로 좁힌다.
+- **가장 작은 유효 설계**: Sen12·Solar는 개발, PASTIS를 10-band temporal primary, fotw를 4-band
+  contract-shift, DynamicEarthNet을 S2/Planet multimodal boundary로 둔다. 결과 전 chipping·time·
+  missing-modality·metric·action set을 machine-readable prereg로 동결한다. 핵심 평가는
+  always-cache / always-raw(or re-embed) / label-free or support-only selector / oracle의 regret-cost 곡선이다.
+- **검증**: downloader range/retry unit test, cache probe unit test, shell syntax, `git diff --check` 통과.
+  서버 Solar 2nd-FM 체인은 GPU1 타 사용자 PID를 감지해 규약대로 rc=3으로 중단했으며 새 성능 결과는 없다.
+
+### 2026-09-06 12:00 — Solar 2nd-FM GPU 작업 기동 + pastis HF 우회
+- **Solar 2nd-FM 체인 실행 중** (GPU1, 우리 것만). `extract_galileo_cache.py`의 `feat.numpy()`가
+  grad 추적 텐서에서 크래시(`Can't call numpy() on Tensor that requires grad`)하던 것을
+  `feat.detach().numpy()`로 수정. per-tile except가 그 크래시를 삼켜 **전 타일 조용히 skip**하며
+  GPU를 낭비하던 좀비 3개 발견·강제 종료. 스모크(10타일, shape (768,32,32)) 통과 후 재기동.
+  현재 에러 0, ~3.2타일/초로 3,434 추출 중 → 8폴드 디코더 × {OlmoEarth,Galileo} 예정.
+  이것이 "어느 표현이 캐시 가치 있나"의 **두 번째 과업 증거**(최대 구멍 F3 메움).
+- **pastis 다운로드**: 우리 병렬 range 다운로더가 0001 파트(20GB)에서 **결정적으로 잘못된 해시**
+  (재시도마다 동일 got 3f1e98e3, 기대 7d0463a6). HF LFS/xet range 병합 문제로 판단 →
+  `geobench_hf_download.py`(huggingface_hub 공식 `hf_hub_download`)로 우회. 0000 skip_verified,
+  0001 수신 중. 완료 시 자동 검증. **교훈**: 대형 LFS 파일은 자작 range 다운로더보다 공식 도구.
+- **좀비 프로세스 교훈**: `pkill -f`가 uninterruptible 상태 프로세스를 못 죽여 GPU1에 117GB
+  낭비가 남았다. `kill -9 <PID>` 명시로 정리. gpu1_waiter가 GPU 비는 순간 자동 기동하도록 상시 대기.
+- 확보 확정: fotw(검증OK, 4밴드) · DynamicEarthNet(검증OK, s2 10밴드+planet 4밴드, 700/100/200).
+- 커밋 `d019540` 이후 추가.

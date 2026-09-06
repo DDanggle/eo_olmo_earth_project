@@ -40,7 +40,7 @@ def embed(sid):
         tok=((s_t_x*keep).sum(dim=(3,4))/keep.sum(dim=(3,4)).clamp(min=1)).permute(0,3,1,2).cpu()   # (4,D,16,16)
     g=64//a.patch; feat=torch.empty((tok.shape[1],128//a.patch,128//a.patch))
     for k,(y0,x0) in enumerate(((0,0),(0,64),(64,0),(64,64))): feat[:,y0//a.patch:y0//a.patch+g,x0//a.patch:x0//a.patch+g]=tok[k]
-    return feat.numpy().astype("float16")
+    return feat.detach().numpy().astype("float16")
 for sid in (ids[:2] if a.probe else ids):
     o=OUT/"emb_fp16"/f"{sid}.npy"
     if o.exists(): done+=1; continue
