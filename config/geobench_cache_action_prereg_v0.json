@@ -1,167 +1,179 @@
 {
-  "schema": "earthcache-geobench-action-benchmark-v0",
-  "status": "DRAFT_READY_TO_FREEZE_BEFORE_FIRST_GEOBENCH_ACTION_OUTCOME",
-  "date": "2026-09-06",
-  "purpose": "Test whether a pre-action policy can choose among already materialized Earth caches, cheap adaptation, and re-embedding under an explicit resource budget on held-out geospatial tasks or deployment episodes.",
-  "claim_boundary": {
-    "primary": "cost-aware action selection under Earth observation cache, contract, model-family, and shift constraints",
-    "not_claimed": [
-      "a universally best Earth foundation model",
-      "a new generic transferability score",
-      "direct comparability to the GEO-Bench-2 leaderboard without its full official protocol",
-      "independence of folds drawn from one task",
-      "Korean public-data accuracy improvement before sealed external evaluation"
-    ],
-    "separate_existing_policy": "config/safe_cache_action_prereg_draft_v0.json remains the within-task support-set A0/A1 safety policy. This file is the cross-task and cross-family benchmark contract; the two policies must not be pooled as one experiment."
-  },
-  "research_question": "Before paying for every candidate pipeline, can target-side contract metadata, unlabeled cache sketches, measured costs, and optionally a small support set select the action with low held-out utility regret?",
-  "necessary_condition_gate_G0": {
-    "must_run_before_fitting_a_selector": true,
-    "unit": "task_or_deployment_episode x model_family x action x fixed_budget",
-    "requirements": [
-      "At least two independent task or deployment groups exhibit a best-action rank reversal beyond seed uncertainty, or measured cost budgets create a genuine Pareto crossover.",
-      "Oracle routing improves task-normalized score by at least 0.02 over the best static action in at least one predeclared budget track.",
-      "The oracle advantage is not created only by making an action unavailable after seeing its outcome."
-    ],
-    "failure_action": "Do not train a learned selector. Publish or retain the result as EarthCacheBench characterization and cache-value boundary evidence."
-  },
-  "episode": {
-    "definition": "A dataset task or a prespecified geographic/temporal deployment group with one input contract, one label budget, and one resource budget.",
-    "statistical_generalization_units": [
-      "task",
-      "model_family",
-      "geographic_or_temporal_group"
-    ],
-    "not_independent_units": [
-      "tiles from the same event or region",
-      "folds from one UTM grouping",
-      "scale and readout variants of one model family"
-    ]
-  },
-  "data_plan": {
-    "development_only": [
-      "Sen12Landslides",
-      "Solar Farm"
-    ],
-    "core6_candidate": [
-      {
-        "dataset": "PASTIS",
-        "role": "10-band multitemporal segmentation primary",
-        "local_state": "download incomplete as of design freeze"
-      },
-      {
-        "dataset": "Fields of the World",
-        "role": "4-band contract-shift segmentation",
-        "local_state": "verified"
-      },
-      {
-        "dataset": "DynamicEarthNet",
-        "role": "multitemporal S2 plus Planet boundary",
-        "local_state": "verified"
-      },
-      {
-        "dataset": "TreeSatAI or BigEarthNet-v2",
-        "role": "classification; choose exactly one before freeze",
-        "local_state": "not acquired"
-      },
-      {
-        "dataset": "BioMassters",
-        "role": "regression",
-        "local_state": "not acquired"
-      },
-      {
-        "dataset": "CloudSEN12",
-        "role": "cloud and sensor-shift stress test",
-        "local_state": "not acquired"
-      }
-    ],
-    "korea_external_track": "Held-out deployment case for public-data evidence and abstention. It does not replace the public benchmark and is not opened until its eligibility and leakage gates pass."
-  },
-  "protocol_freeze_required_before_outcomes": [
-    "dataset version and official split",
-    "128-pixel chipping and overlap",
-    "band order, missing-band policy, GSD, temporal selection and cloud policy",
-    "task metric and direction",
-    "model layer, pooling and decoder",
-    "action eligibility",
-    "support draws and seeds",
-    "cost measurement harness",
-    "outer task and family split"
+ "schema": "earthcache-geobench-action-benchmark-v0",
+ "status": "DRAFT_READY_TO_FREEZE_BEFORE_FIRST_GEOBENCH_ACTION_OUTCOME",
+ "date": "2026-09-06",
+ "purpose": "Test whether a pre-action policy can choose among already materialized Earth caches, cheap adaptation, and re-embedding under an explicit resource budget on held-out geospatial tasks or deployment episodes.",
+ "claim_boundary": {
+  "primary": "cost-aware action selection under Earth observation cache, contract, model-family, and shift constraints",
+  "not_claimed": [
+   "a universally best Earth foundation model",
+   "a new generic transferability score",
+   "direct comparability to the GEO-Bench-2 leaderboard without its full official protocol",
+   "independence of folds drawn from one task",
+   "Korean public-data accuracy improvement before sealed external evaluation"
   ],
-  "actions": {
-    "CACHED_HEAD": "Read a precomputed frozen representation and train the standardized task head under the declared label budget.",
-    "HEAD_ADAPT": "Keep the representation cache fixed and adapt only the task head on the declared support set.",
-    "REEMBED": "Read raw imagery, execute the declared encoder release, materialize a new cache, and train the same task head.",
-    "PEFT_REEMBED": "Adapt the declared encoder with a fixed parameter-efficient recipe, re-embed, and train the same task head; ceiling arm, not novelty.",
-    "REQUEST_MORE_LABELS": "Fail closed when predicted action differences are within uncertainty or the input contract is unsupported."
-  },
-  "availability_rule": "An unsupported sensor or modality makes an action ineligible by a rule frozen before outcomes. It must not be encoded as a zero score or removed after observing performance.",
-  "tracks": {
-    "Z0": "No target labels for routing; labels may be used only to train the standardized downstream head if that is part of every compared action, never to choose the representation action.",
-    "K5": "Five support units available to all eligible routing baselines.",
-    "K20": "Twenty support units available to all eligible routing baselines.",
-    "BUDGET": "Fixed measured GPU-time, raw-I/O, and cache-storage envelopes; report separate envelopes instead of tuning one arbitrary cost weight on test tasks."
-  },
-  "selector_inputs": {
-    "allowed_pre_action": [
-      "declared sensor, bands, GSD, temporal span, cloud rate and missingness",
-      "model family, release, parameter count, token support, cache dtype and bytes",
-      "unlabeled target cache mean, covariance, effective-rank and source-target distances",
-      "measured warm-read, cold-encode, raw-I/O and storage cost",
-      "support-only LogME, Task2Vec or loss/gradient features in K5 and K20 tracks"
-    ],
-    "forbidden": [
-      "target query labels",
-      "target task action outcomes",
-      "test-derived thresholds",
-      "task identity lookup tables",
-      "metrics from an unavailable action at routing time"
-    ],
-    "prediction_target": "pairwise action gain or task-normalized action regret, never absolute IoU, AP, accuracy or RMSE pooled across tasks"
-  },
-  "evaluation": {
-    "outer_validation": [
-      "leave-one-task-out",
-      "leave-one-model-family-out"
-    ],
-    "confidence_intervals": "hierarchical or cluster bootstrap over task, family, and geographic/temporal group; rows and folds are not i.i.d.",
-    "primary": "oracle-normalized action regret within each episode and budget",
-    "benchmark_score": "GEO-Bench-style task-normalized interquartile mean at each fixed budget",
-    "safety": [
-      "harmful-action rate: selected action loses at least 0.01 normalized utility to the best safe static action",
-      "coverage: fraction decided without REQUEST_MORE_LABELS"
-    ],
-    "cost_vector": [
-      "cold encoder GPU seconds",
-      "warm cache-read seconds",
-      "head or adaptation GPU seconds",
-      "raw bytes read",
-      "cache bytes written",
-      "cache invalidation bytes"
-    ]
-  },
-  "baselines": [
-    "always OlmoEarth cache",
-    "always best static cache selected on development tasks",
-    "always cheapest eligible action",
-    "always re-embed",
-    "contract-only deterministic rule",
-    "Task2Vec where labels are allowed",
-    "LogME where labels are allowed",
-    "Capabilities Encoding style performance prediction",
-    "unlabeled target-risk estimates such as ATC or GdScore when applicable",
-    "oracle action using held-out outcomes for evaluation only"
+  "separate_existing_policy": "config/safe_cache_action_prereg_draft_v0.json remains the within-task support-set A0/A1 safety policy. This file is the cross-task and cross-family benchmark contract; the two policies must not be pooled as one experiment."
+ },
+ "research_question": "Before paying for every candidate pipeline, can target-side contract metadata, unlabeled cache sketches, measured costs, and optionally a small support set select the action with low held-out utility regret?",
+ "necessary_condition_gate_G0": {
+  "must_run_before_fitting_a_selector": true,
+  "unit": "task_or_deployment_episode x model_family x action x fixed_budget",
+  "requirements": [
+   "At least two independent task or deployment groups exhibit a best-action rank reversal beyond seed uncertainty, or measured cost budgets create a genuine Pareto crossover.",
+   "Oracle routing improves task-normalized score by at least 0.02 over the best static action in at least one predeclared budget track.",
+   "The oracle advantage is not created only by making an action unavailable after seeing its outcome."
   ],
-  "promotion_gates": {
-    "G1_regret": "At least 30% lower mean normalized regret than the best static policy, with a task/family-grouped confidence interval excluding zero improvement.",
-    "G2_score": "At least 0.02 higher task-normalized IQM than the best static policy in one predeclared resource budget and no material loss in the others.",
-    "G3_cost": "At matched score within 0.01, at least 25% lower measured encoder plus raw-I/O cost than always re-embed.",
-    "G4_external": "Same direction on at least one fully held-out public task; Korea is an additional external case, not the only test.",
-    "G5_reproducibility": "At least three seeds for promoted cells and all report, cache, split, source, and environment hashes sealed."
-  },
-  "cvpr_decision": {
-    "main_candidate": "G0 passes and G1 plus G2 plus either G3 or a strong external stress result pass.",
-    "characterization_fallback": "G0 fails or routing does not beat the best static policy; retain the two-task cache-value result, release continuity failure, scale/family boundary, and measured cost curves.",
-    "stop": "Do not add a VLM, MoE, federated learning, or Korean API fusion to rescue a failed selector."
-  }
+  "failure_action": "Do not train a learned selector. Publish or retain the result as EarthCacheBench characterization and cache-value boundary evidence."
+ },
+ "episode": {
+  "definition": "A dataset task or a prespecified geographic/temporal deployment group with one input contract, one label budget, and one resource budget.",
+  "statistical_generalization_units": [
+   "task",
+   "model_family",
+   "geographic_or_temporal_group"
+  ],
+  "not_independent_units": [
+   "tiles from the same event or region",
+   "folds from one UTM grouping",
+   "scale and readout variants of one model family"
+  ]
+ },
+ "data_plan": {
+  "development_only": [
+   "Sen12Landslides",
+   "Solar Farm"
+  ],
+  "core6_candidate": [
+   {
+    "dataset": "PASTIS",
+    "role": "10-band multitemporal segmentation primary",
+    "local_state": "download incomplete as of design freeze"
+   },
+   {
+    "dataset": "Fields of the World",
+    "role": "4-band contract-shift segmentation",
+    "local_state": "verified"
+   },
+   {
+    "dataset": "DynamicEarthNet",
+    "role": "multitemporal S2 plus Planet boundary",
+    "local_state": "verified"
+   },
+   {
+    "dataset": "TreeSatAI or BigEarthNet-v2",
+    "role": "classification; choose exactly one before freeze",
+    "local_state": "not acquired"
+   },
+   {
+    "dataset": "BioMassters",
+    "role": "regression",
+    "local_state": "not acquired"
+   },
+   {
+    "dataset": "CloudSEN12",
+    "role": "cloud and sensor-shift stress test",
+    "local_state": "not acquired"
+   }
+  ],
+  "korea_external_track": "Held-out deployment case for public-data evidence and abstention. It does not replace the public benchmark and is not opened until its eligibility and leakage gates pass."
+ },
+ "protocol_freeze_required_before_outcomes": [
+  "dataset version and official split",
+  "128-pixel chipping and overlap",
+  "band order, missing-band policy, GSD, temporal selection and cloud policy",
+  "task metric and direction",
+  "model layer, pooling and decoder",
+  "action eligibility",
+  "support draws and seeds",
+  "cost measurement harness",
+  "outer task and family split"
+ ],
+ "actions": {
+  "CACHED_HEAD": "Read a precomputed frozen representation and train the standardized task head under the declared label budget.",
+  "HEAD_ADAPT": "Keep the representation cache fixed and adapt only the task head on the declared support set.",
+  "REEMBED": "Read raw imagery, execute the declared encoder release, materialize a new cache, and train the same task head.",
+  "PEFT_REEMBED": "Adapt the declared encoder with a fixed parameter-efficient recipe, re-embed, and train the same task head; ceiling arm, not novelty.",
+  "REQUEST_MORE_LABELS": "Fail closed when predicted action differences are within uncertainty or the input contract is unsupported.",
+  "RAW_FINETUNE": "Train a raw task model from scratch or source-init WITHOUT the cached encoder representation. Distinct from REEMBED (which runs the encoder). Baseline for 'is the cache worth anything', not a routing action. MS-97/99 A4w is this, not REEMBED."
+ },
+ "availability_rule": "An unsupported sensor or modality makes an action ineligible by a rule frozen before outcomes. It must not be encoded as a zero score or removed after observing performance.",
+ "tracks": {
+  "Z0": "No target labels for routing; labels may be used only to train the standardized downstream head if that is part of every compared action, never to choose the representation action.",
+  "K5": "Five support units available to all eligible routing baselines.",
+  "K20": "Twenty support units available to all eligible routing baselines.",
+  "BUDGET": "Fixed measured GPU-time, raw-I/O, and cache-storage envelopes; report separate envelopes instead of tuning one arbitrary cost weight on test tasks."
+ },
+ "selector_inputs": {
+  "allowed_pre_action": [
+   "declared sensor, bands, GSD, temporal span, cloud rate and missingness",
+   "model family, release, parameter count, token support, cache dtype and bytes",
+   "unlabeled target cache mean, covariance, effective-rank and source-target distances",
+   "measured warm-read, cold-encode, raw-I/O and storage cost",
+   "support-only LogME, Task2Vec or loss/gradient features in K5 and K20 tracks"
+  ],
+  "forbidden": [
+   "target query labels",
+   "target task action outcomes",
+   "test-derived thresholds",
+   "task identity lookup tables",
+   "metrics from an unavailable action at routing time"
+  ],
+  "prediction_target": "pairwise action gain or task-normalized action regret, never absolute IoU, AP, accuracy or RMSE pooled across tasks"
+ },
+ "evaluation": {
+  "outer_validation": [
+   "leave-one-task-out",
+   "leave-one-model-family-out"
+  ],
+  "confidence_intervals": "hierarchical or cluster bootstrap over task, family, and geographic/temporal group; rows and folds are not i.i.d.",
+  "primary": "oracle-normalized action regret within each episode and budget",
+  "benchmark_score": "GEO-Bench-style task-normalized interquartile mean at each fixed budget",
+  "safety": [
+   "harmful-action rate: selected action loses at least 0.01 normalized utility to the best safe static action",
+   "coverage: fraction decided without REQUEST_MORE_LABELS"
+  ],
+  "cost_vector": [
+   "cold encoder GPU seconds",
+   "warm cache-read seconds",
+   "head or adaptation GPU seconds",
+   "raw bytes read",
+   "cache bytes written",
+   "cache invalidation bytes"
+  ]
+ },
+ "baselines": [
+  "always OlmoEarth cache",
+  "always best static cache selected on development tasks",
+  "always cheapest eligible action",
+  "always re-embed",
+  "contract-only deterministic rule",
+  "Task2Vec where labels are allowed",
+  "LogME where labels are allowed",
+  "Capabilities Encoding style performance prediction",
+  "unlabeled target-risk estimates such as ATC or GdScore when applicable",
+  "oracle action using held-out outcomes for evaluation only"
+ ],
+ "promotion_gates": {
+  "G1_regret": "At least 30% lower mean normalized regret than the best static policy, with a task/family-grouped confidence interval excluding zero improvement.",
+  "G2_score": "At least 0.02 higher task-normalized IQM than the best static policy in one predeclared resource budget and no material loss in the others.",
+  "G3_cost": "At matched score within 0.01, at least 25% lower measured encoder plus raw-I/O cost than always re-embed.",
+  "G4_external": "Same direction on at least one fully held-out public task; Korea is an additional external case, not the only test.",
+  "G5_reproducibility": "At least three seeds for promoted cells and all report, cache, split, source, and environment hashes sealed."
+ },
+ "cvpr_decision": {
+  "main_candidate": "G0 passes and G1 plus G2 plus either G3 or a strong external stress result pass.",
+  "characterization_fallback": "G0 fails or routing does not beat the best static policy; retain the two-task cache-value result, release continuity failure, scale/family boundary, and measured cost curves.",
+  "stop": "Do not add a VLM, MoE, federated learning, or Korean API fusion to rescue a failed selector."
+ },
+ "normalization_rule": {
+  "requirement": "Fixed per-episode anchors declared before outcomes (lower_anchor, upper_anchor).",
+  "forbidden": "min-max normalization over the eligible/evaluated actions (violates IIA under budget filtering).",
+  "lower_anchor": "fixed supervised baseline or fixed reference floor",
+  "upper_anchor": "full-label strong baseline or fixed reference ceiling",
+  "also_report": "native-metric per-episode regret and IIA invariance check (code/geobench_action_headroom.check_iia)"
+ },
+ "cost_schema_additions": {
+  "support_label_count": "labels the action consumed; adaptation's key cost, added 2026-09-06"
+ },
+ "_correction_2026_09_06": "G0 calculator rewritten to v1: fixed-anchor normalization (IIA-safe), G0 split into G0-A heterogeneity and G0-B value, RAW_FINETUNE separated from REEMBED, support_label_count added. Prior min-max headroom numbers (.013/.500) withdrawn."
 }

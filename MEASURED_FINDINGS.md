@@ -4899,3 +4899,31 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
   CACHED_HEAD vs HEAD_ADAPT로 좁혀 GPU 절반 절감.
 - 말할 수 없는 것: 비용은 **추정값**(실측 아님) — 실측 비용 벡터로 대체해야 G3·selector 가치 확정.
   개발 2과업은 일반화 단위로 부족.
+
+## MS-111-정정 (2026-09-06) — 앞 G0 실행은 "실증 결과"가 아니라 파이프라인 스모크 테스트였다
+
+두 번째 컴퓨터 감사가 세 결함을 지적했고, 산술로 검증해 **전부 수용**한다.
+
+1. **IIA 위반**: `no_reembed headroom=.500`은 비용 효과가 아니라 정규화 인공물이었다.
+   평가 action의 min-max로 재정규화하면 열등 action(REEMBED)을 빼는 순간 남은 둘의 승자가
+   자동으로 1, 패자가 0이 된다. `code/geobench_action_headroom.py`를 v1으로 재작성 —
+   **고정 per-episode anchor 정규화**로 바꿔 열등 action 추가/제거에 불변(IIA). `check_iia`와
+   테스트로 증명(9/9 통과).
+2. **REEMBED 오명명**: `.179/.240`은 MS-97/99의 **raw UNet3D full adaptation(A4w)**이지
+   "인코더 재실행→새 캐시→같은 head"가 아니다. `RAW_FINETUNE`으로 표기 수정.
+   **진짜 REEMBED는 미측정**. "REEMBED 두 과업 최하위" 및 그에 근거한 "GPU 절반" 주장 철회.
+3. **비용은 추정, `support_label_count` 누락**: 스키마에 support 라벨 수 추가(적응의 핵심 비용).
+
+**정정된 G0 판정** (`artifacts/g0_dev/g0_dev_report.json`):
+
+| 게이트 | 결과 |
+|---|---|
+| G0-A 행동 이질성 | native 승자 다름 (Sen12→HEAD_ADAPT +.036, Solar→CACHED_HEAD +.009) — **단 시드 1개**(재현 아님) |
+| G0-B 운영 가치 | **계산 불가** (고정 anchor·진짜 REEMBED·실측 비용 없음) |
+| G0_pass | **False** |
+
+네이티브 headroom(참고): oracle .4425 − always-ADAPT .438 = **+0.0045** 절대 IoU.
+방향("점수만으론 selector 필요성 작음")은 유지, 그러나 `.013/.500`은 폐기.
+
+**남는 것**: 재사용↔적응 역전 신호는 있으나 (a) 시드 1개 (b) Solar margin +.009로 미약
+(c) 가치·비용 미검증. GEO-Bench Core-6가 이 셋을 채워야 G0-A/G0-B가 실제로 판정된다.

@@ -11,36 +11,38 @@
 > 상대 이득을 test label 없이 예측하고, best-static 정책보다 GEO-Bench score–cost frontier를
 > 개선한다. 개선이 없으면 정직하게 EarthCacheBench 특성화 논문으로 간다.
 
-## 1. 지금 어디 서 있나 — G0를 실제로 돌린 결과
+## 1. 지금 어디 서 있나 — G0를 실제로 돌린 결과 (2026-09-06 정정판)
 
-개발 과업 2개(Sen12 MS-97, Solar MS-99)의 **실측 region-macro 평균**을 G0에 넣었다.
-`artifacts/g0_dev/g0_dev_report.json`.
+> **정정**: 초판은 `no_reembed headroom=.500`을 비용 신호로 읽었다. 그건 **정규화 인공물**이었다
+> (평가 action의 min-max 재정규화가 IIA를 위반). 또 `REEMBED`로 넣은 값은 실제로는 raw UNet3D
+> 재학습(`RAW_FINETUNE`)이었다. 계산기를 v1으로 재작성(고정 anchor, IIA 불변, 9/9 테스트)하고
+> 입력을 정직하게 고쳤다. `artifacts/g0_dev/g0_dev_report.json`.
 
-| 과업 | CACHED_HEAD | HEAD_ADAPT | REEMBED | 최고 action |
-|---|---:|---:|---:|---|
-| Sen12 (K=5) | .258 | **.294** | .179 | HEAD_ADAPT |
-| Solar (K=5) | **.591** | .582 | .240 | CACHED_HEAD |
+개발 과업 2개(Sen12 MS-97, Solar MS-99)의 실측 region-macro K=5:
 
-G0 판정:
+| 과업 | CACHED_HEAD | HEAD_ADAPT | RAW_FINETUNE | native 승자 | margin |
+|---|---:|---:|---:|---|---:|
+| Sen12 | .258 | **.294** | .179 | HEAD_ADAPT | +.036 |
+| Solar | **.591** | .582 | .240 | CACHED_HEAD | +.009 |
 
-| 예산 | best_static | oracle headroom | headroom≥.02 | 역전군≥2 | 종합 |
-|---|---|---:|:--:|:--:|:--:|
-| unlimited | HEAD_ADAPT | **+0.013** | ✗ | ✗ | fail |
-| no_reembed (≤300s) | CACHED_HEAD | +0.500 | ✓ | ✗ | fail |
-| reuse_only (≤75s) | CACHED_HEAD | 0.000 | ✗ | ✗ | fail |
+G0 판정 (두 하위 게이트로 분리):
 
-**`budget_static_winner_crossover = True`**: 예산이 바뀌면 최고 정적 action이 HEAD_ADAPT→CACHED_HEAD로 바뀐다.
+| 게이트 | 결과 |
+|---|---|
+| **G0-A 행동 이질성** | native 승자 다름 → 신호 있음. **단 시드 1개**(seed_wins 1/1은 재현 아님), Solar margin +.009로 미약 |
+| **G0-B 운영 가치** | **계산 불가** — 고정 anchor·진짜 REEMBED·실측 비용 없음 |
+| **G0_pass** | **False** |
+
+참고 네이티브 headroom: oracle .4425 − always-ADAPT .438 = **+0.0045** 절대 IoU. `.013/.500`은 폐기.
 
 ### 읽기 (정직하게)
 
-1. **점수만 보면 selector는 아직 정당화되지 않는다.** unlimited에서 HEAD_ADAPT가 거의 oracle
-   (headroom .013 < .02). "항상 적응"이 매우 강한 정적 정책이다. 이게 냉정한 사실이다.
-2. **그러나 selector 가치의 자리가 드러났다 — 비용 축이다.** REEMBED를 예산으로 빼면 답이
-   CACHED_HEAD로 뒤집히고, Sen12(적응)↔Solar(재사용) 역전이 실재한다. HEAD_ADAPT는 라벨과
-   학습이 더 비싸므로, 빡빡한 예산에서는 CACHED_HEAD(라벨 0, warm read)가 frontier를 이길 수 있다.
-3. **2 과업으로는 검정력이 없다.** G0는 독립 역전군 ≥2를 요구하는데 우리에겐 역전 1개뿐이다.
-   → GEO-Bench가 풀어야 할 것이 정확히 이것이다: **더 많은 독립 과업에서 (a) 재사용↔적응 역전이
-   체계적인가, (b) 실측 비용이 Pareto 교차를 만드는가.**
+1. **재사용↔적응 역전 신호는 실재하나 미약·미검증이다.** Sen12는 적응, Solar는 재사용이 이기지만
+   시드 1개이고 Solar 격차는 +.009다. 실제 시드에서 뒤집힐 수 있다.
+2. **가치(G0-B)는 아직 측정조차 못 했다.** 고정 anchor, 진짜 REEMBED, 실측 비용이 있어야 한다.
+3. **2 과업은 검정력이 없다** (G0-A는 독립군 ≥2 요구, 우리는 정확히 2, 시드 1). → GEO-Bench Core-6가
+   (a) 역전이 ≥2 독립군에서 시드 넘어 재현되는가, (b) 고정 anchor 정규화 headroom이 ≥.02인가,
+   (c) 실측 비용이 Pareto 교차를 만드는가 — 이 셋을 채워야 판정된다.
 
 ## 2. 3단계 큰 그림
 
@@ -76,10 +78,11 @@ segmentation 편향을 깨려면 classification·regression을 반드시 하나�
 action = {CACHED_HEAD, HEAD_ADAPT, REEMBED} (PEFT_REEMBED는 천장 arm, novelty 아님).
 예산 = {Z0/K5/K20} × BUDGET envelope. 시드 = 3 (승격 셀만).
 
-**비용 절감 규칙**: 개발 2과업에서 REEMBED(raw 재학습)가 **둘 다 최하위**였다. 이 지배가 외부
-과업에서도 유지되면, REEMBED는 과업당 1회만 확증하고 selector의 실질 결정을
-**CACHED_HEAD vs HEAD_ADAPT**로 좁힌다 → GPU 부하 절반. (REEMBED가 어느 과업에서 살아나면
-그 자체가 중요한 발견 — release 전환·계약 이동 과업에서 그럴 수 있다.)
+**주의(정정)**: 개발 2과업에서 최하위였던 것은 `RAW_FINETUNE`(raw UNet3D 재학습)이지
+**진짜 REEMBED(인코더 재실행→새 캐시)가 아니다** — 진짜 REEMBED는 아직 한 번도 측정 안 됨.
+따라서 "REEMBED가 지배당하니 1회만 확증하고 GPU 절반" 주장은 **철회**한다. REEMBED는 정식으로
+측정하되, prereg의 sequential stopping(폴드에서 명확히 지배될 때만 추가 시드 중단)을 쓴다.
+selector의 실질 결정이 CACHED_HEAD vs HEAD_ADAPT로 좁혀질지는 측정 후 판단한다.
 
 ### 3.3 실측 비용 벡터 (prereg 정의, 추정 아님)
 
@@ -132,5 +135,7 @@ CVPR main은 아니어도 정직한 기여.
 1. **BigEarthNet-v2 + BioMassters 확보** (classification·regression 편향 해소). preflight → HF 다운로드.
 2. **chipping·head_type·시간선택을 prereg에 확정** (256/512px GEO-Bench ↔ 128px 칩 계약).
    GPU 실험 전에 기계 판독 파일로 고정 (L4).
-3. **GPU 비면 외부 과업 action matrix 채우기** — CACHED_HEAD/HEAD_ADAPT 먼저, REEMBED 1회 확증.
-   3~4 과업 채워지면 G0 재실행 → 트랙 S/A 분기 확정.
+3. **GPU 비면 외부 과업 action matrix 채우기** — CACHED_HEAD/HEAD_ADAPT 먼저(값쌈),
+   RAW_FINETUNE·진짜 REEMBED는 sequential stopping으로. **각 과업에 고정 anchor(lower=고정
+   supervised baseline, upper=full-label 천장)를 실험 전에 선언**해야 G0-B가 계산된다.
+   3~4 과업 + anchor + 실측 비용이 채워지면 G0 재실행 → 트랙 S/A 분기 확정.
