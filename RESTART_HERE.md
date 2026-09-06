@@ -1,4 +1,37 @@
 # OLMoEarth 연구 재시작 지점
+> ## 2026-09-06 09:40 KST — 현재 그림 (이 절이 최신, 아래 절들은 이력)
+>
+> **한 줄**: 논문 몸통이 비어 있던 상태에서 벗어나는 중. 새 downstream 과업 1개 확보(fotw), 2개 수신 중(PASTIS·DynamicEarthNet). 라벨 없는 캐시 가치 예측기에 첫 리드(effective_rank ρ=.635, CI가 0 배제). GPU는 남의 작업으로 전면 점유.
+>
+> **상태 한 번에 보기**: `./bin/nx sh 'bash /home/work/data/olmoearth/code/status.sh'`
+> (GPU·실행 중 체인·DONE/FAILED 마커·GEO-Bench 수신·보호 4파일 해시를 한 화면에)
+>
+> **방향 (2026-09-06 새벽 사용자와 합의, 다시 바꾸지 않음)**
+> 1. 벤치마크는 **GEO-Bench-2 위에 얹는다** — PASTIS + Fields of the World + DynamicEarthNet + 기존 Sen12·Solar = 과업 5개. GEO-Bench-2에는 few-shot·캐시 재사용·비용 축이 없다(공식 프로토콜은 전량 라벨 fine-tuning). 우리는 그들의 **데이터·split만** 쓰고 arm끼리 비교한다. 리더보드 숫자와 직접 비교 금지(M24 교훈).
+> 2. **진단이 아니라 예측기**를 만든다. "유사도 지표(CKA 등)가 기능 등가를 예측 못 한다"는 ICLR 2023 등 선행연구가 점유 → 기여 아님. 남은 빈칸 = "라벨 없이 무엇이 캐시 가치를 예측하는가".
+> 3. 교차모델 선형 브리지(Clay→OlmoEarth)는 5폴드 전부 사전등록 불통과로 **사망**. 되살리지 않는다.
+>
+> **확보한 것**
+> - fotw: sha256 통과, train 4,000 / val 1,000 / test 2,000, 샘플 `image_a/image_b (4,256,256)` + `mask`. **단 4밴드(RGB+NIR)** — 논문 표의 "S2/Multi"와 달리 다중밴드가 아니다. 계약 주의.
+> - PASTIS: S2 10밴드가 우리 Sen12/한국 캐시와 **같은 집합**(B08 위치만 다름, `band_order`로 정렬). + S1 asc/desc. 20 class 시계열 분할. 수신 중.
+> - DynamicEarthNet: planet 4밴드 + S2 12밴드(B01/B10 포함). 우리 10밴드 전부 보유. 수신 대기.
+> - 프로브 14캐시: `artifacts/cache_probes.json`, `artifacts/probe_correlation.json`. 사전등록 ρ≥.70 불통과(NO_PREDICTOR_AT_N14). effective_rank ρ=+.635 CI[+.13,+.88], participation_ratio ρ=+.631 CI[+.04,+.93]. 물리 프로브(NDVI 복원)는 판별력 없음. 확증은 n=70(과업 5개)로 사전 지정.
+>
+> **GPU 필요 단계 (지금 막힘 — GPU0/1 모두 타 사용자 100%)**
+> - (A) 경쟁 캐시(Clay/Galileo/Prithvi)를 **Solar**에 — 현재 "어느 표현이 캐시 가치 있나" 결론이 downstream 과업 1개(Sen12)에만 얹혀 있음. 최대 구멍. 파이프라인 있음.
+> - (B) PASTIS/fotw/DEN에 OlmoEarth·경쟁 캐시 추출 → 8폴드 디코더 → 프로브 확증 n=70.
+> - GPU가 비면 (A) 먼저. 규약 4b: `nvidia-smi`로 GPU1이 비었는지 확인, 남의 프로세스 있으면 멈춤.
+>
+> **재발 방지 장치 (2026-09-06 신설)**
+> - `code/preflight.py geobench` — 비싼 단계 앞 5초 예비검사(클래스·url·sha·band_order·필수인자). 통과해야 진행.
+> - `code/test_chain_rc_pattern.py` — `echo "$(date) rc=$?"` 오용 린터. 현역 0건. 봉인 결과 생산 스크립트 15개는 HISTORICAL(계보 보존).
+> - **설계 규칙**: 다운로드와 검증을 한 사슬에 묶지 않는다. 검증 실패가 독립 다운로드를 막았던 것이 7시간 손실의 원인(2026-09-06 02:31 fotw verify 실패 → pastis/DEN 미시작).
+> - 밴드 계약: `raw_u16 = (10밴드, 12시점, 128, 128)`, **B08 = idx 3**. `test_cache_probes.py`에 손계산 검증.
+>
+> **환경**: `.venv-geobench`(격리, `--system-site-packages`, `PIP_CONSTRAINT=`, `numpy<2`). `.venv-master`는 건드리지 않음. 데이터 `geobench2/<dataset>/`.
+>
+> **정정 이력(이 사이클)**: "용량 필요조건" 철회(차이 .003) · "독립 설정 4개" 철회(상관된 반복) · A1>A4h Sen12 7/8 · 한국 큐브 error 6건 재시도 전 experiment_eligible 아님 · 브리지 "두 공간 이미 같다" 1폴드 과잉진술 철회.
+>
 > ## 2026-09-06 인수인계 (다른 컴퓨터에서 이어가기)
 >
 > **중심 질문(확정)**: 하나의 Earth 표현 캐시를 새 task·새 지역에서 언제 REUSE/ADAPT/RE-EMBED/

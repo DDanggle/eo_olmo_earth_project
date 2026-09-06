@@ -25,8 +25,21 @@ def main():
     root = Path(a.root) / a.dataset
     report = {"dataset": a.dataset, "class": cls.__name__, "splits": {}}
 
-    has_s2 = "s2" in getattr(cls, "band_default_order", {})
-    band_order = {"s2": list(OUR_S2)} if has_s2 else {"rgb": ["red", "green", "blue"]}
+    # band_default_order 는 dict(모달리티별) 이거나 tuple(단일 모달리티) 이다.
+    # dict 면 우리 10밴드 중 그 데이터셋이 가진 것만 요청하고, tuple 이면 그대로 쓴다.
+    bdo = getattr(cls, "band_default_order", None)
+    if isinstance(bdo, dict):
+        band_order = {}
+        for mod, bands in bdo.items():
+            if mod == "s2":
+                avail = list(bands)
+                band_order[mod] = [b for b in OUR_S2 if b in avail] or avail
+            else:
+                band_order[mod] = list(bands)
+        band_order = {"s2": band_order["s2"]} if "s2" in band_order else band_order
+    else:
+        band_order = list(bdo)          # 단일 모달리티 (예: fotw = red,green,blue,nir)
+    report["requested_band_order"] = band_order
     for split in ("train", "val", "test"):
         try:
             kw = dict(root=root, split=split, download=False, band_order=band_order)
@@ -45,9 +58,11 @@ def main():
 
     ns = [v.get("n", 0) for v in report["splits"].values()]
     check("세 split 모두 비어있지 않음", len(ns) == 3 and all(n > 0 for n in ns), ns)
-    if band_order:
-        check("우리 10밴드 순서로 열림 (band_order 수용)",
-              any("error" not in v for v in report["splits"].values()))
+    if isinstance(bdo, dict) and "s2" in bdo:
+        want = [b for b in OUR_S2 if b in list(bdo["s2"])]
+        check(f"우리 밴드 {len(want)}/10 로 열림", len(want) >= 10 and not FAILS, want)
+    else:
+        check("단일 모달리티 데이터셋 (다중밴드 아님 — 계약 주의)", True, list(bdo))
 
     report["ok"] = not FAILS
     report["failed_checks"] = FAILS
