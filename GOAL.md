@@ -3613,3 +3613,11 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 확보 확정: fotw·DynamicEarthNet 검증OK. benv2·biomassters preflight OK, 다운로드 중.
 - RESTART_HERE 상단을 인수인계용으로 전면 갱신. 다른 컴퓨터가 받아서 이어감.
 - 다음(로드맵 §8): 계약 감사·protocol freeze → 과업별 고정 anchor 선언 → GPU action matrix.
+
+### 2026-09-06 21:00 — [규약 4b 일회성 해제] GPU0 사용 승인 (EarthCache action-matrix에 한함)
+- 사용자가 명시 승인: "이번깴 GPU0 써도 돼". GPU1이 타 사용자 99% 점유 상태라 이번 EarthCache
+  action-matrix 추출·디코더 실행에 **한해** GPU0 사용. **영구 변경 아님** — CLAUDE.md 규약 4b는
+  그대로 유지되며, 다음 실행부터는 다시 GPU1만. GPU0에 타 프로세스 있으면 여전히 중단.
+- 병행 작업: DEN(seg, 10밴드) + benv2(classification) GEO-Bench→타일 어댑터 제작(CPU).
+  정규화 계약 함정: geobench는 z-score float 반환 → OlmoEarth 정규화기에 또 넣으면 이중 정규화.
+  data_normalizer 우회 또는 normalization_stats로 raw DN 복원해서 해결.

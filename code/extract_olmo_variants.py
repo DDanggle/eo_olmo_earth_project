@@ -5,15 +5,15 @@ import argparse, os, sys, json
 from pathlib import Path
 from datetime import datetime, timedelta
 import numpy as np, torch, torch.nn as nn
-ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base",choices=["nano","tiny","base"]); ap.add_argument("--depth-frac",type=float,default=1.0); ap.add_argument("--out",required=True); ap.add_argument("--probe",action="store_true"); a=ap.parse_args()
+ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base",choices=["nano","tiny","base"]); ap.add_argument("--depth-frac",type=float,default=1.0); ap.add_argument("--out",required=True); ap.add_argument("--probe",action="store_true"); ap.add_argument("--src",default="sen12_pilot/holdout_chimanimani"); a=ap.parse_args()
 from olmoearth_pretrain_minimal import ModelID
 from rslearn.models.olmoearth_pretrain.model import MaskValue, OlmoEarth
 from rslearn.train.model_context import ModelContext, RasterImage
-ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/"sen12_pilot/holdout_chimanimani"; OUT=ROOT/a.out; dev=torch.device("cuda")
+ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/a.src; OUT=ROOT/a.out; dev=torch.device("cuda")
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
 for d in ("raw_u16","mask_u8"):
     if not (OUT/d).exists(): os.symlink(SRC/d,OUT/d)
-for f in ("months.jsonl","cache_audit.json"):
+for f in ("months.jsonl",):
     if not (OUT/f).exists(): os.symlink(SRC/f,OUT/f)
 MID={"nano":ModelID.OLMOEARTH_V1_NANO,"tiny":ModelID.OLMOEARTH_V1_TINY,"base":ModelID.OLMOEARTH_V1_BASE}[a.size]
 w=OlmoEarth(patch_size=4, model_id=MID, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(dev).eval()
@@ -21,7 +21,6 @@ enc=w.model; nb=len(enc.blocks)
 if a.depth_frac<1.0: k=max(1,int(round(nb*a.depth_frac))); enc.blocks=nn.ModuleList(list(enc.blocks)[:k]); print("olmo depth",k,"/",nb,flush=True)
 months={json.loads(l)["sample_id"]:json.loads(l)["months_0_11"] for l in open(SRC/"months.jsonl") if l.strip()}
 ids=sorted(p.stem for p in (SRC/"emb_fp16").glob("*.npy")); done=0; skipped=[]
-@torch.no_grad()
 def embed_crop(crop,ts):
     image=torch.from_numpy(crop).to(dev); inp={"sentinel2_l2a":RasterImage(image=image,timestamps=[(t,t) for t in ts])}; w.normalizer(inp,{})
     sample,present,_=w._prepare_modality_inputs(ModelContext(inputs=[inp],metadatas=[])); sample.sentinel2_l2a_mask[...,2]=MaskValue.MISSING.value
