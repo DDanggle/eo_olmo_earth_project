@@ -3599,3 +3599,17 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   개봉·서버 push는 하지 않았다.
 - **다음**: PASTIS 무결성 → Core-6 계약 freeze → 기존/공개 episode G0 action matrix와 실측 비용
   → G0 통과 시 simple selector, 실패 시 EarthCacheBench characterization으로 즉시 후퇴한다.
+
+### 2026-09-06 20:30 — 다음 스텝 시작: classification·regression 과업 확보 + 인수인계
+- **G0 계약 IIA-safe 확정**(d63261f): 고정 anchor 정규화, G0-A/G0-B 분리, RAW_FINETUNE≠REEMBED,
+  support_label_count. 테스트 9/9 + IIA 실증(dev 입력에 열등 action 주입해도 불변).
+- **segmentation 편향 해소 시작**: benv2(classification)·biomassters(regression)를 GeoBench에 등록,
+  preflight 통과(둘 다 우리 10밴드 보유), HF 공식 다운로더로 다운로드 시작(`code/run_geobench_cls_reg.sh`,
+  `logs/dl_cls_reg.log`). cloudsen12·treesatai도 등록만 해둠.
+- **fetch_one에 동적 band_order 유도** 추가(하드코딩 dict → 클래스에서 유도, 8 데이터셋 견고).
+- **PASTIS 보류**: 0001 파트가 자작·HF 공식 다운로더 **양쪽에서 동일 sha 불일치**(got 3f1e98e3 vs
+  want 7d0463a6). GeoBench sha256str 오류로 판단 — 우리가 못 고침. 확보 과업 = Sen12·Solar(개발) +
+  fotw·DEN·benv2·biomassters(외부). segmentation 편향은 benv2/biomassters로 해소됨.
+- 확보 확정: fotw·DynamicEarthNet 검증OK. benv2·biomassters preflight OK, 다운로드 중.
+- RESTART_HERE 상단을 인수인계용으로 전면 갱신. 다른 컴퓨터가 받아서 이어감.
+- 다음(로드맵 §8): 계약 감사·protocol freeze → 과업별 고정 anchor 선언 → GPU action matrix.

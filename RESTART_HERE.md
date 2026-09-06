@@ -1,119 +1,36 @@
 # OLMoEarth 연구 재시작 지점
-> ## 2026-09-06 18:40 KST — MS-109 반영 + GEO-Bench action benchmark 경계 (최신)
+> ## 2026-09-06 20:30 KST 인수인계 (다른 컴퓨터에서 이어받기)
 >
-> **새로 닫힘**: Solar에서 OlmoEarth base cache `.6081/.9262`(macro IoU/AP), Galileo base
-> `.4587/.7952`; paired 차이 `+.1494/+.1309`, 8/8 fold OlmoEarth 우위, one-sided Wilcoxon
-> `p=.00390625`. Sen12 한 과업 의존 반론은 약해졌다. 단 Solar fold는 독립 과업 8개가 아니고
-> seed 1개다.
+> **상태 한 줄**: EarthCache = "새 EO 과업에 라벨 없이 cache 재사용/적응/재계산을 비용·성능으로 고른다".
+> G0(필요조건 게이트) 계약을 IIA-safe로 확정. 지금은 **action matrix를 채우기 위한 GEO-Bench 데이터 확보 단계**.
 >
-> **중요한 역설**: Sen12와 Solar 모두 OlmoEarth가 top action이라, MS-109는 cache-value 주장을
-> 강화하지만 selector 필요성은 아직 증명하지 않는다. 먼저 task/region/budget별 **top-action
-> rank reversal 또는 cost Pareto crossover**와 best-static 대비 oracle headroom을 계산한다.
-> normalized headroom `<.02`이고 독립 group 교차가 없으면 learned selector를 만들지 않는다.
+> **상태 한 번에**: `./bin/nx sh 'bash /home/work/data/olmoearth/code/status.sh'`
 >
-> **프로브 MS-110**: effective rank는 family 분리에서 생긴 exploratory signal이다. family 평균
-> `n=4`에서는 Spearman `.400, p=.600`; predictor 주장 금지. 절대 metric 대신 task 안의 pairwise
-> action gain/regret를 예측한다.
+> **방향(2026-09-06 확정, 다시 안 바꿈)**: `docs/EARTHCACHE_ROADMAP_G0_FIRST.md`가 SSOT.
+> 3단계 = [G0 필요조건] → 통과 시 [S 선택기·CVPR main] / 불통과 시 [A EarthCacheBench 특성화] → [E 한국 3-task 추가 외부].
+> 계약 = `config/geobench_cache_action_prereg_v0.json`. 계산기 = `code/geobench_action_headroom.py`(테스트 9/9, IIA 증명).
 >
-> **새 SSOT**: 쉬운 novelty/실험 설계 `docs/EARTHCACHE_GEOBENCH_UPGRADE_2026_09_06.md`,
-> machine-readable draft `config/geobench_cache_action_prereg_v0.json`. 기존
-> `safe_cache_action_prereg_draft_v0.json`은 region/support A0/A1 안전 정책이며, 새 cross-task
-> model/cache benchmark와 합쳐 표본 수를 부풀리지 않는다.
+> **G0 현재 판정(개발 2과업, MS-111-정정)**: G0-A 이질성 신호 있음(Sen12→HEAD_ADAPT +.036, Solar→CACHED_HEAD +.009)
+> 단 시드 1개. G0-B 가치는 **계산 불가**(고정 anchor·진짜 REEMBED·실측 비용 없음). G0_pass=False.
+> 초판의 headroom .013/.500은 **정규화 인공물이라 폐기**. RAW_FINETUNE(=raw 재학습)과 진짜 REEMBED(=인코더 재실행) 구분됨.
 >
-> **데이터 상태**: FOTW·DynamicEarthNet은 적재 검증 완료, PASTIS는 미완료. 현재 세 공개 후보가
-> 모두 dense segmentation이므로 classification 1개(TreeSatAI 또는 BigEarthNet-v2)와 regression
-> 1개(BioMassters)를 추가하기 전 `GEO-Bench 전반`이라고 쓰지 않는다.
+> **GEO-Bench 데이터 (geobench2/<ds>/, .venv-geobench, HF 공식 다운로더 사용)**
+> - ✅ fotw(검증OK, RGB+NIR 4밴드) · DynamicEarthNet(검증OK, s2 10밴드+planet) · benv2/biomassters(preflight OK, 우리 10밴드 보유)
+> - 🔄 benv2→biomassters 다운로드 중: `logs/dl_cls_reg.log`, `code/run_geobench_cls_reg.sh`. 완료 마커 `logs/{benv2,biomassters}_DONE.json`.
+> - ❌ **PASTIS 0001 파트: HF 공식 도구로도 sha256 불일치**(got 3f1e98e3 vs want 7d0463a6). GeoBench 쪽 sha256str 오류로 판단 — 우리가 못 고침. PASTIS는 보류, 나머지로 진행.
 >
-> **다음 순서**: PASTIS 무결성 → action/metric/chip/time 계약 freeze → 기존 개발표의 G0 oracle
-> headroom → 실제 cold/warm/raw-I/O/storage 비용 → Core-6 action matrix → G0 통과 시에만 simple
-> selector. GPU 실행은 GPU1이 비고 보호 규약을 만족할 때만 한다.
+> **다음 순서(로드맵 §8)**
+> 1. benv2·biomassters 확보 완료 확인(위 마커) → 계약 감사(chipping 128px, head_type, 시간선택)만 하고 protocol freeze.
+> 2. **각 과업에 고정 anchor 선언**(lower=고정 supervised baseline, upper=full-label 천장) — G0-B 계산의 전제.
+> 3. GPU 비면 action matrix: CACHED_HEAD/HEAD_ADAPT 먼저(값쌈), RAW_FINETUNE·진짜 REEMBED는 sequential stopping.
+>    3~4 과업 + anchor + 실측비용 채워지면 G0 재실행 → 트랙 S/A 분기.
 >
-> ## 2026-09-06 09:40 KST — 아침 스냅샷 (이하 이력)
+> **GPU 규약 4b**: GPU1만, 남의 프로세스 있으면 중단. `code/gpu1_waiter.sh <chain>`이 GPU 비는 순간 자동 기동.
+>   지금 GPU0/1 타 사용자 점유 잦음. Solar 2nd-FM(MS-109)은 완료.
 >
-> **한 줄**: 논문 몸통이 비어 있던 상태에서 벗어나는 중. 새 downstream 과업 1개 확보(fotw), 2개 수신 중(PASTIS·DynamicEarthNet). 라벨 없는 캐시 가치 예측기에 첫 리드(effective_rank ρ=.635, CI가 0 배제). GPU는 남의 작업으로 전면 점유.
+> **재발 방지**: `code/preflight.py`(비싼 단계 전 5초 계약검사) · `code/test_chain_rc_pattern.py`(rc 버그 린터) ·
+>   "다운로드와 검증을 한 사슬에 묶지 않는다" · 대형 LFS는 자작 다운로더 말고 HF 공식 도구.
 >
-> **상태 한 번에 보기**: `./bin/nx sh 'bash /home/work/data/olmoearth/code/status.sh'`
-> (GPU·실행 중 체인·DONE/FAILED 마커·GEO-Bench 수신·보호 4파일 해시를 한 화면에)
->
-> **방향 (2026-09-06 새벽 사용자와 합의, 다시 바꾸지 않음)**
-> 1. 벤치마크는 **GEO-Bench-2 위에 얹는다** — PASTIS + Fields of the World + DynamicEarthNet + 기존 Sen12·Solar = 과업 5개. GEO-Bench-2에는 few-shot·캐시 재사용·비용 축이 없다(공식 프로토콜은 전량 라벨 fine-tuning). 우리는 그들의 **데이터·split만** 쓰고 arm끼리 비교한다. 리더보드 숫자와 직접 비교 금지(M24 교훈).
-> 2. **진단이 아니라 예측기**를 만든다. "유사도 지표(CKA 등)가 기능 등가를 예측 못 한다"는 ICLR 2023 등 선행연구가 점유 → 기여 아님. 남은 빈칸 = "라벨 없이 무엇이 캐시 가치를 예측하는가".
-> 3. 교차모델 선형 브리지(Clay→OlmoEarth)는 5폴드 전부 사전등록 불통과로 **사망**. 되살리지 않는다.
->
-> **확보한 것**
-> - fotw: sha256 통과, train 4,000 / val 1,000 / test 2,000, 샘플 `image_a/image_b (4,256,256)` + `mask`. **단 4밴드(RGB+NIR)** — 논문 표의 "S2/Multi"와 달리 다중밴드가 아니다. 계약 주의.
-> - PASTIS: S2 10밴드가 우리 Sen12/한국 캐시와 **같은 집합**(B08 위치만 다름, `band_order`로 정렬). + S1 asc/desc. 20 class 시계열 분할. 수신 중.
-> - DynamicEarthNet: planet 4밴드 + S2 12밴드(B01/B10 포함). 우리 10밴드 전부 보유. 수신 대기.
-> - 프로브 14캐시: `artifacts/cache_probes.json`, `artifacts/probe_correlation.json`. 사전등록 ρ≥.70 불통과(NO_PREDICTOR_AT_N14). effective_rank ρ=+.635 CI[+.13,+.88], participation_ratio ρ=+.631 CI[+.04,+.93]. 물리 프로브(NDVI 복원)는 판별력 없음. 확증은 n=70(과업 5개)로 사전 지정.
->
-> **GPU 필요 단계 (지금 막힘 — GPU0/1 모두 타 사용자 100%)**
-> - (A) 경쟁 캐시(Clay/Galileo/Prithvi)를 **Solar**에 — 현재 "어느 표현이 캐시 가치 있나" 결론이 downstream 과업 1개(Sen12)에만 얹혀 있음. 최대 구멍. 파이프라인 있음.
-> - (B) PASTIS/fotw/DEN에 OlmoEarth·경쟁 캐시 추출 → 8폴드 디코더 → 프로브 확증 n=70.
-> - GPU가 비면 (A) 먼저. 규약 4b: `nvidia-smi`로 GPU1이 비었는지 확인, 남의 프로세스 있으면 멈춤.
->
-> **재발 방지 장치 (2026-09-06 신설)**
-> - `code/preflight.py geobench` — 비싼 단계 앞 5초 예비검사(클래스·url·sha·band_order·필수인자). 통과해야 진행.
-> - `code/test_chain_rc_pattern.py` — `echo "$(date) rc=$?"` 오용 린터. 현역 0건. 봉인 결과 생산 스크립트 15개는 HISTORICAL(계보 보존).
-> - **설계 규칙**: 다운로드와 검증을 한 사슬에 묶지 않는다. 검증 실패가 독립 다운로드를 막았던 것이 7시간 손실의 원인(2026-09-06 02:31 fotw verify 실패 → pastis/DEN 미시작).
-> - 밴드 계약: `raw_u16 = (10밴드, 12시점, 128, 128)`, **B08 = idx 3**. `test_cache_probes.py`에 손계산 검증.
->
-> **환경**: `.venv-geobench`(격리, `--system-site-packages`, `PIP_CONSTRAINT=`, `numpy<2`). `.venv-master`는 건드리지 않음. 데이터 `geobench2/<dataset>/`.
->
-> **정정 이력(이 사이클)**: "용량 필요조건" 철회(차이 .003) · "독립 설정 4개" 철회(상관된 반복) · A1>A4h Sen12 7/8 · 한국 큐브 error 6건 재시도 전 experiment_eligible 아님 · 브리지 "두 공간 이미 같다" 1폴드 과잉진술 철회.
->
-> ## 2026-09-06 인수인계 (다른 컴퓨터에서 이어가기)
->
-> **중심 질문(확정)**: 하나의 Earth 표현 캐시를 새 task·새 지역에서 언제 REUSE/ADAPT/RE-EMBED/
-> REQUEST할 것인가. 버전 마이그레이션(A)은 model-shift 부록이다.
-> 최신 상세 감사 `docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md`, 쉬운 큰그림 재판정
-> `docs/PAPER_STATE_2026_09_06.md` + 이 절이 SSOT다.
->
-> **확정된 결과(장부 MEASURED_FINDINGS.md)**: M65·MS-98 재사용 우위(산사태 6/8, 태양광 8/8) ·
-> MS-96/97/99 few-shot A1>A4w 16/16, A1>A4h는 산사태 7/8·태양광 8/8(단 A1>A0 K5는
-> 두 task 모두 5/8) · C0-dev(안전정책 개발화면) · MS-100(브리지: identity AP .02→.90 복구,
-> 단 저장 gate summary는 IoU field 수정 필요, R5 무익, v1.1 R6 무효) · MS-101/102(두 번째 FM은
-> single-seed diagnostic이며 보편 우월 근거 아님) · MS-105(group-concat `.168`, readout-only 설명
-> 기각) · MS-108(architecture 7캐시×8폴드 완결, scale/family별 cache/raw 경계) ·
-> M104(한국 큐브 v2 파일 감사를 통과했으나 experiment_eligible 아님).
->
-> **서버(ainexus h200-dev, `./bin/nx`만 사용, GPU1만) 최신 상태(9/6 01:05 KST)**
-> - `BV1_CHAIN4_DONE`: Galileo group-concat `.168`, raw보다 우위 1/8 — readout만 바꿔 rescue되지 않음.
-> - `AIHUB_V2_FULL_DONE`: inventory 2,699 중 manifest 2,536, excluded 163. 그러나 excluded에 재시도
->   대상 `error` 6건이 섞였고 audit가 이를 통과시킨 결함이 있어 **experiment_eligible 아님**.
-> - `arch_axes_chain.sh` **완료**: `ARCH_AXES_DONE` 2026-09-05T16:05:15Z. 추출 7/7,
->   decoder 56/56, schema/fold/seed/metric/SHA 검사 missing·invalid 0.
->   `galileo_base_half` 최종 `.138`, raw 우위 0/8. 검증/요약은
->   `artifacts/arch_axes_verify.json`(`ca1d7730…`)과
->   `artifacts/arch_axes_summary.json`(`405cb800…`). 마지막 fold는 다른 GPU 1 프로세스와
->   겹쳤으므로 wall-clock을 비용 근거로 쓰지 않는다. 현재 우리 GPU job은 없다.
-> - direct SSH는 RSA host-key changed(`zBP7cfCx…`, known_hosts 96행) 경고를 낸다. 관리 터널로
->   접속은 됐지만 키는 임의 삭제하지 않았다. 다음 운영 전에 플랫폼에서 fingerprint를 확인한다.
-> - 로컬 맥 launchd(09:30/21:30) + GitHub Actions(`DDanggle/gk2a-archive`, 09:40/21:40 KST): GK2A 일일 수집. 상태 `gh run list -R DDanggle/gk2a-archive`.
->
-> **다른 컴퓨터에서 시작하기**
-> 1. `git clone git@github.com:DDanggle/eo_olmo_earth_project.git _work` (이 저장소). 서버 접속 CLI는 별도 저장소 `h100-setup`(nexus)이며 `bin/nx`가 그것을 부름. `.env`(API 키)는 저장소에 없음 — 수동 복사.
-> 2. `./bin/nx tunnel up` → `./bin/nx sh 'nvidia-smi'`. 터널이 자주 끊김: `pkill -f "backend.ai app h200-dev sshd"; ./bin/nx tunnel up`.
-> 3. 서버 코드 위치 `/home/work/data/olmoearth/code/` (로컬 `code/`를 `./bin/nx push $PWD/code/<f> olmoearth/code/`로 동기화). 보호 4파일(pilot_sen12_gp_heads.py, sen12_official_baselines.py, extract_sen12_fold_cache.py, audit_sen12_fold_cache.py)은 확증 실행 중 푸시 금지.
-> 4. 원격 명령 안에서 `pkill -f "<스크립트명>"`은 자기 셸까지 죽임 → `pgrep -f "^bash code/<name>"` 또는 `^\./\.venv-master/bin/python code/<name>` 패턴으로.
->
-> **다음 순서(9/5 감사로 수정)**
-> 1. P0 무결성: AI-Hub error 6건 재시도·selection-bias gate, Solar cross-CRS 누수 감사,
->    release gate의 `iou_frozen_thr` 재생성, v1.1 R6 무효 표기.
-> 2. Korea 희소 class의 eligible-cluster metric과 128-chip unit를 label 개봉 전에 dated amendment로 동결.
-> 3. 공개 Task-3(Sen1Floods11 우선)의 CACHE/RAW baseline + 단순 support-only action rule 동결.
-> 4. Task-3 one-shot action-regret와 cold/warm/re-embed/storage 실측 비용을 먼저 닫는다.
-> 5. 그 뒤 Korea 3-task를 외부 사례로 한 번 개봉한다. 10/09에 CVPR go/no-go.
->
-> **2026-09-04 갱신**: 큰 그림은 `docs/BIG_PICTURE_2026_09_04.md`(버전 전환 연속성 벤치마크 + A 브리지 + OlmoEarth-KR + FoldRefresh + C). 실행 중: Clay v0(탐색), A 체인(`logs/release_chain.log`).
-
-갱신: 2026-09-06
-활성 과학 기준점: **MS-96/97 + MS-98/99 + Earth Embedding Continuity A/B/C 설계**
-감사 시작 기준 HEAD: `95ed699`. A/B/C config는 `efce8b8`, Korea 3-task config는 `6f47156`에
-커밋됐으나 파일명/status의 `draft` 표시는 과거 상태라 dated amendment로만 정정한다.
-
-이 파일은 새 세션의 첫 진입점이다. Nepal 대응 데모는 현재 CVPR/transfer 임계경로가 아니며,
-전용 코드·문서·원본·중간 산출물은 sibling 저장소
-`/Users/dgyi/dong/ai_projects/nepal-live-twin`이 소유한다.
 
 ## 한 문장 연구 질문
 
