@@ -4961,3 +4961,6 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 - **조치**: 계산기에 `required_actions`·`required_seed_count` fail-closed audit와 테스트 2개를
   추가(총 11/11). 미래 계약은 `config/geobench_cache_action_prereg_v1.json`; 상세 판정은
   `docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md`. Korea는 별도 v1 amendment 이전 label 개봉 금지.
+
+## MS-112-정정 (2026-09-07) — "G0 통과·승자 3종"은 철회. 계산기가 family 에피소드에 없던 HEAD_ADAPT를 조용히 제외해 CACHED vs RAW만 비교한 값이었음(.085). 상세는 `docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md`, 직사각 행렬 계약 `config/geobench_cache_action_prereg_v1.json`(f52d817). 남는 것은 "support 구성·캐시 계약이 행동을 바꾼다"는 **가설**뿐이며 외부 과업에서 3행동×3시드 직사각 행렬로만 판정함.
+## MS-113-첫값 (2026-09-07, 진행 중) — in-region 전량 라벨 상한: hiroshima A1_pool(421타일) .400 vs A1 K=5 .33 / A0 .28–.30 → 격차 ≈ +.07~.10. 8지역·Solar 완료 후 판정(규칙: ≥.05가 6/8이면 few-label 방법 트랙 개통).
