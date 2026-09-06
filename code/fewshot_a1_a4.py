@@ -113,6 +113,13 @@ def knn_probs(Xq,Xl,Yl,k=20,chunk=64):
         out.append(torch.nn.functional.interpolate(pr.unsqueeze(1),size=(128,128),mode="bilinear",align_corners=False).squeeze(1).cpu())
     return torch.cat(out).numpy()
 
+def retrieve_source_tilewise(fold,stats,Xq_field,kk=2,Mmax=400):
+    """Arm R2: field-matched source subset — for EVERY query tile, its kk nearest source-train tiles by tile-descriptor cosine (covers target negatives and positives alike); union capped at Mmax by frequency."""
+    tr_ids=members(fold,"train"); desc=[np.load(EMB/"emb_fp16"/f"{s}.npy").astype("float32").mean(axis=(1,2)) for s in tr_ids]
+    D=torch.nn.functional.normalize((torch.from_numpy(np.stack(desc))-stats[0].view(-1))/stats[1].view(-1),dim=1)
+    Q=torch.nn.functional.normalize(Xq_field.mean(dim=(2,3)),dim=1); sim=Q@D.T; idx=torch.topk(sim,kk,dim=1).indices.reshape(-1).tolist()
+    import collections; cnt=collections.Counter(idx); top=[i for i,_ in cnt.most_common(Mmax)]; return [tr_ids[i] for i in top], float(sim.max(1).values.mean())
+
 rep={"schema":"fewshot-a1-a4-v2","support":a.support,"emb_source":("clay_cache" if a.clay else "task2_cache" if a.task2 else "olmoearth"),"preregistration":"config/fewshot_a1_vs_a4_prereg_v0.json","exposure":a.exposure,"arms":ARMS,"runs":[]}
 outfile=OUT/f"report_{a.exposure}.json"
 REGIONS=tuple(f"task2_fold{k}" for k in range(8)) if a.task2 else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.clay else ("hiroshima","hokkaido","indonesia","itogon","kyrgyzstan1","kyrgyzstan2","newzealand","thrissur") if a.confirmatory else ("china","chimanimani")
@@ -150,9 +157,14 @@ for region in REGIONS:
                     Xs=load_emb(sids,stats); Xl,Yl=Xs,Ys; extra={"k":20}
                     if arm=="A1NR": rids,msim=retrieve_source(fold,stats,Xq_emb,M=200); Xl=torch.cat([Xs,load_emb(rids,stats)]); Yl=torch.cat([Ys,load_masks(rids)]); extra.update({"retrieved":len(rids),"retrieval_sim":msim})
                     t0=time.perf_counter(); P=knn_probs(Xq_emb,Xl,Yl); tr={"trainable_params":0,"gpu_s":time.perf_counter()-t0,"steps":0,"raw_bytes_read":0}; tr.update(extra); m=nn.Identity()
-                elif arm in ("A1T","A1R","A1TR","A1P"):
+                elif arm in ("A1T","A1R","A1TR","A1P","A1R2","A1NR2"):
                     m=EmbDecoder(cin=CIN).to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); Ys_=Ys; extra={}
                     if arm in ("A1T","A1TR"): extra["bn_layers"]=adabn(m,Xq_emb)
+                    if arm=="A1NR2":
+                        rids,msim=retrieve_source_tilewise(fold,stats,Xq_emb); t0=time.perf_counter(); P=knn_probs(Xq_emb,torch.cat([Xs,load_emb(rids,stats)]),torch.cat([Ys,load_masks(rids)])); tr={"trainable_params":0,"gpu_s":time.perf_counter()-t0,"steps":0,"raw_bytes_read":0,"retrieved":len(rids),"retrieval_sim":msim,"k":20}; ev=evaluate(P,Yq_np,budget); rep["runs"].append({"region":region,"seed":seed,"K":K,"arm":arm,"eval":ev,"train":tr,"fp_budget":budget}); print(f"{region} s{seed} K={K} {arm} iou_fpm={ev['iou_fp_matched']:.4f} ap={ev['tie_ap']:.4f} retrieved={len(rids)}",flush=True); outfile.write_text(json.dumps(rep,indent=1)); continue
+                    if arm=="A1R2":
+                        rids,msim=retrieve_source_tilewise(fold,stats,Xq_emb); Xr=load_emb(rids,stats); Yr=load_masks(rids)
+                        Xs=torch.cat([Xs.repeat(5,1,1,1),Xr]); Ys_=torch.cat([Ys.repeat(5,1,1,1),Yr]); extra.update({"retrieved":len(rids),"retrieval_sim":msim,"support_upweight":5,"retrieval":"tilewise"})
                     if arm in ("A1R","A1TR"):
                         rids,msim=retrieve_source(fold,stats,Xq_emb,M=200); Xr=load_emb(rids,stats); Yr=load_masks(rids)
                         Xs=torch.cat([Xs.repeat(5,1,1,1),Xr]); Ys_=torch.cat([Ys.repeat(5,1,1,1),Yr]); extra.update({"retrieved":len(rids),"retrieval_sim":msim,"support_upweight":5})
@@ -172,7 +184,7 @@ for region in REGIONS:
                         else: tr=tr0; extra.update({"accepted":False,"reason":"no positive support"})
                         P=probs(m,Xq_emb); tr["raw_bytes_read"]=0; tr.update(extra)
                     else:
-                        st_=(steps*2 if arm in ("A1R","A1TR") else steps); tr=train(m,Xs,Ys_,st_,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0; tr.update(extra)
+                        st_=(steps*2 if arm in ("A1R","A1TR","A1R2") else steps); tr=train(m,Xs,Ys_,st_,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0; tr.update(extra)
                 elif arm=="A4s":
                     m=ob.OfficialUNet3D(in_channels=11).to(dev); Xs,nb=load_raw(sids); tr=train(m,Xs,Ys,steps,1e-3,1e-4,seed*1000+K,bn_train=True); P=probs(m,Xq_raw,bs=8); tr["raw_bytes_read"]=nb+raw_q_bytes
                 elif arm=="A4w0":

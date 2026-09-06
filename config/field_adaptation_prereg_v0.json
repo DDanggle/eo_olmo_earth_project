@@ -10,7 +10,11 @@
     "A1T": "A1 + transductive normalisation: BatchNorm running stats re-estimated on the target field (all query embeddings, no labels) before/after support adaptation; also A0T (no labels)",
     "A1R": "retrieval-reweighted source: rank source-train tiles by token-distribution similarity to the target field (mean/cov of tokens, or kNN of tile descriptors), take top-M (M=200) with their TRUE labels, adapt the head on support ∪ retrieved (support upweighted); no pseudo-labels",
     "A1P": "prototype-guided self-training: support-positive token prototypes select high-confidence unlabelled tokens from the field as pseudo-labels; guarded by support-validated acceptance (if support-val IoU drops, fall back to A1)",
-    "A1TR": "T then R (combined)"
+    "A1TR": "T then R (combined)",
+    "A1N": "training-free: token kNN (k=20, cosine, softmax-weighted) from support tokens only",
+    "A1NR": "training-free: token kNN from support ∪ field-mean-retrieved source tiles (M=200)",
+    "A1R2": "retrieval-reweighted source, TILEWISE: for every query tile its 2 nearest source-train tiles (covers target negatives), union capped 400, true labels, support x5",
+    "A1NR2": "training-free kNN over support ∪ tilewise-retrieved source"
   },
   "protocol": "same manifests/query sets/FP-matched IoU as MS-96/97/99; 300 updates fixed-update (R: 600 because more data), lr 1e-4, BN frozen except T's statistics re-estimation; K=5,20; seeds 1-3",
   "development": "china, chimanimani (Sen12) and task2 folds 0,1 (Solar); kill gate: arm - A1 >= +0.03 FP-matched macro IoU in both dev regions of at least one task at K=5, and not worse than A1 by more than 0.01 elsewhere",
@@ -26,5 +30,6 @@
     "query labels in any step",
     "post-hoc changes to M, thresholds, or update counts after reading confirmatory metrics"
   ],
-  "novelty_boundary": "transductive BN, retrieval of source data and self-training exist individually; the claim is the deployment setting (precomputed dense field + searchable labelled cache, zero encoder cost) and the measured closure of the in-region ceiling gap under geographic shift on public EO tasks"
+  "novelty_boundary": "transductive BN, retrieval of source data and self-training exist individually; the claim is the deployment setting (precomputed dense field + searchable labelled cache, zero encoder cost) and the measured closure of the in-region ceiling gap under geographic shift on public EO tasks",
+  "first_dev_observation_2026_09_07": "china K=5 seed1: A1R AP .26->.34 but FP-matched IoU .18->.10 (fires on target empty tiles); A1P harmed. Tilewise retrieval (R2) added to cover negatives — registered before its run."
 }
