@@ -66,7 +66,10 @@ def fetch_range(url: str, start: int, end: int, dest: Path, retries: int = 5) ->
     return 0
 
 
-def download_file(url: str, out: Path, want_sha: str | None, workers: int) -> dict:
+MAX_ATTEMPTS = 3   # sha256 불일치 시 파일 전체 재시도 횟수 (2026-09-06: 청크 1개 손상으로 20GB 폐기된 사고 이후)
+
+
+def _download_once(url: str, out: Path, want_sha: str | None, workers: int) -> dict:
     if out.exists() and want_sha:
         got = sha256_of(out)
         if got == want_sha:
@@ -95,10 +98,33 @@ def download_file(url: str, out: Path, want_sha: str | None, workers: int) -> di
     ok = (want_sha is None) or (got == want_sha)
     if not ok:
         out.unlink()
-        raise SystemExit(f"sha256 불일치 {out.name}: got {got[:16]} want {want_sha[:16]}")
+        raise ChecksumMismatch(f"sha256 불일치 {out.name}: got {got[:16]} want {want_sha[:16]}")
     return {"file": out.name, "status": "downloaded", "bytes": total,
             "seconds": round(dt, 1), "MB_per_s": round(total / 1e6 / max(dt, 1e-9), 2),
             "sha256_ok": ok}
+
+
+class ChecksumMismatch(Exception):
+    pass
+
+
+def download_file(url: str, out: Path, want_sha: str | None, workers: int,
+                  max_attempts: int = MAX_ATTEMPTS) -> dict:
+    """sha256 불일치면 파일 전체를 다시 받는다(최대 max_attempts). 그래도 틀리면 실패로 종료.
+
+    이미 있고 해시가 맞는 파일은 _download_once 가 skip_verified 로 즉시 반환한다.
+    """
+    last = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            r = _download_once(url, out, want_sha, workers)
+            r["attempts"] = attempt
+            return r
+        except ChecksumMismatch as e:
+            last = e
+            print(f"  [attempt {attempt}/{max_attempts}] {e} — 재시도", flush=True)
+            time.sleep(5 * attempt)
+    raise SystemExit(f"{out.name}: {max_attempts}회 모두 sha256 불일치 — {last}")
 
 
 def main() -> int:

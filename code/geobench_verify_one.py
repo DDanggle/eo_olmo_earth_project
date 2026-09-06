@@ -36,7 +36,8 @@ def main():
                 band_order[mod] = [b for b in OUR_S2 if b in avail] or avail
             else:
                 band_order[mod] = list(bands)
-        band_order = {"s2": band_order["s2"]} if "s2" in band_order else band_order
+        # 모달리티는 전부 유지한다 — DEN 은 planet+s2 둘 다 없으면 __getitem__ 이 KeyError.
+        # (2026-09-06: s2 만 남기다가 'image_planet' KeyError 로 검증 실패)
     else:
         band_order = list(bdo)          # 단일 모달리티 (예: fotw = red,green,blue,nir)
     report["requested_band_order"] = band_order

@@ -4,11 +4,14 @@ Output per tile: mean over T and over seen S2 band-group tokens -> (D,32,32) fp1
 import argparse, os, sys, json
 from pathlib import Path
 import numpy as np, torch
-ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base"); ap.add_argument("--patch",type=int,default=4); ap.add_argument("--out",default="galileo_cache"); ap.add_argument("--probe",action="store_true"); ap.add_argument("--exit-after",type=int,default=None,help="use tokens after this many blocks (depth sensitivity)"); ap.add_argument("--readout",default="mean",choices=["mean","groupcat"],help="mean: average over T and seen groups (768); groupcat: average over T, concatenate the 5 seen S2 groups (3840)"); a=ap.parse_args()
+ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base"); ap.add_argument("--patch",type=int,default=4); ap.add_argument("--out",default="galileo_cache"); ap.add_argument("--probe",action="store_true"); ap.add_argument("--exit-after",type=int,default=None,help="use tokens after this many blocks (depth sensitivity)"); ap.add_argument("--readout",default="mean",choices=["mean","groupcat"],help="mean: average over T and seen groups (768); groupcat: average over T, concatenate the 5 seen S2 groups (3840)")
+# 2026-09-06: --src 추가. 기본값은 Sen12 (기존 결과 재현성 유지). task2(Solar)는 --src task2_cache.
+# 시점 수 T 는 raw 에서 읽으므로 Sen12(T=12)·task2(T=4) 모두 동작한다.
+ap.add_argument("--src",default="sen12_pilot/holdout_chimanimani",help="raw_u16/mask_u8/months.jsonl 이 있는 소스 캐시 (ROOT 기준)"); a=ap.parse_args()
 sys.path.insert(0,"/home/work/data/olmoearth/third_party/pydeps"); sys.path.insert(0,"/home/work/data/olmoearth/third_party/galileo")
 from single_file_galileo import Encoder
 from src.data.utils import construct_galileo_input
-ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/"sen12_pilot/holdout_chimanimani"; OUT=ROOT/a.out; dev=torch.device("cuda")
+ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/a.src; OUT=ROOT/a.out; dev=torch.device("cuda")
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
 for d in ("raw_u16","mask_u8"):
     if not (OUT/d).exists(): os.symlink(SRC/d,OUT/d)
@@ -20,7 +23,6 @@ months={}
 for l in (SRC/"months.jsonl").read_text().splitlines():
     if l: r=json.loads(l); months[r["sample_id"]]=r["months_0_11"]
 ids=sorted(p.stem for p in (SRC/"emb_fp16").glob("*.npy")); done=0; skipped=[]
-@torch.no_grad()
 def embed(sid):
     x=np.load(SRC/"raw_u16"/f"{sid}.npy").astype("float32")[perm]; T=x.shape[1]; mo=torch.tensor(months.get(sid,list(range(T)))[:T],dtype=torch.long)
     crops=[x[:,:,y0:y0+64,x0:x0+64] for y0,x0 in ((0,0),(0,64),(64,0),(64,64))]

@@ -3475,3 +3475,9 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - **GPU**: GPU0 61.6GB(유휴)·GPU1 135GB/100% 전부 타 사용자. 결과 ETA는 GPU 회수 시점에 종속.
   데이터는 ~11:50 전부 도착 예정.
 - 원인 수정된 FAILED 마커 2개는 `logs/resolved/`로 이동(삭제 아님, L3).
+### 2026-09-06 — GEO-Bench-2 기반 재설계 상태 감사 (계획)
+
+- 사용자 질문: GEO-Bench-2 데이터·split 위에 EarthCache의 cache/raw/adapt 선택 문제를 다시 얹는 재설계가 과학적으로 맞고 현재 어디까지 왔는지 확인한다.
+- 확인 범위: 최신 계약·사전등록·프로브 결과, 실제 다운로드/검증 산출물, 실행 체인·GPU 상태, 기존 Sen12/Solar 결과와의 비교 가능성을 원본 기준으로 대조한다.
+- 판정 축: (1) GEO-Bench 리더보드와의 공정한 관계, (2) 과업 수가 늘어도 독립 표본 수가 정말 늘어나는지, (3) label-free predictor가 test leakage 없이 검증되는지, (4) CVPR main의 method/benchmark 기여가 실제로 채워지는지.
+- 이번 작업은 상태 감사와 문서 보정만 수행한다. 새 GPU 실행, sealed Korea label 개봉, 다운로드 재시작, 외부 전송은 하지 않는다.
