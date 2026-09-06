@@ -20,7 +20,10 @@ Design rules that this file enforces (each one is a lesson from a real bug):
   (such as re-embedding) is best or worst; that must be measured.
 * Rows from folds, scales, seeds, or readouts are not independent episodes.
 
-Input JSON: ``rows`` (+ optional ``budgets``). Each row:
+Input JSON: ``rows`` (+ optional ``budgets``). A confirmatory input should also
+declare ``required_actions`` and ``required_seed_count``. Missing actions are then
+a protocol failure rather than being silently removed by set intersection.
+Each row:
 
     episode_id, task, action, seed, score, higher_is_better,
     gpu_seconds, raw_bytes, cache_bytes
@@ -109,6 +112,61 @@ def validate_payload(payload: dict[str, Any]) -> list[dict[str, Any]]:
             item["lower_anchor"], item["upper_anchor"] = lo, hi
         clean.append(item)
     return clean
+
+
+def _matrix_contract(payload: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Audit the *measured* action matrix before any budget is applied.
+
+    Budget rules may legitimately make an action ineligible.  A missing outcome is
+    different: it cannot be treated as ineligibility and it must never manufacture
+    oracle headroom by changing the common-action intersection.
+    """
+    declared = payload.get("required_actions")
+    if declared is None:
+        return {
+            "enforced": False,
+            "complete": None,
+            "note": "diagnostic input: required_actions was not declared",
+        }
+    if not isinstance(declared, list) or not declared:
+        raise ValueError("required_actions must be a non-empty list when declared")
+    required = []
+    for index, action in enumerate(declared):
+        if not isinstance(action, str) or not action.strip():
+            raise ValueError(f"required_actions[{index}] must be a non-empty string")
+        if action in required:
+            raise ValueError(f"duplicate required action: {action}")
+        required.append(action)
+    minimum_seeds = payload.get("required_seed_count", 1)
+    if isinstance(minimum_seeds, bool) or not isinstance(minimum_seeds, int) or minimum_seeds < 1:
+        raise ValueError("required_seed_count must be a positive integer")
+
+    by_episode_action: dict[tuple[str, str], set[str]] = defaultdict(set)
+    episodes = sorted({row["episode_id"] for row in rows})
+    for row in rows:
+        by_episode_action[(row["episode_id"], row["action"])].add(str(row["seed"]))
+    missing: dict[str, list[str]] = {}
+    insufficient: dict[str, dict[str, int]] = {}
+    for episode in episodes:
+        absent = [a for a in required if not by_episode_action[(episode, a)]]
+        if absent:
+            missing[episode] = absent
+        low = {
+            a: len(by_episode_action[(episode, a)])
+            for a in required
+            if by_episode_action[(episode, a)] and len(by_episode_action[(episode, a)]) < minimum_seeds
+        }
+        if low:
+            insufficient[episode] = low
+    return {
+        "enforced": True,
+        "complete": not missing and not insufficient,
+        "required_actions": required,
+        "required_seed_count": minimum_seeds,
+        "missing_actions_by_episode": missing,
+        "insufficient_seed_counts_by_episode": insufficient,
+        "note": "action eligibility is handled by frozen budgets after this completeness audit",
+    }
 
 
 def _within_budget(row: dict[str, Any], budget: dict[str, Any]) -> bool:
@@ -246,6 +304,7 @@ def analyze(
 ) -> dict[str, Any]:
     """G0 = G0-A (heterogeneity) AND G0-B (value). See module docstring."""
     rows = validate_payload(payload)
+    matrix_contract = _matrix_contract(payload, rows)
     budgets = payload.get("budgets") or [{"name": "unlimited"}]
     if not isinstance(budgets, list) or not budgets:
         raise ValueError("budgets must be a non-empty list")
@@ -271,16 +330,20 @@ def analyze(
                 task_winner_beyond_noise[ep["task"]].add(ep["native_best_action"])
     distinct_winners = {next(iter(v)) for v in task_winner_beyond_noise.values() if len(v) == 1}
     n_robust_groups = len(task_winner_beyond_noise)
-    g0a_pass = len(distinct_winners) >= 2 and n_robust_groups >= min_reversal_groups
+    matrix_ok = matrix_contract["complete"] is not False
+    g0a_pass = matrix_ok and len(distinct_winners) >= 2 and n_robust_groups >= min_reversal_groups
 
     # G0-B: value requires anchored headroom in >= 1 budget track.
     anchored_headrooms = [r["oracle_headroom"] for r in results if r["oracle_headroom"] is not None]
-    g0b_pass = any(h is not None and h >= headroom_threshold for h in anchored_headrooms)
-    g0b_computable = len(anchored_headrooms) > 0
+    g0b_pass = matrix_ok and any(h is not None and h >= headroom_threshold for h in anchored_headrooms)
+    g0b_computable = matrix_ok and len(anchored_headrooms) > 0
 
     return {
-        "schema": "earthcache-action-headroom-v1",
-        "status": "DIAGNOSTIC_ONLY_NOT_A_SELECTOR_RESULT",
+        "schema": "earthcache-action-headroom-v2",
+        "status": ("INCOMPLETE_ACTION_MATRIX_DIAGNOSTIC_ONLY"
+                   if matrix_contract["complete"] is False
+                   else "DIAGNOSTIC_ONLY_NOT_A_SELECTOR_RESULT"),
+        "matrix_contract": matrix_contract,
         "thresholds": {
             "oracle_headroom": headroom_threshold,
             "native_margin": native_margin_threshold,
@@ -301,7 +364,8 @@ def analyze(
         },
         "G0_pass": bool(g0a_pass and g0b_pass),
         "interpretation": (
-            "G0 needs BOTH heterogeneity (G0-A) and anchored+measured value (G0-B). "
+            "G0 first needs a complete declared action/seed matrix, then BOTH "
+            "heterogeneity (G0-A) and anchored+measured value (G0-B). "
             "Native margins and cost are still estimates until measured; seeds, LOTO, and "
             "LOFO validation remain required before any selector claim."
         ),

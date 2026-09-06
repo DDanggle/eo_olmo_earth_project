@@ -1,0 +1,51 @@
+{
+  "schema": "ms112-independent-audit-v1",
+  "date": "2026-09-06T23:55:00+09:00",
+  "verdict": "MS-112 is hypothesis-generating development evidence, not a G0 pass or selector result.",
+  "source_sha256": {
+    "g0_dev_input_v3.json": "e842122546c7d9d5ae7d8c2f2ade41a0f1483b54c39fa92de61fa9c4024037ac",
+    "g0_dev_output_v3.json": "8bcdf426129a45a0daae4a720674f1e0839ac538d0a8ac2cd5b8f44d60dfb0ea",
+    "g0_dev_output_v3_groups.json": "e6fc45ed943f07fc88eac7bf5052468c8c2e7966c54ad0f3d4e699e527d1fed1"
+  },
+  "observed_issues": {
+    "missing_actions_by_episode": {
+      "sen12_full_cache=clay_in256": [
+        "HEAD_ADAPT"
+      ],
+      "sen12_full_cache=galileo_base": [
+        "HEAD_ADAPT"
+      ],
+      "sen12_full_cache=olmo_base": [
+        "HEAD_ADAPT"
+      ]
+    },
+    "insufficient_seed_counts": "The three cache-contract episodes have one CACHED_HEAD and one RAW_FINETUNE seed; confirmatory minimum is three.",
+    "calculator_behavior": "The historical calculator intersected available actions across episodes, silently excluding HEAD_ADAPT from the .085 headroom calculation.",
+    "independence": "Seven deployment views reuse two tasks; four support views and three Sen12 cache-contract views are correlated, not seven independent tasks.",
+    "feature_mismatch": "The claimed rule uses support_positive_count, but the input records only support_condition after aggregating eight target regions.",
+    "cost_mismatch": "Only few-shot adaptation costs were measured; several cache-contract costs were estimates."
+  },
+  "fail_closed_reanalysis": {
+    "required_actions": [
+      "CACHED_HEAD",
+      "HEAD_ADAPT",
+      "RAW_FINETUNE"
+    ],
+    "required_seed_count": 3,
+    "status": "INCOMPLETE_ACTION_MATRIX_DIAGNOSTIC_ONLY",
+    "G0A_action_heterogeneity_pass": false,
+    "G0B_operational_value_pass": false,
+    "G0_pass": false,
+    "historical_common_action_headroom_retained_for_diagnosis_only": 0.08523101084087026
+  },
+  "preserved_findings": [
+    "Sen12 and Solar cache reuse/few-shot utility",
+    "support composition as a candidate action feature",
+    "cache family/scale as a candidate lifecycle feature"
+  ],
+  "future_contracts": {
+    "selector": "config/geobench_cache_action_prereg_v1.json",
+    "korea": "config/korea_shared_cache_3task_prereg_v1_amendment.json",
+    "audit_note": "docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md"
+  }
+}

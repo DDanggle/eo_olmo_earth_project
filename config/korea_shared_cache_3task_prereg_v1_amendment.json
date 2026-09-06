@@ -1,0 +1,83 @@
+{
+  "schema": "korea-shared-cache-3task-preregistration-v1-amendment",
+  "status": "FROZEN_BEFORE_ANY_KOREA_PERFORMANCE_LABEL_OPENING",
+  "date": "2026-09-06",
+  "amends": "config/korea_shared_cache_3task_prereg_v0.json",
+  "reason": "The v0 success rule treated seven test clusters as equally informative for every task, although rare positive labels may occur in only a subset, and T1/T2 have no source model. This amendment separates scientific questions without changing or opening outcomes.",
+  "readiness_gate": {
+    "current": "NOT_EXPERIMENT_ELIGIBLE",
+    "must_complete": [
+      "retry and resolve the six transient materialization errors",
+      "freeze the final eligible-cube manifest and exclusion-reason hashes",
+      "complete exclusion selection-bias audit by date, cluster, task availability, cloud and platform",
+      "freeze 128-pixel chip grid and cache manifest",
+      "verify and document that no Korea performance label was used to select cubes, chips, thresholds, recipes or this amendment"
+    ],
+    "known_file_audit": "2,536 materialized and 163 excluded (6.0%); materialized shape/dtype/common-coverage failures 0; this is file integrity, not experiment eligibility"
+  },
+  "questions": {
+    "Q1_shared_asset": "Can one physical OlmoEarth cache support three task heads without re-reading raw cubes or re-running the encoder?",
+    "Q2_label_efficiency": "At K=5 and K=20, does a cache head outperform a raw model trained with the same target labels and selection exposure?",
+    "Q3_transfer": "For landslides only, does the Sen12 source head transfer to spatially held-out Korea before and after K-shot adaptation?",
+    "Q4_amortization": "At what number of task heads does measured shared-cache cost become lower than separate raw pipelines?",
+    "Q5_policy_stress": "Under the same pixels and input contract, do task and support composition change the preferred cache action?"
+  },
+  "arms_by_task": {
+    "T1_land_cover_and_T2_deforestation": [
+      "CACHE_K: frozen cache plus task head trained on K labels",
+      "RAW_K: raw model trained from scratch on the identical K labels",
+      "FULL_CACHE and FULL_RAW fixed references"
+    ],
+    "T3_landslide": [
+      "CACHE_0 and RAW_0 source-transfer heads",
+      "CACHE_K head adaptation and RAW_K adaptation on identical support",
+      "FULL_CACHE and FULL_RAW fixed references"
+    ]
+  },
+  "support": {
+    "K": [
+      5,
+      20
+    ],
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "draws": [
+      "random",
+      "positive-aware sensitivity"
+    ],
+    "rule": "Random is the deployment-primary draw. Positive-aware is a labeled-support sensitivity, not a replacement. Record positive count for each task, cluster, draw and seed."
+  },
+  "statistics": {
+    "outer_unit": "task (n=3); test clusters are nested deployment groups, not three additional datasets",
+    "cluster_reporting": "report every cluster, but do not require a positive-class IoU win in a cluster with no positive query pixels",
+    "task_metrics": {
+      "land_cover": "cluster-macro class mIoU plus per-class AP",
+      "deforestation": "all-cluster AP and FP-matched IoU; positive-query-cluster IoU as a separate conditional metric",
+      "landslide": "all-cluster AP and FP-matched IoU; positive-query-cluster IoU as a separate conditional metric"
+    },
+    "success": "directionally favorable CACHE_K versus RAW_K in at least two of three tasks at both K values, with task effect sizes and a task-level interval reported; no impossible fixed 5/7 positive-cluster rule",
+    "no_independence_claim": "The three tasks share cubes and splits; correlated gains are evidence of shared-asset utility, not three independent replications."
+  },
+  "cost_contract": {
+    "measure_once": [
+      "raw cube scan and bytes",
+      "OlmoEarth cache materialization GPU seconds and bytes"
+    ],
+    "measure_per_task": [
+      "cache read",
+      "head training/adaptation",
+      "raw model training",
+      "peak accelerator memory"
+    ],
+    "report": "wall/GPU time and bytes for N=1,2,3 tasks; measured break-even only, with no rounded cost estimates"
+  },
+  "selector_role": {
+    "allowed": "external shared-cache stress case for the S_support submatrix in geobench_cache_action_prereg_v1.json",
+    "not_allowed": "counting Korea's three correlated tasks as sufficient held-out validation of a general selector",
+    "value": "same pixels, same cache and same region split isolate task/support effects better than cross-dataset comparisons"
+  },
+  "label_seal": "This amendment changes design only. It authorizes no label-content inspection and no performance run until readiness_gate passes and the amendment is committed."
+}

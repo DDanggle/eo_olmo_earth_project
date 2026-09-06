@@ -18,6 +18,7 @@ for f in ("months.jsonl",):
 MID={"nano":ModelID.OLMOEARTH_V1_NANO,"tiny":ModelID.OLMOEARTH_V1_TINY,"base":ModelID.OLMOEARTH_V1_BASE}[a.size]
 w=OlmoEarth(patch_size=4, model_id=MID, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(dev).eval()
 enc=w.model; nb=len(enc.blocks)
+EXPECTED_SHAPE={"nano":(128,32,32),"tiny":(192,32,32),"base":(768,32,32)}[a.size]
 if a.depth_frac<1.0: k=max(1,int(round(nb*a.depth_frac))); enc.blocks=nn.ModuleList(list(enc.blocks)[:k]); print("olmo depth",k,"/",nb,flush=True)
 months={json.loads(l)["sample_id"]:json.loads(l)["months_0_11"] for l in open(SRC/"months.jsonl") if l.strip()}
 ids=sorted(p.stem for p in ((SRC/"emb_fp16") if (SRC/"emb_fp16").exists() and any((SRC/"emb_fp16").glob("*.npy")) else (SRC/"raw_u16")).glob("*.npy")); done=0; skipped=[]
@@ -38,17 +39,45 @@ def embed(sid):
         feat[:,y0//4:(y0+64)//4,x0//4:(x0+64)//4]=f
     if a.probe: print("feat",tuple(feat.shape),flush=True); return None
     return feat.detach().cpu().numpy().astype("float16")
+def valid_cached_embedding(path):
+    """Return True only for a complete, readable cache entry.
+
+    Existence alone is not sufficient: a killed ``np.save`` can leave a truncated
+    file that a later run would otherwise skip forever.
+    """
+    try:
+        arr=np.load(path,mmap_mode="r",allow_pickle=False)
+        return arr.dtype==np.float16 and tuple(arr.shape)==EXPECTED_SHAPE
+    except (OSError,ValueError,EOFError):
+        return False
+
+def atomic_save(path,array):
+    tmp=path.with_name(f".{path.name}.{os.getpid()}.tmp.npy")
+    try:
+        np.save(tmp,array,allow_pickle=False)
+        os.replace(tmp,path)
+    finally:
+        if tmp.exists(): tmp.unlink()
+
 for sid in (ids[:2] if a.probe else ids):
     o=OUT/"emb_fp16"/f"{sid}.npy"
-    if o.exists(): done+=1; continue
+    if o.exists() and valid_cached_embedding(o): done+=1; continue
     try:
         e=embed(sid)
-        if e is not None: np.save(o,e); done+=1
+        if e is not None: atomic_save(o,e); done+=1
     except Exception as ex:
         skipped.append({"id":sid,"err":str(ex)[:160]})
         if a.probe or len(skipped)<3: import traceback; traceback.print_exc()
     if done%1000==0 and done: print(done,"tiles",flush=True)
 if a.probe: sys.exit(0)
-fs=sorted((OUT/"emb_fp16").glob("*.npy")); arr=np.load(fs[0],mmap_mode="r")
-audit={"schema":"olmo-variant-cache-audit-v1","size":a.size,"depth_frac":a.depth_frac,"blocks_total":nb,"shape":list(arr.shape),"n_tiles":len(fs),"expected":len(ids),"n_skipped":len(skipped),"skipped":skipped[:20],"all_gates_pass":len(fs)==len(ids) and tuple(arr.shape[1:])==(32,32),"deviation":"synthetic unique timestamps (cached month, day 2+i, 2020)"}
-(OUT/"olmo_variant_audit.json").write_text(json.dumps(audit,indent=1)); print(json.dumps({k:audit[k] for k in ("all_gates_pass","n_tiles","n_skipped","shape")})); print("OLMO VARIANT CACHE DONE")
+fs=sorted((OUT/"emb_fp16").glob("*.npy")); id_set=set(ids); file_ids={p.stem for p in fs}
+valid=[]; invalid=[]; shapes=set()
+for path in fs:
+    try:
+        arr=np.load(path,mmap_mode="r",allow_pickle=False)
+        shapes.add((str(arr.dtype),tuple(arr.shape)))
+        (valid if valid_cached_embedding(path) else invalid).append(path.stem)
+    except (OSError,ValueError,EOFError):
+        invalid.append(path.stem)
+audit={"schema":"olmo-variant-cache-audit-v2","size":a.size,"depth_frac":a.depth_frac,"blocks_total":nb,"expected_shape":list(EXPECTED_SHAPE),"shapes":[[dtype,list(shape)] for dtype,shape in sorted(shapes)],"n_tiles":len(fs),"n_valid":len(valid),"expected":len(ids),"missing_ids":sorted(id_set-file_ids)[:20],"unexpected_ids":sorted(file_ids-id_set)[:20],"n_invalid":len(invalid),"invalid_ids":invalid[:20],"n_skipped":len(skipped),"skipped":skipped[:20],"all_gates_pass":file_ids==id_set and len(valid)==len(ids) and not invalid and not skipped and shapes=={("float16",EXPECTED_SHAPE)},"deviation":"synthetic unique timestamps (cached month, day 2+i, 2020)"}
+(OUT/"olmo_variant_audit.json").write_text(json.dumps(audit,indent=1)); print(json.dumps({k:audit[k] for k in ("all_gates_pass","n_tiles","n_valid","n_invalid","n_skipped")})); print("OLMO VARIANT CACHE DONE")

@@ -4941,3 +4941,23 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 - 규칙 정책 시험(라벨 없는·싼 특징만): support가 무작위(양성 0 가능)→CACHED, 층화→ADAPT, 캐시≠OlmoEarth-base→RAW_FINETUNE. 7에피소드 중 6 oracle 일치; 틀린 1개는 Sen12 무작위(양성 0이어도 A1이 A0를 이김, C0-dev와 동일). 규칙 regret .093 vs best-static regret .014(단 best-static 산식은 액션이 없는 에피소드를 제외한 낙관치) → **규칙은 support 양성 수를 실제로 세는 C0 형태여야 하고, 그래도 Sen12 무작위는 남는 오차**.
 - 말할 수 있는 것: 선택할 이유는 과업 정체성이 아니라 **배포 조건**(라벨 품질, 캐시 계약, 릴리스 일치)에서 생김. 그 조건은 test 라벨 없이 읽힘(support 양성 수, 모델 id·크기, 릴리스). 말할 수 없는 것: 그룹들은 같은 데이터·폴드를 공유해 독립이 아님. 캐시 계약 행은 시드 1. 비용은 few-shot 행만 실측. 릴리스 전환 에피소드(AP 지표)는 anchor 척도가 달라 아직 미포함.
 - 다음(등록 후): GEO-Bench 외부 과업에서 에피소드 정의를 **과업 × support 조건 × 캐시 계약**으로 두고 action matrix를 채움. 선택기는 learned가 아니라 C0+계약 규칙부터.
+
+## MS-112-AUDIT (2026-09-06) — 위 MS-112의 `G0 통과·승자 3종` 해석 철회; 개발 가설로 강등
+
+- **원인**: `geobench_action_headroom.py`가 episode별 available action의 교집합만 사용했다.
+  cache-contract 3개 episode에는 HEAD_ADAPT가 없으므로 실제 `.085`는 CACHED_HEAD와
+  RAW_FINETUNE 두 action만의 diagnostic headroom이다. `g0_dev_output_v3_groups.json`도 robust
+  winner를 CACHED_HEAD·RAW_FINETUNE 두 개만 기록하며, 3종이라는 본문과 일치하지 않았다.
+- **행렬 결함**: cache-contract episode는 HEAD_ADAPT 미측정이고 CACHED/RAW가 각 1 seed다.
+  3 action×3 seed 완결을 명시해 재실행하면 상태
+  `INCOMPLETE_ACTION_MATRIX_DIAGNOSTIC_ONLY`, G0-A=False, G0-B=False, G0=False다.
+- **독립성**: 7 deployment group은 7 독립 과업이 아니다. support 조건은 Sen12/Solar를 반복하고,
+  cache 조건은 같은 Sen12 outcome과 fold를 반복한다. `.085`에 독립 task 수준 CI를 붙일 수 없다.
+- **규칙 결함**: v3 입력에는 실제 `support_positive_count`가 없고 random/stratified 문자열만 있다.
+  family cache-worthiness lookup은 개발 결과를 외운 baseline이며 leave-one-family-out selector가 아니다.
+- **살아 있는 결과**: support 구성과 cache contract가 행동 이질성의 후보라는 가설. Sen12/Solar의
+  cache reuse/few-shot 성능 자체와 MS-102/108의 cache-boundary 관측은 이 계산 결함으로 무효가
+  되지 않는다.
+- **조치**: 계산기에 `required_actions`·`required_seed_count` fail-closed audit와 테스트 2개를
+  추가(총 11/11). 미래 계약은 `config/geobench_cache_action_prereg_v1.json`; 상세 판정은
+  `docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md`. Korea는 별도 v1 amendment 이전 label 개봉 금지.

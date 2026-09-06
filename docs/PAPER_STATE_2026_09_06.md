@@ -1,5 +1,11 @@
 # 2026-09-06 논문 상태 — “된 것이 없는가?” 재판정
 
+> **최신 판정(23:55)**: MS-112의 deployment-condition 재배열은 좋은 가설이지만 selector
+> 결과가 아니다. 비직사각 action matrix·seed 비대칭·상관 episode를 수정한 외부 protocol은
+> `docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md`와
+> `config/geobench_cache_action_prereg_v1.json`을 따른다. two-task cache finding은 유지되고,
+> CVPR 승격 조건은 held-out task/family regret–cost 개선으로 좁혀졌다.
+
 ## 한 줄 판정
 
 **된 것이 없는 상태는 아니다.** 이미 `캐시가 유리한 조건`과 `캐시가 조용히 실패하는 조건`을

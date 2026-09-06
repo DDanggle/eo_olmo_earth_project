@@ -1,7 +1,13 @@
 # EarthCache 로드맵 — G0 먼저, 그다음 GEO-Bench (2026-09-06)
 
+> **23:55 감사 정정**: MS-112는 G0 통과가 아니다. cache-contract episode에 HEAD_ADAPT가 없고
+> 1 seed뿐인데 계산기가 공통 action 교집합만 사용해 `.085`를 만들었다. 최신 계약은
+> `config/geobench_cache_action_prereg_v1.json`, 상세 근거는
+> `docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md`다. 앞으로 submatrix별 required action×3seed가
+> 완결되지 않으면 G0를 계산하지 않는다. 이 문서 아래의 v0/MS-111 표는 역사적 맥락으로만 읽는다.
+
 이 문서는 "G0부터 빡세게 해서 GEO-Bench를 올리는 큰 그림"이다. 상위 SSOT는
-`config/geobench_cache_action_prereg_v0.json`(기계 판독 계약)과
+`config/geobench_cache_action_prereg_v1.json`(기계 판독 계약)과
 `docs/EARTHCACHE_GEOBENCH_UPGRADE_2026_09_06.md`(novelty·설계).
 
 ## 0. 한 문장

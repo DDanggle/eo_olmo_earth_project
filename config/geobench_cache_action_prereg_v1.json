@@ -1,0 +1,187 @@
+{
+  "schema": "earthcache-action-selection-preregistration-v1",
+  "status": "FROZEN_BEFORE_ANY_EXTERNAL_ACTION_OUTCOME",
+  "date": "2026-09-06",
+  "supersedes_for_future_experiments": "config/geobench_cache_action_prereg_v0.json addendum_2026_09_06_episode_definition",
+  "historical_results_unchanged": [
+    "MS-111-v2",
+    "MS-112"
+  ],
+  "correction": "MS-112 is hypothesis-generating only. Its seven rows were correlated deployment views, not seven independent tasks; the cache-contract rows lacked HEAD_ADAPT and had one seed; and the calculator silently intersected available actions. The reported 0.085 is therefore a diagnostic upper bound over CACHED_HEAD versus RAW_FINETUNE, not a G0 pass or a selector result.",
+  "paper_question": "Given an already materialized Earth representation, its input/release contract, a target deployment, a label budget, and measured resource limits, should an operator reuse the current head, adapt a head, use a raw model, re-embed, or request more evidence?",
+  "novelty_boundary": {
+    "claimed": "pre-action lifecycle allocation for materialized Earth-observation representation caches, evaluated by held-out action regret and real encoder/raw-I/O/storage cost",
+    "not_claimed": [
+      "generic foundation-model recommendation",
+      "generic transferability estimation",
+      "generic PEFT module selection",
+      "backward-compatible embeddings as a new problem",
+      "independence of folds, support draws, or cache variants from the same task"
+    ],
+    "hardcoded_family_rule_role": "development baseline only; a cache-family identity or cache-worthiness lookup table is forbidden for leave-one-family-out promotion"
+  },
+  "tracks": {
+    "Z0": {
+      "labels_visible_to_policy": 0,
+      "allowed_features": [
+        "sensor/band/GSD/time/missingness contract",
+        "cache family/release/shape/dtype/bytes",
+        "unlabeled cache distribution sketches",
+        "measured cold-encode, warm-read, raw-I/O and storage costs"
+      ],
+      "forbidden": [
+        "support positive count",
+        "support labels",
+        "query labels",
+        "target action outcomes"
+      ]
+    },
+    "K5_K20": {
+      "labels_visible_to_policy": "the exact support set only",
+      "allowed_features": [
+        "all Z0 features",
+        "K and support positive count",
+        "support-only class balance, LogME/Task2Vec and gradient/loss summaries"
+      ],
+      "forbidden": [
+        "query labels",
+        "target action outcomes"
+      ]
+    }
+  },
+  "decision_unit": "dataset_task x held_out_target_group x support_draw x K x cache_contract x cost_budget",
+  "generalization_units": [
+    "dataset task",
+    "encoder family"
+  ],
+  "nested_not_independent": [
+    "geographic folds within one dataset",
+    "seeds",
+    "random versus stratified draws from one target group",
+    "encoder sizes/releases/readouts from one family"
+  ],
+  "matrix_contract": {
+    "rule": "Every promoted submatrix must be rectangular: every episode has every required action with the preregistered seed count. A frozen budget may make a measured action ineligible after this audit; an unmeasured action may not be treated as ineligible.",
+    "required_seed_count": 3,
+    "calculator": "code/geobench_action_headroom.py with required_actions and required_seed_count declared",
+    "submatrices": {
+      "S_support": {
+        "purpose": "Does support composition change reuse versus head adaptation under one fixed, valuable cache?",
+        "fixed": "OlmoEarth-base, matched input contract",
+        "crossed_factors": [
+          "task",
+          "held_out_target_group",
+          "support_draw",
+          "K in {5,20}"
+        ],
+        "required_actions": [
+          "CACHED_HEAD",
+          "HEAD_ADAPT",
+          "RAW_FINETUNE"
+        ]
+      },
+      "F_cache_family": {
+        "purpose": "Does the value of a cache and the winning lifecycle action transfer to an unseen representation family?",
+        "crossed_factors": [
+          "task",
+          "held_out_target_group",
+          "cache family",
+          "K in {5,20}"
+        ],
+        "required_actions": [
+          "CACHED_HEAD",
+          "HEAD_ADAPT",
+          "RAW_FINETUNE"
+        ],
+        "families_initial": [
+          "OlmoEarth-base",
+          "OlmoEarth-nano",
+          "Galileo-base"
+        ],
+        "note": "Clay may be added only with its resolution/input contract frozen before outcomes. A separate Z0 matrix uses CACHED_HEAD, RAW_FINETUNE and REEMBED because HEAD_ADAPT is undefined without labels. REEMBED is otherwise evaluated in a separate cost/lifecycle matrix unless the same encoder target is defined for every cell."
+      },
+      "R_release": {
+        "purpose": "Handle a head/cache release mismatch without conflating it with task or cache-family selection.",
+        "fixed": "same task, raw cube and target release",
+        "required_actions": [
+          "IDENTITY_REUSE",
+          "BRIDGE",
+          "REEMBED"
+        ],
+        "role": "engineering and lifecycle appendix unless held-out releases and downstream utility produce a nontrivial decision boundary"
+      }
+    }
+  },
+  "datasets": {
+    "development_only": [
+      "Sen12Landslides",
+      "Solar Farm"
+    ],
+    "external_public": [
+      "DynamicEarthNet",
+      "BigEarthNet-v2",
+      "Fields of the World"
+    ],
+    "external_optional_after_contract_audit": [
+      "BioMassters"
+    ],
+    "korea": "External shared-cache and amortization case. It cannot substitute for held-out public task/family validation."
+  },
+  "anchors": {
+    "rule": "Declare per-task lower and upper reference scores before reading action outcomes; never min-max over evaluated actions.",
+    "lower": "task-valid null or fixed supervised floor",
+    "upper": "fixed full-label strong reference measured with the same split/metric",
+    "out_of_range": "retain values below 0 or above 1 after normalization; do not clip"
+  },
+  "costs": {
+    "must_be_measured": [
+      "cold encoder GPU seconds",
+      "warm cache-read seconds",
+      "head/adaptation GPU seconds",
+      "raw bytes read",
+      "cache bytes read and written",
+      "cache invalidation bytes",
+      "peak accelerator memory"
+    ],
+    "forbidden": "rounded or inferred costs in confirmatory G0/G1 claims"
+  },
+  "selector_baselines": [
+    "best static policy learned on development tasks",
+    "always cheapest eligible action",
+    "contract-only deterministic rule",
+    "cache-family lookup rule as an explicitly non-generalizing baseline",
+    "support-only LogME or Task2Vec in K tracks",
+    "Capabilities-Encoding-style action-performance predictor",
+    "REMSA-style metadata/constraint ranker",
+    "oracle using query outcomes for evaluation only"
+  ],
+  "outer_evaluation": {
+    "required": [
+      "leave-one-task-out",
+      "leave-one-encoder-family-out"
+    ],
+    "primary": "normalized regret to the best eligible measured action",
+    "secondary": [
+      "task-normalized IQM at fixed budgets",
+      "harmful-action rate versus best safe static policy",
+      "coverage versus REQUEST_MORE_LABELS",
+      "matched-score measured cost"
+    ],
+    "uncertainty": "task/family grouped interval; never treat rows or folds as i.i.d."
+  },
+  "promotion_gates": {
+    "G0_matrix": "All promoted cells pass the rectangular action/seed audit.",
+    "G0_heterogeneity": "At least two independent held-out task groups have different robust best actions; cache variants or support draws from one task do not satisfy this alone.",
+    "G0_value": "Oracle headroom over best static is at least 0.02 with fixed anchors and measured costs.",
+    "G1_selector": "At least 30% lower mean regret than best static with a task-grouped interval excluding zero.",
+    "G2_external": "Direction repeats on at least two held-out public tasks and one held-out encoder family.",
+    "G3_cost": "At score within 0.01, at least 25% lower measured encoder plus raw-I/O cost than always recompute.",
+    "G4_korea": "Korea shared-cache case passes data eligibility and reports all three tasks plus exact amortization without being counted as three independent datasets."
+  },
+  "stop_rules": [
+    "If G0_matrix fails, do not report G0 headroom.",
+    "If task-level action heterogeneity fails externally, do not train a learned selector.",
+    "If the contract-only rule does not beat best static on held-out tasks, retain it as a baseline and publish cache-value characterization only.",
+    "Do not add MoE, VLM, RL, or post-training complexity to rescue a failed decision boundary."
+  ]
+}

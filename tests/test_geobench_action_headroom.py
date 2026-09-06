@@ -110,6 +110,41 @@ class HeadroomTest(unittest.TestCase):
         report = MODULE.analyze({"rows": rows})
         self.assertEqual(report["budgets"][0]["episodes"][0]["native_best_action"], "A")
 
+    def test_declared_incomplete_action_matrix_fails_closed(self):
+        rows = [
+            row("t1", "e1", "cache", 1, 0.6, anchor=(0.0, 1.0)),
+            row("t1", "e1", "adapt", 1, 0.8, anchor=(0.0, 1.0)),
+            row("t2", "e2", "cache", 1, 0.8, anchor=(0.0, 1.0)),
+            # adapt was never measured for e2; this is not action ineligibility.
+        ]
+        report = MODULE.analyze({
+            "rows": rows,
+            "required_actions": ["cache", "adapt"],
+            "required_seed_count": 1,
+        })
+        self.assertEqual(report["status"], "INCOMPLETE_ACTION_MATRIX_DIAGNOSTIC_ONLY")
+        self.assertFalse(report["matrix_contract"]["complete"])
+        self.assertEqual(report["matrix_contract"]["missing_actions_by_episode"],
+                         {"e2": ["adapt"]})
+        self.assertFalse(report["G0A_action_heterogeneity"]["pass"])
+        self.assertFalse(report["G0B_operational_value"]["pass"])
+        self.assertFalse(report["G0_pass"])
+
+    def test_declared_seed_count_is_enforced(self):
+        rows = []
+        for seed in (1, 2, 3):
+            rows.append(row("t1", "e1", "cache", seed, 0.6, anchor=(0.0, 1.0)))
+        rows.append(row("t1", "e1", "adapt", 1, 0.8, anchor=(0.0, 1.0)))
+        report = MODULE.analyze({
+            "rows": rows,
+            "required_actions": ["cache", "adapt"],
+            "required_seed_count": 3,
+        })
+        self.assertFalse(report["matrix_contract"]["complete"])
+        self.assertEqual(report["matrix_contract"]["insufficient_seed_counts_by_episode"],
+                         {"e1": {"adapt": 1}})
+        self.assertFalse(report["G0_pass"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -3621,3 +3621,32 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 병행 작업: DEN(seg, 10밴드) + benv2(classification) GEO-Bench→타일 어댑터 제작(CPU).
   정규화 계약 함정: geobench는 z-score float 반환 → OlmoEarth 정규화기에 또 넣으면 이중 정규화.
   data_normalizer 우회 또는 normalization_stats로 raw DN 복원해서 해결.
+
+### 2026-09-06 23:55 — MS-112 독립 감사·철회 병기 + selector/Korea v1 계약
+
+- **MS-112 재현 감사**: `g0_dev_input_v3.json`과 계산기를 직접 대조했다. cache-contract 세
+  episode에는 HEAD_ADAPT가 없고 cache/raw도 1 seed뿐이었다. 계산기의 action 교집합 때문에
+  `.085`는 CACHED vs RAW diagnostic였으며 기록의 “승자 3종”과 산출물이 불일치했다.
+- **정정 판정**: MS-112를 selector G0 pass에서 **hypothesis-generating development evidence**로
+  강등했다. required 3 action×3 seed로 감사하면 matrix incomplete, G0=False다. Sen12/Solar의
+  기존 cache reuse/few-shot 성능 결과 자체는 유지한다.
+- **코드 보호장치**: `geobench_action_headroom.py`에 `required_actions`와
+  `required_seed_count`를 추가했다. 누락 시 `INCOMPLETE_ACTION_MATRIX_DIAGNOSTIC_ONLY`로
+  fail-closed한다. unit test 2개를 추가해 총 11/11 통과.
+- **CVPR novelty 재경계**: Capabilities Encoding·REMSA·WACV workflow selection·CrossEarth-Gate·
+  GeoFM PEFT·Embedding Recycling과 비교해 generic model/PEFT/cache selection 주장을 금지했다.
+  남는 주장은 materialized EO cache의 reuse/adapt/raw/re-embed/request lifecycle action을 held-out
+  task/family에서 실제 cost와 regret로 고르는 것이다.
+- **새 계약**: `config/geobench_cache_action_prereg_v1.json`에 Z0/K 분리, S/F/R submatrix,
+  rectangular action matrix, LOTO/LOFO, measured cost, stop rule을 명시했다. 외부 action outcome 전
+  이 변경 묶음으로 동결한다.
+- **Korea 3-task**: v0는 rare-class 5/7 규칙과 T1/T2 source-head 부재가 충돌했다.
+  `korea_shared_cache_3task_prereg_v1_amendment.json`에서 T1/T2의 CACHE_K-vs-RAW_K와 T3 source
+  transfer를 분리하고 task-specific metric과 실제 N-task amortization을 등록했다. transient error
+  6건·selection-bias audit가 남아 label은 계속 sealed다.
+- **운영 결함 수정**: DEN Olmo extractor 두 프로세스가 같은 output에 쓰는 것을 발견해 후발
+  writer 하나를 종료했다. local future code에 `flock`, atomic save, existing-file readability 검증,
+  전수 ID/shape/dtype audit를 추가했다. 현재 실행은 old code이므로 완료 후 전수 검증 전 DONE으로
+  승격하지 않는다.
+- **상세 문서**: `docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md`. 다음은 DEN cache audit →
+  external task protocol freeze → S_support 3-action×3-seed matrix → 독립 task-level G0 재판정.

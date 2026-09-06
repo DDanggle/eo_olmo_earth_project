@@ -1,4 +1,22 @@
 # OLMoEarth 연구 재시작 지점
+> ## 2026-09-06 23:55 KST 최신 감사 — MS-112 정정 + 외부 검증 계약 v1
+>
+> **상태 한 줄**: core empirical result(Sen12+Solar cache reuse/few-shot)은 유지된다. 그러나
+> MS-112의 `G0-A 승자 3종/G0-B .085 통과` 해석은 **철회**한다. v3 action matrix가 비직사각이고
+> cache-contract 행이 단일 seed였으며, 계산기가 누락 action을 교집합에서 조용히 제외했다.
+> 3행동×3seed를 명시해 재감사하면 `INCOMPLETE_ACTION_MATRIX_DIAGNOSTIC_ONLY`, G0=False다.
+>
+> **현재 SSOT**: `docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md` ·
+> `config/geobench_cache_action_prereg_v1.json` ·
+> `config/korea_shared_cache_3task_prereg_v1_amendment.json`.
+> 아래 20:30 인수인계의 v0/MS-111 설명은 provenance로 보존하지만 실험 지시는 이 최신 블록이
+> 대체한다.
+>
+> **다음 임계경로**: (1) DEN cache 단일-writer 전수 감사 → (2) external task별 anchor/head/cost
+> 동결 → (3) S-support 직사각 행렬(CACHED/ADAPT/RAW×3seed) → (4) 독립 task 수준 G0 재판정.
+> G0가 실제로 통과할 때만 selector를 학습한다. Korea label은 transient error 6건과 selection-bias
+> gate를 닫고 v1 amendment를 commit하기 전까지 열지 않는다.
+>
 > ## 2026-09-06 20:30 KST 인수인계 (다른 컴퓨터에서 이어받기)
 >
 > **상태 한 줄**: EarthCache = "새 EO 과업에 라벨 없이 cache 재사용/적응/재계산을 비용·성능으로 고른다".

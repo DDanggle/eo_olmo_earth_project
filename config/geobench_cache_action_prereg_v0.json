@@ -194,5 +194,12 @@
       "deployment_grouping": "G0-A pass (3 winners), G0-B .085 unlimited / 0 under no_raw_read",
       "status": "development evidence only"
     }
+  },
+  "_audit_correction_2026_09_06_2355": {
+    "status": "THE_ADDENDUM_G0_PASS_INTERPRETATION_IS_WITHDRAWN",
+    "reason": "The cache-contract episodes omitted HEAD_ADAPT and used one seed; the calculator silently intersected available actions. The reported .085 was therefore a CACHED_HEAD-versus-RAW_FINETUNE diagnostic over correlated development views, not a complete three-action selector gate.",
+    "correct_status": "hypothesis-generating development evidence; G0=False when three required actions and three seeds are enforced",
+    "future_protocol": "config/geobench_cache_action_prereg_v1.json",
+    "details": "docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md"
   }
 }
