@@ -20,7 +20,7 @@ w=OlmoEarth(patch_size=4, model_id=MID, token_pooling=True, use_legacy_timestamp
 enc=w.model; nb=len(enc.blocks)
 if a.depth_frac<1.0: k=max(1,int(round(nb*a.depth_frac))); enc.blocks=nn.ModuleList(list(enc.blocks)[:k]); print("olmo depth",k,"/",nb,flush=True)
 months={json.loads(l)["sample_id"]:json.loads(l)["months_0_11"] for l in open(SRC/"months.jsonl") if l.strip()}
-ids=sorted(p.stem for p in (SRC/"emb_fp16").glob("*.npy")); done=0; skipped=[]
+ids=sorted(p.stem for p in ((SRC/"emb_fp16") if (SRC/"emb_fp16").exists() and any((SRC/"emb_fp16").glob("*.npy")) else (SRC/"raw_u16")).glob("*.npy")); done=0; skipped=[]
 def embed_crop(crop,ts):
     image=torch.from_numpy(crop).to(dev); inp={"sentinel2_l2a":RasterImage(image=image,timestamps=[(t,t) for t in ts])}; w.normalizer(inp,{})
     sample,present,_=w._prepare_modality_inputs(ModelContext(inputs=[inp],metadatas=[])); sample.sentinel2_l2a_mask[...,2]=MaskValue.MISSING.value
@@ -28,6 +28,7 @@ def embed_crop(crop,ts):
         tm=w.model(sample,fast_pass=False,patch_size=4)["tokens_and_masks"]; m=(tm.sentinel2_l2a_mask!=MaskValue.MISSING.value).unsqueeze(-1)
         pooled=((tm.sentinel2_l2a*m).sum(dim=(3,4))/m.sum(dim=(3,4)).clamp(min=1))[0].permute(2,0,1).float().cpu()
     return pooled
+@torch.no_grad()
 def embed(sid):
     raw=np.load(SRC/"raw_u16"/f"{sid}.npy").astype("float32"); T=raw.shape[1]; cube=np.zeros((12,T,128,128),dtype="float32"); cube[:10]=raw
     ts=[datetime(2020,int(m)+1,1)+timedelta(days=1+i) for i,m in enumerate(months.get(sid,[0]*T)[:T])]; feat=None
@@ -36,7 +37,7 @@ def embed(sid):
         if feat is None: feat=torch.empty((f.shape[0],32,32))
         feat[:,y0//4:(y0+64)//4,x0//4:(x0+64)//4]=f
     if a.probe: print("feat",tuple(feat.shape),flush=True); return None
-    return feat.numpy().astype("float16")
+    return feat.detach().cpu().numpy().astype("float16")
 for sid in (ids[:2] if a.probe else ids):
     o=OUT/"emb_fp16"/f"{sid}.npy"
     if o.exists(): done+=1; continue
