@@ -10,13 +10,17 @@
 > 3단계 = [G0 필요조건] → 통과 시 [S 선택기·CVPR main] / 불통과 시 [A EarthCacheBench 특성화] → [E 한국 3-task 추가 외부].
 > 계약 = `config/geobench_cache_action_prereg_v0.json`. 계산기 = `code/geobench_action_headroom.py`(테스트 9/9, IIA 증명).
 >
-> **G0 현재 판정(개발 2과업, MS-111-정정)**: G0-A 이질성 신호 있음(Sen12→HEAD_ADAPT +.036, Solar→CACHED_HEAD +.009)
+> **G0 재판정(MS-111-v2, 시드별 행·실측 적응비용·고정 anchor)**: G0-A 불통과(robust 승자 = HEAD_ADAPT 하나, Solar는 시드 간 역전), G0-B headroom .017 < .02 불통과. 개발 2과업에서는 선택기 불필요. 진짜 REEMBED 미측정.
+>
+> **G0 이전 판정(개발 2과업, MS-111-정정)**: G0-A 이질성 신호 있음(Sen12→HEAD_ADAPT +.036, Solar→CACHED_HEAD +.009)
 > 단 시드 1개. G0-B 가치는 **계산 불가**(고정 anchor·진짜 REEMBED·실측 비용 없음). G0_pass=False.
 > 초판의 headroom .013/.500은 **정규화 인공물이라 폐기**. RAW_FINETUNE(=raw 재학습)과 진짜 REEMBED(=인코더 재실행) 구분됨.
 >
 > **GEO-Bench 데이터 (geobench2/<ds>/, .venv-geobench, HF 공식 다운로더 사용)**
 > - ✅ fotw(검증OK, RGB+NIR 4밴드) · DynamicEarthNet(검증OK, s2 10밴드+planet) · benv2/biomassters(preflight OK, 우리 10밴드 보유)
 > - 🔄 benv2→biomassters 다운로드 중: `logs/dl_cls_reg.log`, `code/run_geobench_cls_reg.sh`. 완료 마커 `logs/{benv2,biomassters}_DONE.json`.
+> - 🔄 DEN OlmoEarth 캐시 `olmo_den/`: GPU1에서 추출 중(`logs/x_olmo_den.log`, 16,000칩; 이전 실패 원인 = 캐시 없는 소스에서 타일 id를 못 찾던 버그, 수정 커밋).
+> - ❌ BioMassters 0000 파트 sha256 불일치(PASTIS와 같은 유형).
 > - ❌ **PASTIS 0001 파트: HF 공식 도구로도 sha256 불일치**(got 3f1e98e3 vs want 7d0463a6). GeoBench 쪽 sha256str 오류로 판단 — 우리가 못 고침. PASTIS는 보류, 나머지로 진행.
 >
 > **다음 순서(로드맵 §8)**

@@ -4927,3 +4927,10 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 
 **남는 것**: 재사용↔적응 역전 신호는 있으나 (a) 시드 1개 (b) Solar margin +.009로 미약
 (c) 가치·비용 미검증. GEO-Bench Core-6가 이 셋을 채워야 G0-A/G0-B가 실제로 판정된다.
+
+## MS-111-v2 (2026-09-06) — G0 개발 입력을 원시 리포트에서 재구성: 시드별 행·실측 적응 비용·고정 anchor. **G0-A 불통과, G0-B headroom .017(<.02) 불통과**
+- 무엇: `code/build_g0_dev_input.py` → `artifacts/g0_dev/g0_dev_input_v2.json`(18행). MS-97/99 K=5 리포트에서 시드 1·2·3 각각의 8지역 macro FP-matched IoU, 적응 단계 실측 gpu_s·raw_bytes_read(8지역 합), 소비 라벨(5×8=40), anchor = 이 분석 이전에 확정된 전량 라벨 raw P2(하한 .197/.333)·캐시 P4(상한 .272/.593). 계산기 `geobench_action_headroom.py`(IIA 검사 통과) → `g0_dev_output_v2.json`.
+- 결과: Sen12는 HEAD_ADAPT가 3시드 모두 CACHED를 이김(.302/.290/.290 vs .266/.242/.266). Solar는 시드에 따라 갈림(ADAPT .610/.561/.575 vs CACHED .589/.588/.595) → robust 승자 없음. **G0-A(이질성) 불통과**(robust 승자 집합 = {HEAD_ADAPT} 하나). anchor 정규화 oracle headroom = .017(무제한·no_raw_read 예산), 0(라벨 ≤20 예산) → **G0-B 불통과**(임계 .02).
+- 비용 실측(적응 단계만): HEAD_ADAPT gpu 11–43 s·raw 0 B; RAW_FINETUNE gpu 58–215 s·raw 2.7–11.2 GB. 진짜 REEMBED는 여전히 미측정(입력에 없음). 소스 head 학습·캐시 추출 비용은 별도.
+- 읽기: 개발 2과업에서는 "항상 캐시(+라벨 있으면 head 적응)"가 oracle과 사실상 같음 → 선택기 필요성은 **아직 없음**. 결론은 검토 의견 그대로: EarthCacheBench 특성화는 성립, CVPR main(selector)은 GEO-Bench 외부 과업 action matrix에서 G0가 통과해야만.
+- 검토 반영 대조: 고정 anchor·IIA·RAW_FINETUNE 분리·support_label_count·예산을 반복 추정치에 적용·실제 시드(이전 커밋 d63261f) ✔ / 시드 placeholder "s1" 단일행 → 시드별 행 ✔(이번) / 비용 추정치 → 실측 ✔(이번, 적응 단계) / 진짜 REEMBED ✗(미측정) / Core-6 확보: benv2 ✔, DEN ✔(OlmoEarth 캐시 추출 중), fotw ✔, BioMassters·PASTIS sha256 불일치 ✗.
