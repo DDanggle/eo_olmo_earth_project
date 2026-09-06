@@ -11,7 +11,7 @@ ROOT=Path("/home/work/data/olmoearth"); CACHE=ROOT/"sen12_pilot/holdout_chimanim
 if "--task2" in sys.argv: CACHE=ROOT/"task2_cache"
 SRC4=ROOT/"cachetune_source_p4_v1"; SRC2=ROOT/"cachetune_source_p2_v1"; PT0=ROOT/"artifacts/cachetune_pt0"
 ap=argparse.ArgumentParser(); ap.add_argument("--arms",default="A0,A1,A4s"); ap.add_argument("--exposure",default="fixed_update",choices=["fixed_update","fixed_exposure"])
-ap.add_argument("--out",default=str(ROOT/"artifacts/fewshot_a1_a4")); ap.add_argument("--support",default="stratified",choices=["stratified","random"],help="random: pool 에서 K 타일 균등 추출(seed 100+s), 양성 강제 없음")
+ap.add_argument("--out",default=str(ROOT/"artifacts/fewshot_a1_a4")); ap.add_argument("--support",default="stratified",choices=["stratified","random","pool"],help="random: pool 에서 K 타일 균등 추출(seed 100+s), 양성 강제 없음; pool: 전체 pool 라벨(in-region full-label ceiling), K=len(pool), steps=min(300*K/5, 6000)")
 ap.add_argument("--clay",action="store_true",help="second-FM cache: emb from clay_cache (cin inferred), P4 ckpts from clay_source_v1; regions = 8 confirmatory; raw arms unavailable")
 ap.add_argument("--task2",action="store_true",help="Task-2 Solar Farm: task2_cache, task2_contract, task2_source_v1 checkpoints, task2_fewshot_manifests, regions task2_fold0..7")
 ap.add_argument("--confirmatory",action="store_true",help="8 확증 지역: confirmatory/holdout_<r>/P{4,2}_seed<s>/checkpoints 사용, manifest=fewshot_confirmatory_manifests"); a=ap.parse_args()
@@ -103,13 +103,14 @@ for region in REGIONS:
         dec0=EmbDecoder(cin=CIN).to(dev); dec0.load_state_dict(ck4,strict=True); dec0.eval(); P0=probs(dec0,Xq_emb); budget=empty_fp(P0,Yq_np.astype(bool),0.5)
         if "A0" in ARMS:
             rep["runs"].append({"region":region,"seed":seed,"K":None,"arm":"A0","eval":evaluate(P0,Yq_np,budget),"train":{"trainable_params":0,"raw_bytes_read":0},"fp_budget":budget}); print(region,seed,"A0",round(rep["runs"][-1]["eval"]["iou_fp_matched"],4),flush=True)
-        for K in (5,20):
-            if a.support=="stratified":
+        for K in ((len(man["support_pool"]["ids"]),) if a.support=="pool" else (5,20)):
+            if a.support=="pool": sids=sorted(man["support_pool"]["ids"])
+            elif a.support=="stratified":
                 draw=next(x for x in man["draws"][str(K)]["draws"] if x["seed"]==seed); sids=draw["support_ids"]
             else:
                 import random as _r; rng=_r.Random(100+seed+K*7); sids=sorted(rng.sample(man["support_pool"]["ids"], K))
             Ys=load_masks(sids)
-            steps=BASE_STEPS if a.exposure=="fixed_update" else BASE_STEPS*K//5
+            steps=(min(BASE_STEPS*K//5,6000) if a.support=="pool" else (BASE_STEPS if a.exposure=="fixed_update" else BASE_STEPS*K//5))
             for arm in [x for x in ARMS if x!="A0" and not (x=="A4w0" and K!=5)]:
                 if arm=="A1":
                     m=EmbDecoder(cin=CIN).to(dev); m.load_state_dict(ck4,strict=True); Xs=load_emb(sids,stats); tr=train(m,Xs,Ys,steps,1e-4,1e-4,seed*1000+K,bn_train=False); P=probs(m,Xq_emb); tr["raw_bytes_read"]=0

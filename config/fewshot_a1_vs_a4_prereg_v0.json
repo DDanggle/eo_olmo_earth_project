@@ -90,5 +90,15 @@
       "support-only A0/A1 selector",
       "second task"
     ]
+  },
+  "addendum_v2_2026_09_07_ceiling_for_method_headroom": {
+    "why": "To decide whether few-label adaptation on a frozen cache has room for a METHOD contribution, the in-region full-label ceiling must be known: how far is A1 (K=5/20) from a head adapted on the whole support pool of the same region? If the gap is small, method work on few-shot heads is pointless; if large, it is the target.",
+    "arms": {
+      "A1_pool": "source P4 head adapted on all pool tiles (cache), steps=min(300*K/5,6000), same lr/BN rule as A1",
+      "A4w_pool": "source P2 raw model adapted on all pool tiles"
+    },
+    "metric": "FP-matched positive-tile macro IoU on the same query set; report gap = A1_pool - A1_K5 and A1_pool - A1_K20 per region",
+    "decision": "gap >= 0.05 in >= 6/8 regions on either task -> few-label method track opens (candidates: transductive use of unlabeled query cache, retrieval-reweighted source, support-validated A0/A1 mixing); gap < 0.03 -> no method track, benchmark/characterization only",
+    "status": "REGISTERED_AT_COMMIT_before_ceiling_metrics"
   }
 }
