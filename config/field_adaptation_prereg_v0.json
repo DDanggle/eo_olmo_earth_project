@@ -1,0 +1,30 @@
+{
+  "schema": "field-adaptation-preregistration-v0",
+  "status": "REGISTERED_AT_COMMIT_before_any_arm_is_run",
+  "date": "2026-09-07",
+  "problem": "Few-label regional adaptation of a dense Earth-embedding head: given a source-trained head, K labelled tiles, the target region's UNLABELLED embedding field (all query tiles, already cached) and the labelled source cache, produce the best head for the region without running the encoder.",
+  "asset_only_cache_has": "target field for free; labelled source cache searchable in token space; per-token multi-temporal structure",
+  "arms": {
+    "A0": "reuse",
+    "A1": "support-only head adaptation (current headline)",
+    "A1T": "A1 + transductive normalisation: BatchNorm running stats re-estimated on the target field (all query embeddings, no labels) before/after support adaptation; also A0T (no labels)",
+    "A1R": "retrieval-reweighted source: rank source-train tiles by token-distribution similarity to the target field (mean/cov of tokens, or kNN of tile descriptors), take top-M (M=200) with their TRUE labels, adapt the head on support ∪ retrieved (support upweighted); no pseudo-labels",
+    "A1P": "prototype-guided self-training: support-positive token prototypes select high-confidence unlabelled tokens from the field as pseudo-labels; guarded by support-validated acceptance (if support-val IoU drops, fall back to A1)",
+    "A1TR": "T then R (combined)"
+  },
+  "protocol": "same manifests/query sets/FP-matched IoU as MS-96/97/99; 300 updates fixed-update (R: 600 because more data), lr 1e-4, BN frozen except T's statistics re-estimation; K=5,20; seeds 1-3",
+  "development": "china, chimanimani (Sen12) and task2 folds 0,1 (Solar); kill gate: arm - A1 >= +0.03 FP-matched macro IoU in both dev regions of at least one task at K=5, and not worse than A1 by more than 0.01 elsewhere",
+  "confirmatory": "survivors only: 8 Sen12 regions + 8 Solar folds, 3 seeds; success = arm > A1 in >= 6/8 (each task) and closes >= 50% of the A1_pool - A1 gap on average",
+  "ceiling_reference": "MS-113 A1_pool (in-region full-label) — registered 28cd052",
+  "baselines_required_for_paper": [
+    "A1",
+    "raw few-shot A4w",
+    "PEFT on the encoder (A3, LoRA) as cost ceiling",
+    "full fine-tune"
+  ],
+  "forbidden": [
+    "query labels in any step",
+    "post-hoc changes to M, thresholds, or update counts after reading confirmatory metrics"
+  ],
+  "novelty_boundary": "transductive BN, retrieval of source data and self-training exist individually; the claim is the deployment setting (precomputed dense field + searchable labelled cache, zero encoder cost) and the measured closure of the in-region ceiling gap under geographic shift on public EO tasks"
+}
