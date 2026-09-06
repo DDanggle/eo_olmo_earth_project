@@ -4875,3 +4875,27 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
   "이게 OlmoEarth인가"를 라벨 없이 맞히는 판별기다.** 논문 주장으로 승격 금지, 탐색적 관찰로 강등.
 - 교훈: n=14 상관에서 부트스트랩 CI는 상관된 반복을 독립처럼 세어 과신을 만든다.
   일반화 단위(family, 과업)를 먼저 정하고 그 단위로 검정한다.
+
+## MS-111 (2026-09-06) — G0를 개발 데이터에 실제로 돌림: 2과업으로는 selector 불통과, 그러나 비용 축에 신호
+
+- `code/geobench_action_headroom.py`(그쪽 세션 신설, 테스트 5/5) 에 Sen12(MS-97)·Solar(MS-99)
+  실측 region-macro 평균을 넣음. `artifacts/g0_dev/`.
+
+| 과업(K=5) | CACHED_HEAD | HEAD_ADAPT | REEMBED | 최고 |
+|---|---:|---:|---:|---|
+| Sen12 | .258 | **.294** | .179 | HEAD_ADAPT |
+| Solar | **.591** | .582 | .240 | CACHED_HEAD |
+
+- **최고 action이 두 과업에서 역전**(Sen12=적응, Solar=재사용). 그러나:
+  - unlimited 예산: oracle headroom **+0.013** (< .02 gate) — HEAD_ADAPT가 거의 oracle. 점수만으론 불통과.
+  - no_reembed 예산(REEMBED 제외): best_static이 CACHED_HEAD로 뒤집힘, `budget_static_winner_crossover=True`.
+  - 역전군 1개(2개 필요) → **G0_pass = False**.
+- **읽기**: (1) 점수만으론 selector 정당화 안 됨 — "항상 적응"이 강력. (2) selector 가치는 **비용 축**
+  (적응은 라벨·학습이 비쌈 → 빡빡한 예산에서 재사용이 frontier를 이길 수 있음). (3) 2과업은
+  검정력 부족 → GEO-Bench Core-6가 풀 것 = 재사용↔적응 역전이 ≥2 독립 과업에서 체계적인가 +
+  실측 비용이 Pareto 교차를 만드는가.
+- **의미**: 이 결과가 로드맵의 뼈대(`docs/EARTHCACHE_ROADMAP_G0_FIRST.md`). REEMBED가 두 과업
+  모두 최하위 → 외부 과업에서도 유지되면 REEMBED는 과업당 1회 확증하고 실질 결정을
+  CACHED_HEAD vs HEAD_ADAPT로 좁혀 GPU 절반 절감.
+- 말할 수 없는 것: 비용은 **추정값**(실측 아님) — 실측 비용 벡터로 대체해야 G3·selector 가치 확정.
+  개발 2과업은 일반화 단위로 부족.

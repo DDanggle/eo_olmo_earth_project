@@ -15,8 +15,10 @@ ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/a.src; OUT=ROOT/a.out; dev=torc
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
 for d in ("raw_u16","mask_u8"):
     if not (OUT/d).exists(): os.symlink(SRC/d,OUT/d)
-for f in ("months.jsonl","cache_audit.json"):
+for f in ("months.jsonl",):
     if not (OUT/f).exists(): os.symlink(SRC/f,OUT/f)
+if not (OUT/"source_cache_audit.json").exists():
+    os.symlink(SRC/"cache_audit.json",OUT/"source_cache_audit.json")
 enc=Encoder.load_from_folder(Path("/home/work/data/olmoearth/third_party/galileo/data/models")/a.size, device=dev).to(dev).eval()
 RAW=["B02","B03","B04","B08","B05","B06","B07","B8A","B11","B12"]; GAL=["B02","B03","B04","B05","B06","B07","B08","B8A","B11","B12"]; perm=[RAW.index(b) for b in GAL]
 months={}
@@ -53,6 +55,17 @@ for sid in (ids[:2] if a.probe else ids):
     if done%500==0 and done: print(done,"tiles",flush=True)
 if a.probe: sys.exit(0)
 fs=sorted((OUT/"emb_fp16").glob("*.npy")); arr=np.load(fs[0],mmap_mode="r")
+timesteps=sorted({len(months[sid]) for sid in ids if sid in months})
 audit={"schema":"galileo-cache-audit-v1","model":f"Galileo {a.size}","patch":a.patch,"shape":list(arr.shape),"n_tiles":len(fs),"expected":len(ids),"n_skipped":len(skipped),"skipped":skipped[:30],"all_gates_pass":len(fs)==len(ids) and tuple(arr.shape[1:])==(128//a.patch,128//a.patch),
-       "readout":a.readout,"exit_after":a.exit_after,"size":a.size,"contract":"S2 10 bands (Galileo order), T=12, months from cache, normalize=True (pretraining stats), other modalities absent/masked; mean over T and seen band-group tokens"}
-(OUT/"galileo_audit.json").write_text(json.dumps(audit,indent=1)); print(json.dumps({k:audit[k] for k in ("all_gates_pass","n_tiles","n_skipped","shape")})); print("GALILEO CACHE DONE")
+       "readout":a.readout,"exit_after":a.exit_after,"size":a.size,"timesteps":timesteps,
+       "source_cache_audit":str(OUT/"source_cache_audit.json"),
+       "contract":f"S2 10 bands (Galileo order), T in {timesteps}, months from cache, normalize=True (pretraining stats), other modalities absent/masked; {a.readout} readout over temporal and seen band-group tokens"}
+audit_text=json.dumps(audit,indent=1)
+(OUT/"galileo_audit.json").write_text(audit_text)
+# Older runs symlinked the OlmoEarth source audit here. That passed the base raw/mask
+# gate but made the downstream report provenance misleading. Future reports consume
+# the actual Galileo extraction audit; retain the source seal separately above.
+cache_audit=OUT/"cache_audit.json"
+if cache_audit.is_symlink(): cache_audit.unlink()
+cache_audit.write_text(audit_text)
+print(json.dumps({k:audit[k] for k in ("all_gates_pass","n_tiles","n_skipped","shape","timesteps")})); print("GALILEO CACHE DONE")

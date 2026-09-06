@@ -14,7 +14,8 @@
 > C=support-only safe action이다.
 > → **[`docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md`](docs/ABC_EMBEDDING_CONTINUITY_2026_09_04.md)**,
 > **[`docs/CRITICAL_PATH.md`](docs/CRITICAL_PATH.md)**,
-> **[`docs/PAPER_STATE_2026_09_06.md`](docs/PAPER_STATE_2026_09_06.md)**
+> **[`docs/PAPER_STATE_2026_09_06.md`](docs/PAPER_STATE_2026_09_06.md)**,
+> **[`docs/EARTHCACHE_GEOBENCH_UPGRADE_2026_09_06.md`](docs/EARTHCACHE_GEOBENCH_UPGRADE_2026_09_06.md)**
 >
 > Task-1 Sen12에서 cache P4 `.2722` > raw P2/P3 `.1966/.1834`; Task-2 Solar에서 cache A0 `.591`
 > > raw P2 `.333`, few-shot cache pathway가 raw adaptation을 두 task 모두 8/8 이겼다.
@@ -23,8 +24,10 @@
 >
 > **현재 논문 상태:** release 붕괴·bridge의 부분 복구, 두 과업의 cache-first/few-shot 우위,
 > readout·모델 규모 통제까지는 측정됐다. 즉 현상과 재사용 경계는 있으나, 처음 보는 과업에서
-> CACHE/RAW를 고르는 규칙은 아직 검증되지 않았다. 현재 순서는 **P0 증거 복구 → 공개 untouched
-> Task-3 → 실측 비용 → Korea 3-task 1회 개봉**이다. 상세 재판정은 위 `PAPER_STATE_2026_09_06.md`.
+> CACHE/RAW를 고르는 규칙은 아직 검증되지 않았다. MS-109 Solar에서 OlmoEarth cache가 Galileo를
+> macro IoU `+.149`로 8/8 fold 이겼지만 Sen12와 Solar 모두 OlmoEarth가 top이라, 현재 top-1
+> selector oracle headroom은 0이다. 먼저 공개 task·budget별 rank/Pareto 교차를 확인하고 G0가
+> 통과할 때만 selector를 만든다. 상세 재판정은 위 GEO-Bench upgrade 문서다.
 
 > ## ⚠ 현재 등록된 짧은 조회창 수집 — 매일 권장
 > **GK2A 경량화 endpoint 스냅샷**은 실측상 D-1/D-2만 조회된다. 다만 KMA API Hub에

@@ -1,6 +1,6 @@
 # OlmoEarth × K-Earth 논문 검색·독서 장부
 
-최종 갱신: 2026-09-05
+최종 갱신: 2026-09-06
 역할: 논문 제목을 모으는 목록이 아니라 **어떤 선행연구가 어떤 주장을 이미 차지했고,
 그 결과 우리 실험을 어떻게 바꿔야 하는지** 기록하는 살아 있는 장부다.
 
@@ -22,7 +22,35 @@ OlmoEarth v1 한 편의 상세 정독 내용은 `PAPER_NOTES_v1.md`에 둔다. �
 - AAAI/NeurIPS 수상 여부는 방법의 타당성을 대신하지 않는다. 이 장부는 수상 경력보다 연구 설계에
   미치는 결정을 우선한다.
 
-## 2026-09-05 최신 경계 — CVPR 2027 큰그림 재감사
+## 2026-09-06 — action selection의 직접 선행연구 경계
+
+MS-109 이후 generic `model selection/performance prediction`을 novelty로 오인하지 않도록 직접
+경쟁군을 추가했다. 상세 비교와 실험 계약은
+`docs/EARTHCACHE_GEOBENCH_UPGRADE_2026_09_06.md`가 담당한다.
+
+| 상태 | 문헌 | 이미 차지한 주장 | 우리 설계 변경 |
+|---|---|---|---|
+| `M/X` | [Task2Vec (ICCV 2019)](https://openaccess.thecvf.com/content_ICCV_2019/html/Achille_Task2Vec_Task_Embedding_for_Meta-Learning_ICCV_2019_paper.html) | label/Fisher task embedding으로 새 task의 feature extractor 선택 | K-shot track의 강 baseline. task identity·절대 score 회귀 금지 |
+| `M/X` | [LEEP (ICML 2020)](https://proceedings.mlr.press/v119/nguyen20b.html) | target label과 한 번의 forward로 transferability 추정 | classification 허용 track에서 baseline; dense/cost/cache 차이를 입증 |
+| `M/X` | [LogME (ICML 2021)](https://proceedings.mlr.press/v139/you21b.html) | label evidence로 classification/regression pretrained model 평가 | K-shot 강 baseline. LogME를 못 이기면 generic selector 주장 금지 |
+| `M/X` | [Frustratingly Easy Transferability Estimation (ICML 2022)](https://proceedings.mlr.press/v162/huang22d.html) | model/layer transferability ranking | model뿐 아니라 action·cache lifecycle·cost를 예측해야 차별화 |
+| `M/W` | [Capabilities Encoding (CVPRW 2025)](https://cvpr.thecvf.com/virtual/2025/35652) | RS foundation model 성능을 fine-tuning 없이 예측·선택 | workshop 여부와 무관하게 가장 직접적인 baseline/novelty 위협 |
+| `M/W` | [REMSA (2025 preprint)](https://arxiv.org/abs/2511.17442) | 150+ RSFM metadata와 자연어 요구로 모델 추천 | metadata 추천과 실제 downstream counterfactual/regret를 분리 |
+| `M/W` | [How do Self-Supervised Remote Sensing Vision Models Transfer? (2026 preprint)](https://arxiv.org/abs/2606.13896) | 여섯 GeoFM의 task·layer·adaptation별 ranking 변화 | `ranking이 변한다`는 characterization novelty로 주장 금지; 변화를 사전 행동으로 연결 |
+| `M/W` | [Beyond Accuracy (2026 preprint)](https://arxiv.org/abs/2608.16614) | 16 encoder의 shift/budget별 ranking·calibration 변화, confidence abstention 실패 | confidence-only 보류를 baseline으로 넣고 contract/cache/cost 입력의 추가 이득 검증 |
+| `M/X` | [RALF / feature freshness](https://escholarship.org/uc/item/5xk0f4z9) | downstream feedback 기반 feature refresh scheduling과 regret | 즉시 feedback 없는 EO cold-start 및 frozen release가 남는 경계 |
+
+현재 novelty 문장은 `새 task의 최고 모델을 맞힌다`가 아니다.
+
+> **이미 materialize된 EO cache와 입력 계약·실측 비용이 있을 때, held-out task/family에서
+> reuse/adapt/re-embed/request의 pairwise gain을 사전에 예측해 best-static보다 benchmark score와
+> 비용 frontier를 함께 개선한다.**
+
+필요조건: task/region/budget에 따라 top action이 실제로 바뀌거나 Pareto 교차가 있어야 한다.
+Sen12·Solar 모두 OlmoEarth가 1등인 현재 표만으로는 selector headroom이 0일 수 있으므로, 방법
+학습 전에 oracle headroom gate를 실행한다.
+
+## 2026-09-05 경계 — CVPR 2027 큰그림 재감사
 
 상세 수치·실험 계약·제출 gate는 `docs/CVPR_BIG_PICTURE_AUDIT_2026_09_05.md`가 SSOT다.
 최신 문헌을 다시 맞춘 결과, 논문 중심을 다음처럼 좁혔다.

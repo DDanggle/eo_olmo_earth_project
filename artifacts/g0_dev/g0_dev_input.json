@@ -1,0 +1,16 @@
+{
+  "_note": "개발 과업(Sen12, Solar) 실측 region-macro 평균으로 만든 G0 입력. MS-97/MS-99 표. 2 과업뿐이라 underpowered — 방법 시연 + 개발데이터 판정용. 비용은 추정(상대값).",
+  "rows": [
+    {"episode_id":"sen12","task":"sen12_landslide","action":"CACHED_HEAD","seed":"K5","score":0.258,"higher_is_better":true,"gpu_seconds":60,"raw_bytes":0,"cache_bytes":0},
+    {"episode_id":"sen12","task":"sen12_landslide","action":"HEAD_ADAPT","seed":"K5","score":0.294,"higher_is_better":true,"gpu_seconds":90,"raw_bytes":0,"cache_bytes":0},
+    {"episode_id":"sen12","task":"sen12_landslide","action":"REEMBED","seed":"K5","score":0.179,"higher_is_better":true,"gpu_seconds":1200,"raw_bytes":50000000000,"cache_bytes":1000000000},
+    {"episode_id":"solar","task":"solar_farm","action":"CACHED_HEAD","seed":"K5","score":0.591,"higher_is_better":true,"gpu_seconds":60,"raw_bytes":0,"cache_bytes":0},
+    {"episode_id":"solar","task":"solar_farm","action":"HEAD_ADAPT","seed":"K5","score":0.582,"higher_is_better":true,"gpu_seconds":90,"raw_bytes":0,"cache_bytes":0},
+    {"episode_id":"solar","task":"solar_farm","action":"REEMBED","seed":"K5","score":0.240,"higher_is_better":true,"gpu_seconds":1200,"raw_bytes":50000000000,"cache_bytes":1000000000}
+  ],
+  "budgets": [
+    {"name":"unlimited"},
+    {"name":"no_reembed","max_gpu_seconds":300},
+    {"name":"reuse_only","max_gpu_seconds":75}
+  ]
+}

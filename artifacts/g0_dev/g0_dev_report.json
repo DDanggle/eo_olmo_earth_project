@@ -1,0 +1,195 @@
+{
+  "schema": "earthcache-action-headroom-v0",
+  "status": "DIAGNOSTIC_ONLY_NOT_A_SELECTOR_RESULT",
+  "thresholds": {
+    "oracle_headroom": 0.02,
+    "minimum_nonstatic_task_groups": 2
+  },
+  "budget_static_winner_crossover": true,
+  "budgets": [
+    {
+      "budget": {
+        "name": "unlimited"
+      },
+      "n_episodes": 2,
+      "n_tasks": 2,
+      "common_static_actions": [
+        "CACHED_HEAD",
+        "HEAD_ADAPT",
+        "REEMBED"
+      ],
+      "best_static_action": "HEAD_ADAPT",
+      "best_static_normalized_score": 0.9871794871794872,
+      "oracle_normalized_score": 1.0,
+      "oracle_headroom": 0.012820512820512775,
+      "task_best_actions": {
+        "sen12_landslide": "HEAD_ADAPT",
+        "solar_farm": "CACHED_HEAD"
+      },
+      "n_unique_task_best_actions": 2,
+      "n_task_groups_with_nonstatic_best": 1,
+      "episodes": [
+        {
+          "episode_id": "sen12",
+          "task": "sen12_landslide",
+          "best_action": "HEAD_ADAPT",
+          "runner_up": "CACHED_HEAD",
+          "normalized_margin": 0.31304347826086937,
+          "shared_seed_count": 1,
+          "best_seed_wins": 1,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT",
+            "REEMBED"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT",
+            "REEMBED"
+          ]
+        },
+        {
+          "episode_id": "solar",
+          "task": "solar_farm",
+          "best_action": "CACHED_HEAD",
+          "runner_up": "HEAD_ADAPT",
+          "normalized_margin": 0.025641025641025664,
+          "shared_seed_count": 1,
+          "best_seed_wins": 1,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT",
+            "REEMBED"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT",
+            "REEMBED"
+          ]
+        }
+      ],
+      "headroom_pass": false,
+      "rank_variation_pass": false,
+      "diagnostic_pass": false
+    },
+    {
+      "budget": {
+        "name": "no_reembed",
+        "max_gpu_seconds": 300.0
+      },
+      "n_episodes": 2,
+      "n_tasks": 2,
+      "common_static_actions": [
+        "CACHED_HEAD",
+        "HEAD_ADAPT"
+      ],
+      "best_static_action": "CACHED_HEAD",
+      "best_static_normalized_score": 0.5,
+      "oracle_normalized_score": 1.0,
+      "oracle_headroom": 0.5,
+      "task_best_actions": {
+        "sen12_landslide": "HEAD_ADAPT",
+        "solar_farm": "CACHED_HEAD"
+      },
+      "n_unique_task_best_actions": 2,
+      "n_task_groups_with_nonstatic_best": 1,
+      "episodes": [
+        {
+          "episode_id": "sen12",
+          "task": "sen12_landslide",
+          "best_action": "HEAD_ADAPT",
+          "runner_up": "CACHED_HEAD",
+          "normalized_margin": 1.0,
+          "shared_seed_count": 1,
+          "best_seed_wins": 1,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT"
+          ]
+        },
+        {
+          "episode_id": "solar",
+          "task": "solar_farm",
+          "best_action": "CACHED_HEAD",
+          "runner_up": "HEAD_ADAPT",
+          "normalized_margin": 1.0,
+          "shared_seed_count": 1,
+          "best_seed_wins": 1,
+          "eligible_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD",
+            "HEAD_ADAPT"
+          ]
+        }
+      ],
+      "headroom_pass": true,
+      "rank_variation_pass": false,
+      "diagnostic_pass": false
+    },
+    {
+      "budget": {
+        "name": "reuse_only",
+        "max_gpu_seconds": 75.0
+      },
+      "n_episodes": 2,
+      "n_tasks": 2,
+      "common_static_actions": [
+        "CACHED_HEAD"
+      ],
+      "best_static_action": "CACHED_HEAD",
+      "best_static_normalized_score": 1.0,
+      "oracle_normalized_score": 1.0,
+      "oracle_headroom": 0.0,
+      "task_best_actions": {
+        "sen12_landslide": "CACHED_HEAD",
+        "solar_farm": "CACHED_HEAD"
+      },
+      "n_unique_task_best_actions": 1,
+      "n_task_groups_with_nonstatic_best": 0,
+      "episodes": [
+        {
+          "episode_id": "sen12",
+          "task": "sen12_landslide",
+          "best_action": "CACHED_HEAD",
+          "runner_up": "CACHED_HEAD",
+          "normalized_margin": 0.0,
+          "shared_seed_count": 1,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ]
+        },
+        {
+          "episode_id": "solar",
+          "task": "solar_farm",
+          "best_action": "CACHED_HEAD",
+          "runner_up": "CACHED_HEAD",
+          "normalized_margin": 0.0,
+          "shared_seed_count": 1,
+          "best_seed_wins": 0,
+          "eligible_actions": [
+            "CACHED_HEAD"
+          ],
+          "gate_actions": [
+            "CACHED_HEAD"
+          ]
+        }
+      ],
+      "headroom_pass": false,
+      "rank_variation_pass": false,
+      "diagnostic_pass": false
+    }
+  ],
+  "G0_pass": false,
+  "interpretation": "G0_pass only establishes selector headroom. Seed uncertainty, leave-one-task-out, leave-one-family-out, and measured-cost validation are still required."
+}

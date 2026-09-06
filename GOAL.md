@@ -3547,3 +3547,55 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   낭비가 남았다. `kill -9 <PID>` 명시로 정리. gpu1_waiter가 GPU 비는 순간 자동 기동하도록 상시 대기.
 - 확보 확정: fotw(검증OK, 4밴드) · DynamicEarthNet(검증OK, s2 10밴드+planet 4밴드, 700/100/200).
 - 커밋 `d019540` 이후 추가.
+
+### 2026-09-06 — MS-109 이후 GEO-Bench action-selection novelty 업그레이드 (계획)
+
+- 사용자 질문: Solar MS-109를 반영해 행동 선택기가 왜 필요한지, 유사 연구가 어디까지 점유했는지,
+  GEO-Bench-2를 성능 benchmark와 decision benchmark로 함께 활용할 수 있는지 재설계한다.
+- 먼저 MS-109의 8-fold 원시 report·집계·봉인 상태를 서버/로컬에서 대조하고, `독립 과업 2개`와
+  `독립 표본 16개`를 구분한다.
+- 공식 문헌 기준으로 (1) GeoFM benchmark/model ranking, (2) target 성능 예측, (3) model/action
+  selection, (4) feature-store refresh·cache invalidation, (5) selective prediction을 분리해 이미
+  해결된 문제와 EarthCache가 새로 풀 문제를 경계 짓는다.
+- 산출물: 큰 그림 novelty note + machine-readable GEO-Bench action benchmark preregistration.
+  GPU 실행·sealed Korea label 개봉·외부 push는 하지 않는다.
+
+### 2026-09-06 — MS-109 이후 GEO-Bench action-selection novelty 업그레이드 (결과)
+
+- **약점 우선**: MS-109가 selector를 증명했다는 해석은 기각했다. Sen12와 Solar의 공통
+  action(`OlmoEarth/Galileo/raw`)에서 OlmoEarth가 둘 다 top이라 현재 알려진 표의 top-1 oracle
+  headroom은 **0**이다. Solar 8 fold는 독립 과업 8개가 아니고 seed 1개다. selector보다 먼저
+  task/region/budget의 rank reversal 또는 실측 cost Pareto crossover가 존재해야 한다.
+- **MS-109 원본 대조**: 서버 16 raw report 재집계에서 OlmoEarth macro IoU/AP
+  `.608072/.926177`, Galileo `.458675/.795246`, 차이 `+.149397/+.130930`, IoU 8/8 승,
+  one-sided paired Wilcoxon `p=.00390625`. 실제 Galileo audit도 3,434/3,434, skipped 0,
+  `(768,32,32)`, all gates pass였다. 따라서 두 번째 과업 cache-value 복제는 유지한다.
+- **novelty 경계**: Task2Vec·LEEP·LogME·Capabilities Encoding·REMSA가 generic pretrained-model
+  평가/선택을 이미 점유한다. GEO-Bench-2와 2026 transfer/calibration 연구도 task·adaptation·shift별
+  ranking 변화를 보고한다. 남은 질문을 **materialized EO cache에서 reuse/adapt/re-embed/request의
+  pairwise gain과 실제 GPU·raw-I/O·storage cost를 held-out task/family에 예측하는가**로 좁혔다.
+- **GEO-Bench 사용법**: 공식 data/split은 재사용하되 우리 decision protocol과 공식 leaderboard를
+  분리한다. 주표는 fixed budget의 task-normalized IQM + oracle regret + measured cost다. 현재 후보
+  3개는 dense segmentation뿐이므로 classification(TreeSatAI 또는 BigEarthNet-v2)과
+  regression(BioMassters)을 최소 1개씩 추가하기 전 `GEO-Bench 전반` 주장은 금지한다.
+- **사전 gate**: 새 JSON 계약 `config/geobench_cache_action_prereg_v0.json`에 G0를 동결했다.
+  독립 group의 action 교차와 best-static 대비 oracle normalized `+.02`가 없으면 learned selector를
+  만들지 않는다. 통과 시에만 LOTO+LOFO, pairwise gain/regret, REQUEST fail-closed 정책을 연다.
+- **코드**: `code/geobench_action_headroom.py`가 seed를 episode/action 안에서 먼저 접고, task를
+  일반화 단위로 세며, 모든 episode에 공통으로 eligible한 action만으로 static/oracle headroom을
+  계산한다. budget으로 seed 일부만 거르는 편향과 unavailable action 0점 채우기를 막았다.
+  표준 라이브러리 테스트 5개 통과.
+- **provenance 수정**: `extract_galileo_cache.py`가 source OlmoEarth `cache_audit.json`을 target에
+  symlink하던 혼동과 Solar 실제 T=4를 `T=12`로 쓰던 고정 문자열을 고쳤다. future run은
+  `source_cache_audit.json`을 별도 보존하고 실제 Galileo audit을 downstream seal로 사용한다.
+  기존 MS-109 metric은 실제 `galileo_audit.json`으로 별도 확인되어 무효화되지 않는다.
+- **상태 표시 수정**: `status.sh`는 DONE marker가 없어도 verify artifact가 OK면 `검증완료`로,
+  FAILED marker가 있으면 최우선 `실패`로 표시한다. FOTW/DynamicEarthNet의 거짓 `받는중` 표시를
+  future sync에서 제거한다.
+- **산출물**: `docs/EARTHCACHE_GEOBENCH_UPGRADE_2026_09_06.md`, 위 machine-readable contract,
+  `PAPER_READING_LIST.md`, `RESTART_HERE.md`, `README.md`를 최신 판정에 맞췄다.
+- **검증/마찰**: 로컬 기본 Python에 pytest가 없어 패키지를 추가하지 않고 `unittest`로 전환했다.
+  5/5 test, Python compile, JSON parse, shell syntax, `git diff --check` 통과. GPU 실행·Korea label
+  개봉·서버 push는 하지 않았다.
+- **다음**: PASTIS 무결성 → Core-6 계약 freeze → 기존/공개 episode G0 action matrix와 실측 비용
+  → G0 통과 시 simple selector, 실패 시 EarthCacheBench characterization으로 즉시 후퇴한다.

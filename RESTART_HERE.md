@@ -1,5 +1,34 @@
 # OLMoEarth 연구 재시작 지점
-> ## 2026-09-06 09:40 KST — 현재 그림 (이 절이 최신, 아래 절들은 이력)
+> ## 2026-09-06 18:40 KST — MS-109 반영 + GEO-Bench action benchmark 경계 (최신)
+>
+> **새로 닫힘**: Solar에서 OlmoEarth base cache `.6081/.9262`(macro IoU/AP), Galileo base
+> `.4587/.7952`; paired 차이 `+.1494/+.1309`, 8/8 fold OlmoEarth 우위, one-sided Wilcoxon
+> `p=.00390625`. Sen12 한 과업 의존 반론은 약해졌다. 단 Solar fold는 독립 과업 8개가 아니고
+> seed 1개다.
+>
+> **중요한 역설**: Sen12와 Solar 모두 OlmoEarth가 top action이라, MS-109는 cache-value 주장을
+> 강화하지만 selector 필요성은 아직 증명하지 않는다. 먼저 task/region/budget별 **top-action
+> rank reversal 또는 cost Pareto crossover**와 best-static 대비 oracle headroom을 계산한다.
+> normalized headroom `<.02`이고 독립 group 교차가 없으면 learned selector를 만들지 않는다.
+>
+> **프로브 MS-110**: effective rank는 family 분리에서 생긴 exploratory signal이다. family 평균
+> `n=4`에서는 Spearman `.400, p=.600`; predictor 주장 금지. 절대 metric 대신 task 안의 pairwise
+> action gain/regret를 예측한다.
+>
+> **새 SSOT**: 쉬운 novelty/실험 설계 `docs/EARTHCACHE_GEOBENCH_UPGRADE_2026_09_06.md`,
+> machine-readable draft `config/geobench_cache_action_prereg_v0.json`. 기존
+> `safe_cache_action_prereg_draft_v0.json`은 region/support A0/A1 안전 정책이며, 새 cross-task
+> model/cache benchmark와 합쳐 표본 수를 부풀리지 않는다.
+>
+> **데이터 상태**: FOTW·DynamicEarthNet은 적재 검증 완료, PASTIS는 미완료. 현재 세 공개 후보가
+> 모두 dense segmentation이므로 classification 1개(TreeSatAI 또는 BigEarthNet-v2)와 regression
+> 1개(BioMassters)를 추가하기 전 `GEO-Bench 전반`이라고 쓰지 않는다.
+>
+> **다음 순서**: PASTIS 무결성 → action/metric/chip/time 계약 freeze → 기존 개발표의 G0 oracle
+> headroom → 실제 cold/warm/raw-I/O/storage 비용 → Core-6 action matrix → G0 통과 시에만 simple
+> selector. GPU 실행은 GPU1이 비고 보호 규약을 만족할 때만 한다.
+>
+> ## 2026-09-06 09:40 KST — 아침 스냅샷 (이하 이력)
 >
 > **한 줄**: 논문 몸통이 비어 있던 상태에서 벗어나는 중. 새 downstream 과업 1개 확보(fotw), 2개 수신 중(PASTIS·DynamicEarthNet). 라벨 없는 캐시 가치 예측기에 첫 리드(effective_rank ρ=.635, CI가 0 배제). GPU는 남의 작업으로 전면 점유.
 >
