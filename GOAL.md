@@ -3481,3 +3481,20 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 확인 범위: 최신 계약·사전등록·프로브 결과, 실제 다운로드/검증 산출물, 실행 체인·GPU 상태, 기존 Sen12/Solar 결과와의 비교 가능성을 원본 기준으로 대조한다.
 - 판정 축: (1) GEO-Bench 리더보드와의 공정한 관계, (2) 과업 수가 늘어도 독립 표본 수가 정말 늘어나는지, (3) label-free predictor가 test leakage 없이 검증되는지, (4) CVPR main의 method/benchmark 기여가 실제로 채워지는지.
 - 이번 작업은 상태 감사와 문서 보정만 수행한다. 새 GPU 실행, sealed Korea label 개봉, 다운로드 재시작, 외부 전송은 하지 않는다.
+
+### 2026-09-06 10:50 — GEO-Bench 2/3 확보, Solar 2nd-FM 체인 대기, 아침 사고 후속
+- **확보**: DynamicEarthNet 44GB 3파트 sha256 전부 통과(73–76 MB/s, 아침 대역폭이 밤의 17배).
+  적재 검증 통과 — train 700 / val 100 / test 200, `image_s2 (10,512,512)` **우리 10밴드 순서**,
+  `image_planet (4,512,512)`, `mask (512,512)`. fotw도 재검증 통과(4,000/1,000/2,000).
+- **pastis**: 파트 0000(20GB) 디스크 해시 일치. 파트 0001은 청크 1개 손상으로 sha 불일치 → 다운로더에
+  **재시도(최대 3회)** 추가(모킹 테스트 3개) 후 0001·0002 재수신 중. 완료 시 `pastis_followup.sh`가
+  자동 검증(다운로드·검증 분리 규칙 준수).
+- **Solar 2nd-FM 체인**(`solar_second_fm_chain.sh`) 준비 완료. `extract_galileo_cache.py --src` 추가
+  (기본값 Sen12 유지). 첫 기동 시 GPU1에 타 사용자 작업이 올라와 **gpu_guard가 정확히 중단**(규약 4b).
+  → `gpu1_waiter.sh`가 GPU1이 비는 순간 자동 기동(2분 폴링, 24h 한도). GPU0/1 모두 타 사용자 점유 중.
+- **Clay on Solar는 2차**: 추출기가 Sen12 netCDF에서 위경도를 읽음. task2엔 그 소스가 없어
+  `--latlon` 대체 경로가 필요. Galileo는 위경도 불필요라 먼저.
+- **설계 과제(새로 드러남)**: GEO-Bench 타일은 256/512 px, 우리 디코더·캐시 계약은 128 px 칩.
+  OlmoEarth 토큰 추출 시 칩 격자(chipping) 설계가 필요 — 라벨 개봉 전 결정할 것(한국 prereg의
+  `tile_unit`과 같은 종류의 결정).
+- 커밋 `605ac23`.
