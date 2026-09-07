@@ -36,10 +36,26 @@ def window(cube,ts,t0,t1):
     feat=torch.empty((768,32,32),device=dev)
     for y0,x0 in ((0,0),(0,64),(64,0),(64,64)): feat[:,y0//PATCH:(y0+64)//PATCH,x0//PATCH:(x0+64)//PATCH]=pooled(np.ascontiguousarray(cube[:,t0:t1,y0:y0+64,x0:x0+64]),ts[t0:t1])
     return feat
+def singles_batched(cube,ts,t0,t1):
+    """All (t1-t0) single-timestep windows x 4 crops in ONE forward call (batch = 4*(t1-t0))."""
+    inputs=[]
+    for t in range(t0,t1):
+        for y0,x0 in ((0,0),(0,64),(64,0),(64,64)):
+            image=torch.from_numpy(np.ascontiguousarray(cube[:,t:t+1,y0:y0+64,x0:x0+64])).to(dev); inp={"sentinel2_l2a":RasterImage(image=image,timestamps=[(ts[t],ts[t])])}; w.normalizer(inp,{}); inputs.append(inp)
+    sample,_,_=w._prepare_modality_inputs(ModelContext(inputs=inputs,metadatas=[])); sample.sentinel2_l2a_mask[...,2]=MaskValue.MISSING.value
+    with torch.autocast("cuda",dtype=torch.bfloat16):
+        tm=w.model(sample,fast_pass=False,patch_size=PATCH)["tokens_and_masks"]; m=(tm.sentinel2_l2a_mask!=MaskValue.MISSING.value).unsqueeze(-1)
+        pooled=((tm.sentinel2_l2a*m).sum(dim=(3,4))/m.sum(dim=(3,4)).clamp(min=1)).permute(0,3,1,2).float()   # (B,768,16,16)
+    out=[]
+    for i in range(t1-t0):
+        feat=torch.empty((768,32,32),device=dev)
+        for j,(y0,x0) in enumerate(((0,0),(0,64),(64,0),(64,64))): feat[:,y0//PATCH:(y0+64)//PATCH,x0//PATCH:(x0+64)//PATCH]=pooled[i*4+j]
+        out.append(feat)
+    return out
 def timed(fn):
     torch.cuda.synchronize(); t=time.perf_counter(); r=fn(); torch.cuda.synchronize(); return time.perf_counter()-t, r
 res={"n_tiles":len(ids),"per_tile_s":{},"raw_bytes_per_tile":{}}
-acc={"init_0_4":0,"A_reencode_6_8_10_12":0,"B_singles_8":0,"B_gru_4steps":0,"C_final_0_12":0}; bytes_={}
+acc={"init_0_4":0,"A_reencode_6_8_10_12":0,"B_singles_8":0,"B_singles_8_batched":0,"B_gru_4steps":0,"C_final_0_12":0}; bytes_={}
 with torch.no_grad():
     for i,sid in enumerate(ids):
         raw=np.load(SRC/"raw_u16"/f"{sid}.npy"); T=raw.shape[1]; cube=np.zeros((12,T,128,128),dtype="float32"); cube[:10]=raw.astype("float32"); ts=real_ts(sid,T)
@@ -48,6 +64,8 @@ with torch.no_grad():
         dt,m4=timed(lambda: window(cube,ts,0,4)); acc["init_0_4"]+=dt
         dt,_=timed(lambda: [window(cube,ts,0,c) for c in (6,8,10,12)]); acc["A_reencode_6_8_10_12"]+=dt
         dt,singles=timed(lambda: [window(cube,ts,t,t+1) for t in range(4,12)]); acc["B_singles_8"]+=dt
+        dt,sb=timed(lambda: singles_batched(cube,ts,4,12)); acc["B_singles_8_batched"]+=dt
+        if i==1: print("batched-vs-loop max|diff|",float(max((a-b).abs().max() for a,b in zip(sb,singles))),flush=True)
         def gru_steps():
             m=m4.unsqueeze(0)
             for k in range(4): m=g(m,torch.stack(singles[2*k:2*k+2]).mean(0,keepdim=True))
@@ -56,6 +74,6 @@ with torch.no_grad():
         dt,_=timed(lambda: window(cube,ts,0,12)); acc["C_final_0_12"]+=dt
         bytes_={"init_0_4":4*per_t_bytes,"A_reencode_6_8_10_12":(6+8+10+12)*per_t_bytes,"B_singles_8":8*per_t_bytes,"C_final_0_12":12*per_t_bytes}
 res["per_tile_s"]={k:v/len(ids) for k,v in acc.items()}; res["raw_bytes_per_tile"]=bytes_
-p=res["per_tile_s"]; res["paths_per_tile_s"]={"A_all_maps_reencode":p["init_0_4"]+p["A_reencode_6_8_10_12"],"B_all_maps_streaming":p["init_0_4"]+p["B_singles_8"]+p["B_gru_4steps"],"C_final_map_only":p["C_final_0_12"]}
+p=res["per_tile_s"]; res["paths_per_tile_s"]={"A_all_maps_reencode":p["init_0_4"]+p["A_reencode_6_8_10_12"],"B_all_maps_streaming":p["init_0_4"]+p["B_singles_8"]+p["B_gru_4steps"],"B_all_maps_streaming_batched":p["init_0_4"]+p["B_singles_8_batched"]+p["B_gru_4steps"],"C_final_map_only":p["C_final_0_12"]}
 res["note"]="wall-clock incl. crop batching overhead on one H200; measured with other jobs possibly present (see gpu_procs)"; res["gpu_procs_at_start"]=int(torch.cuda.device_count())
 Path(a.out).parent.mkdir(parents=True,exist_ok=True); Path(a.out).write_text(json.dumps(res,indent=1)); print(json.dumps(res["paths_per_tile_s"]), json.dumps(res["raw_bytes_per_tile"]))
