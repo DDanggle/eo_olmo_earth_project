@@ -129,5 +129,12 @@
     ],
     "readout": "same code/cache_decoder_train.py, seed 1, positive-patch macro IoU vs sealed OlmoEarth base (.272) and raw (.197)",
     "status": "REGISTERED_AT_COMMIT_before_any_of_these_caches_is_trained"
+  },
+  "addendum_v1c_2026_09_07_cache_contract_lever_registered_before_metrics": {
+    "why": "MS-113: label saturates at K=5 on the OlmoEarth cache; the remaining in-region gap (raw full-label .431 > cache full-label .396 on hiroshima) and MS-108 (pool16 -.05) point to token resolution as the bottleneck, not labels.",
+    "cache": "olmo_base_p2 = OlmoEarth v1 Base, patch 2 (20 m tokens), 768x64x64 fp16 (4x bytes), same 4x64 px crops, synthetic timestamps as other variants",
+    "readout": "cache_decoder_train.py (G=64 -> 128 -> 256 -> resize 128), seed 1 first; positive-patch macro IoU vs sealed patch-4 P4 (.272) and raw (.197)",
+    "rule": "patch-2 macro >= patch-4 + 0.03 AND wins >= 6/8 folds -> token resolution is a cache-contract lever (then seeds 2,3 and in-region ceiling A1_pool on patch-2); < +0.01 -> resolution is not the bottleneck at 128 px tiles",
+    "cost_axis": "cache bytes x4 and extraction time reported"
   }
 }

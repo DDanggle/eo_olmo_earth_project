@@ -5,7 +5,7 @@ import argparse, os, sys, json
 from pathlib import Path
 from datetime import datetime, timedelta
 import numpy as np, torch, torch.nn as nn
-ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base",choices=["nano","tiny","base"]); ap.add_argument("--depth-frac",type=float,default=1.0); ap.add_argument("--out",required=True); ap.add_argument("--probe",action="store_true"); ap.add_argument("--src",default="sen12_pilot/holdout_chimanimani"); a=ap.parse_args()
+ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base",choices=["nano","tiny","base"]); ap.add_argument("--depth-frac",type=float,default=1.0); ap.add_argument("--patch",type=int,default=4,help="OlmoEarth patch size (4 -> 40 m tokens, 2 -> 20 m tokens)"); ap.add_argument("--out",required=True); ap.add_argument("--probe",action="store_true"); ap.add_argument("--src",default="sen12_pilot/holdout_chimanimani"); a=ap.parse_args()
 from olmoearth_pretrain_minimal import ModelID
 from rslearn.models.olmoearth_pretrain.model import MaskValue, OlmoEarth
 from rslearn.train.model_context import ModelContext, RasterImage
@@ -16,7 +16,7 @@ for d in ("raw_u16","mask_u8"):
 for f in ("months.jsonl",):
     if not (OUT/f).exists(): os.symlink(SRC/f,OUT/f)
 MID={"nano":ModelID.OLMOEARTH_V1_NANO,"tiny":ModelID.OLMOEARTH_V1_TINY,"base":ModelID.OLMOEARTH_V1_BASE}[a.size]
-w=OlmoEarth(patch_size=4, model_id=MID, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(dev).eval()
+w=OlmoEarth(patch_size=a.patch, model_id=MID, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(dev).eval()
 enc=w.model; nb=len(enc.blocks)
 EXPECTED_SHAPE={"nano":(128,32,32),"tiny":(192,32,32),"base":(768,32,32)}[a.size]
 if a.depth_frac<1.0: k=max(1,int(round(nb*a.depth_frac))); enc.blocks=nn.ModuleList(list(enc.blocks)[:k]); print("olmo depth",k,"/",nb,flush=True)
@@ -26,7 +26,7 @@ def embed_crop(crop,ts):
     image=torch.from_numpy(crop).to(dev); inp={"sentinel2_l2a":RasterImage(image=image,timestamps=[(t,t) for t in ts])}; w.normalizer(inp,{})
     sample,present,_=w._prepare_modality_inputs(ModelContext(inputs=[inp],metadatas=[])); sample.sentinel2_l2a_mask[...,2]=MaskValue.MISSING.value
     with torch.autocast("cuda",dtype=torch.bfloat16):
-        tm=w.model(sample,fast_pass=False,patch_size=4)["tokens_and_masks"]; m=(tm.sentinel2_l2a_mask!=MaskValue.MISSING.value).unsqueeze(-1)
+        tm=w.model(sample,fast_pass=False,patch_size=a.patch)["tokens_and_masks"]; m=(tm.sentinel2_l2a_mask!=MaskValue.MISSING.value).unsqueeze(-1)
         pooled=((tm.sentinel2_l2a*m).sum(dim=(3,4))/m.sum(dim=(3,4)).clamp(min=1))[0].permute(2,0,1).float().cpu()
     return pooled
 @torch.no_grad()
@@ -35,8 +35,8 @@ def embed(sid):
     ts=[datetime(2020,int(m)+1,1)+timedelta(days=1+i) for i,m in enumerate(months.get(sid,[0]*T)[:T])]; feat=None
     for y0,x0 in ((0,0),(0,64),(64,0),(64,64)):
         f=embed_crop(np.ascontiguousarray(cube[:,:,y0:y0+64,x0:x0+64]),ts)
-        if feat is None: feat=torch.empty((f.shape[0],32,32))
-        feat[:,y0//4:(y0+64)//4,x0//4:(x0+64)//4]=f
+        if feat is None: feat=torch.empty((f.shape[0],128//a.patch,128//a.patch))
+        feat[:,y0//a.patch:(y0+64)//a.patch,x0//a.patch:(x0+64)//a.patch]=f
     if a.probe: print("feat",tuple(feat.shape),flush=True); return None
     return feat.detach().cpu().numpy().astype("float16")
 def valid_cached_embedding(path):
@@ -79,5 +79,5 @@ for path in fs:
         (valid if valid_cached_embedding(path) else invalid).append(path.stem)
     except (OSError,ValueError,EOFError):
         invalid.append(path.stem)
-audit={"schema":"olmo-variant-cache-audit-v2","size":a.size,"depth_frac":a.depth_frac,"blocks_total":nb,"expected_shape":list(EXPECTED_SHAPE),"shapes":[[dtype,list(shape)] for dtype,shape in sorted(shapes)],"n_tiles":len(fs),"n_valid":len(valid),"expected":len(ids),"missing_ids":sorted(id_set-file_ids)[:20],"unexpected_ids":sorted(file_ids-id_set)[:20],"n_invalid":len(invalid),"invalid_ids":invalid[:20],"n_skipped":len(skipped),"skipped":skipped[:20],"all_gates_pass":file_ids==id_set and len(valid)==len(ids) and not invalid and not skipped and shapes=={("float16",EXPECTED_SHAPE)},"deviation":"synthetic unique timestamps (cached month, day 2+i, 2020)"}
+audit={"schema":"olmo-variant-cache-audit-v2","size":a.size,"depth_frac":a.depth_frac,"patch":a.patch,"blocks_total":nb,"expected_shape":list(EXPECTED_SHAPE),"shapes":[[dtype,list(shape)] for dtype,shape in sorted(shapes)],"n_tiles":len(fs),"n_valid":len(valid),"expected":len(ids),"missing_ids":sorted(id_set-file_ids)[:20],"unexpected_ids":sorted(file_ids-id_set)[:20],"n_invalid":len(invalid),"invalid_ids":invalid[:20],"n_skipped":len(skipped),"skipped":skipped[:20],"all_gates_pass":file_ids==id_set and len(valid)==len(ids) and not invalid and not skipped and shapes=={("float16",EXPECTED_SHAPE)},"deviation":"synthetic unique timestamps (cached month, day 2+i, 2020)"}
 (OUT/"olmo_variant_audit.json").write_text(json.dumps(audit,indent=1)); print(json.dumps({k:audit[k] for k in ("all_gates_pass","n_tiles","n_valid","n_invalid","n_skipped")})); print("OLMO VARIANT CACHE DONE")
