@@ -8,7 +8,7 @@ import argparse, os, sys, json, time
 from pathlib import Path
 from datetime import datetime, timedelta
 import numpy as np, torch
-ap=argparse.ArgumentParser(); ap.add_argument("--out",required=True); ap.add_argument("--src",default="sen12_pilot/holdout_chimanimani"); ap.add_argument("--ids-file",required=True); ap.add_argument("--probe",action="store_true"); a=ap.parse_args()
+ap=argparse.ArgumentParser(); ap.add_argument("--out",required=True); ap.add_argument("--src",default="sen12_pilot/holdout_chimanimani"); ap.add_argument("--ids-file",required=True); ap.add_argument("--probe",action="store_true"); ap.add_argument("--singles-only",action="store_true",help="write only single-acquisition embeddings as emb_time_fp16/<sid>.npy (12,768,32,32) so the T0 trainer can read them"); a=ap.parse_args()
 from olmoearth_pretrain_minimal import ModelID
 from rslearn.models.olmoearth_pretrain.model import MaskValue, OlmoEarth
 from rslearn.train.model_context import ModelContext, RasterImage
@@ -22,7 +22,7 @@ for _l in open(ROOT/"sen12_gp_contract/sample_contract.jsonl"):
 def real_timestamps(sid,T):
     r=_REC[sid]; q=r["scl_clear_fraction"]; idx=sorted(sorted(range(len(q)),key=lambda i:(-float(q[i]),i))[:T])
     return [datetime.fromisoformat(str(r["times"][i])[:19]) for i in idx]
-for d in ("teacher_fp16","single_fp16"): (OUT/d).mkdir(parents=True,exist_ok=True)
+for d in (("emb_time_fp16",) if a.singles_only else ("teacher_fp16","single_fp16")): (OUT/d).mkdir(parents=True,exist_ok=True)
 for d in ("raw_u16","mask_u8","emb_fp16"):
     if not (OUT/d).exists(): os.symlink(SRC/d,OUT/d)
 w=OlmoEarth(patch_size=PATCH, model_id=ModelID.OLMOEARTH_V1_BASE, token_pooling=True, use_legacy_timestamps=False, normalize=True, autocast_dtype="bfloat16").to(dev).eval()
@@ -43,7 +43,9 @@ def window(cube,ts,t0,t1):
 def embed(sid):
     raw=np.load(SRC/"raw_u16"/f"{sid}.npy").astype("float32"); T=raw.shape[1]; assert T==12,(sid,T)
     cube=np.zeros((12,T,128,128),dtype="float32"); cube[:10]=raw; ts=real_timestamps(sid,T)
-    teacher=torch.stack([window(cube,ts,0,c) for c in CUTOFFS]); single=torch.stack([window(cube,ts,t,t+1) for t in range(T)])
+    single=torch.stack([window(cube,ts,t,t+1) for t in range(T)])
+    if a.singles_only: return None, single.numpy().astype("float16")
+    teacher=torch.stack([window(cube,ts,0,c) for c in CUTOFFS])
     return teacher.numpy().astype("float16"), single.numpy().astype("float16")
 def ok(p,n):
     try: arr=np.load(p,mmap_mode="r",allow_pickle=False); return arr.dtype==np.float16 and arr.shape==(n,768,32,32)
@@ -52,6 +54,16 @@ def save(p,arr):
     tmp=p.with_name(f".{p.name}.{os.getpid()}.tmp.npy"); np.save(tmp,arr,allow_pickle=False); os.replace(tmp,p)
 done=0; skipped=[]; audit=[]; t0=time.perf_counter()
 for sid in (ids[:1] if a.probe else ids):
+    if a.singles_only:
+        sp=OUT/"emb_time_fp16"/f"{sid}.npy"
+        if ok(sp,12): done+=1; continue
+        pre=ROOT/"olmo_streaming_dev/single_fp16"/f"{sid}.npy"
+        if ok(pre,12): os.symlink(pre,sp); done+=1; continue
+        try:
+            _,si=embed(sid); save(sp,si); done+=1
+        except Exception as ex: skipped.append({"id":sid,"err":str(ex)[:160]})
+        if done%500==0 and done: print(done,"tiles",f"{time.perf_counter()-t0:.0f}s",flush=True)
+        continue
     tp,sp=OUT/"teacher_fp16"/f"{sid}.npy",OUT/"single_fp16"/f"{sid}.npy"
     if ok(tp,5) and ok(sp,12): done+=1; continue
     try:
@@ -63,6 +75,9 @@ for sid in (ids[:1] if a.probe else ids):
         skipped.append({"id":sid,"err":str(ex)[:160]})
         if len(skipped)<3: import traceback; traceback.print_exc()
     if done%200==0 and done: print(done,"tiles",f"{time.perf_counter()-t0:.0f}s",flush=True)
+if a.singles_only:
+    nv=sum(1 for i in ids if ok(OUT/"emb_time_fp16"/f"{i}.npy",12)); rep={"schema":"olmo-single-acquisition-cache-audit-v0","n_ids":len(ids),"n_valid":nv,"n_skipped":len(skipped),"skipped":skipped[:20],"all_gates_pass":nv==len(ids) and not skipped,"elapsed_s":time.perf_counter()-t0}
+    (OUT/"olmo_single_audit.json").write_text(json.dumps(rep,indent=1)); print(json.dumps({k:v for k,v in rep.items() if k!="skipped"})); print("OLMO SINGLE CACHE DONE"); sys.exit(0)
 n_valid=sum(1 for i in ids if ok(OUT/"teacher_fp16"/f"{i}.npy",5) and ok(OUT/"single_fp16"/f"{i}.npy",12))
 rep={"schema":"olmo-streaming-dev-audit-v0","cutoffs":CUTOFFS,"n_ids":len(ids),"n_valid":n_valid,"n_skipped":len(skipped),"skipped":skipped[:20],"audit":audit,"audit_max":max((x["max_abs_diff_c12_vs_sealed"] for x in audit),default=None),"all_gates_pass":n_valid==len(ids) and not skipped,"elapsed_s":time.perf_counter()-t0,"timestep_units_per_tile":sum(CUTOFFS)+12}
 (OUT/"olmo_streaming_audit.json").write_text(json.dumps(rep,indent=1)); print(json.dumps({k:v for k,v in rep.items() if k not in ("audit","skipped")})); print("OLMO STREAMING DEV DONE")
