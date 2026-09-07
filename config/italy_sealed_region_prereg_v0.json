@@ -1,0 +1,13 @@
+{
+  "schema": "earthcache-italy-sealed-region-v0", "date": "2026-09-07",
+  "status": "REGISTERED_BEFORE_ANY_ITALY_CACHE_OR_DECODER_RUN",
+  "region": "Sen12Landslides italy (Emilia-Romagna, 2022-10..2023-09), 5,321 eligible tiles, 2,859 with positive pixels; present on the server since the original download, never used in any fold, cache, or few-shot run",
+  "why": "A region inside our data that no result has touched: geographic replication of the reuse-vs-raw and few-shot findings without new downloads. It is NOT an independent dataset (same sensor contract, same annotation pipeline) and is NOT alpine (Apennine foothills).",
+  "caveats": ["annotation attributes/event dates absent in NetCDF (annotated_attr False) -> excluded from HEADLINE_REGIONS originally", "aerial-mapped RER2023 polygons include sub-10 m slides -> label noise at 10 m", "one region -> replication, no 6/8-style rule applies"],
+  "fold": "holdout_italy: test italy, val china, train 8 headline regions (code/build_italy_fold.py, hashes sealed at build time)",
+  "cache": "OlmoEarth v1 Base 40 m tokens via a snapshot copy of the sealed extractor (protected file rule 4c); existing 6,834 train/val tiles reused by symlink, only italy extracted",
+  "runs": {"zero_label": "cache_decoder_train.py seeds 1,2,3 -> positive-tile macro IoU, AP", "few_shot": "fewshot_a1_a4.py arms A0,A1,A4w K=5,20 stratified, seeds 1,2,3 if the raw source model for this fold can be trained within the GPU budget; otherwise report A0/A1 only and say so", "raw_baseline": "UNet3D via sen12_official_baselines.py snapshot, 3 seeds, if budget allows (hours); otherwise the reuse-vs-raw comparison is NOT reported for Italy"},
+  "prediction_registered": "cache A0 macro IoU on italy within [.15,.45]; A1 K=5 > A0 (seed mean); if raw is run, cache >= raw as in 6/8 headline regions",
+  "reporting": "one row added to the region table labelled 'development-sealed replication'; not counted toward any 6/8 rule",
+  "gpu_order": "after resolution_contract_v2 and the T0 temporal screen; extraction ~50 min, decoders ~20 min, raw baseline separate decision"
+}
