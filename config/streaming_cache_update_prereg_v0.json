@@ -1,0 +1,14 @@
+{
+  "schema": "earthcache-streaming-update-prereg-v0", "date": "2026-09-07",
+  "status": "REGISTERED_BEFORE_ANY_STREAMING_EXTRACTION_OR_TRAINING",
+  "problem": "OlmoEarth attends over the whole observation window; a materialized cache goes stale as new acquisitions arrive. Can a small source-trained update module, given only the previous cache state and the single-acquisition embeddings of the new images, approximate the full-window re-encoding closely enough to keep downstream maps as good as re-encoding, at a fraction of encoder cost?",
+  "novelty_claim_boundary": {"claimed": "streaming approximation of a full-window EO foundation-model representation with a learned state update, evaluated on downstream labels and measured encoder cost; the predicted-vs-observed residual gate is ours", "not_claimed": ["exact KV-cache reuse", "change-timing detection (Sen12 has one terminal mask)", "compute savings of the initial encode"]},
+  "development": "Sen12 folds holdout_chimanimani and holdout_hiroshima (both exposed); train = 600-tile subsample of train regions, val = fold val region, test = fold test region; T=12, cutoffs (4,6,8,10,12), step = 2 new acquisitions",
+  "modules": {"ema": "1-parameter reference", "gru": "ConvGRU 1x1 hidden 768 (budget-matched)", "residual": "ours: m + g*f([m,u,u-P(m)])"},
+  "baselines_no_training": ["frozen m_4 (never update)", "mean of single-acquisition embeddings", "teacher e_12 (full re-encode; upper reference)"],
+  "runs": "3 modules x 2 folds x 3 seeds = 18",
+  "metrics": {"agreement": "cosine and relative MSE vs teacher at c=12", "downstream_primary": "exact AP of the FROZEN mean-cache decoder (p4_native_control seed1) applied to the student state vs applied to the teacher", "cost": "encoded timestep-units: 36 (re-encode each step) vs 12 (streaming, incl. initial 4)"},
+  "screen_rule": {"pass": "residual module recovers >= 90% of the teacher's downstream AP gap over frozen m_4 in BOTH folds (seed mean) AND beats gru and ema by >= .01 AP in both folds", "partial": "gru or ema also recovers >= 90%: 'streaming is easy'; report utility, no method claim", "fail": "no module recovers >= 70% in either fold: full re-encode stays necessary on this task; close T1 on Sen12"},
+  "next_if_pass": "external tasks with per-timestep tensors and DATED labels (KuroSiwo 3-date floods, SEN12 monthly urban, GLO annual lakes): add delay/false-alarm curves; freeze confirmatory criteria first",
+  "gpu": "extraction ~1 h for ~3,000 tiles (52 timestep-units/tile), 18 runs ~2 h; runs alongside the 4-arm on GPU1 (own processes only)"
+}
