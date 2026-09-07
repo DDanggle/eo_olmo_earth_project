@@ -1,6 +1,13 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-09-07
+최종 갱신: 2026-09-08
+
+> **2026-09-08 00:03 KST 추가 감사:** T1 Hiroshima GRU 3seed AP `.525479`로 full teacher
+> `.549624` 대 frozen c4 `.013356` 격차의 95.50%를 회복했다. 한 exposed 지역의 utility 결과이며
+> 전체는 9/18 완료다. 원 residual은 두 지역에서 90% 필요조건 실패. **실제 비용 1/3·엄격한
+> budget matching·새 관측이 회복의 원인이라는 주장은 아직 불가**하다. 최신 결과/큰 그림/다음
+> 대조는 [`T1 독립 감사`](docs/T1_GRU_UTILITY_AUDIT_2026_09_07.md), 상태 입구는
+> [`RESTART_HERE.md`](RESTART_HERE.md). 새 GPU 작업이나 Korea 개봉은 이 감사에서 하지 않았다.
 
 > **2026-09-07 patch-2 감사:** MS-113의 “dense label 5장에서 포화, 추가 라벨은 낭비”는
 > 정정됐다. K=20 결과가 더 높고 support/optimization/threshold가 통제된 nested curve가 아니었다.

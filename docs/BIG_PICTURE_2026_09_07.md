@@ -2,6 +2,15 @@
 
 작성: 2026-09-07. 다른 컴퓨터의 CVPR 점수판·6분류를 장부(MEASURED_FINDINGS.md)와 대조해 검증했음. 상태 표기: **측정** / **미측정** / **철회**.
 
+**2026-09-08 00:03 KST 보충:** T1은 “세계가 변할 때 반복 재인코딩을 줄이는” 축의 개발 증거를
+열었다. Hiroshima GRU 3seed AP .525479, full teacher .549624, stale .013356(격차 95.50%).
+이는 원 residual의 성공이나 GPU 비용 1/3의 증거가 아니다. 다른 지역/EMA가 미완료이며 no-new-input
+보정 대조와 실제 inference 비용이 필요하다. 최신 큰 그림은
+[T1 독립 감사 §6–8](T1_GRU_UTILITY_AUDIT_2026_09_07.md)에 정리했다. 기존 region/label transfer,
+release bridge, Korea shared-cache를 지우거나 하나의 인과 주장으로 합치지 않는다.
+**다음 개선 기준은 이미 작동한 GRU**이고, source-task fidelity loss를 같은 구조에서 비교한다.
+이전 compact-module 초안은 미학습 비용 대조 후보로 남긴다. 원래 v0와 새 초안을 섞지 않는다.
+
 추가 검토(2026-09-07): patch-2는 특정 공간 readout의 development screen이지 방법 연구 전체의
 마지막 후보가 아니다. source-trained 시간 증거/증분 갱신과 조건부 공간 잔차 후보를
 [별도 설계안](NOVELTY_ARCHITECTURE_OPTIONS_2026_09_07.md)에 정리했다. 새 후보는 미실행·미등록이며,

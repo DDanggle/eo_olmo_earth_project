@@ -3712,3 +3712,70 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   그대로 사용하지 않는다. 새 비용/성능 결과는 아직 없다.
 - 문서 검증: `git diff --check` 통과, payload 산술(1.5/6.0/1.75/2.0 MiB)과 24-run 곱셈 재확인.
   변경은 문서 4개뿐이며 commit/push하지 않았다.
+
+### 2026-09-07 저녁 — T0/T1 실패 해석·개선 경로 재감사 (계획)
+
+- 사용자 요청: 중간 음성을 전체 상한/방법 종료로 과장한 해석을 검증하고, 실제 개선 구현과
+  재현 가능한 진단을 준비한다. 현재 T0/T1 추출·학습·checkpoint·metric·입력 계약을 먼저 읽는다.
+- 기존 실행을 덮어쓰거나 test를 새 development로 조용히 재분류하지 않는다. 서버는 nx로
+  읽기 우선 점검, active snapshot 코드 변경·추가 GPU 실행·봉인 Korea 개봉은 하지 않는다.
+- 최근 EO/vision 연구와 Andrew Markham 관련 1차 문헌에서 병목을 해결할 구체적 기전을
+  대조한다. 실패 범위, 실제 결함, 수정 가능한 설계, 남은 불확실성을 분리해 기록한다.
+
+### 2026-09-07 저녁 — T0/T1 실패 해석·개선 경로 재감사 (완료: 진단·국소 수정·미학습 부품)
+
+- `docs/T0_T1_FAILURE_SCOPE_AND_RECOVERY_2026_09_07.md`에 직접 읽은 코드/로그/문헌을 정리했다.
+  T0 chimanimani diff AP −.044890은 사실이나 paired seed 차이는 +.000125/−.123104/−.011692다.
+  미완료 sketch·다른 지역을 음성으로 세거나 temporal 정보/방법 전체의 상한으로 해석하지 않는다.
+- 21:03 KST T1 teacher 3,372/3,372·감사 오차 0.0인데 `(audit_max or 1)` 때문에 runner가 중단됨을
+  확인했다. strict finite-value/sample/count validator와 두 runner 국소 수정, extraction/training 실패 시
+  nonzero exit를 로컬에 추가했다. 활성 서버 runner는 수정하지 않았다.
+- 22:28 KST 재확인: **다른 실행기가 22:16 KST에 같은 버그를 인지하고 T1 학습을 재개**했다.
+  완료·성능은 아직 판독하지 않았으며, 이번 감사자가 새 GPU 실험을 시작한 것이 아니다.
+- 기존 두 audit JSON은 새 helper 통과. 로컬 unit 8개+subtest 5개 통과, Torch 없는 로컬에서
+  candidate test 9개 skip. 별도 `/home/work/data/olmoearth/review_20260907/`에만 새 부품을 올려
+  `.venv-master`·CUDA 비활성 CPU로 candidate unit **9/9 통과**했다. shell syntax/JSON/diff check 통과.
+- `task_aware_update_candidate.py`: identity-init 198,208-param residual + actual Δt/quality + frozen
+  readout KL/feature loss helper. 기존 T1은 MSE-only·val-MSE 선택이므로 objective와 구조 효과를
+  분리한 24-run development **초안**을 만들었다. 아직 학습/통합/사전등록/성능 주장은 없다.
+- source-only GRU 범위 진단은 teacher coordinate 약 .18%가 기존 tanh 갱신 범위 밖임을 보였으나
+  feature MSE 하한은 작다(.000512/.000382). downstream 실패 원인으로 과장하지 않는다.
+- Tong/Wang 2026-v3, Růžička/Markham 2025, pooling 2026, KalmanNet, KuroSiwo와 대조했다.
+  generic residual/KL/filtering은 신규성이 아니다. 실제 causal 관측 아래 task-preserving cost–accuracy와
+  외부 event/지역 검증이 방법 주장이다. Korea sealed labels·진행 중 실험·기존 등록은 그대로 유지.
+- 스냅샷 원본 및 재집계/hash/source IDs: `artifacts/t0t1_audit_20260907/review_summary.json`.
+  새 threshold 두 개가 null인 설계 JSON은 명시적으로 DRAFT_NOT_REGISTERED_NOT_LAUNCHED다.
+  기존 `scratch/`는 손대지 않았고 commit/push하지 않았다.
+
+### 2026-09-07 심야 — T1 GRU 회복 보고 독립 재감사 (계획)
+
+- 사용자 요청: 서버 접속으로 95% 회복·예산 매칭·계산비용·2지역/3seed 완결성을 검증하고,
+  streaming utility와 신규 방법의 차이를 큰 그림에 맞춰 갱신한다.
+- nx 읽기/완료 JSON 다운로드 위주로 진행한다. active trainer/queue·GPU 프로세스는 변경하지
+  않는다. v0 사전등록과 결과를 보존하며 이번 분석은 development 사후 감사로 분리한다.
+- c4/c12 decoder 입력 분포, 정규화·manifest·label 시점·seed 범위·측정 비용을 대조하고,
+  재현 가능한 감사 코드/문서/인수인계 링크를 남긴다. 새 GPU 학습·Korea label 개봉은 하지 않는다.
+
+### 2026-09-08 00:03 KST — T1 GRU 회복 보고 독립 재감사 (완료: 읽기·집계·설계)
+
+- 서버 23:52–23:58 snapshot 8/18을 보존하고, 00:03 관측으로 Hiroshima GRU seed3를 별도
+  추가했다. 3seed AP .534777/.510409/.531251 → 평균 **.525479**, teacher .549624,
+  frozen c4 .013356 대비 격차 회복 **95.50%**, 절대 AP gap .024145. 전체는 9/18이다.
+- 두 지역 teacher AP가 기존 p4_native_control JSON과 정확히 일치. source/val/test ID 중복·
+  교집합 0, 각 report count 일치. 현재 local/server T1 trainer/lib/extractor SHA 3/3 일치.
+  모두 retrospective 확인이며 pre-run provenance나 새로운 공간 누수 감사로 과장하지 않는다.
+- Hiroshima residual3seed .303452(54.10%), Chimanimani residual3seed .077318(24.49%)로 v0의
+  90%-양지역 필요조건은 실패했다. 다른 지역 GRU와 EMA는 미완료로 표시하며 음성 취급하지 않는다.
+- “budget matched” 정정: GRU3,541,248 vs residual4,721,664. “36→12 GPU1/3”도 초기비용
+  비대칭이며 실제 inference time은 미측정이다. EMA는 source-trained scalar다.
+- 핵심 다음 대조: e4→e12 static adapter/no-new-input GRU로 관측 가치와 head-contract 보정을
+  분리. GRU/residual cosine .9409/.9384인데 AP .5255/.3035이므로 scalar agreement만으로
+  downstream fidelity를 판정하지 않는다. 기존 강한 GRU의 MSE vs MSE+source-task KL을 먼저 비교.
+- 현 trainer는 updater checkpoint·정규화·per-tile score·ID hash를 저장하지 않는다. 기존 JSON만으로
+  bootstrap/입력 perturbation은 재생 불가. 현재 run을 바꾸지 않고 다음 별도 실행 요구사항으로 기록.
+- `code/audit_streaming_t1_reports.py`와 tests 추가: 10tests+5subtests 통과. 기존 validator와 합쳐
+  18tests+10subtests 통과. 순차 snapshot 결과와 원본 SHA를 `artifacts/t1_review_20260907_1452/`에
+  보존했다. JSON parse·Python compile·`git diff --check`도 최종 확인한다.
+- `docs/T1_GRU_UTILITY_AUDIT_2026_09_07.md`, 새 검증 초안, README/RESTART_HERE/BIG_PICTURE
+  연결 갱신. TESSERA temporal sensitivity(8/27), v2(8/6개정), Deep Feature Flow와 차별성 경계를
+  확인했다. 신규 방법/확증/비용 우위는 아직 아님. 새 GPU 실행·server push·commit·Korea 개봉 없음.

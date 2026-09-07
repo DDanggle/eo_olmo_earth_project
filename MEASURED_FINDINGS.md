@@ -5015,3 +5015,25 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 - 무엇: `extract_olmo_variants.py`(아키텍처 축·patch-2 추출기)는 문서화된 편차대로 **합성 월 날짜**(2020년, 월초+i일)를 timestamp로 씀. 봉인 추출기는 NetCDF 실제 취득일을 씀. 탐침 타일(chimanimani_s2_1000, patch 4)에서 실제 날짜는 봉인 캐시를 재현(max|diff| .002, cos 1.000)하지만 합성 날짜는 **cos .989, max|diff| .94**(ref max 7.27).
 - 결과: 지금 도는 `resolution_contract_v2`의 `p2_native`/`p2_avgpool2` 팔은 대조군(실제 날짜)과 patch 크기 **와** 날짜 두 가지가 다름. MS-108 아키텍처 축(nano/tiny/base_half, 합성 날짜)도 같은 편차를 공유하나 그 비교는 변형끼리라 내부 일관.
 - 조치: `--real-times` 추가; `olmo_base_p2_rt`(실제 날짜) 재추출 + native/avgpool2 8폴드 seed 1 체인(`p2_realtime_chain.sh`) 기동. 4-arm의 p2 팔 결과는 "합성 날짜" 조건으로만 보고하고 v1c 판정은 **실제 날짜 캐시로** 함. 시간 보존 캐시(T0)·스트리밍(T1) 추출기는 처음부터 실제 날짜로 고침(탐침 diff .003 / .000).
+
+## T1-INDEPENDENT-AUDIT-20260908 — 한 지역의 GRU utility, 원 residual 불통과, 비용 미측정
+
+- 상태: 2026-09-08 00:03 KST 서버 완료 JSON **9/18** 확인. source 600-tile distillation,
+  각 fold frozen decoder seed1 고정. 개발 두 fold이며 새로운 확증이 아니다.
+- Hiroshima GRU 3seed AP `.5347767/.5104086/.5312510`, 평균 **.5254788**. 동일 decoder의
+  teacher `.5496240`, stale c4 `.0133561` 대비 gap recovery **.9549754**, 절대 AP gap `.0241452`.
+  teacher AP는 기존 native-control 결과와 정확히 일치하며 다른 실행의 값을 섞지 않았다.
+- Hiroshima residual 3seed `.3034523`(회복54.10%), Chimanimani residual3seed `.0773184`
+  (회복24.49%, 무학습 singles mean `.1471411`보다 낮음). 원래 residual의 90%-양지역 필요조건
+  실패. Chimanimani GRU와 양쪽 EMA는 미완료로, 양지역 streaming utility 최종 판정은 아직 없다.
+- 정정: GRU3,541,248 vs residual4,721,664로 strict budget matching 아님. EMA는 1-param 학습
+  baseline. 36vs12는 초기비용 비대칭이며 GPU1/3 속도 주장은 미측정. 새 영상 자체는 인코딩한다.
+- 다음 원인 분리: e12-trained decoder의 e4 입력은 시간정보 부족과 계약 shift를 함께 측정한다.
+  no-new-input source adapter/GRU 대조 전까지 “새 관측 활용이 회복 원인”을 확정하지 않는다.
+  teacher cosine .9409/.9384인데 GRU/residual AP .5255/.3035: 단일 feature agreement는
+  downstream utility의 보증이 아니다. 같은 GRU의 task-output preservation loss는 새 후보다.
+- 예측 archive/updater checkpoint가 없어 기존 aggregate JSON만으로 spatial CI나 입력 교란
+  재평가는 불가. 기존 run은 그대로 두며 다음 별도 protocol에서 저장한다. 현재 SHA 일치는
+  retrospective 검증이지 실행 전 봉인 증거가 아니다.
+- 원본/해시/재계산: `artifacts/t1_review_20260907_1452/audit_summary_20260908_0003.json`.
+  해석/큰 그림: `docs/T1_GRU_UTILITY_AUDIT_2026_09_07.md`. 신규 초안은 미등록·미실행.

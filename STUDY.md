@@ -1044,3 +1044,30 @@ missing-band shift 중 무엇이 원인인지 구별하려면 어떤 두 arm을 
   그 작은 residual이 6 MiB dense feature의 성능을 보존한다는 증거는 아니다.
 - 확인 질문: “dense teacher를 먼저 인코딩해서 작은 residual을 만들었다면, 줄었다고 말할 수 있는
   것은 저장·전송 비용인가, 최초 encoder 계산인가? 미래 관측을 본 teacher는 어느 평가에 쓸 수 있는가?”
+
+### 2026-09-07 개념 카드 — feature fidelity와 task fidelity는 다르다
+
+- 부딪힌 곳: T1은 수백 차원의 feature MSE로 학습·checkpoint를 선택하지만, 사용자가 원하는 것은
+  산사태/홍수 AP와 운영 비용이다. 큰 분산의 무관한 feature를 맞추고 작은 판별 축을 놓칠 수도 있다.
+- 핵심: frozen task readout을 통과한 출력 KL을 source에서 학습하면 알려진 task에 중요한 방향을
+  보존하도록 유도할 수 있다. 이는 기존 distillation 원리이지 새 발명이 아니다. teacher/head는 동결해도
+  student에는 readout을 통한 gradient가 필요하다. torch.no_grad로 student 경로까지 막으면 안 된다.
+- 확인 질문: “한 task의 KL이 낮으면 보지 않은 task도 보존되는가?” 아니다. source task/readout과
+  평가할 held-out task를 구분하고, 여러 task 공유 캐시 주장은 별도 검증해야 한다.
+- 기능 오류와 과학적 음성: 오차 `0.0`과 미측정 `None`은 다르다. `(error or 1)`은 완벽한 일치를
+  실패로 만든다. 실행이 안 된 방법을 성능 음성으로 세지 않는다.
+- 상한과 학습 결과: concat 모델에 더 많은 정보가 있어도 유한 표본/정규화/최적화로 더 못 배울 수
+  있다. 기존 해법을 포함하는 함수군의 성질과 실제 학습된 predictor 성능을 혼동하지 않는다.
+
+### 2026-09-08 개념 카드 — 새 증거의 가치와 입력 계약 보정
+
+- 부딪힌 곳: e12로 학습한 frozen decoder에 e4를 넣으면 AP가 .013, GRU update는 .525다.
+  하지만 새 관측 정보뿐 아니라 observation-count 변화에 따른 표현 분포 보정이 섞일 수 있다.
+- 분리 방법: source-only m4→e12 adapter 또는 새 영상 없이 같은 step 수로 학습한 GRU와 비교한다.
+  새 관측이 없는 대조도 비슷하다면 기여는 “관측 동화”보다 “표현 계약 보정”에 가깝다.
+- 확인 질문: “새 입력을 다른 타일로 바꿨더니 망가지면 실제 새 관측이 필요하다는 증명인가?”
+  아니다. OOD corruption 자체가 망가뜨릴 수 있다. 같은 정보 제한 아래 source에서 학습한 대조가 필요하다.
+- 회복률 해석: (AP_student−AP_stale)/(AP_teacher−AP_stale)는 두 reference 사이의 격차 비율이다.
+  정확도 95%나 teacher 비열등성은 아니다. 양의 headroom, 절대 gap, 평가 단위와 CI가 필요하다.
+- 비용 해석: 초기 encode를 한쪽만 빼지 않는다. 모든 cutoff 지도/최종 지도 한 번 요청은 서로 다른
+  workload다. timestep 수가 같아도 attention/호출 overhead 때문에 실제 비용은 다를 수 있다.

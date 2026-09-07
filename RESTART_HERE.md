@@ -1,4 +1,20 @@
 # OLMoEarth 연구 재시작 지점
+> ## 2026-09-08 00:03 KST — T1 streaming utility 독립 감사
+>
+> **최신 확인**: Hiroshima GRU 3seed AP `.525479`, full teacher `.549624`, frozen c4 `.013356`.
+> teacher 격차 95.50% 회복, 절대 AP gap `.024145`. 두 지역 residual은 54.10%/24.49%로
+> 원래 방법의 90%-양지역 필요조건 실패. 전체 9/18 완료이며 Chimanimani GRU·양쪽 EMA는 미완료.
+>
+> **현재 SSOT 보충**: [`docs/T1_GRU_UTILITY_AUDIT_2026_09_07.md`](docs/T1_GRU_UTILITY_AUDIT_2026_09_07.md).
+> GRU354만/residual472만은 strict parameter-matched가 아니고 36→12는 초기비용 비대칭이다.
+> 실제 GPU speedup 미측정. e4→e12 head contract 보정과 새 관측의 기여를 분리해야 한다.
+> EMA는 scalar를 학습하는 baseline이다. T1은 exposed development이며 decoder seed1 하나다.
+>
+> **다음**: 원계약 T1 종료 → 별도 실행에서 updater/score/ID/snapshot 저장 → no-new-input 대조 →
+> 같은 GRU의 task-fidelity loss·실제 latency → 외부 stream/지역 검증. 새 설계 JSON은
+> `config/t1_evidence_and_fidelity_review_v1_draft.json`이며 **미등록·미실행**이다.
+> 과거 gate/실행경로는 덮어쓰지 않았고 Korea label은 그대로 sealed. 아래 상태는 이전 인수인계다.
+>
 > ## 2026-09-07 KST 최신 감사 — MS-113 하향 정정 + patch-2 fail-closed
 >
 > **상태 한 줄**: MS-114의 field-adaptation 방법 가지는 kill-gate 실패로 닫혔다. MS-113의
