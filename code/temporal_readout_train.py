@@ -28,10 +28,15 @@ fit_idx=np.linspace(0,len(ids["train"])-1,min(400,len(ids["train"]))).astype(int
 def pca_fit(vecs,k):
     mu=vecs.mean(0); X=vecs-mu; U,S,Vt=np.linalg.svd(X,full_matrices=False); comp=Vt[:k]; proj=X@comp.T; return mu.astype("float32"),comp.astype("float32"),proj.std(0).astype("float32")+1e-6
 Tref=load_time(fit_ids[0]).shape[0]
+PROJ=CACHE/f"proj_{a.fold}"; PRE=(PROJ/"pca.npz").exists() and a.pca_dim==64
 if a.readout in ("sketch","full"):
-    samp=np.concatenate([load_time(s).transpose(0,2,3,1).reshape(-1,768)[::16] for s in fit_ids[:100]]); pmu,pcomp,psd=pca_fit(samp,a.pca_dim); del samp
+    if PRE: z=np.load(PROJ/"pca.npz"); pmu,pcomp,psd=z["mu"],z["comp"],z["sd"]; print("using precomputed projection",PROJ,flush=True)
+    else:
+        samp=np.concatenate([load_time(s).transpose(0,2,3,1).reshape(-1,768)[::16] for s in fit_ids[:100]]); pmu,pcomp,psd=pca_fit(samp,a.pca_dim); del samp
 if a.readout=="diffpca":
     def diff(s):
+        dp=CACHE/"emb_diff_fp16"/f"{s}.npy"
+        if dp.exists(): return np.load(dp).astype("float32")
         t=load_time(s); h=t.shape[0]//2; return t[h:].mean(0)-t[:h].mean(0)                 # (768,32,32)
     samp=np.concatenate([diff(s).transpose(1,2,0).reshape(-1,768)[::8] for s in fit_ids[:200]]); dmu,dcomp,dsd=pca_fit(samp,a.sketch_dim); del samp
 def features(s):
@@ -39,8 +44,10 @@ def features(s):
     if a.readout=="mean": return m
     if a.readout=="diffpca":
         d=diff(s).transpose(1,2,0); z=((d-dmu)@dcomp.T)/dsd; return np.concatenate([m,z.transpose(2,0,1)],0)      # (768+32,32,32)
-    t=load_time(s); assert t.shape[0]==Tref, (s,t.shape); z=((t.transpose(0,2,3,1)-pmu)@pcomp.T)/psd                   # (T,32,32,64)
-    z=z.transpose(0,3,1,2).reshape(-1,32,32)                                                                           # (T*64,32,32)
+    if PRE and (PROJ/f"{s}.npy").exists(): z=np.load(PROJ/f"{s}.npy").astype("float32").reshape(-1,32,32)          # (T*64,32,32) precomputed
+    else:
+        t=load_time(s); assert t.shape[0]==Tref, (s,t.shape); z=((t.transpose(0,2,3,1)-pmu)@pcomp.T)/psd               # (T,32,32,64)
+        z=z.transpose(0,3,1,2).reshape(-1,32,32)                                                                       # (T*64,32,32)
     return np.concatenate([m,z],0) if a.readout=="sketch" else z
 def stack(split):
     X=torch.from_numpy(np.stack([features(s) for s in ids[split]]).astype("float32")); Y=torch.from_numpy(np.stack([np.load(CACHE/"mask_u8"/f"{s}.npy") for s in ids[split]]).astype("float32")).unsqueeze(1); return X,Y
