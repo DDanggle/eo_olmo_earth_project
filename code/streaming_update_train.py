@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 if os.environ.get("CUDA_VISIBLE_DEVICES") not in ("0","1"): raise SystemExit("CUDA_VISIBLE_DEVICES must be 0 or 1 (GPU0 allowed by the user on 2026-09-07 evening)")
 ROOT=Path("/home/work/data/olmoearth"); sys.path.insert(0,str(ROOT/"code"))
-ap=argparse.ArgumentParser(); ap.add_argument("--data",default="olmo_streaming_dev"); ap.add_argument("--fold",required=True); ap.add_argument("--module",required=True,choices=["ema","gru","residual"]); ap.add_argument("--seed",type=int,default=1)
+ap=argparse.ArgumentParser(); ap.add_argument("--data",default="olmo_streaming_dev"); ap.add_argument("--fold",required=True); ap.add_argument("--module",required=True,choices=["ema","gru","residual","gru_noobs","calib"],help="gru_noobs: same GRU, new-observation input zeroed (control: does the gain need the observations?); calib: 1x1 MLP m4->e12 with no observations and no recurrence (control: distribution calibration only)"); ap.add_argument("--aux-decoder-loss",type=float,default=0.0,help="weight of frozen-decoder logit-MSE(student vs teacher) added at every step (readout-preserving objective)"); ap.add_argument("--tag",default=""); ap.add_argument("--seed",type=int,default=1)
 ap.add_argument("--epochs",type=int,default=30); ap.add_argument("--decoder-dir",default="resolution_contract_v2/p4_native_control"); ap.add_argument("--sealed-cache",default="sen12_pilot/holdout_chimanimani"); ap.add_argument("--out",required=True); a=ap.parse_args()
 D=ROOT/a.data; OUT=ROOT/a.out; OUT.mkdir(parents=True,exist_ok=True); dev=torch.device("cuda"); torch.manual_seed(a.seed); np.random.seed(a.seed)
 man=json.loads((ROOT/"sen12_gp_contract/t1_manifest.json").read_text())[a.fold]; CUT=(4,6,8,10,12)
@@ -36,15 +36,30 @@ class GRU(nn.Module):
     def __init__(s,c=768): super().__init__(); s.zr=nn.Conv2d(2*c,2*c,1); s.h=nn.Conv2d(2*c,c,1)
     def forward(s,m,u):
         z,r=torch.sigmoid(s.zr(torch.cat([m,u],1))).chunk(2,1); n=torch.tanh(s.h(torch.cat([r*m,u],1))); return (1-z)*m+z*n
+class GRUNoObs(GRU):
+    def forward(s,m,u): return super().forward(m,torch.zeros_like(u))
+class Calib(nn.Module):
+    """No observations, no recurrence: m_c = m_4 + f(m_4) for every c (same map), trained on all cutoffs like the others."""
+    def __init__(s,c=768,h=768): super().__init__(); s.f=nn.Sequential(nn.Conv2d(c,h,1),nn.ReLU(inplace=True),nn.Conv2d(h,c,1))
+    def forward(s,m,u): return m+s.f(m)
 class Residual(nn.Module):
     def __init__(s,c=768,h=768): super().__init__(); s.P=nn.Conv2d(c,c,1); s.f=nn.Sequential(nn.Conv2d(3*c,h,1),nn.ReLU(inplace=True),nn.Conv2d(h,c,1)); s.g=nn.Conv2d(3*c,c,1)
     def forward(s,m,u): d=u-s.P(m); x=torch.cat([m,u,d],1); return m+torch.sigmoid(s.g(x))*s.f(x)
-model={"ema":EMA,"gru":GRU,"residual":Residual}[a.module]().to(dev); npar=sum(p.numel() for p in model.parameters())
+model={"ema":EMA,"gru":GRU,"residual":Residual,"gru_noobs":GRUNoObs,"calib":Calib}[a.module]().to(dev); npar=sum(p.numel() for p in model.parameters())
+from cache_decoder_train_lib import EmbDecoder, emb_stats_from_cache, metrics
+ck=torch.load(ROOT/a.decoder_dir/f"{a.fold}_seed1_best.pt",map_location="cpu"); dec=EmbDecoder(ck["cin"]).to(dev); dec.load_state_dict(ck["model_state"]); dec.eval()
+for p_ in dec.parameters(): p_.requires_grad_(False)
+mu,sd=emb_stats_from_cache(ROOT/a.sealed_cache, a.fold); mu_d,sd_d=mu.to(dev),sd.to(dev)
+def dec_logits(X):
+    with torch.autocast("cuda",dtype=torch.bfloat16): return dec((X-mu_d)/sd_d).float()
 def rollout(T,U,bs_idx):
-    m=T[bs_idx,0].to(dev); loss=0.0; states=[]
+    m=T[bs_idx,0].to(dev); m0=m; loss=0.0; states=[]
     for k in range(4):
+        if a.module=="calib": m=m0
         with torch.autocast("cuda",dtype=torch.bfloat16): m=model(m,U[bs_idx,k].to(dev)).float()
-        loss=loss+F.mse_loss(m,T[bs_idx,k+1].to(dev))/sc**2; states.append(m)
+        tgt=T[bs_idx,k+1].to(dev); loss=loss+F.mse_loss(m,tgt)/sc**2
+        if a.aux_decoder_loss>0: loss=loss+a.aux_decoder_loss*F.mse_loss(dec_logits(m),dec_logits(tgt).detach())
+        states.append(m)
     return loss/4, states[-1]
 opt=torch.optim.AdamW(model.parameters(),lr=1e-3 if a.module!="ema" else 1e-1,weight_decay=1e-4); sched=torch.optim.lr_scheduler.CosineAnnealingLR(opt,T_max=a.epochs)
 g=torch.Generator().manual_seed(a.seed); best={"val":1e9,"epoch":0,"state":None}; hist=[]; t0=time.perf_counter()
@@ -62,9 +77,6 @@ for ep in range(1,a.epochs+1):
     print(f"epoch {ep}/{a.epochs} train {tot/len(perm):.4f} val {v:.4f} (best {best['val']:.4f}@{best['epoch']}) {time.perf_counter()-t0:.0f}s",flush=True)
 model.load_state_dict(best["state"]); model.eval()
 # ---- test: student state at c=12 vs teacher, plus downstream with the frozen decoder ----
-from cache_decoder_train_lib import EmbDecoder, emb_stats_from_cache, metrics   # small lib extracted for reuse
-ck=torch.load(ROOT/a.decoder_dir/f"{a.fold}_seed1_best.pt",map_location="cpu"); dec=EmbDecoder(ck["cin"]).to(dev); dec.load_state_dict(ck["model_state"]); dec.eval()
-mu,sd=emb_stats_from_cache(ROOT/a.sealed_cache, a.fold)   # identical normalisation to the decoder's training
 @torch.no_grad()
 def downstream(X):
     out=[]
@@ -79,4 +91,6 @@ rep={"schema":"streaming-update-train-v0","fold":a.fold,"module":a.module,"seed"
      "agreement_c12":{"student":agree(student),"frozen_m4":agree(frozen),"singles_mean":agree(singles_mean)},
      "downstream_c12":{"teacher_full_reencode":downstream(teacher),"student":downstream(student),"frozen_m4":downstream(frozen),"singles_mean":downstream(singles_mean)},
      "cost_timestep_units":{"full_reencode_per_step_total":36,"streaming_total":12,"initial_encode":4}}
-(OUT/f"{a.fold}_{a.module}_seed{a.seed}.json").write_text(json.dumps(rep,indent=1)); print("TEST",json.dumps({k:rep[k] for k in ("agreement_c12","downstream_c12")})); print("DONE")
+name=f"{a.fold}_{a.module}{a.tag}_seed{a.seed}"; rep["aux_decoder_loss"]=a.aux_decoder_loss
+(OUT/f"{name}.json").write_text(json.dumps(rep,indent=1)); torch.save({"model_state":best["state"],"module":a.module,"aux":a.aux_decoder_loss},OUT/f"{name}_best.pt")
+with torch.no_grad(): np.save(OUT/f"{name}_student_c12_probs.npy",torch.cat([torch.sigmoid(dec_logits(student[i:i+32].to(dev))).cpu() for i in range(0,len(student),32)]).squeeze(1).half().numpy()); print("TEST",json.dumps({k:rep[k] for k in ("agreement_c12","downstream_c12")})); print("DONE")
