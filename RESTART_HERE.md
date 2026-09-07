@@ -1,4 +1,20 @@
 # OLMoEarth 연구 재시작 지점
+> ## 2026-09-07 KST 최신 감사 — MS-113 하향 정정 + patch-2 fail-closed
+>
+> **상태 한 줄**: MS-114의 field-adaptation 방법 가지는 kill-gate 실패로 닫혔다. MS-113의
+> “라벨 5장 포화/추가 라벨 낭비”도 철회한다(K=20 `.317` > pool `.299`, non-nested support,
+> query-label FP threshold). 살아 있는 사실은 “현재 head/recipe에서 K=5와 pool의 aggregate gap이
+> 작고 method gate가 열리지 않았다”까지다.
+>
+> **다음 실험**: `docs/MS113_114_PATCH2_AUDIT_2026_09_07.md`의 4-arm cache-contract screen.
+> 첫 patch-2 추출은 decoder 0건 전에 중단했다. validator의 64×64 shape 결함과 audit 실패 후 계속
+> 실행하는 runner 결함을 수정했으며, GPU1이 비었을 때만 새 `resolution_contract_v2` OUTROOT에서
+> P4_NATIVE_CONTROL / P4_UPSAMPLE2 / P2_NATIVE / P2_AVGPOOL2를 실행한다. Sen12는 development이며 Korea/외부 task에서만
+> 확인한다.
+>
+> **새 계약**: `config/label_efficiency_curve_prereg_v0.json` ·
+> `config/second_fm_cache_prereg_v1_draft.json` addendum v1d. Korea label은 계속 sealed다.
+>
 > ## 2026-09-06 23:55 KST 최신 감사 — MS-112 정정 + 외부 검증 계약 v1
 >
 > **상태 한 줄**: core empirical result(Sen12+Solar cache reuse/few-shot)은 유지된다. 그러나

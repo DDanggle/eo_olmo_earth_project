@@ -136,5 +136,18 @@
     "readout": "cache_decoder_train.py (G=64 -> 128 -> 256 -> resize 128), seed 1 first; positive-patch macro IoU vs sealed patch-4 P4 (.272) and raw (.197)",
     "rule": "patch-2 macro >= patch-4 + 0.03 AND wins >= 6/8 folds -> token resolution is a cache-contract lever (then seeds 2,3 and in-region ceiling A1_pool on patch-2); < +0.01 -> resolution is not the bottleneck at 128 px tiles",
     "cost_axis": "cache bytes x4 and extraction time reported"
+  },
+  "addendum_v1d_2026_09_07_patch2_mechanism_controls_before_decoder_metrics": {
+    "audit_trigger": "The first patch-2 extraction was stopped before any decoder metric. Audit found that the cache validator hard-coded 32x32 and the chain did not fail closed after a cache-audit failure. Partial files are 768x64x64 and may be reused only after the corrected validator accepts every file.",
+    "scientific_scope": "Sen12 is a development screen because these eight regions have already been inspected. Patch 2 uses the model's FlexiPatchEmbed path, which internally resamples the same observation; it does not create new 10 m measurements. A positive result means denser representation readout, not improved sensor resolution.",
+    "arms": {
+      "P4_NATIVE": "sealed three-seed P4 reference, native 768x32x32",
+      "P4_UPSAMPLE2": "bilinear 32x32 -> 64x64 before the identical decoder; decoder-grid artifact control with no new representation information",
+      "P2_NATIVE": "FlexiViT patch=2, native 768x64x64; registered intervention",
+      "P2_AVGPOOL2": "2x2 average pool P2_NATIVE -> 768x32x32 before the identical decoder; fine-grid information ablation"
+    },
+    "decision": "The v1c promotion gate remains unchanged: P2_NATIVE minus sealed three-seed P4_NATIVE >= .03 and wins >=6/8. A same-trainer seed-1 P4_NATIVE_CONTROL must be within .03 of the sealed reference. Mechanism attribution additionally requires P2_NATIVE > P4_UPSAMPLE2 and P2_NATIVE > P2_AVGPOOL2. P4_UPSAMPLE2 minus P4_NATIVE_CONTROL is reported as decoder-grid artifact. No post-hoc threshold is added.",
+    "promotion": "If the v1c gate passes, run seeds 2 and 3 and report cache bytes, extraction wall time, decoder train time, and inference cost. Confirm only on a separately preregistered external task or sealed Korea task; Sen12 alone cannot be confirmatory.",
+    "negative_outcome": "If P2_NATIVE gain is <.01, close token resolution as the bottleneck under this decoder. If the gain is explained by P4_UPSAMPLE2 or disappears after P2_AVGPOOL2, report a readout/grid artifact rather than a representation-contract lever."
   }
 }

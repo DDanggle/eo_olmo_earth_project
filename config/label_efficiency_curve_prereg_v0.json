@@ -1,0 +1,44 @@
+{
+  "schema": "earthcache-label-efficiency-prereg-v0",
+  "registered_at": "2026-09-07",
+  "status": "REGISTERED_BEFORE_ANY_NEW_LEARNING_CURVE_RUN",
+  "motivation": "MS-113 showed a small aggregate K=5-to-pool gap under one recipe, but it did not prove label saturation. K=20 exceeded the pool macro on Sen12, supports were not nested, dense-mask positive incidence was high, and FP-matched thresholds used query labels.",
+  "question": "How many spatially disjoint dense target masks are needed before a frozen-cache decoder stops gaining, under a deployable evaluation contract?",
+  "development_tasks": [
+    "Sen12Landslides eight previously exposed regions",
+    "Solar Farm eight previously exposed UTM groups"
+  ],
+  "confirmation": "Korea shared-cache three-task holdout only after its existing access, transient-error, selection-bias, and label-unseal gates pass; otherwise a new external task.",
+  "support_contract": {
+    "primary": "random spatial-block support permutation, fixed independently for each region and draw; all K are prefixes of the same permutation",
+    "draws": 5,
+    "K_dense_mask_tiles": [0, 1, 2, 5, 10, 20, 50, "all"],
+    "sensitivity": "positive-aware nested permutation; never substitute it for primary",
+    "report_label_mass": [
+      "annotated pixels",
+      "positive pixels",
+      "positive tiles",
+      "positive connected components"
+    ],
+    "forbidden_wording": "Do not translate a 128x128 dense mask tile into one classification label."
+  },
+  "optimization": {
+    "primary": "fixed 300 updates at every finite K",
+    "sensitivity": "fixed exposure: 60*K updates capped at 6000",
+    "initialization": "same frozen OlmoEarth cache and same source decoder for every K within region/seed",
+    "selection": "no target-query label is used for checkpoint or threshold selection"
+  },
+  "metrics": {
+    "primary": "tie-correct pixel AP (threshold-free)",
+    "deployment_secondary": "positive-tile macro IoU at a threshold frozen from source validation or support-only cross-validation",
+    "diagnostic_only": "FP-matched IoU whose threshold is selected with target-query empty-tile labels",
+    "uncertainty": "hierarchical bootstrap over region/group then support draw; seeds are repeated optimization, not independent geographies"
+  },
+  "saturation_rule": {
+    "epsilon_absolute": 0.02,
+    "reference": "best paired mean among K=20, K=50, and all",
+    "pass": "K=5 paired regret <=0.02 AND at least 6/8 regions/groups within 0.02 on both primary AP and deployment-secondary IoU, with the same conclusion under fixed-exposure sensitivity",
+    "otherwise": "Report sparse-label efficiency or non-monotonic adaptation; do not claim saturation or that collecting more labels is wasteful."
+  },
+  "stop_rule": "Development results choose no new method. If saturation fails, close the five-label claim and continue the representation-contract experiment; if it passes, confirm once on the sealed external task."
+}

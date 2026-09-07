@@ -3650,3 +3650,27 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   승격하지 않는다.
 - **상세 문서**: `docs/MS112_CVPR_AND_KOREA_AUDIT_2026_09_06.md`. 다음은 DEN cache audit →
   external task protocol freeze → S_support 3-action×3-seed matrix → 독립 task-level G0 재판정.
+
+### 2026-09-07 — MS-113/114 교수 감사 + patch-2 실행 계약 보강
+
+- **주장 정정**: MS-113의 K=5 `.294`≈pool `.299`만으로 “5장 포화/추가 라벨 낭비”를 말할 수
+  없음을 확인. K=20 `.317`이 더 높고, K5/pool support가 nested가 아니며 positive mass·update가
+  다르고 FP-matched threshold가 query label을 쓴다. 기존 기록은 보존하고 MS-113-AUDIT가 해당
+  두 문장을 철회하도록 병기했다.
+- **새 learning-curve 계약**: `config/label_efficiency_curve_prereg_v0.json`. random spatial-block
+  nested K curve(0/1/2/5/10/20/50/all), 5 draw, fixed-update/fixed-exposure, AP와 deployable threshold
+  IoU, region/group hierarchical bootstrap을 등록. `.02`/6-of-8 양 지표 규칙 전에는 saturation 금지.
+- **MS-114**: R/T/P/N은 등록 kill-gate 불통과로 확증하지 않는다. retrieval의 worst-fold/AP
+  개선은 guardrail 후보로만 보존하고 method 평균 개선으로 되살리지 않는다.
+- **patch-2 preflight 결함**: partial cache 1,517개가 실제 `(768,64,64)`인데 extractor validator가
+  `(768,32,32)`를 hard-code했다. 구 runner도 extraction audit 실패 후 decoder로 진행 가능했다.
+  decoder 0건 전에 기존 job을 중단하고 shape=`128/patch`, atomic/readability 전수 audit,
+  `set -euo pipefail`, GPU1-empty, flock, 새 OUTROOT, code snapshot으로 수정했다.
+- **원인 분리**: 봉인 P4_NATIVE 기준에 같은-trainer P4_NATIVE_CONTROL(±.03 보정), P4_UPSAMPLE2(decoder-grid), P2_NATIVE(dense Flexi token),
+  P2_AVGPOOL2(fine-grid ablation)를 추가 등록. 기존 +.03/6-of-8 gate는 바꾸지 않으며 원인 주장은
+  P2_NATIVE가 두 control을 모두 이겨야 한다. Sen12는 development이고 외부/Korea에서만 확증.
+- **Korea 연결**: 같은 cube의 land-cover/deforestation/landslide에서 task scale × patch4/2 ×
+  A0/A1와 실제 N-task amortized cost를 측정하는 것이 현재 가장 강한 외부 설계. 기존 transient
+  error/selection-bias gate와 별도 addendum 전까지 label sealed 유지.
+- **검증/운영**: 새 grid helper unit test 4건(1 skip: 로컬 torch 없음), Python compile, shell syntax,
+  JSON parse, `git diff --check` 통과. GPU1은 타 작업 PID 340351이 점유해 규약대로 실행하지 않음.

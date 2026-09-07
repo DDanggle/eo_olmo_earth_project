@@ -1,6 +1,13 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-09-06
+최종 갱신: 2026-09-07
+
+> **2026-09-07 patch-2 감사:** MS-113의 “dense label 5장에서 포화, 추가 라벨은 낭비”는
+> 정정됐다. K=20 결과가 더 높고 support/optimization/threshold가 통제된 nested curve가 아니었다.
+> MS-114 field-adaptation arm은 등록 kill-gate에 따라 종료. 현재 활성 실험은 동일 관측의 조밀
+> Flexi token이 cache utility를 높이는지 P4-upsample/P2-pool 대조로 분해하는 개발 screen이다.
+> 첫 실행의 64×64 validator 및 fail-open runner 결함은 decoder 결과 전에 발견·수정했다.
+> 상세: [`docs/MS113_114_PATCH2_AUDIT_2026_09_07.md`](docs/MS113_114_PATCH2_AUDIT_2026_09_07.md).
 
 > **새 세션은 [`RESTART_HERE.md`](RESTART_HERE.md)부터 읽는다.** 활성 과학 기준점은
 > **MS-96/97 + MS-98/99 + A/B/C Earth Embedding Continuity 설계**다. Nepal 전용 앱·코드·데이터는

@@ -4989,3 +4989,24 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 - Solar K=5(8폴드 평균 FP-매칭 IoU / A1 대비 승 / 최악 폴드 / AP): A1 .586 / – / .463 / .864 · **A1R .601 / 3/8 / .504 / .917** · A1TR .602 / 2/8 / .495 / .913 · A1T .581 / 4/8 / .476 / .881 · A1P .568 / 2/8 / .432 · kNN(A1N) .412 / 0/8. Sen12 개발: R·N·P 모두 A1보다 낮음(R은 AP만 상승, FP-매칭에서 대상 빈 타일 오탐), T ≈ 0.
 - 판정: 어느 arm도 "A1 대비 ≥+.03, 두 지역"을 못 넘음 → 등록 규칙대로 확증 안 감. 남는 사실: (1) 검색 재가중은 **A1이 붕괴한 폴드(fold3 .463→.659)** 를 구하고 AP를 +.05 올림 — 안전장치로서의 가치(C0 계열). (2) INSID3식 무학습 kNN은 이 장에서 실패(.41 vs .59) — 자연영상 dense 특징과 달리 40 m 다중시점 토큰은 비모수 전이가 안 됨.
 - 다음 지렛대는 라벨/적응이 아니라 **캐시 계약(토큰 해상도·다중 스케일)** 쪽임 → 별도 등록.
+
+## MS-113-AUDIT / PATCH2-PREFLIGHT (2026-09-07) — “5장 포화·추가 라벨 낭비” 철회, patch-2 decoder 이전 실행 결함 수정
+
+- **MS-113 정정**: Sen12 macro에서 K=5 `.294`와 pool `.299`의 차이가 작다는 관측과 method
+  kill-gate 불통과는 유지한다. 그러나 K=20 A1 `.317`이 pool `.299`보다 높고, K별 support가 nested
+  curve가 아니며, dense-mask positive incidence와 update 수가 다르다. FP-matched threshold도 target
+  query의 빈 타일 라벨로 맞춘 diagnostic이다. 따라서 위 MS-113의 **“5장에서 포화”, “그 이상 라벨은
+  낭비” 문장은 철회**한다. 허용 문장은 “현재 head/recipe의 aggregate small ceiling gap”까지다.
+- 새 판정 계약: `config/label_efficiency_curve_prereg_v0.json`. 동일 공간-block permutation의 prefix
+  K=`0/1/2/5/10/20/50/all`, 5 draw, fixed-update primary + fixed-exposure sensitivity, tie-correct AP +
+  source/support-only threshold IoU. K=5가 paired best-larger-K의 `.02` 이내이고 6/8 단위에서 두
+  deployable 지표가 모두 일치할 때만 saturation이라 부른다.
+- **patch-2 preflight 결함**: 첫 추출은 decoder 결과 0건 상태에서 중단했다. 실제 partial 1,517개는
+  `(768,64,64)`인데 validator가 `(768,32,32)`를 hard-code해 모두 invalid로 볼 수 있었고,
+  `resolution_chain.sh`는 cache audit 실패에도 decoder로 진행할 수 있었다. shape=`128/patch`, 전수
+  audit, `set -euo pipefail`, GPU1-empty, lock, 새 OUTROOT, pre-run snapshot을 강제하도록 수정했다.
+- 원인 분리 arm을 decoder metric 전에 등록: P4_NATIVE(봉인 기준), P4_NATIVE_CONTROL(같은 trainer 보정), P4_UPSAMPLE2(큰 decoder grid만),
+  P2_NATIVE(조밀 Flexi token), P2_AVGPOOL2(fine-grid 제거). v1c gate는 그대로 유지하고, 원인 주장에는
+  P2_NATIVE가 두 대조 모두를 이겨야 한다. Sen12는 이미 노출됐으므로 **development screen**이다.
+- 상세: `docs/MS113_114_PATCH2_AUDIT_2026_09_07.md`. 현재 GPU1은 타 작업
+  `train_v11_siteloss.py`가 점유해 규약대로 재기동하지 않았다.
