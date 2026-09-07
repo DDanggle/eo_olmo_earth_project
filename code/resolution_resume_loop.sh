@@ -11,6 +11,6 @@ for i in $(seq 1 200); do
   env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 bash code/resolution_chain.sh --resume >> "$OUT/logs/runner_resume_loop.log" 2>&1; rc=$?
   echo "$(date -u +%FT%TZ) chain exited rc=$rc" >> "$LOG"
   [[ $rc -eq 0 ]] && exit 0
-  [[ $rc -eq 4 ]] || { echo "non-occupancy failure rc=$rc; stopping loop" >> "$LOG"; exit $rc; }
+  [[ $rc -eq 4 || $rc -eq 9 ]] || { echo "non-occupancy failure rc=$rc; stopping loop" >> "$LOG"; exit $rc; }  # 9 = lock held by a live chain: wait
   sleep 120
 done

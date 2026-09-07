@@ -1031,3 +1031,16 @@ missing-band shift 중 무엇이 원인인지 구별하려면 어떤 두 arm을 
   단계별 분해(다운로드/조립/추론), 릴리스 간 델타. "Large ≠ 항상 우위" 자인은
   온보딩 킷의 "어떤 크기를 쓸 것인가" 질문의 팀 공식 근거.
 - 다음 학습: v1.1/v1.2 변경점 (HF 모델카드/릴리스 노트) — A 매트릭스 확정 직전에.
+
+### 2026-09-07 개념 카드 — prefix-only 갱신과 feature rate–utility
+
+- 부딪힌 곳: cache extractor는 시간·band-group token을 평균내고, 새 해상도 캐시는 payload가
+  4배다. “시간 정보 추가”와 “싼 조밀 캐시”를 제안하려면 무엇을 실제로 더 읽고 저장하는지 알아야 한다.
+- **Prefix-only**: 시각 t의 판단은 t까지 확보된 관측만으로 계산한다. full sequence의 attention을
+  먼저 계산하고 과거 token만 잘라 쓰는 것은 미래 정보를 제거하지 못한다. 새 영상 한 장과 memory로
+  full-window embedding을 갱신하는 것은 근사 방법이며 exact transformer cache라고 부를 수 없다.
+- **Rate–utility**: 저장 byte를 줄일 때 feature L2뿐 아니라 downstream AP/IoU가 어떻게 바뀌는지
+  본다. 768×32×32 FP16은 1.5 MiB, 여기에 32×64×64 residual을 붙이면 1.75 MiB다. 용량 산술일 뿐
+  그 작은 residual이 6 MiB dense feature의 성능을 보존한다는 증거는 아니다.
+- 확인 질문: “dense teacher를 먼저 인코딩해서 작은 residual을 만들었다면, 줄었다고 말할 수 있는
+  것은 저장·전송 비용인가, 최초 encoder 계산인가? 미래 관측을 본 teacher는 어느 평가에 쓸 수 있는가?”

@@ -3680,3 +3680,35 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   대기 중이며, 체인 자체가 시작 직전 GPU1·flock·OUTROOT·snapshot을 다시 검사한다.
 - 로컬에서 torch 부재로 skip된 upsample branch도 서버 `.venv-master`에서 실제 텐서로 실행해
   expected patch-2 shape·avgpool2·upsample2 **3/3 통과**했다.
+
+### 2026-09-07 — architecture novelty 재검토 (계획, 진행 중)
+
+- 사용자 요청: patch-2 성공/실패에 논문 가능성을 종속시키지 않고, 기존 실측과 최신 선행연구를
+  바탕으로 실제 구현·반증 가능한 architecture/post-training 후보를 제시한다.
+- 기존 실패의 검증 범위, 실행 코드의 temporal pooling·timestamp 계약, 원래 patch-2 gate와
+  새 보고의 기준점 차이를 확인한다. 진행 중 서버 학습·봉인 config는 변경하지 않는다.
+- FeatUp/AnyUp·progressive representation·호환 학습·EO temporal adapter의 1차 문헌을 대조하고,
+  기존 CacheTune/FoldRefresh/field-adaptation과 다른 개입이 있는 후보만 별도 설계 문서에 남긴다.
+- 산출물은 후보 우선순위, 수식/구조, 필요한 새 정보, 강한 대조군, 작은 development screen,
+  비용·외부 검증 조건을 갖춘 **설계안**이다. 새 GPU 실험이나 결과 사전등록으로 취급하지 않는다.
+
+### 2026-09-07 — architecture novelty 재검토 (완료: 문헌·설계, 새 성능 미측정)
+
+- `docs/NOVELTY_ARCHITECTURE_OPTIONS_2026_09_07.md` 작성. 최근 Tessera temporal-window 연구,
+  VTC, AnyUp/FeatUp, historical-prior EO compression, BAN, FCT 등과 겹치는 주장을 구분했다.
+  단순 low-rank·시간 adapter·multi-task bitstream·side-information을 최초성으로 주장하지 않는다.
+- 1순위 후보는 현재 time/group mean 이전의 정보를 작은 시간 sketch로 보존하는 T0 → 살아남으면
+  prefix-only 증분 갱신 T1. 2순위는 p4/p2 paired feature의 압축 잔차(조밀 utility 확인 조건).
+  A3 source-stage encoder PEFT/distillation은 기존 아이디어이므로 baseline/조건부 후보로 남겼다.
+- 기존 mean 코드 위치를 확인했지만 시간 정보 전부 소실을 단정하지 않았다. 기존 timestamp
+  probe도 재확인: 같은 월 내 day 이동 5/5 동일, 따라서 day 차이의 실질 영향을 주장하지 않는다.
+- `BIG_PICTURE_2026_09_07.md`의 Sen12 입력(S2 10실밴드×12시점), Sen12 A4h 7/8,
+  A0 적응비용 0과 추론비용 구분, 반올림 byte/mtime-GPU 비용의 한계, 중단선의 범위를 정정했다.
+- 현재 patch-2 등록 gate는 sealed P4+.03/6-of-8 그대로. 새 보고의 same-trainer 기준과 같지
+  않으므로 두 효과를 분리해 보고하도록 명시했다. 실행 중 코드·봉인 JSON·server/GPU·Korea label은
+  이번 턴에 손대지 않았다. 24 decoder run T0는 제안일 뿐 실행 승인/사전등록이 아니다.
+- 다음: 현 4-arm 원래 계약대로 요약 → 시간·site metadata와 추가 token 추출 가능량 산정 →
+  별도 development protocol 확정 후 T0. 시간 측정용 DEN은 현재 hard-coded July export를
+  그대로 사용하지 않는다. 새 비용/성능 결과는 아직 없다.
+- 문서 검증: `git diff --check` 통과, payload 산술(1.5/6.0/1.75/2.0 MiB)과 24-run 곱셈 재확인.
+  변경은 문서 4개뿐이며 commit/push하지 않았다.
