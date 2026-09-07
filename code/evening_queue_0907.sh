@@ -4,7 +4,7 @@
 set -uo pipefail; ROOT=/home/work/data/olmoearth; cd "$ROOT"; PY="$ROOT/.venv-master/bin/python"; LOG="$ROOT/logs/evening_queue_0907.log"
 GPU1_UUID=$(nvidia-smi --query-gpu=index,uuid --format=csv,noheader,nounits | awk -F', ' '$1==1 {print $2}')
 ours(){ pgrep -f "resolution_chain.sh|resolution_resume_loop|cache_decoder_train|extract_olmo|temporal_readout_train|extract_sen12_fold_cache" >/dev/null; }
-foreign_busy(){ nvidia-smi --query-compute-apps=gpu_uuid --format=csv,noheader,nounits | grep -Fxq "$GPU1_UUID" && ! ours; }
+foreign_busy(){ local p f=0; for p in $(nvidia-smi --query-compute-apps=gpu_uuid,pid --format=csv,noheader,nounits | awk -F', ' -v u="$GPU1_UUID" '$1==u {print $2}'); do ps -o cmd= -p "$p" | grep -Eq "extract_olmo_|temporal_readout_train|cache_decoder_train|extract_sen12_fold_cache|streaming_update_train" || f=1; done; [[ $f -eq 1 ]]; }
 wait_free(){ while foreign_busy; do echo "$(date -u +%FT%TZ) GPU1 foreign busy, wait" >> "$LOG"; sleep 120; done; }
 log(){ echo "$(date -u +%FT%TZ) $*" >> "$LOG"; }
 log "queue start"

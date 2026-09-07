@@ -29,7 +29,11 @@ fi
 GPU1_UUID=$(nvidia-smi --query-gpu=index,uuid --format=csv,noheader,nounits | awk -F', ' '$1==1 {print $2}')
 [[ -n "$GPU1_UUID" ]] || { echo "GPU1 UUID not found" >&2; exit 3; }
 require_gpu1_free () {
-  if nvidia-smi --query-compute-apps=gpu_uuid --format=csv,noheader,nounits | grep -Fxq "$GPU1_UUID"; then
+  # 2026-09-07: only FOREIGN processes block; our own queue may share GPU1.
+  local pids p foreign=0
+  pids=$(nvidia-smi --query-compute-apps=gpu_uuid,pid --format=csv,noheader,nounits | awk -F', ' -v u="$GPU1_UUID" '$1==u {print $2}')
+  for p in $pids; do ps -o cmd= -p "$p" | grep -Eq "extract_olmo_|temporal_readout_train|cache_decoder_train|extract_sen12_fold_cache|streaming_update_train" || foreign=1; done
+  if [[ $foreign -eq 1 ]]; then
     echo "GPU1 is occupied; stopping before the next stage" >&2
     exit 4
   fi
