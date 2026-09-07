@@ -5,12 +5,21 @@ import argparse, os, sys, json, time
 from pathlib import Path
 from datetime import datetime, timedelta
 import numpy as np, torch, torch.nn as nn
-ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base",choices=["nano","tiny","base"]); ap.add_argument("--depth-frac",type=float,default=1.0); ap.add_argument("--patch",type=int,default=4,help="OlmoEarth patch size (4 -> 40 m tokens, 2 -> 20 m tokens)"); ap.add_argument("--out",required=True); ap.add_argument("--probe",action="store_true"); ap.add_argument("--src",default="sen12_pilot/holdout_chimanimani"); a=ap.parse_args()
+ap=argparse.ArgumentParser(); ap.add_argument("--size",default="base",choices=["nano","tiny","base"]); ap.add_argument("--depth-frac",type=float,default=1.0); ap.add_argument("--patch",type=int,default=4,help="OlmoEarth patch size (4 -> 40 m tokens, 2 -> 20 m tokens)"); ap.add_argument("--out",required=True); ap.add_argument("--probe",action="store_true"); ap.add_argument("--real-times",action="store_true",help="use sealed-contract acquisition dates (reproduces the sealed cache); default keeps the documented synthetic-month deviation"); ap.add_argument("--src",default="sen12_pilot/holdout_chimanimani"); a=ap.parse_args()
 from olmoearth_pretrain_minimal import ModelID
 from rslearn.models.olmoearth_pretrain.model import MaskValue, OlmoEarth
 from rslearn.train.model_context import ModelContext, RasterImage
 from cache_grid_controls import expected_olmo_shape
 ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/a.src; OUT=ROOT/a.out; dev=torch.device("cuda")
+
+# Real acquisition timestamps from the sealed contract (select_timestep_indices: keep the 12 clearest of 15 by SCL, ordered). Synthetic month
+# timestamps change the embedding (cos .989 vs sealed on a probe tile, 2026-09-07); real times reproduce the sealed cache to 2e-3.
+_REC={}
+for _l in open(ROOT/"sen12_gp_contract/sample_contract.jsonl"):
+    if _l.strip(): _r=json.loads(_l); _REC[_r["sample_id"]]=_r
+def real_timestamps(sid,T):
+    r=_REC[sid]; q=r["scl_clear_fraction"]; idx=sorted(sorted(range(len(q)),key=lambda i:(-float(q[i]),i))[:T])
+    return [datetime.fromisoformat(str(r["times"][i])[:19]) for i in idx]
 started_perf=time.perf_counter()
 (OUT/"emb_fp16").mkdir(parents=True,exist_ok=True)
 for d in ("raw_u16","mask_u8"):
@@ -35,7 +44,7 @@ def embed_crop(crop,ts):
 @torch.no_grad()
 def embed(sid):
     raw=np.load(SRC/"raw_u16"/f"{sid}.npy").astype("float32"); T=raw.shape[1]; cube=np.zeros((12,T,128,128),dtype="float32"); cube[:10]=raw
-    ts=[datetime(2020,int(m)+1,1)+timedelta(days=1+i) for i,m in enumerate(months.get(sid,[0]*T)[:T])]; feat=None
+    ts=real_timestamps(sid,T) if a.real_times else [datetime(2020,int(m)+1,1)+timedelta(days=1+i) for i,m in enumerate(months.get(sid,[0]*T)[:T])]; feat=None
     for y0,x0 in ((0,0),(0,64),(64,0),(64,64)):
         f=embed_crop(np.ascontiguousarray(cube[:,:,y0:y0+64,x0:x0+64]),ts)
         if feat is None: feat=torch.empty((f.shape[0],128//a.patch,128//a.patch))

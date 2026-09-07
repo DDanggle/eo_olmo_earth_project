@@ -13,6 +13,15 @@ from olmoearth_pretrain_minimal import ModelID
 from rslearn.models.olmoearth_pretrain.model import MaskValue, OlmoEarth
 from rslearn.train.model_context import ModelContext, RasterImage
 ROOT=Path("/home/work/data/olmoearth"); SRC=ROOT/a.src; OUT=ROOT/a.out; dev=torch.device("cuda"); PATCH=4; CUTOFFS=(4,6,8,10,12)
+
+# Real acquisition timestamps from the sealed contract (select_timestep_indices: keep the 12 clearest of 15 by SCL, ordered). Synthetic month
+# timestamps change the embedding (cos .989 vs sealed on a probe tile, 2026-09-07); real times reproduce the sealed cache to 2e-3.
+_REC={}
+for _l in open(ROOT/"sen12_gp_contract/sample_contract.jsonl"):
+    if _l.strip(): _r=json.loads(_l); _REC[_r["sample_id"]]=_r
+def real_timestamps(sid,T):
+    r=_REC[sid]; q=r["scl_clear_fraction"]; idx=sorted(sorted(range(len(q)),key=lambda i:(-float(q[i]),i))[:T])
+    return [datetime.fromisoformat(str(r["times"][i])[:19]) for i in idx]
 for d in ("teacher_fp16","single_fp16"): (OUT/d).mkdir(parents=True,exist_ok=True)
 for d in ("raw_u16","mask_u8","emb_fp16"):
     if not (OUT/d).exists(): os.symlink(SRC/d,OUT/d)
@@ -33,7 +42,7 @@ def window(cube,ts,t0,t1):
 @torch.no_grad()
 def embed(sid):
     raw=np.load(SRC/"raw_u16"/f"{sid}.npy").astype("float32"); T=raw.shape[1]; assert T==12,(sid,T)
-    cube=np.zeros((12,T,128,128),dtype="float32"); cube[:10]=raw; ts=[datetime(2020,int(m)+1,1)+timedelta(days=1+i) for i,m in enumerate(months.get(sid,[0]*T)[:T])]
+    cube=np.zeros((12,T,128,128),dtype="float32"); cube[:10]=raw; ts=real_timestamps(sid,T)
     teacher=torch.stack([window(cube,ts,0,c) for c in CUTOFFS]); single=torch.stack([window(cube,ts,t,t+1) for t in range(T)])
     return teacher.numpy().astype("float16"), single.numpy().astype("float16")
 def ok(p,n):

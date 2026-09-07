@@ -5010,3 +5010,8 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
   P2_NATIVE가 두 대조 모두를 이겨야 한다. Sen12는 이미 노출됐으므로 **development screen**이다.
 - 상세: `docs/MS113_114_PATCH2_AUDIT_2026_09_07.md`. 현재 GPU1은 타 작업
   `train_v11_siteloss.py`가 점유해 규약대로 재기동하지 않았다.
+
+## MS-115-사전 (2026-09-07) — patch-2 캐시의 timestamp 교란 발견: 해상도 4-arm의 p2 팔은 "patch 2 + 합성 날짜"임
+- 무엇: `extract_olmo_variants.py`(아키텍처 축·patch-2 추출기)는 문서화된 편차대로 **합성 월 날짜**(2020년, 월초+i일)를 timestamp로 씀. 봉인 추출기는 NetCDF 실제 취득일을 씀. 탐침 타일(chimanimani_s2_1000, patch 4)에서 실제 날짜는 봉인 캐시를 재현(max|diff| .002, cos 1.000)하지만 합성 날짜는 **cos .989, max|diff| .94**(ref max 7.27).
+- 결과: 지금 도는 `resolution_contract_v2`의 `p2_native`/`p2_avgpool2` 팔은 대조군(실제 날짜)과 patch 크기 **와** 날짜 두 가지가 다름. MS-108 아키텍처 축(nano/tiny/base_half, 합성 날짜)도 같은 편차를 공유하나 그 비교는 변형끼리라 내부 일관.
+- 조치: `--real-times` 추가; `olmo_base_p2_rt`(실제 날짜) 재추출 + native/avgpool2 8폴드 seed 1 체인(`p2_realtime_chain.sh`) 기동. 4-arm의 p2 팔 결과는 "합성 날짜" 조건으로만 보고하고 v1c 판정은 **실제 날짜 캐시로** 함. 시간 보존 캐시(T0)·스트리밍(T1) 추출기는 처음부터 실제 날짜로 고침(탐침 diff .003 / .000).
