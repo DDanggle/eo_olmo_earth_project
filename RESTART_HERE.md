@@ -14,6 +14,8 @@
 >
 > **새 계약**: `config/label_efficiency_curve_prereg_v0.json` ·
 > `config/second_fm_cache_prereg_v1_draft.json` addendum v1d. Korea label은 계속 sealed다.
+> 서버 파일 SHA 7/7 일치 후 GPU1 waiter PID `349969`을 걸었다(60초 poll, 24시간 제한). 상태는
+> `./bin/nx sh 'tail -20 /home/work/data/olmoearth/logs/gpu1_waiter.log'`로 확인한다.
 >
 > ## 2026-09-06 23:55 KST 최신 감사 — MS-112 정정 + 외부 검증 계약 v1
 >

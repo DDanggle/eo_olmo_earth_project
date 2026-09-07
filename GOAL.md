@@ -3674,3 +3674,7 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   error/selection-bias gate와 별도 addendum 전까지 label sealed 유지.
 - **검증/운영**: 새 grid helper unit test 4건(1 skip: 로컬 torch 없음), Python compile, shell syntax,
   JSON parse, `git diff --check` 통과. GPU1은 타 작업 PID 340351이 점유해 규약대로 실행하지 않음.
+- **서버 동기화/queue**: 실행 파일·두 config 7개의 local/server SHA-256이 전부 일치하고 서버
+  `.venv-master` compile·JSON·shell validation도 통과. GPU1이 비는 순간 한 번만 실행하는 waiter
+  PID `349969`을 60초 간격·24시간 제한으로 기동했다. 10:56 KST 현재 foreign PID 340351을 감지해
+  대기 중이며, 체인 자체가 시작 직전 GPU1·flock·OUTROOT·snapshot을 다시 검사한다.
