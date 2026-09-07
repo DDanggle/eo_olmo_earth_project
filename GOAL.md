@@ -3678,3 +3678,5 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   `.venv-master` compile·JSON·shell validation도 통과. GPU1이 비는 순간 한 번만 실행하는 waiter
   PID `349969`을 60초 간격·24시간 제한으로 기동했다. 10:56 KST 현재 foreign PID 340351을 감지해
   대기 중이며, 체인 자체가 시작 직전 GPU1·flock·OUTROOT·snapshot을 다시 검사한다.
+- 로컬에서 torch 부재로 skip된 upsample branch도 서버 `.venv-master`에서 실제 텐서로 실행해
+  expected patch-2 shape·avgpool2·upsample2 **3/3 통과**했다.
