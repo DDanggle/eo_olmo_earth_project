@@ -1,0 +1,26 @@
+{
+  "schema": "earthcache-temporal-readout-screen-v0",
+  "date": "2026-09-07",
+  "status": "DRAFT_REGISTERED_BEFORE_ANY_TEMPORAL_CACHE_EXTRACTION; criteria below are the screen criteria; confirmatory criteria are frozen separately before any external result",
+  "question": "Does keeping temporal evidence in a materialized OlmoEarth cache (instead of the time-and-group mean that the sealed cache and the GEO-Bench-2 protocol both use) make the cache more useful for a frozen-cache decoder, at a bounded extra byte budget?",
+  "why_now": "The sealed extractor pools OlmoEarth tokens over (time, band-group) [extract_sen12_fold_cache.py:embed_crop]; GEO-Bench-2 likewise encodes each timestamp separately and averages embeddings before the decoder (arXiv 2511.15658 v2). Both discard within-window temporal structure that OlmoEarth already computed.",
+  "development_data": "Sen12Landslides, folds holdout_chimanimani (val china) and holdout_hiroshima (val hokkaido) — both previously exposed; Korea, DEN, other GEO-Bench-2 tasks are NOT touched by this screen",
+  "cache": {"extractor": "code/extract_olmo_temporal.py", "contract": "identical to sealed (4x64 crops, patch 4, token_pooling, B01/B09 zero + band-set 2 MISSING, synthetic month timestamps)", "stored": "emb_time_fp16 (T,768,32,32), T=12", "audit": "mean over T must reproduce the sealed emb_fp16 within fp16 tolerance on >=50 tiles; otherwise the screen is void"},
+  "arms": {
+    "mean": "sealed mean cache, 768 ch (baseline)",
+    "diffpca": "mean + PCA-32 of late-half minus early-half mean, PCA fit on source train tiles only; +32 ch, +64 KiB/tile",
+    "sketch": "mean + learned 1x1 conv over source-fit PCA-64 per-timestep stack -> 32 ch; +32 ch, +64 KiB/tile (byte-matched to diffpca)",
+    "full": "learned 1x1 conv over the PCA-64 per-timestep stack -> 128 ch, no mean; bounded reference readout, not an upper bound"
+  },
+  "runs": "4 readouts x 2 folds x seeds {1,2,3} = 24 decoder runs, code/temporal_readout_train.py, identical decoder recipe to cache_decoder_train.py",
+  "metrics": {"primary": "exact pixel AP on the test region", "secondary": "positive-patch macro IoU@0.5", "report": "seed mean and per-seed values; paired differences vs mean arm"},
+  "screen_rule": {
+    "temporal_information_useful": "diffpca OR sketch beats mean on primary AP in BOTH folds (seed mean), with absolute gain >= .02 in at least one fold and no fold worse by more than .01",
+    "learned_sketch_novelty": "ONLY if sketch beats diffpca by >= .02 AP in both folds; if sketch ~ diffpca, report 'temporal information is useful' and do NOT claim a learned method",
+    "fail": "neither diffpca nor sketch passes -> temporal-evidence candidate closed on Sen12; the T1 causal-update pilot is not started",
+    "full_arm_role": "context only; if full << mean, the PCA-64 bound is too tight and the full arm is re-run with pca_dim 128 before interpretation"
+  },
+  "not_claimed": ["change-timing or early-detection performance (Sen12 has one terminal mask)", "compute savings (cache is computed from the full window)", "any result on Korea/DEN/GEO-Bench-2 tasks"],
+  "next_if_pass": "freeze confirmatory criteria; run the same 4 arms on GEO-Bench-2 temporal tasks whose raw data ships per-timestep tensors (PASTIS-R, BioMassters, KuroSiwo, Fields of the World, DynamicEarthNet) against the benchmark's own timestamp-averaging protocol",
+  "gpu_order": "after resolution_contract_v2 completes; extraction ~1 h (123 GB), 24 runs ~4 h"
+}
