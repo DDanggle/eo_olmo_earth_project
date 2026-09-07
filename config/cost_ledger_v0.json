@@ -1,0 +1,52 @@
+{
+ "schema": "earthcache-cost-ledger-v0",
+ "date": "2026-09-07",
+ "status": "MEASURED_WHERE_MARKED; provisional fields must not enter a paper table",
+ "unit_task": "Sen12Landslides, 6,834 tiles of 128x128 px (S2 12-band x 3 dates + S1)",
+ "storage": {
+  "raw_u16_bytes": 27917287424,
+  "raw_u16_note": "du -sh 26G, sen12_pilot/holdout_chimanimani/raw_u16 (MEASURED 2026-09-07)",
+  "cache_p4_bytes": 11811160064,
+  "cache_p4_note": "du -sh 11G, emb_fp16 768x32x32 fp16 (MEASURED)",
+  "cache_p2_bytes": 44023414784,
+  "cache_p2_note": "du -sh 41G, olmo_base_p2 emb_fp16 768x64x64 fp16 (MEASURED)"
+ },
+ "encode": {
+  "p2_gpu_seconds_total": 3825,
+  "p2_note": "first-file to last-file mtime span of olmo_base_p2/emb_fp16, H200, GPU1 shared with nothing (MEASURED, wall clock ≈ GPU since single process)",
+  "p4_gpu_seconds_total": null,
+  "p4_note": "NOT CLEANLY MEASURED: original extraction span 24,585 s includes raw preparation; do not use. Bound: p4 <= p2 per tile (fewer tokens). Re-measure before any paper cost table."
+ },
+ "per_task_adaptation_measured_range": {
+  "source": "MS-111-v2 (artifacts/g0_dev/g0_dev_input_v2.json), adaptation stage only, 8 regions summed, K=5",
+  "HEAD_ADAPT": {
+   "gpu_seconds": [
+    11,
+    43
+   ],
+   "raw_bytes": 0
+  },
+  "RAW_FINETUNE": {
+   "gpu_seconds": [
+    58,
+    215
+   ],
+   "raw_bytes": [
+    2700000000,
+    11200000000
+   ]
+  },
+  "excluded": [
+   "source head training",
+   "source raw model training",
+   "cache extraction (counted separately above)",
+   "true REEMBED (unmeasured)"
+  ]
+ },
+ "source_stage_unmeasured": {
+  "cache_head_source_train_gpu_seconds": null,
+  "raw_source_model_train_gpu_seconds": null,
+  "note": "NOT IN LEDGER. Break-even is dominated by this stage (raw UNet3D 75-epoch training vs 40-epoch cache head; today's p4 control fold ≈ 9 s/epoch ≈ 6 min/fold). Must be measured on the same GPU before any cost claim.",
+  "consequence": "With adaptation-stage costs only, encode (3,825 GPU-s for P2) is paid back only after 6-19 tasks in the favorable case and never in the unfavorable case (artifacts/cost/breakeven_v0.json). 'Cache is cheaper' is therefore NOT claimable yet."
+ }
+}

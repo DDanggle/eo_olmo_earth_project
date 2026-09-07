@@ -1,0 +1,45 @@
+{
+ "actions": [
+  "CACHED_HEAD",
+  "HEAD_ADAPT",
+  "RAW_FINETUNE"
+ ],
+ "seeds_per_cell": 3,
+ "eps": 0.02,
+ "reference": "CACHED_HEAD",
+ "policies": {
+  "always:CACHED_HEAD": {
+   "mean_regret": 0.23758555041756518,
+   "max_regret": 0.47517110083513037,
+   "harm_rate": 0.0,
+   "mean_gpu_s": 0.0,
+   "mean_raw_bytes": 0,
+   "n_episodes": 2
+  },
+  "always:HEAD_ADAPT": {
+   "mean_regret": 0.017293591801384067,
+   "max_regret": 0.034587183602768135,
+   "harm_rate": 0.5,
+   "mean_gpu_s": 26.891666666666666,
+   "mean_raw_bytes": 0,
+   "n_episodes": 2
+  },
+  "always:RAW_FINETUNE": {
+   "mean_regret": 1.4317397487852723,
+   "max_regret": 1.5166175637596115,
+   "harm_rate": 1.0,
+   "mean_gpu_s": 135.17000000000002,
+   "mean_raw_bytes": 6951718208,
+   "n_episodes": 2
+  },
+  "oracle": {
+   "mean_regret": 0.0,
+   "max_regret": 0.0,
+   "harm_rate": 0.0,
+   "mean_gpu_s": 21.3,
+   "mean_raw_bytes": 0,
+   "n_episodes": 2
+  }
+ },
+ "note": "oracle is an upper bound, not a policy; static policies are the baselines any support-only rule must beat on regret AND harm"
+}
