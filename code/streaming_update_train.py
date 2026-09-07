@@ -13,7 +13,7 @@ student state -> AP and positive-patch macro IoU, compared with the same decoder
 import json, os, time, argparse, sys
 from pathlib import Path
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
-if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
+if os.environ.get("CUDA_VISIBLE_DEVICES") not in ("0","1"): raise SystemExit("CUDA_VISIBLE_DEVICES must be 0 or 1 (GPU0 allowed by the user on 2026-09-07 evening)")
 ROOT=Path("/home/work/data/olmoearth"); sys.path.insert(0,str(ROOT/"code"))
 ap=argparse.ArgumentParser(); ap.add_argument("--data",default="olmo_streaming_dev"); ap.add_argument("--fold",required=True); ap.add_argument("--module",required=True,choices=["ema","gru","residual"]); ap.add_argument("--seed",type=int,default=1)
 ap.add_argument("--epochs",type=int,default=30); ap.add_argument("--decoder-dir",default="resolution_contract_v2/p4_native_control"); ap.add_argument("--sealed-cache",default="sen12_pilot/holdout_chimanimani"); ap.add_argument("--out",required=True); a=ap.parse_args()

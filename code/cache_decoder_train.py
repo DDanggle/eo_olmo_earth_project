@@ -8,7 +8,7 @@ import json, os, sys, time, argparse
 from pathlib import Path
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 from cache_grid_controls import transform_embedding
-if os.environ.get("CUDA_VISIBLE_DEVICES")!="1": raise SystemExit("CUDA_VISIBLE_DEVICES must be 1")
+if os.environ.get("CUDA_VISIBLE_DEVICES") not in ("0","1"): raise SystemExit("CUDA_VISIBLE_DEVICES must be 0 or 1 (GPU0 allowed by the user on 2026-09-07 evening)")
 ROOT=Path("/home/work/data/olmoearth")
 ap=argparse.ArgumentParser(); ap.add_argument("--cache",required=True); ap.add_argument("--fold",required=True); ap.add_argument("--seed",type=int,default=1); ap.add_argument("--epochs",type=int,default=40)
 ap.add_argument("--folds",default=str(ROOT/"sen12_gp_contract/loco_folds.json")); ap.add_argument("--contract",default=str(ROOT/"sen12_gp_contract/sample_contract.jsonl")); ap.add_argument("--out",required=True)

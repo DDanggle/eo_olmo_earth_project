@@ -11,12 +11,16 @@ log "queue start"
 until [[ -e resolution_contract_v2/COMPLETED_AT_UTC.txt ]]; do sleep 300; done; log "resolution chain complete"
 # stage 2: temporal cache
 wait_free; log "temporal extraction start"
-env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 $PY code/extract_olmo_temporal.py --out olmo_temporal_p4 > logs/x_olmo_temporal.log 2>&1; log "temporal extraction rc=$?"
-$PY -c 'import json,sys; a=json.load(open("olmo_temporal_p4/olmo_temporal_audit.json")); sys.exit(0 if a["all_gates_pass"] and (a["audit_max"] or 1)<0.05 else 1)' || { log "temporal audit FAILED (gates or mean mismatch); T0 skipped"; touch logs/temporal_T0_FAILED.txt; }
+env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 $PY code/extract_olmo_temporal.py --out olmo_temporal_p4 > logs/x_olmo_temporal.log 2>&1
+rc=$?; log "temporal extraction rc=$rc"
+if [[ $rc -ne 0 ]]; then touch logs/temporal_T0_FAILED.txt; exit "$rc"; fi
+$PY code/validate_temporal_cache_evidence.py olmo_temporal_p4/olmo_temporal_audit.json --minimum-examples 50 || { log "temporal audit FAILED (gates or mean mismatch); T0 skipped"; touch logs/temporal_T0_FAILED.txt; }
 if [[ ! -e logs/temporal_T0_FAILED.txt ]]; then
   for fold in holdout_chimanimani holdout_hiroshima; do for ro in mean diffpca sketch full; do for s in 1 2 3; do
     [[ -f artifacts/temporal_t0/${fold}_${ro}_seed${s}.json ]] && continue; wait_free
-    env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 $PY code/temporal_readout_train.py --cache olmo_temporal_p4 --fold $fold --readout $ro --seed $s --out artifacts/temporal_t0 > logs/t0_${fold}_${ro}_s${s}.log 2>&1; log "t0 $fold $ro s$s rc=$?"
+    env -u PYTHONPATH CUDA_VISIBLE_DEVICES=1 $PY code/temporal_readout_train.py --cache olmo_temporal_p4 --fold $fold --readout $ro --seed $s --out artifacts/temporal_t0 > logs/t0_${fold}_${ro}_s${s}.log 2>&1
+    rc=$?; log "t0 $fold $ro s$s rc=$rc"
+    if [[ $rc -ne 0 ]]; then touch logs/temporal_T0_FAILED.txt; exit "$rc"; fi
   done; done; done; log "T0 DONE"; touch logs/temporal_T0_DONE.txt
 fi
 # stage 3: Italy
