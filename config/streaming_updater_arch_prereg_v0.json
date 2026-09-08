@@ -1,6 +1,23 @@
-{"schema":"earthcache-streaming-updater-arch-v0","date":"2026-09-08","status":"REGISTERED_BEFORE_ANY_ARCH_ARM_RUN",
- "question":"Does the streaming updater need anything the per-pixel GRU lacks? Two concrete gaps: spatial context (GRU is 1x1) and the irregular acquisition gap dt.",
- "arms":{"gru":"baseline (MS-116), 3.54M","gru_dt":"GRU + learned embedding of real days between the last acquisition of the previous state and the last new acquisition (from the sealed contract dates)","gru_sp":"GRU gates see a 3x3 depthwise neighbourhood","xattn":"memory write by local 3x3 cross-attention from memory tokens to new-observation tokens, gated residual (~3.6M)"},
- "budget":"parameters within 3.5M +- 15%; report params and step time","data":"Sen12 4 dev folds (hiroshima, thrissur, chimanimani, newzealand), same manifests/decoders as MS-116; 3 updater seeds",
- "rule":{"pass":"an arm beats gru by >= 5 points of recovery (seed mean) in >= 3 of 4 folds","fail":"none does -> 'per-pixel recurrent update is sufficient on Sen12'; no architecture claim","then":"only a passing arm is carried to KuroSiwo"},
- "not_claimed":["novel architecture per se","results on any unseen region"]}
+{
+ "schema": "earthcache-streaming-updater-arch-v0",
+ "date": "2026-09-08",
+ "status": "REGISTERED_BEFORE_ANY_ARCH_ARM_RUN",
+ "question": "Does the streaming updater need anything the per-pixel GRU lacks? Two concrete gaps: spatial context (GRU is 1x1) and the irregular acquisition gap dt.",
+ "arms": {
+  "gru": "baseline (MS-116), 3.54M",
+  "gru_dt": "GRU + learned embedding of real days between the last acquisition of the previous state and the last new acquisition (from the sealed contract dates)",
+  "gru_sp": "GRU gates see a 3x3 depthwise neighbourhood",
+  "xattn": "memory write by local 3x3 cross-attention (q,k dim 512) from memory tokens to new-observation tokens, gated residual (3.15M)"
+ },
+ "budget": "parameters within 3.5M +- 15%; report params and step time",
+ "data": "Sen12 4 dev folds (hiroshima, thrissur, chimanimani, newzealand), same manifests/decoders as MS-116; 3 updater seeds",
+ "rule": {
+  "pass": "an arm beats gru by >= 5 points of recovery (seed mean) in >= 3 of 4 folds",
+  "fail": "none does -> 'per-pixel recurrent update is sufficient on Sen12'; no architecture claim",
+  "then": "only a passing arm is carried to KuroSiwo"
+ },
+ "not_claimed": [
+  "novel architecture per se",
+  "results on any unseen region"
+ ]
+}

@@ -54,7 +54,7 @@ class GRUsp(nn.Module):
         x=s.dw(torch.cat([m,u],1)); z,r=torch.sigmoid(s.zr(x)).chunk(2,1); n=torch.tanh(s.h(torch.cat([r*m,u],1))); return (1-z)*m+z*n
 class XAttn(nn.Module):
     """Memory write by local cross-attention: each memory token attends to the new-observation tokens in its 3x3 neighbourhood (unfolded), then gated residual. ~3.6M params."""
-    def __init__(s,c=768,d=256): super().__init__(); s.q=nn.Conv2d(c,d,1); s.k=nn.Conv2d(c,d,1); s.v=nn.Conv2d(c,c,1); s.g=nn.Conv2d(2*c,c,1); s.o=nn.Conv2d(c,c,1); s.d=d
+    def __init__(s,c=768,d=512): super().__init__(); s.q=nn.Conv2d(c,d,1); s.k=nn.Conv2d(c,d,1); s.v=nn.Conv2d(c,c,1); s.g=nn.Conv2d(2*c,c,1); s.o=nn.Conv2d(c,c,1); s.d=d
     def forward(s,m,u):
         B,C,H,W=m.shape; q=s.q(m).flatten(2).transpose(1,2)                                   # (B,HW,d)
         k=F.unfold(s.k(u),3,padding=1).view(B,s.d,9,H*W).permute(0,3,2,1)                       # (B,HW,9,d)
