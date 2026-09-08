@@ -12,6 +12,11 @@ OUT=ROOT/a.out; OUT.mkdir(parents=True,exist_ok=True); torch.manual_seed(a.seed)
 META=[json.loads(l) for l in (C/"meta.jsonl").read_text().splitlines() if l]; ids={"train":[],"val":[],"test":[]}
 for m in META: ids[{"validation":"val"}.get(m["split"],m["split"])].append(m["id"])
 for k in ids: ids[k]=sorted(set(ids[k]))
+def _finite(s): return all(np.isfinite(np.load(C/f"{k}_fp16"/f"{s}.npy").astype("float32")).all() for k in ("stale2","single","teacher3"))
+_drop={k:[s for s in v if not _finite(s)] for k,v in ids.items()}
+if any(_drop.values()):
+    print("DROPPING non-finite cache tiles:",{k:len(v) for k,v in _drop.items()},flush=True); (OUT/"dropped_nonfinite.json").write_text(json.dumps(_drop))
+    ids={k:[s for s in v if s not in set(_drop[k])] for k,v in ids.items()}
 act={m["id"]:m["actid"] for m in META}
 def L(kind,s): return np.load(C/f"{kind}_fp16"/f"{s}.npy").astype("float32")
 def labels(split):
@@ -58,24 +63,32 @@ if a.stage=="decoder":
     torch.save({"model_state":best[1],"mu":mu,"sd":sd,"val_ap":best[0],"epoch":best[2],"pos_weight":pw},OUT/f"decoder_seed{a.seed}.pt"); print("DONE decoder",best[0])
 elif a.stage=="update":
     def S(split): return (torch.from_numpy(np.stack([L("stale2",s) for s in ids[split]])),torch.from_numpy(np.stack([L("single",s)[2] for s in ids[split]])),torch.from_numpy(np.stack([L("teacher3",s) for s in ids[split]])))
-    Mtr,Utr,Ttr=S("train"); Mva,Uva,Tva=S("val"); sc=Ttr.std().item(); model=MODULES[a.module]().to(dev)
-    opt=torch.optim.AdamW(model.parameters(),lr=1e-3 if a.module!="ema" else 1e-1,weight_decay=1e-4); sched=torch.optim.lr_scheduler.CosineAnnealingLR(opt,T_max=a.epochs); g=torch.Generator().manual_seed(a.seed); best=(1e9,None,0)
-    def step(M,U,idx):
+    Mtr,Utr,Ttr=S("train"); Mva,Uva,Tva=S("val"); sc=float(Ttr[::40].float().std()); model=MODULES[a.module]().to(dev)
+    print("finite check",bool(torch.isfinite(Mtr).all()),bool(torch.isfinite(Utr).all()),bool(torch.isfinite(Ttr).all()),"sc",sc,flush=True)
+    opt=torch.optim.AdamW(model.parameters(),lr=5e-4 if a.module!="ema" else 1e-1,weight_decay=1e-4); sched=torch.optim.lr_scheduler.CosineAnnealingLR(opt,T_max=a.epochs); g=torch.Generator().manual_seed(a.seed); best=(1e9,None,0)
+    def step(M,U,idx):   # fp32 on purpose: the bf16 path produced non-finite gradients on this cache (2026-09-08)
         u=U[idx].to(dev); u=torch.zeros_like(u) if a.module=="gru_noobs" else u
-        with torch.autocast("cuda",dtype=torch.bfloat16): return model(M[idx].to(dev),u).float()
+        return model(M[idx].to(dev),u).float()
     def vloss():
         model.eval(); tot=0.0
         with torch.no_grad():
             for i in range(0,len(Mva),16): idx=torch.arange(i,min(i+16,len(Mva))); tot+=float(F.mse_loss(step(Mva,Uva,idx),Tva[idx].to(dev))/sc**2)*len(idx)
         return tot/len(Mva)
+    skipped=0
     for ep in range(1,a.epochs+1):
         model.train(); perm=torch.randperm(len(Mtr),generator=g)
         for i in range(0,len(perm),16):
-            idx=perm[i:i+16]; l=F.mse_loss(step(Mtr,Utr,idx),Ttr[idx].to(dev))/sc**2; opt.zero_grad(set_to_none=True); l.backward(); opt.step()
+            idx=perm[i:i+16]; l=F.mse_loss(step(Mtr,Utr,idx),Ttr[idx].to(dev))/sc**2
+            if not torch.isfinite(l): skipped+=1; continue
+            opt.zero_grad(set_to_none=True); l.backward(); gn=torch.nn.utils.clip_grad_norm_(model.parameters(),1.0)
+            if not torch.isfinite(gn): skipped+=1; opt.zero_grad(set_to_none=True); continue
+            opt.step()
+            if i==0 and ep==1: print("first batch loss",float(l),"grad norm",float(gn),flush=True)
         sched.step(); v=vloss()
-        if v<best[0]: best=(v,{k:t.detach().cpu().clone() for k,t in model.state_dict().items()},ep)
+        if np.isfinite(v) and v<best[0]: best=(v,{k:t.detach().cpu().clone() for k,t in model.state_dict().items()},ep)
         print(f"epoch {ep} val {v:.4f} best {best[0]:.4f}@{best[2]}",flush=True)
-    torch.save({"model_state":best[1],"module":a.module,"val":best[0]},OUT/f"updater_{a.module}_seed{a.seed}.pt"); print("DONE update",best[0])
+    assert best[1] is not None, "no finite validation epoch"
+    torch.save({"model_state":best[1],"module":a.module,"val":best[0],"skipped_batches":skipped,"lr":5e-4,"grad_clip":1.0},OUT/f"updater_{a.module}_seed{a.seed}.pt"); print("DONE update",best[0],"skipped",skipped)
 else:
     ck=torch.load(OUT/f"decoder_seed{a.dec_seed}.pt",map_location="cpu"); dec=EmbDecoder(768).to(dev); dec.load_state_dict(ck["model_state"]); dec.eval(); mu,sd=ck["mu"],ck["sd"]
     T=torch.from_numpy(np.stack([L("teacher3",s) for s in ids["test"]])); M=torch.from_numpy(np.stack([L("stale2",s) for s in ids["test"]])); Sg=torch.from_numpy(np.stack([L("single",s) for s in ids["test"]])); Y,I,NW=labels("test"); acts=np.array([act[s] for s in ids["test"]])

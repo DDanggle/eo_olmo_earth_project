@@ -1,0 +1,7 @@
+{"schema":"earthcache-cross-sensor-update-v0","date":"2026-09-08","status":"REGISTERED_BEFORE_ANY_S1_SINGLE_EXTRACTION_OR_RUN",
+ "question":"Can a cache built from Sentinel-2 be kept alive with new Sentinel-1 (radar) acquisitions instead of new S2 images? Only a multi-modal FM (OlmoEarth encodes sentinel1 into the same token space) can attempt this; single-sensor FMs cannot.",
+ "setup":"Sen12 T1 dev folds (hiroshima, thrissur, chimanimani, newzealand). State = S2 window [0:4] (teacher e4). Teacher = S2 window [0:12] (unchanged, so results are comparable to MS-116). New observations per step = single-acquisition OlmoEarth embeddings of the S1-ascending images nearest in date to the two new S2 dates (gap days recorded).",
+ "arms":{"gru_s2":"MS-116 baseline (S2 singles)","gru_s1":"S1 singles only (cross-sensor)","gru_both":"mean of S2 and S1 singles","controls":"gru_noobs/EMA/calib from MS-116 apply unchanged"},
+ "metrics":"identical to MS-116 (frozen decoder AP recovery, decoder seed 1; agreement)",
+ "rule":{"cross_sensor_works":"gru_s1 recovery >= 70% in >= 3 of 4 folds (S2 baseline is 77-95%)","complementary":"gru_both > gru_s2 by >= 2 points in >= 3 of 4 folds","fail":"gru_s1 < 40% everywhere: radar singles do not carry the optical state forward on this task"},
+ "not_claimed":["S1-derived teacher","results beyond Sen12 dev folds","timestamps: S1 dates are real acquisition dates, gaps to S2 dates reported"]}

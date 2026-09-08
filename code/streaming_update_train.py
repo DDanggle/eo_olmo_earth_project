@@ -15,15 +15,19 @@ from pathlib import Path
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 if os.environ.get("CUDA_VISIBLE_DEVICES") not in ("0","1"): raise SystemExit("CUDA_VISIBLE_DEVICES must be 0 or 1 (GPU0 allowed by the user on 2026-09-07 evening)")
 ROOT=Path("/home/work/data/olmoearth"); sys.path.insert(0,str(ROOT/"code"))
-ap=argparse.ArgumentParser(); ap.add_argument("--data",default="olmo_streaming_dev"); ap.add_argument("--fold",required=True); ap.add_argument("--module",required=True,choices=["ema","gru","residual","gru_noobs","calib","gru_dt","gru_sp","xattn"],help="gru_noobs: same GRU, new-observation input zeroed (control: does the gain need the observations?); calib: 1x1 MLP m4->e12 with no observations and no recurrence (control: distribution calibration only)"); ap.add_argument("--aux-decoder-loss",type=float,default=0.0,help="weight of frozen-decoder logit-MSE(student vs teacher) added at every step (readout-preserving objective)"); ap.add_argument("--tag",default=""); ap.add_argument("--seed",type=int,default=1)
+ap=argparse.ArgumentParser(); ap.add_argument("--data",default="olmo_streaming_dev"); ap.add_argument("--fold",required=True); ap.add_argument("--module",required=True,choices=["ema","gru","residual","gru_noobs","calib","gru_dt","gru_sp","xattn"],help="gru_noobs: same GRU, new-observation input zeroed (control: does the gain need the observations?); calib: 1x1 MLP m4->e12 with no observations and no recurrence (control: distribution calibration only)"); ap.add_argument("--aux-decoder-loss",type=float,default=0.0,help="weight of frozen-decoder logit-MSE(student vs teacher) added at every step (readout-preserving objective)"); ap.add_argument("--tag",default=""); ap.add_argument("--obs-source",default="s2",choices=["s2","s1","both"],help="which new-observation singles feed the updater: S2 (default), S1 ascending (cross-sensor), or the mean of both"); ap.add_argument("--seed",type=int,default=1)
 ap.add_argument("--epochs",type=int,default=30); ap.add_argument("--decoder-dir",default="resolution_contract_v2/p4_native_control"); ap.add_argument("--sealed-cache",default="sen12_pilot/holdout_chimanimani"); ap.add_argument("--out",required=True); a=ap.parse_args()
 D=ROOT/a.data; OUT=ROOT/a.out; OUT.mkdir(parents=True,exist_ok=True); dev=torch.device("cuda"); torch.manual_seed(a.seed); np.random.seed(a.seed)
 man=json.loads((ROOT/"sen12_gp_contract/t1_manifest.json").read_text())[a.fold]; CUT=(4,6,8,10,12)
 def ok(sid): return (D/"teacher_fp16"/f"{sid}.npy").exists() and (D/"single_fp16"/f"{sid}.npy").exists()
 ids={k:[s for s in v if ok(s)] for k,v in man.items()}; print({k:len(v) for k,v in ids.items()},flush=True)
+def ok(sid): return (D/"teacher_fp16"/f"{sid}.npy").exists() and (D/"single_fp16"/f"{sid}.npy").exists() and (a.obs_source=="s2" or (D/"single_s1_fp16"/f"{sid}.npy").exists())
+ids={k:[s for s in v if ok(s)] for k,v in man.items()}; print("after obs-source filter",{k:len(v) for k,v in ids.items()},flush=True)
 def load(split):
     T=torch.from_numpy(np.stack([np.load(D/"teacher_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))   # (N,5,768,32,32)
-    S=torch.from_numpy(np.stack([np.load(D/"single_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))    # (N,12,768,32,32)
+    if a.obs_source=="s2": S=torch.from_numpy(np.stack([np.load(D/"single_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))
+    elif a.obs_source=="s1": S=torch.from_numpy(np.stack([np.load(D/"single_s1_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))
+    else: S=0.5*(torch.from_numpy(np.stack([np.load(D/"single_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))+torch.from_numpy(np.stack([np.load(D/"single_s1_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32")))
     U=torch.stack([S[:,c-2:c].mean(1) for c in CUT[1:]],1)                                                          # (N,4,768,32,32) new evidence per step
     Y=torch.from_numpy(np.stack([np.load(D/"mask_u8"/f"{s}.npy") for s in ids[split]]).astype("float32"))
     return T,U,S,Y
@@ -119,6 +123,6 @@ rep={"schema":"streaming-update-train-v0","fold":a.fold,"module":a.module,"seed"
      "agreement_c12":{"student":agree(student),"frozen_m4":agree(frozen),"singles_mean":agree(singles_mean)},
      "downstream_c12":{"teacher_full_reencode":downstream(teacher),"student":downstream(student),"frozen_m4":downstream(frozen),"singles_mean":downstream(singles_mean)},
      "cost_timestep_units":{"full_reencode_per_step_total":36,"streaming_total":12,"initial_encode":4}}
-name=f"{a.fold}_{a.module}{a.tag}_seed{a.seed}"; rep["aux_decoder_loss"]=a.aux_decoder_loss
+name=f"{a.fold}_{a.module}{a.tag}_seed{a.seed}"; rep["aux_decoder_loss"]=a.aux_decoder_loss; rep["obs_source"]=a.obs_source
 (OUT/f"{name}.json").write_text(json.dumps(rep,indent=1)); torch.save({"model_state":best["state"],"module":a.module,"aux":a.aux_decoder_loss},OUT/f"{name}_best.pt")
 with torch.no_grad(): np.save(OUT/f"{name}_student_c12_probs.npy",torch.cat([torch.sigmoid(dec_logits(student[i:i+32].to(dev))).cpu() for i in range(0,len(student),32)]).squeeze(1).half().numpy()); print("TEST",json.dumps({k:rep[k] for k in ("agreement_c12","downstream_c12")})); print("DONE")
