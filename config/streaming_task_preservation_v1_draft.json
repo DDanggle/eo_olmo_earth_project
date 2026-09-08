@@ -1,0 +1,48 @@
+{
+  "schema": "streaming-task-preservation-design-v1",
+  "status": "DRAFT_NOT_REGISTERED_NOT_LAUNCHED",
+  "date": "2026-09-07",
+  "relation_to_v0": "Separate development intervention. Do not replace v0 reports, criteria, snapshots or outcomes. Existing T0-to-T1 launch dependency requires a dated decision before any resume.",
+  "objective": "Preserve frozen source-trained task outputs while updating EO state with less measured recomputation. No claim that generic gating or knowledge distillation is novel.",
+  "preconditions": [
+    "Existing extraction proof passes, zero error accepted, sampled comparison provenance present",
+    "Exact manifest IDs required; missing files must not silently shrink any split",
+    "Characterize teacher-vs-stale downstream gap before using a relative recovery metric; nonpositive or tiny gaps make recovery ratios undefined",
+    "Retrospective globally-clear-selected 12-frame data remain offline-prefix development only",
+    "Online evaluation must rebuild prefixes from acquisition and availability cutoffs, not select best-clear frames using future quality",
+    "State/single feature coordinate alignment and normalization fitted only on source data",
+    "Observed elapsed time, validity and quality available; do not invent quality or label dates",
+    "No change to Korea label seal or active training paths"
+  ],
+  "stage_1_loss_diagnostic": {
+    "purpose": "Change the objective while holding the input/module/training budget fixed",
+    "models": ["existing residual v0", "compact identity-initialized residual"],
+    "losses": ["source-normalized feature MSE", "same feature MSE plus frozen-readout binary KL"],
+    "development_folds": ["holdout_chimanimani", "holdout_hiroshima"],
+    "seeds": [1, 2, 3],
+    "full_factorial_runs": 24,
+    "note": "Code prototype is a component, not an integrated runner. Any chosen source LR/weights/schedule must be frozen before this new screen. Start with one source-train/val smoke; no target result used for selection."
+  },
+  "baselines": [
+    "Frozen m4, full-window teacher and mean/scheduled EMA of singles on identical prefixes",
+    "Linear mapping on stacked state/new observation, source fitted",
+    "GRU with output projection or normalized state, matched measured capacity and budget",
+    "T0 independent mean head, and nested zero-initialized residual readout when evaluating added information"
+  ],
+  "evaluation": {
+    "primary": "Downstream AP with checkpoints selected by source-validation AP; this is a new recipe, not a retrospective correction to original IoU-selected T0",
+    "secondary": ["FP at fixed source-calibrated recall", "macro IoU with deployable source threshold", "teacher logit KL", "per-cutoff feature drift"],
+    "unit": "paired seed within exposed development region; public held-out events later, no pixel-as-independent inference",
+    "cost": "Actual encoding/update/decode wall time and memory; report both multi-update and final-only workloads; 40 vs 12 timestep units is bookkeeping, not GPU speedup",
+    "preservation_margin_ap": null,
+    "minimum_measured_speedup": null,
+    "reason_null": "Not an executable preregistration. Practical margins and resource cap must be fixed explicitly before new screen metrics."
+  },
+  "claim_limits": [
+    "Identity initialization guarantees initial output only, not accuracy after training",
+    "Holding invalid observations preserves the state, not correctness of stale state",
+    "Task KL uses known source readouts; unseen-task transfer requires independent testing",
+    "A failed model/loss combination is not an information-theoretic ceiling",
+    "KuroSiwo post-event labels alone cannot measure exact event onset or latency between unobserved acquisitions"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "t1-evidence-and-fidelity-review-v1",
+  "status": "DRAFT_NOT_REGISTERED_NOT_LAUNCHED",
+  "created_after_observing": "2026-09-07 T1 development partial results; Hiroshima GRU seeds 1/2 and both residual 3-seed groups",
+  "relationship": "Does not amend original streaming_cache_update_prereg_v0.json or overwrite previous untrained compact-module proposal",
+  "objective": "Determine whether incremental observations contribute beyond prefix-to-final contract correction, then preserve downstream utility under measured update cost",
+  "constraints": [
+    "No active runner or trainer edits; no new GPU work in this review",
+    "Sen12 exposed folds remain development; no relabeling them confirmatory",
+    "Korea sealed labels remain closed pending its existing independent gates",
+    "New launch requires pre-run executed snapshot, unique output, saved student checkpoints and normalization, exact split IDs, completed reports, and actual cost protocol"
+  ],
+  "stage_0": {
+    "action": "Finish original missing EMA/GRU seeds without changing original scoring or dropping poor seeds",
+    "report": "18 planned cells, separate per-fold/per-seed AP, absolute teacher gap, gap recovery, feature agreement, and paired spatial uncertainty when predictions are available",
+    "caveat": "Original v0 writes only aggregates, not updater checkpoints or per-tile scores; uncertainty and perturbation replay cannot be recovered from those JSON files"
+  },
+  "stage_1_observation_value": {
+    "primary_baseline": "Source-trained GRU with chronological new observations, original frozen c12 decoder",
+    "controls": [
+      "Source-only affine or small adapter from m4 to teacher e12, no new observations",
+      "Same-dimensional GRU trained from scratch with no new-observation input but identical step count/source examples",
+      "Prefix c4-native decoder trained only on source, as a diagnostic of c12-decoder compatibility versus information availability",
+      "Time-shuffled and cross-tile new inputs as secondary perturbations; OOD failure alone is not evidence of causal reliance"
+    ],
+    "decision": "If a no-new-input control matches the observed updater, narrow claim to representation-contract correction; if real observations improve it, proceed to event/quality-aware update",
+    "warning": "Do not compare cross-tile OOD corruption with clean inputs and call the entire gap useful temporal evidence"
+  },
+  "stage_2_task_fidelity": {
+    "first_comparison": "Same successful GRU: normalized feature MSE versus feature MSE plus frozen source-task readout KL",
+    "scope": "Keep architecture, parameter count, source data, observation order, learning-rate search budget and schedule matched",
+    "checkpoint": "Retain v0 validation-MSE convention for objective isolation; source-validation AP selection is a separately reported recipe sensitivity",
+    "later_only": "Compact identity-initialized candidate is a parameter-cost ablation, not automatically ours or a replacement for the GRU",
+    "known_vs_unseen_task": "Heads used in KL are known source tasks; reserve an unseen task/readout to test shared-cache generalization"
+  },
+  "stage_3_operational_and_transfer": {
+    "inputs": "Past-available acquisitions at each cutoff, not prefix of a future-ranked clearest-12 list",
+    "cutoffs": "Report every update; terminal Sen12 labels do not establish event onset or detection delay",
+    "measurements": ["New-image encoding time", "Updater inference time", "Decode time", "Raw I/O", "Peak memory", "Cache bytes", "Source training/teacher generation cost separately"],
+    "workloads": ["Repeated current-map requests including initial encode", "Updates after a shared initial encode", "Final-only endpoint"],
+    "boundaries": "Only measure exclusive same-device inference; concurrent training wall times are not latency benchmarks",
+    "external": "Task-defined dated event data after development protocol freeze; Korea 3-task for shared utility after its own gates"
+  },
+  "thresholds_to_freeze_before_any_new_launch": {
+    "minimum_observation_value_ap": null,
+    "maximum_teacher_gap_ap": null,
+    "minimum_measured_speedup": null,
+    "maximum_harm_or_false_alarm_change": null
+  },
+  "novelty_boundary": "GRU, feature propagation, KL distillation, and cache reuse are prior concepts. Candidate contribution is task-preserving update of materialized EO representations under irregular partially observed streams, supported by comparative accuracy-cost results and external transfer. No novelty or efficacy claim yet."
+}
