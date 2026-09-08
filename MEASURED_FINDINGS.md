@@ -5082,3 +5082,70 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 | C. 최종 지도 1장(12창 1회) | 0.066 s | **0.043 s** | 3.9 MB |
 - GRU 4단계 = 0.004 s(무시 가능). 첫 측정(반복 호출)에서는 단일 시점 호출 오버헤드가 지배해 스트리밍이 1.5배 **느렸음** → "비용 1/3" FLOPs 셈은 실측 근거가 아니었고, 배치 구현이 있어야만 이득. 공정 배치에서 A/B = 2.3배, 읽기 4.5배. 스트리밍은 "최종 1장"의 1.7배 비용으로 중간 지도 4장을 더 냄(재인코딩은 4.0배).
 - 미측정: 다중 타일 배치, 저장 I/O, CPU 전처리. 갱신 횟수가 늘수록 B/A 비는 단일 시점 수/창 길이 비로 수렴(여기서는 8/36).
+
+## MS-116-SCOPE-AUDIT (2026-09-08 오전) — 위 비용 수치와 과학 해석의 적용 범위 보정
+
+- 근거: 로컬 HEAD `1edbacc`의 `code/t1_cost_measure.py` 직접 검토. 이번 감사에서 GPU 시간을
+  새로 측정하거나 4지역의 원시 예측을 독립 재계산하지 않았다. 기존 결과 수치는 보존한다.
+- **2.3배는 온라인 도착 스케줄을 맞춘 speedup이 아니다.** A는 cutoff 6/8/10/12를 별도 창으로
+  처리하고, B는 `singles_batched(cube, ts, 4, 12)`로 새 8시점×4크롭을 한 번에 처리한다.
+  B의 중간 cutoff 서비스 시각에는 나머지 관측이 아직 없으므로 이 batching 이득을 그대로
+  온라인 응답 지연으로 쓸 수 없다. 일괄 backfill/batch-compute 측정으로 한정한다.
+- 이는 single-date 인코딩의 예측 입력에 미래 정보가 섞였다는 판정이 아니다. 수치 동일성과
+  온라인 도착 가용성은 다른 문제다. 다음 별도 계측에서 cutoff별 새 2장만 주고, 양 arm 모두
+  그때 가용한 타일들의 batching을 허용하여 인코딩·갱신·판독까지 측정한다.
+- **4.5배는 논리 입력량이지 실측 raw 읽기가 아니다.** `np.load`는 타이머 밖에서 전체 배열을
+  한 번 읽고, 표의 byte는 `raw.nbytes/T × 시점 수`로 계산한다. 초기 cache가 이미 있을 때
+  update-only 36/8=4.5, 초기 포함 40/12=3.33이다. 파일/네트워크 I/O 절약은 별도 미측정.
+- `gpu_procs_at_start` 값은 `torch.cuda.device_count()`라 실제 GPU 프로세스 목록이 아니다.
+  그 필드만으로 외부 부하 부재를 검증했다고 하지 않는다. 기존 로그의 별도 증거가 필요하다.
+- 성능 해석도 한정: 판독기 3seed는 같은 과업이지 3task가 아니다. Hiroshima seed2 회복률 .86,
+  Chimanimani .64–.77이므로 전 조합 90% 보존 아님. New Zealand의 >100%는 teacher가 상한이
+  아니라는 뜻이며 AP .466 대 .433을 병기한다. 현재 headline task score는 c12 최종 상태다.
+- noobs/calib/EMA 결과는 시험한 비교 안에서 새 관측을 활용하는 GRU의 가치를 지지한다.
+  모든 관측 없는 방법/비학습 방법의 불가능성, 시간 readout의 원리적 무효, T0b 이외 모든
+  시간 채널의 무가치를 증명하지 않는다. 이전 문장의 “필요/오직/원리상”은 이 범위로 제한한다.
+- 큰 그림/다음 검증: `docs/BIG_PICTURE_STREAMING_EARTH_2026_09_08.md`. 새 gate·성능 결과 아님.
+
+## MS-116/KURO-PROGRESS-AUDIT-20260908PM — 기존 utility 재집계, Δt 소폭 개선, Kuro 검증 입력 오염 발견
+
+- 범위: 로컬 `ac36ed5`와 서버 15:25–15:40 KST 조회. 15:30 보존본에서 기본36·구조22 JSON을
+  재집계했다. 15:40 로그는 구조24/36 종료를 기록하지만 추가2개 점수는 이 보존 집계에 포함하지
+  않았다. 부분 보고/지역을 완료·확증으로 세지 않는다. 원시 예측 재채점이나 공간 CI는 이번에 하지 않았다.
+- 기본 GRU AP(3updater seed, decoder seed1): Hiroshima .525479 / Thrissur .557155 /
+  Chimanimani .224264 / New Zealand .465889. 기존 MS-116과 일치; 4지역 모두 development.
+- Δt-GRU AP: .537717/.569375/.232782(앞의3지역). GRU 대비 +.012239/+.012221/+.008518,
+  회복률 +2.28/+2.04/+3.05%p. 작은 양의 지역 평균 신호이나 +5%p/3-of-4 등록 gate 아님.
+  Spatial·xattn도 완료 Hiroshima/Thrissur에서 미달이므로 세 후보 모두 남은 지역만으로 승격
+  조건에 도달 불가. gate를 낮추지 않고 runner도 이번 감사자가 중단하지 않았다.
+- KuroSiwo meta: 7,000 unique IDs, train/val/test 4,000/1,000/2,000 및 actid27/6/10.
+  세 split 모든 쌍에서 ID·actid 교집합0. 서로 다른 actid의 geometry overlap은 이번 미감사.
+- **KuroSiwo GRU seed1 실행 무효:** 30epoch 전부 val NaN, best epoch0인데 DONE/rc0.
+  조회 때 유효 updater checkpoint·최종 eval·DONE marker 없음. chain/proc도 조회되지 않았다.
+  중단 원인은 별도 미확인. 이것을 S1 streaming 방법의 음성 결과로 발표하면 안 된다.
+- **CPU 전수 진단:** train4,000 및 validation1,000의 teacher/stale/post feature 입력을 검사.
+  train은 모두 finite. 전체 train teacher std .4885376692, float64 chunk std .4885376708로
+  일치하여 scale 자체 NaN 가설은 배제. GPU/모델 학습/테스트 라벨을 사용하지 않았다.
+- **직접 원인 경로:** validation `ks_04357`에서만 세 종류 cache에 nonfinite. export 원시 값
+  nonfinite1,338(시점별NaN444/446/448) → clip/log가 NaN을 보존 → teacher/stale 각각
+  589,824값·768공간토큰 오염. 유효 label 포함327토큰, crop 유효20,687/36,864픽셀.
+  validation MSE는 이를 무조건 포함하므로 val NaN의 충분한 경로다. 원본 tortilla에서 이미
+  발생했는지 export에서 생겼는지는 미검증. 학습 gradient의 최초 NaN 여부도 보존되지 않았다.
+- decoder validation AP .66209/.66410/.68755는 출력됐지만 exact_ap에 finite score guard가
+  없어 유효 숫자 출력만으로 clean evaluation을 보장하지 않는다. 입력 복구 후 검증/epoch 선택
+  재확인 필요. 3checkpoint는 버리지 않고 보존하되 외부 test 성능으로 인용하지 않는다.
+- 구현 위험: NaN/best_state None 성공 처리, chain의 rc무시, 누락 updater 조용한 생략,
+  회복률 분모의 epsilon 강제, FAR분모 invalid 미제외, 추출기 resume metadata 누락 가능성.
+  상세 code line과 복구 순서는 최신 큰 그림 §8. active production code/등록/queue는 변경하지 않았다.
+- 근거·재현: `artifacts/streaming_review_20260908_1530/{summary,numeric_input_scan,invalid_validation_tile}.json`,
+  `code/audit_streaming_progress.py`, `code/probe_kurosiwo_numeric.py`. 집계 regression7개 통과.
+
+## MS-116-arch (2026-09-08) — 갱신기 아키텍처 비교(등록 `streaming_updater_arch_prereg_v0.json`): Δt 조건 GRU가 4폴드 모두 기준 GRU를 이기지만 +2~3%p로 등록 기준(+5%p, 3/4폴드) **미달**; 공간 게이트·어텐션은 전 폴드에서 더 나쁨
+| 폴드 | GRU(기준) | **GRU+Δt** | GRU 3×3 게이트 | 로컬 크로스어텐션 |
+|---|---|---|---|---|
+| hiroshima | 95.5% | **97.8%** | 88.5% | 71.2% |
+| thrissur | 90.7% | **92.8%** | 87.9% | 67.7% |
+| chimanimani | 77.1% | **80.2%** | 63.3% | 35.2% |
+| newzealand | 123% | **126%** | 121% | 109% |
+- 파라미터 3.54M / 3.58M / 3.56M / 3.15M(예산 ±15% 안). 갱신기 시드 3 평균, 판독기 시드 1. 회복률 정의는 MS-116과 동일.
+- 판정: 아키텍처 주장 없음("픽셀 단위 순환 갱신으로 충분"). Δt(실제 취득 간격) 조건은 4/4 폴드 일관 +2.1~3.1%p → 작지만 방향이 일관된 이득으로 기록하며, 불규칙 관측 대응이라는 문제 성격과 맞아 KuroSiwo 이후 외부 과업에서 GRU와 함께 실어 재확인함. 공간 문맥을 넣는 두 팔은 모두 손해 → 갱신은 토큰별 국소 연산으로 충분하고 무거운 구조가 필요 없음(비용 이점의 근거).
