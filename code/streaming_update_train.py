@@ -87,7 +87,8 @@ class Residual(nn.Module):
     def forward(s,m,u): d=u-s.P(m); x=torch.cat([m,u,d],1); return m+torch.sigmoid(s.g(x))*s.f(x)
 model={"ema":EMA,"gru":GRU,"residual":Residual,"gru_noobs":GRUNoObs,"calib":Calib,"gru_dt":GRUdt,"gru_sp":GRUsp,"xattn":XAttn}[a.module]().to(dev); npar=sum(p.numel() for p in model.parameters())
 from cache_decoder_train_lib import EmbDecoder, emb_stats_from_cache, metrics
-ck=torch.load(ROOT/a.decoder_dir/f"{a.fold}_seed1_best.pt",map_location="cpu"); dec=EmbDecoder(ck["cin"]).to(dev); dec.load_state_dict(ck["model_state"]); dec.eval()
+_dp=ROOT/a.decoder_dir/f"{a.fold}_seed1_best.pt"; _dp=_dp if _dp.exists() else ROOT/"artifacts/control_seeds"/f"{a.fold}_seed1_best.pt"   # chimanimani control moved out of the sealed dir on 2026-09-09
+ck=torch.load(_dp,map_location="cpu"); dec=EmbDecoder(ck["cin"]).to(dev); dec.load_state_dict(ck["model_state"]); dec.eval()
 for p_ in dec.parameters(): p_.requires_grad_(False)
 mu,sd=emb_stats_from_cache(ROOT/a.sealed_cache, a.fold); mu_d,sd_d=mu.to(dev),sd.to(dev)
 def dec_logits(X):
