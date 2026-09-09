@@ -16,7 +16,7 @@ for z in zips:
 tifs={Path(p).stem:p for p in glob.glob(str(OUT/"tif")+"/**/*.tif",recursive=True)}; print("label tifs",len(tifs))
 chips=[json.loads(l) for l in (R/"korea_chip_manifest.jsonl").read_text().splitlines() if l.strip()]
 codes=collections.Counter(); per_split=collections.defaultdict(collections.Counter); avail=collections.Counter(); missing=collections.Counter(); shapes=collections.Counter()
-by_key={}
+by_key={}; unreadable=[]
 for c in chips:
     for k in c["keys"]:
         if k not in by_key: by_key[k]=[]
@@ -24,12 +24,15 @@ for c in chips:
 for k,cs in sorted(by_key.items()):
     p=tifs.get(k)
     if p is None: missing[cs[0]["split"]]+=len(cs); continue
-    with rasterio.open(p) as src: lab=src.read(1); shapes[(lab.shape,str(lab.dtype))]+=1
+    try:
+        with rasterio.open(p) as src: lab=src.read(1); shapes[(lab.shape,str(lab.dtype))]+=1
+    except Exception as ex:   # 3 label tifs in the AI-Hub zip are 8-byte stubs (not valid TIFF) -> recorded, chips treated as unlabeled for that date
+        unreadable.append({"key":k,"bytes":os.path.getsize(p),"err":str(ex)[:120]}); missing[cs[0]["split"]]+=len(cs); continue
     u,n=np.unique(lab,return_counts=True); codes.update(dict(zip(u.tolist(),n.tolist())))
     for c in cs:
         m=lab[c["y0"]:c["y0"]+128,c["x0"]:c["x0"]+128].astype(np.uint8 if lab.max()<256 else np.uint16)
         np.save(OUT/"mask_u8"/f"{c['chip_id']}__{k.split('_')[1]}.npy",m); avail[c["split"]]+=1
         uu,nn=np.unique(m,return_counts=True); per_split[c["split"]].update(dict(zip(uu.tolist(),nn.tolist())))
-inv={"n_label_tifs":len(tifs),"raster_shapes":{str(k):v for k,v in shapes.items()},"codes_pixel_counts":{str(k):v for k,v in sorted(codes.items())},"per_split_codes":{s:{str(k):v for k,v in sorted(d.items())} for s,d in per_split.items()},"chip_dates_with_label":dict(avail),"chip_dates_missing_label":dict(missing),"note":"codes follow AI-Hub 71363 class table (e.g., 10 building, 20 river, 30 road, 40 paddy, 50 field, 60 forest, 70 logged, 100 non-target); landslide code to be confirmed from META"}
+inv={"n_label_tifs":len(tifs),"raster_shapes":{str(k):v for k,v in shapes.items()},"codes_pixel_counts":{str(k):v for k,v in sorted(codes.items())},"per_split_codes":{s:{str(k):v for k,v in sorted(d.items())} for s,d in per_split.items()},"chip_dates_with_label":dict(avail),"chip_dates_missing_label":dict(missing),"unreadable_label_tifs":unreadable,"note":"codes follow AI-Hub 71363 class table (e.g., 10 building, 20 river, 30 road, 40 paddy, 50 field, 60 forest, 70 logged, 100 non-target); landslide code to be confirmed from META"}
 (OUT/"label_inventory.json").write_text(json.dumps(inv,ensure_ascii=False,indent=1)); (OUT/"OPENED_AT_UTC.txt").write_text(time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()))
 print(json.dumps({k:inv[k] for k in ("n_label_tifs","raster_shapes","codes_pixel_counts","chip_dates_with_label","chip_dates_missing_label")},ensure_ascii=False)); print("LABELS OPENED",round(time.time()-t0),"s")
