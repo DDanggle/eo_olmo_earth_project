@@ -1,0 +1,86 @@
+{
+  "schema": "observation-aware-olmo-posttraining-v0",
+  "status": "DRAFT_NOT_REGISTERED_NOT_LAUNCHED",
+  "launch_allowed": false,
+  "created_at": "2026-09-09",
+  "design": "docs/POSTTRAINING_JEPA_UPDATE_2026_09_09.md",
+  "evidence_snapshot": "artifacts/streaming_review_20260909/summary.json",
+  "scope": "Preparation only; no original prereg amendment, production edit, server job or Korea label access",
+  "primary_question": "Can partial-observation post-training improve incremental OLMoEarth mapping while preserving old-cache and fixed-readout utility?",
+  "novelty_status": "HYPOTHESIS_NOT_ESTABLISHED",
+  "reference": {
+    "model": "OLMoEarth-v1-Base",
+    "model_sha256": null,
+    "normalization_sha256": null,
+    "state_contract": "Contextual window embedding using only observations available by the cutoff",
+    "observation_contract": "Single acquisition embedding; not interchangeable with contextual window state",
+    "initial_memory": "Existing E0 prefix cache, identical across arms",
+    "readout_policy": "Frozen D0 in the primary factorial; D1 joint training is separate"
+  },
+  "inference_information": {
+    "time_fields": ["acquired_at", "available_at", "state_cutoff", "sensor", "acquisition_id"],
+    "unknown_publication_time_policy": "Acquisition-order replay only; do not claim online publication latency",
+    "future_ranked_scene_selection": false,
+    "bidirectional_nearest_pairing": false,
+    "duplicate_acquisition_as_new_evidence": false,
+    "normalization_fit_split": "source_train_only",
+    "unlabeled_training_regions": "source_train_only",
+    "korea_label_access": false
+  },
+  "phase_order": ["P0_data_revision_and_memory_controls", "P1_posttraining_factorial", "P2_aligned_sensor_extension", "P3_surprise_evaluation", "external_shared_state"],
+  "memory_controls": ["STALE", "POST_ONLY_source_trained_readout", "NO_MEMORY_source_trained_capacity_matched_adapter", "GRU", "FULL_REENCODE"],
+  "factorial": {
+    "arms": [
+      {"id": "B0", "encoder_lora": false, "forecast_loss": false, "readout_preservation": false, "feature_distillation": true},
+      {"id": "F0", "encoder_lora": false, "forecast_loss": false, "readout_preservation": true, "feature_distillation": true},
+      {"id": "F1", "encoder_lora": false, "forecast_loss": true, "readout_preservation": true, "feature_distillation": true},
+      {"id": "L0", "encoder_lora": true, "forecast_loss": false, "readout_preservation": true, "feature_distillation": true},
+      {"id": "L1", "encoder_lora": true, "forecast_loss": true, "readout_preservation": true, "feature_distillation": true}
+    ],
+    "shared": ["GRU architecture", "source sample IDs", "teacher E0", "frozen readout D0", "cutoff manifest", "training and model-selection budget"],
+    "contrasts": ["F0-B0", "F1-F0", "L0-F0", "L1-L0"],
+    "lora_proposal": {"rank": 8, "last_blocks": 2, "attention_projections": ["q", "v"], "installed_module_paths": null},
+    "loss_weights": {"feature": null, "readout": null, "forecast": null, "canonical_anchor": null},
+    "forecast_input": "Previous state and pre-observation metadata; never the current observation",
+    "forecast_target": "stop_gradient(E0(single_current_acquisition))",
+    "anchor_target": "stop_gradient(E0(single_current_acquisition))",
+    "forecast_branch_at_inference": false,
+    "terminal_manual_labels_on_earlier_prefixes": false,
+    "smoke": {"development_settings": 1, "seeds": [1], "arms": 5, "test_scoring": false},
+    "development_proposal": {"settings": 2, "seeds": [1, 2, 3], "runs": 30, "automatically_launch": false}
+  },
+  "surprise": {
+    "formula": "E0(single_t) - predicted_E0_single_t_before_assimilation",
+    "window_minus_single_allowed": false,
+    "calibration": "source validation only; report raw and quality/delta-time conditioned residual",
+    "disaster_probability_claim": false,
+    "requires_dated_labels_for_onset": true,
+    "independent_of_core_success": true
+  },
+  "metrics": {
+    "primary": "equal-event AP; equal-region AP where events are unavailable",
+    "secondary": ["pooled AP", "fixed-FP-budget recall", "native IoU", "coverage", "absolute teacher AP gap", "fixed-readout retention", "paired cluster CI"],
+    "recommended_not_frozen": {"minimum_ap_gain": 0.02, "max_retention_ap_loss": 0.01, "paired_ci_confidence": 0.95},
+    "final_thresholds": null,
+    "ci_resampling_unit": "event/independent spatial group, not token or seed-by-decoder cell",
+    "cost": ["initial encode", "arrival-valid update latency p50/p95", "new image encoding", "all readouts", "actual raw I/O", "peak memory", "state bytes", "teacher generation and training amortization"]
+  },
+  "external": {
+    "current_Sen12_and_Kuro_test_status": "EXPOSED_FOR_NEW_METHOD_DEVELOPMENT",
+    "untouched_holdout_manifest_sha256": null,
+    "DEN": "Temporal label/imagery contract audit required; no assumption of temporal S2 availability",
+    "Korea": "Existing 3-task amendment gates retained; two known readouts plus one unused-in-loss readout proposed; labels remain sealed"
+  },
+  "unresolved_before_launch": [
+    "Kuro clean-validation selection and data revision",
+    "Arrival-causal manifest and actual acquisition dates",
+    "Matched POST_ONLY/NO_MEMORY protocol",
+    "Encoder module paths and gradient/memory smoke",
+    "Reference/model/readout/normalization hashes",
+    "Source-only loss-weight and HPO budget selection",
+    "Meaningful improvement/retention margins and CI protocol freeze",
+    "Untouched external manifest and label-use policy",
+    "Exclusive-device arrival-valid cost protocol",
+    "Immutable executed snapshot and fail-closed completion"
+  ]
+}

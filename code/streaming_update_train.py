@@ -15,7 +15,7 @@ from pathlib import Path
 import numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 if os.environ.get("CUDA_VISIBLE_DEVICES") not in ("0","1"): raise SystemExit("CUDA_VISIBLE_DEVICES must be 0 or 1 (GPU0 allowed by the user on 2026-09-07 evening)")
 ROOT=Path("/home/work/data/olmoearth"); sys.path.insert(0,str(ROOT/"code"))
-ap=argparse.ArgumentParser(); ap.add_argument("--data",default="olmo_streaming_dev"); ap.add_argument("--fold",required=True); ap.add_argument("--module",required=True,choices=["ema","gru","residual","gru_noobs","calib","gru_dt","gru_sp","xattn"],help="gru_noobs: same GRU, new-observation input zeroed (control: does the gain need the observations?); calib: 1x1 MLP m4->e12 with no observations and no recurrence (control: distribution calibration only)"); ap.add_argument("--aux-decoder-loss",type=float,default=0.0,help="weight of frozen-decoder logit-MSE(student vs teacher) added at every step (readout-preserving objective)"); ap.add_argument("--tag",default=""); ap.add_argument("--obs-source",default="s2",choices=["s2","s1","both"],help="which new-observation singles feed the updater: S2 (default), S1 ascending (cross-sensor), or the mean of both"); ap.add_argument("--seed",type=int,default=1)
+ap=argparse.ArgumentParser(); ap.add_argument("--data",default="olmo_streaming_dev"); ap.add_argument("--fold",required=True); ap.add_argument("--module",required=True,choices=["ema","gru","residual","gru_noobs","calib","gru_dt","gru_sp","xattn"],help="gru_noobs: same GRU, new-observation input zeroed (control: does the gain need the observations?); calib: 1x1 MLP m4->e12 with no observations and no recurrence (control: distribution calibration only)"); ap.add_argument("--aux-decoder-loss",type=float,default=0.0,help="weight of frozen-decoder logit-MSE(student vs teacher) added at every step (readout-preserving objective)"); ap.add_argument("--tag",default=""); ap.add_argument("--obs-source",default="s2",choices=["s2","s1","both","s1proj","s1proj_frozen"],help="which new-observation singles feed the updater: S2 (default), S1 ascending (cross-sensor), or the mean of both"); ap.add_argument("--seed",type=int,default=1)
 ap.add_argument("--epochs",type=int,default=30); ap.add_argument("--decoder-dir",default="resolution_contract_v2/p4_native_control"); ap.add_argument("--sealed-cache",default="sen12_pilot/holdout_chimanimani"); ap.add_argument("--out",required=True); a=ap.parse_args()
 D=ROOT/a.data; OUT=ROOT/a.out; OUT.mkdir(parents=True,exist_ok=True); dev=torch.device("cuda"); torch.manual_seed(a.seed); np.random.seed(a.seed)
 man=json.loads((ROOT/"sen12_gp_contract/t1_manifest.json").read_text())[a.fold]; CUT=(4,6,8,10,12)
@@ -27,6 +27,22 @@ def load(split):
     T=torch.from_numpy(np.stack([np.load(D/"teacher_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))   # (N,5,768,32,32)
     if a.obs_source=="s2": S=torch.from_numpy(np.stack([np.load(D/"single_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))
     elif a.obs_source=="s1": S=torch.from_numpy(np.stack([np.load(D/"single_s1_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))
+    elif a.obs_source in ("s1proj","s1proj_frozen"):
+        S1=torch.from_numpy(np.stack([np.load(D/"single_s1_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))
+        if not hasattr(load,"proj"):   # fit projector once on the TRAIN split: S1 single -> S2 single (frozen target), 1x1 conv MLP, MSE+cosine
+            assert split=="train"; S2=torch.from_numpy(np.stack([np.load(D/"single_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))
+            P=nn.Sequential(nn.Conv2d(768,1024,1),nn.GELU(),nn.Conv2d(1024,768,1)).to(dev); opt=torch.optim.AdamW(P.parameters(),lr=1e-3,weight_decay=1e-4)
+            N=S1.shape[0]*S1.shape[1]; X=S1.reshape(N,768,32,32); Y=S2.reshape(N,768,32,32); g=torch.Generator().manual_seed(a.seed)
+            for ep in range(8):
+                perm=torch.randperm(N,generator=g); tot=0.0
+                for i in range(0,N,64):
+                    idx=perm[i:i+64]; x=X[idx].to(dev); y=Y[idx].to(dev); yh=P(x); l=F.mse_loss(yh,y)+(1-F.cosine_similarity(yh.flatten(1),y.flatten(1)).mean())
+                    opt.zero_grad(set_to_none=True); l.backward(); opt.step(); tot+=float(l)*len(idx)
+                print(f"projector epoch {ep+1} loss {tot/N:.4f}",flush=True)
+            P.eval(); load.proj=P
+            with torch.no_grad(): cs=F.cosine_similarity(P(X[:512].to(dev)).flatten(1),Y[:512].to(dev).flatten(1)).mean().item(); cs0=F.cosine_similarity(X[:512].flatten(1),Y[:512].flatten(1)).mean().item()
+            print(f"projector cos(P(s1),s2) {cs:.3f} vs raw cos(s1,s2) {cs0:.3f}",flush=True)
+        with torch.no_grad(): S=torch.cat([load.proj(S1[i:i+64].reshape(-1,768,32,32).to(dev)).cpu() for i in range(0,S1.shape[0],64)]).reshape(S1.shape)
     else: S=0.5*(torch.from_numpy(np.stack([np.load(D/"single_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))+torch.from_numpy(np.stack([np.load(D/"single_s1_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32")))
     U=torch.stack([S[:,c-2:c].mean(1) for c in CUT[1:]],1)                                                          # (N,4,768,32,32) new evidence per step
     Y=torch.from_numpy(np.stack([np.load(D/"mask_u8"/f"{s}.npy") for s in ids[split]]).astype("float32"))
@@ -100,6 +116,8 @@ def eval_loss(T,U):
     model.eval(); tot=0.0; n=0
     for i in range(0,len(T),16): idx=torch.arange(i,min(i+16,len(T))); l,_=rollout(T,U,idx,DT["val"]); tot+=float(l)*len(idx); n+=len(idx)
     return tot/n
+if a.obs_source=="s1proj_frozen":
+    ck=torch.load(ROOT/"artifacts/streaming_t1v"/f"{a.fold}_gru_seed{a.seed}_best.pt",map_location="cpu"); model.load_state_dict(ck["model_state"]); a.epochs=0; best={"val":float("nan"),"epoch":0,"state":{k:v.clone() for k,v in model.state_dict().items()}}; print("loaded S2-trained GRU (frozen) for translation test",flush=True)
 for ep in range(1,a.epochs+1):
     model.train(); perm=torch.randperm(len(Ttr),generator=g); tot=0.0
     for i in range(0,len(perm),16):

@@ -1,0 +1,7 @@
+{"schema":"earthcache-cross-sensor-projector-v0","date":"2026-09-09","status":"REGISTERED_BEFORE_ANY_RUN",
+ "question":"MS-118: S1 single embeddings cannot update an S2 cache (0%). Is that a translation gap (fixable by a learned S1->S2 projector with a frozen target, JEPA-style) or a physical limit (radar lacks the optical signal the S2 decoder needs)?",
+ "projector":"1x1 conv MLP 768->1024->768, trained on TRAIN-split pairs: S1 single embedding (nearest date) -> S2 single embedding (frozen target), MSE + cosine, 8 epochs; report cos(P(s1),s2) vs raw cos(s1,s2)",
+ "arms":{"s1proj_frozen":"translation test: the S2-trained GRU from MS-116 (frozen, same seed) fed with P(S1)","s1proj":"end-to-end: GRU trained on P(S1) inputs (projector fixed after its own fit)","references":"gru_s2 (MS-116), gru_s1 (MS-118)"},
+ "folds":"hiroshima, chimanimani (folds with S1 files for their tiles); thrissur/newzealand excluded (S1 files missing for many tiles, MS-118)","seeds":3,
+ "rule":{"translation_gap":"s1proj recovery >= 40% in both folds -> radar can partially carry the optical cache once aligned (scoped claim)","physical_limit":"s1proj < 20% in both folds -> boundary condition: radar acquisitions cannot sustain an optical cache on this task","between":"report as inconclusive"},
+ "decoder":"frozen p4_native_control seed 1 (hiroshima) / artifacts/control_seeds (chimanimani)"}

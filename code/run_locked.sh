@@ -23,5 +23,8 @@ case $KIND in
      for mod in gru_dt gru_sp xattn; do for s in 1 2 3; do run t1arch_${fold}_${mod}_s${s} artifacts/streaming_t1arch/${fold}_${mod}_seed${s}.json $PY code/streaming_update_train.py --fold $fold --module $mod --seed $s --out artifacts/streaming_t1arch; done; done; done ;;
  t1xs) for fold in "$@"; do until [[ -f resolution_contract_v2/p4_native_control/${fold}_seed1_best.pt ]]; do sleep 60; done
      for src in s1 both; do for s in 1 2 3; do run t1xs_${fold}_${src}_s${s} artifacts/streaming_t1xs/${fold}_gru_${src}_seed${s}.json $PY code/streaming_update_train.py --fold $fold --module gru --obs-source $src --tag _${src} --seed $s --out artifacts/streaming_t1xs; done; done; done ;;
+ t1xp) for fold in "$@"; do until [[ -f resolution_contract_v2/p4_native_control/${fold}_seed1_best.pt || -f artifacts/control_seeds/${fold}_seed1_best.pt ]]; do sleep 60; done
+     for s in 1 2 3; do run t1xp_${fold}_s1proj_frozen_s${s} artifacts/streaming_t1xp/${fold}_gru_s1proj_frozen_seed${s}.json $PY code/streaming_update_train.py --fold $fold --module gru --obs-source s1proj_frozen --tag _s1proj_frozen --seed $s --out artifacts/streaming_t1xp
+                       run t1xp_${fold}_s1proj_s${s} artifacts/streaming_t1xp/${fold}_gru_s1proj_seed${s}.json $PY code/streaming_update_train.py --fold $fold --module gru --obs-source s1proj --tag _s1proj --seed $s --out artifacts/streaming_t1xp; done; done ;;
  p2rt) for tr in native avgpool2; do for fold in "$@"; do run p2rt_${tr}_${fold} artifacts/resolution_rt/p2_$tr/holdout_${fold}_seed1.json $PY code/cache_decoder_train.py --cache olmo_base_p2_rt --grid-transform $tr --fold holdout_$fold --seed 1 --out artifacts/resolution_rt/p2_$tr; done; done ;;
 esac; log "done $KIND $*"
