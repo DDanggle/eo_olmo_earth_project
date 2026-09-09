@@ -5232,3 +5232,7 @@ coverage_min 0.99978352 / coverage_p05 1.0 / gate_pass true
 - 데이터 실측: v2 큐브 2,536개 적격(타일×날짜 모자이크, (12,1024,1024) uint16), 588타일, 타일당 날짜 1~8(중앙값 4). 라벨은 AI-Hub zip(LABEL tif·JSON) 상태로 **미개봉**(`extract/label_tif_train` 비어 있음).
 - 제외 편향 감사(`exclusion_bias.json`): 163/2,699 제외. G1(타일 전체 소실) 발동 — SB13 6타일, 전부 **val C09**(test 아님). G3(단일 날짜 집중) 발동 — 2022-08-24 57건 등 날짜 단위 전면 제외(구름·플랫폼 규칙) → 라벨과 무관한 날짜 기준 제외라 선택 편향 위험 낮음으로 판단, 다만 val C09 축소를 기록.
 - 칩 격자·캐시 manifest 동결: `korea_chip_manifest.py` → 1024 px 타일당 8×8 = 64칩(128 px), 날짜 계열·split·cluster 포함, sha256 기록. 캐시 추출기 `extract_korea_cache.py`(10밴드 primary view, 실제 날짜, 봉인 크롭·풀링 계약) 탐침 후 전량 추출 예정. 라벨 개봉은 게이트 항목 완료 후 **1회** 실행으로 별도 기록.
+
+## KR-2 (2026-09-10 03:15) — 한국 준비 게이트 완료 및 라벨 개봉(1회)
+- 캐시 감사 통과: 37,376/37,376칩, 스킵 0, 10밴드 primary view, 실제 날짜, 56 GB(`korea_cache_v1/korea_cache_audit.json`). 칩 manifest sha256 873e635a…, 라벨 파일은 어떤 선택(큐브·칩·계약·수정안)에도 사용되지 않았음(추출기·manifest 스크립트가 라벨 경로를 읽지 않음).
+- 게이트 항목: 일시 오류 재시도 완료(M104-전량), 적격 큐브 manifest 동결(2,529 사용), 제외 편향 감사 판독(KR-1), 칩 격자·캐시 manifest 동결, 무라벨 선택 문서화 → 충족. 이에 따라 `korea_open_labels.py`를 **지금 1회 실행**함(성능 지표 계산 없음, 인벤토리만).
