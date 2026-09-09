@@ -8,7 +8,7 @@ import json, hashlib, collections
 from pathlib import Path
 R=Path("/home/work/data/olmoearth/aihub")
 man=[json.loads(l) for l in (R/"s2_12band_v2/manifest.jsonl").read_text().splitlines() if l.strip()]
-ok=[m for m in man if m.get("status") in ("ok","materialized","OK") or m.get("status") is None]
+ok=[m for m in man if m.get("status")=="coverage_valid"]   # v2 manifest status value (2,541 rows, all coverage_valid on 2026-09-10)
 assign={t["tile_id"]:t for t in (json.loads(l) for l in (R/"splits/tile_assignment.jsonl").read_text().splitlines() if l.strip())}
 by_tile=collections.defaultdict(list)
 for m in ok: by_tile[m["key"].split("_")[0]].append(m)
