@@ -1,6 +1,6 @@
 # PR·이슈 명세서 — 2026-08-26 upstream 재감사판
 
-최종 갱신: 2026-08-26. 원칙: **PR을 찾아다니지 않는다.** 전부 실제로 부딪혀서 진단한 것만.
+최종 갱신: 2026-09-10 (2026-08-26 판을 재감사). 원칙: **PR을 찾아다니지 않는다.** 전부 실제로 부딪혀서 진단한 것만.
 판단 기준 하나: *"이게 머지되면 메인테이너의 일이 줄어드는가?"*
 
 감사 기준: `olmoearth_projects origin/main=23a3d7b`,
@@ -26,6 +26,28 @@
 | — | olmoearth-runner | `requires-python <3.12` 상한 | 주의 | PR 금지, 이슈로만 |
 
 ---
+
+## 2026-09-10 재감사 결론 (upstream origin/main=23a3d7b 변동 없음, rslearn latest release v0.1.14 2026-08-25)
+
+판정 원칙은 그대로: 메인테이너 일이 줄어드는 것만 낸다. 이번 재감사는 로컬 명세서의 사실 진술을 current upstream·HF·PyPI 에 다시 대조했음.
+
+| # | 재확인 결과 | 판정 |
+|---|---|---|
+| 1 | upstream sample `annotation_features.geojson` 여전히 `es_*` 6 feature. open PR 4건(#37·#42·#43·#64)·open issue 13건에 중복 없음. 로컬 브랜치 `fix/sample-annotation-oe-schema` = origin/main + 1 file(+36 −24). fork 는 아직 없음 | **제출** (첫 PR) |
+| 2 | HF `OlmoEarth-v1-FT-LFMC-Base/model.ckpt` lastModified 2025-11-03 → 우리 측정 뒤 교체 없음. `docs/lfmc.md` 580.6 문구 유지. 관련 issue #45(경로)·#46(라벨 형식)만 있고 성능 불일치 이슈 없음 | **제출** (이슈) |
+| — | **정정**: "신규 이슈 작성 제한" 은 틀림. 외부 계정(robmarkcole, Bili-Sakura 등)이 #40~#65 를 열었고 `has_issues=true`. 이메일 우회 불필요 | 명세서 수정 |
+| 3 | upstream `forest_loss_driver/dataset.json` 여전히 내부 `olmoearth_datasets.sentinel2_l2a` 2개 레이어. 단 origin/main 최신 머지가 `#39 forest-loss-deploy`(Ai2 내부 배포용) → 소스 교체 PR 은 그들 배포를 깨뜨릴 수 있음 | **PR 금지, 이슈로**: "문서가 외부 실행을 안내하나 데이터소스가 내부 전용(401)" + fail-fast 요청 |
+| 10a | rslearn v0.1.14 `sentinel2_scl.py` `_score_item` 이 반사도 layer 의 `resampling_method` 를 SCL(uint8 범주형) 읽기에 그대로 전달(L115). `missing scoring bands` ValueError(L103·L267) 유지. #616(SCL harmonization) 는 다른 문제로 닫힘 | **유효**. nearest 강제 최소 patch + 합성 회귀 테스트로 제출 가능 |
+| 10b | PC Sentinel2 는 `context.layer_config.band_sets` 교차 자산만 등록(L353 등). compositor 보조 band 의존성 자동 전달 없음 | 유효, RFC/이슈 |
+| 12 | `model.py` L380~424 여전히 `Modality.get(modality).band_sets` 정적 수로 mask 생성 | 설계 gap 유지, PR 아님 |
+| 13 | origin/main `uv.lock`: rslearn 0.0.23 · olmoearth-pretrain 0.0.2 · olmoearth-runner 0.1.12. rslearn latest 0.1.14 와 스큐 그대로. 인접 issue #49(uv run 제안) | 유효, compatibility matrix 뒤 |
+
+**유의미성 총평**
+- 확실히 유의미: #1(문서 첫 예제가 즉사하는 버그, 1파일 수정, 검증 완료), #2(공개 체크포인트가 문서 수치의 60%; 재학습으로 데이터·레시피 정상 입증 → 메인테이너가 ckpt 재업로드만 하면 됨). 둘은 메인테이너 일을 확실히 줄임.
+- 유의미하나 형식 주의: #10a(rslearn 실제 버그, 작은 patch). #3(이슈 형태).
+- 지금 내면 역효과: #12·#13(설계 논의 필요, 좁은 수정 아님), #6·#7(비공개 레포), #8(macOS, 재현 환경 제한), runner python 상한.
+
+**제출 전 남은 확인 1건**: #1 PR 본문의 "runner ≥0.1.12 가 `oe_*` 를 요구" 는 lock 이 0.1.12 를 고정하므로 0.1.12 wheel 에서 `AnnotationFeatureProperties` 필드를 직접 확인함: PyPI `olmoearth_runner-0.1.12` wheel `olmoearth_run/runner/models/training/annotation_features.py` L23·L34 에 `oe_annotations_task_id: uuid.UUID`, `oe_labels: dict[str, int|float|None]` 필수. PR 본문 주장 유효(2026-09-10 확인).
 
 ## 2026-08-26 재감사 결론
 
