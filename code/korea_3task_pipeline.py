@@ -10,7 +10,7 @@ Cost  : cache bytes read, raw bytes read, GPU seconds per arm, peak memory."""
 import argparse, json, time, collections, numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 from pathlib import Path
 ap=argparse.ArgumentParser(); ap.add_argument("--tasks",default="land_cover,logged,landslide"); ap.add_argument("--arms",default="FULL_CACHE,CACHE_K,RAW_K"); ap.add_argument("--K",default="5,20"); ap.add_argument("--seeds",default="1,2,3")
-ap.add_argument("--draws",default="random,posaware"); ap.add_argument("--full-steps",type=int,default=4000); ap.add_argument("--k-steps",type=int,default=300); ap.add_argument("--full-raw",action="store_true"); ap.add_argument("--out",default="artifacts/korea_3task/run_v1"); ap.add_argument("--probe",action="store_true"); a=ap.parse_args()
+ap.add_argument("--draws",default="random,posaware"); ap.add_argument("--full-steps",type=int,default=4000); ap.add_argument("--k-steps",type=int,default=300); ap.add_argument("--full-raw",action="store_true"); ap.add_argument("--out",default="artifacts/korea_3task/run_v1"); ap.add_argument("--probe",action="store_true"); ap.add_argument("--full-bs",type=int,default=16,help="same batch size for FULL_CACHE and FULL_RAW (equal sample exposure)"); ap.add_argument("--allow-partial-window",action="store_true",help="keep chips whose last readable label predates the last cube date (default: drop; cache would see imagery the label/raw do not)"); a=ap.parse_args()
 ROOT=Path("/home/work/data/olmoearth"); AI=ROOT/"aihub"; EMB=ROOT/"korea_cache_v1/emb_fp16"; MASK=AI/"labels_v1/mask_u8"; RAWA=AI/"s2_12band_v2/arrays"; OUT=ROOT/a.out; OUT.mkdir(parents=True,exist_ok=True); dev=torch.device("cuda")
 LC=[10,20,30,40,50,60,100]; LUT=np.full(256,255,np.uint8)
 for i,c in enumerate(LC): LUT[c]=i
@@ -21,7 +21,10 @@ def last_label_date(c):
         if (MASK/f"{c['chip_id']}__{d}.npy").exists(): return d
     return None
 for c in chips: c["dates"]=[d.replace("-","") for d in c["dates"]]; c["ldate"]=last_label_date(c)   # manifest dates are ISO; mask/array files use yyyymmdd
-chips=[c for c in chips if c["ldate"]]; by_split=collections.defaultdict(list)
+chips=[c for c in chips if c["ldate"]]
+n_partial=sum(1 for c in chips if c["ldate"]!=c["dates"][-1])
+if not a.allow_partial_window: chips=[c for c in chips if c["ldate"]==c["dates"][-1]]   # v2 fix: cache encodes all dates; label/raw must cover the same window
+print("chips with last label before last cube date:",n_partial,"dropped" if not a.allow_partial_window else "kept",flush=True); by_split=collections.defaultdict(list)
 for c in chips: by_split[c["split"]].append(c)
 if a.probe: by_split={s:v[:200] for s,v in by_split.items()}
 print({s:len(v) for s,v in by_split.items()},flush=True)
@@ -125,7 +128,7 @@ def draw_support(task,cs,K,seed,draw):
     else:
         code=TASK[task][1]; pos=[i for i,c in enumerate(cs) if (load_mask(c)==code).any()] if not hasattr(draw_support,"_pos") or task not in draw_support._pos else draw_support._pos[task]
         draw_support._pos=getattr(draw_support,"_pos",{}); draw_support._pos[task]=pos; npos=min(len(pos),max(1,K//2)); pick=np.concatenate([g.choice(pos,npos,replace=False),g.choice([i for i in range(len(cs)) if i not in set(pos)],K-npos,replace=False)])
-    pick=np.asarray(pick).astype(int); sup=[cs[i] for i in pick]; code=TASK[task][1]; return sup,{"support_pos_chips":int(sum((load_mask(c)==code).any() for c in sup)) if TASK[task][0]=="binary" else None,"support_ids":[c["chip_id"] for c in sup]}
+    pick=np.asarray(pick).astype(int); sup=[cs[i] for i in pick]; code=TASK[task][1]; return sup,{"support_pos_chips":int(sum((load_mask(c)==code).any() for c in sup)) if TASK[task][0]=="binary" else None,"support_total_chips":len(sup),"support_ids":[c["chip_id"] for c in sup]}
 train_cs,val_cs,test_cs=by_split["train"],by_split["val"],by_split["test"]; stats=emb_stats(train_cs); torch.save(stats,OUT/"emb_stats.pt")
 report={"schema":"korea-3task-v1","prereg":"config/korea_shared_cache_3task_prereg_v1_amendment.json","target_rule":"last labeled acquisition per chip","n":{s:len(v) for s,v in by_split.items()},"tasks":{},"raw_model":"RawUNetT (per-date 2D encoder, temporal max+mean pooling, 2D U-Net decoder; base 32)","cache_head":"EmbDecoder(768->128, 2 upsample blocks)"}
 rp=OUT/"report.json"
@@ -133,10 +136,10 @@ def save(): rp.write_text(json.dumps(report,indent=1,ensure_ascii=False))
 for task in a.tasks.split(","):
     kind,nout=TASK[task][0],(7 if TASK[task][0]=="multi" else 1); R=report["tasks"].setdefault(task,{}); print("== task",task,flush=True)
     if "FULL_CACHE" in a.arms:
-        torch.cuda.reset_peak_memory_stats(); m=EmbDecoder(nout=nout).to(dev); tr=train(m,task,train_cs,a.full_steps if not a.probe else 20,32,1,False,stats); P,nb=predict(m,task,test_cs,False,stats); ev=evaluate(task,P,test_cs); Pv,_=predict(m,task,val_cs,False,stats)
+        torch.cuda.reset_peak_memory_stats(); m=EmbDecoder(nout=nout).to(dev); tr=train(m,task,train_cs,a.full_steps if not a.probe else 20,a.full_bs,1,False,stats); P,nb=predict(m,task,test_cs,False,stats); ev=evaluate(task,P,test_cs); Pv,_=predict(m,task,val_cs,False,stats)
         R["FULL_CACHE"]={"train":tr,"test":ev,"val":evaluate(task,Pv,val_cs),"test_bytes_read":nb}; torch.save(m.state_dict(),OUT/f"{task}_FULL_CACHE.pt"); print(task,"FULL_CACHE",json.dumps({k:v for k,v in ev.items() if k!="clusters"})[:400],flush=True); save()
     if a.full_raw and "FULL_RAW" in a.arms:
-        torch.cuda.reset_peak_memory_stats(); m=RawUNetT(nout=nout).to(dev); tr=train(m,task,train_cs,a.full_steps if not a.probe else 20,16,1,True,stats); P,nb=predict(m,task,test_cs,True,stats); ev=evaluate(task,P,test_cs)
+        torch.cuda.reset_peak_memory_stats(); m=RawUNetT(nout=nout).to(dev); tr=train(m,task,train_cs,a.full_steps if not a.probe else 20,a.full_bs,1,True,stats); P,nb=predict(m,task,test_cs,True,stats); ev=evaluate(task,P,test_cs)
         R["FULL_RAW"]={"train":tr,"test":ev,"test_bytes_read":nb}; torch.save(m.state_dict(),OUT/f"{task}_FULL_RAW.pt"); print(task,"FULL_RAW",json.dumps({k:v for k,v in ev.items() if k!="clusters"})[:400],flush=True); save()
     for K in [int(k) for k in a.K.split(",")]:
         for draw in a.draws.split(","):
