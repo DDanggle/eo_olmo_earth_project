@@ -1,15 +1,15 @@
 # [DRAFT] Issue for allenai/olmoearth_projects
 
-> 제출 전 사용자 검토용 초안. 제출은 gh CLI 설치 후 또는 웹에서 수동.
+> 최종본(2026-09-10). 제출은 `gh issue create --repo allenai/olmoearth_projects` 또는 웹. 이슈 작성은 외부 계정에 열려 있음(#40~#65 확인).
 > 대상: https://github.com/allenai/olmoearth_projects/issues
 
-**Title:** LFMC released checkpoint scores MSE ~952 on the released test split (docs claim 580.6); retraining from the released dataset reproduces 559
+**Title:** LFMC: released checkpoint evaluates to test MSE 951.9 vs 580.6 in docs/lfmc.md; retraining on the released dataset reaches 558.8 — can you confirm the checkpoint revision?
 
 **Body:**
 
 ## Summary
 
-The LFMC model card (`docs/lfmc.md`) states *"It achieves a mean squared error of 580.6 on our test set."* Evaluating the released checkpoint (`allenai/OlmoEarth-v1-FT-LFMC-Base`) on the released rslearn dataset's test split yields **MSE 951.9** — but retraining from scratch with the released dataset + the repo's `model.yaml` recipe reaches **MSE 558.8 by epoch 33**, slightly better than the documented number. This suggests the dataset, config, and recipe are all fine, and the checkpoint file on HuggingFace may be from a different run (or a bad upload).
+The LFMC model card (`docs/lfmc.md`) states *"It achieves a mean squared error of 580.6 on our test set."* Evaluating the released checkpoint (`allenai/OlmoEarth-v1-FT-LFMC-Base`) on the released rslearn dataset's test split yields **MSE 951.9** — but retraining from scratch with the released dataset + the repo's `model.yaml` recipe reaches **MSE 558.8 by epoch 33**, slightly better than the documented number. So the released dataset, config and recipe reproduce the documented number; the gap is specific to the released weights. One hypothesis is that the HF file is from a different run than the documented one, but we may also be missing an evaluation detail (normalization, split definition, or a newer revision) — asking for confirmation rather than asserting a bad upload.
 
 ## Reproduction
 
@@ -48,7 +48,10 @@ Environment: `olmoearth-runner==0.1.14`, `rslearn==0.0.27`, `lightning==2.5.1.po
 Re-upload the checkpoint corresponding to the documented run (or update docs).
 Happy to share full logs/configs, or the 558.8 checkpoint if useful.
 
----
-(Additional minor issues we hit while reproducing — happy to file separately:
-`model.yaml` on main uses APIs not in any PyPI rslearn release; sample project's
-`annotation_features.geojson` still uses the legacy `es_*` schema — PR ready.)
+## Artifacts checked (2026-09-10)
+
+- HF `allenai/OlmoEarth-v1-FT-LFMC-Base` `model.ckpt`: 1,139,505,083 bytes, LFS oid prefix `20064f6a0a7a`, last modified 2025-11-03 — unchanged since our measurement.
+- `docs/lfmc.md` on `main` (23a3d7b) still states 580.6.
+- Related open issues #45 (dataset path) and #46 (label format) do not cover this mismatch.
+
+(The `model.yaml` API remarks from an earlier draft are dropped: current rslearn releases carry those APIs; the remaining problem is the pinned lock, tracked separately.)

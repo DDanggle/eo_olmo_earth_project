@@ -1,6 +1,6 @@
 # PR 리뷰 노트 — 제출 후 대응 기록
 
-최종 갱신: 2026-08-26.
+최종 갱신: 2026-09-10 (upstream 재대조 반영, 제출은 아직 없음).
 
 역할 분담: `PR_DOSSIER.md`는 **제출 전** 명세(증상·원인·수정·검증), 이 파일은 **제출 후**
 리뷰 과정(리뷰어 질문, 우리 답변, 후속 커밋, 최종 결과)을 기록한다.
@@ -26,8 +26,8 @@
 
 | 순서 | 후보 | 현재 상태 | 제출 전 남은 것 |
 |---|---|---|---|
-| 1 | sample `es_*→oe_*` | 로컬 branch `fix/sample-annotation-oe-schema`, commits `5e044ee`, `21b658a` | Linux current-runtime replay, fork/push 승인 |
-| 2 | LFMC checkpoint mismatch | 영어 issue 초안 완료 | maintainer contact path 확인 |
+| 1 | sample `es_*→oe_*` | 로컬 branch `fix/sample-annotation-oe-schema`, commits `5e044ee`, `21b658a`; 9/10 upstream 여전히 legacy, runner 0.1.12 wheel 로 요구 필드 확인 | fork/push 승인(선택: runner 0.1.14 quick-start 재실행) |
+| 2 | LFMC checkpoint mismatch | 영어 issue 최종본(9/10) | 없음 — 이슈 작성 열려 있음(외부 계정 #40~#65 확인). `gh issue create` 만 남음 |
 | 3 | SCL categorical scoring | current v0.1.14에서 결함 재확인 | nearest-only 최소 patch와 synthetic test |
 | 4 | SCL auxiliary dependency | 설계 gap 재확인 | 별도 issue/RFC; #3과 한 PR 금지 |
 | 5 | lockfile/v1.2 compatibility | current lock skew 재확인 | runner 포함 compatibility matrix |
@@ -44,7 +44,7 @@
 | 어느 runner 버전에서 깨지는가? | 0.1.12/0.1.14 양쪽에서 재현. 0.1.12는 macOS, 0.1.14는 Linux(py3.11)에서 확인 |
 | 검증했는가? | Linux에서 `prepare_labeled_windows` 완주 + 6 windows. macOS는 schema gate 후 별도 forkserver hang이 재현돼 full verification으로 세지 않음 |
 | task_features는 왜 안 고쳤나? | 이미 `oe_*` 스키마다. 짝 파일 중 하나만 마이그레이션돼 있었던 것이 이 버그의 원인 |
-| upstream에서 이미 고쳐졌나? | 2026-08-26 `origin/main=23a3d7b`에도 legacy key가 남고 open PR 4건과 직접 중복 없음 |
+| upstream에서 이미 고쳐졌나? | 2026-09-10 `origin/main=23a3d7b`(변동 없음)에도 legacy key 6 feature 유지. open PR 4건·open issue 13건과 직접 중복 없음 |
 | 왜 큰 regression test를 추가하지 않나? | 첫 PR은 data-only schema repair로 최소화한다. 최신 runner quick-start를 Tests에 적고 maintainer가 원하면 schema test를 후속 커밋 |
 
 ## 리뷰 로그

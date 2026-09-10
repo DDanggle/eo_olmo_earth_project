@@ -20,9 +20,10 @@ The sample project ships two paired GeoJSON files, but only one was migrated to 
 - `annotation_task_features.geojson` — already uses `oe_annotations_task_id`, `oe_start_time`, `oe_end_time` ✅
 - `annotation_features.geojson` — still uses legacy `es_*` keys and a scalar `es_label` ❌
 
-`olmoearth-runner` (>= 0.1.12) validates annotation features against
-`AnnotationFeatureProperties`, which requires `oe_annotations_task_id` and a dict-valued
-`oe_labels`.
+`olmoearth-runner` validates annotation features against `AnnotationFeatureProperties`
+(`olmoearth_run/runner/models/training/annotation_features.py`), which requires
+`oe_annotations_task_id` (UUID) and a dict-valued `oe_labels`. Verified in the 0.1.12 wheel pinned by
+`uv.lock` and in 0.1.14.
 
 ## Fix
 
