@@ -20,3 +20,6 @@ artifacts/external_data/**/raw/*.zip
 # 재생성 가능한 rslearn COG cutout/배열. 상위 manifest·seal은 추적한다.
 artifacts/external_data/**/materialized/**/dataset/
 artifacts/external_data/**/materialized/**/code_snapshot/
+
+# 재생성 가능한 대용량 (npz 큐브·임베딩). artifacts 는 강제 포함이라 여기 둔다.
+.cache/
