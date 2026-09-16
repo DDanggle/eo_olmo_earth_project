@@ -120,17 +120,18 @@ button { font: inherit; }
 .series { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
 .series-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .series-body { margin-top: 8px; }
-.series-body figure { margin: 0; display: grid; grid-template-columns: 220px 1fr; gap: 12px; align-items: start; }
-.series-body img, .series-empty { width: 220px; aspect-ratio: 1; object-fit: cover; border-radius: 3px; display: block; background: var(--map-bg); }
+.series-body figure { margin: 0; display: grid; grid-template-columns: 256px 1fr; gap: 12px; align-items: start; }
+.series-body img, .series-empty { width: 256px; aspect-ratio: 1; object-fit: cover; border-radius: 3px; display: block; background: var(--map-bg); }
 .series-empty { display: flex; align-items: center; justify-content: center; text-align: center; padding: 14px; color: var(--muted);
   font-size: 12px; line-height: 1.5; background: repeating-linear-gradient(135deg, var(--line) 0 4px, var(--surface) 4px 10px); border: 1px solid var(--line); }
 .series-body figcaption { font: 12px/1.6 var(--font-sans); color: var(--muted); }
-.series-strip { display: flex; gap: 2px; margin-top: 10px; }
-.series-strip .tick { flex: 1; height: 8px; border-radius: 1px; cursor: pointer; background: var(--line); }
+.series-strip { display: flex; gap: 2px; margin-top: 10px; width: 100%; padding: 3px; border: 1px solid var(--line); border-radius: 3px; background: var(--bg); }
+.series-strip .tick { flex: 1 1 0; min-width: 3px; height: 10px; border-radius: 1px; cursor: pointer; background: var(--line); display: block; }
 .series-strip .tick.on { background: var(--teal); }
 .series-strip .tick.half { background: var(--teal-soft); border: 1px solid var(--teal); }
 .series-strip .tick.off { background: repeating-linear-gradient(135deg, var(--line-strong) 0 2px, transparent 2px 4px); }
 .series-strip .tick.cur { outline: 2px solid var(--orange); outline-offset: 1px; }
 .series input[type=range] { width: 100%; margin: 6px 0 0; accent-color: var(--orange); }
-.series-axis { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); letter-spacing: .05em; }
+.series-axis { display: flex; justify-content: space-between; width: 100%; margin-top: 2px; font-size: 10px; color: var(--muted); letter-spacing: .05em; }
+.series-axis span { flex: 1 1 0; text-align: left; }
 @media (max-width: 760px) { .series-body figure { grid-template-columns: 1fr; } .series-body img, .series-empty { width: 100%; } }
