@@ -1,0 +1,32 @@
+{
+ "schema": "jeju-v8-scan-frameB-v1",
+ "frame": "B",
+ "role": "공간 귀무 풀·보정 전용. 오름 결과로 제시 금지.",
+ "contract": "jeju_v8",
+ "contract_sha256": "7bd9f671e56a5436f095db0af9f92f701edcd536cdc356fc5003918046b3e959",
+ "patch_size": 4,
+ "grid_points": 282,
+ "tokens_pooled": {
+  "event": 446619,
+  "null_temporal_primary": 462096,
+  "null_temporal_secondary": 479045
+ },
+ "p99_by_pair": {
+  "event": 0.34221685528755186,
+  "null_temporal_primary": 0.31127079427242277,
+  "null_temporal_secondary": 0.3213255739212036
+ },
+ "assumption_check": {
+  "claim": "연간 실질 변화가 섬의 1% 미만이면 사건 쌍의 전역 p99 는 귀무 쌍의 p99 와 비슷해야 한다",
+  "event_p99_over_nullA_p99": 1.0994184535926788,
+  "nullB_p99_over_nullA_p99": 1.032302354842777
+ },
+ "frame_a_event_flag_rate_under_frameB_event_p99": 0.017622347381101924,
+ "frame_a_event_flag_rate_under_frameB_nullA_p99": 0.026096312846861133,
+ "claims": {
+  "forbidden": [
+   "프레임 B 점을 오름으로 표시",
+   "프레임 A·B 조인"
+  ]
+ }
+}

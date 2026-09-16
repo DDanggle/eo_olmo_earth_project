@@ -1,0 +1,206 @@
+{
+ "schema": "jeju-v8-korea-external-v1",
+ "patch_size": 2,
+ "token_ground_m": 20,
+ "threshold_p99": 0.28091334104537974,
+ "min_tokens": 4,
+ "min_parcels": 20,
+ "permits_2026_total": 94,
+ "with_geometry": 86,
+ "outside_any_scored_window": 53,
+ "too_small_for_min_tokens": 20,
+ "tested": 13,
+ "claims": {
+  "allowed": [
+   "허가 필지 토큰의 깃발율이 같은 창 대조보다 높은가 (행정적 상관)"
+  ],
+  "forbidden": [
+   "허가가 변화의 원인",
+   "시설 종류",
+   "보전지역 안/밖의 우열"
+  ]
+ },
+ "verdict": "검정력 부족 — 필지 13곳 < 20. p 값을 내지 않는다.",
+ "parcels": [
+  {
+   "pnu": "5011025033100160000",
+   "oreum_id": "JJ-OREUM-161",
+   "area_m2": 11879.0,
+   "act": "공작물설치",
+   "purpose": "액비저장조 설치",
+   "n_tokens": 28,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.015299877600979192,
+   "parcel_median_delta": 0.02609020471572876,
+   "ctrl_median_delta": 0.028999358415603638
+  },
+  {
+   "pnu": "5011025930103430003",
+   "oreum_id": "JJ-OREUM-294",
+   "area_m2": 12850.0,
+   "act": "공작물설치",
+   "purpose": "건축물 위 태양광",
+   "n_tokens": 29,
+   "parcel_flag_frac": 0.034482758620689655,
+   "window_ctrl_flag_frac": 0.013580003936233025,
+   "parcel_median_delta": 0.14567136764526367,
+   "ctrl_median_delta": 0.07954961061477661
+  },
+  {
+   "pnu": "5011025029145800000",
+   "oreum_id": "JJ-OREUM-223",
+   "area_m2": 371935.0,
+   "act": "토지형질변경",
+   "purpose": "국유도로 포장",
+   "n_tokens": 35,
+   "parcel_flag_frac": 0.02857142857142857,
+   "window_ctrl_flag_frac": 0.013106545909726824,
+   "parcel_median_delta": 0.034373700618743896,
+   "ctrl_median_delta": 0.03215831518173218
+  },
+  {
+   "pnu": "5011031021117340008",
+   "oreum_id": "JJ-OREUM-242",
+   "area_m2": 4153.0,
+   "act": "토지형질변경",
+   "purpose": "진출입로 포장",
+   "n_tokens": 11,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.007760464405743966,
+   "parcel_median_delta": 0.13583719730377197,
+   "ctrl_median_delta": 0.028452634811401367
+  },
+  {
+   "pnu": "5011025033100160000",
+   "oreum_id": "JJ-OREUM-161",
+   "area_m2": 11879.0,
+   "act": "공작물설치",
+   "purpose": "액비저장조",
+   "n_tokens": 28,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.015299877600979192,
+   "parcel_median_delta": 0.02609020471572876,
+   "ctrl_median_delta": 0.028999358415603638
+  },
+  {
+   "pnu": "5011025033104070005",
+   "oreum_id": "JJ-OREUM-325",
+   "area_m2": 6267.6,
+   "act": "공작물설치",
+   "purpose": "건물 위 태양광 공작물 설치",
+   "n_tokens": 15,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.007274283269148481,
+   "parcel_median_delta": 0.01330500841140747,
+   "ctrl_median_delta": 0.017549991607666016
+  },
+  {
+   "pnu": "5011031029124000000",
+   "oreum_id": "JJ-OREUM-215",
+   "area_m2": 0.0,
+   "act": "토지형질변경",
+   "purpose": "국유도로 포장",
+   "n_tokens": 8,
+   "parcel_flag_frac": 0.375,
+   "window_ctrl_flag_frac": 0.10799438990182328,
+   "parcel_median_delta": 0.2581212520599365,
+   "ctrl_median_delta": 0.07890492677688599
+  },
+  {
+   "pnu": "5011031030132580000",
+   "oreum_id": "JJ-OREUM-242",
+   "area_m2": 247359.0,
+   "act": "토지형질변경",
+   "purpose": "국유도로 포장",
+   "n_tokens": 81,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.00779380177968702,
+   "parcel_median_delta": 0.029695212841033936,
+   "ctrl_median_delta": 0.0284574031829834
+  },
+  {
+   "pnu": "5011031029102300001",
+   "oreum_id": "JJ-OREUM-001",
+   "area_m2": 2632.0,
+   "act": "토지형질변경",
+   "purpose": "농지 개간",
+   "n_tokens": 7,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.09502479603263478,
+   "parcel_median_delta": 0.0956605076789856,
+   "ctrl_median_delta": 0.09422558546066284
+  },
+  {
+   "pnu": "5011012200104990000",
+   "oreum_id": "JJ-OREUM-082",
+   "area_m2": 5366.0,
+   "act": "토지형질변경",
+   "purpose": "임시야적장 사업기간 변경",
+   "n_tokens": 6,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.0038815411155836686,
+   "parcel_median_delta": 0.03748542070388794,
+   "ctrl_median_delta": 0.05119079351425171
+  },
+  {
+   "pnu": "5011031030132580000",
+   "oreum_id": "JJ-OREUM-242",
+   "area_m2": 247359.0,
+   "act": "토지형질변경",
+   "purpose": "국유도로 포장",
+   "n_tokens": 81,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.00779380177968702,
+   "parcel_median_delta": 0.029695212841033936,
+   "ctrl_median_delta": 0.0284574031829834
+  },
+  {
+   "pnu": "5011013400105060000",
+   "oreum_id": "JJ-OREUM-283",
+   "area_m2": 5210.0,
+   "act": "물건적치",
+   "purpose": "",
+   "n_tokens": 14,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.003909643788010426,
+   "parcel_median_delta": 0.05751714110374451,
+   "ctrl_median_delta": 0.04086118936538696
+  },
+  {
+   "pnu": "5011012200118350000",
+   "oreum_id": "JJ-OREUM-082",
+   "area_m2": 3233.0,
+   "act": "물건적치",
+   "purpose": "",
+   "n_tokens": 4,
+   "parcel_flag_frac": 0.0,
+   "window_ctrl_flag_frac": 0.0038804254096004597,
+   "parcel_median_delta": 0.15935686230659485,
+   "ctrl_median_delta": 0.05113080143928528
+  }
+ ],
+ "strata": {
+  "자연환경보전지역": {
+   "n_inside": 31,
+   "n_outside": 120,
+   "mean_flag_inside": 0.038477419354838706,
+   "mean_flag_outside": 0.030660833333333328,
+   "note": "분모 나누기다. 우열을 말하지 않는다."
+  },
+  "문화재·보호구역": {
+   "n_inside": 22,
+   "n_outside": 129,
+   "mean_flag_inside": 0.015072727272727272,
+   "mean_flag_outside": 0.03519767441860465,
+   "note": "분모 나누기다. 우열을 말하지 않는다."
+  },
+  "한라산국립공원": {
+   "n_inside": 6,
+   "n_outside": 145,
+   "mean_flag_inside": 0.022233333333333338,
+   "mean_flag_outside": 0.03268068965517241,
+   "note": "분모 나누기다. 우열을 말하지 않는다."
+  }
+ },
+ "script_sha256": "c694dfcf510988210460f47dd9a3d1cef9df4b53a32666188031edc140cde95a"
+}

@@ -120,7 +120,7 @@ export default function Page() {
           <div className="stat abstain"><b>{summary?.abstain ?? '…'}</b><small>관측 불가</small></div>
           <div className="stat flag"><b>{summary?.sites_with_any_event_flag ?? '…'}</b><small>문턱 넘은 곳</small></div>
         </div>
-        <div className="claim">이건 <strong>읽는 순서</strong>입니다. 훼손을 탐지한 것이 아니고, 원인이나 시설 종류를 말하지 않습니다.
+        <div className="claim">이건 <strong>읽는 순서</strong>입니다. 무엇이 훼손됐다고 말하는 것이 아니고, 원인이나 시설 종류도 말하지 않습니다.
           점선 원은 두 해 중 하나가 구름이라 <strong>보지 못한</strong> 오름입니다 — 변화가 없다는 뜻이 아닙니다.</div>
         {summary && (
           <div className="legend">

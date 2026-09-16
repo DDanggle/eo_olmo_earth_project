@@ -1,0 +1,6930 @@
+{
+ "schema": "jeju-v8-scan-v1",
+ "contract": "jeju_v8",
+ "contract_sha256": "7bd9f671e56a5436f095db0af9f92f701edcd536cdc356fc5003918046b3e959",
+ "script_sha256": "8dc8facf3e264a91ae3f951e6563293406f0461ea524bd4daaaeb584da48478b",
+ "model": "OLMOEARTH_V1_BASE",
+ "patch_size": 2,
+ "token_ground_m": 20,
+ "tokens_per_window": 16384,
+ "device": "cuda",
+ "role": "secondary (20 m, 허가 필지 조인용; 미검증)",
+ "pairs": {
+  "event": [
+   "2025",
+   "2026"
+  ],
+  "null_temporal_primary": [
+   "2024",
+   "2025"
+  ],
+  "null_temporal_secondary": [
+   "2023",
+   "2024"
+  ]
+ },
+ "threshold": {
+  "source": "null_temporal_primary 유효 토큰 p99, 전 오름 풀링",
+  "value": 0.28091334104537974,
+  "n_null_tokens": 1400400
+ },
+ "flag_rate_pooled": {
+  "null_temporal_primary": 0.01,
+  "null_temporal_secondary": 0.015242207875497028,
+  "event": 0.02913305471863155
+ },
+ "flag_rate_check": {
+  "primary_should_be": 0.01,
+  "primary_is": 0.01,
+  "secondary_borrowed_threshold": 0.015242207875497028,
+  "secondary_note": "부 귀무는 주 귀무의 문턱을 빌려 쓴다. 구성상 보장되지 않는 첫 독립 검사다."
+ },
+ "summary": {
+  "frame_a_total": 243,
+  "cubes": 243,
+  "scored": 151,
+  "abstain": 92,
+  "sites_with_any_event_flag": 150,
+  "persistent_tokens_total": 3554
+ },
+ "claims": {
+  "allowed": [
+   "관측 가능한 오름 N곳 중 연간 변화가 평시 p99 를 넘은 토큰 비율로 읽는 순서",
+   "주 귀무 깃발율 ≈1% (구성상) · 부 귀무 깃발율 (독립 검사)"
+  ],
+  "forbidden": [
+   "오름 훼손을 탐지했다",
+   "원인·시설 종류",
+   "abstain 을 변화 없음으로",
+   "20 m 결과를 주 결과로 (귀무 검사 통과 전)"
+  ]
+ },
+ "ranking": [
+  "JJ-OREUM-143",
+  "JJ-OREUM-104",
+  "JJ-OREUM-056",
+  "JJ-OREUM-232",
+  "JJ-OREUM-352",
+  "JJ-OREUM-276",
+  "JJ-OREUM-079",
+  "JJ-OREUM-137",
+  "JJ-OREUM-215",
+  "JJ-OREUM-180",
+  "JJ-OREUM-162",
+  "JJ-OREUM-001",
+  "JJ-OREUM-127",
+  "JJ-OREUM-324",
+  "JJ-OREUM-060",
+  "JJ-OREUM-094",
+  "JJ-OREUM-288",
+  "JJ-OREUM-225",
+  "JJ-OREUM-154",
+  "JJ-OREUM-112",
+  "JJ-OREUM-176",
+  "JJ-OREUM-238",
+  "JJ-OREUM-309",
+  "JJ-OREUM-156",
+  "JJ-OREUM-308",
+  "JJ-OREUM-326",
+  "JJ-OREUM-036",
+  "JJ-OREUM-031",
+  "JJ-OREUM-362",
+  "JJ-OREUM-188",
+  "JJ-OREUM-334",
+  "JJ-OREUM-213",
+  "JJ-OREUM-171",
+  "JJ-OREUM-214",
+  "JJ-OREUM-043",
+  "JJ-OREUM-170",
+  "JJ-OREUM-133",
+  "JJ-OREUM-341",
+  "JJ-OREUM-122",
+  "JJ-OREUM-332",
+  "JJ-OREUM-007",
+  "JJ-OREUM-128",
+  "JJ-OREUM-047",
+  "JJ-OREUM-102",
+  "JJ-OREUM-097",
+  "JJ-OREUM-270",
+  "JJ-OREUM-255",
+  "JJ-OREUM-337",
+  "JJ-OREUM-356",
+  "JJ-OREUM-235",
+  "JJ-OREUM-246",
+  "JJ-OREUM-200",
+  "JJ-OREUM-292",
+  "JJ-OREUM-251",
+  "JJ-OREUM-013",
+  "JJ-OREUM-107",
+  "JJ-OREUM-311",
+  "JJ-OREUM-234",
+  "JJ-OREUM-194",
+  "JJ-OREUM-275",
+  "JJ-OREUM-022",
+  "JJ-OREUM-293",
+  "JJ-OREUM-155",
+  "JJ-OREUM-237",
+  "JJ-OREUM-349",
+  "JJ-OREUM-106",
+  "JJ-OREUM-229",
+  "JJ-OREUM-012",
+  "JJ-OREUM-158",
+  "JJ-OREUM-268",
+  "JJ-OREUM-258",
+  "JJ-OREUM-302",
+  "JJ-OREUM-316",
+  "JJ-OREUM-278",
+  "JJ-OREUM-262",
+  "JJ-OREUM-075",
+  "JJ-OREUM-364",
+  "JJ-OREUM-033",
+  "JJ-OREUM-165",
+  "JJ-OREUM-161",
+  "JJ-OREUM-269",
+  "JJ-OREUM-011",
+  "JJ-OREUM-339",
+  "JJ-OREUM-096",
+  "JJ-OREUM-083",
+  "JJ-OREUM-204",
+  "JJ-OREUM-294",
+  "JJ-OREUM-077",
+  "JJ-OREUM-223",
+  "JJ-OREUM-241",
+  "JJ-OREUM-026",
+  "JJ-OREUM-195",
+  "JJ-OREUM-050",
+  "JJ-OREUM-144",
+  "JJ-OREUM-049",
+  "JJ-OREUM-040",
+  "JJ-OREUM-320",
+  "JJ-OREUM-282",
+  "JJ-OREUM-108",
+  "JJ-OREUM-331",
+  "JJ-OREUM-131",
+  "JJ-OREUM-345",
+  "JJ-OREUM-016",
+  "JJ-OREUM-124",
+  "JJ-OREUM-300",
+  "JJ-OREUM-303",
+  "JJ-OREUM-140",
+  "JJ-OREUM-359",
+  "JJ-OREUM-289",
+  "JJ-OREUM-211",
+  "JJ-OREUM-092",
+  "JJ-OREUM-135",
+  "JJ-OREUM-169",
+  "JJ-OREUM-242",
+  "JJ-OREUM-212",
+  "JJ-OREUM-093",
+  "JJ-OREUM-240",
+  "JJ-OREUM-325",
+  "JJ-OREUM-081",
+  "JJ-OREUM-340",
+  "JJ-OREUM-314",
+  "JJ-OREUM-055",
+  "JJ-OREUM-101",
+  "JJ-OREUM-305",
+  "JJ-OREUM-227",
+  "JJ-OREUM-115",
+  "JJ-OREUM-280",
+  "JJ-OREUM-082",
+  "JJ-OREUM-283",
+  "JJ-OREUM-039",
+  "JJ-OREUM-327",
+  "JJ-OREUM-190",
+  "JJ-OREUM-008",
+  "JJ-OREUM-100",
+  "JJ-OREUM-222",
+  "JJ-OREUM-139",
+  "JJ-OREUM-105",
+  "JJ-OREUM-298",
+  "JJ-OREUM-218",
+  "JJ-OREUM-132",
+  "JJ-OREUM-129",
+  "JJ-OREUM-243",
+  "JJ-OREUM-239",
+  "JJ-OREUM-249",
+  "JJ-OREUM-230",
+  "JJ-OREUM-196",
+  "JJ-OREUM-266",
+  "JJ-OREUM-193",
+  "JJ-OREUM-206",
+  "JJ-OREUM-175",
+  "JJ-OREUM-090"
+ ],
+ "sites": {
+  "JJ-OREUM-001": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.382,
+    "observable": true,
+    "flag_frac": 0.0949,
+    "n_flag": 594,
+    "median_delta": 0.09423
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5408,
+    "observable": true,
+    "flag_frac": 0.0077,
+    "n_flag": 68,
+    "median_delta": 0.05813
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9545,
+    "observable": true,
+    "flag_frac": 0.0252,
+    "n_flag": 394,
+    "median_delta": 0.03982
+   },
+   "persistent_tokens": 21,
+   "event_only_tokens": 474,
+   "verdict": "scored",
+   "rank": 12
+  },
+  "JJ-OREUM-005": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0767,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0153,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.003,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 76,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-007": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.8376,
+    "observable": true,
+    "flag_frac": 0.0335,
+    "n_flag": 460,
+    "median_delta": 0.0636
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1132,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.007,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 6,
+   "event_only_tokens": 19,
+   "verdict": "scored",
+   "rank": 41
+  },
+  "JJ-OREUM-008": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.8392,
+    "observable": true,
+    "flag_frac": 0.003,
+    "n_flag": 41,
+    "median_delta": 0.0224
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9039,
+    "observable": true,
+    "flag_frac": 0.0034,
+    "n_flag": 51,
+    "median_delta": 0.02759
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2375,
+    "observable": true,
+    "flag_frac": 0.009,
+    "n_flag": 35,
+    "median_delta": 0.0617
+   },
+   "persistent_tokens": 11,
+   "event_only_tokens": 30,
+   "verdict": "scored",
+   "rank": 133
+  },
+  "JJ-OREUM-009": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0346,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0397,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4271,
+    "observable": true,
+    "flag_frac": 0.0179,
+    "n_flag": 125,
+    "median_delta": 0.1223
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 10,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-010": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1431,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.099,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3461,
+    "observable": true,
+    "flag_frac": 0.0213,
+    "n_flag": 121,
+    "median_delta": 0.09648
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 36,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-011": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5403,
+    "observable": true,
+    "flag_frac": 0.0151,
+    "n_flag": 134,
+    "median_delta": 0.06417
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4243,
+    "observable": true,
+    "flag_frac": 0.0079,
+    "n_flag": 55,
+    "median_delta": 0.04494
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2372,
+    "observable": true,
+    "flag_frac": 0.0162,
+    "n_flag": 63,
+    "median_delta": 0.11585
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 68,
+   "verdict": "scored",
+   "rank": 82
+  },
+  "JJ-OREUM-012": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.4653,
+    "observable": true,
+    "flag_frac": 0.0189,
+    "n_flag": 144,
+    "median_delta": 0.07466
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2451,
+    "observable": true,
+    "flag_frac": 0.006,
+    "n_flag": 24,
+    "median_delta": 0.0556
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2616,
+    "observable": true,
+    "flag_frac": 0.0331,
+    "n_flag": 142,
+    "median_delta": 0.06085
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 123,
+   "verdict": "scored",
+   "rank": 68
+  },
+  "JJ-OREUM-013": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.6843,
+    "observable": true,
+    "flag_frac": 0.0232,
+    "n_flag": 260,
+    "median_delta": 0.0519
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4567,
+    "observable": true,
+    "flag_frac": 0.0299,
+    "n_flag": 224,
+    "median_delta": 0.07362
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2797,
+    "observable": true,
+    "flag_frac": 0.0227,
+    "n_flag": 104,
+    "median_delta": 0.12219
+   },
+   "persistent_tokens": 51,
+   "event_only_tokens": 98,
+   "verdict": "scored",
+   "rank": 55
+  },
+  "JJ-OREUM-016": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.7198,
+    "observable": true,
+    "flag_frac": 0.0093,
+    "n_flag": 110,
+    "median_delta": 0.03343
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7624,
+    "observable": true,
+    "flag_frac": 0.0064,
+    "n_flag": 80,
+    "median_delta": 0.02602
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3088,
+    "observable": true,
+    "flag_frac": 0.0213,
+    "n_flag": 108,
+    "median_delta": 0.05671
+   },
+   "persistent_tokens": 22,
+   "event_only_tokens": 64,
+   "verdict": "scored",
+   "rank": 103
+  },
+  "JJ-OREUM-019": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0032,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-020": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1159,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0824,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.417,
+    "observable": true,
+    "flag_frac": 0.0261,
+    "n_flag": 178,
+    "median_delta": 0.08224
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 47,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-021": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0016,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0015,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5383,
+    "observable": true,
+    "flag_frac": 0.0046,
+    "n_flag": 41,
+    "median_delta": 0.04822
+   },
+   "persistent_tokens": 4,
+   "event_only_tokens": 12,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-022": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.7121,
+    "observable": true,
+    "flag_frac": 0.0201,
+    "n_flag": 234,
+    "median_delta": 0.03605
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.414,
+    "observable": true,
+    "flag_frac": 0.0301,
+    "n_flag": 204,
+    "median_delta": 0.07325
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1898,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 90,
+   "event_only_tokens": 103,
+   "verdict": "scored",
+   "rank": 61
+  },
+  "JJ-OREUM-024": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6212,
+    "observable": true,
+    "flag_frac": 0.0165,
+    "n_flag": 168,
+    "median_delta": 0.05191
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-025": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0853,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0775,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7185,
+    "observable": true,
+    "flag_frac": 0.0356,
+    "n_flag": 419,
+    "median_delta": 0.04506
+   },
+   "persistent_tokens": 35,
+   "event_only_tokens": 52,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-026": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5878,
+    "observable": true,
+    "flag_frac": 0.0128,
+    "n_flag": 123,
+    "median_delta": 0.03961
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8748,
+    "observable": true,
+    "flag_frac": 0.017,
+    "n_flag": 243,
+    "median_delta": 0.04571
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6616,
+    "observable": true,
+    "flag_frac": 0.0118,
+    "n_flag": 128,
+    "median_delta": 0.04676
+   },
+   "persistent_tokens": 44,
+   "event_only_tokens": 72,
+   "verdict": "scored",
+   "rank": 91
+  },
+  "JJ-OREUM-027": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0216,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5699,
+    "observable": true,
+    "flag_frac": 0.0096,
+    "n_flag": 90,
+    "median_delta": 0.04656
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9385,
+    "observable": true,
+    "flag_frac": 0.0107,
+    "n_flag": 165,
+    "median_delta": 0.05129
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 66,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-031": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2972,
+    "observable": true,
+    "flag_frac": 0.0589,
+    "n_flag": 287,
+    "median_delta": 0.05631
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2651,
+    "observable": true,
+    "flag_frac": 0.0131,
+    "n_flag": 57,
+    "median_delta": 0.07412
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5682,
+    "observable": true,
+    "flag_frac": 0.0165,
+    "n_flag": 154,
+    "median_delta": 0.05873
+   },
+   "persistent_tokens": 18,
+   "event_only_tokens": 215,
+   "verdict": "scored",
+   "rank": 28
+  },
+  "JJ-OREUM-032": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0905,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2241,
+    "observable": true,
+    "flag_frac": 0.0289,
+    "n_flag": 106,
+    "median_delta": 0.13408
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3311,
+    "observable": true,
+    "flag_frac": 0.0052,
+    "n_flag": 28,
+    "median_delta": 0.10258
+   },
+   "persistent_tokens": 16,
+   "event_only_tokens": 29,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-033": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2373,
+    "observable": true,
+    "flag_frac": 0.0159,
+    "n_flag": 62,
+    "median_delta": 0.08975
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2335,
+    "observable": true,
+    "flag_frac": 0.0003,
+    "n_flag": 1,
+    "median_delta": 0.05236
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8072,
+    "observable": true,
+    "flag_frac": 0.0076,
+    "n_flag": 101,
+    "median_delta": 0.05069
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 60,
+   "verdict": "scored",
+   "rank": 78
+  },
+  "JJ-OREUM-034": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.1968,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2388,
+    "observable": true,
+    "flag_frac": 0.021,
+    "n_flag": 82,
+    "median_delta": 0.11757
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9412,
+    "observable": true,
+    "flag_frac": 0.0025,
+    "n_flag": 39,
+    "median_delta": 0.03863
+   },
+   "persistent_tokens": 19,
+   "event_only_tokens": 14,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-036": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3304,
+    "observable": true,
+    "flag_frac": 0.0602,
+    "n_flag": 326,
+    "median_delta": 0.11619
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "scored",
+   "rank": 27
+  },
+  "JJ-OREUM-039": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.8248,
+    "observable": true,
+    "flag_frac": 0.0038,
+    "n_flag": 51,
+    "median_delta": 0.02547
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8229,
+    "observable": true,
+    "flag_frac": 0.0059,
+    "n_flag": 79,
+    "median_delta": 0.02387
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8047,
+    "observable": true,
+    "flag_frac": 0.0048,
+    "n_flag": 63,
+    "median_delta": 0.01945
+   },
+   "persistent_tokens": 22,
+   "event_only_tokens": 29,
+   "verdict": "scored",
+   "rank": 130
+  },
+  "JJ-OREUM-040": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5687,
+    "observable": true,
+    "flag_frac": 0.0106,
+    "n_flag": 99,
+    "median_delta": 0.03544
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7798,
+    "observable": true,
+    "flag_frac": 0.0072,
+    "n_flag": 92,
+    "median_delta": 0.04355
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2045,
+    "observable": true,
+    "flag_frac": 0.0367,
+    "n_flag": 123,
+    "median_delta": 0.09915
+   },
+   "persistent_tokens": 31,
+   "event_only_tokens": 68,
+   "verdict": "scored",
+   "rank": 96
+  },
+  "JJ-OREUM-041": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.1909,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0835,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.077,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 13,
+   "event_only_tokens": 146,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-043": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2371,
+    "observable": true,
+    "flag_frac": 0.0443,
+    "n_flag": 172,
+    "median_delta": 0.07818
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0761,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3175,
+    "observable": true,
+    "flag_frac": 0.0083,
+    "n_flag": 43,
+    "median_delta": 0.08226
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 37,
+   "verdict": "scored",
+   "rank": 35
+  },
+  "JJ-OREUM-045": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0132,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0085,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0279,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 59,
+   "event_only_tokens": 21,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-047": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.7088,
+    "observable": true,
+    "flag_frac": 0.0316,
+    "n_flag": 367,
+    "median_delta": 0.08514
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9031,
+    "observable": true,
+    "flag_frac": 0.0053,
+    "n_flag": 79,
+    "median_delta": 0.02906
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9879,
+    "observable": true,
+    "flag_frac": 0.0041,
+    "n_flag": 67,
+    "median_delta": 0.02385
+   },
+   "persistent_tokens": 35,
+   "event_only_tokens": 332,
+   "verdict": "scored",
+   "rank": 43
+  },
+  "JJ-OREUM-048": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2165,
+    "observable": true,
+    "flag_frac": 0.0262,
+    "n_flag": 93,
+    "median_delta": 0.0564
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-049": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.8381,
+    "observable": true,
+    "flag_frac": 0.0109,
+    "n_flag": 150,
+    "median_delta": 0.03035
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7155,
+    "observable": true,
+    "flag_frac": 0.0107,
+    "n_flag": 125,
+    "median_delta": 0.04889
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4474,
+    "observable": true,
+    "flag_frac": 0.0203,
+    "n_flag": 149,
+    "median_delta": 0.07043
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 93,
+   "verdict": "scored",
+   "rank": 95
+  },
+  "JJ-OREUM-050": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.4573,
+    "observable": true,
+    "flag_frac": 0.0125,
+    "n_flag": 94,
+    "median_delta": 0.0912
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.71,
+    "observable": true,
+    "flag_frac": 0.0173,
+    "n_flag": 201,
+    "median_delta": 0.03954
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8096,
+    "observable": true,
+    "flag_frac": 0.0191,
+    "n_flag": 253,
+    "median_delta": 0.04397
+   },
+   "persistent_tokens": 11,
+   "event_only_tokens": 74,
+   "verdict": "scored",
+   "rank": 93
+  },
+  "JJ-OREUM-052": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0007,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0003,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-053": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1634,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0046,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0176,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 1,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-055": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.2407,
+    "observable": true,
+    "flag_frac": 0.0058,
+    "n_flag": 23,
+    "median_delta": 0.04739
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0198,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1266,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 12,
+   "event_only_tokens": 5,
+   "verdict": "scored",
+   "rank": 122
+  },
+  "JJ-OREUM-056": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2038,
+    "observable": true,
+    "flag_frac": 0.1821,
+    "n_flag": 608,
+    "median_delta": 0.14776
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2404,
+    "observable": true,
+    "flag_frac": 0.0274,
+    "n_flag": 108,
+    "median_delta": 0.05949
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6422,
+    "observable": true,
+    "flag_frac": 0.0315,
+    "n_flag": 331,
+    "median_delta": 0.05118
+   },
+   "persistent_tokens": 6,
+   "event_only_tokens": 529,
+   "verdict": "scored",
+   "rank": 3
+  },
+  "JJ-OREUM-059": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1809,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.121,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.234,
+    "observable": true,
+    "flag_frac": 0.031,
+    "n_flag": 119,
+    "median_delta": 0.08069
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 27,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-060": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.8369,
+    "observable": true,
+    "flag_frac": 0.085,
+    "n_flag": 1165,
+    "median_delta": 0.08051
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3342,
+    "observable": true,
+    "flag_frac": 0.0405,
+    "n_flag": 222,
+    "median_delta": 0.08162
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2596,
+    "observable": true,
+    "flag_frac": 0.0071,
+    "n_flag": 30,
+    "median_delta": 0.07328
+   },
+   "persistent_tokens": 165,
+   "event_only_tokens": 428,
+   "verdict": "scored",
+   "rank": 15
+  },
+  "JJ-OREUM-061": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.0001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2769,
+    "observable": true,
+    "flag_frac": 0.0192,
+    "n_flag": 87,
+    "median_delta": 0.07822
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-065": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0117,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-070": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0678,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1062,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1396,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 1,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-072": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.0147,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1848,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2319,
+    "observable": true,
+    "flag_frac": 0.0237,
+    "n_flag": 90,
+    "median_delta": 0.08134
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-073": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0154,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0431,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 1,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-074": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0006,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-075": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.7637,
+    "observable": true,
+    "flag_frac": 0.0169,
+    "n_flag": 212,
+    "median_delta": 0.05003
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.297,
+    "observable": true,
+    "flag_frac": 0.0154,
+    "n_flag": 75,
+    "median_delta": 0.07879
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3528,
+    "observable": true,
+    "flag_frac": 0.0209,
+    "n_flag": 121,
+    "median_delta": 0.10156
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 79,
+   "verdict": "scored",
+   "rank": 76
+  },
+  "JJ-OREUM-077": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.4148,
+    "observable": true,
+    "flag_frac": 0.0134,
+    "n_flag": 91,
+    "median_delta": 0.0694
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1899,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1085,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 71,
+   "verdict": "scored",
+   "rank": 88
+  },
+  "JJ-OREUM-079": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.6393,
+    "observable": true,
+    "flag_frac": 0.1242,
+    "n_flag": 1301,
+    "median_delta": 0.12951
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5262,
+    "observable": true,
+    "flag_frac": 0.0341,
+    "n_flag": 294,
+    "median_delta": 0.06622
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5568,
+    "observable": true,
+    "flag_frac": 0.0725,
+    "n_flag": 661,
+    "median_delta": 0.08268
+   },
+   "persistent_tokens": 27,
+   "event_only_tokens": 464,
+   "verdict": "scored",
+   "rank": 7
+  },
+  "JJ-OREUM-081": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3625,
+    "observable": true,
+    "flag_frac": 0.0072,
+    "n_flag": 43,
+    "median_delta": 0.06419
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7108,
+    "observable": true,
+    "flag_frac": 0.0055,
+    "n_flag": 64,
+    "median_delta": 0.05555
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6206,
+    "observable": true,
+    "flag_frac": 0.0168,
+    "n_flag": 171,
+    "median_delta": 0.06501
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 42,
+   "verdict": "scored",
+   "rank": 119
+  },
+  "JJ-OREUM-082": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.4249,
+    "observable": true,
+    "flag_frac": 0.0039,
+    "n_flag": 27,
+    "median_delta": 0.05115
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4991,
+    "observable": true,
+    "flag_frac": 0.0057,
+    "n_flag": 47,
+    "median_delta": 0.06942
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2379,
+    "observable": true,
+    "flag_frac": 0.0372,
+    "n_flag": 145,
+    "median_delta": 0.08983
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 21,
+   "verdict": "scored",
+   "rank": 128
+  },
+  "JJ-OREUM-083": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9995,
+    "observable": true,
+    "flag_frac": 0.0143,
+    "n_flag": 234,
+    "median_delta": 0.02766
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9353,
+    "observable": true,
+    "flag_frac": 0.0051,
+    "n_flag": 78,
+    "median_delta": 0.01416
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6566,
+    "observable": true,
+    "flag_frac": 0.0116,
+    "n_flag": 125,
+    "median_delta": 0.01668
+   },
+   "persistent_tokens": 39,
+   "event_only_tokens": 195,
+   "verdict": "scored",
+   "rank": 85
+  },
+  "JJ-OREUM-085": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-086": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0148,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0085,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3688,
+    "observable": true,
+    "flag_frac": 0.0356,
+    "n_flag": 215,
+    "median_delta": 0.08616
+   },
+   "persistent_tokens": 137,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-090": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.2101,
+    "observable": true,
+    "flag_frac": 0.0,
+    "n_flag": 0,
+    "median_delta": 0.04208
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0387,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "scored",
+   "rank": 151
+  },
+  "JJ-OREUM-092": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.222,
+    "observable": true,
+    "flag_frac": 0.008,
+    "n_flag": 29,
+    "median_delta": 0.0271
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3615,
+    "observable": true,
+    "flag_frac": 0.0015,
+    "n_flag": 9,
+    "median_delta": 0.02721
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4337,
+    "observable": true,
+    "flag_frac": 0.0006,
+    "n_flag": 4,
+    "median_delta": 0.02851
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 29,
+   "verdict": "scored",
+   "rank": 111
+  },
+  "JJ-OREUM-093": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.2932,
+    "observable": true,
+    "flag_frac": 0.0075,
+    "n_flag": 36,
+    "median_delta": 0.02567
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4041,
+    "observable": true,
+    "flag_frac": 0.0017,
+    "n_flag": 11,
+    "median_delta": 0.02514
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5536,
+    "observable": true,
+    "flag_frac": 0.0018,
+    "n_flag": 16,
+    "median_delta": 0.02297
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 35,
+   "verdict": "scored",
+   "rank": 116
+  },
+  "JJ-OREUM-094": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.4002,
+    "observable": true,
+    "flag_frac": 0.0849,
+    "n_flag": 557,
+    "median_delta": 0.08622
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3822,
+    "observable": true,
+    "flag_frac": 0.0109,
+    "n_flag": 68,
+    "median_delta": 0.04203
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6153,
+    "observable": true,
+    "flag_frac": 0.0295,
+    "n_flag": 297,
+    "median_delta": 0.0647
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 390,
+   "verdict": "scored",
+   "rank": 16
+  },
+  "JJ-OREUM-095": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0672,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0161,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0684,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 193,
+   "event_only_tokens": 68,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-096": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.9033,
+    "observable": true,
+    "flag_frac": 0.0149,
+    "n_flag": 220,
+    "median_delta": 0.03829
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7568,
+    "observable": true,
+    "flag_frac": 0.0173,
+    "n_flag": 214,
+    "median_delta": 0.05601
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2976,
+    "observable": true,
+    "flag_frac": 0.0427,
+    "n_flag": 208,
+    "median_delta": 0.08784
+   },
+   "persistent_tokens": 43,
+   "event_only_tokens": 147,
+   "verdict": "scored",
+   "rank": 84
+  },
+  "JJ-OREUM-097": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.246,
+    "observable": true,
+    "flag_frac": 0.031,
+    "n_flag": 125,
+    "median_delta": 0.09954
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2094,
+    "observable": true,
+    "flag_frac": 0.0,
+    "n_flag": 0,
+    "median_delta": 0.03898
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4697,
+    "observable": true,
+    "flag_frac": 0.0038,
+    "n_flag": 29,
+    "median_delta": 0.0671
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 109,
+   "verdict": "scored",
+   "rank": 45
+  },
+  "JJ-OREUM-099": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0132,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0067,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6548,
+    "observable": true,
+    "flag_frac": 0.0144,
+    "n_flag": 155,
+    "median_delta": 0.0573
+   },
+   "persistent_tokens": 76,
+   "event_only_tokens": 16,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-100": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5263,
+    "observable": true,
+    "flag_frac": 0.0026,
+    "n_flag": 22,
+    "median_delta": 0.02963
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5645,
+    "observable": true,
+    "flag_frac": 0.0089,
+    "n_flag": 82,
+    "median_delta": 0.04248
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5932,
+    "observable": true,
+    "flag_frac": 0.0109,
+    "n_flag": 106,
+    "median_delta": 0.05641
+   },
+   "persistent_tokens": 12,
+   "event_only_tokens": 10,
+   "verdict": "scored",
+   "rank": 134
+  },
+  "JJ-OREUM-101": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.6322,
+    "observable": true,
+    "flag_frac": 0.0058,
+    "n_flag": 60,
+    "median_delta": 0.039
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5458,
+    "observable": true,
+    "flag_frac": 0.0063,
+    "n_flag": 56,
+    "median_delta": 0.06726
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4982,
+    "observable": true,
+    "flag_frac": 0.0093,
+    "n_flag": 76,
+    "median_delta": 0.05681
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 28,
+   "verdict": "scored",
+   "rank": 123
+  },
+  "JJ-OREUM-102": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3845,
+    "observable": true,
+    "flag_frac": 0.0311,
+    "n_flag": 196,
+    "median_delta": 0.09061
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3062,
+    "observable": true,
+    "flag_frac": 0.0249,
+    "n_flag": 125,
+    "median_delta": 0.07814
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5827,
+    "observable": true,
+    "flag_frac": 0.0228,
+    "n_flag": 218,
+    "median_delta": 0.0557
+   },
+   "persistent_tokens": 38,
+   "event_only_tokens": 102,
+   "verdict": "scored",
+   "rank": 44
+  },
+  "JJ-OREUM-104": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2069,
+    "observable": true,
+    "flag_frac": 0.1832,
+    "n_flag": 621,
+    "median_delta": 0.12156
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.155,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5991,
+    "observable": true,
+    "flag_frac": 0.0296,
+    "n_flag": 291,
+    "median_delta": 0.07374
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 554,
+   "verdict": "scored",
+   "rank": 2
+  },
+  "JJ-OREUM-105": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.9664,
+    "observable": true,
+    "flag_frac": 0.0023,
+    "n_flag": 37,
+    "median_delta": 0.02511
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9658,
+    "observable": true,
+    "flag_frac": 0.0052,
+    "n_flag": 83,
+    "median_delta": 0.03467
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9483,
+    "observable": true,
+    "flag_frac": 0.0006,
+    "n_flag": 10,
+    "median_delta": 0.01928
+   },
+   "persistent_tokens": 14,
+   "event_only_tokens": 23,
+   "verdict": "scored",
+   "rank": 137
+  },
+  "JJ-OREUM-106": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.7383,
+    "observable": true,
+    "flag_frac": 0.0194,
+    "n_flag": 235,
+    "median_delta": 0.06649
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9179,
+    "observable": true,
+    "flag_frac": 0.0011,
+    "n_flag": 17,
+    "median_delta": 0.02153
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0778,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 14,
+   "event_only_tokens": 221,
+   "verdict": "scored",
+   "rank": 66
+  },
+  "JJ-OREUM-107": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.5363,
+    "observable": true,
+    "flag_frac": 0.0228,
+    "n_flag": 200,
+    "median_delta": 0.06651
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1189,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.085,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 10,
+   "verdict": "scored",
+   "rank": 56
+  },
+  "JJ-OREUM-108": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.7349,
+    "observable": true,
+    "flag_frac": 0.0099,
+    "n_flag": 119,
+    "median_delta": 0.02611
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9485,
+    "observable": true,
+    "flag_frac": 0.0008,
+    "n_flag": 12,
+    "median_delta": 0.02113
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7487,
+    "observable": true,
+    "flag_frac": 0.0046,
+    "n_flag": 57,
+    "median_delta": 0.03203
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 114,
+   "verdict": "scored",
+   "rank": 99
+  },
+  "JJ-OREUM-110": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.1275,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.374,
+    "observable": true,
+    "flag_frac": 0.0028,
+    "n_flag": 17,
+    "median_delta": 0.10645
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9973,
+    "observable": true,
+    "flag_frac": 0.0098,
+    "n_flag": 160,
+    "median_delta": 0.02342
+   },
+   "persistent_tokens": 13,
+   "event_only_tokens": 24,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-112": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2186,
+    "observable": true,
+    "flag_frac": 0.0729,
+    "n_flag": 261,
+    "median_delta": 0.11926
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.118,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3992,
+    "observable": true,
+    "flag_frac": 0.0182,
+    "n_flag": 119,
+    "median_delta": 0.09209
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 85,
+   "verdict": "scored",
+   "rank": 20
+  },
+  "JJ-OREUM-113": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0396,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0396,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.838,
+    "observable": true,
+    "flag_frac": 0.0043,
+    "n_flag": 59,
+    "median_delta": 0.0372
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 67,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-114": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0261,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0015,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-115": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.98,
+    "observable": true,
+    "flag_frac": 0.0043,
+    "n_flag": 69,
+    "median_delta": 0.01466
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9594,
+    "observable": true,
+    "flag_frac": 0.0036,
+    "n_flag": 57,
+    "median_delta": 0.02072
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8935,
+    "observable": true,
+    "flag_frac": 0.0013,
+    "n_flag": 19,
+    "median_delta": 0.03127
+   },
+   "persistent_tokens": 17,
+   "event_only_tokens": 52,
+   "verdict": "scored",
+   "rank": 126
+  },
+  "JJ-OREUM-118": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0301,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.015,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0038,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 1,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-119": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0168,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0165,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2352,
+    "observable": true,
+    "flag_frac": 0.0055,
+    "n_flag": 21,
+    "median_delta": 0.06916
+   },
+   "persistent_tokens": 47,
+   "event_only_tokens": 56,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-122": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3279,
+    "observable": true,
+    "flag_frac": 0.0363,
+    "n_flag": 195,
+    "median_delta": 0.09777
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0759,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1298,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 10,
+   "event_only_tokens": 0,
+   "verdict": "scored",
+   "rank": 39
+  },
+  "JJ-OREUM-123": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1786,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.016,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1677,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 31,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-124": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.993,
+    "observable": true,
+    "flag_frac": 0.0091,
+    "n_flag": 148,
+    "median_delta": 0.02768
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8954,
+    "observable": true,
+    "flag_frac": 0.0094,
+    "n_flag": 138,
+    "median_delta": 0.02471
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6737,
+    "observable": true,
+    "flag_frac": 0.0065,
+    "n_flag": 72,
+    "median_delta": 0.02697
+   },
+   "persistent_tokens": 32,
+   "event_only_tokens": 111,
+   "verdict": "scored",
+   "rank": 104
+  },
+  "JJ-OREUM-125": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0981,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0004,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0003,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-126": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.108,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0115,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 11,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-127": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.527,
+    "observable": true,
+    "flag_frac": 0.0899,
+    "n_flag": 776,
+    "median_delta": 0.0829
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3082,
+    "observable": true,
+    "flag_frac": 0.0069,
+    "n_flag": 35,
+    "median_delta": 0.04394
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.504,
+    "observable": true,
+    "flag_frac": 0.0085,
+    "n_flag": 70,
+    "median_delta": 0.05153
+   },
+   "persistent_tokens": 17,
+   "event_only_tokens": 653,
+   "verdict": "scored",
+   "rank": 13
+  },
+  "JJ-OREUM-128": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3253,
+    "observable": true,
+    "flag_frac": 0.0323,
+    "n_flag": 172,
+    "median_delta": 0.08696
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8108,
+    "observable": true,
+    "flag_frac": 0.0195,
+    "n_flag": 259,
+    "median_delta": 0.04452
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.638,
+    "observable": true,
+    "flag_frac": 0.0272,
+    "n_flag": 284,
+    "median_delta": 0.0749
+   },
+   "persistent_tokens": 66,
+   "event_only_tokens": 89,
+   "verdict": "scored",
+   "rank": 42
+  },
+  "JJ-OREUM-129": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9896,
+    "observable": true,
+    "flag_frac": 0.0016,
+    "n_flag": 26,
+    "median_delta": 0.02262
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8951,
+    "observable": true,
+    "flag_frac": 0.0049,
+    "n_flag": 72,
+    "median_delta": 0.02427
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8955,
+    "observable": true,
+    "flag_frac": 0.0033,
+    "n_flag": 49,
+    "median_delta": 0.0206
+   },
+   "persistent_tokens": 12,
+   "event_only_tokens": 14,
+   "verdict": "scored",
+   "rank": 141
+  },
+  "JJ-OREUM-130": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0024,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0004,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0039,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-131": {
+   "tile": "52SCC",
+   "event": {
+    "valid_token_frac": 0.9854,
+    "observable": true,
+    "flag_frac": 0.0094,
+    "n_flag": 151,
+    "median_delta": 0.06444
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.996,
+    "observable": true,
+    "flag_frac": 0.0059,
+    "n_flag": 96,
+    "median_delta": 0.05947
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5022,
+    "observable": true,
+    "flag_frac": 0.0051,
+    "n_flag": 42,
+    "median_delta": 0.02886
+   },
+   "persistent_tokens": 52,
+   "event_only_tokens": 98,
+   "verdict": "scored",
+   "rank": 101
+  },
+  "JJ-OREUM-132": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.9999,
+    "observable": true,
+    "flag_frac": 0.0017,
+    "n_flag": 28,
+    "median_delta": 0.03601
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.995,
+    "observable": true,
+    "flag_frac": 0.0002,
+    "n_flag": 3,
+    "median_delta": 0.01712
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.995,
+    "observable": true,
+    "flag_frac": 0.0004,
+    "n_flag": 7,
+    "median_delta": 0.0184
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 27,
+   "verdict": "scored",
+   "rank": 140
+  },
+  "JJ-OREUM-133": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.7648,
+    "observable": true,
+    "flag_frac": 0.0429,
+    "n_flag": 537,
+    "median_delta": 0.07102
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9114,
+    "observable": true,
+    "flag_frac": 0.0015,
+    "n_flag": 23,
+    "median_delta": 0.02367
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0295,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 20,
+   "event_only_tokens": 517,
+   "verdict": "scored",
+   "rank": 37
+  },
+  "JJ-OREUM-134": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0032,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-135": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9957,
+    "observable": true,
+    "flag_frac": 0.0079,
+    "n_flag": 129,
+    "median_delta": 0.02878
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9556,
+    "observable": true,
+    "flag_frac": 0.0044,
+    "n_flag": 69,
+    "median_delta": 0.02115
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6836,
+    "observable": true,
+    "flag_frac": 0.0164,
+    "n_flag": 184,
+    "median_delta": 0.03735
+   },
+   "persistent_tokens": 22,
+   "event_only_tokens": 95,
+   "verdict": "scored",
+   "rank": 112
+  },
+  "JJ-OREUM-137": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3339,
+    "observable": true,
+    "flag_frac": 0.117,
+    "n_flag": 640,
+    "median_delta": 0.12865
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2508,
+    "observable": true,
+    "flag_frac": 0.009,
+    "n_flag": 37,
+    "median_delta": 0.09912
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3008,
+    "observable": true,
+    "flag_frac": 0.0355,
+    "n_flag": 175,
+    "median_delta": 0.09359
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 263,
+   "verdict": "scored",
+   "rank": 8
+  },
+  "JJ-OREUM-139": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.4053,
+    "observable": true,
+    "flag_frac": 0.0024,
+    "n_flag": 16,
+    "median_delta": 0.02238
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4072,
+    "observable": true,
+    "flag_frac": 0.0022,
+    "n_flag": 15,
+    "median_delta": 0.03202
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5102,
+    "observable": true,
+    "flag_frac": 0.0077,
+    "n_flag": 64,
+    "median_delta": 0.0409
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 16,
+   "verdict": "scored",
+   "rank": 136
+  },
+  "JJ-OREUM-140": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.722,
+    "observable": true,
+    "flag_frac": 0.009,
+    "n_flag": 107,
+    "median_delta": 0.02019
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5162,
+    "observable": true,
+    "flag_frac": 0.0119,
+    "n_flag": 101,
+    "median_delta": 0.06976
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3151,
+    "observable": true,
+    "flag_frac": 0.0132,
+    "n_flag": 68,
+    "median_delta": 0.06608
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 33,
+   "verdict": "scored",
+   "rank": 107
+  },
+  "JJ-OREUM-143": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2822,
+    "observable": true,
+    "flag_frac": 0.2808,
+    "n_flag": 1298,
+    "median_delta": 0.16389
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2341,
+    "observable": true,
+    "flag_frac": 0.024,
+    "n_flag": 92,
+    "median_delta": 0.07834
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6411,
+    "observable": true,
+    "flag_frac": 0.0448,
+    "n_flag": 471,
+    "median_delta": 0.05176
+   },
+   "persistent_tokens": 18,
+   "event_only_tokens": 990,
+   "verdict": "scored",
+   "rank": 1
+  },
+  "JJ-OREUM-144": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.7056,
+    "observable": true,
+    "flag_frac": 0.0113,
+    "n_flag": 131,
+    "median_delta": 0.03801
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4021,
+    "observable": true,
+    "flag_frac": 0.0197,
+    "n_flag": 130,
+    "median_delta": 0.06442
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1118,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 36,
+   "event_only_tokens": 55,
+   "verdict": "scored",
+   "rank": 94
+  },
+  "JJ-OREUM-146": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0145,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-147": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0114,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0003,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 2,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-148": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0091,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 6,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-149": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0025,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0003,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-153": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-154": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3182,
+    "observable": true,
+    "flag_frac": 0.0754,
+    "n_flag": 393,
+    "median_delta": 0.13
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1908,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3987,
+    "observable": true,
+    "flag_frac": 0.0107,
+    "n_flag": 70,
+    "median_delta": 0.09837
+   },
+   "persistent_tokens": 26,
+   "event_only_tokens": 62,
+   "verdict": "scored",
+   "rank": 19
+  },
+  "JJ-OREUM-155": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.343,
+    "observable": true,
+    "flag_frac": 0.0199,
+    "n_flag": 112,
+    "median_delta": 0.06559
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3763,
+    "observable": true,
+    "flag_frac": 0.0164,
+    "n_flag": 101,
+    "median_delta": 0.08051
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.264,
+    "observable": true,
+    "flag_frac": 0.0277,
+    "n_flag": 120,
+    "median_delta": 0.09292
+   },
+   "persistent_tokens": 42,
+   "event_only_tokens": 70,
+   "verdict": "scored",
+   "rank": 63
+  },
+  "JJ-OREUM-156": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2355,
+    "observable": true,
+    "flag_frac": 0.0687,
+    "n_flag": 265,
+    "median_delta": 0.12836
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1766,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4282,
+    "observable": true,
+    "flag_frac": 0.0153,
+    "n_flag": 107,
+    "median_delta": 0.0679
+   },
+   "persistent_tokens": 15,
+   "event_only_tokens": 194,
+   "verdict": "scored",
+   "rank": 24
+  },
+  "JJ-OREUM-157": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.1367,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0814,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6733,
+    "observable": true,
+    "flag_frac": 0.019,
+    "n_flag": 210,
+    "median_delta": 0.03973
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 167,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-158": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.6452,
+    "observable": true,
+    "flag_frac": 0.0188,
+    "n_flag": 199,
+    "median_delta": 0.08061
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.555,
+    "observable": true,
+    "flag_frac": 0.0095,
+    "n_flag": 86,
+    "median_delta": 0.07514
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5533,
+    "observable": true,
+    "flag_frac": 0.009,
+    "n_flag": 82,
+    "median_delta": 0.0523
+   },
+   "persistent_tokens": 10,
+   "event_only_tokens": 181,
+   "verdict": "scored",
+   "rank": 69
+  },
+  "JJ-OREUM-159": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1539,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.076,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2805,
+    "observable": true,
+    "flag_frac": 0.0387,
+    "n_flag": 178,
+    "median_delta": 0.08945
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 63,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-160": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0704,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3828,
+    "observable": true,
+    "flag_frac": 0.023,
+    "n_flag": 144,
+    "median_delta": 0.0852
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 44,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-161": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.999,
+    "observable": true,
+    "flag_frac": 0.0153,
+    "n_flag": 250,
+    "median_delta": 0.02897
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8596,
+    "observable": true,
+    "flag_frac": 0.0026,
+    "n_flag": 37,
+    "median_delta": 0.01655
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3728,
+    "observable": true,
+    "flag_frac": 0.0011,
+    "n_flag": 7,
+    "median_delta": 0.02014
+   },
+   "persistent_tokens": 18,
+   "event_only_tokens": 196,
+   "verdict": "scored",
+   "rank": 80
+  },
+  "JJ-OREUM-162": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.6278,
+    "observable": true,
+    "flag_frac": 0.0994,
+    "n_flag": 1022,
+    "median_delta": 0.10819
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4299,
+    "observable": true,
+    "flag_frac": 0.0067,
+    "n_flag": 47,
+    "median_delta": 0.05877
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4605,
+    "observable": true,
+    "flag_frac": 0.0326,
+    "n_flag": 246,
+    "median_delta": 0.07581
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 253,
+   "verdict": "scored",
+   "rank": 11
+  },
+  "JJ-OREUM-163": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0527,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0983,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0607,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 47,
+   "event_only_tokens": 29,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-164": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0029,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0008,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4106,
+    "observable": true,
+    "flag_frac": 0.0153,
+    "n_flag": 103,
+    "median_delta": 0.04838
+   },
+   "persistent_tokens": 13,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-165": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3813,
+    "observable": true,
+    "flag_frac": 0.0158,
+    "n_flag": 99,
+    "median_delta": 0.07015
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7389,
+    "observable": true,
+    "flag_frac": 0.0029,
+    "n_flag": 35,
+    "median_delta": 0.04707
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0967,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 90,
+   "verdict": "scored",
+   "rank": 79
+  },
+  "JJ-OREUM-167": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.1732,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1216,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4533,
+    "observable": true,
+    "flag_frac": 0.0167,
+    "n_flag": 124,
+    "median_delta": 0.06181
+   },
+   "persistent_tokens": 10,
+   "event_only_tokens": 112,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-169": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9957,
+    "observable": true,
+    "flag_frac": 0.0078,
+    "n_flag": 128,
+    "median_delta": 0.02936
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8826,
+    "observable": true,
+    "flag_frac": 0.0049,
+    "n_flag": 71,
+    "median_delta": 0.0219
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5797,
+    "observable": true,
+    "flag_frac": 0.0178,
+    "n_flag": 169,
+    "median_delta": 0.03783
+   },
+   "persistent_tokens": 22,
+   "event_only_tokens": 80,
+   "verdict": "scored",
+   "rank": 113
+  },
+  "JJ-OREUM-170": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.6674,
+    "observable": true,
+    "flag_frac": 0.0433,
+    "n_flag": 474,
+    "median_delta": 0.05238
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4392,
+    "observable": true,
+    "flag_frac": 0.021,
+    "n_flag": 151,
+    "median_delta": 0.05031
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0984,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 27,
+   "event_only_tokens": 243,
+   "verdict": "scored",
+   "rank": 36
+  },
+  "JJ-OREUM-171": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3866,
+    "observable": true,
+    "flag_frac": 0.0504,
+    "n_flag": 319,
+    "median_delta": 0.0819
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0035,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0006,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "scored",
+   "rank": 33
+  },
+  "JJ-OREUM-175": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.9387,
+    "observable": true,
+    "flag_frac": 0.0001,
+    "n_flag": 2,
+    "median_delta": 0.01435
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9373,
+    "observable": true,
+    "flag_frac": 0.0004,
+    "n_flag": 6,
+    "median_delta": 0.02734
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9751,
+    "observable": true,
+    "flag_frac": 0.0028,
+    "n_flag": 45,
+    "median_delta": 0.02996
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 2,
+   "verdict": "scored",
+   "rank": 150
+  },
+  "JJ-OREUM-176": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.5096,
+    "observable": true,
+    "flag_frac": 0.0714,
+    "n_flag": 596,
+    "median_delta": 0.08819
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0056,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0013,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 1,
+   "verdict": "scored",
+   "rank": 21
+  },
+  "JJ-OREUM-179": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0156,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0009,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-180": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.7271,
+    "observable": true,
+    "flag_frac": 0.1074,
+    "n_flag": 1280,
+    "median_delta": 0.10115
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4875,
+    "observable": true,
+    "flag_frac": 0.0428,
+    "n_flag": 342,
+    "median_delta": 0.08245
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3498,
+    "observable": true,
+    "flag_frac": 0.0223,
+    "n_flag": 128,
+    "median_delta": 0.07506
+   },
+   "persistent_tokens": 186,
+   "event_only_tokens": 566,
+   "verdict": "scored",
+   "rank": 10
+  },
+  "JJ-OREUM-181": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.1909,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3622,
+    "observable": true,
+    "flag_frac": 0.0667,
+    "n_flag": 396,
+    "median_delta": 0.19503
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7001,
+    "observable": true,
+    "flag_frac": 0.0047,
+    "n_flag": 54,
+    "median_delta": 0.04843
+   },
+   "persistent_tokens": 13,
+   "event_only_tokens": 72,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-183": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.069,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0596,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5849,
+    "observable": true,
+    "flag_frac": 0.0069,
+    "n_flag": 66,
+    "median_delta": 0.05219
+   },
+   "persistent_tokens": 45,
+   "event_only_tokens": 358,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-184": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.005,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0047,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5804,
+    "observable": true,
+    "flag_frac": 0.0169,
+    "n_flag": 161,
+    "median_delta": 0.05993
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 14,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-187": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0813,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0515,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.405,
+    "observable": true,
+    "flag_frac": 0.0252,
+    "n_flag": 167,
+    "median_delta": 0.08382
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 22,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-188": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2591,
+    "observable": true,
+    "flag_frac": 0.0544,
+    "n_flag": 231,
+    "median_delta": 0.10947
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1898,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2954,
+    "observable": true,
+    "flag_frac": 0.0039,
+    "n_flag": 19,
+    "median_delta": 0.05308
+   },
+   "persistent_tokens": 10,
+   "event_only_tokens": 180,
+   "verdict": "scored",
+   "rank": 30
+  },
+  "JJ-OREUM-189": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0246,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-190": {
+   "tile": "52SCC",
+   "event": {
+    "valid_token_frac": 0.9613,
+    "observable": true,
+    "flag_frac": 0.0036,
+    "n_flag": 57,
+    "median_delta": 0.0595
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9991,
+    "observable": true,
+    "flag_frac": 0.0,
+    "n_flag": 0,
+    "median_delta": 0.0512
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.631,
+    "observable": true,
+    "flag_frac": 0.0015,
+    "n_flag": 16,
+    "median_delta": 0.06057
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 57,
+   "verdict": "scored",
+   "rank": 132
+  },
+  "JJ-OREUM-191": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0773,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0047,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0031,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 10,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-193": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9935,
+    "observable": true,
+    "flag_frac": 0.0002,
+    "n_flag": 4,
+    "median_delta": 0.00701
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4177,
+    "observable": true,
+    "flag_frac": 0.0,
+    "n_flag": 0,
+    "median_delta": 0.00648
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4181,
+    "observable": true,
+    "flag_frac": 0.0,
+    "n_flag": 0,
+    "median_delta": 0.00651
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "scored",
+   "rank": 148
+  },
+  "JJ-OREUM-194": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.532,
+    "observable": true,
+    "flag_frac": 0.0215,
+    "n_flag": 187,
+    "median_delta": 0.06702
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3395,
+    "observable": true,
+    "flag_frac": 0.0095,
+    "n_flag": 53,
+    "median_delta": 0.06324
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3403,
+    "observable": true,
+    "flag_frac": 0.01,
+    "n_flag": 56,
+    "median_delta": 0.1093
+   },
+   "persistent_tokens": 15,
+   "event_only_tokens": 50,
+   "verdict": "scored",
+   "rank": 59
+  },
+  "JJ-OREUM-195": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.4434,
+    "observable": true,
+    "flag_frac": 0.0127,
+    "n_flag": 92,
+    "median_delta": 0.03968
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5182,
+    "observable": true,
+    "flag_frac": 0.0097,
+    "n_flag": 82,
+    "median_delta": 0.07624
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9995,
+    "observable": true,
+    "flag_frac": 0.0023,
+    "n_flag": 37,
+    "median_delta": 0.02958
+   },
+   "persistent_tokens": 6,
+   "event_only_tokens": 86,
+   "verdict": "scored",
+   "rank": 92
+  },
+  "JJ-OREUM-196": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.9518,
+    "observable": true,
+    "flag_frac": 0.0009,
+    "n_flag": 14,
+    "median_delta": 0.01575
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.954,
+    "observable": true,
+    "flag_frac": 0.0005,
+    "n_flag": 8,
+    "median_delta": 0.02868
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9519,
+    "observable": true,
+    "flag_frac": 0.0013,
+    "n_flag": 21,
+    "median_delta": 0.02647
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 9,
+   "verdict": "scored",
+   "rank": 146
+  },
+  "JJ-OREUM-197": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0004,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-198": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0299,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0005,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0044,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 2,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-199": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1407,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0005,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0044,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 2,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-200": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2757,
+    "observable": true,
+    "flag_frac": 0.0257,
+    "n_flag": 116,
+    "median_delta": 0.07137
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5854,
+    "observable": true,
+    "flag_frac": 0.0264,
+    "n_flag": 253,
+    "median_delta": 0.04086
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3403,
+    "observable": true,
+    "flag_frac": 0.0127,
+    "n_flag": 71,
+    "median_delta": 0.07056
+   },
+   "persistent_tokens": 48,
+   "event_only_tokens": 66,
+   "verdict": "scored",
+   "rank": 52
+  },
+  "JJ-OREUM-203": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0967,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-204": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2691,
+    "observable": true,
+    "flag_frac": 0.0143,
+    "n_flag": 63,
+    "median_delta": 0.06659
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2384,
+    "observable": true,
+    "flag_frac": 0.0172,
+    "n_flag": 67,
+    "median_delta": 0.06764
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5453,
+    "observable": true,
+    "flag_frac": 0.0215,
+    "n_flag": 192,
+    "median_delta": 0.05295
+   },
+   "persistent_tokens": 8,
+   "event_only_tokens": 7,
+   "verdict": "scored",
+   "rank": 86
+  },
+  "JJ-OREUM-205": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0876,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4223,
+    "observable": true,
+    "flag_frac": 0.016,
+    "n_flag": 111,
+    "median_delta": 0.08595
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3873,
+    "observable": true,
+    "flag_frac": 0.0194,
+    "n_flag": 123,
+    "median_delta": 0.10474
+   },
+   "persistent_tokens": 19,
+   "event_only_tokens": 11,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-206": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.9881,
+    "observable": true,
+    "flag_frac": 0.0002,
+    "n_flag": 3,
+    "median_delta": 0.03501
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9986,
+    "observable": true,
+    "flag_frac": 0.0001,
+    "n_flag": 2,
+    "median_delta": 0.01762
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9986,
+    "observable": true,
+    "flag_frac": 0.001,
+    "n_flag": 17,
+    "median_delta": 0.0165
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 2,
+   "verdict": "scored",
+   "rank": 149
+  },
+  "JJ-OREUM-211": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3071,
+    "observable": true,
+    "flag_frac": 0.0083,
+    "n_flag": 42,
+    "median_delta": 0.05576
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3568,
+    "observable": true,
+    "flag_frac": 0.0014,
+    "n_flag": 8,
+    "median_delta": 0.08075
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7845,
+    "observable": true,
+    "flag_frac": 0.0297,
+    "n_flag": 382,
+    "median_delta": 0.02293
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 39,
+   "verdict": "scored",
+   "rank": 110
+  },
+  "JJ-OREUM-212": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5842,
+    "observable": true,
+    "flag_frac": 0.0076,
+    "n_flag": 73,
+    "median_delta": 0.03343
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8077,
+    "observable": true,
+    "flag_frac": 0.0059,
+    "n_flag": 78,
+    "median_delta": 0.04241
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2778,
+    "observable": true,
+    "flag_frac": 0.0334,
+    "n_flag": 152,
+    "median_delta": 0.0933
+   },
+   "persistent_tokens": 21,
+   "event_only_tokens": 52,
+   "verdict": "scored",
+   "rank": 115
+  },
+  "JJ-OREUM-213": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3856,
+    "observable": true,
+    "flag_frac": 0.0518,
+    "n_flag": 327,
+    "median_delta": 0.09212
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0978,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2478,
+    "observable": true,
+    "flag_frac": 0.0079,
+    "n_flag": 32,
+    "median_delta": 0.08971
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 58,
+   "verdict": "scored",
+   "rank": 32
+  },
+  "JJ-OREUM-214": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.5339,
+    "observable": true,
+    "flag_frac": 0.0474,
+    "n_flag": 415,
+    "median_delta": 0.08149
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2166,
+    "observable": true,
+    "flag_frac": 0.0076,
+    "n_flag": 27,
+    "median_delta": 0.09898
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2411,
+    "observable": true,
+    "flag_frac": 0.0565,
+    "n_flag": 223,
+    "median_delta": 0.0945
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 106,
+   "verdict": "scored",
+   "rank": 34
+  },
+  "JJ-OREUM-215": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2616,
+    "observable": true,
+    "flag_frac": 0.1085,
+    "n_flag": 465,
+    "median_delta": 0.07909
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2136,
+    "observable": true,
+    "flag_frac": 0.0086,
+    "n_flag": 30,
+    "median_delta": 0.07032
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6072,
+    "observable": true,
+    "flag_frac": 0.0313,
+    "n_flag": 311,
+    "median_delta": 0.05399
+   },
+   "persistent_tokens": 10,
+   "event_only_tokens": 227,
+   "verdict": "scored",
+   "rank": 9
+  },
+  "JJ-OREUM-218": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9909,
+    "observable": true,
+    "flag_frac": 0.0018,
+    "n_flag": 29,
+    "median_delta": 0.02498
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9455,
+    "observable": true,
+    "flag_frac": 0.0045,
+    "n_flag": 69,
+    "median_delta": 0.02386
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9376,
+    "observable": true,
+    "flag_frac": 0.0037,
+    "n_flag": 57,
+    "median_delta": 0.0198
+   },
+   "persistent_tokens": 14,
+   "event_only_tokens": 15,
+   "verdict": "scored",
+   "rank": 139
+  },
+  "JJ-OREUM-220": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.1234,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.299,
+    "observable": true,
+    "flag_frac": 0.0137,
+    "n_flag": 67,
+    "median_delta": 0.09378
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2591,
+    "observable": true,
+    "flag_frac": 0.0054,
+    "n_flag": 23,
+    "median_delta": 0.08585
+   },
+   "persistent_tokens": 7,
+   "event_only_tokens": 25,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-222": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.8301,
+    "observable": true,
+    "flag_frac": 0.0026,
+    "n_flag": 35,
+    "median_delta": 0.03142
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8097,
+    "observable": true,
+    "flag_frac": 0.0003,
+    "n_flag": 4,
+    "median_delta": 0.04248
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7863,
+    "observable": true,
+    "flag_frac": 0.0033,
+    "n_flag": 43,
+    "median_delta": 0.04431
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 31,
+   "verdict": "scored",
+   "rank": 135
+  },
+  "JJ-OREUM-223": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.8311,
+    "observable": true,
+    "flag_frac": 0.0131,
+    "n_flag": 179,
+    "median_delta": 0.03216
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7534,
+    "observable": true,
+    "flag_frac": 0.0057,
+    "n_flag": 70,
+    "median_delta": 0.02626
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3143,
+    "observable": true,
+    "flag_frac": 0.0171,
+    "n_flag": 88,
+    "median_delta": 0.04071
+   },
+   "persistent_tokens": 22,
+   "event_only_tokens": 101,
+   "verdict": "scored",
+   "rank": 89
+  },
+  "JJ-OREUM-225": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2988,
+    "observable": true,
+    "flag_frac": 0.0776,
+    "n_flag": 380,
+    "median_delta": 0.08789
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0587,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2471,
+    "observable": true,
+    "flag_frac": 0.0341,
+    "n_flag": 138,
+    "median_delta": 0.07815
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 72,
+   "verdict": "scored",
+   "rank": 18
+  },
+  "JJ-OREUM-227": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.9866,
+    "observable": true,
+    "flag_frac": 0.0045,
+    "n_flag": 72,
+    "median_delta": 0.01539
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9889,
+    "observable": true,
+    "flag_frac": 0.0035,
+    "n_flag": 57,
+    "median_delta": 0.01681
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9279,
+    "observable": true,
+    "flag_frac": 0.0016,
+    "n_flag": 25,
+    "median_delta": 0.03516
+   },
+   "persistent_tokens": 34,
+   "event_only_tokens": 38,
+   "verdict": "scored",
+   "rank": 125
+  },
+  "JJ-OREUM-228": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0006,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-229": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.6205,
+    "observable": true,
+    "flag_frac": 0.0193,
+    "n_flag": 196,
+    "median_delta": 0.04043
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.425,
+    "observable": true,
+    "flag_frac": 0.0115,
+    "n_flag": 80,
+    "median_delta": 0.04372
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.248,
+    "observable": true,
+    "flag_frac": 0.0089,
+    "n_flag": 36,
+    "median_delta": 0.1158
+   },
+   "persistent_tokens": 35,
+   "event_only_tokens": 37,
+   "verdict": "scored",
+   "rank": 67
+  },
+  "JJ-OREUM-230": {
+   "tile": "52SCC",
+   "event": {
+    "valid_token_frac": 0.9891,
+    "observable": true,
+    "flag_frac": 0.0012,
+    "n_flag": 20,
+    "median_delta": 0.0556
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9896,
+    "observable": true,
+    "flag_frac": 0.0004,
+    "n_flag": 6,
+    "median_delta": 0.0487
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.691,
+    "observable": true,
+    "flag_frac": 0.002,
+    "n_flag": 23,
+    "median_delta": 0.03438
+   },
+   "persistent_tokens": 6,
+   "event_only_tokens": 14,
+   "verdict": "scored",
+   "rank": 145
+  },
+  "JJ-OREUM-231": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0231,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0023,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5947,
+    "observable": true,
+    "flag_frac": 0.0058,
+    "n_flag": 57,
+    "median_delta": 0.04107
+   },
+   "persistent_tokens": 26,
+   "event_only_tokens": 7,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-232": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2883,
+    "observable": true,
+    "flag_frac": 0.1795,
+    "n_flag": 848,
+    "median_delta": 0.12388
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1199,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3936,
+    "observable": true,
+    "flag_frac": 0.0495,
+    "n_flag": 319,
+    "median_delta": 0.07147
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 118,
+   "verdict": "scored",
+   "rank": 4
+  },
+  "JJ-OREUM-234": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.8286,
+    "observable": true,
+    "flag_frac": 0.022,
+    "n_flag": 299,
+    "median_delta": 0.04652
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8448,
+    "observable": true,
+    "flag_frac": 0.0157,
+    "n_flag": 217,
+    "median_delta": 0.05005
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7501,
+    "observable": true,
+    "flag_frac": 0.0292,
+    "n_flag": 359,
+    "median_delta": 0.06363
+   },
+   "persistent_tokens": 54,
+   "event_only_tokens": 227,
+   "verdict": "scored",
+   "rank": 58
+  },
+  "JJ-OREUM-235": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.744,
+    "observable": true,
+    "flag_frac": 0.0263,
+    "n_flag": 321,
+    "median_delta": 0.03742
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5425,
+    "observable": true,
+    "flag_frac": 0.0034,
+    "n_flag": 30,
+    "median_delta": 0.03459
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4712,
+    "observable": true,
+    "flag_frac": 0.0153,
+    "n_flag": 118,
+    "median_delta": 0.05658
+   },
+   "persistent_tokens": 4,
+   "event_only_tokens": 211,
+   "verdict": "scored",
+   "rank": 50
+  },
+  "JJ-OREUM-236": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0612,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0021,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5172,
+    "observable": true,
+    "flag_frac": 0.0138,
+    "n_flag": 117,
+    "median_delta": 0.05846
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 2,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-237": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2189,
+    "observable": true,
+    "flag_frac": 0.0198,
+    "n_flag": 71,
+    "median_delta": 0.04651
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4445,
+    "observable": true,
+    "flag_frac": 0.0045,
+    "n_flag": 33,
+    "median_delta": 0.07075
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.249,
+    "observable": true,
+    "flag_frac": 0.0069,
+    "n_flag": 28,
+    "median_delta": 0.09272
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 70,
+   "verdict": "scored",
+   "rank": 64
+  },
+  "JJ-OREUM-238": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3167,
+    "observable": true,
+    "flag_frac": 0.0711,
+    "n_flag": 369,
+    "median_delta": 0.07864
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0797,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 16,
+   "verdict": "scored",
+   "rank": 22
+  },
+  "JJ-OREUM-239": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.4346,
+    "observable": true,
+    "flag_frac": 0.0013,
+    "n_flag": 9,
+    "median_delta": 0.02397
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4342,
+    "observable": true,
+    "flag_frac": 0.0007,
+    "n_flag": 5,
+    "median_delta": 0.04012
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3658,
+    "observable": true,
+    "flag_frac": 0.0058,
+    "n_flag": 35,
+    "median_delta": 0.06549
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 9,
+   "verdict": "scored",
+   "rank": 143
+  },
+  "JJ-OREUM-240": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5654,
+    "observable": true,
+    "flag_frac": 0.0073,
+    "n_flag": 68,
+    "median_delta": 0.04257
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5424,
+    "observable": true,
+    "flag_frac": 0.0061,
+    "n_flag": 54,
+    "median_delta": 0.05997
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3427,
+    "observable": true,
+    "flag_frac": 0.0118,
+    "n_flag": 66,
+    "median_delta": 0.06465
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 35,
+   "verdict": "scored",
+   "rank": 117
+  },
+  "JJ-OREUM-241": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.77,
+    "observable": true,
+    "flag_frac": 0.0129,
+    "n_flag": 163,
+    "median_delta": 0.04349
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.6325,
+    "observable": true,
+    "flag_frac": 0.0172,
+    "n_flag": 178,
+    "median_delta": 0.04627
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3207,
+    "observable": true,
+    "flag_frac": 0.019,
+    "n_flag": 100,
+    "median_delta": 0.0524
+   },
+   "persistent_tokens": 28,
+   "event_only_tokens": 107,
+   "verdict": "scored",
+   "rank": 90
+  },
+  "JJ-OREUM-242": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9995,
+    "observable": true,
+    "flag_frac": 0.0078,
+    "n_flag": 127,
+    "median_delta": 0.02848
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.999,
+    "observable": true,
+    "flag_frac": 0.0074,
+    "n_flag": 121,
+    "median_delta": 0.02495
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7739,
+    "observable": true,
+    "flag_frac": 0.0081,
+    "n_flag": 103,
+    "median_delta": 0.0278
+   },
+   "persistent_tokens": 19,
+   "event_only_tokens": 108,
+   "verdict": "scored",
+   "rank": 114
+  },
+  "JJ-OREUM-243": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.9963,
+    "observable": true,
+    "flag_frac": 0.0016,
+    "n_flag": 26,
+    "median_delta": 0.01591
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9983,
+    "observable": true,
+    "flag_frac": 0.0004,
+    "n_flag": 7,
+    "median_delta": 0.01446
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9252,
+    "observable": true,
+    "flag_frac": 0.0025,
+    "n_flag": 38,
+    "median_delta": 0.02409
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 25,
+   "verdict": "scored",
+   "rank": 142
+  },
+  "JJ-OREUM-245": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-246": {
+   "tile": "51SYS",
+   "event": {
+    "valid_token_frac": 0.3945,
+    "observable": true,
+    "flag_frac": 0.026,
+    "n_flag": 168,
+    "median_delta": 0.05193
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8487,
+    "observable": true,
+    "flag_frac": 0.0068,
+    "n_flag": 94,
+    "median_delta": 0.02227
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5064,
+    "observable": true,
+    "flag_frac": 0.0004,
+    "n_flag": 3,
+    "median_delta": 0.02456
+   },
+   "persistent_tokens": 86,
+   "event_only_tokens": 82,
+   "verdict": "scored",
+   "rank": 51
+  },
+  "JJ-OREUM-248": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-249": {
+   "tile": "52SCC",
+   "event": {
+    "valid_token_frac": 0.59,
+    "observable": true,
+    "flag_frac": 0.0013,
+    "n_flag": 13,
+    "median_delta": 0.0553
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9961,
+    "observable": true,
+    "flag_frac": 0.0014,
+    "n_flag": 23,
+    "median_delta": 0.0534
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3714,
+    "observable": true,
+    "flag_frac": 0.0013,
+    "n_flag": 8,
+    "median_delta": 0.04228
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 13,
+   "verdict": "scored",
+   "rank": 144
+  },
+  "JJ-OREUM-251": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3517,
+    "observable": true,
+    "flag_frac": 0.0243,
+    "n_flag": 140,
+    "median_delta": 0.0942
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.6219,
+    "observable": true,
+    "flag_frac": 0.0041,
+    "n_flag": 42,
+    "median_delta": 0.02917
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8391,
+    "observable": true,
+    "flag_frac": 0.0076,
+    "n_flag": 104,
+    "median_delta": 0.04058
+   },
+   "persistent_tokens": 25,
+   "event_only_tokens": 113,
+   "verdict": "scored",
+   "rank": 54
+  },
+  "JJ-OREUM-254": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0922,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0495,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4959,
+    "observable": true,
+    "flag_frac": 0.0231,
+    "n_flag": 188,
+    "median_delta": 0.06202
+   },
+   "persistent_tokens": 50,
+   "event_only_tokens": 69,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-255": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5566,
+    "observable": true,
+    "flag_frac": 0.0283,
+    "n_flag": 258,
+    "median_delta": 0.07459
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2894,
+    "observable": true,
+    "flag_frac": 0.0137,
+    "n_flag": 65,
+    "median_delta": 0.07221
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1024,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 16,
+   "event_only_tokens": 68,
+   "verdict": "scored",
+   "rank": 47
+  },
+  "JJ-OREUM-257": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.549,
+    "observable": true,
+    "flag_frac": 0.0176,
+    "n_flag": 158,
+    "median_delta": 0.05134
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-258": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.4944,
+    "observable": true,
+    "flag_frac": 0.0186,
+    "n_flag": 151,
+    "median_delta": 0.06295
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7991,
+    "observable": true,
+    "flag_frac": 0.0038,
+    "n_flag": 50,
+    "median_delta": 0.04176
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1708,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 35,
+   "event_only_tokens": 116,
+   "verdict": "scored",
+   "rank": 71
+  },
+  "JJ-OREUM-260": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1441,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0731,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1542,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 4,
+   "event_only_tokens": 22,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-261": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0066,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0066,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1487,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 22,
+   "event_only_tokens": 24,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-262": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.8387,
+    "observable": true,
+    "flag_frac": 0.017,
+    "n_flag": 233,
+    "median_delta": 0.03491
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5562,
+    "observable": true,
+    "flag_frac": 0.025,
+    "n_flag": 228,
+    "median_delta": 0.05747
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2106,
+    "observable": true,
+    "flag_frac": 0.0238,
+    "n_flag": 82,
+    "median_delta": 0.09116
+   },
+   "persistent_tokens": 120,
+   "event_only_tokens": 20,
+   "verdict": "scored",
+   "rank": 75
+  },
+  "JJ-OREUM-263": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0609,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0171,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1011,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 34,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-266": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.9437,
+    "observable": true,
+    "flag_frac": 0.0006,
+    "n_flag": 10,
+    "median_delta": 0.01459
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9438,
+    "observable": true,
+    "flag_frac": 0.0006,
+    "n_flag": 9,
+    "median_delta": 0.02706
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9713,
+    "observable": true,
+    "flag_frac": 0.002,
+    "n_flag": 32,
+    "median_delta": 0.02829
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 5,
+   "verdict": "scored",
+   "rank": 147
+  },
+  "JJ-OREUM-268": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5422,
+    "observable": true,
+    "flag_frac": 0.0187,
+    "n_flag": 166,
+    "median_delta": 0.0544
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5211,
+    "observable": true,
+    "flag_frac": 0.0163,
+    "n_flag": 139,
+    "median_delta": 0.05837
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0143,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 11,
+   "event_only_tokens": 141,
+   "verdict": "scored",
+   "rank": 70
+  },
+  "JJ-OREUM-269": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9948,
+    "observable": true,
+    "flag_frac": 0.0152,
+    "n_flag": 247,
+    "median_delta": 0.03698
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9915,
+    "observable": true,
+    "flag_frac": 0.0045,
+    "n_flag": 73,
+    "median_delta": 0.03145
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7091,
+    "observable": true,
+    "flag_frac": 0.0086,
+    "n_flag": 100,
+    "median_delta": 0.02955
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 237,
+   "verdict": "scored",
+   "rank": 81
+  },
+  "JJ-OREUM-270": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2467,
+    "observable": true,
+    "flag_frac": 0.0302,
+    "n_flag": 122,
+    "median_delta": 0.08666
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4131,
+    "observable": true,
+    "flag_frac": 0.0084,
+    "n_flag": 57,
+    "median_delta": 0.13595
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8188,
+    "observable": true,
+    "flag_frac": 0.012,
+    "n_flag": 161,
+    "median_delta": 0.04337
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 121,
+   "verdict": "scored",
+   "rank": 46
+  },
+  "JJ-OREUM-271": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0022,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0003,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-272": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0724,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0989,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4844,
+    "observable": true,
+    "flag_frac": 0.0077,
+    "n_flag": 61,
+    "median_delta": 0.02469
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 36,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-273": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-274": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0004,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-275": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.8716,
+    "observable": true,
+    "flag_frac": 0.0202,
+    "n_flag": 289,
+    "median_delta": 0.0479
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2478,
+    "observable": true,
+    "flag_frac": 0.0266,
+    "n_flag": 108,
+    "median_delta": 0.10956
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0752,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 7,
+   "event_only_tokens": 125,
+   "verdict": "scored",
+   "rank": 60
+  },
+  "JJ-OREUM-276": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2763,
+    "observable": true,
+    "flag_frac": 0.1266,
+    "n_flag": 573,
+    "median_delta": 0.10169
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0195,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "scored",
+   "rank": 6
+  },
+  "JJ-OREUM-277": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.241,
+    "observable": true,
+    "flag_frac": 0.055,
+    "n_flag": 217,
+    "median_delta": 0.10617
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-278": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.4024,
+    "observable": true,
+    "flag_frac": 0.018,
+    "n_flag": 119,
+    "median_delta": 0.06637
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9475,
+    "observable": true,
+    "flag_frac": 0.0035,
+    "n_flag": 54,
+    "median_delta": 0.03485
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1397,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 20,
+   "event_only_tokens": 99,
+   "verdict": "scored",
+   "rank": 74
+  },
+  "JJ-OREUM-280": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.9004,
+    "observable": true,
+    "flag_frac": 0.0041,
+    "n_flag": 61,
+    "median_delta": 0.02375
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8617,
+    "observable": true,
+    "flag_frac": 0.005,
+    "n_flag": 71,
+    "median_delta": 0.0406
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7477,
+    "observable": true,
+    "flag_frac": 0.0091,
+    "n_flag": 111,
+    "median_delta": 0.04257
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 48,
+   "verdict": "scored",
+   "rank": 127
+  },
+  "JJ-OREUM-281": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1482,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2612,
+    "observable": true,
+    "flag_frac": 0.0217,
+    "n_flag": 93,
+    "median_delta": 0.15734
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-282": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3926,
+    "observable": true,
+    "flag_frac": 0.01,
+    "n_flag": 64,
+    "median_delta": 0.10413
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9986,
+    "observable": true,
+    "flag_frac": 0.0012,
+    "n_flag": 20,
+    "median_delta": 0.01233
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9986,
+    "observable": true,
+    "flag_frac": 0.001,
+    "n_flag": 17,
+    "median_delta": 0.01514
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 64,
+   "verdict": "scored",
+   "rank": 98
+  },
+  "JJ-OREUM-283": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5629,
+    "observable": true,
+    "flag_frac": 0.0039,
+    "n_flag": 36,
+    "median_delta": 0.0409
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.8455,
+    "observable": true,
+    "flag_frac": 0.0041,
+    "n_flag": 57,
+    "median_delta": 0.04763
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0785,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 7,
+   "event_only_tokens": 29,
+   "verdict": "scored",
+   "rank": 129
+  },
+  "JJ-OREUM-286": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0374,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3731,
+    "observable": true,
+    "flag_frac": 0.0178,
+    "n_flag": 109,
+    "median_delta": 0.08697
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2885,
+    "observable": true,
+    "flag_frac": 0.0269,
+    "n_flag": 127,
+    "median_delta": 0.10525
+   },
+   "persistent_tokens": 5,
+   "event_only_tokens": 7,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-288": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2475,
+    "observable": true,
+    "flag_frac": 0.0799,
+    "n_flag": 324,
+    "median_delta": 0.11115
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0311,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2686,
+    "observable": true,
+    "flag_frac": 0.0086,
+    "n_flag": 38,
+    "median_delta": 0.10882
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 36,
+   "verdict": "scored",
+   "rank": 17
+  },
+  "JJ-OREUM-289": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5652,
+    "observable": true,
+    "flag_frac": 0.0084,
+    "n_flag": 78,
+    "median_delta": 0.04379
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5292,
+    "observable": true,
+    "flag_frac": 0.0137,
+    "n_flag": 119,
+    "median_delta": 0.0433
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3508,
+    "observable": true,
+    "flag_frac": 0.017,
+    "n_flag": 98,
+    "median_delta": 0.0497
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 77,
+   "verdict": "scored",
+   "rank": 109
+  },
+  "JJ-OREUM-292": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3834,
+    "observable": true,
+    "flag_frac": 0.0252,
+    "n_flag": 158,
+    "median_delta": 0.07314
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2776,
+    "observable": true,
+    "flag_frac": 0.0128,
+    "n_flag": 58,
+    "median_delta": 0.06557
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2841,
+    "observable": true,
+    "flag_frac": 0.0099,
+    "n_flag": 46,
+    "median_delta": 0.05864
+   },
+   "persistent_tokens": 31,
+   "event_only_tokens": 98,
+   "verdict": "scored",
+   "rank": 53
+  },
+  "JJ-OREUM-293": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.9837,
+    "observable": true,
+    "flag_frac": 0.02,
+    "n_flag": 322,
+    "median_delta": 0.05177
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3214,
+    "observable": true,
+    "flag_frac": 0.0179,
+    "n_flag": 94,
+    "median_delta": 0.11548
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3204,
+    "observable": true,
+    "flag_frac": 0.0135,
+    "n_flag": 71,
+    "median_delta": 0.10039
+   },
+   "persistent_tokens": 4,
+   "event_only_tokens": 71,
+   "verdict": "scored",
+   "rank": 62
+  },
+  "JJ-OREUM-294": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3119,
+    "observable": true,
+    "flag_frac": 0.0137,
+    "n_flag": 70,
+    "median_delta": 0.07976
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2285,
+    "observable": true,
+    "flag_frac": 0.0035,
+    "n_flag": 13,
+    "median_delta": 0.07612
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2742,
+    "observable": true,
+    "flag_frac": 0.004,
+    "n_flag": 18,
+    "median_delta": 0.06709
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 44,
+   "verdict": "scored",
+   "rank": 87
+  },
+  "JJ-OREUM-295": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0764,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0184,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1212,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 50,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-298": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.775,
+    "observable": true,
+    "flag_frac": 0.0019,
+    "n_flag": 24,
+    "median_delta": 0.03042
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9833,
+    "observable": true,
+    "flag_frac": 0.0122,
+    "n_flag": 196,
+    "median_delta": 0.04935
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8734,
+    "observable": true,
+    "flag_frac": 0.0056,
+    "n_flag": 80,
+    "median_delta": 0.04265
+   },
+   "persistent_tokens": 11,
+   "event_only_tokens": 13,
+   "verdict": "scored",
+   "rank": 138
+  },
+  "JJ-OREUM-300": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.438,
+    "observable": true,
+    "flag_frac": 0.0091,
+    "n_flag": 65,
+    "median_delta": 0.09974
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9575,
+    "observable": true,
+    "flag_frac": 0.001,
+    "n_flag": 16,
+    "median_delta": 0.02738
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9515,
+    "observable": true,
+    "flag_frac": 0.0024,
+    "n_flag": 38,
+    "median_delta": 0.02911
+   },
+   "persistent_tokens": 4,
+   "event_only_tokens": 61,
+   "verdict": "scored",
+   "rank": 105
+  },
+  "JJ-OREUM-302": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.8525,
+    "observable": true,
+    "flag_frac": 0.0185,
+    "n_flag": 258,
+    "median_delta": 0.03165
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.6744,
+    "observable": true,
+    "flag_frac": 0.0084,
+    "n_flag": 93,
+    "median_delta": 0.04765
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3582,
+    "observable": true,
+    "flag_frac": 0.0312,
+    "n_flag": 183,
+    "median_delta": 0.10848
+   },
+   "persistent_tokens": 6,
+   "event_only_tokens": 231,
+   "verdict": "scored",
+   "rank": 72
+  },
+  "JJ-OREUM-303": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.5155,
+    "observable": true,
+    "flag_frac": 0.0091,
+    "n_flag": 77,
+    "median_delta": 0.05365
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5552,
+    "observable": true,
+    "flag_frac": 0.0029,
+    "n_flag": 26,
+    "median_delta": 0.03519
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9338,
+    "observable": true,
+    "flag_frac": 0.0078,
+    "n_flag": 119,
+    "median_delta": 0.02714
+   },
+   "persistent_tokens": 3,
+   "event_only_tokens": 74,
+   "verdict": "scored",
+   "rank": 106
+  },
+  "JJ-OREUM-305": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.7397,
+    "observable": true,
+    "flag_frac": 0.0055,
+    "n_flag": 67,
+    "median_delta": 0.03845
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2157,
+    "observable": true,
+    "flag_frac": 0.004,
+    "n_flag": 14,
+    "median_delta": 0.06641
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2087,
+    "observable": true,
+    "flag_frac": 0.0053,
+    "n_flag": 18,
+    "median_delta": 0.06768
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 11,
+   "verdict": "scored",
+   "rank": 124
+  },
+  "JJ-OREUM-308": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.6358,
+    "observable": true,
+    "flag_frac": 0.0628,
+    "n_flag": 654,
+    "median_delta": 0.09779
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3693,
+    "observable": true,
+    "flag_frac": 0.0197,
+    "n_flag": 119,
+    "median_delta": 0.09253
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.431,
+    "observable": true,
+    "flag_frac": 0.0834,
+    "n_flag": 589,
+    "median_delta": 0.11075
+   },
+   "persistent_tokens": 12,
+   "event_only_tokens": 298,
+   "verdict": "scored",
+   "rank": 25
+  },
+  "JJ-OREUM-309": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.6228,
+    "observable": true,
+    "flag_frac": 0.0696,
+    "n_flag": 710,
+    "median_delta": 0.09657
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3632,
+    "observable": true,
+    "flag_frac": 0.0237,
+    "n_flag": 141,
+    "median_delta": 0.08933
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4254,
+    "observable": true,
+    "flag_frac": 0.0938,
+    "n_flag": 654,
+    "median_delta": 0.11384
+   },
+   "persistent_tokens": 4,
+   "event_only_tokens": 296,
+   "verdict": "scored",
+   "rank": 23
+  },
+  "JJ-OREUM-311": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2593,
+    "observable": true,
+    "flag_frac": 0.0226,
+    "n_flag": 96,
+    "median_delta": 0.08766
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3632,
+    "observable": true,
+    "flag_frac": 0.0071,
+    "n_flag": 42,
+    "median_delta": 0.11482
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.8264,
+    "observable": true,
+    "flag_frac": 0.0075,
+    "n_flag": 102,
+    "median_delta": 0.03063
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 95,
+   "verdict": "scored",
+   "rank": 57
+  },
+  "JJ-OREUM-312": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.1517,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-313": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1123,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1483,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-314": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.6423,
+    "observable": true,
+    "flag_frac": 0.0068,
+    "n_flag": 72,
+    "median_delta": 0.04491
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.683,
+    "observable": true,
+    "flag_frac": 0.0063,
+    "n_flag": 70,
+    "median_delta": 0.06297
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3832,
+    "observable": true,
+    "flag_frac": 0.0054,
+    "n_flag": 34,
+    "median_delta": 0.06629
+   },
+   "persistent_tokens": 15,
+   "event_only_tokens": 57,
+   "verdict": "scored",
+   "rank": 121
+  },
+  "JJ-OREUM-315": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-316": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.8956,
+    "observable": true,
+    "flag_frac": 0.0181,
+    "n_flag": 265,
+    "median_delta": 0.06098
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4412,
+    "observable": true,
+    "flag_frac": 0.0155,
+    "n_flag": 112,
+    "median_delta": 0.08683
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4678,
+    "observable": true,
+    "flag_frac": 0.0104,
+    "n_flag": 80,
+    "median_delta": 0.08673
+   },
+   "persistent_tokens": 50,
+   "event_only_tokens": 101,
+   "verdict": "scored",
+   "rank": 73
+  },
+  "JJ-OREUM-320": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.874,
+    "observable": true,
+    "flag_frac": 0.0101,
+    "n_flag": 144,
+    "median_delta": 0.0274
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7062,
+    "observable": true,
+    "flag_frac": 0.0071,
+    "n_flag": 82,
+    "median_delta": 0.02511
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3027,
+    "observable": true,
+    "flag_frac": 0.0063,
+    "n_flag": 31,
+    "median_delta": 0.03073
+   },
+   "persistent_tokens": 21,
+   "event_only_tokens": 96,
+   "verdict": "scored",
+   "rank": 97
+  },
+  "JJ-OREUM-324": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.3202,
+    "observable": true,
+    "flag_frac": 0.0898,
+    "n_flag": 471,
+    "median_delta": 0.09495
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.309,
+    "observable": true,
+    "flag_frac": 0.0095,
+    "n_flag": 48,
+    "median_delta": 0.05236
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5334,
+    "observable": true,
+    "flag_frac": 0.0187,
+    "n_flag": 163,
+    "median_delta": 0.07988
+   },
+   "persistent_tokens": 10,
+   "event_only_tokens": 297,
+   "verdict": "scored",
+   "rank": 14
+  },
+  "JJ-OREUM-325": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.9994,
+    "observable": true,
+    "flag_frac": 0.0073,
+    "n_flag": 119,
+    "median_delta": 0.01755
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.5327,
+    "observable": true,
+    "flag_frac": 0.0091,
+    "n_flag": 79,
+    "median_delta": 0.01817
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.489,
+    "observable": true,
+    "flag_frac": 0.0136,
+    "n_flag": 109,
+    "median_delta": 0.01951
+   },
+   "persistent_tokens": 25,
+   "event_only_tokens": 65,
+   "verdict": "scored",
+   "rank": 118
+  },
+  "JJ-OREUM-326": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2424,
+    "observable": true,
+    "flag_frac": 0.0619,
+    "n_flag": 246,
+    "median_delta": 0.10593
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2305,
+    "observable": true,
+    "flag_frac": 0.0389,
+    "n_flag": 147,
+    "median_delta": 0.11807
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.029,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 24,
+   "event_only_tokens": 153,
+   "verdict": "scored",
+   "rank": 26
+  },
+  "JJ-OREUM-327": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.994,
+    "observable": true,
+    "flag_frac": 0.0037,
+    "n_flag": 61,
+    "median_delta": 0.0371
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9974,
+    "observable": true,
+    "flag_frac": 0.0009,
+    "n_flag": 15,
+    "median_delta": 0.01565
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.9974,
+    "observable": true,
+    "flag_frac": 0.0016,
+    "n_flag": 26,
+    "median_delta": 0.01574
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 61,
+   "verdict": "scored",
+   "rank": 131
+  },
+  "JJ-OREUM-331": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2291,
+    "observable": true,
+    "flag_frac": 0.0099,
+    "n_flag": 37,
+    "median_delta": 0.08384
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2899,
+    "observable": true,
+    "flag_frac": 0.0427,
+    "n_flag": 203,
+    "median_delta": 0.10883
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.7964,
+    "observable": true,
+    "flag_frac": 0.0017,
+    "n_flag": 22,
+    "median_delta": 0.02626
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 28,
+   "verdict": "scored",
+   "rank": 100
+  },
+  "JJ-OREUM-332": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3411,
+    "observable": true,
+    "flag_frac": 0.0354,
+    "n_flag": 198,
+    "median_delta": 0.10134
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1864,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2256,
+    "observable": true,
+    "flag_frac": 0.0143,
+    "n_flag": 53,
+    "median_delta": 0.12088
+   },
+   "persistent_tokens": 4,
+   "event_only_tokens": 24,
+   "verdict": "scored",
+   "rank": 40
+  },
+  "JJ-OREUM-334": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.211,
+    "observable": true,
+    "flag_frac": 0.0524,
+    "n_flag": 181,
+    "median_delta": 0.06668
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0926,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.184,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 31,
+   "event_only_tokens": 33,
+   "verdict": "scored",
+   "rank": 31
+  },
+  "JJ-OREUM-335": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.097,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0513,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4697,
+    "observable": true,
+    "flag_frac": 0.0191,
+    "n_flag": 147,
+    "median_delta": 0.06238
+   },
+   "persistent_tokens": 9,
+   "event_only_tokens": 29,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-337": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.5449,
+    "observable": true,
+    "flag_frac": 0.0271,
+    "n_flag": 242,
+    "median_delta": 0.09765
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4724,
+    "observable": true,
+    "flag_frac": 0.003,
+    "n_flag": 23,
+    "median_delta": 0.08561
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5317,
+    "observable": true,
+    "flag_frac": 0.0107,
+    "n_flag": 93,
+    "median_delta": 0.0501
+   },
+   "persistent_tokens": 11,
+   "event_only_tokens": 227,
+   "verdict": "scored",
+   "rank": 48
+  },
+  "JJ-OREUM-339": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.8137,
+    "observable": true,
+    "flag_frac": 0.015,
+    "n_flag": 200,
+    "median_delta": 0.03559
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.7149,
+    "observable": true,
+    "flag_frac": 0.0102,
+    "n_flag": 119,
+    "median_delta": 0.05476
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3281,
+    "observable": true,
+    "flag_frac": 0.0203,
+    "n_flag": 109,
+    "median_delta": 0.10708
+   },
+   "persistent_tokens": 15,
+   "event_only_tokens": 178,
+   "verdict": "scored",
+   "rank": 83
+  },
+  "JJ-OREUM-340": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.7763,
+    "observable": true,
+    "flag_frac": 0.0069,
+    "n_flag": 88,
+    "median_delta": 0.03758
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.826,
+    "observable": true,
+    "flag_frac": 0.0091,
+    "n_flag": 123,
+    "median_delta": 0.04392
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4686,
+    "observable": true,
+    "flag_frac": 0.0382,
+    "n_flag": 293,
+    "median_delta": 0.08564
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 73,
+   "verdict": "scored",
+   "rank": 120
+  },
+  "JJ-OREUM-341": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.3974,
+    "observable": true,
+    "flag_frac": 0.0393,
+    "n_flag": 256,
+    "median_delta": 0.07639
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4074,
+    "observable": true,
+    "flag_frac": 0.0151,
+    "n_flag": 101,
+    "median_delta": 0.05326
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1097,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 6,
+   "event_only_tokens": 228,
+   "verdict": "scored",
+   "rank": 38
+  },
+  "JJ-OREUM-342": {
+   "tile": "52SCC",
+   "event": {
+    "valid_token_frac": 0.1627,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.203,
+    "observable": true,
+    "flag_frac": 0.0063,
+    "n_flag": 21,
+    "median_delta": 0.07047
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5097,
+    "observable": true,
+    "flag_frac": 0.0022,
+    "n_flag": 18,
+    "median_delta": 0.026
+   },
+   "persistent_tokens": 11,
+   "event_only_tokens": 11,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-344": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0003,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0831,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-345": {
+   "tile": "51SYT",
+   "event": {
+    "valid_token_frac": 0.7755,
+    "observable": true,
+    "flag_frac": 0.0094,
+    "n_flag": 120,
+    "median_delta": 0.03329
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9952,
+    "observable": true,
+    "flag_frac": 0.0089,
+    "n_flag": 145,
+    "median_delta": 0.02581
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.3113,
+    "observable": true,
+    "flag_frac": 0.0125,
+    "n_flag": 64,
+    "median_delta": 0.04185
+   },
+   "persistent_tokens": 22,
+   "event_only_tokens": 98,
+   "verdict": "scored",
+   "rank": 102
+  },
+  "JJ-OREUM-346": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5479,
+    "observable": true,
+    "flag_frac": 0.0176,
+    "n_flag": 158,
+    "median_delta": 0.0531
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-347": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0988,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0275,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0024,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 44,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-349": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.652,
+    "observable": true,
+    "flag_frac": 0.0197,
+    "n_flag": 210,
+    "median_delta": 0.05205
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.9731,
+    "observable": true,
+    "flag_frac": 0.007,
+    "n_flag": 111,
+    "median_delta": 0.03627
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1384,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 72,
+   "event_only_tokens": 138,
+   "verdict": "scored",
+   "rank": 65
+  },
+  "JJ-OREUM-351": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0134,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.4628,
+    "observable": true,
+    "flag_frac": 0.0067,
+    "n_flag": 51,
+    "median_delta": 0.08948
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.5793,
+    "observable": true,
+    "flag_frac": 0.0092,
+    "n_flag": 87,
+    "median_delta": 0.1024
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 209,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-352": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2209,
+    "observable": true,
+    "flag_frac": 0.1384,
+    "n_flag": 501,
+    "median_delta": 0.18163
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1032,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.4421,
+    "observable": true,
+    "flag_frac": 0.036,
+    "n_flag": 261,
+    "median_delta": 0.08295
+   },
+   "persistent_tokens": 26,
+   "event_only_tokens": 60,
+   "verdict": "scored",
+   "rank": 5
+  },
+  "JJ-OREUM-356": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.4132,
+    "observable": true,
+    "flag_frac": 0.0264,
+    "n_flag": 179,
+    "median_delta": 0.1082
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3636,
+    "observable": true,
+    "flag_frac": 0.0081,
+    "n_flag": 48,
+    "median_delta": 0.0987
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6944,
+    "observable": true,
+    "flag_frac": 0.02,
+    "n_flag": 228,
+    "median_delta": 0.04695
+   },
+   "persistent_tokens": 12,
+   "event_only_tokens": 160,
+   "verdict": "scored",
+   "rank": 49
+  },
+  "JJ-OREUM-357": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0068,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.001,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 4,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-359": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.4834,
+    "observable": true,
+    "flag_frac": 0.0087,
+    "n_flag": 69,
+    "median_delta": 0.06778
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.1378,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.1389,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 19,
+   "verdict": "scored",
+   "rank": 108
+  },
+  "JJ-OREUM-362": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.2917,
+    "observable": true,
+    "flag_frac": 0.0554,
+    "n_flag": 265,
+    "median_delta": 0.07922
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0569,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.2761,
+    "observable": true,
+    "flag_frac": 0.0095,
+    "n_flag": 43,
+    "median_delta": 0.10414
+   },
+   "persistent_tokens": 2,
+   "event_only_tokens": 23,
+   "verdict": "scored",
+   "rank": 29
+  },
+  "JJ-OREUM-364": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.2571,
+    "observable": true,
+    "flag_frac": 0.0161,
+    "n_flag": 68,
+    "median_delta": 0.05848
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.3129,
+    "observable": true,
+    "flag_frac": 0.009,
+    "n_flag": 46,
+    "median_delta": 0.07566
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.6241,
+    "observable": true,
+    "flag_frac": 0.0018,
+    "n_flag": 18,
+    "median_delta": 0.02383
+   },
+   "persistent_tokens": 8,
+   "event_only_tokens": 60,
+   "verdict": "scored",
+   "rank": 77
+  },
+  "JJ-OREUM-365": {
+   "tile": "52SBC",
+   "event": {
+    "valid_token_frac": 0.1096,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.2158,
+    "observable": true,
+    "flag_frac": 0.0424,
+    "n_flag": 150,
+    "median_delta": 0.1285
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.722,
+    "observable": true,
+    "flag_frac": 0.0201,
+    "n_flag": 238,
+    "median_delta": 0.04442
+   },
+   "persistent_tokens": 1,
+   "event_only_tokens": 47,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-367": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.0815,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  },
+  "JJ-OREUM-368": {
+   "tile": "52SBB",
+   "event": {
+    "valid_token_frac": 0.005,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_primary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "null_temporal_secondary": {
+    "valid_token_frac": 0.0,
+    "observable": false,
+    "flag_frac": null,
+    "n_flag": null,
+    "median_delta": null
+   },
+   "persistent_tokens": 0,
+   "event_only_tokens": 0,
+   "verdict": "abstain"
+  }
+ },
+ "elapsed_s": 3685.9
+}
