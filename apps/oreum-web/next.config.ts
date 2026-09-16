@@ -13,14 +13,16 @@ const dataCacheHeaders = [
   { key: 'Cache-Control', value: 'public, max-age=0, s-maxage=31536000, must-revalidate' },
 ];
 
+// 정적 export: 서버 기능이 없다(모든 데이터는 public/data 의 JSON·이미지). GitHub Pages 처럼 하위 경로에
+// 놓일 때는 NEXT_PUBLIC_BASE_PATH(예: /oreum-tracker) 를 주고, 코드는 withBase() 로 그 접두를 붙인다.
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const nextConfig: NextConfig = {
+  output: 'export',
+  basePath,
+  images: { unoptimized: true },
+  trailingSlash: true,
   reactStrictMode: true,
   poweredByHeader: false,
-  async headers() {
-    return [
-      { source: '/:path*', headers: securityHeaders },
-      { source: '/data/:path*', headers: dataCacheHeaders },
-    ];
-  },
 };
 export default nextConfig;

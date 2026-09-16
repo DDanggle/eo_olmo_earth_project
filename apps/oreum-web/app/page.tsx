@@ -32,7 +32,9 @@ type Summary = {
 
 // Next 번들러가 MapLibre 의 인라인 워커를 깨뜨려 GeoJSON 소스가 영원히 로드되지 않는다(실측: 소스에 243점,
 // isSourceLoaded false). 네팔과 같이 워커를 정적 파일로 둔다.
-setWorkerUrl('/maplibre-gl-worker.mjs');
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const withBase = (u: string) => `${BASE}${u}`;
+setWorkerUrl(withBase('/maplibre-gl-worker.mjs'));
 
 type SeriesFrame = { date: string; site_clear: number; scene_cloud: number; frame: string | null; orbit?: number | null;
   delta?: { vs: string; frame: string; valid_frac: number; flag_frac: number | null; orbit_match: boolean } | null;
@@ -63,8 +65,8 @@ export default function Page() {
   const [showNews, setShowNews] = useState(false);
 
   useEffect(() => {
-    fetch('/data/summary.json').then(r => r.json()).then(setSummary);
-    fetch('/data/oreum.geojson').then(r => r.json()).then(setFc);
+    fetch(withBase('/data/summary.json')).then(r => r.json()).then(setSummary);
+    fetch(withBase('/data/oreum.geojson')).then(r => r.json()).then(setFc);
   }, []);
 
   // 색계급 표현식: summary.class_breaks 하나만 읽는다 → 범례와 절대 어긋나지 않는다.
@@ -128,8 +130,8 @@ export default function Page() {
     setSeries(null);
     if (!sel) return;
     setNews(null);
-    fetch(`/data/series/${sel.oreum_id}_news.json`).then(r => (r.ok ? r.json() : null)).then(setNews).catch(() => setNews(null));
-    fetch(`/data/series/${sel.oreum_id}.json`).then(r => (r.ok ? r.json() : null)).then((sr: Series | null) => {
+    fetch(withBase(`/data/series/${sel.oreum_id}_news.json`)).then(r => (r.ok ? r.json() : null)).then(setNews).catch(() => setNews(null));
+    fetch(withBase(`/data/series/${sel.oreum_id}.json`)).then(r => (r.ok ? r.json() : null)).then((sr: Series | null) => {
       if (!sr) return;
       setSeries(sr);
       const keys = Object.keys(sr.frames);
@@ -215,10 +217,10 @@ export default function Page() {
           </header>
           {sel.verdict === 'abstain' && <p style={{ margin: '8px 0 0', fontSize: 12.5, color: 'var(--muted)' }}>{sel.abstain_reason}. 이 오름은 분모에 남고 점수는 만들지 않습니다.</p>}
           <div className="frames">
-            <figure><img src={`/data/frames/${sel.oreum_id}_${pair[0]}.jpg`} alt="" /><figcaption>{pair[0]} · 사건 쌍 기준</figcaption></figure>
+            <figure><img src={withBase(`/data/frames/${sel.oreum_id}_${pair[0]}.jpg`)} alt="" /><figcaption>{pair[0]} · 사건 쌍 기준</figcaption></figure>
             <figure onClick={() => setFrameYear(y => (y === '2026' ? '2025' : '2026'))} style={{ cursor: 'pointer' }}>
-              <img src={`/data/frames/${sel.oreum_id}_${frameYear}.jpg`} alt="" /><figcaption>{frameYear} · 눌러서 전후 전환</figcaption></figure>
-            <figure><img src={`/data/frames/${sel.oreum_id}_delta.png`} alt="" style={{ background: '#0f1d1a' }} /><figcaption>Δz 토큰 맵 · 투명 = 유효하지 않은 토큰</figcaption></figure>
+              <img src={withBase(`/data/frames/${sel.oreum_id}_${frameYear}.jpg`)} alt="" /><figcaption>{frameYear} · 눌러서 전후 전환</figcaption></figure>
+            <figure><img src={withBase(`/data/frames/${sel.oreum_id}_delta.png`)} alt="" style={{ background: '#0f1d1a' }} /><figcaption>Δz 토큰 맵 · 투명 = 유효하지 않은 토큰</figcaption></figure>
           </div>
           {series && (() => {
             const keys = Object.keys(series.frames); const key = keys[seriesIdx]; const fr = series.frames[key];
@@ -242,17 +244,17 @@ export default function Page() {
                 <div className="series-body">
                   {seriesMode === 'rgb' || !fr?.frame ? (
                     <figure>
-                      {fr?.frame ? <img src={`/data/series/${series.oreum_id}/${fr.frame}`} alt="" />
+                      {fr?.frame ? <img src={withBase(`/data/series/${series.oreum_id}/${fr.frame}`)} alt="" />
                         : <div className="series-empty">이 달은 판독 가능한 장면이 없었습니다<br /><small>{fr ? `가장 맑은 장면도 오름 창 판독 ${Math.round(fr.site_clear * 100)}%` : '장면 없음'}</small></div>}
                       <figcaption><strong>{key}</strong>{fr?.date && <> · {fr.date} · 창 판독 {Math.round(fr.site_clear * 100)}%</>}{fr?.ndvi_median != null && <> · NDVI 중앙 {fr.ndvi_median.toFixed(2)}</>}</figcaption>
                     </figure>
                   ) : (
                     <div className="compare">
-                      <figure>{base?.frame ? <img src={`/data/series/${series.oreum_id}/${base.frame}`} alt="" /> : <div className="series-empty">{lag}년 전 같은 달<br /><small>판독 가능한 장면 없음</small></div>}
+                      <figure>{base?.frame ? <img src={withBase(`/data/series/${series.oreum_id}/${base.frame}`)} alt="" /> : <div className="series-empty">{lag}년 전 같은 달<br /><small>판독 가능한 장면 없음</small></div>}
                         <figcaption><strong>{d ? d.vs : `${Number(key.slice(0, 4)) - lag}-${key.slice(5)}`}</strong>{base?.date && <> · {base.date}</>}{base?.ndvi_median != null && <> · NDVI {base.ndvi_median.toFixed(2)}</>}</figcaption></figure>
-                      <figure><img src={`/data/series/${series.oreum_id}/${fr.frame}`} alt="" />
+                      <figure><img src={withBase(`/data/series/${series.oreum_id}/${fr.frame}`)} alt="" />
                         <figcaption><strong>{key}</strong> · {fr.date}{fr.ndvi_median != null && <> · NDVI {fr.ndvi_median.toFixed(2)}</>}</figcaption></figure>
-                      <figure>{d ? <img src={`/data/series/${series.oreum_id}/${d.frame}`} alt="" style={{ background: '#0f1d1a' }} /> : <div className="series-empty">비교 불가<br /><small>기준 달 프레임 없음</small></div>}
+                      <figure>{d ? <img src={withBase(`/data/series/${series.oreum_id}/${d.frame}`)} alt="" style={{ background: '#0f1d1a' }} /> : <div className="series-empty">비교 불가<br /><small>기준 달 프레임 없음</small></div>}
                         <figcaption>Δz {d ? <> · 문턱 초과 <strong>{d.flag_frac == null ? '—' : pct(d.flag_frac)}</strong> · 유효 {Math.round(d.valid_frac * 100)}%{!d.orbit_match && ' · 궤도 다름(참고)'}</> : ''}</figcaption></figure>
                     </div>
                   )}
