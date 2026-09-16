@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import pathlib
 import sys
 from datetime import datetime
 
@@ -24,6 +25,9 @@ from jeju_paths import CONTRACT_ROOT, display_path
 
 MAX_DOY_SPREAD = 14        # 2주. v7.10 은 계절 자체가 달랐다.
 REQUIRED_FORBIDDEN = ["오름 훼손을 탐지했다", "레이더 순위의 p 값", "368 을 분모로 사용"]
+
+
+YEARS_STR = ("2023", "2024", "2025", "2026")
 
 
 def main() -> int:
@@ -90,6 +94,36 @@ def main() -> int:
     else:
         n = sum(len([k for k in r if k.isdigit()]) for r in c["optical"]["scenes"].values())
         print(f"    {n}건 동결됨 (재조회 생략 — --check-stac 로 확인)")
+
+    # 4b. 궤도 일관성 + 프레임 A 커버리지
+    #  둘 다 실측 결함에서 나왔다. 궤도 제약이 없을 때 52SBB 는 2023~2025 를 면적 0.11 짜리
+    #  조각 granule(R103)로, 2026 만 전체 장면(R003)으로 잡았고, 그 결과 오름 34곳이 네 해를
+    #  다 갖지 못한 채 조용히 분석에서 빠졌다. 조용히 빠지는 것이 이 게이트가 막는 종류다.
+    print("\n[4b] 궤도 일관성 · 프레임 A 커버리지")
+    for tile, rec in c["optical"]["scenes"].items():
+        orbits = {rec[y]["relative_orbit"] for y in YEARS_STR}
+        ok = len(orbits) == 1
+        print(f"    {tile:8s} 궤도 {sorted(orbits)}  {'ok' if ok else 'FAIL'}")
+        if not ok:
+            fails.append(f"{tile} 연도 간 궤도 불일치 {sorted(orbits)}")
+    if a.check_stac:
+        import sys as _sys
+        _sys.path.insert(0, str(pathlib.Path(__file__).parent))
+        from shapely.geometry import shape, Point
+        from oreum_prepare import load_oreum
+        coll = cat.get_collection("sentinel-2-l2a")
+        g = {(t, y): shape(coll.get_item(r[y]["item_id"]).geometry)
+             for t, r in c["optical"]["scenes"].items() for y in YEARS_STR}
+        oreum = load_oreum(None)
+        bad = [o["oreum_id"] for o in oreum
+               if not any(all(g[(t, y)].contains(Point(o["lon"], o["lat"])) for y in YEARS_STR)
+                          for t in c["optical"]["scenes"])]
+        print(f"    오름 {len(oreum)}곳 중 네 해 모두 덮임 {len(oreum) - len(bad)}  "
+              f"{'ok' if not bad else 'FAIL ' + str(bad[:5])}")
+        if bad:
+            fails.append(f"네 해를 다 덮지 못하는 오름 {len(bad)}곳")
+    else:
+        print("    커버리지 재조회 생략 — --check-stac 로 확인")
 
     # 5. 주장 경계
     print("\n[5] 주장 경계")

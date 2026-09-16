@@ -30,6 +30,7 @@ import json
 from datetime import datetime
 
 import pystac_client
+from shapely.geometry import shape
 
 from jeju_paths import CONTRACT_ROOT, display_path, ensure
 
@@ -48,10 +49,19 @@ doy = lambda item: item.datetime.timetuple().tm_yday
 
 
 def pick_optical(cat) -> dict:
-    """타일별로 DOY 폭 최소 → 최대 구름 최소 순으로 네 해 장면을 고른다."""
+    """타일별로 **하나의 상대궤도** 안에서 DOY 폭 최소 → 최대 구름 최소 순으로 네 해를 고른다.
+
+    궤도를 묶는 이유는 두 가지이고 둘 다 실측으로 확인했다.
+
+    1. **간격 규율.** 궤도가 다르면 관측 기하가 달라지고, 그 차이가 연간 Δz 에 그대로 실린다.
+       네팔이 궤도 121 과 19 를 절대 한 쌍에 섞지 않은 것과 같은 이유다.
+    2. **커버리지.** 같은 MGRS 타일이라도 궤도마다 granule 이 조각날 수 있다. 궤도 제약 없이
+       구름만 최소화했더니 52SBB 의 2023~2025 가 면적 0.11 짜리 R103 조각으로 잡히고 2026 만
+       면적 1.16 의 R003 전체 장면이 잡혀, **오름 34곳이 네 해를 다 갖지 못했다.**
+    """
     chosen = {}
     for tile in TILES:
-        per_year = []
+        by_orbit: dict[int, dict[int, list]] = {}
         for year in YEARS:
             items = [
                 i for i in cat.search(
@@ -63,17 +73,44 @@ def pick_optical(cat) -> dict:
             if not items:
                 raise SystemExit(f"REFUSED: {tile} {year} 에 구름 {CLOUD_MAX}% 이하 장면이 없다. "
                                  "그 해를 계약에서 빼거나 층을 넓히되, 넓힌 사실을 기록하라.")
-            per_year.append(sorted(items, key=lambda i: i.datetime))
-        best = min(itertools.product(*per_year),
-                   key=lambda c: (max(map(doy, c)) - min(map(doy, c)),
-                                  max(i.properties["eo:cloud_cover"] for i in c)))
+            for i in items:
+                by_orbit.setdefault(i.properties["sat:relative_orbit"], {}).setdefault(year, []).append(i)
+
+        # 네 해를 모두 가진 궤도만 후보다.
+        cands = {o: y for o, y in by_orbit.items() if len(y) == len(YEARS)}
+        if not cands:
+            raise SystemExit(f"REFUSED: {tile} 에 네 해를 모두 덮는 상대궤도가 없다. "
+                             "궤도를 섞는 대신 이 타일을 계약에서 빼라.")
+
+        # 궤도 안에서는 DOY 폭 → 최대 구름. 궤도끼리는 **granule 완전성이 먼저**다.
+        # 같은 타일의 두 궤도가 다 네 해를 가져도 한쪽이 조각 granule 일 수 있고, 그 경우
+        # 조각을 고르면 해당 지역 오름이 통째로 분석에서 빠진다(실측: 52SBB R103 은 면적
+        # 0.11, R003 은 1.16 이고 그 차이가 오름 34곳이었다). 덜 촘촘한 계절 정렬은
+        # 각주로 적을 수 있지만, 덮이지 않은 땅은 각주로 되살릴 수 없다.
+        per_orbit = {}
+        for orbit, per_year in cands.items():
+            combo = min(itertools.product(*(sorted(per_year[y], key=lambda i: i.datetime) for y in YEARS)),
+                        key=lambda c: (max(map(doy, c)) - min(map(doy, c)),
+                                       max(i.properties["eo:cloud_cover"] for i in c)))
+            per_orbit[orbit] = (combo, min(shape(i.geometry).area for i in combo))
+        best_orbit = min(per_orbit,
+                         key=lambda o: (-round(per_orbit[o][1], 2),
+                                        max(map(doy, per_orbit[o][0])) - min(map(doy, per_orbit[o][0])),
+                                        max(i.properties["eo:cloud_cover"] for i in per_orbit[o][0])))
+        best = per_orbit[best_orbit][0]
+        best_key = (max(map(doy, best)) - min(map(doy, best)),
+                    max(i.properties["eo:cloud_cover"] for i in best))
+
         chosen[tile] = {
             str(y): {"item_id": i.id, "datetime": str(i.datetime), "doy": doy(i),
-                     "cloud_cover": round(i.properties["eo:cloud_cover"], 2)}
+                     "cloud_cover": round(i.properties["eo:cloud_cover"], 2),
+                     "relative_orbit": i.properties["sat:relative_orbit"]}
             for y, i in zip(YEARS, best)
         }
-        chosen[tile]["_doy_spread_days"] = max(map(doy, best)) - min(map(doy, best))
-        chosen[tile]["_max_cloud"] = round(max(i.properties["eo:cloud_cover"] for i in best), 2)
+        chosen[tile]["_relative_orbit"] = best_orbit
+        chosen[tile]["_min_footprint_area_deg2"] = round(per_orbit[best_orbit][1], 4)
+        chosen[tile]["_doy_spread_days"] = best_key[0]
+        chosen[tile]["_max_cloud"] = round(best_key[1], 2)
     return chosen
 
 

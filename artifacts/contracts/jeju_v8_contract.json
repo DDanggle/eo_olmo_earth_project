@@ -1,6 +1,6 @@
 {
  "schema": "jeju-oreum-contract-v8",
- "frozen_at_utc": "2026-09-16T05:20:23Z",
+ "frozen_at_utc": "2026-09-16T05:34:30Z",
  "supersedes": "v7.10 (2025 창과 rolling-2026 창 184일 중첩, 계절 정렬 false)",
  "why": "달력·rolling 창을 버리고 좁은 계절 층 안의 실제 획득 장면을 동결한다. 날짜가 아니라 STAC item ID 를 고정한다 — PC 는 재처리한다.",
  "frames": {
@@ -59,26 +59,32 @@
      "item_id": "S2B_MSIL2A_20230825T021539_R003_T51SYS_20241024T053733",
      "datetime": "2023-08-25 02:15:39.024000+00:00",
      "doy": 237,
-     "cloud_cover": 7.0
+     "cloud_cover": 7.0,
+     "relative_orbit": 3
     },
     "2024": {
      "item_id": "S2A_MSIL2A_20240824T021531_R003_T51SYS_20240824T073115",
      "datetime": "2024-08-24 02:15:31.024000+00:00",
      "doy": 237,
-     "cloud_cover": 5.38
+     "cloud_cover": 5.38,
+     "relative_orbit": 3
     },
     "2025": {
      "item_id": "S2C_MSIL2A_20250829T021551_R003_T51SYS_20250829T060815",
      "datetime": "2025-08-29 02:15:51.025000+00:00",
      "doy": 241,
-     "cloud_cover": 1.63
+     "cloud_cover": 1.63,
+     "relative_orbit": 3
     },
     "2026": {
      "item_id": "S2C_MSIL2A_20260824T021531_R003_T51SYS_20260824T054511",
      "datetime": "2026-08-24 02:15:31.025000+00:00",
      "doy": 236,
-     "cloud_cover": 10.96
+     "cloud_cover": 10.96,
+     "relative_orbit": 3
     },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 1.1612,
     "_doy_spread_days": 5,
     "_max_cloud": 10.96
    },
@@ -87,82 +93,100 @@
      "item_id": "S2A_MSIL2A_20230909T021541_R003_T51SYT_20241024T141040",
      "datetime": "2023-09-09 02:15:41.024000+00:00",
      "doy": 252,
-     "cloud_cover": 0.69
+     "cloud_cover": 0.69,
+     "relative_orbit": 3
     },
     "2024": {
      "item_id": "S2B_MSIL2A_20240908T021539_R003_T51SYT_20240908T043148",
      "datetime": "2024-09-08 02:15:39.024000+00:00",
      "doy": 252,
-     "cloud_cover": 5.96
+     "cloud_cover": 5.96,
+     "relative_orbit": 3
     },
     "2025": {
      "item_id": "S2A_MSIL2A_20250910T022131_R003_T51SYT_20250910T062313",
      "datetime": "2025-09-10 02:21:31.024000+00:00",
      "doy": 253,
-     "cloud_cover": 14.7
+     "cloud_cover": 14.7,
+     "relative_orbit": 3
     },
     "2026": {
      "item_id": "S2B_MSIL2A_20260908T021529_R003_T51SYT_20260908T042509",
      "datetime": "2026-09-08 02:15:29.024000+00:00",
      "doy": 251,
-     "cloud_cover": 0.61
+     "cloud_cover": 0.61,
+     "relative_orbit": 3
     },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 1.173,
     "_doy_spread_days": 2,
     "_max_cloud": 14.7
    },
    "52SBB": {
     "2023": {
-     "item_id": "S2A_MSIL2A_20230906T020701_R103_T52SBB_20241104T082131",
-     "datetime": "2023-09-06 02:07:01.024000+00:00",
-     "doy": 249,
-     "cloud_cover": 0.0
+     "item_id": "S2B_MSIL2A_20230825T021539_R003_T52SBB_20241024T053733",
+     "datetime": "2023-08-25 02:15:39.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 6.02,
+     "relative_orbit": 3
     },
     "2024": {
-     "item_id": "S2B_MSIL2A_20240905T020659_R103_T52SBB_20240905T040210",
-     "datetime": "2024-09-05 02:06:59.024000+00:00",
-     "doy": 249,
-     "cloud_cover": 4.57
+     "item_id": "S2A_MSIL2A_20240824T021531_R003_T52SBB_20240824T073115",
+     "datetime": "2024-08-24 02:15:31.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 8.12,
+     "relative_orbit": 3
     },
     "2025": {
-     "item_id": "S2A_MSIL2A_20250907T021121_R103_T52SBB_20250907T062323",
-     "datetime": "2025-09-07 02:11:21.024000+00:00",
-     "doy": 250,
-     "cloud_cover": 14.63
+     "item_id": "S2C_MSIL2A_20250829T021551_R003_T52SBB_20250829T060815",
+     "datetime": "2025-08-29 02:15:51.025000+00:00",
+     "doy": 241,
+     "cloud_cover": 7.51,
+     "relative_orbit": 3
     },
     "2026": {
      "item_id": "S2B_MSIL2A_20260908T021529_R003_T52SBB_20260908T042509",
      "datetime": "2026-09-08 02:15:29.024000+00:00",
      "doy": 251,
-     "cloud_cover": 3.6
+     "cloud_cover": 3.6,
+     "relative_orbit": 3
     },
-    "_doy_spread_days": 2,
-    "_max_cloud": 14.63
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 1.1613,
+    "_doy_spread_days": 14,
+    "_max_cloud": 8.12
    },
    "52SBC": {
     "2023": {
      "item_id": "S2B_MSIL2A_20230825T021539_R003_T52SBC_20241024T053733",
      "datetime": "2023-08-25 02:15:39.024000+00:00",
      "doy": 237,
-     "cloud_cover": 4.61
+     "cloud_cover": 4.61,
+     "relative_orbit": 3
     },
     "2024": {
      "item_id": "S2A_MSIL2A_20240824T021531_R003_T52SBC_20240824T073115",
      "datetime": "2024-08-24 02:15:31.024000+00:00",
      "doy": 237,
-     "cloud_cover": 6.17
+     "cloud_cover": 6.17,
+     "relative_orbit": 3
     },
     "2025": {
      "item_id": "S2C_MSIL2A_20250829T021551_R003_T52SBC_20250829T060815",
      "datetime": "2025-08-29 02:15:51.025000+00:00",
      "doy": 241,
-     "cloud_cover": 8.22
+     "cloud_cover": 8.22,
+     "relative_orbit": 3
     },
     "2026": {
      "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SBC_20260824T054511",
      "datetime": "2026-08-24 02:15:31.025000+00:00",
      "doy": 236,
-     "cloud_cover": 6.12
+     "cloud_cover": 6.12,
+     "relative_orbit": 3
     },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 1.1732,
     "_doy_spread_days": 5,
     "_max_cloud": 8.22
    },
@@ -171,56 +195,68 @@
      "item_id": "S2A_MSIL2A_20230906T020701_R103_T52SCB_20241104T082131",
      "datetime": "2023-09-06 02:07:01.024000+00:00",
      "doy": 249,
-     "cloud_cover": 11.52
+     "cloud_cover": 11.52,
+     "relative_orbit": 103
     },
     "2024": {
      "item_id": "S2A_MSIL2A_20240831T020651_R103_T52SCB_20240831T060051",
      "datetime": "2024-08-31 02:06:51.024000+00:00",
      "doy": 244,
-     "cloud_cover": 0.11
+     "cloud_cover": 0.11,
+     "relative_orbit": 103
     },
     "2025": {
      "item_id": "S2C_MSIL2A_20250826T020711_R103_T52SCB_20250826T053223",
      "datetime": "2025-08-26 02:07:11.025000+00:00",
      "doy": 238,
-     "cloud_cover": 8.19
+     "cloud_cover": 8.19,
+     "relative_orbit": 103
     },
     "2026": {
      "item_id": "S2B_MSIL2A_20260826T020649_R103_T52SCB_20260826T041752",
      "datetime": "2026-08-26 02:06:49.024000+00:00",
      "doy": 238,
-     "cloud_cover": 13.07
+     "cloud_cover": 13.07,
+     "relative_orbit": 103
     },
+    "_relative_orbit": 103,
+    "_min_footprint_area_deg2": 1.1207,
     "_doy_spread_days": 11,
     "_max_cloud": 13.07
    },
    "52SCC": {
     "2023": {
-     "item_id": "S2A_MSIL2A_20230906T020701_R103_T52SCC_20241104T082131",
-     "datetime": "2023-09-06 02:07:01.024000+00:00",
-     "doy": 249,
-     "cloud_cover": 4.7
+     "item_id": "S2A_MSIL2A_20230820T021541_R003_T52SCC_20241022T125241",
+     "datetime": "2023-08-20 02:15:41.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 9.52,
+     "relative_orbit": 3
     },
     "2024": {
-     "item_id": "S2B_MSIL2A_20240905T020659_R103_T52SCC_20240905T040210",
-     "datetime": "2024-09-05 02:06:59.024000+00:00",
-     "doy": 249,
-     "cloud_cover": 6.45
+     "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SCC_20240819T042921",
+     "datetime": "2024-08-19 02:15:39.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 13.2,
+     "relative_orbit": 3
     },
     "2025": {
-     "item_id": "S2C_MSIL2A_20250905T020711_R103_T52SCC_20250905T053715",
-     "datetime": "2025-09-05 02:07:11.025000+00:00",
-     "doy": 248,
-     "cloud_cover": 3.53
+     "item_id": "S2B_MSIL2A_20250824T021539_R003_T52SCC_20250824T041648",
+     "datetime": "2025-08-24 02:15:39.024000+00:00",
+     "doy": 236,
+     "cloud_cover": 8.19,
+     "relative_orbit": 3
     },
     "2026": {
-     "item_id": "S2A_MSIL2A_20260905T022131_R003_T52SCC_20260905T055309",
-     "datetime": "2026-09-05 02:21:31.024000+00:00",
-     "doy": 248,
-     "cloud_cover": 11.45
+     "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SCC_20260824T054511",
+     "datetime": "2026-08-24 02:15:31.025000+00:00",
+     "doy": 236,
+     "cloud_cover": 6.75,
+     "relative_orbit": 3
     },
-    "_doy_spread_days": 1,
-    "_max_cloud": 11.45
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 1.0035,
+    "_doy_spread_days": 4,
+    "_max_cloud": 13.2
    }
   }
  },
@@ -273,12 +309,12 @@
    "gap_days_per_tile": [
     359,
     362,
-    366,
+    374,
     359,
     364,
-    365
+    364
    ],
-   "gap_days_mean": 362.5
+   "gap_days_mean": 363.7
   },
   "null_temporal_primary": {
    "from": 2024,
@@ -286,12 +322,12 @@
    "gap_days_per_tile": [
     370,
     367,
-    367,
+    370,
     370,
     360,
-    365
+    370
    ],
-   "gap_days_mean": 366.5
+   "gap_days_mean": 367.8
   },
   "null_temporal_secondary": {
    "from": 2023,
@@ -335,5 +371,5 @@
   "368 을 분모로 사용",
   "프레임 A 와 C 를 같은 성공률에 합산"
  ],
- "_self_sha256": "155504c499800a17ee79f331267915a112856de415eb79d94e2b5d06ab7200bd"
+ "_self_sha256": "478123c405f51c8384b3d486fee777157f71893b425590cb25aa723beffe2f92"
 }
