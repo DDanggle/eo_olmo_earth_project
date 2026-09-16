@@ -1,0 +1,31 @@
+{
+ "schema": "jeju-v8-korea-data-inventory-v1",
+ "measured_at": "2026-09-16",
+ "purpose": "S6 한국 근거 결합에 실제로 쓸 수 있는 레이어와, 이름만 비슷해서 쓰면 안 되는 레이어를 실측으로 가른다.",
+ "usable_now": [
+  {"layer": "개발행위허가 2026 (data.go.kr, korea_public_v1/jeju_development_permits_20260819.csv)",
+   "n": 94, "geometry": "PNU → VWorld LP_PA_CBND_BUBUN 연속지적 MultiPolygon (시험 3/3 성공)",
+   "role": "행정적 상관 검정. 원인·시설 주장 금지.", "note": "240건 중 131건이 2015·2016 — 2026 만 쓴다."},
+  {"layer": "VWorld LT_C_UQ114 자연환경보전지역", "n_jeju": 79, "role": "층화 변수(보전지역 안/밖 깃발율 비교)"},
+  {"layer": "VWorld LT_C_UO301 문화재/문화재보호구역/역사문화환경보존지역", "n_jeju": 927,
+   "role": "많은 오름이 문화재·보호구역이다. 오름별 지정 여부 태그."},
+  {"layer": "VWorld LT_C_WGISNPGUG 한라산국립공원", "n_jeju": 1, "role": "공원 안/밖 층화"},
+  {"layer": "환경영향평가(EIA) 사업구역 polygon (kearth_api_snapshot_v3/eia_features.json)", "n": 13,
+   "role": "개발 규모상 형태 적합. exact permutation."},
+  {"layer": "VWorld 항공사진 25~50 cm", "role": "판독 배경. 40 m 토큰이 못 보는 것을 사람이 본다."}
+ ],
+ "do_not_join": [
+  {"layer": "VWorld LT_C_UO101 '절대보호구역/상대보호구역' (제주 512건)",
+   "why": "제주 보전지역이 아니라 **교육환경보호법**의 학교 주변 50 m/200 m 구역이다. 이름이 비슷해 조인하면 가짜 상관을 만든다."}
+ ],
+ "wanted_not_yet_available": [
+  {"layer": "제주특별자치도 절대보전지역·상대보전지역·관리보전지역(지하수·생태계·경관 1~5등급)",
+   "status": "VWorld 데이터 API 에 없음. 제주도 GIS(gis.jeju.go.kr)·이음지도(eum.go.kr) 경로 확인 필요. 확보 전에는 수치를 넣지 않는다.",
+   "why_it_matters": "오름 보전의 실제 법적 축이고 한국에만 있는 지정이다."},
+  {"layer": "산지전용허가 현황(산림청/제주도)", "status": "공공데이터포털에 제주 단위 공개본 미확인. 지자체 정보공개 청구 경로."},
+  {"layer": "임상도(산림청)·토지피복지도(환경부 EGIS)", "status": "VWorld 코드 프로브 ERROR. 원본 포털 다운로드 경로 별도."}
+ ],
+ "sources": ["https://www.eum.go.kr/web/mp/mpMapDet.jsp", "https://gis.jeju.go.kr/crn/index.do",
+             "https://www.data.go.kr/tcs/dss/selectDataSetList.do?keyword=%EC%A0%9C%EC%A3%BC",
+             "https://www.vworld.kr/dev/v4dv_2ddataguide2_s001.do"]
+}

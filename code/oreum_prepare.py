@@ -43,10 +43,11 @@ from jeju_paths import ARTIFACT_ROOT, CACHE_ROOT, CONTRACT_ROOT, display_path, e
 STAC = "https://planetarycomputer.microsoft.com/api/stac/v1"
 BANDS = ["B02", "B03", "B04", "B08", "B05", "B06", "B07", "B8A", "B11", "B12", "B01", "B09"]
 SIZE = 256                      # 2.56 km / 10 m
+GRID_SNAP_M = 40                # 창 원점을 맞추는 절대 격자(UTM). 40 m 토큰과 20 m 토큰의 공배수.
 YEARS = ["2023", "2024", "2025", "2026"]
 # SCL 에서 '쓸 만한 지표' 로 보는 클래스. 4 식생 5 나지 6 물 7 미분류 11 눈.
 # 구름(8,9,10)·그림자(3)·결측(0)·포화(1)·어두운영역(2)은 제외한다.
-SCL_CLEAR = {4, 5, 6, 7, 11}
+SCL_CLEAR = {4, 5, 6, 7}   # 동결기·게이트와 같은 정의. 눈(11) 은 8~9월 제주에 없고 밝은 표면의 오분류다.
 
 
 def load_oreum(limit: int | None) -> list[dict]:
@@ -81,14 +82,21 @@ def assign_tiles(oreum: list[dict], contract: dict) -> dict[str, str]:
     return out
 
 
-def read_window(item, lon: float, lat: float) -> tuple[np.ndarray, np.ndarray]:
+def read_window(item, lon: float, lat: float) -> tuple[np.ndarray, np.ndarray, tuple]:
     """한 오름 창의 12밴드(bilinear)와 SCL(nearest)을 읽는다."""
     signed = pc.sign(item)
     with rasterio.open(signed.assets[BANDS[0]].href) as ref:
         xs, ys = warp_transform("EPSG:4326", ref.crs, [lon], [lat])
         cx, cy = xs[0], ys[0]
     half = SIZE * 10 / 2
-    bounds = (cx - half, cy - half, cx + half, cy + half)
+    # 창 원점을 UTM 상의 GRID_SNAP_M 배수에 맞춘다. 40 은 20 의 배수이므로 patch_size 4 와 2
+    # 의 토큰 격자가 둘 다 같은 절대 격자 위에 놓인다. 그러면 (1) 토큰 footprint 가 좌표로
+    # 재현되고 (2) PNU 필지 polygon 과의 조인이 "어느 창의 몇 번째 토큰" 이 아니라 절대 위치로
+    # 떨어진다. 스냅으로 창 중심이 오름 좌표에서 최대 20 m 비껴갈 수 있는데, 2.56 km 창에서
+    # 무시할 수 있는 양이다. 원점은 반환값으로 기록한다.
+    x0 = np.floor((cx - half) / GRID_SNAP_M) * GRID_SNAP_M
+    y0 = np.floor((cy - half) / GRID_SNAP_M) * GRID_SNAP_M
+    bounds = (x0, y0, x0 + SIZE * 10, y0 + SIZE * 10)
 
     cube = np.full((len(BANDS), SIZE, SIZE), np.nan, dtype="float32")
     for bi, band in enumerate(BANDS):
@@ -102,7 +110,7 @@ def read_window(item, lon: float, lat: float) -> tuple[np.ndarray, np.ndarray]:
         win = from_bounds(*bounds, transform=ds.transform)
         scl = ds.read(1, window=win, out_shape=(SIZE, SIZE), boundless=True,
                       fill_value=0, resampling=Resampling.nearest).astype("uint8")
-    return cube, scl
+    return cube, scl, (float(x0), float(y0), str(ref.crs))
 
 
 def main() -> None:
@@ -137,23 +145,29 @@ def main() -> None:
         tile = tiles[o["oreum_id"]]
         cube = np.full((len(BANDS), len(YEARS), SIZE, SIZE), np.nan, dtype="float32")
         sclc = np.zeros((len(YEARS), SIZE, SIZE), dtype="uint8")
+        origins: list[tuple] = []
         for yi, year in enumerate(YEARS):
             for attempt in range(4):
                 try:
-                    c, s = read_window(items[(tile, year)], o["lon"], o["lat"])
+                    c, s, origin = read_window(items[(tile, year)], o["lon"], o["lat"])
                     cube[:, yi], sclc[yi] = c, s
+                    origins.append(origin)
                     break
                 except Exception:
                     if attempt == 3:
                         raise
                     time.sleep(4 * (attempt + 1))
+        # 네 해가 같은 타일·같은 CRS 이므로 스냅된 원점은 네 해 모두 같아야 한다. 다르면
+        # Δz 가 서로 다른 땅을 비교하는 것이므로 여기서 멈춘다.
+        assert len(set(origins)) == 1, f"{o['oreum_id']}: 연도별 창 원점이 다르다 {origins}"
         clear = np.isin(sclc, list(SCL_CLEAR))
         np.savez_compressed(
             out_dir / f"{o['oreum_id']}.npz",
             cube=cube, scl=sclc, clear=clear, years=np.array(YEARS),
             lonlat=np.array([o["lon"], o["lat"]]), tile=tile,
             item_ids=np.array([scenes[tile][y]["item_id"] for y in YEARS]),
-            bands=np.array(BANDS))
+            bands=np.array(BANDS),
+            origin_xy=np.array(origins[0][:2]), crs=origins[0][2], grid_snap_m=GRID_SNAP_M)
         done += 1
         if done % 20 == 0:
             print(f"  {done}/{len(todo)}  ({time.time()-t0:.0f}s)", flush=True)
@@ -172,6 +186,8 @@ def main() -> None:
         "modality": "sentinel2_l2a (12밴드, B10 없음 — L2A 에 존재하지 않는다)",
         "bands": BANDS, "window_px": SIZE, "scl_clear_classes": sorted(SCL_CLEAR),
         "resampling": {"reflectance": "bilinear", "scl": "nearest (categorical)"},
+        "grid_snap_m": GRID_SNAP_M,
+        "grid_snap_note": "창 원점을 UTM 40 m 배수에 맞춤. 40 m·20 m 토큰 격자가 같은 절대 격자에 놓이고 필지 조인이 절대 좌표로 떨어진다.",
         "oreum_total": len(oreum), "cached": len(oreum) - len(todo) + done,
         "failed": failed, "elapsed_s": round(time.time() - t0, 1),
         "tile_assignment": tiles,
