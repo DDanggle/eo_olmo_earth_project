@@ -135,3 +135,19 @@ button { font: inherit; }
 .series-axis { display: flex; justify-content: space-between; width: 100%; margin-top: 2px; font-size: 10px; color: var(--muted); letter-spacing: .05em; }
 .series-axis span { flex: 1 1 0; text-align: left; }
 @media (max-width: 760px) { .series-body figure { grid-template-columns: 1fr; } .series-body img, .series-empty { width: 100%; } }
+
+/* 비교 모드 · NDVI · 뉴스 */
+.compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.compare figure { margin: 0; display: block; }
+.compare img, .compare .series-empty { width: 100%; aspect-ratio: 1; }
+.compare figcaption { margin-top: 4px; font: 11px/1.5 var(--font-sans); color: var(--muted); }
+.ndvi { display: block; width: 100%; height: 40px; margin-top: 6px; border: 1px solid var(--line); border-radius: 3px; background: var(--bg); }
+.series-note { margin: 6px 0 0; font-size: 11px; line-height: 1.5; color: var(--muted); }
+.series-strip .tick.news { box-shadow: inset 0 -3px 0 var(--magenta); }
+.news { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--line); }
+.news-item { display: block; padding: 6px 8px; margin-top: 4px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink); text-decoration: none; font-size: 12px; line-height: 1.4; }
+.news-item:hover { border-color: var(--teal); }
+.news-item.cur { border-color: var(--magenta); }
+.news-item .mono { color: var(--muted); font-size: 10px; margin-right: 6px; }
+.news-item small { display: block; color: var(--muted); font-size: 10px; margin-top: 2px; }
+@media (max-width: 760px) { .compare { grid-template-columns: 1fr 1fr; } }

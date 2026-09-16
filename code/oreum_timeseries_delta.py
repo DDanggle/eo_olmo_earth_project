@@ -59,8 +59,11 @@ def main() -> None:
             f = ((z * m).sum(dim=(3, 4)) / m.sum(dim=(3, 4)).clamp(min=1))[0]
         return f.permute(2, 0, 1).float()
 
-    def shift12(key):
-        y, m = map(int, key.split("-")); return f"{y-1}-{m:02d}"
+    def shift(key, years):
+        y, m = map(int, key.split("-")); return f"{y-years}-{m:02d}"
+    LAGS = (1, 2, 3, 4, 5)          # 같은 달, n년 전. 인접 달 비교는 계절 위상차라 하지 않는다.
+    from oreum_prepare import BANDS
+    iR, iN = BANDS.index("B04"), BANDS.index("B08")
 
     total = 0
     for oid in index["oreum_ids"]:
@@ -73,20 +76,33 @@ def main() -> None:
             z[key] = embed(d["cube"], datetime.fromisoformat(str(d["date"])))
             tv[key] = token_valid(d["scl"], a.patch)
         n = 0
+        # NDVI 월별 중앙값 (유효 픽셀만) — 임베딩과 독립인 고전 물리량. 여러 해 지속되는 하락이 식생 손실 후보.
         for key in list(z):
-            prev = shift12(key)
-            if prev not in z:
-                continue
-            za, zb = z[prev], z[key]
-            dl = (1 - (za * zb).sum(0) / (za.norm(dim=0).clamp(min=1e-8) * zb.norm(dim=0).clamp(min=1e-8))).cpu().numpy()
-            v = tv[prev] & tv[key]
-            Image.fromarray(delta_png(dl, v, thr, vmax), "RGBA").resize((256, 256), Image.NEAREST).save(series_root / oid / f"{key}_delta.png")
-            flag = float((dl[v] > thr).mean()) if v.any() else None
-            meta["frames"][key]["delta"] = {"vs": prev, "frame": f"{key}_delta.png", "valid_frac": round(float(v.mean()), 3),
-                                            "flag_frac": None if flag is None else round(flag, 4),
-                                            "orbit_match": meta["frames"][prev].get("orbit") == meta["frames"][key].get("orbit")}
-            n += 1
-        meta["delta_rule"] = {"pair": "t-12개월 → t", "threshold_p99_from": f"{a.contract}_scan_p4.json", "threshold": thr,
+            d = np.load(cache_root / oid / f"{key}.npz", allow_pickle=True)
+            ok = np.isin(d["scl"], (4, 5, 6, 7)) & np.isfinite(d["cube"][iR]) & np.isfinite(d["cube"][iN])
+            if ok.sum() > 100:
+                r, nir = d["cube"][iR][ok], d["cube"][iN][ok]
+                meta["frames"][key]["ndvi_median"] = round(float(np.median((nir - r) / np.maximum(nir + r, 1.0))), 4)
+        for key in list(z):
+            deltas = {}
+            for lag in LAGS:
+                prev = shift(key, lag)
+                if prev not in z:
+                    continue
+                za, zb = z[prev], z[key]
+                dl = (1 - (za * zb).sum(0) / (za.norm(dim=0).clamp(min=1e-8) * zb.norm(dim=0).clamp(min=1e-8))).cpu().numpy()
+                v = tv[prev] & tv[key]
+                fname = f"{key}_delta.png" if lag == 1 else f"{key}_delta_{lag}y.png"
+                Image.fromarray(delta_png(dl, v, thr, vmax), "RGBA").resize((256, 256), Image.NEAREST).save(series_root / oid / fname)
+                flag = float((dl[v] > thr).mean()) if v.any() else None
+                deltas[str(lag)] = {"vs": prev, "frame": fname, "valid_frac": round(float(v.mean()), 3),
+                                    "flag_frac": None if flag is None else round(flag, 4),
+                                    "orbit_match": meta["frames"][prev].get("orbit") == meta["frames"][key].get("orbit")}
+                n += 1
+            if deltas:
+                meta["frames"][key]["delta"] = deltas["1"] if "1" in deltas else None     # 기존 UI 호환
+                meta["frames"][key]["deltas"] = deltas
+        meta["delta_rule"] = {"pair": "t-12·24·36·48·60개월 → t (같은 달만)", "threshold_p99_from": f"{a.contract}_scan_p4.json", "threshold": thr,
                               "note": "보는 용도. 궤도가 다를 수 있어 채점에 쓰지 않는다."}
         meta_p.write_text(json.dumps(meta, ensure_ascii=False, indent=1))
         total += n

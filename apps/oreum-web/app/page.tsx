@@ -35,7 +35,10 @@ type Summary = {
 setWorkerUrl('/maplibre-gl-worker.mjs');
 
 type SeriesFrame = { date: string; site_clear: number; scene_cloud: number; frame: string | null; orbit?: number | null;
-  delta?: { vs: string; frame: string; valid_frac: number; flag_frac: number | null; orbit_match: boolean } } | null;
+  delta?: { vs: string; frame: string; valid_frac: number; flag_frac: number | null; orbit_match: boolean } | null;
+  deltas?: Record<string, { vs: string; frame: string; valid_frac: number; flag_frac: number | null; orbit_match: boolean }>; ndvi_median?: number } | null;
+type NewsItem = { date: string; month: string; title: string; source: string; link: string; topics: string[] };
+type News = { n: number; caveat: string; items: NewsItem[] };
 type Series = { oreum_id: string; name: string; n_months: number; n_frames: number; frames: Record<string, SeriesFrame> };
 
 const YEARS = ['2023', '2024', '2025', '2026'];
@@ -53,6 +56,9 @@ export default function Page() {
   const [series, setSeries] = useState<Series | null>(null);
   const [seriesIdx, setSeriesIdx] = useState(0);
   const [seriesMode, setSeriesMode] = useState<'rgb' | 'delta'>('rgb');
+  const [lag, setLag] = useState(1);                 // 비교 기준: n년 전 같은 달
+  const [news, setNews] = useState<News | null>(null);
+  const [showNews, setShowNews] = useState(false);
 
   useEffect(() => {
     fetch('/data/summary.json').then(r => r.json()).then(setSummary);
@@ -110,6 +116,8 @@ export default function Page() {
   useEffect(() => {
     setSeries(null);
     if (!sel) return;
+    setNews(null);
+    fetch(`/data/series/${sel.oreum_id}_news.json`).then(r => (r.ok ? r.json() : null)).then(setNews).catch(() => setNews(null));
     fetch(`/data/series/${sel.oreum_id}.json`).then(r => (r.ok ? r.json() : null)).then((sr: Series | null) => {
       if (!sr) return;
       setSeries(sr);
@@ -199,34 +207,65 @@ export default function Page() {
           </div>
           {series && (() => {
             const keys = Object.keys(series.frames); const key = keys[seriesIdx]; const fr = series.frames[key];
-            const hasDelta = !!fr?.delta;
+            const d = fr?.deltas?.[String(lag)] ?? (lag === 1 ? fr?.delta ?? undefined : undefined);
+            const base = d ? series.frames[d.vs] : null;
+            const ndvi = keys.map(k => series.frames[k]?.ndvi_median ?? null);
+            const nv = ndvi.filter((x): x is number => x != null); const nmin = Math.min(...nv, 0), nmax = Math.max(...nv, 0.9);
+            const newsMonths = new Map<string, NewsItem[]>(); (news?.items ?? []).forEach(it => { newsMonths.set(it.month, [...(newsMonths.get(it.month) ?? []), it]); });
+            const monthNews = newsMonths.get(key) ?? [];
             return (
               <div className="series">
                 <div className="series-head">
                   <span className="eyebrow">월별 시계열 · {series.n_frames}/{series.n_months}개월 판독 가능</span>
                   <div className="toggles">
                     <button className="toggle" aria-pressed={seriesMode === 'rgb'} onClick={() => setSeriesMode('rgb')}>영상</button>
-                    <button className="toggle" aria-pressed={seriesMode === 'delta'} onClick={() => setSeriesMode('delta')} title="이 달과 12개월 전 같은 달의 Δz">변화 (1년 전 대비)</button>
+                    <button className="toggle" aria-pressed={seriesMode === 'delta'} onClick={() => setSeriesMode('delta')} title="이 달과 n년 전 같은 달의 비교">비교</button>
+                    {seriesMode === 'delta' && [1, 2, 3, 4, 5].map(n => <button key={n} className="toggle" aria-pressed={lag === n} onClick={() => setLag(n)} style={{ padding: '7px 8px' }}>{n}년 전</button>)}
+                    {news && news.n > 0 && <button className="toggle" aria-pressed={showNews} onClick={() => setShowNews(v => !v)} title="Google News RSS · 맥락 자료 · 관련성은 사람이 판단">뉴스 {news.n}</button>}
                   </div>
                 </div>
                 <div className="series-body">
-                  <figure>
-                    {fr?.frame ? (
-                      seriesMode === 'rgb' || !hasDelta
-                        ? <img src={`/data/series/${series.oreum_id}/${fr.frame}`} alt="" />
-                        : <img src={`/data/series/${series.oreum_id}/${fr.delta!.frame}`} alt="" style={{ background: '#0f1d1a' }} />
-                    ) : <div className="series-empty">이 달은 판독 가능한 장면이 없었습니다<br /><small>{fr ? `가장 맑은 장면도 오름 창 판독 ${Math.round(fr.site_clear * 100)}%` : '장면 없음'}</small></div>}
-                    <figcaption>
-                      <strong>{key}</strong>{fr?.date && <> · {fr.date} · 창 판독 {Math.round(fr.site_clear * 100)}%</>}
-                      {seriesMode === 'delta' && fr?.delta && <> · vs {fr.delta.vs} · 문턱 초과 {fr.delta.flag_frac == null ? '—' : pct(fr.delta.flag_frac)}{!fr.delta.orbit_match && ' · 궤도 다름(참고용)'}</>}
-                      {seriesMode === 'delta' && fr?.frame && !hasDelta && <> · 1년 전 같은 달 프레임이 없어 변화 없음</>}
-                    </figcaption>
-                  </figure>
+                  {seriesMode === 'rgb' || !fr?.frame ? (
+                    <figure>
+                      {fr?.frame ? <img src={`/data/series/${series.oreum_id}/${fr.frame}`} alt="" />
+                        : <div className="series-empty">이 달은 판독 가능한 장면이 없었습니다<br /><small>{fr ? `가장 맑은 장면도 오름 창 판독 ${Math.round(fr.site_clear * 100)}%` : '장면 없음'}</small></div>}
+                      <figcaption><strong>{key}</strong>{fr?.date && <> · {fr.date} · 창 판독 {Math.round(fr.site_clear * 100)}%</>}{fr?.ndvi_median != null && <> · NDVI 중앙 {fr.ndvi_median.toFixed(2)}</>}</figcaption>
+                    </figure>
+                  ) : (
+                    <div className="compare">
+                      <figure>{base?.frame ? <img src={`/data/series/${series.oreum_id}/${base.frame}`} alt="" /> : <div className="series-empty">{lag}년 전 같은 달<br /><small>판독 가능한 장면 없음</small></div>}
+                        <figcaption><strong>{d ? d.vs : `${Number(key.slice(0, 4)) - lag}-${key.slice(5)}`}</strong>{base?.date && <> · {base.date}</>}{base?.ndvi_median != null && <> · NDVI {base.ndvi_median.toFixed(2)}</>}</figcaption></figure>
+                      <figure><img src={`/data/series/${series.oreum_id}/${fr.frame}`} alt="" />
+                        <figcaption><strong>{key}</strong> · {fr.date}{fr.ndvi_median != null && <> · NDVI {fr.ndvi_median.toFixed(2)}</>}</figcaption></figure>
+                      <figure>{d ? <img src={`/data/series/${series.oreum_id}/${d.frame}`} alt="" style={{ background: '#0f1d1a' }} /> : <div className="series-empty">비교 불가<br /><small>기준 달 프레임 없음</small></div>}
+                        <figcaption>Δz {d ? <> · 문턱 초과 <strong>{d.flag_frac == null ? '—' : pct(d.flag_frac)}</strong> · 유효 {Math.round(d.valid_frac * 100)}%{!d.orbit_match && ' · 궤도 다름(참고)'}</> : ''}</figcaption></figure>
+                    </div>
+                  )}
                   <div className="series-strip" aria-hidden>
-                    {keys.map((k, i) => { const f = series.frames[k]; return <span key={k} className={`tick ${f?.frame ? (seriesMode === 'delta' ? (f.delta ? 'on' : 'half') : 'on') : 'off'} ${i === seriesIdx ? 'cur' : ''}`} onClick={() => setSeriesIdx(i)} title={k} />; })}
+                    {keys.map((k, i) => { const f = series.frames[k]; const hasD = f?.deltas?.[String(lag)] || (lag === 1 && f?.delta);
+                      return <span key={k} className={`tick ${f?.frame ? (seriesMode === 'delta' ? (hasD ? 'on' : 'half') : 'on') : 'off'} ${i === seriesIdx ? 'cur' : ''} ${newsMonths.has(k) ? 'news' : ''}`} onClick={() => setSeriesIdx(i)} title={k} />; })}
                   </div>
                   <input type="range" min={0} max={keys.length - 1} value={seriesIdx} onChange={e => setSeriesIdx(Number(e.target.value))} aria-label="월 선택" />
                   <div className="series-axis mono">{keys.filter((_, i) => i % 12 === 0).map(k => <span key={k}>{k.slice(0, 4)}</span>)}</div>
+                  {nv.length > 3 && (
+                    <svg className="ndvi" viewBox={`0 0 ${keys.length} 40`} preserveAspectRatio="none" aria-label="NDVI 월별 중앙값">
+                      <polyline fill="none" stroke="#0fcb8c" strokeWidth="0.6" vectorEffect="non-scaling-stroke"
+                        points={ndvi.map((v, i) => v == null ? null : `${i + 0.5},${40 - ((v - nmin) / (nmax - nmin || 1)) * 38 - 1}`).filter(Boolean).join(' ')} />
+                      <line x1={seriesIdx + 0.5} x2={seriesIdx + 0.5} y1="0" y2="40" stroke="#f09158" strokeWidth="0.4" vectorEffect="non-scaling-stroke" />
+                    </svg>
+                  )}
+                  <p className="series-note">위 선: 창 안 유효 픽셀의 NDVI(식생지수) 중앙값 — 임베딩과 독립인 고전 물리량. 여러 해 지속되는 하락이 식생 손실 후보이고, 한 해만 낮은 것은 계절·가뭄·해무일 수 있습니다.</p>
+                  {showNews && news && (
+                    <div className="news">
+                      <p className="eyebrow">뉴스 후보 · {news.n}건 · Google News RSS</p>
+                      <p className="series-note">{news.caveat}</p>
+                      {(monthNews.length ? monthNews : news.items.slice(-8)).map(it => (
+                        <a key={it.link} href={it.link} target="_blank" rel="noreferrer" className={`news-item ${it.month === key ? 'cur' : ''}`}>
+                          <span className="mono">{it.date}</span> <span>{it.title}</span> <small>{it.source}{it.topics.length ? ` · ${it.topics.join(', ')}` : ''}</small></a>
+                      ))}
+                      {monthNews.length > 0 && <p className="series-note">이 달({key}) 기사만 보입니다. 다른 달은 스트립의 점(·)이 있는 달로 이동하세요.</p>}
+                    </div>
+                  )}
                 </div>
               </div>
             );
