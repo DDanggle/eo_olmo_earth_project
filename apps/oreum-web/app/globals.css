@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+/* ── 오름 추적기 팔레트 ─────────────────────────────────────────
+   Ai2 정체성 앵커: 청록 #0FCB8C / 시안 #23C8CE (allenai.org 실측)
+   주 강조:         주황 #F09158 (OlmoEarth 페이지 실측)
+   변화 색계급:     청록 → 주황 → 자홍 단조 상승. 배경은 밝은 중성.
+   abstain(관측 불가)은 색이 아니라 **패턴**으로 — "점수 없음 ≠ 변화 없음"을 지도가 말한다.
+   라이트/다크 토큰을 :root 에 모두 정의하고 다크는 재정의만 한다. */
+:root {
+  color-scheme: light;
+  --bg: #f6f7f7;
+  --surface: #ffffff;
+  --ink: #14201d;
+  --muted: #5e6c68;
+  --line: #e1e6e4;
+  --line-strong: #c6cfcb;
+  --teal: #0fcb8c;
+  --teal-deep: #0a9a6b;
+  --teal-soft: rgba(15, 203, 140, 0.10);
+  --cyan: #23c8ce;
+  --orange: #f09158;
+  --orange-deep: #d9702f;
+  --orange-soft: rgba(240, 145, 88, 0.12);
+  --magenta: #b8306f;
+  --card-shadow: 0 1px 2px rgba(20, 32, 29, .05), 0 6px 24px rgba(20, 32, 29, .07);
+  --map-bg: #0f1d1a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #0f1514; --surface: #16201e; --ink: #e8eeec; --muted: #9aa8a4;
+    --line: #253230; --line-strong: #34443f;
+    --teal-soft: rgba(15, 203, 140, 0.16); --orange-soft: rgba(240, 145, 88, 0.18);
+    --card-shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0f1514; --surface: #16201e; --ink: #e8eeec; --muted: #9aa8a4;
+  --line: #253230; --line-strong: #34443f;
+  --teal-soft: rgba(15, 203, 140, 0.16); --orange-soft: rgba(240, 145, 88, 0.18);
+  --card-shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 24px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--ink); }
+body { font-family: var(--font-sans), 'Helvetica Neue', Arial, sans-serif; overflow: hidden; }
+button { font: inherit; }
+.mono { font-family: var(--font-mono), ui-monospace, monospace; }
+
+.app-shell { position: fixed; inset: 0; overflow: hidden; background: var(--bg); }
+.map-stage { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; background: var(--map-bg); }
+
+/* 톱바 — 토글이 먼저, 브랜드는 접힘 (네팔 모바일 교훈) */
+.topbar { position: absolute; z-index: 5; top: 0; left: 0; right: 0; height: 64px; display: flex; align-items: center; gap: 14px;
+  padding: 0 18px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(10px); overflow-x: auto; scrollbar-width: none; }
+.topbar::-webkit-scrollbar { display: none; }
+.brand { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.brand-mark { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--teal); position: relative; }
+.brand-mark::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--orange); }
+.brand h1 { margin: 0; font-size: 15px; letter-spacing: -.01em; white-space: nowrap; }
+.brand h1 span { color: var(--teal-deep); }
+.eyebrow { margin: 0; color: var(--muted); font: 600 10px/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+
+.toggles { display: flex; gap: 6px; flex: 0 0 auto; }
+.toggle { padding: 7px 11px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--muted);
+  font: 600 11px var(--font-mono); letter-spacing: .04em; cursor: pointer; border-radius: 3px; white-space: nowrap; }
+.toggle[aria-pressed='true'] { color: var(--ink); border-color: var(--orange); background: var(--orange-soft); }
+.toggle:hover { border-color: var(--teal); }
+
+/* 레일 */
+.rail { position: absolute; z-index: 4; top: 78px; width: 340px; max-height: calc(100svh - 96px); overflow-y: auto;
+  padding: 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); box-shadow: var(--card-shadow); }
+.rail-left { left: 14px; }
+.rail-right { right: 14px; }
+.rail h2 { margin: 0 0 4px; font-size: 14px; }
+.rail p { margin: 6px 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+.rail strong { color: var(--ink); }
+.claim { margin-top: 10px; padding: 10px 12px; border-left: 3px solid var(--orange); background: var(--orange-soft); font-size: 12.5px; line-height: 1.5; }
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.stat { padding: 10px; border: 1px solid var(--line); border-radius: 3px; }
+.stat b { display: block; font: 700 20px/1 var(--font-mono); color: var(--ink); }
+.stat small { display: block; margin-top: 4px; color: var(--muted); font: 10px/1.3 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.stat.abstain b { color: var(--muted); }
+.stat.flag b { color: var(--orange-deep); }
+
+/* 범례 */
+.legend { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.legend-row { display: flex; align-items: center; gap: 8px; font: 11px var(--font-mono); color: var(--muted); }
+.swatch { width: 22px; height: 12px; border-radius: 2px; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.08); }
+.swatch.abstain { background: repeating-linear-gradient(135deg, var(--line-strong) 0 3px, transparent 3px 6px); }
+
+/* 상세 패널 (클릭 → 즉시) */
+.detail { position: absolute; z-index: 6; left: 50%; bottom: 16px; transform: translateX(-50%); width: min(720px, calc(100vw - 28px));
+  border: 1px solid var(--line); border-radius: 4px; background: var(--surface); box-shadow: var(--card-shadow); padding: 14px 16px; }
+.detail header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.detail h3 { margin: 0; font-size: 15px; }
+.detail .close { border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; }
+.frames { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+.frames figure { margin: 0; }
+.frames img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 3px; display: block; background: var(--map-bg); }
+.frames figcaption { margin-top: 4px; font: 10px var(--font-mono); color: var(--muted); letter-spacing: .05em; }
+.badge { display: inline-block; padding: 2px 7px; border-radius: 2px; font: 600 10px var(--font-mono); letter-spacing: .06em; }
+.badge.scored { background: var(--teal-soft); color: var(--teal-deep); }
+.badge.abstain { background: var(--line); color: var(--muted); }
+.badge.flag { background: var(--orange-soft); color: var(--orange-deep); }
+
+.footer-note { position: absolute; z-index: 5; left: 14px; bottom: 12px; color: var(--muted); font: 10px/1.4 var(--font-mono); max-width: 340px; }
+.footer-note a { color: var(--teal-deep); }
+
+@media (max-width: 760px) {
+  .rail { width: calc(100vw - 28px); max-height: 38svh; }
+  .rail-right { display: none; }
+  .frames { grid-template-columns: 1fr 1fr 1fr; }
+  .footer-note { display: none; }
+}
