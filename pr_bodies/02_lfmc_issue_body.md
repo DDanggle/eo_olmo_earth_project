@@ -1,6 +1,10 @@
-`docs/lfmc.md` says the model gets MSE 580.6 on the test set. I couldn't get anywhere near that with the released checkpoint, but retraining on the released dataset with the repo config got me there (slightly better, actually). So I think the file on HF might be from a different run than the one the docs describe. Could you take a look?
+For context, I've been using OlmoEarth on a few side projects since the release, including a before/after review map for the [2026 Nepal disaster](https://github.com/DDanggle/eo-rasuwa), year-to-year monitoring in Korea.
 
-Setup: olmoearth-runner 0.1.14, rslearn 0.0.27, lightning 2.5.1, Python 3.11, one H200. Dataset is `projects/lfmc/20251029/dataset.tar` (44,022 windows), checkpoint is `allenai/OlmoEarth-v1-FT-LFMC-Base/model.ckpt` (1.14 GB, last modified 2025-11-03).
+I came across this while setting up LFMC as a reference for one of those projects.
+
+[`docs/lfmc.md`](https://github.com/allenai/olmoearth_projects/blob/main/docs/lfmc.md) says the model gets MSE 580.6 on the test set. I couldn't get anywhere near that with the released checkpoint, but retraining on the released dataset with the repo config got me there (slightly better, actually). So I think the file on HF might be from a different run than the one the docs describe. Could you take a look?
+
+Setup: olmoearth-runner 0.1.14, rslearn 0.0.27, lightning 2.5.1, Python 3.11, one H200. Dataset is [`projects/lfmc/20251029/dataset.tar`](https://storage.googleapis.com/ai2-olmoearth-projects-public-data/projects/lfmc/20251029/dataset.tar) (44,022 windows), checkpoint is [`allenai/OlmoEarth-v1-FT-LFMC-Base/model.ckpt`](https://huggingface.co/allenai/OlmoEarth-v1-FT-LFMC-Base/tree/main) (1.14 GB, last modified 2025-11-03).
 
 Same data, same eval command for every row:
 
@@ -9,7 +13,7 @@ Same data, same eval command for every row:
 | docs | test | 580.6 |
 | released ckpt | test (4,585 windows) | 951.9 |
 | released ckpt | val | 995.3 |
-| retrained from scratch, repo `model.yaml`, best epoch 33/100 | test | 558.8 |
+| retrained from scratch, repo [`model.yaml`](https://github.com/allenai/olmoearth_projects/blob/main/olmoearth_run_data/lfmc/model.yaml), best epoch 33/100 | test | 558.8 |
 
 ```
 rslearn model test --config model.yaml --ckpt_path model.ckpt \
