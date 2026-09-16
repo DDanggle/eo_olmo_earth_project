@@ -48,11 +48,24 @@ MODALITY = "sentinel2_l2a"
 CROP = 256              # 창 전체를 한 번에. H200 에서 patch 2 도 여유 있다.
 
 
-def token_valid(scl: np.ndarray, patch: int) -> np.ndarray:
+def token_valid(scl: np.ndarray, patch: int, buffer: int = 0) -> np.ndarray:
+    """유효 토큰. buffer>0 이면 무효 토큰 주위 buffer 토큰을 함께 무효로 한다.
+
+    v8.1 수정(2026-09-16): 첫 지도에서 40 m 1위(문도지오름)의 전후 프레임이 둘 다 구름이고 깃발이
+    **구름 가장자리**를 따라 섰다. SCL 은 구름 본체를 잡지만 가장자리·그림자·얇은 권운은 새고, 그
+    토큰의 Δz 는 지표가 아니라 대기다. 구름 마스크 완충은 표준 처방이고 Δz 를 보지 않는 규칙이다.
+    """
     h, w = scl.shape
     ht, wt = h // patch, w // patch
     good = np.isin(scl[: ht * patch, : wt * patch], SCL_CLEAR)
-    return good.reshape(ht, patch, wt, patch).mean(axis=(1, 3)) >= 1.0 - TOKEN_BAD_PIXEL_FRAC
+    v = good.reshape(ht, patch, wt, patch).mean(axis=(1, 3)) >= 1.0 - TOKEN_BAD_PIXEL_FRAC
+    for _ in range(buffer):
+        bad = ~v
+        grown = bad.copy()
+        grown[1:, :] |= bad[:-1, :]; grown[:-1, :] |= bad[1:, :]
+        grown[:, 1:] |= bad[:, :-1]; grown[:, :-1] |= bad[:, 1:]
+        v = ~grown
+    return v
 
 
 def main() -> None:
@@ -61,6 +74,7 @@ def main() -> None:
     ap.add_argument("--patch", type=int, default=4, choices=(2, 4))
     ap.add_argument("--model", default="OLMOEARTH_V1_BASE")
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--buffer", type=int, default=0, help="무효 토큰 주위를 이만큼 더 무효로 (구름 가장자리 완충). v8.1 = 1")
     ap.add_argument("--frame", default="A", choices=("A", "B"),
                     help="B = 제주 격자 공간 귀무. 문턱 세 개(사건·귀무A·귀무B 각각의 풀링 p99)를 내고 프레임 A 깃발율을 그 문턱으로 다시 잰다.")
     a = ap.parse_args()
@@ -118,13 +132,15 @@ def main() -> None:
         tile = str(d["tile"])
         if outp.exists():
             dd = np.load(outp)
-            deltas = {k: dd[f"d_{k}"] for k in PAIRS}; valids = {k: dd[f"v_{k}"] for k in PAIRS}
+            deltas = {k: dd[f"d_{k}"] for k in PAIRS}
+            tv = {y: token_valid(d["scl"][i], a.patch, a.buffer) for i, y in enumerate(YEARS)}
+            valids = {k: tv[b] & tv[t_] for k, (b, t_) in PAIRS.items()}
         else:
             z = {}
             for i, y in enumerate(YEARS):
                 t = datetime.fromisoformat(scenes[tile][y]["datetime"]).replace(tzinfo=None)
                 z[y] = embed(norm(d["cube"][:, i]), t)
-            tv = {y: token_valid(d["scl"][i], a.patch) for i, y in enumerate(YEARS)}
+            tv = {y: token_valid(d["scl"][i], a.patch, a.buffer) for i, y in enumerate(YEARS)}
             deltas = {k: delta(z[b], z[t_]) for k, (b, t_) in PAIRS.items()}
             valids = {k: tv[b] & tv[t_] for k, (b, t_) in PAIRS.items()}
             np.savez_compressed(outp, **{f"d_{k}": v for k, v in deltas.items()},
@@ -198,7 +214,7 @@ def main() -> None:
         "schema": "jeju-v8-scan-v1",
         "contract": a.contract, "contract_sha256": contract.get("_self_sha256"),
         "script_sha256": hashlib.sha256(open(__file__, "rb").read()).hexdigest(),
-        "model": a.model, "patch_size": a.patch, "token_ground_m": a.patch * 10,
+        "model": a.model, "patch_size": a.patch, "token_ground_m": a.patch * 10, "cloud_buffer_tokens": a.buffer,
         "tokens_per_window": n_tok, "device": str(device),
         "role": "primary (네팔에서 검증된 40 m)" if a.patch == 4 else "secondary (20 m, 허가 필지 조인용; 미검증)",
         "pairs": PAIRS,
@@ -226,7 +242,7 @@ def main() -> None:
         "sites": sites_out,
         "elapsed_s": round(time.time() - t0, 1),
     }
-    path = ensure(ARTIFACT_ROOT / "results") / f"{a.contract}_scan_p{a.patch}.json"
+    path = ensure(ARTIFACT_ROOT / "results") / (f"{a.contract}_scan_p{a.patch}.json" if a.buffer == 0 else f"{a.contract}_scan_p{a.patch}_buf{a.buffer}.json")
     path.write_text(json.dumps(result, ensure_ascii=False, indent=1))
 
     print(f"\n문턱 p99 = {thr:.5f}  (귀무 토큰 {pool.size:,})")
