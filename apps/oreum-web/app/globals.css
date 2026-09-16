@@ -92,7 +92,7 @@ button { font: inherit; }
 .swatch.abstain { background: repeating-linear-gradient(135deg, var(--line-strong) 0 3px, transparent 3px 6px); }
 
 /* 상세 패널 (클릭 → 즉시) */
-.detail { position: absolute; z-index: 6; left: 50%; bottom: 16px; transform: translateX(-50%); width: min(720px, calc(100vw - 28px));
+.detail { position: absolute; z-index: 6; left: 50%; bottom: 16px; transform: translateX(-50%); width: min(760px, calc(100vw - 28px)); max-height: calc(100svh - 92px); overflow-y: auto;
   border: 1px solid var(--line); border-radius: 4px; background: var(--surface); box-shadow: var(--card-shadow); padding: 14px 16px; }
 .detail header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .detail h3 { margin: 0; font-size: 15px; }
