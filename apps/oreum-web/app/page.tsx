@@ -15,6 +15,8 @@ type Props = {
   tile: string | null; secondary_20m: { verdict: string; event_flag_frac: number | null; rank: number | null } | null;
   korea_tags: Record<string, string[]>;
   buffer1_verdict: 'scored' | 'abstain' | null; buffer1_rank: number | null;
+  event_valid_frac: number | null; low_validity: boolean;
+  replication_v8x: { verdict: string; rank: number | null; event_flag_frac: number | null } | null; stable_top30_both: boolean;
 };
 type Summary = {
   frame_a_total: number; scored: number; abstain: number; sites_with_any_event_flag: number;
@@ -24,6 +26,7 @@ type Summary = {
   secondary_20m: { scored: number; flag_rate_pooled: Record<string, number> } | null;
   korea_layers: Record<string, { name: string; n: number }> | null;
   cloud_buffer_sensitivity: { scored: number; abstain: number } | null;
+  replication_v8x: { scored: number; stable_top30_both: string[]; flag_rate_pooled: Record<string, number> } | null;
   spatial_null_frame_b: { grid_points: number; event_over_null_p99: number; frame_a_event_flag_under_b_null_p99: number } | null;
 };
 
@@ -85,9 +88,14 @@ export default function Page() {
         paint: { 'circle-radius': 7, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-color': '#c6cfcb', 'circle-stroke-width': 1.6, 'circle-stroke-opacity': 0.9 } });
       m.addLayer({ id: 'scored', type: 'circle', source: 'oreum', filter: ['==', ['get', 'verdict'], 'scored'],
         paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 6, 13, 11], 'circle-color': colorExpr,
-          'circle-stroke-color': '#14201d', 'circle-stroke-width': 0.8, 'circle-opacity': 0.92 } });
+          'circle-stroke-color': '#14201d', 'circle-stroke-width': 0.8,
+          // 저유효(사건 쌍 유효 토큰 <60%) 채점은 색은 두되 반투명 — 장면을 바꾸면 순위가 무너지는 구간이다
+          'circle-opacity': ['case', ['get', 'low_validity'], 0.42, 0.92] } });
+      // 복제 일치(두 계약 모두 상위 30): 바깥 링
+      m.addLayer({ id: 'stable', type: 'circle', source: 'oreum', filter: ['==', ['get', 'stable_top30_both'], true],
+        paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 11, 13, 17], 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-color': '#f09158', 'circle-stroke-width': 2.2 } });
       const pick = (e: MapLayerMouseEvent) => { const f = e.features?.[0] as Feature<Point, Props> | undefined; if (f) setSel(f.properties); };
-      for (const id of ['scored', 'abstain']) {
+      for (const id of ['scored', 'abstain', 'stable']) {
         m.on('click', id, pick);
         m.on('mouseenter', id, () => (m.getCanvas().style.cursor = 'pointer'));
         m.on('mouseleave', id, () => (m.getCanvas().style.cursor = ''));
@@ -152,8 +160,11 @@ export default function Page() {
                 {i === 0 ? `< ${pct(summary.class_breaks[0], 1)}` : i === 4 ? `≥ ${pct(summary.class_breaks[3], 1)}` : `${pct(summary.class_breaks[i - 1], 1)} – ${pct(summary.class_breaks[i], 1)}`}</div>
             ))}
             <div className="legend-row"><span className="swatch abstain" /> 관측 불가 (abstain)</div>
+            <div className="legend-row"><span className="swatch" style={{ background: '#f09158', opacity: .42 }} /> 반투명 = 저유효 (사건 쌍 유효 토큰 &lt;60%)</div>
+            <div className="legend-row"><span className="swatch" style={{ background: 'transparent', border: '2px solid #f09158' }} /> 주황 링 = 복제 일치 (6개년 계약에서도 상위 30)</div>
             <p style={{ fontSize: 11 }}>귀무 깃발율 {pct(summary.flag_rate_pooled.null_temporal_primary, 2)} (구성상 ≈1%) · 부귀무 {pct(summary.flag_rate_pooled.null_temporal_secondary, 2)} · 사건 {pct(summary.flag_rate_pooled.event, 2)}</p>
             {summary.spatial_null_frame_b && <p style={{ fontSize: 11 }}>공간 귀무(제주 격자 {summary.spatial_null_frame_b.grid_points}창): 사건 해 p99 가 귀무 해의 {summary.spatial_null_frame_b.event_over_null_p99.toFixed(2)}배 — 섬 전체 연도 효과가 섞여 있어 사건 비율은 그만큼 할인해 읽습니다.</p>}
+            {summary.replication_v8x && <p style={{ fontSize: 11 }}><strong>장면 선택 감도:</strong> 6개년 계약으로 장면을 다시 고르면 상위 10 중 1곳만 남습니다. 유효 토큰 20–40%인 오름은 깃발이 3.5%→0.8%로 무너지고(ρ 0.12), 80% 이상은 유지됩니다(ρ 0.86). 그래서 저유효는 반투명, 두 계약이 일치하는 {summary.replication_v8x.stable_top30_both.length}곳만 링으로 표시합니다.</p>}
             {summary.cloud_buffer_sensitivity && <p style={{ fontSize: 11 }}>구름 가장자리 1토큰 완충 시 채점 {summary.cloud_buffer_sensitivity.scored} · 관측 불가 {summary.cloud_buffer_sensitivity.abstain} — 여유가 얇은 곳은 순위에 표시됩니다.</p>}
           </div>
         )}
@@ -163,7 +174,7 @@ export default function Page() {
         <p className="eyebrow">상위 12 — 먼저 볼 곳</p>
         {ranking.map(p => (
           <button key={p.oreum_id} className="toggle" style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginBottom: 6 }} onClick={() => setSel(p)}>
-            <span>#{p.rank} {p.name}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}{p.buffer1_verdict === 'abstain' && <span className="badge abstain" style={{ marginLeft: 6 }} title="구름 가장자리를 1토큰 더 지우면 관측 불가로 떨어짐 — 관측 여유가 얇은 곳">구름 여유 부족</span>}</span><span className="mono">{pct(p.event_flag_frac)}</span>
+            <span>#{p.rank} {p.name}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}{p.buffer1_verdict === 'abstain' && <span className="badge abstain" style={{ marginLeft: 6 }} title="구름 가장자리를 1토큰 더 지우면 관측 불가로 떨어짐 — 관측 여유가 얇은 곳">구름 여유 부족</span>}{p.stable_top30_both && <span className="badge flag" style={{ marginLeft: 6 }} title="6개년 복제 계약(다른 장면 선택)에서도 상위 30">복제 일치</span>}{p.low_validity && !p.buffer1_verdict?.includes('abstain') && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건 쌍 유효 토큰 <60% — 장면을 바꾸면 순위가 무너지는 구간">저유효</span>}</span><span className="mono">{pct(p.event_flag_frac)}</span>
           </button>
         ))}
         <p style={{ fontSize: 11 }}>비율은 그 오름 창(2.56 km)의 유효 토큰 중 문턱 초과분. 양쪽 해에 다 깃발이 선 토큰(지속 인공물 후보)은 상세에서 따로 보입니다.</p>
@@ -224,6 +235,7 @@ export default function Page() {
             연도별 유효 토큰: {YEARS.map(y => `${y} ${pct(sel.valid_token_fraction?.[y], 0)}`).join(' · ')}
             {sel.verdict === 'scored' && <> · 귀무 쌍 깃발 {pct(sel.null_flag_frac)} · 지속 토큰 {sel.persistent_tokens} · 사건에만 {sel.event_only_tokens}</>}
             {sel.secondary_20m && <> · 20 m(부): {sel.secondary_20m.verdict === 'scored' ? `#${sel.secondary_20m.rank} ${pct(sel.secondary_20m.event_flag_frac)}` : 'abstain'}</>}
+            {sel.replication_v8x && <> · 6개년 복제: {sel.replication_v8x.verdict === 'scored' ? `#${sel.replication_v8x.rank} ${pct(sel.replication_v8x.event_flag_frac)}` : 'abstain'}{sel.stable_top30_both && <strong style={{ color: 'var(--orange-deep)' }}> · 복제 일치</strong>}</>}
             {sel.verdict === 'scored' && sel.buffer1_verdict && <> · 구름 완충 1토큰: {sel.buffer1_verdict === 'scored' ? `유지 (#${sel.buffer1_rank})` : <strong style={{ color: 'var(--orange-deep)' }}>관측 불가로 전환 — 관측 여유가 얇음</strong>}</>}
           </p>
           {showKorea && Object.keys(sel.korea_tags ?? {}).length > 0 && (

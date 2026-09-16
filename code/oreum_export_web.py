@@ -67,6 +67,10 @@ def main() -> None:
     obs = json.loads((res / f"{a.contract}_observability.json").read_text())
     buf_path = res / f"{a.contract}_scan_p4_buf1.json"          # v8.1 감도: 구름 가장자리 1토큰 완충
     buf = json.loads(buf_path.read_text()) if buf_path.exists() else None
+    vx_path = res / f"{a.contract}x_scan_p4.json"               # v8x 6개년 복제 (다른 장면 선택)
+    vx = json.loads(vx_path.read_text()) if vx_path.exists() else None
+    top30_x = set(vx["ranking"][:30]) if vx else set()
+    top30_a = set(p4["ranking"][:30])
     fb_path = res / f"{a.contract}_scan_B_p4.json"              # 프레임 B 공간 귀무
     fb = json.loads(fb_path.read_text()) if fb_path.exists() else None
     korea_path = ARTIFACT_ROOT / "external_data/korea_public_v1/jeju_v8_korea_evidence_polygons.json"
@@ -125,6 +129,13 @@ def main() -> None:
             # 완충 1토큰에서도 채점이 유지되는가. 아니면 관측 여유가 얇은 곳 — 순위는 두되 표시한다.
             "buffer1_verdict": (buf["sites"].get(oid, {}).get("verdict") if buf else None),
             "buffer1_rank": (buf["sites"].get(oid, {}).get("rank") if buf else None),
+            # 사건 쌍 유효 토큰 비율. 실측: 20~40% 구간은 장면을 바꾸면 순위가 무너진다(ρ=0.12), ≥80% 는 유지(0.86).
+            "event_valid_frac": s4["event"]["valid_token_frac"] if s4 else None,
+            "low_validity": bool(scored and s4["event"]["valid_token_frac"] < 0.6),
+            # v8x 복제(6개년, 다른 장면 선택)에서의 순위. 두 계약 모두 상위 30 이면 '복제 일치'.
+            "replication_v8x": ({"verdict": vx["sites"][oid]["verdict"], "rank": vx["sites"][oid].get("rank"),
+                                 "event_flag_frac": vx["sites"][oid]["event"]["flag_frac"]} if vx and oid in vx["sites"] else None),
+            "stable_top30_both": bool(vx and oid in top30_a and oid in top30_x),
         }
         features.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [o["lon"], o["lat"]]},
                          "properties": props})
@@ -161,6 +172,12 @@ def main() -> None:
         "cloud_buffer_sensitivity": ({"scored": buf["summary"]["scored"], "abstain": len(oreum) - buf["summary"]["scored"],
                                       "flag_rate_pooled": buf["flag_rate_pooled"],
                                       "note": "무효 토큰 주위 1토큰을 함께 무효로 한 감도. 봉인 결과는 완충 0."} if buf else None),
+        "replication_v8x": ({"years": vx["pairs"]["event"] and list(range(2021, 2027)), "scored": vx["summary"]["scored"],
+                             "flag_rate_pooled": vx["flag_rate_pooled"], "threshold_p99": vx["threshold"]["value"],
+                             "stable_top30_both": sorted(top30_a & top30_x),
+                             "note": "6개년·장면 상한 45%·인접 DOY 규칙으로 다시 고른 장면. 두 계약 모두 상위 30 인 곳만 '복제 일치'."} if vx else None),
+        "validity_lesson": {"rule": "사건 쌍 유효 토큰 < 60% 인 채점은 저유효로 표시", 
+                            "why": "v8 vs v8x: 유효 20~40% 구간 깃발 중앙 3.52% vs 0.81% (ρ 0.12) · 유효 ≥80% 구간 0.51% vs 0.38% (ρ 0.86)"},
         "spatial_null_frame_b": ({"grid_points": fb["grid_points"], "p99_by_pair": fb["p99_by_pair"],
                                   "event_over_null_p99": fb["assumption_check"]["event_p99_over_nullA_p99"],
                                   "frame_a_event_flag_under_b_null_p99": fb["frame_a_event_flag_rate_under_frameB_nullA_p99"]} if fb else None),

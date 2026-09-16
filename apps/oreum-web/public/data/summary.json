@@ -111,6 +111,38 @@
   },
   "note": "무효 토큰 주위 1토큰을 함께 무효로 한 감도. 봉인 결과는 완충 0."
  },
+ "replication_v8x": {
+  "years": [
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026
+  ],
+  "scored": 174,
+  "flag_rate_pooled": {
+   "null_temporal_primary": 0.01000109533677135,
+   "null_temporal_secondary": 0.01135254486780275,
+   "event": 0.01324284657881823,
+   "null_2021_2022": 0.06991536099887086,
+   "null_2022_2023": 0.017951695065951193
+  },
+  "threshold_p99": 0.3094676434993744,
+  "stable_top30_both": [
+   "JJ-OREUM-104",
+   "JJ-OREUM-154",
+   "JJ-OREUM-156",
+   "JJ-OREUM-162",
+   "JJ-OREUM-188",
+   "JJ-OREUM-352"
+  ],
+  "note": "6개년·장면 상한 45%·인접 DOY 규칙으로 다시 고른 장면. 두 계약 모두 상위 30 인 곳만 '복제 일치'."
+ },
+ "validity_lesson": {
+  "rule": "사건 쌍 유효 토큰 < 60% 인 채점은 저유효로 표시",
+  "why": "v8 vs v8x: 유효 20~40% 구간 깃발 중앙 3.52% vs 0.81% (ρ 0.12) · 유효 ≥80% 구간 0.51% vs 0.38% (ρ 0.86)"
+ },
  "spatial_null_frame_b": {
   "grid_points": 282,
   "p99_by_pair": {
