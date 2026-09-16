@@ -101,6 +101,26 @@
    "n": 1
   }
  },
+ "cloud_buffer_sensitivity": {
+  "scored": 136,
+  "abstain": 107,
+  "flag_rate_pooled": {
+   "null_temporal_primary": 0.010002749896878866,
+   "null_temporal_secondary": 0.017211653058025748,
+   "event": 0.029515088522039056
+  },
+  "note": "무효 토큰 주위 1토큰을 함께 무효로 한 감도. 봉인 결과는 완충 0."
+ },
+ "spatial_null_frame_b": {
+  "grid_points": 282,
+  "p99_by_pair": {
+   "event": 0.34221685528755186,
+   "null_temporal_primary": 0.31127079427242277,
+   "null_temporal_secondary": 0.3213255739212036
+  },
+  "event_over_null_p99": 1.0994184535926788,
+  "frame_a_event_flag_under_b_null_p99": 0.026096312846861133
+ },
  "claims": {
   "allowed": [
    "관측 가능한 오름 N곳 중 연간 변화가 평시 p99 를 넘은 토큰 비율로 읽는 순서",

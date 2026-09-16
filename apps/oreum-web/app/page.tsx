@@ -14,6 +14,7 @@ type Props = {
   valid_token_fraction: Record<string, number> | null; observable_by_year: Record<string, boolean> | null;
   tile: string | null; secondary_20m: { verdict: string; event_flag_frac: number | null; rank: number | null } | null;
   korea_tags: Record<string, string[]>;
+  buffer1_verdict: 'scored' | 'abstain' | null; buffer1_rank: number | null;
 };
 type Summary = {
   frame_a_total: number; scored: number; abstain: number; sites_with_any_event_flag: number;
@@ -22,6 +23,8 @@ type Summary = {
   anchor_dates: Record<string, Record<string, string>>; contract_sha256: string | null;
   secondary_20m: { scored: number; flag_rate_pooled: Record<string, number> } | null;
   korea_layers: Record<string, { name: string; n: number }> | null;
+  cloud_buffer_sensitivity: { scored: number; abstain: number } | null;
+  spatial_null_frame_b: { grid_points: number; event_over_null_p99: number; frame_a_event_flag_under_b_null_p99: number } | null;
 };
 
 // Next 번들러가 MapLibre 의 인라인 워커를 깨뜨려 GeoJSON 소스가 영원히 로드되지 않는다(실측: 소스에 243점,
@@ -131,6 +134,8 @@ export default function Page() {
             ))}
             <div className="legend-row"><span className="swatch abstain" /> 관측 불가 (abstain)</div>
             <p style={{ fontSize: 11 }}>귀무 깃발율 {pct(summary.flag_rate_pooled.null_temporal_primary, 2)} (구성상 ≈1%) · 부귀무 {pct(summary.flag_rate_pooled.null_temporal_secondary, 2)} · 사건 {pct(summary.flag_rate_pooled.event, 2)}</p>
+            {summary.spatial_null_frame_b && <p style={{ fontSize: 11 }}>공간 귀무(제주 격자 {summary.spatial_null_frame_b.grid_points}창): 사건 해 p99 가 귀무 해의 {summary.spatial_null_frame_b.event_over_null_p99.toFixed(2)}배 — 섬 전체 연도 효과가 섞여 있어 사건 비율은 그만큼 할인해 읽습니다.</p>}
+            {summary.cloud_buffer_sensitivity && <p style={{ fontSize: 11 }}>구름 가장자리 1토큰 완충 시 채점 {summary.cloud_buffer_sensitivity.scored} · 관측 불가 {summary.cloud_buffer_sensitivity.abstain} — 여유가 얇은 곳은 순위에 표시됩니다.</p>}
           </div>
         )}
       </aside>
@@ -139,7 +144,7 @@ export default function Page() {
         <p className="eyebrow">상위 12 — 먼저 볼 곳</p>
         {ranking.map(p => (
           <button key={p.oreum_id} className="toggle" style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginBottom: 6 }} onClick={() => setSel(p)}>
-            <span>#{p.rank} {p.name}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}</span><span className="mono">{pct(p.event_flag_frac)}</span>
+            <span>#{p.rank} {p.name}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}{p.buffer1_verdict === 'abstain' && <span className="badge abstain" style={{ marginLeft: 6 }} title="구름 가장자리를 1토큰 더 지우면 관측 불가로 떨어짐 — 관측 여유가 얇은 곳">구름 여유 부족</span>}</span><span className="mono">{pct(p.event_flag_frac)}</span>
           </button>
         ))}
         <p style={{ fontSize: 11 }}>비율은 그 오름 창(2.56 km)의 유효 토큰 중 문턱 초과분. 양쪽 해에 다 깃발이 선 토큰(지속 인공물 후보)은 상세에서 따로 보입니다.</p>
@@ -166,6 +171,7 @@ export default function Page() {
             연도별 유효 토큰: {YEARS.map(y => `${y} ${pct(sel.valid_token_fraction?.[y], 0)}`).join(' · ')}
             {sel.verdict === 'scored' && <> · 귀무 쌍 깃발 {pct(sel.null_flag_frac)} · 지속 토큰 {sel.persistent_tokens} · 사건에만 {sel.event_only_tokens}</>}
             {sel.secondary_20m && <> · 20 m(부): {sel.secondary_20m.verdict === 'scored' ? `#${sel.secondary_20m.rank} ${pct(sel.secondary_20m.event_flag_frac)}` : 'abstain'}</>}
+            {sel.verdict === 'scored' && sel.buffer1_verdict && <> · 구름 완충 1토큰: {sel.buffer1_verdict === 'scored' ? `유지 (#${sel.buffer1_rank})` : <strong style={{ color: 'var(--orange-deep)' }}>관측 불가로 전환 — 관측 여유가 얇음</strong>}</>}
           </p>
           {showKorea && Object.keys(sel.korea_tags ?? {}).length > 0 && (
             <p style={{ margin: '6px 0 0', fontSize: 12 }}>한국 지정: {Object.entries(sel.korea_tags).map(([k, v]) => `${k}(${v.join(', ')})`).join(' · ')}</p>
