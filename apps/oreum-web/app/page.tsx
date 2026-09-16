@@ -31,6 +31,10 @@ type Summary = {
 // isSourceLoaded false). 네팔과 같이 워커를 정적 파일로 둔다.
 setWorkerUrl('/maplibre-gl-worker.mjs');
 
+type SeriesFrame = { date: string; site_clear: number; scene_cloud: number; frame: string | null; orbit?: number | null;
+  delta?: { vs: string; frame: string; valid_frac: number; flag_frac: number | null; orbit_match: boolean } } | null;
+type Series = { oreum_id: string; name: string; n_months: number; n_frames: number; frames: Record<string, SeriesFrame> };
+
 const YEARS = ['2023', '2024', '2025', '2026'];
 const pct = (x: number | null | undefined, d = 1) => (x == null ? '—' : `${(x * 100).toFixed(d)}%`);
 
@@ -43,6 +47,9 @@ export default function Page() {
   const [showAbstain, setShowAbstain] = useState(true);
   const [showKorea, setShowKorea] = useState(false);
   const [frameYear, setFrameYear] = useState<'2025' | '2026'>('2026');
+  const [series, setSeries] = useState<Series | null>(null);
+  const [seriesIdx, setSeriesIdx] = useState(0);
+  const [seriesMode, setSeriesMode] = useState<'rgb' | 'delta'>('rgb');
 
   useEffect(() => {
     fetch('/data/summary.json').then(r => r.json()).then(setSummary);
@@ -91,6 +98,18 @@ export default function Page() {
   }, [fc, summary, colorExpr]);
 
   useEffect(() => { if (map.current?.getLayer('abstain')) map.current.setLayoutProperty('abstain', 'visibility', showAbstain ? 'visible' : 'none'); }, [showAbstain]);
+
+  useEffect(() => {
+    setSeries(null);
+    if (!sel) return;
+    fetch(`/data/series/${sel.oreum_id}.json`).then(r => (r.ok ? r.json() : null)).then((sr: Series | null) => {
+      if (!sr) return;
+      setSeries(sr);
+      const keys = Object.keys(sr.frames);
+      const lastWithFrame = keys.map((k, i) => (sr.frames[k]?.frame ? i : -1)).filter(i => i >= 0).pop() ?? 0;
+      setSeriesIdx(lastWithFrame);
+    }).catch(() => setSeries(null));
+  }, [sel]);
 
   const ranking = useMemo(() => (fc?.features ?? []).map(f => f.properties).filter(p => p.verdict === 'scored').sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9)).slice(0, 12), [fc]);
   const pair = summary?.pairs.event ?? ['2025', '2026'];
@@ -167,6 +186,40 @@ export default function Page() {
               <img src={`/data/frames/${sel.oreum_id}_${frameYear}.jpg`} alt="" /><figcaption>{frameYear} · 눌러서 전후 전환</figcaption></figure>
             <figure><img src={`/data/frames/${sel.oreum_id}_delta.png`} alt="" style={{ background: '#0f1d1a' }} /><figcaption>Δz 토큰 맵 · 투명 = 유효하지 않은 토큰</figcaption></figure>
           </div>
+          {series && (() => {
+            const keys = Object.keys(series.frames); const key = keys[seriesIdx]; const fr = series.frames[key];
+            const hasDelta = !!fr?.delta;
+            return (
+              <div className="series">
+                <div className="series-head">
+                  <span className="eyebrow">월별 시계열 · {series.n_frames}/{series.n_months}개월 판독 가능</span>
+                  <div className="toggles">
+                    <button className="toggle" aria-pressed={seriesMode === 'rgb'} onClick={() => setSeriesMode('rgb')}>영상</button>
+                    <button className="toggle" aria-pressed={seriesMode === 'delta'} onClick={() => setSeriesMode('delta')} title="이 달과 12개월 전 같은 달의 Δz">변화 (1년 전 대비)</button>
+                  </div>
+                </div>
+                <div className="series-body">
+                  <figure>
+                    {fr?.frame ? (
+                      seriesMode === 'rgb' || !hasDelta
+                        ? <img src={`/data/series/${series.oreum_id}/${fr.frame}`} alt="" />
+                        : <img src={`/data/series/${series.oreum_id}/${fr.delta!.frame}`} alt="" style={{ background: '#0f1d1a' }} />
+                    ) : <div className="series-empty">이 달은 판독 가능한 장면이 없었습니다<br /><small>{fr ? `가장 맑은 장면도 오름 창 판독 ${Math.round(fr.site_clear * 100)}%` : '장면 없음'}</small></div>}
+                    <figcaption>
+                      <strong>{key}</strong>{fr?.date && <> · {fr.date} · 창 판독 {Math.round(fr.site_clear * 100)}%</>}
+                      {seriesMode === 'delta' && fr?.delta && <> · vs {fr.delta.vs} · 문턱 초과 {fr.delta.flag_frac == null ? '—' : pct(fr.delta.flag_frac)}{!fr.delta.orbit_match && ' · 궤도 다름(참고용)'}</>}
+                      {seriesMode === 'delta' && fr?.frame && !hasDelta && <> · 1년 전 같은 달 프레임이 없어 변화 없음</>}
+                    </figcaption>
+                  </figure>
+                  <div className="series-strip" aria-hidden>
+                    {keys.map((k, i) => { const f = series.frames[k]; return <span key={k} className={`tick ${f?.frame ? (seriesMode === 'delta' ? (f.delta ? 'on' : 'half') : 'on') : 'off'} ${i === seriesIdx ? 'cur' : ''}`} onClick={() => setSeriesIdx(i)} title={k} />; })}
+                  </div>
+                  <input type="range" min={0} max={keys.length - 1} value={seriesIdx} onChange={e => setSeriesIdx(Number(e.target.value))} aria-label="월 선택" />
+                  <div className="series-axis mono">{keys.filter((_, i) => i % 12 === 0).map(k => <span key={k}>{k.slice(0, 4)}</span>)}</div>
+                </div>
+              </div>
+            );
+          })()}
           <p style={{ margin: '10px 0 0', fontSize: 12, color: 'var(--muted)' }}>
             연도별 유효 토큰: {YEARS.map(y => `${y} ${pct(sel.valid_token_fraction?.[y], 0)}`).join(' · ')}
             {sel.verdict === 'scored' && <> · 귀무 쌍 깃발 {pct(sel.null_flag_frac)} · 지속 토큰 {sel.persistent_tokens} · 사건에만 {sel.event_only_tokens}</>}
