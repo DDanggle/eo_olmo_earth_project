@@ -139,7 +139,7 @@ export default function Page() {
         <p className="eyebrow">상위 12 — 먼저 볼 곳</p>
         {ranking.map(p => (
           <button key={p.oreum_id} className="toggle" style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginBottom: 6 }} onClick={() => setSel(p)}>
-            <span>#{p.rank} {p.name}</span><span className="mono">{pct(p.event_flag_frac)}</span>
+            <span>#{p.rank} {p.name}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}</span><span className="mono">{pct(p.event_flag_frac)}</span>
           </button>
         ))}
         <p style={{ fontSize: 11 }}>비율은 그 오름 창(2.56 km)의 유효 토큰 중 문턱 초과분. 양쪽 해에 다 깃발이 선 토큰(지속 인공물 후보)은 상세에서 따로 보입니다.</p>
