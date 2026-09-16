@@ -32,7 +32,7 @@ STAC = "https://planetarycomputer.microsoft.com/api/stac/v1"
 SCL_CLEAR = (4, 5, 6, 7)
 MIN_CLEAR = 0.35              # 이보다 흐린 달은 프레임 없음(빈 칸)
 MAX_CANDIDATES = 6            # 월별 후보 상한 (SCL 창 읽기 비용)
-START, END = date(2023, 1, 1), date(2026, 9, 30)
+START, END = date(2021, 1, 1), date(2026, 9, 30)      # 2021 부터 (사용자 요청 2026-09-16)
 
 
 def window_bounds(ref_href: str, lon: float, lat: float):
@@ -70,6 +70,13 @@ def build(oid: str, o: dict, tile: str, cat, out_root) -> dict:
     frames, rgb_stack = {}, []
     bounds = None
     for key, d0, d1 in months():
+        cached = CACHE_ROOT / "jeju_v8/series" / oid / f"{key}.npz"
+        if cached.exists():
+            d = np.load(cached, allow_pickle=True)
+            rgb_stack.append((key, d["cube"][[BANDS.index(b) for b in ("B04", "B03", "B02")]]))
+            frames[key] = {"date": str(d["date"]), "site_clear": round(float(np.isin(d["scl"], SCL_CLEAR).mean()), 3),
+                           "scene_cloud": None, "orbit": None, "item_id": str(d["item_id"]), "frame": f"{key}.jpg", "from_cache": True}
+            continue
         items = list(cat.search(collections=[coll], datetime=f"{d0}/{d1}",
                                 query={"s2:mgrs_tile": {"eq": tile}, "eo:cloud_cover": {"lt": 80}}).items())
         # 같은 날짜 재처리 중복 제거 → 장면 구름 낮은 순으로 후보 상한

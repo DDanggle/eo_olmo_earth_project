@@ -144,6 +144,8 @@ def main() -> None:
     a = ap.parse_args()
 
     contract = json.loads((CONTRACT_ROOT / f"{a.contract}_contract.json").read_text())
+    global YEARS
+    YEARS = [str(y) for y in contract["optical"]["years"]]
     scenes = contract["optical"]["scenes"]
     cat = pystac_client.Client.open(STAC)
 

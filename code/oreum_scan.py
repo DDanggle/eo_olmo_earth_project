@@ -41,8 +41,8 @@ from datetime import datetime
 import numpy as np
 
 from jeju_paths import ARTIFACT_ROOT, CACHE_ROOT, CONTRACT_ROOT, display_path, ensure
-from oreum_observability import (MIN_VALID_TOKEN_FRAC, PAIRS, SCL_CLEAR, TOKEN_BAD_PIXEL_FRAC,
-                                 YEARS)
+from oreum_observability import (MIN_VALID_TOKEN_FRAC, SCL_CLEAR, TOKEN_BAD_PIXEL_FRAC,
+                                 contract_years_pairs)
 
 MODALITY = "sentinel2_l2a"
 CROP = 256              # 창 전체를 한 번에. H200 에서 patch 2 도 여유 있다.
@@ -86,6 +86,7 @@ def main() -> None:
     from rslearn.train.model_context import ModelContext, RasterImage
 
     contract = json.loads((CONTRACT_ROOT / f"{a.contract}_contract.json").read_text())
+    YEARS, PAIRS = contract_years_pairs(contract)
     scenes = contract["optical"]["scenes"]
     assign = contract["optical"]["frame_a_assignment"]
     suffix = "_B" if a.frame == "B" else ""
@@ -184,6 +185,10 @@ def main() -> None:
     rates = {"null_temporal_primary": float((pool > thr).mean()),
              "null_temporal_secondary": float((nb_pool > thr).mean()),
              "event": float((ev_pool > thr).mean())}
+    for k in PAIRS:                       # v8x 추가 귀무(null_YYYY_YYYY): 문턱을 빌려 쓴 깃발율 → null-of-nulls 분포
+        if k not in rates:
+            pk = np.concatenate([s["deltas"][k][s["valids"][k]] for s in per_site.values()])
+            rates[k] = float((pk > thr).mean())
 
     # ---- 오름별 --------------------------------------------------------------------
     sites_out = {}

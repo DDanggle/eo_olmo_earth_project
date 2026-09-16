@@ -49,6 +49,7 @@ S1_ORBIT, S1_STATE = 134, "descending"
 WINDOW_M, PATCH, TOKEN_M = 2560, 4, 40
 MIN_VALID_TOKEN_FRAC = 0.2                      # 네팔과 같은 관측가능성 게이트
 GAP_TOLERANCE_DAYS = 30                         # 연간 쌍 간 간격 차이 허용치
+DOY_RULE = "all"
 DOY_SPREAD_MAX = 14                             # 게이트와 같은 값. 관측가능성보다 **먼저** 지킨다.
 #  계절 정렬을 풀면 v7.10 이 죽은 자리로 돌아간다. 판독 가능한 오름을 더 얻겠다고 DOY 폭을
 #  29일까지 벌리면 늦8월과 늦9월의 식생 위상차가 Δz 에 그대로 실린다. 그래서 폭은 제약이고,
@@ -152,7 +153,10 @@ def pick_optical(cat, frame_a: list[dict]) -> dict:
             pts = [o for o in frame_a if foot.contains(Point(o["lon"], o["lat"]))]
             masks = {y: {i.id: site_clear_mask(i, pts) for i in per_year[y]} for y in YEARS}
             for combo in itertools.product(*(per_year[y] for y in YEARS)):
-                if max(map(doy, combo)) - min(map(doy, combo)) > DOY_SPREAD_MAX:
+                if DOY_RULE == "all":
+                    if max(map(doy, combo)) - min(map(doy, combo)) > DOY_SPREAD_MAX:
+                        continue
+                elif any(abs(doy(combo[k + 1]) - doy(combo[k])) > DOY_SPREAD_MAX for k in range(len(combo) - 1)):
                     continue
                 usable = np.ones(len(pts), dtype=bool)
                 for y, i in zip(YEARS, combo):
@@ -225,20 +229,33 @@ def annual_gaps(optical: dict, a: int, b: int) -> list[int]:
 
 
 def main() -> None:
+    import argparse
+    global YEARS, CLOUD_MAX, DOY_RULE
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--name", default="jeju_v8", help="계약 이름. v8 은 봉인됐으니 확장은 다른 이름으로")
+    ap.add_argument("--years", default="2023,2024,2025,2026")
+    ap.add_argument("--cloud-max", type=float, default=CLOUD_MAX,
+                    help="장면 구름 상한(필터). 선택은 사이트 SCL 로 하므로 완화해도 안전하다. 2022 는 45 가 필요했다.")
+    ap.add_argument("--doy-rule", default="all", choices=("all", "adjacent"),
+                    help="all: 전 연도 DOY 폭 ≤ DOY_SPREAD_MAX · adjacent: 인접 연도 쌍마다 ≤ DOY_SPREAD_MAX (6개년 확장용; 비교는 항상 쌍이다)")
+    a = ap.parse_args()
+    YEARS = [int(y) for y in a.years.split(",")]; CLOUD_MAX = a.cloud_max; DOY_RULE = a.doy_rule
     cat = pystac_client.Client.open(STAC)
     frame_a = load_frame_a()
     optical, clear_by_tile = pick_optical(cat, frame_a)
     assignment = assign_frame_a(frame_a, clear_by_tile)
     radar = pick_radar(cat)
 
-    event = annual_gaps(optical, 2025, 2026)
-    null_a = annual_gaps(optical, 2024, 2025)
-    null_b = annual_gaps(optical, 2023, 2024)
+    ys = YEARS
+    event = annual_gaps(optical, ys[-2], ys[-1])
+    null_a = annual_gaps(optical, ys[-3], ys[-2])
+    null_b = annual_gaps(optical, ys[-4], ys[-3])
+    extra_nulls = {f"null_{ys[k]}_{ys[k+1]}": annual_gaps(optical, ys[k], ys[k+1]) for k in range(len(ys) - 4)}
 
     # 네팔의 `assert gaps(event) == gaps(placebo)` 를 실제 획득에 맞게 완화하되 강제한다.
     # 정확한 동수는 실제 장면으로 불가능하므로, 평균 간격 차이를 허용치 안으로 묶는다.
     mean = lambda g: sum(g) / len(g)
-    for name, g in (("null_2024_2025", null_a), ("null_2023_2024", null_b)):
+    for name, g in [(f"null_{ys[-3]}_{ys[-2]}", null_a), (f"null_{ys[-4]}_{ys[-3]}", null_b), *extra_nulls.items()]:
         diff = abs(mean(event) - mean(g))
         if diff > GAP_TOLERANCE_DAYS:
             raise SystemExit(f"REFUSED: {name} 평균 간격이 사건 쌍과 {diff:.0f}일 차이난다 "
@@ -300,12 +317,16 @@ def main() -> None:
         },
 
         "pairs": {
-            "event": {"from": 2025, "to": 2026, "gap_days_per_tile": event,
+            "event": {"from": ys[-2], "to": ys[-1], "gap_days_per_tile": event,
                       "gap_days_mean": round(mean(event), 1)},
-            "null_temporal_primary": {"from": 2024, "to": 2025, "gap_days_per_tile": null_a,
+            "null_temporal_primary": {"from": ys[-3], "to": ys[-2], "gap_days_per_tile": null_a,
                                       "gap_days_mean": round(mean(null_a), 1)},
-            "null_temporal_secondary": {"from": 2023, "to": 2024, "gap_days_per_tile": null_b,
+            "null_temporal_secondary": {"from": ys[-4], "to": ys[-3], "gap_days_per_tile": null_b,
                                         "gap_days_mean": round(mean(null_b), 1)},
+            **{k: {"from": int(k.split("_")[1]), "to": int(k.split("_")[2]), "gap_days_per_tile": g,
+                   "gap_days_mean": round(mean(g), 1), "role": "추가 귀무 — 평시 변화의 분포(null-of-nulls)"}
+               for k, g in extra_nulls.items()},
+            "doy_rule": DOY_RULE,
             "gap_tolerance_days": GAP_TOLERANCE_DAYS,
             "null_bias": "귀무 해에도 실제 변화가 있어 문턱이 부풀고, 따라서 검정은 보수적(과소 탐지)이다. "
                          "안전한 방향이며 보고서에 적는다.",
@@ -342,7 +363,7 @@ def main() -> None:
 
     payload = json.dumps(contract, indent=1, ensure_ascii=False)
     contract["_self_sha256"] = hashlib.sha256(payload.encode()).hexdigest()
-    out = ensure(CONTRACT_ROOT) / "jeju_v8_contract.json"
+    out = ensure(CONTRACT_ROOT) / f"{a.name}_contract.json"
     out.write_text(json.dumps(contract, indent=1, ensure_ascii=False) + "\n")
 
     print(f"계약 동결 → {display_path(out)}")

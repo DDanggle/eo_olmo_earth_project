@@ -30,7 +30,7 @@ import numpy as np
 
 from jeju_paths import CACHE_ROOT, CONTRACT_ROOT, ensure, display_path, ARTIFACT_ROOT
 
-YEARS = ["2023", "2024", "2025", "2026"]
+YEARS = ["2023", "2024", "2025", "2026"]          # 기본(v8). 계약이 있으면 contract_years() 가 덮어쓴다.
 
 # 단일 정의. 준비기와 동결기가 각자 상수를 들고 있다가 갈라진 적이 있어(하나는 11 눈을
 # 포함했다) 여기서 raw SCL 로부터 다시 계산한다. 저장된 `clear` 배열은 쓰지 않는다.
@@ -48,6 +48,13 @@ PAIRS = {"event": ("2025", "2026"),
          "null_temporal_secondary": ("2023", "2024")}
 
 
+def contract_years_pairs(contract: dict) -> tuple[list[str], dict]:
+    """계약에서 연도와 쌍을 읽는다. v8x 처럼 연도가 늘어나면 추가 귀무(null_YYYY_YYYY)가 함께 온다."""
+    years = [str(y) for y in contract["optical"]["years"]]
+    pairs = {k: (str(v["from"]), str(v["to"])) for k, v in contract["pairs"].items() if isinstance(v, dict) and "from" in v}
+    return years, pairs
+
+
 def token_valid_fraction(scl: np.ndarray) -> float:
     """이 해 이 창에서 유효한 40 m 토큰의 비율."""
     h, w = scl.shape
@@ -63,6 +70,8 @@ def main() -> None:
     a = ap.parse_args()
 
     contract = json.loads((CONTRACT_ROOT / f"{a.contract}_contract.json").read_text())
+    global YEARS, PAIRS
+    YEARS, PAIRS = contract_years_pairs(contract)
     assign = contract["optical"]["frame_a_assignment"]
     cache = CACHE_ROOT / f"{a.contract}/prepare"
 
@@ -122,7 +131,7 @@ def main() -> None:
         "summary": summary,
         "sites": sites,
     }
-    path = ensure(ARTIFACT_ROOT / "results") / "jeju_v8_observability.json"
+    path = ensure(ARTIFACT_ROOT / "results") / f"{a.contract}_observability.json"
     path.write_text(json.dumps(out, ensure_ascii=False, indent=1))
 
     print(f"프레임 A {summary['frame_a_total']}곳 · 큐브 {n}곳"
