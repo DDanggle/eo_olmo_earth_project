@@ -1,0 +1,767 @@
+{
+ "seen_items": [
+  "S2A_MSIL2A_20260823T021121_R103_T52SCB_20260823T081608",
+  "S2A_MSIL2A_20260905T022131_R003_T51SYS_20260905T055309",
+  "S2A_MSIL2A_20260905T022131_R003_T51SYT_20260905T055309",
+  "S2A_MSIL2A_20260905T022131_R003_T52SBB_20260905T055309",
+  "S2A_MSIL2A_20260905T022131_R003_T52SBC_20260905T055309",
+  "S2A_MSIL2A_20260905T022131_R003_T52SCC_20260905T055309",
+  "S2A_MSIL2A_20260912T021121_R103_T52SCB_20260912T053611",
+  "S2B_MSIL2A_20260819T021529_R003_T51SYS_20260819T043049",
+  "S2B_MSIL2A_20260819T021529_R003_T51SYT_20260819T043049",
+  "S2B_MSIL2A_20260819T021529_R003_T52SBB_20260819T043049",
+  "S2B_MSIL2A_20260819T021529_R003_T52SBC_20260819T043049",
+  "S2B_MSIL2A_20260819T021529_R003_T52SCC_20260819T043049",
+  "S2B_MSIL2A_20260826T020649_R103_T52SCB_20260826T041752",
+  "S2B_MSIL2A_20260829T021529_R003_T51SYS_20260829T042451",
+  "S2B_MSIL2A_20260829T021529_R003_T51SYT_20260829T042451",
+  "S2B_MSIL2A_20260829T021529_R003_T52SBB_20260829T042451",
+  "S2B_MSIL2A_20260829T021529_R003_T52SBC_20260829T042451",
+  "S2B_MSIL2A_20260829T021529_R003_T52SCC_20260829T042451",
+  "S2B_MSIL2A_20260908T021529_R003_T51SYS_20260908T042509",
+  "S2B_MSIL2A_20260908T021529_R003_T51SYT_20260908T042509",
+  "S2B_MSIL2A_20260908T021529_R003_T52SBB_20260908T042509",
+  "S2B_MSIL2A_20260908T021529_R003_T52SBC_20260908T042509",
+  "S2B_MSIL2A_20260908T021529_R003_T52SCC_20260908T042509",
+  "S2C_MSIL2A_20260821T020651_R103_T52SCB_20260821T054016",
+  "S2C_MSIL2A_20260824T021531_R003_T51SYS_20260824T054511",
+  "S2C_MSIL2A_20260824T021531_R003_T51SYT_20260824T054511",
+  "S2C_MSIL2A_20260824T021531_R003_T52SBB_20260824T054511",
+  "S2C_MSIL2A_20260824T021531_R003_T52SBC_20260824T054511",
+  "S2C_MSIL2A_20260824T021531_R003_T52SCC_20260824T054511",
+  "S2C_MSIL2A_20260910T020651_R103_T52SCB_20260910T053309",
+  "S2C_MSIL2A_20260913T021531_R003_T51SYS_20260913T055012",
+  "S2C_MSIL2A_20260913T021531_R003_T51SYT_20260913T055012",
+  "S2C_MSIL2A_20260913T021531_R003_T52SBB_20260913T055012",
+  "S2C_MSIL2A_20260913T021531_R003_T52SCC_20260913T055012"
+ ],
+ "checks": [
+  {
+   "at": "2026-09-16T07:45:29+00:00",
+   "window": "2026-08-17..2026-09-16",
+   "tiles": {
+    "51SYS": {
+     "new_scenes": 6,
+     "triplets": [
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260819T021529_R003_T51SYS_20260819T043049",
+        "date": "2026-08-19",
+        "cloud": 11.457238
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250819T021621_R003_T51SYS_20250819T061713",
+        "date": "2025-08-19",
+        "cloud": 31.115311,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240819T021539_R003_T51SYS_20240819T042921",
+        "date": "2024-08-19",
+        "cloud": 10.79172,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260824T021531_R003_T51SYS_20260824T054511",
+        "date": "2026-08-24",
+        "cloud": 10.957661
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250824T021539_R003_T51SYS_20250824T041648",
+        "date": "2025-08-24",
+        "cloud": 39.949021,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240824T021531_R003_T51SYS_20240824T073115",
+        "date": "2024-08-24",
+        "cloud": 5.383546,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260829T021529_R003_T51SYS_20260829T042451",
+        "date": "2026-08-29",
+        "cloud": 48.39583
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250829T021551_R003_T51SYS_20250829T060815",
+        "date": "2025-08-29",
+        "cloud": 1.627656,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240829T021539_R003_T51SYS_20240829T050958",
+        "date": "2024-08-29",
+        "cloud": 1.738992,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2A_MSIL2A_20260905T022131_R003_T51SYS_20260905T055309",
+        "date": "2026-09-05",
+        "cloud": 17.301562
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250903T021529_R003_T51SYS_20250903T041538",
+        "date": "2025-09-03",
+        "cloud": 7.502358,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240908T021539_R003_T51SYS_20240908T043148",
+        "date": "2024-09-08",
+        "cloud": 16.636707,
+        "doy_diff": 4
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260908T021529_R003_T51SYS_20260908T042509",
+        "date": "2026-09-08",
+        "cloud": 2.237162
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250903T021529_R003_T51SYS_20250903T041538",
+        "date": "2025-09-03",
+        "cloud": 7.502358,
+        "doy_diff": 5
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240908T021539_R003_T51SYS_20240908T043148",
+        "date": "2024-09-08",
+        "cloud": 16.636707,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260913T021531_R003_T51SYS_20260913T055012",
+        "date": "2026-09-13",
+        "cloud": 6.282262
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250918T021621_R003_T51SYS_20250918T073316",
+        "date": "2025-09-18",
+        "cloud": 55.235285,
+        "doy_diff": 5
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240913T021531_R003_T51SYS_20240913T052851",
+        "date": "2024-09-13",
+        "cloud": 4.002943,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      }
+     ],
+     "abstain": []
+    },
+    "51SYT": {
+     "new_scenes": 6,
+     "triplets": [
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260819T021529_R003_T51SYT_20260819T043049",
+        "date": "2026-08-19",
+        "cloud": 33.629689
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250819T021621_R003_T51SYT_20250819T061713",
+        "date": "2025-08-19",
+        "cloud": 13.620682,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240819T021539_R003_T51SYT_20240819T042921",
+        "date": "2024-08-19",
+        "cloud": 15.303898,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260824T021531_R003_T51SYT_20260824T054511",
+        "date": "2026-08-24",
+        "cloud": 11.195925
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250824T021539_R003_T51SYT_20250824T041648",
+        "date": "2025-08-24",
+        "cloud": 41.358429,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240824T021531_R003_T51SYT_20240824T073115",
+        "date": "2024-08-24",
+        "cloud": 3.236184,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260829T021529_R003_T51SYT_20260829T042451",
+        "date": "2026-08-29",
+        "cloud": 45.585147
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250829T021551_R003_T51SYT_20250829T060815",
+        "date": "2025-08-29",
+        "cloud": 1.458432,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240829T021539_R003_T51SYT_20240829T050958",
+        "date": "2024-08-29",
+        "cloud": 0.444013,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2A_MSIL2A_20260905T022131_R003_T51SYT_20260905T055309",
+        "date": "2026-09-05",
+        "cloud": 6.276681
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250903T021529_R003_T51SYT_20250903T041538",
+        "date": "2025-09-03",
+        "cloud": 3.53026,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240908T021539_R003_T51SYT_20240908T043148",
+        "date": "2024-09-08",
+        "cloud": 5.961872,
+        "doy_diff": 4
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260908T021529_R003_T51SYT_20260908T042509",
+        "date": "2026-09-08",
+        "cloud": 0.611338
+       },
+       "event_base": {
+        "item_id": "S2A_MSIL2A_20250910T022131_R003_T51SYT_20250910T062313",
+        "date": "2025-09-10",
+        "cloud": 14.700422,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240908T021539_R003_T51SYT_20240908T043148",
+        "date": "2024-09-08",
+        "cloud": 5.961872,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260913T021531_R003_T51SYT_20260913T055012",
+        "date": "2026-09-13",
+        "cloud": 3.23549
+       },
+       "event_base": {
+        "item_id": "S2A_MSIL2A_20250910T022131_R003_T51SYT_20250910T062313",
+        "date": "2025-09-10",
+        "cloud": 14.700422,
+        "doy_diff": 3
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240913T021531_R003_T51SYT_20240913T052851",
+        "date": "2024-09-13",
+        "cloud": 6.389481,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      }
+     ],
+     "abstain": []
+    },
+    "52SBB": {
+     "new_scenes": 6,
+     "triplets": [
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260819T021529_R003_T52SBB_20260819T043049",
+        "date": "2026-08-19",
+        "cloud": 24.468482
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250819T021621_R003_T52SBB_20250819T061713",
+        "date": "2025-08-19",
+        "cloud": 39.406356,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SBB_20240819T042921",
+        "date": "2024-08-19",
+        "cloud": 8.324707,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SBB_20260824T054511",
+        "date": "2026-08-24",
+        "cloud": 17.057969
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250824T021539_R003_T52SBB_20250824T041648",
+        "date": "2025-08-24",
+        "cloud": 26.92191,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240824T021531_R003_T52SBB_20240824T073115",
+        "date": "2024-08-24",
+        "cloud": 8.117279,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260829T021529_R003_T52SBB_20260829T042451",
+        "date": "2026-08-29",
+        "cloud": 36.923745
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250829T021551_R003_T52SBB_20250829T060815",
+        "date": "2025-08-29",
+        "cloud": 7.505347,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240829T021539_R003_T52SBB_20240829T050958",
+        "date": "2024-08-29",
+        "cloud": 38.183573,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2A_MSIL2A_20260905T022131_R003_T52SBB_20260905T055309",
+        "date": "2026-09-05",
+        "cloud": 41.401374
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250903T021529_R003_T52SBB_20250903T041538",
+        "date": "2025-09-03",
+        "cloud": 15.117736,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240903T021601_R003_T52SBB_20240903T072445",
+        "date": "2024-09-03",
+        "cloud": 48.764396,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260908T021529_R003_T52SBB_20260908T042509",
+        "date": "2026-09-08",
+        "cloud": 3.60099
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250903T021529_R003_T52SBB_20250903T041538",
+        "date": "2025-09-03",
+        "cloud": 15.117736,
+        "doy_diff": 5
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240908T021539_R003_T52SBB_20240908T043148",
+        "date": "2024-09-08",
+        "cloud": 20.476727,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260913T021531_R003_T52SBB_20260913T055012",
+        "date": "2026-09-13",
+        "cloud": 5.297829
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250918T021621_R003_T52SBB_20250918T073316",
+        "date": "2025-09-18",
+        "cloud": 42.884365,
+        "doy_diff": 5
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240913T021531_R003_T52SBB_20240913T052851",
+        "date": "2024-09-13",
+        "cloud": 3.592138,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      }
+     ],
+     "abstain": []
+    },
+    "52SBC": {
+     "new_scenes": 5,
+     "triplets": [
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260819T021529_R003_T52SBC_20260819T043049",
+        "date": "2026-08-19",
+        "cloud": 28.16188
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250819T021621_R003_T52SBC_20250819T061713",
+        "date": "2025-08-19",
+        "cloud": 39.864448,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SBC_20240819T042921",
+        "date": "2024-08-19",
+        "cloud": 10.405098,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SBC_20260824T054511",
+        "date": "2026-08-24",
+        "cloud": 6.116635
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250824T021539_R003_T52SBC_20250824T041648",
+        "date": "2025-08-24",
+        "cloud": 41.314045,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240824T021531_R003_T52SBC_20240824T073115",
+        "date": "2024-08-24",
+        "cloud": 6.172189,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260829T021529_R003_T52SBC_20260829T042451",
+        "date": "2026-08-29",
+        "cloud": 57.080817
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250829T021551_R003_T52SBC_20250829T060815",
+        "date": "2025-08-29",
+        "cloud": 8.222647,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240829T021539_R003_T52SBC_20240829T050958",
+        "date": "2024-08-29",
+        "cloud": 21.019718,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2A_MSIL2A_20260905T022131_R003_T52SBC_20260905T055309",
+        "date": "2026-09-05",
+        "cloud": 13.92426
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250903T021529_R003_T52SBC_20250903T041538",
+        "date": "2025-09-03",
+        "cloud": 8.156808,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240903T021601_R003_T52SBC_20240903T072445",
+        "date": "2024-09-03",
+        "cloud": 56.608635,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260908T021529_R003_T52SBC_20260908T042509",
+        "date": "2026-09-08",
+        "cloud": 2.804619
+       },
+       "event_base": {
+        "item_id": "S2A_MSIL2A_20250910T022131_R003_T52SBC_20250910T062313",
+        "date": "2025-09-10",
+        "cloud": 52.573228,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240908T021539_R003_T52SBC_20240908T043148",
+        "date": "2024-09-08",
+        "cloud": 11.601969,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      }
+     ],
+     "abstain": []
+    },
+    "52SCB": {
+     "new_scenes": 5,
+     "triplets": [
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260821T020651_R103_T52SCB_20260821T054016",
+        "date": "2026-08-21",
+        "cloud": 42.736754
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250821T020659_R103_T52SCB_20250821T035126",
+        "date": "2025-08-21",
+        "cloud": 49.838695,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240816T020659_R103_T52SCB_20240816T040626",
+        "date": "2024-08-16",
+        "cloud": 24.265301,
+        "doy_diff": 4
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2A_MSIL2A_20260823T021121_R103_T52SCB_20260823T081608",
+        "date": "2026-08-23",
+        "cloud": 10.42821
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250821T020659_R103_T52SCB_20250821T035126",
+        "date": "2025-08-21",
+        "cloud": 49.838695,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240826T020649_R103_T52SCB_20240826T040102",
+        "date": "2024-08-26",
+        "cloud": 20.271796,
+        "doy_diff": 4
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260826T020649_R103_T52SCB_20260826T041752",
+        "date": "2026-08-26",
+        "cloud": 13.065296
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250826T020711_R103_T52SCB_20250826T053223",
+        "date": "2025-08-26",
+        "cloud": 8.188679,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240826T020649_R103_T52SCB_20240826T040102",
+        "date": "2024-08-26",
+        "cloud": 20.271796,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260910T020651_R103_T52SCB_20260910T053309",
+        "date": "2026-09-10",
+        "cloud": 33.14541
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250910T020649_R103_T52SCB_20250910T034536",
+        "date": "2025-09-10",
+        "cloud": 50.518835,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240910T020651_R103_T52SCB_20240910T054852",
+        "date": "2024-09-10",
+        "cloud": 50.629431,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2A_MSIL2A_20260912T021121_R103_T52SCB_20260912T053611",
+        "date": "2026-09-12",
+        "cloud": 24.704655
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250910T020649_R103_T52SCB_20250910T034536",
+        "date": "2025-09-10",
+        "cloud": 50.518835,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240910T020651_R103_T52SCB_20240910T054852",
+        "date": "2024-09-10",
+        "cloud": 50.629431,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      }
+     ],
+     "abstain": []
+    },
+    "52SCC": {
+     "new_scenes": 6,
+     "triplets": [
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260819T021529_R003_T52SCC_20260819T043049",
+        "date": "2026-08-19",
+        "cloud": 22.728056
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250819T021621_R003_T52SCC_20250819T061713",
+        "date": "2025-08-19",
+        "cloud": 49.643514,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SCC_20240819T042921",
+        "date": "2024-08-19",
+        "cloud": 13.200402,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SCC_20260824T054511",
+        "date": "2026-08-24",
+        "cloud": 6.747179
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250824T021539_R003_T52SCC_20250824T041648",
+        "date": "2025-08-24",
+        "cloud": 8.191472,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240824T021531_R003_T52SCC_20240824T073115",
+        "date": "2024-08-24",
+        "cloud": 5.92629,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260829T021529_R003_T52SCC_20260829T042451",
+        "date": "2026-08-29",
+        "cloud": 27.078262
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250829T021551_R003_T52SCC_20250829T060815",
+        "date": "2025-08-29",
+        "cloud": 4.98051,
+        "doy_diff": 0
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240829T021539_R003_T52SCC_20240829T050958",
+        "date": "2024-08-29",
+        "cloud": 43.498585,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2A_MSIL2A_20260905T022131_R003_T52SCC_20260905T055309",
+        "date": "2026-09-05",
+        "cloud": 11.454742
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250903T021529_R003_T52SCC_20250903T041538",
+        "date": "2025-09-03",
+        "cloud": 9.214636,
+        "doy_diff": 2
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240908T021539_R003_T52SCC_20240908T043148",
+        "date": "2024-09-08",
+        "cloud": 6.404138,
+        "doy_diff": 4
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2B_MSIL2A_20260908T021529_R003_T52SCC_20260908T042509",
+        "date": "2026-09-08",
+        "cloud": 0.6633
+       },
+       "event_base": {
+        "item_id": "S2B_MSIL2A_20250903T021529_R003_T52SCC_20250903T041538",
+        "date": "2025-09-03",
+        "cloud": 9.214636,
+        "doy_diff": 5
+       },
+       "null_base": {
+        "item_id": "S2B_MSIL2A_20240908T021539_R003_T52SCC_20240908T043148",
+        "date": "2024-09-08",
+        "cloud": 6.404138,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      },
+      {
+       "target": {
+        "item_id": "S2C_MSIL2A_20260913T021531_R003_T52SCC_20260913T055012",
+        "date": "2026-09-13",
+        "cloud": 10.783738
+       },
+       "event_base": {
+        "item_id": "S2C_MSIL2A_20250918T021621_R003_T52SCC_20250918T073316",
+        "date": "2025-09-18",
+        "cloud": 56.82255,
+        "doy_diff": 5
+       },
+       "null_base": {
+        "item_id": "S2A_MSIL2A_20240913T021531_R003_T52SCC_20240913T052851",
+        "date": "2024-09-13",
+        "cloud": 10.171624,
+        "doy_diff": 1
+       },
+       "site_gate": "pending — 사이트 SCL 판독가능성은 준비 단계에서 잰다"
+      }
+     ],
+     "abstain": []
+    }
+   },
+   "summary": {
+    "new_scenes": 34,
+    "triplets": 34,
+    "abstain": 0
+   }
+  }
+ ]
+}

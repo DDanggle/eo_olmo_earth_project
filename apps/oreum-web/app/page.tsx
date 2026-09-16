@@ -1,7 +1,7 @@
 'use client';
 // 오름 변화 추적 지도 — 한 화면, 라우트 분할 없음. 클릭 → 즉시 전후 프레임.
 // 모든 숫자는 public/data/summary.json 에서만 온다 (scripts/verify-assets.mjs 가 대조).
-import { Map as MapLibreMap, NavigationControl, ScaleControl, AttributionControl } from 'maplibre-gl';
+import { Map as MapLibreMap, NavigationControl, ScaleControl, AttributionControl, setWorkerUrl } from 'maplibre-gl';
 import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -23,6 +23,10 @@ type Summary = {
   secondary_20m: { scored: number; flag_rate_pooled: Record<string, number> } | null;
   korea_layers: Record<string, { name: string; n: number }> | null;
 };
+
+// Next 번들러가 MapLibre 의 인라인 워커를 깨뜨려 GeoJSON 소스가 영원히 로드되지 않는다(실측: 소스에 243점,
+// isSourceLoaded false). 네팔과 같이 워커를 정적 파일로 둔다.
+setWorkerUrl('/maplibre-gl-worker.mjs');
 
 const YEARS = ['2023', '2024', '2025', '2026'];
 const pct = (x: number | null | undefined, d = 1) => (x == null ? '—' : `${(x * 100).toFixed(d)}%`);
@@ -80,6 +84,7 @@ export default function Page() {
       }
     });
     map.current = m;
+    if (process.env.NODE_ENV !== 'production') (window as unknown as { __m: MapLibreMap }).__m = m;
   }, [fc, summary, colorExpr]);
 
   useEffect(() => { if (map.current?.getLayer('abstain')) map.current.setLayoutProperty('abstain', 'visibility', showAbstain ? 'visible' : 'none'); }, [showAbstain]);
