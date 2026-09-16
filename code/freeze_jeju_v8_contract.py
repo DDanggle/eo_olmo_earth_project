@@ -75,6 +75,18 @@ SCL_OVERVIEW = 4                  # 20 m SCL 을 1/4 로 읽는다 (선택용이
 def site_clear_mask(item, pts: list[dict]) -> np.ndarray:
     """이 장면에서 각 오름이 판독 가능한가(bool 배열). SCL 한 장을 통째 읽고 샘플한다."""
     asset = pc.sign(item.assets["SCL"])
+    # blob 이 가끔 비-TIFF 응답을 준다(스로틀·깨진 자산). 재시도 뒤에도 못 읽으면 그 장면은
+    # **판독 불가**로 친다 — 읽을 수 없는 장면은 고를 수 없다.
+    import time as _t
+    for k in range(4):
+        try:
+            with rasterio.open(asset.href) as ds:
+                ds.read(1, window=((0, 1), (0, 1)))
+            break
+        except Exception:
+            if k == 3:
+                return np.zeros(len(pts), dtype=bool)
+            _t.sleep(3 * (k + 1))
     with rasterio.open(asset.href) as ds:
         arr = ds.read(1, out_shape=(ds.height // SCL_OVERVIEW, ds.width // SCL_OVERVIEW))
         sx, sy = ds.width / arr.shape[1], ds.height / arr.shape[0]
