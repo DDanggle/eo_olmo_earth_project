@@ -27,10 +27,15 @@ from __future__ import annotations
 import hashlib
 import itertools
 import json
+import pathlib
 from datetime import datetime
 
+import numpy as np
+import planetary_computer as pc
+import pyproj
 import pystac_client
-from shapely.geometry import shape
+import rasterio
+from shapely.geometry import Point, shape
 
 from jeju_paths import CONTRACT_ROOT, display_path, ensure
 
@@ -44,11 +49,62 @@ S1_ORBIT, S1_STATE = 134, "descending"
 WINDOW_M, PATCH, TOKEN_M = 2560, 4, 40
 MIN_VALID_TOKEN_FRAC = 0.2                      # 네팔과 같은 관측가능성 게이트
 GAP_TOLERANCE_DAYS = 30                         # 연간 쌍 간 간격 차이 허용치
+DOY_SPREAD_MAX = 14                             # 게이트와 같은 값. 관측가능성보다 **먼저** 지킨다.
+#  계절 정렬을 풀면 v7.10 이 죽은 자리로 돌아간다. 판독 가능한 오름을 더 얻겠다고 DOY 폭을
+#  29일까지 벌리면 늦8월과 늦9월의 식생 위상차가 Δz 에 그대로 실린다. 그래서 폭은 제약이고,
+#  관측가능성은 그 제약 안에서만 최대화한다.                         # 연간 쌍 간 간격 차이 허용치
 
 doy = lambda item: item.datetime.timetuple().tm_yday
 
+# ---------------------------------------------------------------------------
+# 사이트 판독 가능성
+# ---------------------------------------------------------------------------
+# 장면 구름은 이 과제에서 잘못된 선택 변수다. 실측(2025, R003):
+#   52SBC 08-14  장면구름  1.0%  →  표본 오름 12곳 중 판독 가능 0곳
+#   51SYS 09-18  장면구름 55.2%  →  표본 오름 12곳 중 판독 가능 10곳
+# 오름은 한라산 주위에 몰려 있고 지형성 구름이 산정을 덮는다. "맑은 제주 장면"은
+# 대개 맑은 바다와 구름 쓴 산을 뜻한다. 그래서 장면 구름 대신 **프레임 A 오름에서
+# 실제로 몇 곳이 판독 가능한가**로 고른다. 이 기준은 Δz 를 전혀 보지 않으므로
+# 사전등록을 깨지 않는다 — 무엇이 변했는지가 아니라 무엇을 볼 수 있는지만 본다.
+SCL_CLEAR = (4, 5, 6, 7)          # 식생·나지·물·권운(얇음)
+SITE_CLEAR_MIN = 0.2              # 네팔과 같은 관측가능성 바닥
+SCL_OVERVIEW = 4                  # 20 m SCL 을 1/4 로 읽는다 (선택용이므로 충분)
 
-def pick_optical(cat) -> dict:
+
+def site_clear_mask(item, pts: list[dict]) -> np.ndarray:
+    """이 장면에서 각 오름이 판독 가능한가(bool 배열). SCL 한 장을 통째 읽고 샘플한다."""
+    asset = pc.sign(item.assets["SCL"])
+    with rasterio.open(asset.href) as ds:
+        arr = ds.read(1, out_shape=(ds.height // SCL_OVERVIEW, ds.width // SCL_OVERVIEW))
+        sx, sy = ds.width / arr.shape[1], ds.height / arr.shape[0]
+        tf = pyproj.Transformer.from_crs("EPSG:4326", ds.crs, always_xy=True)
+        half = WINDOW_M / 2
+        clear = np.isin(arr, SCL_CLEAR)
+        out = np.zeros(len(pts), dtype=bool)
+        for k, o in enumerate(pts):
+            x, y = tf.transform(o["lon"], o["lat"])
+            r0, c0 = ~ds.transform * (x - half, y + half)
+            r1, c1 = ~ds.transform * (x + half, y - half)
+            a, b = int(min(c0, c1) / sy), int(max(c0, c1) / sy)
+            cc, dd = int(min(r0, r1) / sx), int(max(r0, r1) / sx)
+            a, cc = max(a, 0), max(cc, 0)
+            if b <= a or dd <= cc:
+                continue
+            out[k] = clear[a:b, cc:dd].mean() >= SITE_CLEAR_MIN
+    return out
+
+
+
+
+def load_frame_a() -> list[dict]:
+    """프레임 A — 위치 확인된 오름. 탐지기와 같은 로더를 써서 계약과 파이프라인이 갈라지지 않게 한다."""
+    import sys
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    from oreum_prepare import load_oreum
+    return load_oreum(None)
+
+
+def pick_optical(cat, frame_a: list[dict]) -> dict:
     """타일별로 **하나의 상대궤도** 안에서 DOY 폭 최소 → 최대 구름 최소 순으로 네 해를 고른다.
 
     궤도를 묶는 이유는 두 가지이고 둘 다 실측으로 확인했다.
@@ -59,7 +115,7 @@ def pick_optical(cat) -> dict:
        구름만 최소화했더니 52SBB 의 2023~2025 가 면적 0.11 짜리 R103 조각으로 잡히고 2026 만
        면적 1.16 의 R003 전체 장면이 잡혀, **오름 34곳이 네 해를 다 갖지 못했다.**
     """
-    chosen = {}
+    chosen, clear_by_tile = {}, {}
     for tile in TILES:
         by_orbit: dict[int, dict[int, list]] = {}
         for year in YEARS:
@@ -82,25 +138,35 @@ def pick_optical(cat) -> dict:
             raise SystemExit(f"REFUSED: {tile} 에 네 해를 모두 덮는 상대궤도가 없다. "
                              "궤도를 섞는 대신 이 타일을 계약에서 빼라.")
 
-        # 궤도 안에서는 DOY 폭 → 최대 구름. 궤도끼리는 **granule 완전성이 먼저**다.
-        # 같은 타일의 두 궤도가 다 네 해를 가져도 한쪽이 조각 granule 일 수 있고, 그 경우
-        # 조각을 고르면 해당 지역 오름이 통째로 분석에서 빠진다(실측: 52SBB R103 은 면적
-        # 0.11, R003 은 1.16 이고 그 차이가 오름 34곳이었다). 덜 촘촘한 계절 정렬은
-        # 각주로 적을 수 있지만, 덮이지 않은 땅은 각주로 되살릴 수 없다.
-        per_orbit = {}
+        # 궤도끼리는 granule 완전성이 먼저다(조각 granule 을 고르면 그 지역 오름이 통째로
+        # 빠진다: 52SBB R103 면적 0.11 vs R003 1.16, 차이가 오름 34곳이었다).
+        # 같은 완전성이면 **네 해 모두 판독 가능한 오름 수**를 최대화한다.
+        best = best_orbit = best_key = None
+        best_mask, best_n, best_pts = {}, 0, 0
         for orbit, per_year in cands.items():
-            combo = min(itertools.product(*(sorted(per_year[y], key=lambda i: i.datetime) for y in YEARS)),
-                        key=lambda c: (max(map(doy, c)) - min(map(doy, c)),
-                                       max(i.properties["eo:cloud_cover"] for i in c)))
-            per_orbit[orbit] = (combo, min(shape(i.geometry).area for i in combo))
-        best_orbit = min(per_orbit,
-                         key=lambda o: (-round(per_orbit[o][1], 2),
-                                        max(map(doy, per_orbit[o][0])) - min(map(doy, per_orbit[o][0])),
-                                        max(i.properties["eo:cloud_cover"] for i in per_orbit[o][0])))
-        best = per_orbit[best_orbit][0]
-        best_key = (max(map(doy, best)) - min(map(doy, best)),
-                    max(i.properties["eo:cloud_cover"] for i in best))
-
+            per_year = {y: sorted(per_year[y], key=lambda i: i.datetime) for y in YEARS}
+            area = min(shape(i.geometry).area
+                       for y in YEARS for i in per_year[y])
+            # 이 궤도의 footprint 안에 드는 프레임 A 오름만 본다.
+            foot = shape(per_year[YEARS[0]][0].geometry)
+            pts = [o for o in frame_a if foot.contains(Point(o["lon"], o["lat"]))]
+            masks = {y: {i.id: site_clear_mask(i, pts) for i in per_year[y]} for y in YEARS}
+            for combo in itertools.product(*(per_year[y] for y in YEARS)):
+                if max(map(doy, combo)) - min(map(doy, combo)) > DOY_SPREAD_MAX:
+                    continue
+                usable = np.ones(len(pts), dtype=bool)
+                for y, i in zip(YEARS, combo):
+                    usable &= masks[y][i.id]
+                key = (-round(area, 2), -int(usable.sum()),
+                       max(map(doy, combo)) - min(map(doy, combo)),
+                       max(i.properties["eo:cloud_cover"] for i in combo))
+                if best_key is None or key < best_key:
+                    best, best_key, best_orbit = combo, key, orbit
+                    best_n, best_pts = int(usable.sum()), len(pts)
+                    best_mask = {o["oreum_id"]: bool(u) for o, u in zip(pts, usable)}
+        if best is None:
+            raise SystemExit(f"REFUSED: {tile} 에 DOY 폭 {DOY_SPREAD_MAX}일 이내 조합이 없다. "
+                             "폭을 넓히려면 그 사실과 이유를 계약에 적고 게이트도 같이 고쳐라.")
         chosen[tile] = {
             str(y): {"item_id": i.id, "datetime": str(i.datetime), "doy": doy(i),
                      "cloud_cover": round(i.properties["eo:cloud_cover"], 2),
@@ -108,10 +174,33 @@ def pick_optical(cat) -> dict:
             for y, i in zip(YEARS, best)
         }
         chosen[tile]["_relative_orbit"] = best_orbit
-        chosen[tile]["_min_footprint_area_deg2"] = round(per_orbit[best_orbit][1], 4)
-        chosen[tile]["_doy_spread_days"] = best_key[0]
-        chosen[tile]["_max_cloud"] = round(best_key[1], 2)
-    return chosen
+        chosen[tile]["_min_footprint_area_deg2"] = round(-best_key[0], 4)
+        chosen[tile]["_frame_a_oreum_in_footprint"] = best_pts
+        chosen[tile]["_frame_a_oreum_clear_all_years"] = best_n
+        chosen[tile]["_doy_spread_days"] = best_key[2]
+        chosen[tile]["_max_cloud"] = round(best_key[3], 2)
+        clear_by_tile[tile] = best_mask
+    return chosen, clear_by_tile
+
+
+def assign_frame_a(frame_a: list[dict], clear_by_tile: dict) -> dict:
+    """오름마다 쓸 타일을 하나 정해 **계약에 동결한다.**
+
+    파이프라인이 자체 휴리스틱으로 타일을 고르면 계약과 갈라진다 — 실제로 그렇게 해서
+    오름 34곳이 조용히 빈 큐브가 됐다. 규칙: 네 해 모두 판독 가능한 타일이 있으면 그것,
+    없으면 후보 중 첫 번째를 쓰고 `observable_all_years: false` 로 표시한다.
+    표시된 곳은 분모에서 빼지 않고 `unobservable` 로 보고한다.
+    """
+    out = {}
+    for o in frame_a:
+        oid = o["oreum_id"]
+        cands = [t for t, m in clear_by_tile.items() if oid in m]
+        if not cands:
+            out[oid] = {"tile": None, "observable_all_years": False, "reason": "no_tile_covers_all_years"}
+            continue
+        good = [t for t in cands if clear_by_tile[t][oid]]
+        out[oid] = {"tile": (good or cands)[0], "observable_all_years": bool(good)}
+    return out
 
 
 def pick_radar(cat) -> dict:
@@ -137,7 +226,9 @@ def annual_gaps(optical: dict, a: int, b: int) -> list[int]:
 
 def main() -> None:
     cat = pystac_client.Client.open(STAC)
-    optical = pick_optical(cat)
+    frame_a = load_frame_a()
+    optical, clear_by_tile = pick_optical(cat, frame_a)
+    assignment = assign_frame_a(frame_a, clear_by_tile)
     radar = pick_radar(cat)
 
     event = annual_gaps(optical, 2025, 2026)
@@ -177,7 +268,21 @@ def main() -> None:
             "collection": "sentinel-2-l2a", "tiles": TILES, "years": YEARS,
             "seasonal_stratum": f"{STRATUM[0]} ~ {STRATUM[1]}",
             "cloud_max_scene": CLOUD_MAX,
-            "selection_rule": "타일별로 (1) 연도 간 DOY 폭 최소화 (2) 최대 구름 최소화",
+            "selection_rule": (
+                "타일별로 하나의 상대궤도 안에서 (1) granule 완전성 (2) 네 해 모두 판독 가능한 "
+                "프레임 A 오름 수 최대화 (3) DOY 폭 최소 (4) 최대 구름 최소. "
+                "장면 구름은 선택 변수가 아니라 상한 필터로만 쓴다."),
+            "why_not_scene_cloud": (
+                "오름은 한라산 주위에 몰려 있고 지형성 구름이 산정을 덮는다. 실측(2025, R003): "
+                "52SBC 08-14 는 장면 구름 1.0% 인데 표본 오름 12곳 중 판독 가능 0곳, "
+                "51SYS 09-18 은 장면 구름 55.2% 인데 10곳이 판독 가능했다. "
+                "장면 구름으로 고르면 맑은 바다와 구름 쓴 산을 고르게 된다. "
+                "이 기준은 Δz 를 보지 않으므로 사전등록을 깨지 않는다."),
+            "site_clear_min": SITE_CLEAR_MIN,
+            "frame_a_assignment": assignment,
+            "frame_a_observable_all_years": sum(
+                1 for v in assignment.values() if v["observable_all_years"]),
+            "frame_a_total": len(frame_a),
             "compositor": "code/scl_compositor.py :: Sentinel2SCLBestClearNearest "
                           "(SCL class ID 는 nearest 로만 재표본; 보간하면 scl==9 같은 등식이 깨진다)",
             "scenes": optical,

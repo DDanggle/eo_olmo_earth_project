@@ -60,32 +60,25 @@ def load_oreum(limit: int | None) -> list[dict]:
     return out[:limit] if limit else out
 
 
-def assign_tiles(oreum: list[dict], items: dict[tuple[str, str], object]) -> dict[str, str]:
-    """오름마다 그를 포함하는 타일 중 (그 해 구름이 가장 낮은) 하나를 고정한다.
+def assign_tiles(oreum: list[dict], contract: dict) -> dict[str, str]:
+    """타일 배정은 **계약에서 읽는다.** 여기서 다시 고르지 않는다.
 
-    타일은 서로 겹치므로 규칙 없이 고르면 해마다 다른 타일이 걸려 비교가 깨진다.
-    그래서 **연도 전체에 대해 한 번** 정하고 네 해 내내 같은 타일을 쓴다.
+    예전에는 이 함수가 구름 평균으로 직접 골랐고, 그 바람에 계약과 갈라져 오름 34곳이
+    한 해만 덮는 타일에 배정돼 조용히 빈 큐브가 됐다. 무엇을 보느냐는 계약이 정하고
+    파이프라인은 따르기만 한다.
     """
-    from shapely.geometry import Point
-    # granule footprint 는 해마다 조금씩 다르다. 한 해만 포함하는 타일을 고르면 나머지 해가
-    # 통째로 결측이 된다(실측: JJ-OREUM-001 이 52SBB 로 배정돼 3개 연도가 비었다).
-    # 그래서 **네 해 모두 포함**을 요구하고, 그 중 평균 구름이 가장 낮은 타일을 쓴다.
-    by_tile: dict[str, list] = {}
-    for (tile, year), it in items.items():
-        by_tile.setdefault(tile, []).append((shape(it.geometry), it.properties.get("eo:cloud_cover") or 100))
-    assign, unassigned = {}, []
+    assign = contract["optical"]["frame_a_assignment"]
+    out, missing = {}, []
     for o in oreum:
-        p = Point(o["lon"], o["lat"])
-        cands = []
-        for tile, gs in by_tile.items():
-            if len(gs) == len(YEARS) and all(g.contains(p) for g, _ in gs):
-                cands.append((tile, float(np.mean([c for _, c in gs]))))
-        if not cands:
-            unassigned.append(o["oreum_id"]); continue
-        assign[o["oreum_id"]] = min(cands, key=lambda x: x[1])[0]
-    if unassigned:
-        print(f"  경고: 네 해 모두 덮는 타일이 없는 오름 {len(unassigned)}곳 → {unassigned[:5]}")
-    return assign
+        rec = assign.get(o["oreum_id"])
+        if not rec or not rec.get("tile"):
+            missing.append(o["oreum_id"]); continue
+        out[o["oreum_id"]] = rec["tile"]
+    if missing:
+        print(f"  계약에 타일이 없는 오름 {len(missing)}곳 → {missing[:5]}")
+    n_obs = sum(1 for o in oreum if assign.get(o["oreum_id"], {}).get("observable_all_years"))
+    print(f"  네 해 모두 판독 가능 {n_obs} / {len(oreum)} (나머지는 unobservable 로 보고, 분모에서 빼지 않는다)")
+    return out
 
 
 def read_window(item, lon: float, lat: float) -> tuple[np.ndarray, np.ndarray]:
@@ -129,7 +122,7 @@ def main() -> None:
     print(f"  {len(items)} 건")
 
     oreum = load_oreum(a.limit)
-    tiles = assign_tiles(oreum, items)
+    tiles = assign_tiles(oreum, contract)
     print(f"오름 {len(oreum)}곳, 타일 배정 {len(tiles)}곳")
 
     out_dir = ensure(CACHE_ROOT / f"{a.contract}/prepare")
