@@ -4,63 +4,386 @@
  "tile": "52SBB",
  "min_site_clear": 0.35,
  "rule": "월별 후보 중 오름 창 SCL 판독 비율 최고 장면. 궤도 무관(보는 용도). 채점에 쓰지 않는다.",
- "n_months": 45,
- "n_frames": 41,
+ "n_months": 69,
+ "n_frames": 65,
  "frames": {
+  "2021-01": {
+   "date": "2021-01-27",
+   "site_clear": 0.967,
+   "scene_cloud": 2.1,
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20210127T021949_R003_T52SBB_20210127T151549",
+   "frame": "2021-01.jpg"
+  },
+  "2021-02": {
+   "date": "2021-02-21",
+   "site_clear": 0.987,
+   "scene_cloud": 0.2,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20210221T021721_R003_T52SBB_20210221T122127",
+   "frame": "2021-02.jpg"
+  },
+  "2021-03": {
+   "date": "2021-03-23",
+   "site_clear": 0.99,
+   "scene_cloud": 0.1,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20210323T021601_R003_T52SBB_20210323T140637",
+   "frame": "2021-03.jpg"
+  },
+  "2021-04": {
+   "date": "2021-04-17",
+   "site_clear": 0.996,
+   "scene_cloud": 27.3,
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20210417T021559_R003_T52SBB_20210417T141754",
+   "frame": "2021-04.jpg"
+  },
+  "2021-05": {
+   "date": "2021-05-22",
+   "site_clear": 0.987,
+   "scene_cloud": 13.0,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20210522T021601_R003_T52SBB_20210522T180709",
+   "frame": "2021-05.jpg"
+  },
+  "2021-06": {
+   "date": "2021-06-06",
+   "site_clear": 0.997,
+   "scene_cloud": 13.8,
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20210606T021609_R003_T52SBB_20210609T130456",
+   "frame": "2021-06.jpg"
+  },
+  "2021-07": {
+   "date": "2021-07-21",
+   "site_clear": 0.821,
+   "scene_cloud": 5.5,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20210721T021611_R003_T52SBB_20210721T102850",
+   "frame": "2021-07.jpg"
+  },
+  "2021-08": {
+   "date": "2021-08-30",
+   "site_clear": 0.96,
+   "scene_cloud": 73.3,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20210830T021601_R003_T52SBB_20210830T133920",
+   "frame": "2021-08.jpg"
+  },
+  "2021-09": {
+   "date": "2021-09-09",
+   "site_clear": 0.752,
+   "scene_cloud": 5.5,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20210909T021601_R003_T52SBB_20210909T131711",
+   "frame": "2021-09.jpg"
+  },
+  "2021-10": {
+   "date": "2021-10-14",
+   "site_clear": 0.021,
+   "scene_cloud": 11.3,
+   "frame": null
+  },
+  "2021-11": {
+   "date": "2021-11-18",
+   "site_clear": 0.988,
+   "scene_cloud": 0.5,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20211118T022001_R003_T52SBB_20211118T142213",
+   "frame": "2021-11.jpg"
+  },
+  "2021-12": {
+   "date": "2021-12-23",
+   "site_clear": 1.0,
+   "scene_cloud": 0.1,
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20211223T022109_R003_T52SBB_20230128T171150",
+   "frame": "2021-12.jpg"
+  },
+  "2022-01": {
+   "date": "2022-01-07",
+   "site_clear": 0.85,
+   "scene_cloud": 36.8,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20220107T022101_R003_T52SBB_20220107T235522",
+   "frame": "2022-01.jpg",
+   "delta": {
+    "vs": "2021-01",
+    "frame": "2022-01_delta.png",
+    "valid_frac": 0.891,
+    "flag_frac": 0.0085,
+    "orbit_match": true
+   }
+  },
+  "2022-02": {
+   "date": "2022-02-26",
+   "site_clear": 1.0,
+   "scene_cloud": 0.6,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20220226T021651_R003_T52SBB_20240516T020702",
+   "frame": "2022-02.jpg",
+   "delta": {
+    "vs": "2021-02",
+    "frame": "2022-02_delta.png",
+    "valid_frac": 0.994,
+    "flag_frac": 0.0135,
+    "orbit_match": true
+   }
+  },
+  "2022-03": {
+   "date": "2022-03-08",
+   "site_clear": 1.0,
+   "scene_cloud": 0.5,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20220308T021611_R003_T52SBB_20220308T153730",
+   "frame": "2022-03.jpg",
+   "delta": {
+    "vs": "2021-03",
+    "frame": "2022-03_delta.png",
+    "valid_frac": 0.996,
+    "flag_frac": 0.0162,
+    "orbit_match": true
+   }
+  },
+  "2022-04": {
+   "date": "2022-04-07",
+   "site_clear": 1.0,
+   "scene_cloud": 4.9,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20220407T021601_R003_T52SBB_20240602T002120",
+   "frame": "2022-04.jpg",
+   "delta": {
+    "vs": "2021-04",
+    "frame": "2022-04_delta.png",
+    "valid_frac": 0.998,
+    "flag_frac": 0.0115,
+    "orbit_match": true
+   }
+  },
+  "2022-05": {
+   "date": "2022-05-27",
+   "site_clear": 1.0,
+   "scene_cloud": 4.9,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20220527T021611_R003_T52SBB_20240615T064144",
+   "frame": "2022-05.jpg",
+   "delta": {
+    "vs": "2021-05",
+    "frame": "2022-05_delta.png",
+    "valid_frac": 0.995,
+    "flag_frac": 0.0152,
+    "orbit_match": true
+   }
+  },
+  "2022-06": {
+   "date": "2022-06-21",
+   "site_clear": 0.439,
+   "scene_cloud": 45.1,
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20220621T021539_R003_T52SBB_20240628T000549",
+   "frame": "2022-06.jpg",
+   "delta": {
+    "vs": "2021-06",
+    "frame": "2022-06_delta.png",
+    "valid_frac": 0.448,
+    "flag_frac": 0.7672,
+    "orbit_match": true
+   }
+  },
+  "2022-07": {
+   "date": "2022-07-21",
+   "site_clear": 1.0,
+   "scene_cloud": 42.2,
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20220721T021539_R003_T52SBB_20240713T000247",
+   "frame": "2022-07.jpg",
+   "delta": {
+    "vs": "2021-07",
+    "frame": "2022-07_delta.png",
+    "valid_frac": 0.853,
+    "flag_frac": 0.0246,
+    "orbit_match": true
+   }
+  },
+  "2022-08": {
+   "date": "2022-08-25",
+   "site_clear": 0.998,
+   "scene_cloud": 25.5,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20220825T021541_R003_T52SBB_20240704T192302",
+   "frame": "2022-08.jpg",
+   "delta": {
+    "vs": "2021-08",
+    "frame": "2022-08_delta.png",
+    "valid_frac": 0.97,
+    "flag_frac": 0.0204,
+    "orbit_match": true
+   }
+  },
+  "2022-09": {
+   "date": "2022-09-24",
+   "site_clear": 0.957,
+   "scene_cloud": 50.6,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20220924T021541_R003_T52SBB_20220924T115816",
+   "frame": "2022-09.jpg",
+   "delta": {
+    "vs": "2021-09",
+    "frame": "2022-09_delta.png",
+    "valid_frac": 0.753,
+    "flag_frac": 0.093,
+    "orbit_match": true
+   }
+  },
+  "2022-10": {
+   "date": "2022-10-19",
+   "site_clear": 1.0,
+   "scene_cloud": 3.3,
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20221019T021709_R003_T52SBB_20240821T155159",
+   "frame": "2022-10.jpg"
+  },
+  "2022-11": {
+   "date": "2022-11-08",
+   "site_clear": 1.0,
+   "scene_cloud": 0.1,
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20221108T021859_R003_T52SBB_20221108T105506",
+   "frame": "2022-11.jpg",
+   "delta": {
+    "vs": "2021-11",
+    "frame": "2022-11_delta.png",
+    "valid_frac": 0.996,
+    "flag_frac": 0.0142,
+    "orbit_match": true
+   }
+  },
+  "2022-12": {
+   "date": "2022-12-13",
+   "site_clear": 0.973,
+   "scene_cloud": 54.1,
+   "orbit": 3,
+   "item_id": "S2A_MSIL2A_20221213T022111_R003_T52SBB_20221213T164911",
+   "frame": "2022-12.jpg",
+   "delta": {
+    "vs": "2021-12",
+    "frame": "2022-12_delta.png",
+    "valid_frac": 0.974,
+    "flag_frac": 0.0143,
+    "orbit_match": true
+   }
+  },
   "2023-01": {
    "date": "2023-01-07",
    "site_clear": 0.949,
    "scene_cloud": 15.6,
-   "frame": null,
-   "error": "RasterioIOError"
+   "orbit": 3,
+   "item_id": "S2B_MSIL2A_20230107T022059_R003_T52SBB_20240809T151914",
+   "frame": "2023-01.jpg",
+   "delta": {
+    "vs": "2022-01",
+    "frame": "2023-01_delta.png",
+    "valid_frac": 0.855,
+    "flag_frac": 0.0237,
+    "orbit_match": true
+   }
   },
   "2023-02": {
    "date": "2023-02-21",
    "site_clear": 1.0,
-   "scene_cloud": 21.4,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20230221T021721_R003_T52SBB_20230224T110115",
-   "frame": "2023-02.jpg"
+   "frame": "2023-02.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-02",
+    "frame": "2023-02_delta.png",
+    "valid_frac": 1.0,
+    "flag_frac": 0.0078,
+    "orbit_match": false
+   }
   },
   "2023-03": {
    "date": "2023-03-28",
    "site_clear": 1.0,
-   "scene_cloud": 1.6,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20230328T021539_R003_T52SBB_20240829T023826",
-   "frame": "2023-03.jpg"
+   "frame": "2023-03.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-03",
+    "frame": "2023-03_delta.png",
+    "valid_frac": 1.0,
+    "flag_frac": 0.0073,
+    "orbit_match": false
+   }
   },
   "2023-04": {
    "date": "2023-04-02",
    "site_clear": 1.0,
-   "scene_cloud": 4.7,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20230402T021531_R003_T52SBB_20240828T194308",
-   "frame": "2023-04.jpg"
+   "frame": "2023-04.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-04",
+    "frame": "2023-04_delta.png",
+    "valid_frac": 1.0,
+    "flag_frac": 0.0098,
+    "orbit_match": false
+   }
   },
   "2023-05": {
    "date": "2023-05-02",
    "site_clear": 0.854,
-   "scene_cloud": 33.2,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20230502T021531_R003_T52SBB_20240901T152605",
-   "frame": "2023-05.jpg"
+   "frame": "2023-05.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-05",
+    "frame": "2023-05_delta.png",
+    "valid_frac": 0.862,
+    "flag_frac": 0.0116,
+    "orbit_match": false
+   }
   },
   "2023-06": {
    "date": "2023-06-16",
    "site_clear": 1.0,
-   "scene_cloud": 44.0,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20230616T021539_R003_T52SBB_20240928T091736",
-   "frame": "2023-06.jpg"
+   "frame": "2023-06.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-06",
+    "frame": "2023-06_delta.png",
+    "valid_frac": 0.448,
+    "flag_frac": 0.4973,
+    "orbit_match": false
+   }
   },
   "2023-07": {
    "date": "2023-07-06",
    "site_clear": 0.452,
-   "scene_cloud": 44.5,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20230706T021539_R003_T52SBB_20240912T122930",
-   "frame": "2023-07.jpg"
+   "frame": "2023-07.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-07",
+    "frame": "2023-07_delta.png",
+    "valid_frac": 0.462,
+    "flag_frac": 0.0238,
+    "orbit_match": false
+   }
   },
   "2023-08": {
    "date": "2023-08-20",
@@ -71,50 +394,91 @@
   "2023-09": {
    "date": "2023-09-29",
    "site_clear": 1.0,
-   "scene_cloud": 4.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20230929T021531_R003_T52SBB_20241027T121240",
-   "frame": "2023-09.jpg"
+   "frame": "2023-09.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-09",
+    "frame": "2023-09_delta.png",
+    "valid_frac": 0.959,
+    "flag_frac": 0.0074,
+    "orbit_match": false
+   }
   },
   "2023-10": {
    "date": "2023-10-19",
    "site_clear": 0.942,
-   "scene_cloud": 6.7,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20231019T021711_R003_T52SBB_20241019T205344",
-   "frame": "2023-10.jpg"
+   "frame": "2023-10.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-10",
+    "frame": "2023-10_delta.png",
+    "valid_frac": 0.949,
+    "flag_frac": 0.0309,
+    "orbit_match": false
+   }
   },
   "2023-11": {
    "date": "2023-11-23",
    "site_clear": 0.987,
-   "scene_cloud": 6.0,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20231123T022009_R003_T52SBB_20241017T032013",
-   "frame": "2023-11.jpg"
+   "frame": "2023-11.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-11",
+    "frame": "2023-11_delta.png",
+    "valid_frac": 0.992,
+    "flag_frac": 0.0162,
+    "orbit_match": false
+   }
   },
   "2023-12": {
    "date": "2023-12-03",
    "site_clear": 0.899,
-   "scene_cloud": 70.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20231203T022049_R003_T52SBB_20241101T190808",
-   "frame": "2023-12.jpg"
+   "frame": "2023-12.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2022-12",
+    "frame": "2023-12_delta.png",
+    "valid_frac": 0.876,
+    "flag_frac": 0.0212,
+    "orbit_match": false
+   }
   },
   "2024-01": {
    "date": "2024-01-27",
    "site_clear": 0.853,
-   "scene_cloud": 46.3,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20240127T021941_R003_T52SBB_20240127T072511",
-   "frame": "2024-01.jpg"
+   "frame": "2024-01.jpg",
+   "from_cache": true,
+   "delta": {
+    "vs": "2023-01",
+    "frame": "2024-01_delta.png",
+    "valid_frac": 0.81,
+    "flag_frac": 0.0341,
+    "orbit_match": false
+   }
   },
   "2024-02": {
    "date": "2024-02-16",
    "site_clear": 0.77,
-   "scene_cloud": 35.3,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20240216T021751_R003_T52SBB_20240216T074418",
    "frame": "2024-02.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-02",
     "frame": "2024-02_delta.png",
@@ -126,10 +490,11 @@
   "2024-03": {
    "date": "2024-04-01",
    "site_clear": 1.0,
-   "scene_cloud": 0.3,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20240401T021529_R003_T52SBB_20240401T061719",
    "frame": "2024-03.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-03",
     "frame": "2024-03_delta.png",
@@ -141,10 +506,11 @@
   "2024-04": {
    "date": "2024-04-01",
    "site_clear": 1.0,
-   "scene_cloud": 0.3,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20240401T021529_R003_T52SBB_20240401T061719",
    "frame": "2024-04.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-04",
     "frame": "2024-04_delta.png",
@@ -156,10 +522,11 @@
   "2024-05": {
    "date": "2024-05-16",
    "site_clear": 1.0,
-   "scene_cloud": 0.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20240516T021611_R003_T52SBB_20240516T100935",
    "frame": "2024-05.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-05",
     "frame": "2024-05_delta.png",
@@ -171,10 +538,11 @@
   "2024-06": {
    "date": "2024-06-10",
    "site_clear": 1.0,
-   "scene_cloud": 27.5,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20240610T021539_R003_T52SBB_20240610T060703",
    "frame": "2024-06.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-06",
     "frame": "2024-06_delta.png",
@@ -186,10 +554,11 @@
   "2024-07": {
    "date": "2024-07-30",
    "site_clear": 0.513,
-   "scene_cloud": 6.9,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20240730T021539_R003_T52SBB_20240730T043418",
    "frame": "2024-07.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-07",
     "frame": "2024-07_delta.png",
@@ -201,18 +570,20 @@
   "2024-08": {
    "date": "2024-08-19",
    "site_clear": 0.394,
-   "scene_cloud": 8.3,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SBB_20240819T042921",
-   "frame": "2024-08.jpg"
+   "frame": "2024-08.jpg",
+   "from_cache": true
   },
   "2024-09": {
    "date": "2024-09-13",
    "site_clear": 0.38,
-   "scene_cloud": 3.6,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20240913T021531_R003_T52SBB_20240913T052851",
    "frame": "2024-09.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-09",
     "frame": "2024-09_delta.png",
@@ -224,10 +595,11 @@
   "2024-10": {
    "date": "2024-10-13",
    "site_clear": 0.86,
-   "scene_cloud": 42.4,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20241013T021631_R003_T52SBB_20241013T072550",
    "frame": "2024-10.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-10",
     "frame": "2024-10_delta.png",
@@ -239,10 +611,11 @@
   "2024-11": {
    "date": "2024-11-12",
    "site_clear": 1.0,
-   "scene_cloud": 2.6,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20241112T021931_R003_T52SBB_20241112T054249",
    "frame": "2024-11.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-11",
     "frame": "2024-11_delta.png",
@@ -254,10 +627,11 @@
   "2024-12": {
    "date": "2024-12-02",
    "site_clear": 1.0,
-   "scene_cloud": 0.3,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20241202T022051_R003_T52SBB_20241202T053450",
    "frame": "2024-12.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2023-12",
     "frame": "2024-12_delta.png",
@@ -269,10 +643,11 @@
   "2025-01": {
    "date": "2025-01-21",
    "site_clear": 0.977,
-   "scene_cloud": 3.9,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20250121T022011_R003_T52SBB_20250121T060253",
    "frame": "2025-01.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-01",
     "frame": "2025-01_delta.png",
@@ -290,10 +665,11 @@
   "2025-03": {
    "date": "2025-04-01",
    "site_clear": 1.0,
-   "scene_cloud": 49.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2C_MSIL2A_20250401T021601_R003_T52SBB_20250401T062213",
    "frame": "2025-03.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-03",
     "frame": "2025-03_delta.png",
@@ -305,10 +681,11 @@
   "2025-04": {
    "date": "2025-04-06",
    "site_clear": 1.0,
-   "scene_cloud": 0.2,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20250406T021529_R003_T52SBB_20250406T041321",
    "frame": "2025-04.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-04",
     "frame": "2025-04_delta.png",
@@ -326,10 +703,11 @@
   "2025-06": {
    "date": "2025-06-05",
    "site_clear": 1.0,
-   "scene_cloud": 8.5,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20250605T021529_R003_T52SBB_20250605T041606",
    "frame": "2025-06.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-06",
     "frame": "2025-06_delta.png",
@@ -341,10 +719,11 @@
   "2025-07": {
    "date": "2025-07-05",
    "site_clear": 1.0,
-   "scene_cloud": 2.9,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20250705T021539_R003_T52SBB_20250705T041322",
    "frame": "2025-07.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-07",
     "frame": "2025-07_delta.png",
@@ -356,10 +735,11 @@
   "2025-08": {
    "date": "2025-08-21",
    "site_clear": 0.868,
-   "scene_cloud": 29.8,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20250821T022131_R003_T52SBB_20250821T073716",
    "frame": "2025-08.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-08",
     "frame": "2025-08_delta.png",
@@ -371,10 +751,11 @@
   "2025-09": {
    "date": "2025-09-03",
    "site_clear": 0.694,
-   "scene_cloud": 15.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20250903T021529_R003_T52SBB_20250903T041538",
    "frame": "2025-09.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-09",
     "frame": "2025-09_delta.png",
@@ -386,10 +767,11 @@
   "2025-10": {
    "date": "2025-10-20",
    "site_clear": 1.0,
-   "scene_cloud": 10.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20251020T022131_R003_T52SBB_20251020T071520",
    "frame": "2025-10.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-10",
     "frame": "2025-10_delta.png",
@@ -401,10 +783,11 @@
   "2025-11": {
    "date": "2025-11-02",
    "site_clear": 0.999,
-   "scene_cloud": 15.7,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20251102T021739_R003_T52SBB_20251102T035526",
    "frame": "2025-11.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-11",
     "frame": "2025-11_delta.png",
@@ -416,10 +799,11 @@
   "2025-12": {
    "date": "2025-12-07",
    "site_clear": 1.0,
-   "scene_cloud": 4.2,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2C_MSIL2A_20251207T022111_R003_T52SBB_20251207T045910",
    "frame": "2025-12.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2024-12",
     "frame": "2025-12_delta.png",
@@ -431,10 +815,11 @@
   "2026-01": {
    "date": "2026-01-31",
    "site_clear": 1.0,
-   "scene_cloud": 64.0,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20260131T021829_R003_T52SBB_20260131T043243",
    "frame": "2026-01.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2025-01",
     "frame": "2026-01_delta.png",
@@ -446,18 +831,20 @@
   "2026-02": {
    "date": "2026-02-15",
    "site_clear": 1.0,
-   "scene_cloud": 6.0,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2C_MSIL2A_20260215T021801_R003_T52SBB_20260215T055410",
-   "frame": "2026-02.jpg"
+   "frame": "2026-02.jpg",
+   "from_cache": true
   },
   "2026-03": {
    "date": "2026-03-12",
    "site_clear": 1.0,
-   "scene_cloud": 10.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20260312T021559_R003_T52SBB_20260312T042433",
    "frame": "2026-03.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2025-03",
     "frame": "2026-03_delta.png",
@@ -469,10 +856,11 @@
   "2026-04": {
    "date": "2026-04-08",
    "site_clear": 1.0,
-   "scene_cloud": 39.2,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2A_MSIL2A_20260408T022131_R003_T52SBB_20260408T055709",
    "frame": "2026-04.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2025-04",
     "frame": "2026-04_delta.png",
@@ -484,18 +872,20 @@
   "2026-05": {
    "date": "2026-05-06",
    "site_clear": 1.0,
-   "scene_cloud": 0.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2C_MSIL2A_20260506T021601_R003_T52SBB_20260506T055524",
-   "frame": "2026-05.jpg"
+   "frame": "2026-05.jpg",
+   "from_cache": true
   },
   "2026-06": {
    "date": "2026-06-10",
    "site_clear": 1.0,
-   "scene_cloud": 27.0,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20260610T021529_R003_T52SBB_20260610T042615",
    "frame": "2026-06.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2025-06",
     "frame": "2026-06_delta.png",
@@ -507,10 +897,11 @@
   "2026-07": {
    "date": "2026-07-25",
    "site_clear": 0.958,
-   "scene_cloud": 6.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2C_MSIL2A_20260725T021531_R003_T52SBB_20260725T054708",
    "frame": "2026-07.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2025-07",
     "frame": "2026-07_delta.png",
@@ -522,10 +913,11 @@
   "2026-08": {
    "date": "2026-08-24",
    "site_clear": 0.927,
-   "scene_cloud": 17.1,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SBB_20260824T054511",
    "frame": "2026-08.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2025-08",
     "frame": "2026-08_delta.png",
@@ -537,10 +929,11 @@
   "2026-09": {
    "date": "2026-09-08",
    "site_clear": 0.994,
-   "scene_cloud": 3.6,
-   "orbit": 3,
+   "scene_cloud": null,
+   "orbit": null,
    "item_id": "S2B_MSIL2A_20260908T021529_R003_T52SBB_20260908T042509",
    "frame": "2026-09.jpg",
+   "from_cache": true,
    "delta": {
     "vs": "2025-09",
     "frame": "2026-09_delta.png",

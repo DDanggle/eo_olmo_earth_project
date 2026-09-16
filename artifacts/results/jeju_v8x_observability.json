@@ -1,0 +1,6855 @@
+{
+ "schema": "jeju-v8-observability-v1",
+ "contract": "jeju_v8x",
+ "contract_sha256": "1018ad11c9bd222a527346f7dbc92d56ee555b379da3ea35e13463c7200c434e",
+ "script_sha256": "bcdef06456aa9c5252a9b6e922a05bd451bd1971b5fc2d34313261b4453c835c",
+ "rule": {
+  "scl_clear_classes": [
+   4,
+   5,
+   6,
+   7
+  ],
+  "scl_clear_note": "눈(11) 제외 — 8~9월 제주에 눈은 없고 그 라벨은 밝은 표면의 오분류다",
+  "token_ground_m": 40,
+  "patch_size": 4,
+  "token_bad_pixel_frac": 0.5,
+  "min_valid_token_frac": 0.2
+ },
+ "claims": {
+  "denominator": "프레임 A 243곳. abstain 은 분모에서 빼지 않는다.",
+  "forbidden": [
+   "관측 불가를 '변화 없음' 으로 표시",
+   "abstain 한 곳에 점수 부여"
+  ]
+ },
+ "summary": {
+  "frame_a_total": 243,
+  "cubes_present": 243,
+  "cubes_missing": [],
+  "observable_by_year": {
+   "2021": 225,
+   "2022": 237,
+   "2023": 194,
+   "2024": 237,
+   "2025": 193,
+   "2026": 236
+  },
+  "observable_by_pair": {
+   "event": 187,
+   "null_temporal_primary": 191,
+   "null_temporal_secondary": 192,
+   "null_2021_2022": 219,
+   "null_2022_2023": 188
+  },
+  "scorable": 187,
+  "abstain": 56,
+  "event_and_primary_null": 185
+ },
+ "sites": {
+  "JJ-OREUM-001": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.9277,
+    "2022": 0.7822,
+    "2023": 0.999,
+    "2024": 0.8342,
+    "2025": 0.0,
+    "2026": 0.9697
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-005": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.6299,
+    "2022": 0.9973,
+    "2023": 0.071,
+    "2024": 0.2288,
+    "2025": 0.0037,
+    "2026": 0.8301
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-007": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4836,
+    "2022": 0.9421,
+    "2023": 0.0908,
+    "2024": 0.8394,
+    "2025": 0.9998,
+    "2026": 0.3306
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-008": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.833,
+    "2022": 0.1643,
+    "2023": 0.3704,
+    "2024": 0.9951,
+    "2025": 0.385,
+    "2026": 0.9307
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": false,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-009": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1199,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 0.8921,
+    "2025": 1.0,
+    "2026": 0.8733
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-010": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.916,
+    "2022": 0.8926,
+    "2023": 1.0,
+    "2024": 0.9717,
+    "2025": 0.7336,
+    "2026": 0.6174
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-011": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3157,
+    "2022": 1.0,
+    "2023": 0.4033,
+    "2024": 0.6492,
+    "2025": 0.5964,
+    "2026": 0.9329
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-012": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1843,
+    "2022": 1.0,
+    "2023": 0.3325,
+    "2024": 0.7966,
+    "2025": 0.9272,
+    "2026": 0.8162
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-013": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.5737,
+    "2022": 0.9951,
+    "2023": 0.3833,
+    "2024": 0.6807,
+    "2025": 0.6909,
+    "2026": 0.978
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-016": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.3494,
+    "2022": 0.4619,
+    "2023": 0.4585,
+    "2024": 0.7683,
+    "2025": 0.9995,
+    "2026": 0.7258
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-019": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4189,
+    "2022": 1.0,
+    "2023": 0.042,
+    "2024": 0.8892,
+    "2025": 0.0823,
+    "2026": 0.3267
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-020": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9463,
+    "2022": 0.9275,
+    "2023": 0.999,
+    "2024": 0.3833,
+    "2025": 0.6028,
+    "2026": 0.9985
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-021": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3577,
+    "2022": 0.7444,
+    "2023": 0.9006,
+    "2024": 0.5667,
+    "2025": 0.0022,
+    "2026": 0.9741
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-022": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3167,
+    "2022": 0.7607,
+    "2023": 0.3162,
+    "2024": 0.4817,
+    "2025": 0.8784,
+    "2026": 0.8157
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-024": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3296,
+    "2022": 0.7896,
+    "2023": 0.9062,
+    "2024": 0.7241,
+    "2025": 0.0,
+    "2026": 0.9692
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-025": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6665,
+    "2022": 0.4868,
+    "2023": 0.7649,
+    "2024": 0.938,
+    "2025": 0.0903,
+    "2026": 0.9998
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-026": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1082,
+    "2022": 1.0,
+    "2023": 0.7146,
+    "2024": 0.9082,
+    "2025": 1.0,
+    "2026": 0.0359
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": false
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2026"
+  },
+  "JJ-OREUM-027": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.5498,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 0.9954,
+    "2025": 1.0,
+    "2026": 0.9641
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-031": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9995,
+    "2022": 1.0,
+    "2023": 0.9373,
+    "2024": 0.5918,
+    "2025": 0.1963,
+    "2026": 0.8281
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-032": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9939,
+    "2022": 0.6047,
+    "2023": 0.3398,
+    "2024": 0.999,
+    "2025": 0.24,
+    "2026": 0.5591
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-033": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4197,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 0.9949,
+    "2025": 1.0,
+    "2026": 0.9805
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-034": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9661,
+    "2022": 0.5276,
+    "2023": 0.9482,
+    "2024": 0.9963,
+    "2025": 0.2505,
+    "2026": 0.6575
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-036": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3208,
+    "2022": 0.9929,
+    "2023": 0.7927,
+    "2024": 0.5488,
+    "2025": 0.9824,
+    "2026": 0.8657
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-039": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.8042,
+    "2022": 0.3025,
+    "2023": 0.8103,
+    "2024": 0.8262,
+    "2025": 0.8279,
+    "2026": 0.8276
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-040": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.999,
+    "2022": 0.8569,
+    "2023": 0.2141,
+    "2024": 0.9915,
+    "2025": 0.8013,
+    "2026": 0.7595
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-041": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.4995,
+    "2022": 0.782,
+    "2023": 0.4663,
+    "2024": 0.2168,
+    "2025": 0.2253,
+    "2026": 0.8691
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-043": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9788,
+    "2022": 0.9641,
+    "2023": 0.9583,
+    "2024": 0.9634,
+    "2025": 0.9077,
+    "2026": 0.8413
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-045": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.5962,
+    "2022": 0.8594,
+    "2023": 0.0725,
+    "2024": 0.2417,
+    "2025": 0.002,
+    "2026": 0.675
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-047": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9609,
+    "2022": 1.0,
+    "2023": 0.9983,
+    "2024": 1.0,
+    "2025": 0.9446,
+    "2026": 0.999
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-048": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.7822,
+    "2022": 0.6968,
+    "2023": 0.9998,
+    "2024": 0.6436,
+    "2025": 0.0027,
+    "2026": 0.6658
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-049": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2561,
+    "2022": 0.6833,
+    "2023": 0.5784,
+    "2024": 0.7344,
+    "2025": 0.9829,
+    "2026": 0.863
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-050": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.8962,
+    "2022": 1.0,
+    "2023": 0.9355,
+    "2024": 1.0,
+    "2025": 1.0,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-052": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4214,
+    "2022": 0.9875,
+    "2023": 0.0032,
+    "2024": 0.3071,
+    "2025": 0.2397,
+    "2026": 0.811
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-053": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9639,
+    "2022": 0.7009,
+    "2023": 0.5759,
+    "2024": 0.813,
+    "2025": 0.7952,
+    "2026": 0.0974
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": false
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2026"
+  },
+  "JJ-OREUM-055": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.9812,
+    "2022": 0.6982,
+    "2023": 0.9983,
+    "2024": 0.2522,
+    "2025": 0.0029,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-056": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.9377,
+    "2022": 0.1694,
+    "2023": 0.3459,
+    "2024": 0.5144,
+    "2025": 0.248,
+    "2026": 0.7371
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": false,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-059": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6331,
+    "2022": 0.9932,
+    "2023": 0.6638,
+    "2024": 0.8337,
+    "2025": 0.9844,
+    "2026": 0.7893
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-060": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1624,
+    "2022": 1.0,
+    "2023": 0.78,
+    "2024": 0.8796,
+    "2025": 1.0,
+    "2026": 0.1196
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": false
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2026"
+  },
+  "JJ-OREUM-061": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.8899,
+    "2022": 0.7153,
+    "2023": 0.2832,
+    "2024": 0.2815,
+    "2025": 0.2222,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-065": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.425,
+    "2022": 0.9985,
+    "2023": 0.1072,
+    "2024": 0.6782,
+    "2025": 0.9658,
+    "2026": 0.802
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-070": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9983,
+    "2022": 1.0,
+    "2023": 0.563,
+    "2024": 0.5569,
+    "2025": 0.5854,
+    "2026": 0.6694
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-072": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.4951,
+    "2022": 0.8801,
+    "2023": 0.3394,
+    "2024": 0.9998,
+    "2025": 0.0447,
+    "2026": 0.3921
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-073": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.6404,
+    "2022": 1.0,
+    "2023": 0.4219,
+    "2024": 0.9907,
+    "2025": 0.0127,
+    "2026": 0.3931
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-074": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1877,
+    "2022": 1.0,
+    "2023": 0.0012,
+    "2024": 0.2915,
+    "2025": 0.5103,
+    "2026": 0.6223
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-075": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9839,
+    "2022": 1.0,
+    "2023": 0.999,
+    "2024": 1.0,
+    "2025": 0.3979,
+    "2026": 0.9961
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-077": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2212,
+    "2022": 0.7229,
+    "2023": 0.2493,
+    "2024": 0.3545,
+    "2025": 0.5803,
+    "2026": 0.7449
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-079": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9978,
+    "2022": 0.614,
+    "2023": 0.8792,
+    "2024": 0.385,
+    "2025": 0.835,
+    "2026": 0.9058
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-081": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9941,
+    "2022": 0.4128,
+    "2023": 0.6328,
+    "2024": 1.0,
+    "2025": 0.7195,
+    "2026": 0.5208
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-082": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 1.0,
+    "2022": 0.7427,
+    "2023": 0.3418,
+    "2024": 0.8418,
+    "2025": 0.6187,
+    "2026": 0.7776
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-083": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9001,
+    "2022": 0.4961,
+    "2023": 0.9897,
+    "2024": 0.4199,
+    "2025": 0.5825,
+    "2026": 0.6304
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-085": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9993,
+    "2022": 1.0,
+    "2023": 0.0542,
+    "2024": 0.978,
+    "2025": 0.0398,
+    "2026": 0.0283
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": false
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025, 2026"
+  },
+  "JJ-OREUM-086": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3018,
+    "2022": 0.8694,
+    "2023": 0.4756,
+    "2024": 0.8181,
+    "2025": 0.0156,
+    "2026": 0.9087
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-090": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.8796,
+    "2022": 0.8687,
+    "2023": 0.8884,
+    "2024": 0.24,
+    "2025": 0.0,
+    "2026": 0.8909
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-092": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.8401,
+    "2022": 0.9014,
+    "2023": 0.5918,
+    "2024": 0.9902,
+    "2025": 0.3081,
+    "2026": 0.7109
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-093": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.7429,
+    "2022": 0.9365,
+    "2023": 0.6304,
+    "2024": 0.9951,
+    "2025": 0.4224,
+    "2026": 0.7651
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-094": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9272,
+    "2022": 0.8521,
+    "2023": 1.0,
+    "2024": 1.0,
+    "2025": 0.7107,
+    "2026": 0.6211
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-095": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.615,
+    "2022": 0.821,
+    "2023": 0.5024,
+    "2024": 0.1951,
+    "2025": 0.075,
+    "2026": 0.9058
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": false,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-096": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.7979,
+    "2022": 0.843,
+    "2023": 0.3594,
+    "2024": 0.8477,
+    "2025": 0.9102,
+    "2026": 0.9963
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-097": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.345,
+    "2022": 0.9995,
+    "2023": 0.7957,
+    "2024": 0.6309,
+    "2025": 0.8308,
+    "2026": 0.3362
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-099": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9595,
+    "2022": 1.0,
+    "2023": 0.9966,
+    "2024": 0.6995,
+    "2025": 0.0117,
+    "2026": 0.748
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-100": {
+   "tile": "52SCC",
+   "valid_token_fraction": {
+    "2021": 0.3774,
+    "2022": 0.8987,
+    "2023": 0.1941,
+    "2024": 1.0,
+    "2025": 0.8188,
+    "2026": 0.803
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-101": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.0305,
+    "2022": 0.9629,
+    "2023": 0.7576,
+    "2024": 0.5801,
+    "2025": 0.9746,
+    "2026": 0.6689
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-102": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6013,
+    "2022": 0.4395,
+    "2023": 0.9692,
+    "2024": 0.5989,
+    "2025": 0.3982,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-104": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.8765,
+    "2022": 0.801,
+    "2023": 0.9856,
+    "2024": 0.7112,
+    "2025": 0.4771,
+    "2026": 0.8875
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-105": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9761,
+    "2022": 0.7773,
+    "2023": 0.9592,
+    "2024": 0.9919,
+    "2025": 0.9802,
+    "2026": 0.9917
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-106": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.0813,
+    "2022": 0.9995,
+    "2023": 0.0847,
+    "2024": 1.0,
+    "2025": 0.9675,
+    "2026": 0.9033
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-107": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9221,
+    "2022": 1.0,
+    "2023": 0.5015,
+    "2024": 0.9998,
+    "2025": 1.0,
+    "2026": 0.769
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-108": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.4087,
+    "2022": 0.9087,
+    "2023": 0.3923,
+    "2024": 0.95,
+    "2025": 0.2605,
+    "2026": 0.7456
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-110": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9392,
+    "2022": 1.0,
+    "2023": 0.9978,
+    "2024": 1.0,
+    "2025": 0.3809,
+    "2026": 0.4377
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-112": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9753,
+    "2022": 0.7688,
+    "2023": 0.9985,
+    "2024": 0.9993,
+    "2025": 0.7229,
+    "2026": 0.5132
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-113": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.8911,
+    "2022": 0.9604,
+    "2023": 0.9089,
+    "2024": 0.9031,
+    "2025": 0.0425,
+    "2026": 0.9995
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-114": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3772,
+    "2022": 0.9143,
+    "2023": 0.0015,
+    "2024": 0.4578,
+    "2025": 0.7522,
+    "2026": 0.5156
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-115": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.9907,
+    "2022": 0.8862,
+    "2023": 0.7693,
+    "2024": 0.9695,
+    "2025": 0.5251,
+    "2026": 0.9985
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-118": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.7883,
+    "2022": 0.9634,
+    "2023": 0.0171,
+    "2024": 0.4033,
+    "2025": 0.0327,
+    "2026": 0.842
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-119": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9053,
+    "2022": 0.7336,
+    "2023": 0.4797,
+    "2024": 0.5894,
+    "2025": 0.019,
+    "2026": 0.9739
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-122": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.2227,
+    "2022": 1.0,
+    "2023": 0.429,
+    "2024": 0.5676,
+    "2025": 0.5334,
+    "2026": 0.6775
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-123": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.8162,
+    "2022": 1.0,
+    "2023": 0.9998,
+    "2024": 0.9751,
+    "2025": 0.0527,
+    "2026": 0.4031
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-124": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9919,
+    "2022": 0.5886,
+    "2023": 0.998,
+    "2024": 0.7012,
+    "2025": 0.3867,
+    "2026": 0.9993
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-125": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3579,
+    "2022": 0.8052,
+    "2023": 0.1204,
+    "2024": 0.4292,
+    "2025": 0.269,
+    "2026": 0.7358
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-126": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3899,
+    "2022": 0.9172,
+    "2023": 0.0107,
+    "2024": 0.3428,
+    "2025": 0.0027,
+    "2026": 0.5901
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-127": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9795,
+    "2022": 0.9397,
+    "2023": 0.9851,
+    "2024": 0.9714,
+    "2025": 0.4646,
+    "2026": 0.5457
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-128": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9514,
+    "2022": 1.0,
+    "2023": 0.6606,
+    "2024": 0.9302,
+    "2025": 0.6802,
+    "2026": 0.5942
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-129": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.9736,
+    "2022": 0.2515,
+    "2023": 0.9978,
+    "2024": 0.9021,
+    "2025": 0.9985,
+    "2026": 0.9954
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-130": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4023,
+    "2022": 0.9963,
+    "2023": 0.0117,
+    "2024": 0.5696,
+    "2025": 0.2476,
+    "2026": 0.7759
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-131": {
+   "tile": "52SCC",
+   "valid_token_fraction": {
+    "2021": 0.854,
+    "2022": 0.9968,
+    "2023": 0.5142,
+    "2024": 0.9976,
+    "2025": 0.9976,
+    "2026": 0.9905
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-132": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9585,
+    "2022": 0.9995,
+    "2023": 1.0,
+    "2024": 0.9998,
+    "2025": 1.0,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-133": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1038,
+    "2022": 0.9998,
+    "2023": 0.033,
+    "2024": 1.0,
+    "2025": 0.9731,
+    "2026": 0.9014
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-134": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4878,
+    "2022": 0.9985,
+    "2023": 0.0012,
+    "2024": 0.8176,
+    "2025": 0.9707,
+    "2026": 0.8726
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-135": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.7285,
+    "2022": 0.406,
+    "2023": 0.7317,
+    "2024": 0.9583,
+    "2025": 0.9985,
+    "2026": 0.998
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-137": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.5872,
+    "2022": 1.0,
+    "2023": 0.5889,
+    "2024": 0.8149,
+    "2025": 0.9995,
+    "2026": 0.8318
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-139": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.8928,
+    "2022": 0.2883,
+    "2023": 0.47,
+    "2024": 0.9939,
+    "2025": 0.1238,
+    "2026": 0.9985
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-140": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.2458,
+    "2022": 1.0,
+    "2023": 0.5579,
+    "2024": 0.585,
+    "2025": 0.4497,
+    "2026": 0.4773
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-143": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9753,
+    "2022": 0.8662,
+    "2023": 0.946,
+    "2024": 0.6824,
+    "2025": 0.4946,
+    "2026": 0.7656
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-144": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2166,
+    "2022": 0.7678,
+    "2023": 0.2493,
+    "2024": 0.4749,
+    "2025": 0.8567,
+    "2026": 0.8303
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-146": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4578,
+    "2022": 0.9558,
+    "2023": 0.0115,
+    "2024": 0.209,
+    "2025": 0.8813,
+    "2026": 0.5161
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-147": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.2502,
+    "2022": 0.9458,
+    "2023": 0.0,
+    "2024": 0.24,
+    "2025": 0.0049,
+    "2026": 0.7886
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-148": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.6709,
+    "2022": 0.9529,
+    "2023": 0.2717,
+    "2024": 0.519,
+    "2025": 0.0286,
+    "2026": 0.8076
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-149": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4365,
+    "2022": 0.9919,
+    "2023": 0.0032,
+    "2024": 0.4456,
+    "2025": 0.1611,
+    "2026": 0.6887
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-153": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.292,
+    "2022": 1.0,
+    "2023": 0.0,
+    "2024": 0.3794,
+    "2025": 0.9792,
+    "2026": 0.6125
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-154": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6406,
+    "2022": 0.9514,
+    "2023": 0.6978,
+    "2024": 0.6294,
+    "2025": 0.334,
+    "2026": 0.9951
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-155": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9985,
+    "2022": 0.8372,
+    "2023": 0.2759,
+    "2024": 0.9998,
+    "2025": 0.3943,
+    "2026": 0.9377
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-156": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3818,
+    "2022": 0.5083,
+    "2023": 0.9763,
+    "2024": 0.4409,
+    "2025": 0.2449,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-157": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.4978,
+    "2022": 0.9131,
+    "2023": 0.8577,
+    "2024": 0.7615,
+    "2025": 0.1616,
+    "2026": 0.9661
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-158": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.8621,
+    "2022": 0.8159,
+    "2023": 0.6223,
+    "2024": 0.873,
+    "2025": 0.6626,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-159": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9993,
+    "2022": 0.8062,
+    "2023": 0.8748,
+    "2024": 0.3025,
+    "2025": 0.6079,
+    "2026": 0.9578
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-160": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9475,
+    "2022": 0.9934,
+    "2023": 0.999,
+    "2024": 0.3774,
+    "2025": 0.324,
+    "2026": 0.9983
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-161": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.6392,
+    "2022": 0.1692,
+    "2023": 0.4102,
+    "2024": 0.863,
+    "2025": 0.9998,
+    "2026": 0.9995
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": false,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-162": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9937,
+    "2022": 0.7534,
+    "2023": 0.906,
+    "2024": 0.8669,
+    "2025": 0.9009,
+    "2026": 0.7512
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-163": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 1.0,
+    "2022": 0.5908,
+    "2023": 0.0652,
+    "2024": 1.0,
+    "2025": 0.1028,
+    "2026": 0.625
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-164": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6277,
+    "2022": 0.907,
+    "2023": 0.7776,
+    "2024": 0.4861,
+    "2025": 0.0034,
+    "2026": 0.9463
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-165": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9958,
+    "2022": 0.6641,
+    "2023": 0.1016,
+    "2024": 0.9998,
+    "2025": 0.7502,
+    "2026": 0.6355
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-167": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.5767,
+    "2022": 0.5107,
+    "2023": 0.9319,
+    "2024": 0.4712,
+    "2025": 0.1821,
+    "2026": 0.9978
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-169": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.5903,
+    "2022": 0.4685,
+    "2023": 0.6934,
+    "2024": 0.8853,
+    "2025": 1.0,
+    "2026": 0.9973
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-170": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2419,
+    "2022": 0.9224,
+    "2023": 0.2378,
+    "2024": 0.5327,
+    "2025": 0.7134,
+    "2026": 0.9438
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-171": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.2222,
+    "2022": 0.9731,
+    "2023": 0.0754,
+    "2024": 0.4138,
+    "2025": 0.3838,
+    "2026": 0.6921
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-175": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.8762,
+    "2022": 0.9756,
+    "2023": 0.9829,
+    "2024": 0.9922,
+    "2025": 0.9478,
+    "2026": 0.9929
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-176": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.2415,
+    "2022": 0.9722,
+    "2023": 0.0549,
+    "2024": 0.2925,
+    "2025": 0.3701,
+    "2026": 0.6689
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-179": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.0615,
+    "2022": 0.9402,
+    "2023": 0.0,
+    "2024": 0.4399,
+    "2025": 0.8274,
+    "2026": 0.6321
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-180": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3894,
+    "2022": 1.0,
+    "2023": 0.7507,
+    "2024": 0.9126,
+    "2025": 0.9729,
+    "2026": 0.814
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-181": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.8828,
+    "2022": 1.0,
+    "2023": 0.7029,
+    "2024": 1.0,
+    "2025": 0.2383,
+    "2026": 0.9834
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-183": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.303,
+    "2022": 0.7424,
+    "2023": 0.9768,
+    "2024": 0.604,
+    "2025": 0.0725,
+    "2026": 0.9934
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-184": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2649,
+    "2022": 0.8176,
+    "2023": 0.9165,
+    "2024": 0.6475,
+    "2025": 0.0059,
+    "2026": 0.9521
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-187": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9285,
+    "2022": 0.9204,
+    "2023": 0.999,
+    "2024": 0.2876,
+    "2025": 0.7119,
+    "2026": 0.9985
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-188": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6423,
+    "2022": 0.814,
+    "2023": 0.4177,
+    "2024": 0.6758,
+    "2025": 0.2744,
+    "2026": 0.9741
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-189": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.7336,
+    "2022": 1.0,
+    "2023": 0.0947,
+    "2024": 0.2861,
+    "2025": 0.0972,
+    "2026": 0.7817
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-190": {
+   "tile": "52SCC",
+   "valid_token_fraction": {
+    "2021": 0.73,
+    "2022": 0.9492,
+    "2023": 0.645,
+    "2024": 0.9998,
+    "2025": 0.9998,
+    "2026": 0.9651
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-191": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.6091,
+    "2022": 0.9858,
+    "2023": 0.0388,
+    "2024": 0.1921,
+    "2025": 0.0,
+    "2026": 0.6819
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": false,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-193": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.8059,
+    "2022": 0.8779,
+    "2023": 0.9978,
+    "2024": 0.9695,
+    "2025": 0.2856,
+    "2026": 0.5837
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-194": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.5125,
+    "2022": 0.9756,
+    "2023": 0.5129,
+    "2024": 0.6516,
+    "2025": 0.5452,
+    "2026": 0.9951
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-195": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9268,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 0.9998,
+    "2025": 0.3032,
+    "2026": 0.7542
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-196": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.8618,
+    "2022": 0.8848,
+    "2023": 0.9626,
+    "2024": 0.9893,
+    "2025": 0.9648,
+    "2026": 0.9861
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-197": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.165,
+    "2022": 1.0,
+    "2023": 0.0,
+    "2024": 0.0142,
+    "2025": 0.0002,
+    "2026": 0.8049
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": false,
+    "2024": false,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-198": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3987,
+    "2022": 1.0,
+    "2023": 0.0847,
+    "2024": 0.6875,
+    "2025": 0.9829,
+    "2026": 0.6965
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-199": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4629,
+    "2022": 1.0,
+    "2023": 0.0828,
+    "2024": 0.6211,
+    "2025": 1.0,
+    "2026": 0.5959
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-200": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 1.0,
+    "2022": 1.0,
+    "2023": 0.4395,
+    "2024": 0.7615,
+    "2025": 0.8691,
+    "2026": 0.2705
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-203": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.7031,
+    "2022": 0.385,
+    "2023": 0.3635,
+    "2024": 0.7024,
+    "2025": 0.625,
+    "2026": 0.1389
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": false
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2026"
+  },
+  "JJ-OREUM-204": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 1.0,
+    "2022": 1.0,
+    "2023": 0.7019,
+    "2024": 0.7285,
+    "2025": 0.3479,
+    "2026": 0.5381
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-205": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9419,
+    "2022": 0.9885,
+    "2023": 0.4282,
+    "2024": 0.9214,
+    "2025": 0.6453,
+    "2026": 0.4185
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-206": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.7217,
+    "2022": 0.9897,
+    "2023": 0.9993,
+    "2024": 0.9993,
+    "2025": 0.9993,
+    "2026": 0.9993
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-211": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 1.0,
+    "2022": 1.0,
+    "2023": 0.9224,
+    "2024": 0.8027,
+    "2025": 0.3232,
+    "2026": 0.8562
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-212": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9985,
+    "2022": 0.8716,
+    "2023": 0.3059,
+    "2024": 0.9683,
+    "2025": 0.8416,
+    "2026": 0.7195
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-213": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.2822,
+    "2022": 1.0,
+    "2023": 0.6958,
+    "2024": 0.5696,
+    "2025": 0.6345,
+    "2026": 0.698
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-214": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.97,
+    "2022": 0.1907,
+    "2023": 0.6987,
+    "2024": 0.4443,
+    "2025": 0.8523,
+    "2026": 0.9524
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": false,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-215": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.8699,
+    "2022": 0.7173,
+    "2023": 0.999,
+    "2024": 0.428,
+    "2025": 0.0,
+    "2026": 0.551
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-218": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.9639,
+    "2022": 0.2983,
+    "2023": 0.9907,
+    "2024": 0.9507,
+    "2025": 0.9988,
+    "2026": 0.9961
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-220": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9878,
+    "2022": 0.9578,
+    "2023": 0.2703,
+    "2024": 1.0,
+    "2025": 0.312,
+    "2026": 0.2817
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-222": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9053,
+    "2022": 0.3606,
+    "2023": 0.9419,
+    "2024": 0.8267,
+    "2025": 0.9858,
+    "2026": 0.8545
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-223": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.3926,
+    "2022": 0.3784,
+    "2023": 0.4709,
+    "2024": 0.7576,
+    "2025": 0.9995,
+    "2026": 0.8367
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-225": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.2375,
+    "2022": 1.0,
+    "2023": 0.4521,
+    "2024": 0.7188,
+    "2025": 0.9194,
+    "2026": 0.9019
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-227": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.9824,
+    "2022": 0.9561,
+    "2023": 0.5386,
+    "2024": 0.9971,
+    "2025": 0.5771,
+    "2026": 0.9985
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-228": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1348,
+    "2022": 1.0,
+    "2023": 0.0005,
+    "2024": 0.1133,
+    "2025": 0.0012,
+    "2026": 0.8865
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": false,
+    "2024": false,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-229": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.4456,
+    "2022": 0.9978,
+    "2023": 0.4683,
+    "2024": 0.6294,
+    "2025": 0.6663,
+    "2026": 0.9653
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-230": {
+   "tile": "52SCC",
+   "valid_token_fraction": {
+    "2021": 0.8958,
+    "2022": 0.9932,
+    "2023": 0.7014,
+    "2024": 0.9924,
+    "2025": 0.9944,
+    "2026": 0.9932
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-231": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.4175,
+    "2022": 0.9636,
+    "2023": 0.845,
+    "2024": 0.7092,
+    "2025": 0.0259,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-232": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.6685,
+    "2022": 0.2798,
+    "2023": 0.2397,
+    "2024": 0.2114,
+    "2025": 0.4285,
+    "2026": 0.5513
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-234": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.8184,
+    "2022": 0.7688,
+    "2023": 0.793,
+    "2024": 0.9636,
+    "2025": 0.8918,
+    "2026": 0.9475
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-235": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3394,
+    "2022": 0.9995,
+    "2023": 0.7024,
+    "2024": 0.6155,
+    "2025": 0.9099,
+    "2026": 0.3247
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-236": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9246,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 0.8245,
+    "2025": 0.0107,
+    "2026": 0.6479
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-237": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.999,
+    "2022": 0.9517,
+    "2023": 0.2595,
+    "2024": 1.0,
+    "2025": 0.4578,
+    "2026": 0.3452
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-238": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4141,
+    "2022": 0.9978,
+    "2023": 0.0,
+    "2024": 0.7517,
+    "2025": 0.98,
+    "2026": 0.8784
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-239": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.4177,
+    "2022": 0.9417,
+    "2023": 0.3821,
+    "2024": 1.0,
+    "2025": 0.4429,
+    "2026": 0.9802
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-240": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.0754,
+    "2022": 0.8672,
+    "2023": 0.5996,
+    "2024": 0.583,
+    "2025": 0.9434,
+    "2026": 0.6008
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-241": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2249,
+    "2022": 0.8896,
+    "2023": 0.4358,
+    "2024": 0.7891,
+    "2025": 0.8025,
+    "2026": 0.9536
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-242": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.7732,
+    "2022": 0.6646,
+    "2023": 0.6892,
+    "2024": 0.4604,
+    "2025": 0.3276,
+    "2026": 0.7803
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-243": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.9922,
+    "2022": 0.9802,
+    "2023": 0.7617,
+    "2024": 0.9993,
+    "2025": 0.7666,
+    "2026": 0.9985
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-245": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3279,
+    "2022": 1.0,
+    "2023": 0.6709,
+    "2024": 0.4521,
+    "2025": 0.9995,
+    "2026": 0.2771
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-246": {
+   "tile": "51SYS",
+   "valid_token_fraction": {
+    "2021": 0.5706,
+    "2022": 0.9875,
+    "2023": 0.8359,
+    "2024": 0.9858,
+    "2025": 0.5269,
+    "2026": 0.4211
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-248": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3438,
+    "2022": 0.9136,
+    "2023": 0.3276,
+    "2024": 0.5505,
+    "2025": 0.6899,
+    "2026": 0.2415
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-249": {
+   "tile": "52SCC",
+   "valid_token_fraction": {
+    "2021": 0.6516,
+    "2022": 0.8013,
+    "2023": 0.3779,
+    "2024": 0.9978,
+    "2025": 0.9983,
+    "2026": 0.5955
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-251": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9019,
+    "2022": 1.0,
+    "2023": 0.9995,
+    "2024": 1.0,
+    "2025": 0.8931,
+    "2026": 0.999
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-254": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2422,
+    "2022": 0.8376,
+    "2023": 0.6345,
+    "2024": 0.7539,
+    "2025": 0.095,
+    "2026": 0.9995
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-255": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.4231,
+    "2022": 0.8203,
+    "2023": 0.4709,
+    "2024": 0.3877,
+    "2025": 0.6006,
+    "2026": 0.9697
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-257": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.5735,
+    "2022": 0.8806,
+    "2023": 0.8855,
+    "2024": 0.6196,
+    "2025": 0.0,
+    "2026": 0.9573
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-258": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9897,
+    "2022": 0.5361,
+    "2023": 0.1785,
+    "2024": 0.9998,
+    "2025": 0.8086,
+    "2026": 0.6963
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-260": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9438,
+    "2022": 0.9592,
+    "2023": 0.8254,
+    "2024": 0.3149,
+    "2025": 0.4314,
+    "2026": 0.9795
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-261": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.7322,
+    "2022": 0.7888,
+    "2023": 0.4265,
+    "2024": 0.4319,
+    "2025": 0.0078,
+    "2026": 0.7739
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-262": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.7083,
+    "2022": 0.9846,
+    "2023": 0.2432,
+    "2024": 0.719,
+    "2025": 0.8459,
+    "2026": 0.999
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-263": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.271,
+    "2022": 0.998,
+    "2023": 0.228,
+    "2024": 0.7051,
+    "2025": 0.8367,
+    "2026": 0.584
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-266": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.8657,
+    "2022": 0.9578,
+    "2023": 0.98,
+    "2024": 0.9922,
+    "2025": 0.9541,
+    "2026": 0.9917
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-268": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9536,
+    "2022": 0.8472,
+    "2023": 0.0156,
+    "2024": 0.9126,
+    "2025": 0.5925,
+    "2026": 0.9497
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-269": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.9507,
+    "2022": 0.0286,
+    "2023": 0.7175,
+    "2024": 0.9966,
+    "2025": 0.9998,
+    "2026": 0.9971
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": false,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-270": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9705,
+    "2022": 1.0,
+    "2023": 0.822,
+    "2024": 0.9993,
+    "2025": 0.3777,
+    "2026": 0.8618
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-271": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9993,
+    "2022": 0.9993,
+    "2023": 0.0518,
+    "2024": 0.689,
+    "2025": 0.7188,
+    "2026": 0.04
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": false
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2026"
+  },
+  "JJ-OREUM-272": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.4087,
+    "2022": 0.4844,
+    "2023": 0.4844,
+    "2024": 0.4844,
+    "2025": 0.1013,
+    "2026": 0.3447
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-273": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.5042,
+    "2022": 0.9983,
+    "2023": 0.0791,
+    "2024": 0.8098,
+    "2025": 0.2666,
+    "2026": 0.3857
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-274": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4861,
+    "2022": 1.0,
+    "2023": 0.0105,
+    "2024": 0.2612,
+    "2025": 0.0784,
+    "2026": 0.8938
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-275": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3904,
+    "2022": 0.9465,
+    "2023": 0.1941,
+    "2024": 0.2629,
+    "2025": 0.8933,
+    "2026": 0.9834
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-276": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.354,
+    "2022": 0.9998,
+    "2023": 0.0,
+    "2024": 0.407,
+    "2025": 0.5229,
+    "2026": 0.74
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-277": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9993,
+    "2022": 1.0,
+    "2023": 0.2493,
+    "2024": 1.0,
+    "2025": 0.0,
+    "2026": 0.23
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-278": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9973,
+    "2022": 0.6221,
+    "2023": 0.1479,
+    "2024": 0.9995,
+    "2025": 0.9526,
+    "2026": 0.4595
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-280": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.198,
+    "2022": 1.0,
+    "2023": 0.8508,
+    "2024": 0.8679,
+    "2025": 0.5288,
+    "2026": 0.8408
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-281": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1138,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 0.5984,
+    "2025": 1.0,
+    "2026": 0.5603
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-282": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3923,
+    "2022": 0.9985,
+    "2023": 1.0,
+    "2024": 0.9998,
+    "2025": 0.8528,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-283": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 1.0,
+    "2022": 0.7864,
+    "2023": 0.0864,
+    "2024": 0.9993,
+    "2025": 0.8542,
+    "2026": 0.7207
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-286": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.8818,
+    "2022": 0.9863,
+    "2023": 0.3088,
+    "2024": 0.9434,
+    "2025": 0.5251,
+    "2026": 0.4336
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-288": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.8467,
+    "2022": 0.8782,
+    "2023": 0.9993,
+    "2024": 1.0,
+    "2025": 0.5605,
+    "2026": 0.6289
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-289": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.0784,
+    "2022": 0.8403,
+    "2023": 0.4658,
+    "2024": 0.8411,
+    "2025": 0.6108,
+    "2026": 0.9646
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-292": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.749,
+    "2022": 0.7576,
+    "2023": 0.4839,
+    "2024": 0.6655,
+    "2025": 0.3887,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-293": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.6567,
+    "2022": 1.0,
+    "2023": 0.97,
+    "2024": 0.9631,
+    "2025": 0.9998,
+    "2026": 0.9939
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-294": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.29,
+    "2022": 0.8174,
+    "2023": 0.3286,
+    "2024": 0.7688,
+    "2025": 0.3171,
+    "2026": 0.9995
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-295": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3989,
+    "2022": 0.9863,
+    "2023": 0.4763,
+    "2024": 0.8196,
+    "2025": 0.8477,
+    "2026": 0.8462
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-298": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9912,
+    "2022": 0.9966,
+    "2023": 0.886,
+    "2024": 0.9956,
+    "2025": 0.9922,
+    "2026": 0.7935
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-300": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9905,
+    "2022": 0.9844,
+    "2023": 0.9954,
+    "2024": 0.9995,
+    "2025": 0.9255,
+    "2026": 0.9988
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-302": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3752,
+    "2022": 0.7346,
+    "2023": 0.5015,
+    "2024": 0.7078,
+    "2025": 0.9675,
+    "2026": 0.8904
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-303": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.8625,
+    "2022": 0.9998,
+    "2023": 1.0,
+    "2024": 1.0,
+    "2025": 0.9998,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-305": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2559,
+    "2022": 0.9062,
+    "2023": 0.6702,
+    "2024": 0.3086,
+    "2025": 0.8098,
+    "2026": 0.9189
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-308": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9954,
+    "2022": 0.3672,
+    "2023": 0.8901,
+    "2024": 0.3276,
+    "2025": 0.8933,
+    "2026": 0.9636
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-309": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9968,
+    "2022": 0.3877,
+    "2023": 0.9102,
+    "2024": 0.26,
+    "2025": 0.8835,
+    "2026": 0.9556
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-311": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 1.0,
+    "2022": 1.0,
+    "2023": 0.8499,
+    "2024": 0.9473,
+    "2025": 0.5051,
+    "2026": 0.7083
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-312": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.4065,
+    "2022": 0.9827,
+    "2023": 0.0571,
+    "2024": 0.5459,
+    "2025": 1.0,
+    "2026": 0.5068
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-313": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.084,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 0.8455,
+    "2025": 0.9736,
+    "2026": 0.9307
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-314": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9587,
+    "2022": 0.9897,
+    "2023": 0.583,
+    "2024": 0.7273,
+    "2025": 0.8777,
+    "2026": 0.6931
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-315": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1064,
+    "2022": 0.9229,
+    "2023": 0.0,
+    "2024": 0.0789,
+    "2025": 0.28,
+    "2026": 0.6748
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": false,
+    "2024": false,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-316": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.3813,
+    "2022": 0.9993,
+    "2023": 0.9922,
+    "2024": 0.9561,
+    "2025": 1.0,
+    "2026": 0.6614
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-320": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9866,
+    "2022": 0.7698,
+    "2023": 0.9988,
+    "2024": 0.7129,
+    "2025": 0.3491,
+    "2026": 0.9854
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-324": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9397,
+    "2022": 0.854,
+    "2023": 0.9705,
+    "2024": 1.0,
+    "2025": 0.6521,
+    "2026": 0.5942
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-325": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9236,
+    "2022": 0.709,
+    "2023": 0.9966,
+    "2024": 0.5503,
+    "2025": 0.5059,
+    "2026": 0.5286
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-326": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.8101,
+    "2022": 1.0,
+    "2023": 0.2188,
+    "2024": 1.0,
+    "2025": 0.9961,
+    "2026": 0.8118
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-327": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.1721,
+    "2022": 0.9983,
+    "2023": 0.9998,
+    "2024": 0.999,
+    "2025": 0.9998,
+    "2026": 0.9946
+   },
+   "observable_by_year": {
+    "2021": false,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-331": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9099,
+    "2022": 0.8413,
+    "2023": 1.0,
+    "2024": 0.9998,
+    "2025": 0.3286,
+    "2026": 0.4497
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-332": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6001,
+    "2022": 0.9006,
+    "2023": 0.5393,
+    "2024": 0.4517,
+    "2025": 0.3738,
+    "2026": 0.969
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-334": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9829,
+    "2022": 0.8191,
+    "2023": 0.876,
+    "2024": 0.1277,
+    "2025": 0.501,
+    "2026": 0.9558
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": false,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-335": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6526,
+    "2022": 0.647,
+    "2023": 0.9243,
+    "2024": 0.4924,
+    "2025": 0.1033,
+    "2026": 0.9932
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-337": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.7629,
+    "2022": 0.8293,
+    "2023": 0.6277,
+    "2024": 0.8252,
+    "2025": 0.5769,
+    "2026": 0.9885
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-339": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.3394,
+    "2022": 0.8145,
+    "2023": 0.4634,
+    "2024": 0.7297,
+    "2025": 0.9973,
+    "2026": 0.8274
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-340": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.2424,
+    "2022": 0.7646,
+    "2023": 0.5693,
+    "2024": 0.8369,
+    "2025": 1.0,
+    "2026": 0.7854
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-341": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.7556,
+    "2022": 0.7634,
+    "2023": 0.1846,
+    "2024": 0.7954,
+    "2025": 0.4551,
+    "2026": 0.9351
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-342": {
+   "tile": "52SCC",
+   "valid_token_fraction": {
+    "2021": 0.7356,
+    "2022": 0.7466,
+    "2023": 0.5215,
+    "2024": 0.978,
+    "2025": 0.2146,
+    "2026": 0.8733
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-344": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 1.0,
+    "2022": 0.9351,
+    "2023": 0.5552,
+    "2024": 0.9478,
+    "2025": 0.7729,
+    "2026": 0.0168
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": false
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2026"
+  },
+  "JJ-OREUM-345": {
+   "tile": "51SYT",
+   "valid_token_fraction": {
+    "2021": 0.9219,
+    "2022": 0.1338,
+    "2023": 0.3184,
+    "2024": 0.9985,
+    "2025": 0.9998,
+    "2026": 0.7803
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": false,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": false,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-346": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.5952,
+    "2022": 0.8643,
+    "2023": 0.748,
+    "2024": 0.7229,
+    "2025": 0.0,
+    "2026": 0.9456
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-347": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.5078,
+    "2022": 0.9824,
+    "2023": 0.1606,
+    "2024": 0.3108,
+    "2025": 0.1045,
+    "2026": 0.8428
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-349": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9902,
+    "2022": 0.4465,
+    "2023": 0.1453,
+    "2024": 0.9985,
+    "2025": 0.9773,
+    "2026": 0.6843
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-351": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.2026,
+    "2022": 1.0,
+    "2023": 1.0,
+    "2024": 0.9072,
+    "2025": 1.0,
+    "2026": 0.7051
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-352": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.6663,
+    "2022": 0.8577,
+    "2023": 0.8655,
+    "2024": 0.5303,
+    "2025": 0.2324,
+    "2026": 1.0
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-356": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.7053,
+    "2022": 0.8967,
+    "2023": 0.8145,
+    "2024": 0.8445,
+    "2025": 0.449,
+    "2026": 0.9663
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-357": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.5591,
+    "2022": 0.7498,
+    "2023": 0.238,
+    "2024": 0.4578,
+    "2025": 0.0039,
+    "2026": 0.562
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  },
+  "JJ-OREUM-359": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9041,
+    "2022": 1.0,
+    "2023": 0.4685,
+    "2024": 0.9998,
+    "2025": 1.0,
+    "2026": 0.7454
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-362": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.9329,
+    "2022": 0.999,
+    "2023": 0.999,
+    "2024": 0.9998,
+    "2025": 0.7241,
+    "2026": 0.762
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-364": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.4729,
+    "2022": 0.625,
+    "2023": 0.6248,
+    "2024": 0.6248,
+    "2025": 0.3174,
+    "2026": 0.5327
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-365": {
+   "tile": "52SBC",
+   "valid_token_fraction": {
+    "2021": 0.9822,
+    "2022": 1.0,
+    "2023": 0.8364,
+    "2024": 0.8567,
+    "2025": 0.2778,
+    "2026": 0.561
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": true,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": true,
+    "null_2021_2022": true,
+    "null_2022_2023": true
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-367": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.384,
+    "2022": 0.9473,
+    "2023": 0.0,
+    "2024": 0.4661,
+    "2025": 0.9626,
+    "2026": 0.5649
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": true,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": true,
+    "null_temporal_primary": true,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "scorable",
+   "abstain_reason": null
+  },
+  "JJ-OREUM-368": {
+   "tile": "52SBB",
+   "valid_token_fraction": {
+    "2021": 0.5955,
+    "2022": 1.0,
+    "2023": 0.0129,
+    "2024": 0.3301,
+    "2025": 0.0361,
+    "2026": 0.3506
+   },
+   "observable_by_year": {
+    "2021": true,
+    "2022": true,
+    "2023": false,
+    "2024": true,
+    "2025": false,
+    "2026": true
+   },
+   "observable_by_pair": {
+    "event": false,
+    "null_temporal_primary": false,
+    "null_temporal_secondary": false,
+    "null_2021_2022": true,
+    "null_2022_2023": false
+   },
+   "verdict": "abstain",
+   "abstain_reason": "event pair unobservable: 2025"
+  }
+ }
+}

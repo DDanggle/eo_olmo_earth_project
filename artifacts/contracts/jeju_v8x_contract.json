@@ -1,0 +1,1503 @@
+{
+ "schema": "jeju-oreum-contract-v8",
+ "frozen_at_utc": "2026-09-16T09:29:57Z",
+ "supersedes": "v7.10 (2025 창과 rolling-2026 창 184일 중첩, 계절 정렬 false)",
+ "why": "달력·rolling 창을 버리고 좁은 계절 층 안의 실제 획득 장면을 동결한다. 날짜가 아니라 STAC item ID 를 고정한다 — PC 는 재처리한다.",
+ "frames": {
+  "A": {
+   "name": "위치 확인 오름 243곳",
+   "role": "분석 단위",
+   "rule": "top-k 없이 전수 채점. 미해결 125곳은 unresolved 로 보고하되 분모에서 빼지 않는다.",
+   "source": "artifacts/external_data/kearth_oreum_v1/oreum_registry_368.csv"
+  },
+  "B": {
+   "name": "제주 전역 격자",
+   "role": "공간 귀무 풀·외부 검정 전용",
+   "rule": "오름 결과로 제시하지 않는다."
+  },
+  "C": {
+   "name": "기존 14후보 pool",
+   "role": "동결된 이력",
+   "rule": "A 순위 봉인 후 회고 한 줄만. 재순위·병합·문턱 선택 금지."
+  }
+ },
+ "geometry": {
+  "bbox": [
+   126.14,
+   33.18,
+   126.98,
+   33.57
+  ],
+  "window_m": 2560,
+  "patch_size": 4,
+  "token_ground_m": 40,
+  "crs": "EPSG:4326 for selection, UTM for windows"
+ },
+ "optical": {
+  "collection": "sentinel-2-l2a",
+  "tiles": [
+   "51SYS",
+   "51SYT",
+   "52SBB",
+   "52SBC",
+   "52SCB",
+   "52SCC"
+  ],
+  "years": [
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026
+  ],
+  "seasonal_stratum": "08-10 ~ 09-25",
+  "cloud_max_scene": 45.0,
+  "selection_rule": "타일별로 하나의 상대궤도 안에서 (1) granule 완전성 (2) 네 해 모두 판독 가능한 프레임 A 오름 수 최대화 (3) DOY 폭 최소 (4) 최대 구름 최소. 장면 구름은 선택 변수가 아니라 상한 필터로만 쓴다.",
+  "why_not_scene_cloud": "오름은 한라산 주위에 몰려 있고 지형성 구름이 산정을 덮는다. 실측(2025, R003): 52SBC 08-14 는 장면 구름 1.0% 인데 표본 오름 12곳 중 판독 가능 0곳, 51SYS 09-18 은 장면 구름 55.2% 인데 10곳이 판독 가능했다. 장면 구름으로 고르면 맑은 바다와 구름 쓴 산을 고르게 된다. 이 기준은 Δz 를 보지 않으므로 사전등록을 깨지 않는다.",
+  "site_clear_min": 0.2,
+  "frame_a_assignment": {
+   "JJ-OREUM-001": {
+    "tile": "51SYS",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-005": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-007": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-008": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-009": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-010": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-011": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-012": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-013": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-016": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-019": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-020": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-021": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-022": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-024": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-025": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-026": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-027": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-031": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-032": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-033": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-034": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-036": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-039": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-040": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-041": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-043": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-045": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-047": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-048": {
+    "tile": "51SYS",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-049": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-050": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-052": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-053": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-055": {
+    "tile": "51SYS",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-056": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-059": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-060": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-061": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-065": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-070": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-072": {
+    "tile": "51SYS",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-073": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-074": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-075": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-077": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-079": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-081": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-082": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-083": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-085": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-086": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-090": {
+    "tile": "51SYS",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-092": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-093": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-094": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-095": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-096": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-097": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-099": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-100": {
+    "tile": "52SCC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-101": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-102": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-104": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-105": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-106": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-107": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-108": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-110": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-112": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-113": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-114": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-115": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-118": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-119": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-122": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-123": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-124": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-125": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-126": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-127": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-128": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-129": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-130": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-131": {
+    "tile": "52SCC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-132": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-133": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-134": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-135": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-137": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-139": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-140": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-143": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-144": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-146": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-147": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-148": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-149": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-153": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-154": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-155": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-156": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-157": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-158": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-159": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-160": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-161": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-162": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-163": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-164": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-165": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-167": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-169": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-170": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-171": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-175": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-176": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-179": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-180": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-181": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-183": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-184": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-187": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-188": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-189": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-190": {
+    "tile": "52SCC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-191": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-193": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-194": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-195": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-196": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-197": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-198": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-199": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-200": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-203": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-204": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-205": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-206": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-211": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-212": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-213": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-214": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-215": {
+    "tile": "51SYS",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-218": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-220": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-222": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-223": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-225": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-227": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-228": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-229": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-230": {
+    "tile": "52SCC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-231": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-232": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-234": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-235": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-236": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-237": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-238": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-239": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-240": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-241": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-242": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-243": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-245": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-246": {
+    "tile": "51SYS",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-248": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-249": {
+    "tile": "52SCC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-251": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-254": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-255": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-257": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-258": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-260": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-261": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-262": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-263": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-266": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-268": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-269": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-270": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-271": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-272": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-273": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-274": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-275": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-276": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-277": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-278": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-280": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-281": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-282": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-283": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-286": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-288": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-289": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-292": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-293": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-294": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-295": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-298": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-300": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-302": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-303": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-305": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-308": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-309": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-311": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-312": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-313": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-314": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-315": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-316": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-320": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-324": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-325": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-326": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-327": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-331": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-332": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-334": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-335": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-337": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-339": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-340": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-341": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-342": {
+    "tile": "52SCC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-344": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-345": {
+    "tile": "51SYT",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-346": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-347": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-349": {
+    "tile": "52SBC",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-351": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-352": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-356": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-357": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-359": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-362": {
+    "tile": "52SBB",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-364": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-365": {
+    "tile": "52SBC",
+    "observable_all_years": true
+   },
+   "JJ-OREUM-367": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   },
+   "JJ-OREUM-368": {
+    "tile": "52SBB",
+    "observable_all_years": false
+   }
+  },
+  "frame_a_observable_all_years": 143,
+  "frame_a_total": 243,
+  "compositor": "code/scl_compositor.py :: Sentinel2SCLBestClearNearest (SCL class ID 는 nearest 로만 재표본; 보간하면 scl==9 같은 등식이 깨진다)",
+  "scenes": {
+   "51SYS": {
+    "2021": {
+     "item_id": "S2A_MSIL2A_20210820T021611_R003_T51SYS_20210820T091505",
+     "datetime": "2021-08-20 02:16:11.025000+00:00",
+     "doy": 232,
+     "cloud_cover": 22.21,
+     "relative_orbit": 3
+    },
+    "2022": {
+     "item_id": "S2A_MSIL2A_20220825T021541_R003_T51SYS_20220830T084458",
+     "datetime": "2022-08-25 02:15:41.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 30.38,
+     "relative_orbit": 3
+    },
+    "2023": {
+     "item_id": "S2A_MSIL2A_20230820T021541_R003_T51SYS_20230820T091704",
+     "datetime": "2023-08-20 02:15:41.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 10.12,
+     "relative_orbit": 3
+    },
+    "2024": {
+     "item_id": "S2A_MSIL2A_20240824T021531_R003_T51SYS_20240824T073115",
+     "datetime": "2024-08-24 02:15:31.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 5.38,
+     "relative_orbit": 3
+    },
+    "2025": {
+     "item_id": "S2B_MSIL2A_20250824T021539_R003_T51SYS_20250824T041648",
+     "datetime": "2025-08-24 02:15:39.024000+00:00",
+     "doy": 236,
+     "cloud_cover": 39.95,
+     "relative_orbit": 3
+    },
+    "2026": {
+     "item_id": "S2C_MSIL2A_20260824T021531_R003_T51SYS_20260824T054511",
+     "datetime": "2026-08-24 02:15:31.025000+00:00",
+     "doy": 236,
+     "cloud_cover": 10.96,
+     "relative_orbit": 3
+    },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 0.59,
+    "_frame_a_oreum_in_footprint": 31,
+    "_frame_a_oreum_clear_all_years": 12,
+    "_doy_spread_days": 5,
+    "_max_cloud": 39.95
+   },
+   "51SYT": {
+    "2021": {
+     "item_id": "S2A_MSIL2A_20210919T021611_R003_T51SYT_20210919T122306",
+     "datetime": "2021-09-19 02:16:11.024000+00:00",
+     "doy": 262,
+     "cloud_cover": 0.37,
+     "relative_orbit": 3
+    },
+    "2022": {
+     "item_id": "S2B_MSIL2A_20220909T021539_R003_T51SYT_20220909T181532",
+     "datetime": "2022-09-09 02:15:39.024000+00:00",
+     "doy": 252,
+     "cloud_cover": 43.25,
+     "relative_orbit": 3
+    },
+    "2023": {
+     "item_id": "S2A_MSIL2A_20230909T021541_R003_T51SYT_20241024T141040",
+     "datetime": "2023-09-09 02:15:41.024000+00:00",
+     "doy": 252,
+     "cloud_cover": 0.69,
+     "relative_orbit": 3
+    },
+    "2024": {
+     "item_id": "S2A_MSIL2A_20240913T021531_R003_T51SYT_20240913T052851",
+     "datetime": "2024-09-13 02:15:31.024000+00:00",
+     "doy": 257,
+     "cloud_cover": 6.39,
+     "relative_orbit": 3
+    },
+    "2025": {
+     "item_id": "S2B_MSIL2A_20250923T021529_R003_T51SYT_20250923T041635",
+     "datetime": "2025-09-23 02:15:29.024000+00:00",
+     "doy": 266,
+     "cloud_cover": 0.15,
+     "relative_orbit": 3
+    },
+    "2026": {
+     "item_id": "S2C_MSIL2A_20260913T021531_R003_T51SYT_20260913T055012",
+     "datetime": "2026-09-13 02:15:31.025000+00:00",
+     "doy": 256,
+     "cloud_cover": 3.24,
+     "relative_orbit": 3
+    },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 0.84,
+    "_frame_a_oreum_in_footprint": 23,
+    "_frame_a_oreum_clear_all_years": 11,
+    "_doy_spread_days": 14,
+    "_max_cloud": 43.25
+   },
+   "52SBB": {
+    "2021": {
+     "item_id": "S2A_MSIL2A_20210820T021611_R003_T52SBB_20210820T101748",
+     "datetime": "2021-08-20 02:16:11.025000+00:00",
+     "doy": 232,
+     "cloud_cover": 17.53,
+     "relative_orbit": 3
+    },
+    "2022": {
+     "item_id": "S2A_MSIL2A_20220825T021541_R003_T52SBB_20220830T061644",
+     "datetime": "2022-08-25 02:15:41.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 25.46,
+     "relative_orbit": 3
+    },
+    "2023": {
+     "item_id": "S2B_MSIL2A_20230825T021539_R003_T52SBB_20241024T053733",
+     "datetime": "2023-08-25 02:15:39.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 6.02,
+     "relative_orbit": 3
+    },
+    "2024": {
+     "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SBB_20240819T042921",
+     "datetime": "2024-08-19 02:15:39.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 8.32,
+     "relative_orbit": 3
+    },
+    "2025": {
+     "item_id": "S2B_MSIL2A_20250824T021539_R003_T52SBB_20250824T041648",
+     "datetime": "2025-08-24 02:15:39.024000+00:00",
+     "doy": 236,
+     "cloud_cover": 26.92,
+     "relative_orbit": 3
+    },
+    "2026": {
+     "item_id": "S2B_MSIL2A_20260819T021529_R003_T52SBB_20260819T043049",
+     "datetime": "2026-08-19 02:15:29.024000+00:00",
+     "doy": 231,
+     "cloud_cover": 24.47,
+     "relative_orbit": 3
+    },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 0.76,
+    "_frame_a_oreum_in_footprint": 154,
+    "_frame_a_oreum_clear_all_years": 70,
+    "_doy_spread_days": 6,
+    "_max_cloud": 26.92
+   },
+   "52SBC": {
+    "2021": {
+     "item_id": "S2A_MSIL2A_20210820T021611_R003_T52SBC_20210820T110312",
+     "datetime": "2021-08-20 02:16:11.025000+00:00",
+     "doy": 232,
+     "cloud_cover": 30.81,
+     "relative_orbit": 3
+    },
+    "2022": {
+     "item_id": "S2A_MSIL2A_20220825T021541_R003_T52SBC_20220830T072202",
+     "datetime": "2022-08-25 02:15:41.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 34.16,
+     "relative_orbit": 3
+    },
+    "2023": {
+     "item_id": "S2B_MSIL2A_20230825T021539_R003_T52SBC_20241024T053733",
+     "datetime": "2023-08-25 02:15:39.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 4.61,
+     "relative_orbit": 3
+    },
+    "2024": {
+     "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SBC_20240819T042921",
+     "datetime": "2024-08-19 02:15:39.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 10.41,
+     "relative_orbit": 3
+    },
+    "2025": {
+     "item_id": "S2B_MSIL2A_20250814T021539_R003_T52SBC_20250814T041235",
+     "datetime": "2025-08-14 02:15:39.024000+00:00",
+     "doy": 226,
+     "cloud_cover": 10.42,
+     "relative_orbit": 3
+    },
+    "2026": {
+     "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SBC_20260824T054511",
+     "datetime": "2026-08-24 02:15:31.025000+00:00",
+     "doy": 236,
+     "cloud_cover": 6.12,
+     "relative_orbit": 3
+    },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 0.7,
+    "_frame_a_oreum_in_footprint": 193,
+    "_frame_a_oreum_clear_all_years": 99,
+    "_doy_spread_days": 11,
+    "_max_cloud": 34.16
+   },
+   "52SCB": {
+    "2021": {
+     "item_id": "S2A_MSIL2A_20210820T021611_R003_T52SCB_20210820T122509",
+     "datetime": "2021-08-20 02:16:11.025000+00:00",
+     "doy": 232,
+     "cloud_cover": 11.92,
+     "relative_orbit": 3
+    },
+    "2022": {
+     "item_id": "S2A_MSIL2A_20220825T021541_R003_T52SCB_20220830T065548",
+     "datetime": "2022-08-25 02:15:41.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 38.33,
+     "relative_orbit": 3
+    },
+    "2023": {
+     "item_id": "S2A_MSIL2A_20230820T021541_R003_T52SCB_20230820T091856",
+     "datetime": "2023-08-20 02:15:41.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 20.0,
+     "relative_orbit": 3
+    },
+    "2024": {
+     "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SCB_20240819T042921",
+     "datetime": "2024-08-19 02:15:39.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 2.3,
+     "relative_orbit": 3
+    },
+    "2025": {
+     "item_id": "S2B_MSIL2A_20250824T021539_R003_T52SCB_20250824T041648",
+     "datetime": "2025-08-24 02:15:39.024000+00:00",
+     "doy": 236,
+     "cloud_cover": 6.09,
+     "relative_orbit": 3
+    },
+    "2026": {
+     "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SCB_20260824T054511",
+     "datetime": "2026-08-24 02:15:31.025000+00:00",
+     "doy": 236,
+     "cloud_cover": 24.94,
+     "relative_orbit": 3
+    },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 0.63,
+    "_frame_a_oreum_in_footprint": 2,
+    "_frame_a_oreum_clear_all_years": 2,
+    "_doy_spread_days": 5,
+    "_max_cloud": 38.33
+   },
+   "52SCC": {
+    "2021": {
+     "item_id": "S2A_MSIL2A_20210820T021611_R003_T52SCC_20210820T105741",
+     "datetime": "2021-08-20 02:16:11.025000+00:00",
+     "doy": 232,
+     "cloud_cover": 7.31,
+     "relative_orbit": 3
+    },
+    "2022": {
+     "item_id": "S2A_MSIL2A_20220825T021541_R003_T52SCC_20240704T192302",
+     "datetime": "2022-08-25 02:15:41.024000+00:00",
+     "doy": 237,
+     "cloud_cover": 3.72,
+     "relative_orbit": 3
+    },
+    "2023": {
+     "item_id": "S2A_MSIL2A_20230820T021541_R003_T52SCC_20241022T125241",
+     "datetime": "2023-08-20 02:15:41.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 9.52,
+     "relative_orbit": 3
+    },
+    "2024": {
+     "item_id": "S2B_MSIL2A_20240819T021539_R003_T52SCC_20240819T042921",
+     "datetime": "2024-08-19 02:15:39.024000+00:00",
+     "doy": 232,
+     "cloud_cover": 13.2,
+     "relative_orbit": 3
+    },
+    "2025": {
+     "item_id": "S2B_MSIL2A_20250903T021529_R003_T52SCC_20250903T041538",
+     "datetime": "2025-09-03 02:15:29.024000+00:00",
+     "doy": 246,
+     "cloud_cover": 9.21,
+     "relative_orbit": 3
+    },
+    "2026": {
+     "item_id": "S2C_MSIL2A_20260824T021531_R003_T52SCC_20260824T054511",
+     "datetime": "2026-08-24 02:15:31.025000+00:00",
+     "doy": 236,
+     "cloud_cover": 6.75,
+     "relative_orbit": 3
+    },
+    "_relative_orbit": 3,
+    "_min_footprint_area_deg2": 0.33,
+    "_frame_a_oreum_in_footprint": 12,
+    "_frame_a_oreum_clear_all_years": 9,
+    "_doy_spread_days": 14,
+    "_max_cloud": 13.2
+   }
+  }
+ },
+ "radar": {
+  "collection": "sentinel-1-rtc",
+  "relative_orbit": 134,
+  "orbit_state": "descending",
+  "input_unit": "gamma0 dB — RTC 자산은 linear power 이므로 10*log10 변환 필수",
+  "unit_note": "이 변환 누락이 네팔 M75 철회의 원인이었다. model.yaml 은 S1 을 선언하고도 Sentinel1ToDecibels 가 없다 — model_s1db.yaml 을 따를 것.",
+  "temporal_null_available": false,
+  "limitation": "궤도 134 하강에 2023·2024 Aug–Sep 획득이 없다. 사건 쌍만 가능하고 시간 귀무를 만들 수 없으므로 레이더에 보정된 순위·p 값을 붙이지 않는다.",
+  "scenes": {
+   "2021": [
+    {
+     "item_id": "S1B_IW_GRDH_1SDV_20210820T213257_20210820T213317_028335_03617E_rtc",
+     "datetime": "2021-08-20 21:33:07.254431+00:00",
+     "doy": 232
+    },
+    {
+     "item_id": "S1B_IW_GRDH_1SDV_20210901T213257_20210901T213317_028510_0366F2_rtc",
+     "datetime": "2021-09-01 21:33:07.780908+00:00",
+     "doy": 244
+    },
+    {
+     "item_id": "S1B_IW_GRDH_1SDV_20210913T213258_20210913T213318_028685_036C5F_rtc",
+     "datetime": "2021-09-13 21:33:08.338812+00:00",
+     "doy": 256
+    },
+    {
+     "item_id": "S1B_IW_GRDH_1SDV_20210925T213258_20210925T213318_028860_0371B6_rtc",
+     "datetime": "2021-09-25 21:33:08.763518+00:00",
+     "doy": 268
+    }
+   ],
+   "2022": [],
+   "2023": [],
+   "2024": [],
+   "2025": [
+    {
+     "item_id": "S1C_IW_GRDH_1SDV_20250823T213234_20250823T213254_003805_00797B_rtc",
+     "datetime": "2025-08-23 21:32:44.525596+00:00",
+     "doy": 235
+    },
+    {
+     "item_id": "S1C_IW_GRDH_1SDV_20250904T213234_20250904T213254_003980_007EB0_rtc",
+     "datetime": "2025-09-04 21:32:44.570765+00:00",
+     "doy": 247
+    }
+   ],
+   "2026": [
+    {
+     "item_id": "S1C_IW_GRDH_1SDV_20260813T213236_20260813T213256_008982_011D2F_rtc",
+     "datetime": "2026-08-13 21:32:46.400143+00:00",
+     "doy": 225
+    },
+    {
+     "item_id": "S1C_IW_GRDH_1SDV_20260825T213229_20260825T213259_009157_012300_rtc",
+     "datetime": "2026-08-25 21:32:44.559502+00:00",
+     "doy": 237
+    },
+    {
+     "item_id": "S1C_IW_GRDH_1SDV_20260906T213237_20260906T213257_009332_0128EC_rtc",
+     "datetime": "2026-09-06 21:32:47.393236+00:00",
+     "doy": 249
+    }
+   ]
+  }
+ },
+ "pairs": {
+  "event": {
+   "from": 2025,
+   "to": 2026,
+   "gap_days_per_tile": [
+    364,
+    355,
+    359,
+    374,
+    364,
+    355
+   ],
+   "gap_days_mean": 361.8
+  },
+  "null_temporal_primary": {
+   "from": 2024,
+   "to": 2025,
+   "gap_days_per_tile": [
+    365,
+    374,
+    370,
+    360,
+    370,
+    379
+   ],
+   "gap_days_mean": 369.7
+  },
+  "null_temporal_secondary": {
+   "from": 2023,
+   "to": 2024,
+   "gap_days_per_tile": [
+    369,
+    369,
+    360,
+    360,
+    364,
+    364
+   ],
+   "gap_days_mean": 364.3
+  },
+  "null_2021_2022": {
+   "from": 2021,
+   "to": 2022,
+   "gap_days_per_tile": [
+    369,
+    354,
+    369,
+    369,
+    369,
+    369
+   ],
+   "gap_days_mean": 366.5,
+   "role": "추가 귀무 — 평시 변화의 분포(null-of-nulls)"
+  },
+  "null_2022_2023": {
+   "from": 2022,
+   "to": 2023,
+   "gap_days_per_tile": [
+    360,
+    365,
+    364,
+    364,
+    360,
+    360
+   ],
+   "gap_days_mean": 362.2,
+   "role": "추가 귀무 — 평시 변화의 분포(null-of-nulls)"
+  },
+  "doy_rule": "adjacent",
+  "gap_tolerance_days": 30,
+  "null_bias": "귀무 해에도 실제 변화가 있어 문턱이 부풀고, 따라서 검정은 보수적(과소 탐지)이다. 안전한 방향이며 보고서에 적는다."
+ },
+ "scoring": {
+  "change_score": "Δz = 1 − cos(z_before, z_after) per 40 m token",
+  "model": "OlmoEarth v1 Base, frozen, patch_size=4",
+  "threshold_temporal": "귀무 쌍 유효 토큰의 p99",
+  "threshold_spatial": "같은 사건 쌍을 프레임 B 전역에 풀링한 p99",
+  "site_score": "그 문턱을 넘은 유효 토큰의 비율",
+  "null_flag_rate_expected": 0.01,
+  "observability_gate": {
+   "token_invalid_if": "픽셀 50% 초과가 구름·결측",
+   "site_unobservable_if": "유효 토큰 비율 < 0.2",
+   "gk2a": "천리안 2A 구름탐지로 독립 판정. SCL 과 불일치하면 그 자체를 기록한다.",
+   "abstain": "관측 불가 기간에는 점수를 만들지 않고 abstain 으로 기록한다."
+  }
+ },
+ "claims_this_contract_can_earn": [
+  "이 오름의 유효 토큰 중 X%가 자기 지역의 계절 일치 연간 귀무 p99 를 넘었다.",
+  "두 해 모두 관측 가능한 오름은 243 중 N 곳이다."
+ ],
+ "claims_forbidden": [
+  "오름 훼손을 탐지했다",
+  "허가·시설이 이 변화의 원인이다 (causal_or_facility_type_claims_allowed: false 유지)",
+  "레이더 순위의 p 값",
+  "95.64% 를 탐지 정확도로 (한 window 의 입력 품질 지표다)",
+  "368 을 분모로 사용",
+  "프레임 A 와 C 를 같은 성공률에 합산"
+ ],
+ "_self_sha256": "1018ad11c9bd222a527346f7dbc92d56ee555b379da3ea35e13463c7200c434e"
+}
