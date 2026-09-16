@@ -80,9 +80,9 @@ def build(oid: str, o: dict, tile: str, cat, out_root) -> dict:
         best, best_clear = None, -1.0
         for it in cands:
             s = pc.sign(it)
-            if bounds is None:
-                bounds = window_bounds(s.assets["B04"].href, o["lon"], o["lat"])
             try:
+                if bounds is None:     # 첫 후보의 자산이 깨져 있을 수 있다(실측: 52SBB 2023-01-07). 다음 후보로 넘어간다.
+                    bounds = window_bounds(s.assets["SCL"].href, o["lon"], o["lat"])
                 scl = read(s.assets["SCL"].href, bounds, Resampling.nearest, "uint8")
             except Exception:
                 continue
