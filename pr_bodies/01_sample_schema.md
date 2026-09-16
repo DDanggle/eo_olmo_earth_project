@@ -59,5 +59,3 @@ legacy `es_*` property keys, and each feature has a dict-valued `oe_labels.categ
 
 This is intentionally a data-only schema repair. `annotation_task_features.geojson`
 already uses the required `oe_*` schema, so it is unchanged.
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
