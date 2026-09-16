@@ -1,6 +1,8 @@
 ## Problem
 
-The documented quick-start for the sample project fails out of the box:
+The training-window preparation example in
+[`olmoearth_projects/olmoearth_run/README.md`](https://github.com/allenai/olmoearth_projects/blob/23a3d7b799ba1fbb0c9138cb1444166ae1d3dd0a/olmoearth_projects/olmoearth_run/README.md)
+fails with the bundled sample annotation schema:
 
 ```
 python -m olmoearth_projects.main olmoearth_run prepare_labeled_windows \
@@ -46,6 +48,10 @@ the updated file passes schema/JSON validation, but the documented CLI still han
 later in multiprocessing; that is a separate pre-existing issue and not evidence for
 or against this data-only fix.
 
+The Linux execution was recorded in August 2026. On September 13 we rechecked the
+upstream sample and the local patch statically; that was not another CLI replay.
+All six geometries, task IDs, and category values are preserved by the patch.
+
 The updated FeatureCollection also parses as JSON, contains 6 features, has no
 legacy `es_*` property keys, and each feature has a dict-valued `oe_labels.category`.
 
@@ -53,3 +59,5 @@ legacy `es_*` property keys, and each feature has a dict-valued `oe_labels.categ
 
 This is intentionally a data-only schema repair. `annotation_task_features.geojson`
 already uses the required `oe_*` schema, so it is unchanged.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
