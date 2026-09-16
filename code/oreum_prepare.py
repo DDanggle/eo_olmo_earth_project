@@ -50,6 +50,28 @@ YEARS = ["2023", "2024", "2025", "2026"]
 SCL_CLEAR = {4, 5, 6, 7}   # 동결기·게이트와 같은 정의. 눈(11) 은 8~9월 제주에 없고 밝은 표면의 오분류다.
 
 
+def load_frame_b(limit: int | None) -> list[dict]:
+    """프레임 B — 제주 본섬 2.56 km 격자점. 공간 귀무 풀·외부 검정 전용. 오름 결과로 제시 금지."""
+    import csv
+    rows = list(csv.DictReader((ARTIFACT_ROOT / "external_data/kearth_oreum_v1/frame_b_grid.csv").open()))
+    out = [{"oreum_id": r["point_id"], "name": r["point_id"], "lat": float(r["lat"]), "lon": float(r["lon"])} for r in rows]
+    return out[:limit] if limit else out
+
+
+def assign_tiles_by_containment(points: list[dict], items: dict, scenes: dict) -> dict[str, str]:
+    """프레임 B 는 계약에 배정이 없다. 네 해 모두 footprint 가 점을 담는 타일 중 최소 면적이 큰 것."""
+    from shapely.geometry import Point
+    geoms = {k: shape(v.geometry) for k, v in items.items()}
+    out = {}
+    for o in points:
+        pt = Point(o["lon"], o["lat"])
+        cands = [t for t in scenes if all(geoms[(t, y)].contains(pt) for y in YEARS)]
+        if cands:
+            out[o["oreum_id"]] = max(cands, key=lambda t: min(geoms[(t, y)].area for y in YEARS))
+    print(f"  프레임 B 배정 {len(out)} / {len(points)}")
+    return out
+
+
 def load_oreum(limit: int | None) -> list[dict]:
     import csv
     path = ARTIFACT_ROOT / "external_data/kearth_oreum_v1/oreum_registry_368.csv"
@@ -118,6 +140,7 @@ def main() -> None:
     ap.add_argument("--contract", default="jeju_v8")
     ap.add_argument("--limit", type=int, help="오름 개수 제한 (스모크용)")
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--frame", default="A", choices=("A", "B"), help="A=오름 243 (계약 배정) · B=제주 격자 (공간 귀무)")
     a = ap.parse_args()
 
     contract = json.loads((CONTRACT_ROOT / f"{a.contract}_contract.json").read_text())
@@ -129,11 +152,15 @@ def main() -> None:
     items = {(t, y): coll.get_item(scenes[t][y]["item_id"]) for t in scenes for y in YEARS}
     print(f"  {len(items)} 건")
 
-    oreum = load_oreum(a.limit)
-    tiles = assign_tiles(oreum, contract)
+    if a.frame == "B":
+        oreum = load_frame_b(a.limit)
+        tiles = assign_tiles_by_containment(oreum, items, scenes)
+    else:
+        oreum = load_oreum(a.limit)
+        tiles = assign_tiles(oreum, contract)
     print(f"오름 {len(oreum)}곳, 타일 배정 {len(tiles)}곳")
 
-    out_dir = ensure(CACHE_ROOT / f"{a.contract}/prepare")
+    out_dir = ensure(CACHE_ROOT / (f"{a.contract}/prepare_B" if a.frame == "B" else f"{a.contract}/prepare"))
     todo = [o for o in oreum if o["oreum_id"] in tiles
             and not (out_dir / f"{o['oreum_id']}.npz").exists()]
     print(f"새로 받을 곳 {len(todo)} / 캐시됨 {len(oreum) - len(todo)}")
@@ -180,7 +207,7 @@ def main() -> None:
                 failed.append((o["oreum_id"], f"{type(e).__name__}: {e}"))
 
     manifest = {
-        "schema": "jeju-v8-prepare-v1", "contract": a.contract,
+        "schema": "jeju-v8-prepare-v1", "contract": a.contract, "frame": a.frame,
         "contract_sha256": contract.get("_self_sha256"),
         "script_sha256": hashlib.sha256(open(__file__, "rb").read()).hexdigest(),
         "modality": "sentinel2_l2a (12밴드, B10 없음 — L2A 에 존재하지 않는다)",
@@ -192,7 +219,7 @@ def main() -> None:
         "failed": failed, "elapsed_s": round(time.time() - t0, 1),
         "tile_assignment": tiles,
     }
-    mpath = ensure(ARTIFACT_ROOT / "results") / f"{a.contract}_prepare_manifest.json"
+    mpath = ensure(ARTIFACT_ROOT / "results") / (f"{a.contract}_prepare_manifest.json" if a.frame == "A" else f"{a.contract}_prepare_B_manifest.json")
     mpath.write_text(json.dumps(manifest, indent=1, ensure_ascii=False) + "\n")
     print(f"\n완료 {done}, 실패 {len(failed)}  → {display_path(mpath)}")
     print(f"큐브 → {display_path(out_dir)}")

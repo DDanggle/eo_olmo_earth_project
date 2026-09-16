@@ -61,6 +61,8 @@ def main() -> None:
     ap.add_argument("--patch", type=int, default=4, choices=(2, 4))
     ap.add_argument("--model", default="OLMOEARTH_V1_BASE")
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--frame", default="A", choices=("A", "B"),
+                    help="B = 제주 격자 공간 귀무. 문턱 세 개(사건·귀무A·귀무B 각각의 풀링 p99)를 내고 프레임 A 깃발율을 그 문턱으로 다시 잰다.")
     a = ap.parse_args()
 
     import torch
@@ -72,8 +74,9 @@ def main() -> None:
     contract = json.loads((CONTRACT_ROOT / f"{a.contract}_contract.json").read_text())
     scenes = contract["optical"]["scenes"]
     assign = contract["optical"]["frame_a_assignment"]
-    cache = CACHE_ROOT / f"{a.contract}/prepare"
-    out_dir = ensure(CACHE_ROOT / f"{a.contract}/scan_p{a.patch}")
+    suffix = "_B" if a.frame == "B" else ""
+    cache = CACHE_ROOT / f"{a.contract}/prepare{suffix}"
+    out_dir = ensure(CACHE_ROOT / f"{a.contract}/scan{suffix}_p{a.patch}")
 
     spec = Modality.get(MODALITY)
     normalizer = Normalizer(Strategy.COMPUTED, std_multiplier=2)
@@ -101,6 +104,8 @@ def main() -> None:
         num = (za * zb).sum(0)
         return (1 - num / (za.norm(dim=0).clamp(min=1e-8) * zb.norm(dim=0).clamp(min=1e-8))).numpy().astype("float32")
 
+    if a.frame == "B":
+        assign = {f.stem: None for f in sorted(cache.glob("JJ-GRID-*.npz"))}
     ids = sorted(assign)[: a.limit] if a.limit else sorted(assign)
     t0, done = time.time(), 0
     per_site: dict[str, dict] = {}
@@ -128,6 +133,30 @@ def main() -> None:
         done += 1
         if done % 20 == 0:
             print(f"  {done}/{len(ids)}  ({time.time()-t0:.0f}s)", flush=True)
+
+    if a.frame == "B":
+        pools = {k: np.concatenate([s["deltas"][k][s["valids"][k]] for s in per_site.values()]) for k in PAIRS}
+        thr_b = {k: float(np.percentile(v, 99)) for k, v in pools.items()}
+        # 프레임 A 를 프레임 B 사건 쌍 p99 로 다시 잰다 (공간 귀무): 사건 쌍 자체를 섬 전역에 풀링한 문턱.
+        a_dir = CACHE_ROOT / f"{a.contract}/scan_p{a.patch}"
+        a_ev = np.concatenate([np.load(f)["d_event"][np.load(f)["v_event"]] for f in sorted(a_dir.glob("*_delta.npz"))]) if a_dir.exists() else np.array([])
+        res = {"schema": "jeju-v8-scan-frameB-v1", "frame": "B", "role": "공간 귀무 풀·보정 전용. 오름 결과로 제시 금지.",
+               "contract": a.contract, "contract_sha256": contract.get("_self_sha256"), "patch_size": a.patch,
+               "grid_points": len(per_site), "tokens_pooled": {k: int(v.size) for k, v in pools.items()},
+               "p99_by_pair": thr_b,
+               "assumption_check": {"claim": "연간 실질 변화가 섬의 1% 미만이면 사건 쌍의 전역 p99 는 귀무 쌍의 p99 와 비슷해야 한다",
+                                    "event_p99_over_nullA_p99": thr_b["event"] / thr_b["null_temporal_primary"],
+                                    "nullB_p99_over_nullA_p99": thr_b["null_temporal_secondary"] / thr_b["null_temporal_primary"]},
+               "frame_a_event_flag_rate_under_frameB_event_p99": float((a_ev > thr_b["event"]).mean()) if a_ev.size else None,
+               "frame_a_event_flag_rate_under_frameB_nullA_p99": float((a_ev > thr_b["null_temporal_primary"]).mean()) if a_ev.size else None,
+               "claims": {"forbidden": ["프레임 B 점을 오름으로 표시", "프레임 A·B 조인"]}}
+        path = ensure(ARTIFACT_ROOT / "results") / f"{a.contract}_scan_B_p{a.patch}.json"
+        path.write_text(json.dumps(res, ensure_ascii=False, indent=1))
+        print(f"프레임 B 격자 {len(per_site)}점 · p99 사건 {thr_b['event']:.5f} · 귀무A {thr_b['null_temporal_primary']:.5f} · 귀무B {thr_b['null_temporal_secondary']:.5f}")
+        print(f"사건/귀무A p99 비 {res['assumption_check']['event_p99_over_nullA_p99']:.3f} · 귀무B/귀무A {res['assumption_check']['nullB_p99_over_nullA_p99']:.3f}")
+        if a_ev.size:
+            print(f"프레임 A 사건 깃발율: B-사건 p99 기준 {res['frame_a_event_flag_rate_under_frameB_event_p99']*100:.2f}% · B-귀무A p99 기준 {res['frame_a_event_flag_rate_under_frameB_nullA_p99']*100:.2f}%")
+        print(f"→ {display_path(path)}"); return
 
     # ---- 문턱: 주 귀무의 유효 토큰 p99 (전 오름 풀링) -------------------------------
     pool = np.concatenate([s["deltas"]["null_temporal_primary"][s["valids"]["null_temporal_primary"]]
