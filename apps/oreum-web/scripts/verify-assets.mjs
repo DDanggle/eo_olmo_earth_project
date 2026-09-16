@@ -42,6 +42,28 @@ const [y0, y1] = s.pairs.event;
 const missing = scored.filter((f) => !frames.has(`${f.properties.oreum_id}_${y0}.jpg`) || !frames.has(`${f.properties.oreum_id}_${y1}.jpg`));
 if (missing.length) fail(`채점된 오름 ${missing.length}곳에 전후 프레임이 없다: ${missing.slice(0, 3).map((f) => f.properties.oreum_id).join(', ')}`);
 
+// 6b. 월별 시계열 (상위 12): 색인에 있는 오름마다 JSON 이 있고, 참조된 프레임 파일이 실제로 존재해야 한다.
+//     빈 달(null / frame:null)은 정상이다 — 볼 수 없었던 달을 지우지 않는다.
+const seriesDir = join(data, 'series');
+let seriesNote = '시계열 없음';
+if (existsSync(join(seriesDir, 'index.json'))) {
+  const idx = JSON.parse(readFileSync(join(seriesDir, 'index.json'), 'utf8'));
+  let nFrames = 0, nDelta = 0, nEmpty = 0;
+  for (const oid of idx.oreum_ids) {
+    const jp = join(seriesDir, `${oid}.json`);
+    if (!existsSync(jp)) fail(`시계열 JSON 없음: ${oid}`);
+    const sj = JSON.parse(readFileSync(jp, 'utf8'));
+    if (Object.keys(sj.frames).length !== idx.months.length) fail(`${oid}: 달 수 ${Object.keys(sj.frames).length} ≠ 색인 ${idx.months.length}`);
+    for (const [k, fr] of Object.entries(sj.frames)) {
+      if (!fr || !fr.frame) { nEmpty++; continue; }
+      if (!existsSync(join(seriesDir, oid, fr.frame))) fail(`${oid} ${k}: 프레임 파일 없음`);
+      nFrames++;
+      if (fr.delta) { if (!existsSync(join(seriesDir, oid, fr.delta.frame))) fail(`${oid} ${k}: Δz 파일 없음`); nDelta++; }
+    }
+  }
+  seriesNote = `시계열 ${idx.oreum_ids.length}곳 · 프레임 ${nFrames} · Δz ${nDelta} · 빈 달 ${nEmpty}`;
+}
+
 // 7. 금지 문구 — 사용자 대면 복사
 const copy = readFileSync(join(root, 'app/page.tsx'), 'utf8') + readFileSync(join(root, 'app/layout.tsx'), 'utf8');
 for (const bad of ['훼손을 탐지', '탐지했습니다', 'AI가 탐지', '95.64', 'Ai2 와 함께', 'Ai2 공식', '제휴하여']) {
@@ -49,4 +71,4 @@ for (const bad of ['훼손을 탐지', '탐지했습니다', 'AI가 탐지', '95
 }
 if (!copy.includes('제휴·보증 관계가 없습니다')) fail('비제휴 고지 누락');
 
-console.log(`VERIFY OK — ${s.frame_a_total}곳 · 채점 ${s.scored} · 보류 ${s.abstain} · 귀무 ${(nr * 100).toFixed(2)}% · 프레임 ${frames.size}`);
+console.log(`VERIFY OK — ${s.frame_a_total}곳 · 채점 ${s.scored} · 보류 ${s.abstain} · 귀무 ${(nr * 100).toFixed(2)}% · 프레임 ${frames.size} · ${seriesNote}`);
