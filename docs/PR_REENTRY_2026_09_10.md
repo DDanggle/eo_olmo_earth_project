@@ -205,3 +205,17 @@ CV·후속 메일에는 `prepared / submitted / merged`를 사실대로 구분�
 - 브랜치의 GeoJSON 재검증: 6 features, 키 = oe_annotations_task_id · oe_end_time · oe_labels · oe_start_time, `es_` 없음.
 - fork `DDanggle/olmoearth_projects` 아직 없음. 제출 절차는 fork → push → PR 3단계.
 - PR 본문 끝에 Claude Code 생성 표기 줄을 넣어 둠. 지원용 첫 PR 이므로 남길지 지울지는 사용자 결정(지우려면 마지막 줄 삭제).
+
+## 2026-09-16 최종 확정 — 사용자 결정 반영
+
+제출 목록은 **3건**으로 확정함. 나머지는 의견 수준이라 제출하지 않음.
+
+| 순서 | 항목 | 형식 | 상태 |
+|---|---|---|---|
+| 1 | sample annotation `es_* → oe_*` | PR (olmoearth_projects) | 브랜치·본문 완료. 커밋 트레일러·본문 footer 처리 결정 대기 → 즉시 제출 |
+| 2 | LFMC 공개 ckpt 불일치 | Issue (olmoearth_projects) | 본문 최종본 완료 → 즉시 제출 |
+| 3 | SCL 범주형 scoring 에 nearest 강제 | PR (rslearn) | 결함 위치 확인(v0.1.14 `sentinel2_scl.py`, 두 compositor 모두 layer resampling 을 SCL 읽기에 전달). 패치·테스트 미작성 |
+
+- 4(forest_loss_driver 무한 재시도)·5(모델 카드 제안)는 **백로그로 내림**. Ai2 입장에서 새 정보가 아니거나 의견이라 판단.
+- 6·7 은 보류 유지.
+- 3번 버그 범위: SCL compositor 는 rslearn PR #598(2026-04 머지)로 추가됐고, 추가 시점부터 최신 release v0.1.14 까지 같은 코드 경로. OlmoEarth 모델 버전(v1/v1.1/v1.2)과는 무관 — 이건 데이터 전처리(장면 선택) 단계의 버그라 어떤 모델을 쓰든 입력 영상 선택에 영향을 줌.
