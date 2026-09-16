@@ -52,6 +52,8 @@ export default function Page() {
   const [sel, setSel] = useState<Props | null>(null);
   const [showAbstain, setShowAbstain] = useState(true);
   const [showKorea, setShowKorea] = useState(false);
+  const [aerial, setAerial] = useState(false);       // VWorld 항공사진(현재 모자이크, ≈25 cm) — 판독 배경
+  const VW_KEY = process.env.NEXT_PUBLIC_VWORLD_KEY;
   const [frameYear, setFrameYear] = useState<'2025' | '2026'>('2026');
   const [series, setSeries] = useState<Series | null>(null);
   const [seriesIdx, setSeriesIdx] = useState(0);
@@ -88,6 +90,11 @@ export default function Page() {
     m.addControl(new ScaleControl({ unit: 'metric' }), 'bottom-right');
     m.addControl(new AttributionControl({ compact: true }), 'bottom-right');
     m.on('load', () => {
+      if (VW_KEY) {
+        // VWorld Satellite WMTS: z19 까지 응답(≈0.25 m/px). 연도별 과거 영상은 오픈 API 에 없다 — 현재 상태 판독용.
+        m.addSource('vworld', { type: 'raster', tiles: [`https://api.vworld.kr/req/wmts/1.0.0/${VW_KEY}/Satellite/{z}/{y}/{x}.jpeg`], tileSize: 256, maxzoom: 19, attribution: '항공·위성영상 © VWorld(국토교통부)' });
+        m.addLayer({ id: 'vworld', type: 'raster', source: 'vworld', layout: { visibility: 'none' } });
+      }
       m.addSource('oreum', { type: 'geojson', data: fc });
       // abstain: 색이 아니라 패턴(점선 링) — "점수 없음 ≠ 변화 없음"
       m.addLayer({ id: 'abstain', type: 'circle', source: 'oreum', filter: ['==', ['get', 'verdict'], 'abstain'],
@@ -112,6 +119,10 @@ export default function Page() {
   }, [fc, summary, colorExpr]);
 
   useEffect(() => { if (map.current?.getLayer('abstain')) map.current.setLayoutProperty('abstain', 'visibility', showAbstain ? 'visible' : 'none'); }, [showAbstain]);
+  useEffect(() => { if (map.current?.getLayer('vworld')) map.current.setLayoutProperty('vworld', 'visibility', aerial ? 'visible' : 'none'); }, [aerial]);
+  // 오름으로 확대: 항공사진을 켜고 z17(≈1 m/px)로 날아간다 — 40 m 토큰이 못 보는 것을 사람이 본다
+  const flyToSel = (p: Props) => { const f = fc?.features.find(x => x.properties.oreum_id === p.oreum_id); if (!f || !map.current) return;
+    setAerial(true); map.current.flyTo({ center: f.geometry.coordinates as [number, number], zoom: 16.5, duration: 1200 }); };
 
   useEffect(() => {
     setSeries(null);
@@ -138,6 +149,7 @@ export default function Page() {
         <div className="toggles">
           <button className="toggle" aria-pressed={showAbstain} onClick={() => setShowAbstain(v => !v)}>관측 불가 {summary ? summary.abstain : ''}</button>
           <button className="toggle" aria-pressed={showKorea} onClick={() => setShowKorea(v => !v)}>한국 지정</button>
+          {VW_KEY && <button className="toggle" aria-pressed={aerial} onClick={() => setAerial(v => !v)} title="VWorld 항공·위성영상 (현재 모자이크, ≈25 cm). 연도별 과거 영상은 오픈 API 에 없습니다.">항공사진</button>}
         </div>
         <div className="brand">
           <div className="brand-mark" />
@@ -196,7 +208,10 @@ export default function Page() {
               <span className={`badge ${sel.verdict}`}>{sel.verdict === 'scored' ? `채점 · 순위 #${sel.rank}` : '관측 불가 · 점수 없음'}</span>
               {sel.verdict === 'scored' && (sel.event_n_flag ?? 0) > 0 && <span className="badge flag" style={{ marginLeft: 6 }}>문턱 초과 {pct(sel.event_flag_frac)} · {sel.event_n_flag} 토큰</span>}
             </div>
-            <button className="close" onClick={() => setSel(null)} aria-label="닫기">×</button>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              {VW_KEY && <button className="toggle" onClick={() => flyToSel(sel)} title="VWorld 항공사진(≈25 cm)으로 이 오름을 확대합니다. 촬영 시점은 공개되지 않습니다.">항공사진으로 확대</button>}
+              <button className="close" onClick={() => setSel(null)} aria-label="닫기">×</button>
+            </div>
           </header>
           {sel.verdict === 'abstain' && <p style={{ margin: '8px 0 0', fontSize: 12.5, color: 'var(--muted)' }}>{sel.abstain_reason}. 이 오름은 분모에 남고 점수는 만들지 않습니다.</p>}
           <div className="frames">
