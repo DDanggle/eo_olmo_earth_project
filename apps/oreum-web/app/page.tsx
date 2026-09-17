@@ -6,6 +6,7 @@ import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { LABEL_CODES, LABEL_TOP_N, loadLocal, saveLocal, toFile, download, type Label, type LabelCode, type LabelFile } from '../lib/labels';
 
 type Props = {
   oreum_id: string; name: string; verdict: 'scored' | 'abstain'; abstain_reason: string | null;
@@ -63,10 +64,15 @@ export default function Page() {
   const [lag, setLag] = useState(1);                 // 비교 기준: n년 전 같은 달
   const [news, setNews] = useState<News | null>(null);
   const [showNews, setShowNews] = useState(false);
+  const [labels, setLabels] = useState<Record<string, Label>>({});   // 사람 판독 (상위 20) — lib/labels.ts
+  const [noteDraft, setNoteDraft] = useState<{ id: string; text: string } | null>(null);   // 입력 중인 메모 (오름별)
 
   useEffect(() => {
     fetch(withBase('/data/summary.json')).then(r => r.json()).then(setSummary);
     fetch(withBase('/data/oreum.geojson')).then(r => r.json()).then(setFc);
+    // 커밋된 정답(labels.json)이 바닥, 이 브라우저에서 찍은 라벨이 그 위
+    fetch(withBase('/data/labels.json')).then(r => (r.ok ? r.json() : null)).catch(() => null)
+      .then((f: LabelFile | null) => setLabels({ ...(f?.labels ?? {}), ...loadLocal() }));
   }, []);
 
   // 색계급 표현식: summary.class_breaks 하나만 읽는다 → 범례와 절대 어긋나지 않는다.
@@ -140,8 +146,23 @@ export default function Page() {
     }).catch(() => setSeries(null));
   }, [sel]);
 
-  const ranking = useMemo(() => (fc?.features ?? []).map(f => f.properties).filter(p => p.verdict === 'scored').sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9)).slice(0, 12), [fc]);
+  const ranking = useMemo(() => (fc?.features ?? []).map(f => f.properties).filter(p => p.verdict === 'scored').sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9)).slice(0, LABEL_TOP_N), [fc]);
   const pair = summary?.pairs.event ?? ['2025', '2026'];
+  const labelable = !!sel && sel.verdict === 'scored' && (sel.rank ?? 1e9) <= LABEL_TOP_N;
+  const nLabeled = ranking.filter(p => labels[p.oreum_id]).length;
+  const labelNote = sel ? (noteDraft?.id === sel.oreum_id ? noteDraft.text : labels[sel.oreum_id]?.note ?? '') : '';
+  const setLabel = (id: string, code: LabelCode | null, note = labelNote) => {
+    const next = { ...labels };
+    if (code) next[id] = { code, note: note.trim(), at: new Date().toISOString() }; else delete next[id];
+    setLabels(next); saveLocal(next);
+  };
+  // 키보드 a/b/c/d — 항공사진을 보면서 손을 옮기지 않고 찍는다. 입력칸에 커서가 있으면 무시.
+  useEffect(() => {
+    if (!labelable || !sel) return;
+    const h = (e: KeyboardEvent) => { if ((e.target as HTMLElement)?.tagName === 'INPUT') return; const k = e.key.toLowerCase();
+      if (['a', 'b', 'c', 'd'].includes(k)) setLabel(sel.oreum_id, k as LabelCode); };
+    window.addEventListener('keydown', h); return () => window.removeEventListener('keydown', h);
+  });
 
   return (
     <div className="app-shell">
@@ -193,10 +214,13 @@ export default function Page() {
       </aside>
 
       <aside className="rail rail-right">
-        <p className="eyebrow">상위 12 — 먼저 볼 곳</p>
+        <div className="series-head">
+          <p className="eyebrow">상위 {LABEL_TOP_N} — 먼저 볼 곳 · 사람 판독 {nLabeled}/{ranking.length}</p>
+          {nLabeled > 0 && <button className="toggle" onClick={() => download(toFile(labels, summary?.contract_sha256 ?? null))} title="이 브라우저의 라벨을 labels.json 으로 내려받아 public/data/ 에 커밋하면 정답 데이터가 됩니다">내보내기</button>}
+        </div>
         {ranking.map(p => (
           <button key={p.oreum_id} className="toggle" style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginBottom: 6 }} onClick={() => setSel(p)}>
-            <span>#{p.rank} {p.name}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}{p.buffer1_verdict === 'abstain' && <span className="badge abstain" style={{ marginLeft: 6 }} title="구름 가장자리를 1토큰 더 지우면 관측 불가로 떨어짐 — 관측 여유가 얇은 곳">구름 여유 부족</span>}{p.stable_top30_both && <span className="badge flag" style={{ marginLeft: 6 }} title="6개년 복제 계약(다른 장면 선택)에서도 상위 30">복제 일치</span>}{p.low_validity && !p.buffer1_verdict?.includes('abstain') && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건 쌍 유효 토큰 <60% — 장면을 바꾸면 순위가 무너지는 구간">저유효</span>}</span><span className="mono">{pct(p.event_flag_frac)}</span>
+            <span>{labels[p.oreum_id] && <span className={`label-chip ${labels[p.oreum_id].code}`} title={LABEL_CODES.find(c => c.code === labels[p.oreum_id].code)?.short}>{labels[p.oreum_id].code}</span>}#{p.rank} {p.name}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}{p.buffer1_verdict === 'abstain' && <span className="badge abstain" style={{ marginLeft: 6 }} title="구름 가장자리를 1토큰 더 지우면 관측 불가로 떨어짐 — 관측 여유가 얇은 곳">구름 여유 부족</span>}{p.stable_top30_both && <span className="badge flag" style={{ marginLeft: 6 }} title="6개년 복제 계약(다른 장면 선택)에서도 상위 30">복제 일치</span>}{p.low_validity && !p.buffer1_verdict?.includes('abstain') && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건 쌍 유효 토큰 <60% — 장면을 바꾸면 순위가 무너지는 구간">저유효</span>}</span><span className="mono">{pct(p.event_flag_frac)}</span>
           </button>
         ))}
         <p style={{ fontSize: 11 }}>비율은 그 오름 창(2.56 km)의 유효 토큰 중 문턱 초과분. 양쪽 해에 다 깃발이 선 토큰(지속 인공물 후보)은 상세에서 따로 보입니다.</p>
@@ -222,6 +246,17 @@ export default function Page() {
               <img src={withBase(`/data/frames/${sel.oreum_id}_${frameYear}.jpg`)} alt="" /><figcaption>{frameYear} · 눌러서 전후 전환</figcaption></figure>
             <figure><img src={withBase(`/data/frames/${sel.oreum_id}_delta.png`)} alt="" style={{ background: '#0f1d1a' }} /><figcaption>Δz 토큰 맵 · 투명 = 유효하지 않은 토큰</figcaption></figure>
           </div>
+          {labelable && (
+            <div className="labels">
+              <span className="eyebrow">사람 판독 · 키 a–d</span>
+              {LABEL_CODES.map(c => (
+                <button key={c.code} className={`toggle label-btn ${c.code}`} aria-pressed={labels[sel.oreum_id]?.code === c.code} title={c.long}
+                  onClick={() => setLabel(sel.oreum_id, labels[sel.oreum_id]?.code === c.code ? null : c.code)}><b>{c.code}</b> {c.short}</button>
+              ))}
+              <input className="label-note" value={labelNote} placeholder="메모 (선택)" onChange={e => setNoteDraft({ id: sel.oreum_id, text: e.target.value })}
+                onBlur={() => labels[sel.oreum_id] && labelNote.trim() !== (labels[sel.oreum_id].note ?? '') && setLabel(sel.oreum_id, labels[sel.oreum_id].code, labelNote)} />
+            </div>
+          )}
           {series && (() => {
             const keys = Object.keys(series.frames); const key = keys[seriesIdx]; const fr = series.frames[key];
             const d = fr?.deltas?.[String(lag)] ?? (lag === 1 ? fr?.delta ?? undefined : undefined);

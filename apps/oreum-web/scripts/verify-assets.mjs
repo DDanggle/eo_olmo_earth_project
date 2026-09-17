@@ -64,6 +64,22 @@ if (existsSync(join(seriesDir, 'index.json'))) {
   seriesNote = `시계열 ${idx.oreum_ids.length}곳 · 프레임 ${nFrames} · Δz ${nDelta} · 빈 달 ${nEmpty}`;
 }
 
+// 6c. 사람 판독 라벨(labels.json, 있을 때만): 오름 id 가 실제로 있고 코드는 a–d, 대상은 채점된 상위 20 뿐.
+let labelNote = '라벨 없음';
+if (existsSync(join(data, 'labels.json'))) {
+  const lf = JSON.parse(readFileSync(join(data, 'labels.json'), 'utf8'));
+  if (lf.schema !== 'oreum-labels/1') fail('labels.json schema');
+  if (lf.contract_sha256 && lf.contract_sha256 !== s.contract_sha256) fail('labels.json 이 다른 계약에서 찍혔다 — 순위가 바뀌었으니 다시 판독');
+  const byId = new Map(g.features.map((f) => [f.properties.oreum_id, f.properties]));
+  for (const [oid, l] of Object.entries(lf.labels)) {
+    const p = byId.get(oid);
+    if (!p) fail(`labels.json: 없는 오름 ${oid}`);
+    if (!['a', 'b', 'c', 'd'].includes(l.code)) fail(`labels.json: ${oid} 코드 ${l.code}`);
+    if (p.verdict !== 'scored' || p.rank > 20) fail(`labels.json: ${oid} 는 상위 20 채점 대상이 아니다 (${p.verdict} #${p.rank})`);
+  }
+  labelNote = `라벨 ${Object.keys(lf.labels).length}/20`;
+}
+
 // 7. 금지 문구 — 사용자 대면 복사
 const copy = readFileSync(join(root, 'app/page.tsx'), 'utf8') + readFileSync(join(root, 'app/layout.tsx'), 'utf8');
 for (const bad of ['훼손을 탐지', '탐지했습니다', 'AI가 탐지', '95.64', 'Ai2 와 함께', 'Ai2 공식', '제휴하여']) {
@@ -71,4 +87,4 @@ for (const bad of ['훼손을 탐지', '탐지했습니다', 'AI가 탐지', '95
 }
 if (!copy.includes('제휴·보증 관계가 없습니다')) fail('비제휴 고지 누락');
 
-console.log(`VERIFY OK — ${s.frame_a_total}곳 · 채점 ${s.scored} · 보류 ${s.abstain} · 귀무 ${(nr * 100).toFixed(2)}% · 프레임 ${frames.size} · ${seriesNote}`);
+console.log(`VERIFY OK — ${s.frame_a_total}곳 · 채점 ${s.scored} · 보류 ${s.abstain} · 귀무 ${(nr * 100).toFixed(2)}% · 프레임 ${frames.size} · ${seriesNote} · ${labelNote}`);
