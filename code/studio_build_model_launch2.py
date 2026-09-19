@@ -35,38 +35,24 @@ with sync_playwright() as p:
     print("filter controls:", ctrls, flush=True)
     # 'Choose specific datasets' 버튼 → 데이터셋 선택기. 구조를 덤프하고 대상만 선택.
     pg.get_by_role("button", name="Choose specific datasets").first.click(timeout=4000); pg.wait_for_timeout(1200)
-    snap(pg, "s2_dataset_picker", "Choose specific")
-    picker = pg.evaluate("""() => Array.from(document.querySelectorAll('[role=dialog] *, [role=listbox] *, [role=menu] *, .MuiPopover-paper *, .MuiDialog-paper *')).filter(e=>['BUTTON','INPUT','LI','LABEL'].includes(e.tagName)||['option','checkbox','menuitem','switch'].includes(e.getAttribute('role'))).map(e=>({tag:e.tagName,role:e.getAttribute('role'),type:e.type||'',checked:e.checked??e.getAttribute('aria-checked')??e.getAttribute('aria-selected'),text:(e.innerText||e.value||e.getAttribute('aria-label')||'').replace(/\\s+/g,' ').trim().slice(0,70)})).filter(x=>x.text||x.role)""")
-    print("picker:", picker[:40], flush=True)
+    # MUI Autocomplete 표준 조작: 입력 클릭 → 이름 타이핑 → 옵션 확인 → 옵션 클릭/Enter. Escape 금지(모달이 닫힘).
+    add = pg.get_by_label(re.compile("Add datasets", re.I))
+    if not add.count(): add = pg.get_by_role("combobox", name=re.compile("Add datasets", re.I))
+    if not add.count(): add = pg.locator("input[type=text]").last
+    add.first.click(timeout=4000); pg.wait_for_timeout(500)
+    add.first.fill(a.dataset[:12]); pg.wait_for_timeout(1300)
+    opts = pg.evaluate("""() => Array.from(document.querySelectorAll('[role=option], [role=listbox] li, .MuiAutocomplete-option')).map(e=>e.innerText.trim())""")
+    (OUT/"dataset_options.txt").write_text("\n".join(opts)); print("dataset options:", opts, flush=True)
+    snap(pg, "s2_dataset_options", "Add datasets")
     applied = False
-    # 대상 데이터셋 항목 클릭 (checkbox/option/menuitem/li/label 중 텍스트 일치)
-    for role in ["checkbox", "option", "menuitem"]:
-        loc = pg.get_by_role(role, name=re.compile(re.escape(a.dataset)))
-        if loc.count() and loc.first.is_visible():
-            st = loc.first.get_attribute("aria-checked") or loc.first.get_attribute("aria-selected")
-            if st != "true": loc.first.click(timeout=2500); pg.wait_for_timeout(500)
-            applied = True; print("dataset 선택 via role", role, flush=True); break
-    if not applied:
-        loc = pg.get_by_text(a.dataset, exact=False)
-        for k in range(loc.count()):
-            try:
-                if loc.nth(k).is_visible(): loc.nth(k).click(timeout=2500); pg.wait_for_timeout(500); applied = True; print("dataset 선택 via text", flush=True); break
-            except Exception: pass
-    # 다른 데이터셋이 선택돼 있으면 해제
-    others = [n for n in ["jeju_oreum_studio", "jeju_oreum_polys_studio", "nepal_rasuwa_studio"] if n != a.dataset and not (n in a.dataset or a.dataset in n)]
-    for n in others:
-        for role in ["checkbox", "option", "menuitem"]:
-            loc = pg.get_by_role(role, name=re.compile(rf"^{re.escape(n)}\\b"))
-            if loc.count() and loc.first.is_visible():
-                st = loc.first.get_attribute("aria-checked") or loc.first.get_attribute("aria-selected")
-                if st == "true": loc.first.click(timeout=2000); pg.wait_for_timeout(400); print("해제:", n, flush=True)
-                break
-    snap(pg, "s2_filter_set", "Choose specific")
-    for lbl in ["Apply", "Done", "Save", "Confirm", "Select", "OK"]:
-        bt = pg.get_by_role("button", name=re.compile(rf"^{lbl}$", re.I))
-        if bt.count() and bt.first.is_visible(): bt.first.click(timeout=2000); pg.wait_for_timeout(1000); print("picker confirm:", lbl, flush=True); break
-    else:
-        pg.keyboard.press("Escape"); pg.wait_for_timeout(600)
+    opt = pg.get_by_role("option", name=re.compile(re.escape(a.dataset)))
+    if opt.count(): opt.first.click(timeout=3000); applied = True; print("dataset 선택(click):", a.dataset, flush=True)
+    elif opts: pg.keyboard.press("Enter"); applied = True; print("dataset 선택(Enter)", flush=True)
+    pg.wait_for_timeout(1200)
+    try: pg.get_by_text("Which data should be used for training?").first.click(timeout=2000)   # blur (Escape 대신)
+    except Exception: pass
+    pg.wait_for_timeout(800)
+    snap(pg, "s2_filter_set", "Which data")
     t = snap(pg, "s2_after_filter", "Which data")
     m = re.search(r"(\d+) annotations", t); n_ann = int(m.group(1)) if m else -1
     print("학습 annotation 수:", n_ann, flush=True)
