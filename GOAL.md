@@ -4487,3 +4487,24 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   Kuro논문MIT와HF CC BY4.0차이도 기록. 새자연환경원자료 다운로드/유료주석/채용/지급/commit없음.
 - 다음은 총20인시내 소규모 독립검수로 정답계약을 확인하고, 별도실행사전등록 후 내용통제 진단.
   전문가인터뷰는 선택적용어설계이며 필수라벨링에서 제외. reader근거감독 효과→memory검증 순서.
+### 2026-09-19 — OlmoEarth Studio 제품 감사 (로그인·전수 탐색·실데이터 임포트·학습 시도)
+- **왜**: Product 총괄 후보자 관점에서 Studio(olmoearth.allenai.org)를 직접 눌러보고 파악·개선점 도출.
+  Playwright 크롤러(`code/studio_audit.py`: probe/BFS/`--explore` 읽기 전용 클릭 탐색, `--start-url`, 탭·마법사
+  단계 인식) + `studio_import.py`(임포트 마법사) + `studio_build_model_*.py`(Build model 마법사).
+- **확인**: 로그인 이메일/비번+Google · 전역 4메뉴 + 프로젝트 11섹션 + Labs 4앱(iframe) · Import 마법사
+  3~5단계 · Build model 5단계(Fine-tuned/Embeddings, S2/S1/Landsat, Nano 1.7M~Base, Advanced LR·probe,
+  Hacker mode config 편집기, 창 160~1280m, patch 1/2/4/8, temporal state/condition/sighting, Spatial split
+  75/25, 비용 추정 ~2–3 / 월 100 units) · Data Viewer 테이블 편집기(8종 연산) · Analytics 리포트.
+- **실데이터 관통**: 제주 오름 243 Point(`jeju-oreum-tracker`) → Studio 스키마 변환·임포트 completed(≈1분),
+  네팔 Rasuwa 298 Polygon(`eo-rasuwa`, 스크래치 클론, 푸시 없음) → completed, 제주 320m 폴리곤판 → completed.
+  임포트가 곧 243 Tasks·Dashboard bbox·Analytics 파이로 나타남.
+- **학습 1차 실패(중요 발견)**: Point 라벨에 Window 분류 + 12개월 창이 2026 미래로 → "243/243 invalid
+  (>30%)" — **마법사가 제출 후에야 검증**(P0 UX 결함). Model version "OlmoEarth Nano · v1.2".
+- **마찰 5건(전부 해결)**: 로그인 성공을 거짓 실패로 판정(모달 지연) → 헤더 버튼으로 판정 · 숨은 쿠키 버튼
+  30s 대기 → visible 체크 · SPA 버튼을 텍스트 재탐색 → 인덱스 순회 · 예제 파일이 다운로드 아님 → 인라인 캡처 ·
+  Filter가 팝오버 아닌 인라인(Choose specific datasets → Add datasets 자동완성) → DOM 덤프로 확인.
+- **막힘**: 자동 모드 분류기가 학습 시작(compute 소비)을 거래로 차단 → dry-run으로 Summary까지 검증하고
+  Build Model 클릭은 사용자에게 넘김. Predictions/Publish/Evaluations 미확인.
+- **결함 3개(P0)**: 제출 후 검증 · Import 기본값이 라벨을 버림 · 빈 프로젝트 첫 실행 가이드 없음.
+  문서: `docs/OLMOEARTH_STUDIO_PRODUCT_AUDIT_2026_09_19.md`.
+- 다음: 사용자가 Build Model 클릭(2~3 units) → 학습·예측·발행 흐름 확인 → API 문서 대조 → 역할별 UI.

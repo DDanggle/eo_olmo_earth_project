@@ -125,7 +125,7 @@ def try_form_login(page, email, password, log) -> bool:
 # ---------------- SPA 클릭 탐색 (읽기 전용) ----------------
 # 제출/파괴 동사만 막는다. 모달을 *여는* 버튼(Create new project, Add account, Edit user, Filter…)은
 # 눌러서 폼을 기록하되, 모달 안의 짧은 제출 버튼(Create/Add/Save…)은 정확 일치로 차단된다.
-SUBMIT_EXACT = re.compile(r"^(save|submit|confirm|create|add|update|apply|send|invite|ok|done|finish|next|"
+SUBMIT_EXACT = re.compile(r"^(save|submit|confirm|create|add|update|apply|send|invite|ok|done|finish|"
                           r"start|run|train|publish|deploy|export|download|upload|import|pay|checkout)$", re.I)
 DESTRUCTIVE_ANY = re.compile(r"delete|remove|archive|revoke|sign ?out|log ?out|cancel subscription|deactivate|"
                              r"reset password|accept all|reject non-essential|close cookie|close this dialog", re.I)
@@ -161,7 +161,12 @@ def explore(page, out, log, max_states=80, max_depth=3, per_state=30):
     states, edges, order = {}, [], [0]
 
     def state_key(s):
-        return page.url + " | " + (s["h1"][:1] or s["h2"][:1] or [s["title"]])[0]
+        import hashlib
+        active = page.evaluate("""() => { const t=document.querySelector('[role=tab][aria-selected=true]');
+            const st=document.querySelector('[aria-current=step], .MuiStep-root .Mui-active'); 
+            return ((t&&t.innerText)||'') + '|' + ((st&&st.innerText)||''); }""") or ""
+        body_sig = hashlib.md5(s["body_excerpt"][:400].encode()).hexdigest()[:8]
+        return page.url + " | " + (s["h1"][:1] or s["h2"][:1] or [s["title"]])[0] + " | " + active.strip() + " | " + body_sig
 
     def snap(label):
         order[0] += 1
@@ -215,6 +220,28 @@ def explore(page, out, log, max_states=80, max_depth=3, per_state=30):
                                   "forms": ds["forms"], "inputs": ds["inputs_outside_forms"],
                                   "buttons": ds["buttons"][:20], "text": ds["body_excerpt"][:600]})
                     log(f"   dialog ← [{i}] {t!r}: forms={len(ds['forms'])} inputs={len(ds['inputs_outside_forms'])}")
+                    # 마법사면 단계별로 진행해 각 단계를 기록 (Next/Advanced options/Hacker mode 는 서버 무변경)
+                    for step in range(6):
+                        adv = False
+                        for lbl in ["Advanced options", "Hacker mode"]:
+                            l = page.get_by_role("button", name=lbl)
+                            if l.count() and l.first.is_visible():
+                                try:
+                                    l.first.click(timeout=2000); page.wait_for_timeout(500)
+                                    ds2, sh2 = snap(f"dialog:{t}:{lbl}")
+                                    edges.append({"from": home, "click": f"{t} > {lbl}", "kind": "dialog", "screenshot": sh2,
+                                                  "inputs": ds2["inputs_outside_forms"], "buttons": ds2["buttons"][:20], "text": ds2["body_excerpt"][:900]})
+                                    log(f"      ↳ {lbl}"); adv = True
+                                except Exception: pass
+                        nx = page.get_by_role("button", name="Next")
+                        if not (nx.count() and nx.first.is_visible() and nx.first.is_enabled()): break
+                        try:
+                            nx.first.click(timeout=2500); page.wait_for_timeout(900)
+                        except Exception: break
+                        ds2, sh2 = snap(f"dialog:{t}:step{step+2}")
+                        edges.append({"from": home, "click": f"{t} > Next x{step+1}", "kind": "dialog", "screenshot": sh2,
+                                      "inputs": ds2["inputs_outside_forms"], "buttons": ds2["buttons"][:20], "text": ds2["body_excerpt"][:900]})
+                        log(f"      ↳ Next → step {step+2}: buttons={[b for b in ds2['buttons'] if b not in ('D','Save','Accept All','Reject Non-Essential','Close this dialog','Close Cookie Preferences')][:8]}")
                     close_dialogs(page)
                     if page.url != home:
                         page.goto(home, wait_until="networkidle", timeout=30000); page.wait_for_timeout(500)
@@ -251,6 +278,8 @@ def main() -> int:
     ap.add_argument("--max-pages", type=int, default=120)
     ap.add_argument("--delay-ms", type=int, default=800)
     ap.add_argument("--headed", action="store_true")
+    ap.add_argument("--depth", type=int, default=3, help="explore 최대 깊이 (섹션 안 탭까지 보려면 4)")
+    ap.add_argument("--start-url", default=None, help="explore 시작 URL(상대경로 가능). 특정 섹션을 깊이 0부터 정밀 탐색")
     a = ap.parse_args()
     from playwright.sync_api import sync_playwright
 
@@ -332,7 +361,11 @@ def main() -> int:
         log(f"크롤 시작 url={page.url}")
 
         if a.explore:
-            explore(page, out, log, max_states=a.max_pages)
+            if a.start_url:
+                su = a.start_url if a.start_url.startswith("http") else BASE + a.start_url
+                page.goto(su, wait_until="networkidle", timeout=45000); page.wait_for_timeout(1000); dismiss_cookies(page)
+                log(f"start-url → {page.url}")
+            explore(page, out, log, max_states=a.max_pages, max_depth=a.depth)
             browser.close(); return 0
 
         # ---- BFS 크롤 (읽기 전용) ----
