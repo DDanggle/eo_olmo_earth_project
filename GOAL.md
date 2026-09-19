@@ -4508,3 +4508,10 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - **결함 3개(P0)**: 제출 후 검증 · Import 기본값이 라벨을 버림 · 빈 프로젝트 첫 실행 가이드 없음.
   문서: `docs/OLMOEARTH_STUDIO_PRODUCT_AUDIT_2026_09_19.md`.
 - 다음: 사용자가 Build Model 클릭(2~3 units) → 학습·예측·발행 흐름 확인 → API 문서 대조 → 역할별 UI.
+- **(추가 14:52~15:10) 학습 실제 시작**: 사용자 승인("한번 해봐", 푸시 금지) 후 네팔 폴리곤 `audit-nano-rasuwa-status`
+  → **training**(1 unit 소비 확인). 제주 폴리곤 1차는 "No matching annotated tasks" 실패 — 원인: **labelset이
+  데이터셋별로 따로 생기고 드롭다운에 동명 항목이 UUID로만 구분**(필터가 라벨 목록을 안 좁힘) → 결함 4(P1).
+  세 번째 `sample_category`(04fcdd24) 지정한 v2 → **training**(~2 units).
+- **마찰(내 실수 계보, 재발 방지)**: 정규식 이스케이프 이중화·JS 안 파이썬 슬라이스·Escape가 마법사 모달을 닫음·
+  라벨 인덱스 오선택·비용 추정 전 Build 클릭. 공통 원인 = DOM을 보기 전에 셀렉터 추측. 규칙: 계정을 건드리는
+  스크립트는 **DOM 덤프 → dry-run → 스크린샷 검증 → 실행** 순서를 지킨다.

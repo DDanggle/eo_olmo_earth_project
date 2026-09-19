@@ -7,7 +7,7 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parents[1]; BASE = "https://olmoearth.allenai.org"
 ap = argparse.ArgumentParser(); ap.add_argument("--project", required=True); ap.add_argument("--name", required=True)
 ap.add_argument("--label", default="status"); ap.add_argument("--dataset", default="nepal_rasuwa_studio"); ap.add_argument("--temporal", default="A sighting")
-ap.add_argument("--dry-run", action="store_true"); a = ap.parse_args()
+ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--label-index", type=int, default=0, help="같은 이름 라벨이 여러 개일 때 몇 번째(0=첫, -1=마지막). 라벨셋은 데이터셋별로 따로 생기며 드롭다운은 데이터셋 순서"); a = ap.parse_args()
 OUT = ROOT/"artifacts/studio_audit/build_model_launch"/(time.strftime("%Y%m%d_%H%M%S")+"_nepal"); OUT.mkdir(parents=True)
 txt = lambda pg: pg.evaluate("() => document.body.innerText.replace(/\\s+/g,' ')")
 def snap(pg, name, key=None, n=1500):
@@ -26,7 +26,11 @@ with sync_playwright() as p:
     except Exception: pass
     assert nxt(pg)
     pg.get_by_role("combobox").first.click(timeout=3000); pg.wait_for_timeout(500)
-    pg.get_by_role("option", name=re.compile(rf"^{a.label}")).first.click(timeout=3000); pg.wait_for_timeout(900)
+    opts_l = pg.get_by_role("option", name=re.compile(rf"^{re.escape(a.label)} \("))
+    n_l = opts_l.count(); idx = a.label_index if a.label_index >= 0 else n_l + a.label_index
+    chosen = opts_l.nth(idx); uuid = (chosen.get_attribute("data-value") or "")[:8]
+    print(f"라벨 옵션 {n_l}개 중 index {idx} 선택: {chosen.inner_text().strip()} [{uuid}]", flush=True)
+    chosen.click(timeout=3000); pg.wait_for_timeout(900)
     pg.get_by_role("radio", name=re.compile("Window based", re.I)).first.check(timeout=3000); pg.wait_for_timeout(400)
     # --- Filter: 데이터셋 하나로 제한 ---
     pg.get_by_role("button", name="Filter").first.click(timeout=4000); pg.wait_for_timeout(1200)

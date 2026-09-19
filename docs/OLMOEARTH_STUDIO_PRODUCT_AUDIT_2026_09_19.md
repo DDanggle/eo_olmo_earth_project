@@ -12,9 +12,9 @@
 
 ## 0. 먼저 — 한계와 못 한 것
 
-- **학습을 실제로 완료하지 못했다.** 1차 시도는 검증 실패(§C.2), 2·3차(필터 적용판)는 실행 직전에서
-  자동화 권한 정책(compute 소비 = 거래)에 막혀 **Build Model 클릭을 사람에게 넘겼다**. 따라서
-  Predictions(Run model)·Map Publisher(Publish)·Performance Evaluations·예측 결과 화면은 **미확인**.
+- **학습은 시작됐으나 이 문서 작성 시점에 완료되지 않았다.** 4회 시도 중 2회 실패(원인 확정, §6), 2회
+  **`training`**(네팔 298 폴리곤 ~1 unit, 제주 243 폴리곤 ~2 units; 사용자 승인 후 실행). 따라서
+  학습 완료 화면·Performance Evaluations·Predictions(Run model)·Map Publisher(Publish)는 **미확인**.
 - 어노테이션 편집기(태스크 열어서 그리는 화면), 협업자 역할별 UI, 조직 다중화면은 미확인.
 - 계정 1개(Admin), 프로젝트 1개. 월 쿼터 **100 compute units** 중 0 사용 상태에서 감사.
 
@@ -115,10 +115,26 @@ compute unit은 소비되지 않은 것으로 보이나(0/100 유지) 사용자 
 annotation count·labels), Configuration, Actions(Edit name·Delete), Model Info(Status·Error·Type·**Model version
 "OlmoEarth Nano · v1.2"**·Created).
 
-**2·3차 준비 (dry-run)**: 검증을 통과하도록 (a) 네팔 폴리곤만 필터 + 라벨 `status`(ranked 198/unobservable 100)
-+ "A sighting", (b) 제주 포인트를 **320m 정사각 폴리곤으로 버퍼링·날짜 2025-06-01로 통일**해 세 번째
-데이터셋으로 임포트 + `sample_category` + "A state". 두 설정 모두 Summary·비용 추정까지 도달 가능하게 만들었고
-**Build Model 클릭은 사람 결정으로 남김**(§0).
+**2차 (`audit-nano-rasuwa-status`, 사용자 승인 후 실행)**: 네팔 폴리곤 298건만 필터("Choose specific datasets →
+Add datasets" 자동완성), 라벨 `status`(ranked 198/unobservable 100), "A sighting", Nano. 검증 통과 →
+**`training`** (14:52 KST 시작, 쿼터 "1 of 100 used"로 실제 소비 확인). 상세: Training filters "Datasets
+nepal_rasuwa_studio", Temporal "A single moment in time, Image-match window ±…".
+
+**3차 (`audit-nano-oreum-polys-cat`)**: 제주 포인트를 **320m 정사각 폴리곤으로 버퍼링·날짜 2025-06-01로 통일**한
+세 번째 데이터셋 + `sample_category` + "A state". 검증은 통과했으나 즉시 **failed**:
+```
+No matching annotated tasks found for project 'Toy project - jeju' with metadata fields ['sample_category']
+```
+원인(확인함): 라벨 필드 드롭다운에 **14개 항목이 데이터셋 순서로 나열**되고 `sample_category (243 annotations)`가
+**두 번**(포인트판 `308aa…`, 폴리곤판 `04fcd…`) 나타난다 — 표시 텍스트가 완전히 같고 `data-value` UUID로만 다르다.
+**데이터셋 필터를 걸어도 라벨 목록은 좁혀지지 않는다.** 첫 항목(포인트판)을 고른 채 폴리곤판으로 필터하니 교집합 0.
+
+**결함 4 (P1)** — labelset이 데이터셋마다 따로 생기는데 UI가 이를 구분해 보여주지 않고(동명·동일 건수),
+필터와 라벨 선택이 서로를 모르며, 결과 에러 메시지("No matching annotated tasks")가 불일치의 원인을 말해주지 않는다.
+
+**4차 (`audit-nano-oreum-polys-cat-v2`)**: 같은 설정에 라벨을 **세 번째 `sample_category`(04fcdd24)**로 지정 →
+검증 통과 → **`training`** (~2 units). 즉 Studio에서 Point 라벨로 Window 분류를 하려면 (1) 폴리곤으로 버퍼링,
+(2) 라벨 날짜가 시간 창 안에 들어오게, (3) 데이터셋별 labelset을 UUID로 구분 — 세 가지를 사용자가 스스로 알아내야 한다.
 
 ## 7. 데이터가 들어간 뒤의 화면 — 확인함
 
@@ -147,6 +163,7 @@ annotation count·labels), Configuration, Actions(Edit name·Delete), Model Info
 | **P0** | 학습 검증이 제출 후에만 실행 | §6 1차 실패 | S2에서 지오메트리↔산출물 호환, S4에서 창의 미래 초과를 즉시 경고·차단 |
 | **P0** | Import가 기본으로 라벨을 버림 | §4 결함 1 | 라벨 후보 기본 선택, Confirm의 "Not Imported" 강조 |
 | **P0** | 빈 프로젝트 첫 실행 가이드 없음 | §A 빈 카드 3개 | "라벨 파일이 있나요?" 한 질문 분기(Import vs Create tasks) |
+| **P1** | 데이터셋별 동명 labelset을 UI가 구분 못 함 | §6 결함 4: 드롭다운에 `sample_category (243)`이 둘, UUID로만 구분, 필터가 목록을 안 좁힘, 에러가 원인 미설명 | 라벨 항목에 데이터셋명 표기, 필터 적용 시 라벨 목록 연동, 불일치 시 즉시 경고 |
 | **P1** | "필터가 곧 학습셋"이 숨어 있음 | Data Viewer 우측 패널 | Models 마법사 S2와 Data Viewer 필터를 명시 연결 |
 | **P1** | 용어 불일치 | Create new project↔Add project, Import data↔Import Training Data, Predictions↔Run model, Map Publisher↔Publish | 통일 |
 | **P1** | 개발자 문구 노출 | Labs(`POST /datasets`, `ui/src/labs/CLAUDE.md`) | 사용자 언어로, 기술 상세는 문서로 |
