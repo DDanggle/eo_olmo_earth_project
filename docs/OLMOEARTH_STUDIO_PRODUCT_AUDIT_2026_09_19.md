@@ -12,9 +12,11 @@
 
 ## 0. 먼저 — 한계와 못 한 것
 
-- **학습은 시작됐으나 이 문서 작성 시점에 완료되지 않았다.** 4회 시도 중 2회 실패(원인 확정, §6), 2회
-  **`training`**(네팔 298 폴리곤 ~1 unit, 제주 243 폴리곤 ~2 units; 사용자 승인 후 실행). 따라서
-  학습 완료 화면·Performance Evaluations·Predictions(Run model)·Map Publisher(Publish)는 **미확인**.
+- **학습 4회 중 1회만 완료(`ready`).** 2회는 제출 직후 실패(원인 확정, §6), 네팔 폴리곤은 **41분 학습 후
+  실패했는데 UI 어디에도 원인이 없다**(§6 5차, 결함 5). 제주 폴리곤 v2는 ready — Performance Evaluations 확인함
+  (§6). **Predictions(Run model)·Map Publisher(Publish)는 아직 실행하지 않음**(compute 추가 소비, 사용자 승인 대기).
+- **완료된 모델의 결과 수치는 과학적 의미가 없다.** 라벨 `scored/abstain`은 우리 파이프라인의 "점수 매김/기권"
+  플래그(구름·유효 픽셀 대리변수)이지 사람이 확인한 정답이 아니다. 제품 경로 검증용 연기 테스트로만 읽어야 한다.
 - 어노테이션 편집기(태스크 열어서 그리는 화면), 협업자 역할별 UI, 조직 다중화면은 미확인.
 - 계정 1개(Admin), 프로젝트 1개. 월 쿼터 **100 compute units** 중 0 사용 상태에서 감사.
 
@@ -136,6 +138,33 @@ No matching annotated tasks found for project 'Toy project - jeju' with metadata
 검증 통과 → **`training`** (~2 units). 즉 Studio에서 Point 라벨로 Window 분류를 하려면 (1) 폴리곤으로 버퍼링,
 (2) 라벨 날짜가 시간 창 안에 들어오게, (3) 데이터셋별 labelset을 UUID로 구분 — 세 가지를 사용자가 스스로 알아내야 한다.
 
+### 6.1 완료 결과 (2분 간격 폴링 `code/studio_models_poll.py`, `artifacts/studio_audit/model_poll/`)
+
+| 모델 | 시작 | 종료 | 결과 |
+|---|---|---|---|
+| `audit-nano-rasuwa-status` (네팔 298, "A single moment in time, ±12h") | 14:52 | 15:31–15:33 (**41분**) | **failed — 원인 표시 없음** |
+| `audit-nano-oreum-polys-cat-v2` (제주 243, "A period of time, 12개월, 1월 시작") | ~15:05 | 15:52–15:54 (**~48분**) | **ready** |
+
+**5차(=2차의 결말) 결함 5 (P0)** — 네팔 모델은 41분 동안 `training`이었다가 `failed`가 됐는데, 모델 상세의
+Model Info에 **Error 행이 없다**(1차 실패 때는 Error 행에 검증 메시지가 있었다). 상태 칩 호버 툴팁, 목록 카드 호버,
+카드 Action menu(`Use as template` / `Delete` 뿐), Dashboard("1 Completed 3 Failed"), My queue 모두 원인 없음.
+**사용자는 1 unit과 41분을 쓰고도 무엇을 고쳐야 하는지 알 수 없다.** 가설(미검증): "A sighting" = 라벨 날짜
+±12시간 창인데 Sentinel-2 재방문이 5일이라 2026-08-26 ±12h에 영상이 없는 창이 대부분 → 학습 샘플 부족.
+확인하려면 같은 데이터로 "A state"(12개월 창)를 한 번 더 돌려야 한다(1 unit).
+
+**결함 6 (P2)** — 학습 중인 모델에 **취소 버튼이 없다.** Actions는 `Edit model name` / `Delete model`뿐. 잘못
+시작한 학습을 멈추려면 되돌릴 수 없는 삭제뿐이고, 삭제가 compute를 멈추는지·유닛이 환불되는지 UI가 말해주지 않는다.
+
+**제주 v2 Performance Evaluations(확인함, `…_tab2_Performance_Evaluations.png`)**: Overall Accuracy **81.0%**,
+Mean F1 **78.9%**, Total Windows **84**. 혼동행렬(Actual→Predicted): scored→scored 47 / scored→abstain 5 /
+abstain→scored 11 / abstain→abstain 21. Per-class: scored P 81.0 R 90.4 F1 85.5 (52); abstain P 80.8 R 65.6 F1 72.4 (32).
+화면 하단 주석: "computed on the validation set, not a held-out test set".
+- 읽는 법: 다수 클래스 기준선 52/84 = **61.9%**보다 19pt 높으니 무언가는 배웠다 — 하지만 라벨이 "우리 코드가 점수를
+  매겼는가"라서 배운 것은 **구름/유효 픽셀 여부**에 가깝다(§0). 오름 변화와 무관.
+- 관찰: Total Windows 84는 243의 25%(≈61)보다 많다. Spatial split이 정확히 25%가 아니거나 창 계산이 다르다 — UI가
+  설명하지 않는다(P2, 미검증).
+- Predictions 탭: "No predictions yet. Run a prediction to see results here." + **Run model** 버튼 활성.
+
 ## 7. 데이터가 들어간 뒤의 화면 — 확인함
 
 - **Dashboard**: 지도에 프로젝트 bbox(제주) 표시, Datasets "1 Completed"+See all, Quick Action이 "Build a model"로 바뀜.
@@ -163,6 +192,8 @@ No matching annotated tasks found for project 'Toy project - jeju' with metadata
 | **P0** | 학습 검증이 제출 후에만 실행 | §6 1차 실패 | S2에서 지오메트리↔산출물 호환, S4에서 창의 미래 초과를 즉시 경고·차단 |
 | **P0** | Import가 기본으로 라벨을 버림 | §4 결함 1 | 라벨 후보 기본 선택, Confirm의 "Not Imported" 강조 |
 | **P0** | 빈 프로젝트 첫 실행 가이드 없음 | §A 빈 카드 3개 | "라벨 파일이 있나요?" 한 질문 분기(Import vs Create tasks) |
+| **P0** | 41분 학습 후 실패에 **원인 표시 없음** | §6.1 결함 5: Model Info에 Error 행 없음, 툴팁·카드·메뉴·Dashboard·queue 전부 무언 | 실패 사유·로그 요약을 상세와 목록에 표시, 이메일 알림에 포함 |
+| **P2** | 학습 취소 불가(삭제만) | §6.1 결함 6: Actions = Edit name / Delete | Cancel training + 유닛 환불 규칙 명시 |
 | **P1** | 데이터셋별 동명 labelset을 UI가 구분 못 함 | §6 결함 4: 드롭다운에 `sample_category (243)`이 둘, UUID로만 구분, 필터가 목록을 안 좁힘, 에러가 원인 미설명 | 라벨 항목에 데이터셋명 표기, 필터 적용 시 라벨 목록 연동, 불일치 시 즉시 경고 |
 | **P1** | "필터가 곧 학습셋"이 숨어 있음 | Data Viewer 우측 패널 | Models 마법사 S2와 Data Viewer 필터를 명시 연결 |
 | **P1** | 용어 불일치 | Create new project↔Add project, Import data↔Import Training Data, Predictions↔Run model, Map Publisher↔Publish | 통일 |
@@ -201,8 +232,10 @@ Data split을 공간 기준으로 기본 적용(누수 방지) · 검증 실패 
 
 ## 11. 다음 단계
 
-1. **Build Model을 사람이 클릭** (dry-run 준비된 두 설정 중 하나; ~2–3 compute units) → 학습 상태·Performance
-   Evaluations·Predictions(Run model)·Map Publisher(Publish) 확인 → §0 미확인 항목 해소.
+1. ready 모델(제주 v2)로 **Predictions ▸ Run model → Map Publisher ▸ Publish** 관통(추가 compute; 사용자 승인 후).
+1b. 네팔 실패 원인 가설 검증: 같은 데이터로 "A state"(12개월 창) 1회(1 unit) — 통과하면 결함 5의 재현 조건 확정.
+1c. 의미 있는 라벨로 재학습하려면 **사람이 확인한 정답**이 먼저다: 제주 `sample_true_false`(변화 84) 또는 네팔
+   리드 6건은 우리 탐지기의 출력이라 정답이 아니다(§0).
 2. Hello Labs가 노출한 `/api/v1/…`를 공식 API 문서와 대조 — Studio 밖(rslearn/olmoearth-run)과의 연결점.
 3. 어노테이터 계정을 하나 추가해 역할별 UI 차이 확인.
 4. §8을 근거 링크(스크린샷 파일명)와 함께 제안서로 정리.
