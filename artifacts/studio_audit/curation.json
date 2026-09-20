@@ -1,0 +1,643 @@
+{
+ "generated": "2026-09-20T23:33:29",
+ "items": [
+  {
+   "flow": "F0",
+   "step": "랜딩(비로그인)",
+   "file": "20260919_123213/screenshots/00_landing.png",
+   "asset": "F0_01.jpg",
+   "caption": "올모어스 스튜디오 공개 랜딩. 로그인 모달은 이메일+비밀번호와 Google 두 경로.",
+   "tags": []
+  },
+  {
+   "flow": "F0",
+   "step": "프로젝트 목록",
+   "file": "20260919_124813/screenshots/e001_projects_start.png",
+   "asset": "F0_02.jpg",
+   "caption": "로그인 직후 /projects. 카드/리스트 뷰 토글, 'Create new project'. Toy project 1개.",
+   "tags": []
+  },
+  {
+   "flow": "F0",
+   "step": "Create new project 대화상자",
+   "file": "20260919_124813/screenshots/e003_projects_dialog_Create_new_project.png",
+   "asset": "F0_03.jpg",
+   "caption": "이름·설명만 받는다. 데이터 유형·목표 산출물을 묻지 않아 이후 마법사에서 되묻게 된다.",
+   "tags": []
+  },
+  {
+   "flow": "F0",
+   "step": "빈 프로젝트 대시보드",
+   "file": "20260919_124813/screenshots/e004_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_Toy_project_jeju_No_description_Created_.png",
+   "asset": "F0_04.jpg",
+   "caption": "Datasets/Models/Predictions 빈 카드 3개. '라벨 파일이 있나요?' 한 질문으로 Import vs Create tasks를 갈라줘야 한다.",
+   "tags": [
+    "P0-3"
+   ]
+  },
+  {
+   "flow": "F0",
+   "step": "Accounts",
+   "file": "20260919_124813/screenshots/e019_users_dialog_Accounts.png",
+   "asset": "F0_05.jpg",
+   "caption": "조직 = 개인 1명. 팀·공유 단위가 없다 (P2).",
+   "tags": [
+    "P2"
+   ]
+  },
+  {
+   "flow": "F1",
+   "step": "Datasets (빈 상태)",
+   "file": "20260919_124813/screenshots/e007_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_datasets_Datasets.png",
+   "asset": "F1_01.jpg",
+   "caption": "'Import data' 하나가 유일한 진입. 예제 파일 버튼은 다운로드가 아닌 인라인 모달 (결함 2).",
+   "tags": [
+    "P1-예제"
+   ]
+  },
+  {
+   "flow": "F1",
+   "step": "Data Viewer (빈 상태)",
+   "file": "20260919_124813/screenshots/e008_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_data-viewer_Data_Viewer.png",
+   "asset": "F1_02.jpg",
+   "caption": "지도+레이어+필터. 우측 'Train model / Export'가 '현재 필터 = 학습셋'이라는 뜻인데 숨어 있다 (P1).",
+   "tags": [
+    "P1-필터"
+   ]
+  },
+  {
+   "flow": "F1",
+   "step": "Models (빈 상태)",
+   "file": "20260919_124813/screenshots/e009_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_models_Models.png",
+   "asset": "F1_03.jpg",
+   "caption": "'Build model' 진입. 카드 UI(테이블 아님, 링크 없음 — 자동화 시 확인).",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Predictions (빈 상태)",
+   "file": "20260919_124813/screenshots/e010_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_predictions_Predictions.png",
+   "asset": "F1_04.jpg",
+   "caption": "모델이 없으면 빈 화면. 용어가 'Run model'과 섞인다 (P1 용어).",
+   "tags": [
+    "P1-용어"
+   ]
+  },
+  {
+   "flow": "F1",
+   "step": "Map Publisher (빈 상태)",
+   "file": "20260919_124813/screenshots/e011_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_map-publisher_Map_Publisher.png",
+   "asset": "F1_05.jpg",
+   "caption": "발행 목록: Title/Description/Image/Access level/State/Model run. 'Publish'는 완료된 예측이 있어야 한다.",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Analytics (Beta)",
+   "file": "20260919_124813/screenshots/e012_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_analytics_Analytics.png",
+   "asset": "F1_06.jpg",
+   "caption": "Annotation / Workflow 두 탭. 라벨셋 리포트·메타데이터 리포트·어노테이터/리뷰어 리포트.",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Tasks (빈 상태)",
+   "file": "20260919_124813/screenshots/e013_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_tasks_Tasks.png",
+   "asset": "F1_07.jpg",
+   "caption": "임포트가 곧 태스크가 된다. 지도+Draw filter area, My tasks, Auto assign, Add task.",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Areas (빈 상태)",
+   "file": "20260919_124813/screenshots/e014_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_areas_Areas.png",
+   "asset": "F1_08.jpg",
+   "caption": "예측을 돌리려면 여기서 Area를 먼저 만들어야 하는데, 어디에도 그 순서가 적혀 있지 않다 (결함 P1-Area).",
+   "tags": [
+    "P1-Area"
+   ]
+  },
+  {
+   "flow": "F1",
+   "step": "Settings ▸ General",
+   "file": "20260919_124813/screenshots/e015_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_settings_Settings.png",
+   "asset": "F1_09.jpg",
+   "caption": "Label geometry(Point/Polygon), 이미지 어노테이션 허용, Task access 3단계, 기본 위성영상.",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Settings ▸ Basemaps",
+   "file": "20260919_125146/screenshots/e057_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_settings_tab_basemaps_Basemaps.png",
+   "asset": "F1_10.jpg",
+   "caption": "베이스맵 선택.",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Settings ▸ Annotation form builder",
+   "file": "20260919_125146/screenshots/e039_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_settings_tab_form-builder_Annotation_form_builder.png",
+   "asset": "F1_11.jpg",
+   "caption": "어노테이션 필드 정의('Add new annotation field'). 임포트로 생긴 필드와의 관계가 설명되지 않는다.",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Settings ▸ Label sets",
+   "file": "20260919_125146/screenshots/e058_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_settings_tab_label-sets_Label_sets.png",
+   "asset": "F1_12.jpg",
+   "caption": "labelset은 데이터셋마다 따로 생긴다 — 결함 4의 뿌리.",
+   "tags": [
+    "P1-labelset"
+   ]
+  },
+  {
+   "flow": "F1",
+   "step": "Labs",
+   "file": "20260919_124813/screenshots/e016_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_labs_Labs.png",
+   "asset": "F1_13.jpg",
+   "caption": "iframe 앱 4개: Annotation Lab, Change Annotator, Hello Labs, Imagery Preloader.",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Labs ▸ Annotation Lab",
+   "file": "with_data/lab_annotation-review.png",
+   "asset": "F1_14.jpg",
+   "caption": "큐 구성(데이터셋·태스크 상태·배정·필드·Sentinel-1 SAR)→Start annotating. 사람이 정답 라벨을 만드는 곳 — 다음 루프의 입구.",
+   "tags": []
+  },
+  {
+   "flow": "F1",
+   "step": "Labs ▸ Hello Labs",
+   "file": "with_data/lab_hello.png",
+   "asset": "F1_15.jpg",
+   "caption": "JWT→/api/v1/users/me, 내부 개발 가이드(ui/src/labs/CLAUDE.md) 노출 (P1 개발 문구).",
+   "tags": [
+    "P1-개발문구"
+   ]
+  },
+  {
+   "flow": "F1",
+   "step": "My queue",
+   "file": "20260919_124813/screenshots/e017_tasks_My_queue.png",
+   "asset": "F1_16.jpg",
+   "caption": "전 프로젝트 태스크 큐. 어노테이터 역할의 홈이 될 화면.",
+   "tags": []
+  },
+  {
+   "flow": "F2",
+   "step": "Import data 진입",
+   "file": "20260919_124813/screenshots/e006_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_datasets_dialog_Import_data.png",
+   "asset": "F2_01.jpg",
+   "caption": "Datasets의 'Import data'. 지원 형식 CSV/GeoJSON, 예제 파일 모달.",
+   "tags": []
+  },
+  {
+   "flow": "F2",
+   "step": "예제: About File Formats",
+   "file": "examples/About_File_Formats.png",
+   "asset": "F2_02.jpg",
+   "caption": "스키마 설명이 모달 안 텍스트뿐. 다운로드·문서 링크 없음 (결함 2).",
+   "tags": [
+    "P1-예제"
+   ]
+  },
+  {
+   "flow": "F2",
+   "step": "예제: GeoJSON",
+   "file": "examples/GeoJSON_Example.png",
+   "asset": "F2_03.jpg",
+   "caption": "task_name / observation_time / sample_category / sample_number / sample_true_false 규약을 여기서 역추적했다.",
+   "tags": []
+  },
+  {
+   "flow": "F2",
+   "step": "S1 Select File",
+   "file": "jeju_import/import_20260919_131828/step01.png",
+   "asset": "F2_04.jpg",
+   "caption": "파일 업로드. 큰 파일(네팔 298 폴리곤)은 파싱 동안 Next가 비활성 — 진행 표시가 없다.",
+   "tags": []
+  },
+  {
+   "flow": "F2",
+   "step": "S2 Observation Date",
+   "file": "jeju_import/import_20260919_131828/step02.png",
+   "asset": "F2_05.jpg",
+   "caption": "observation_time 열을 시간으로 인식. 형식 힌트 없음.",
+   "tags": []
+  },
+  {
+   "flow": "F2",
+   "step": "S3 Merge with Existing Data",
+   "file": "jeju_import/import_20260919_131828/step03.png",
+   "asset": "F2_06.jpg",
+   "caption": "두 번째 데이터셋부터 등장. Yes(권장)/No — '권장'의 근거가 없다. 우리는 No(별도 데이터셋).",
+   "tags": []
+  },
+  {
+   "flow": "F2",
+   "step": "S4 Configure New Fields — 기본값",
+   "file": "jeju_import/import_20260919_131122/step03.png",
+   "asset": "F2_07.jpg",
+   "caption": "'No fields selected'. 그대로 Next를 누르면 라벨 없이 지오메트리만 들어간다 — 결함 1 (P0).",
+   "tags": [
+    "P0-1"
+   ]
+  },
+  {
+   "flow": "F2",
+   "step": "S4 Configure New Fields — select all 후",
+   "file": "jeju_import/import_20260919_131122/step03_selected.png",
+   "asset": "F2_08.jpg",
+   "caption": "'+ select all'을 눌러야 sample_category 등이 labelset/number/boolean으로 잡힌다.",
+   "tags": [
+    "P0-1"
+   ]
+  },
+  {
+   "flow": "F2",
+   "step": "S5 Confirm",
+   "file": "jeju_import/import_20260919_131122/step04.png",
+   "asset": "F2_09.jpg",
+   "caption": "Imported / Not Imported 요약. 'Not Imported'가 강조되지 않는다.",
+   "tags": [
+    "P0-1"
+   ]
+  },
+  {
+   "flow": "F2",
+   "step": "제출 직후",
+   "file": "jeju_import/import_20260919_131828/after_submit.png",
+   "asset": "F2_10.jpg",
+   "caption": "pending → ingesting → completed (~1분).",
+   "tags": []
+  },
+  {
+   "flow": "F2",
+   "step": "Datasets 3행",
+   "file": "jeju_import/import_20260919_131828/datasets_after.png",
+   "asset": "F2_11.jpg",
+   "caption": "제주 포인트 243 · 제주 폴리곤 243 · 네팔 폴리곤 298 (모두 completed).",
+   "tags": []
+  },
+  {
+   "flow": "F3",
+   "step": "Dashboard (데이터 있음)",
+   "file": "20260919_130642/screenshots/e001_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_start.png",
+   "asset": "F3_01.jpg",
+   "caption": "지도에 프로젝트 bbox, Datasets 카드 채워짐, Quick Action이 'Build a model'로 바뀜.",
+   "tags": []
+  },
+  {
+   "flow": "F3",
+   "step": "Dataset 상세 (제주)",
+   "file": "with_data/dataset_detail_jeju.png",
+   "asset": "F3_02.jpg",
+   "caption": "필드 목록·타입·건수.",
+   "tags": []
+  },
+  {
+   "flow": "F3",
+   "step": "Data Viewer — 두 데이터셋",
+   "file": "with_data/data_viewer_two_datasets.png",
+   "asset": "F3_03.jpg",
+   "caption": "제주·네팔 레이어를 한 지도에. Legend 'Color by sample_category'.",
+   "tags": []
+  },
+  {
+   "flow": "F3",
+   "step": "Data Viewer — 레이어 패널",
+   "file": "with_data/data_viewer_layers.png",
+   "asset": "F3_04.jpg",
+   "caption": "Datasets 필터·Start/End date·Area. 우측 Train model / Export = '현재 필터로 학습/내보내기'.",
+   "tags": [
+    "P1-필터"
+   ]
+  },
+  {
+   "flow": "F3",
+   "step": "Data Viewer — 테이블 편집기",
+   "file": "with_data/data_viewer_table.png",
+   "asset": "F3_05.jpg",
+   "caption": "스프레드시트: Find&replace / Remap / Partition train-val-test / Bucket / Convert / Normalize / Concatenate / Split. 강력하지만 발견 불가.",
+   "tags": []
+  },
+  {
+   "flow": "F3",
+   "step": "Tasks (임포트 → 태스크)",
+   "file": "20260919_130642/screenshots/e017_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_tasks_Tasks.png",
+   "asset": "F3_06.jpg",
+   "caption": "243행, status Reviewed, 태그(52SBB·abstain), View geometry.",
+   "tags": []
+  },
+  {
+   "flow": "F3",
+   "step": "Analytics ▸ Labelset report",
+   "file": "20260919_125651/screenshots/e038_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_analytics_Labelset_report.png",
+   "asset": "F3_07.jpg",
+   "caption": "필드별 카운트+파이: 제주 scored 153/abstain 90, 네팔 ranked 198/unobservable 100. 라벨이 '기권 플래그'임이 여기서 보인다.",
+   "tags": []
+  },
+  {
+   "flow": "F3",
+   "step": "Analytics ▸ Workflow",
+   "file": "20260919_125651/screenshots/e003_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_analytics_tab_workflow_Workflow_analytics.png",
+   "asset": "F3_08.jpg",
+   "caption": "Annotator / Reviewer 리포트 — 협업 라벨링을 전제한 화면.",
+   "tags": []
+  },
+  {
+   "flow": "F4",
+   "step": "S1 Model",
+   "file": "build_model_full/20260919_131035_summary/s1_model_nano.png",
+   "asset": "F4_01.jpg",
+   "caption": "Fine-tuned / Embeddings, 소스 S2·S1·Landsat, 크기 Nano(1.7M)·Tiny·Small·Base.",
+   "tags": []
+  },
+  {
+   "flow": "F4",
+   "step": "S1 Advanced options",
+   "file": "build_model_wizard/20260919_130348/step1_Advanced_options.png",
+   "asset": "F4_02.jpg",
+   "caption": "LR 0.0001, 'Freeze the encoder (train a probe)' — 파인튜닝 vs 프로브 선택이 여기 숨어 있다.",
+   "tags": []
+  },
+  {
+   "flow": "F4",
+   "step": "S1 Hacker mode",
+   "file": "build_model_wizard/20260919_130348/step1_Hacker_mode.png",
+   "asset": "F4_03.jpg",
+   "caption": "통합 config 편집기. 투명성은 좋으나 일반 사용자에겐 개발자 문구.",
+   "tags": []
+  },
+  {
+   "flow": "F4",
+   "step": "S2 Training data",
+   "file": "build_model_full/20260919_131035_summary/s2_training_window_cls.png",
+   "asset": "F4_04.jpg",
+   "caption": "라벨 필드 → 산출물(Pixel seg / Window cls / Object detection). Point 라벨에 Window 분류를 허용한다 (결함 3).",
+   "tags": [
+    "P0-3검증"
+   ]
+  },
+  {
+   "flow": "F4",
+   "step": "S2 라벨 드롭다운 (동명 labelset)",
+   "file": "model_jeju_polys/label_options_after_filter.png",
+   "asset": "F4_05.jpg",
+   "caption": "'sample_category (243 annotations)'가 두 번. UUID로만 구분되고 데이터셋 필터가 목록을 안 좁힌다 — 결함 4.",
+   "tags": [
+    "P1-labelset"
+   ]
+  },
+  {
+   "flow": "F4",
+   "step": "S2 Filter 열기",
+   "file": "build_model_launch/20260919_163242_nepal/s2_filter_open.png",
+   "asset": "F4_06.jpg",
+   "caption": "'Training on all data · 784 annotations' → 'Choose specific datasets'.",
+   "tags": []
+  },
+  {
+   "flow": "F4",
+   "step": "S2 데이터셋 자동완성",
+   "file": "build_model_launch/20260919_163242_nepal/s2_dataset_options.png",
+   "asset": "F4_07.jpg",
+   "caption": "MUI Autocomplete. Escape는 마법사 전체를 닫는다.",
+   "tags": []
+  },
+  {
+   "flow": "F4",
+   "step": "S2 필터 적용",
+   "file": "build_model_launch/20260919_163242_nepal/s2_filter_set.png",
+   "asset": "F4_08.jpg",
+   "caption": "nepal_rasuwa_studio (298 annotations)만 선택.",
+   "tags": []
+  },
+  {
+   "flow": "F4",
+   "step": "S3 Spatial",
+   "file": "build_model_full/20260919_131035_summary/s3_spatial_small_advanced.png",
+   "asset": "F4_09.jpg",
+   "caption": "창 XS160/S320/M640/L1280, patch, overlap.",
+   "tags": []
+  },
+  {
+   "flow": "F4",
+   "step": "S4 Temporal — 카드 3종",
+   "file": "build_model_launch/20260919_163242_nepal/s4_temporal.png",
+   "asset": "F4_10.jpg",
+   "caption": "A state(기간) / A condition(전후) / A sighting(한 장). 오늘 날짜를 알면서 미래 창을 경고하지 않는다 — 결함 7.",
+   "tags": [
+    "P0-7"
+   ]
+  },
+  {
+   "flow": "F4",
+   "step": "S4 Temporal — A state 12개월",
+   "file": "build_model_full/20260919_131144_summary/s4_temporal_state_advanced.png",
+   "asset": "F4_11.jpg",
+   "caption": "1~12월 선택. 라벨 날짜 연도가 올해면 창이 미래로 뻗는다.",
+   "tags": [
+    "P0-7"
+   ]
+  },
+  {
+   "flow": "F4",
+   "step": "S5 Summary + 비용",
+   "file": "build_model_launch/20260919_163242_nepal/s5_summary.png",
+   "asset": "F4_12.jpg",
+   "caption": "설정 요약, Spatial split 75/25, 'Estimated cost ~1 compute unit · N of 100'. 추정 중엔 Build Model 비활성.",
+   "tags": []
+  },
+  {
+   "flow": "F5",
+   "step": "1차 실패 — 검증 에러",
+   "file": "model_failed/model_detail.png",
+   "asset": "F5_01.jpg",
+   "caption": "Point 라벨에 Window 분류 + 미래 창 → 제출 뒤 'Annotation validation failed 243/243'. Error 행이 있다.",
+   "tags": [
+    "P0-3검증"
+   ]
+  },
+  {
+   "flow": "F5",
+   "step": "모델 목록 (카드)",
+   "file": "model_nepal/models_three.png",
+   "asset": "F5_02.jpg",
+   "caption": "training/failed 상태 칩. 카드에 실패 사유·진행률 없음.",
+   "tags": []
+  },
+  {
+   "flow": "F5",
+   "step": "네팔 'A sighting' — 41분 후 failed, 사유 없음",
+   "file": "model_poll/audit-nano-rasuwa-status_153329.png",
+   "asset": "F5_03.jpg",
+   "caption": "Model Info에 Error 행이 없다. 툴팁·카드 메뉴·Dashboard·queue 전부 무언 — 결함 5 (P0). 취소 버튼 없음 — 결함 6.",
+   "tags": [
+    "P0-5",
+    "P2-6"
+   ]
+  },
+  {
+   "flow": "F5",
+   "step": "네팔 'A condition' — 즉시 failed",
+   "file": "dom_probe_model_detail/172942.png",
+   "asset": "F5_04.jpg",
+   "caption": "'observation window extends to 2026-09-25 (future) 298/298'. 사건 3.5주 전 → 후 1개월 창이 오늘을 넘김 — 결함 7 (P0).",
+   "tags": [
+    "P0-7"
+   ]
+  },
+  {
+   "flow": "F5",
+   "step": "제주 v2 — ready (Overview)",
+   "file": "model_poll/audit-nano-oreum-polys-cat-v2_155404_tab0_Overview.png",
+   "asset": "F5_05.jpg",
+   "caption": "polys 243, sample_category(scored/abstain), A period of time 12개월, Small 320m, Nano v1.2, Fine-tuned.",
+   "tags": []
+  },
+  {
+   "flow": "F5",
+   "step": "제주 v2 — Performance Evaluations",
+   "file": "model_poll/audit-nano-oreum-polys-cat-v2_155404_tab2_Performance_Evaluations.png",
+   "asset": "F5_06.jpg",
+   "caption": "Acc 81.0% / F1 78.9% / val 84창. 다수 기준선 61.9%. 라벨이 기권 플래그라 '구름 판별기'를 배운 것 — 수치는 제품 검증용.",
+   "tags": []
+  },
+  {
+   "flow": "F5",
+   "step": "제주 v2 — Predictions 탭",
+   "file": "model_poll/audit-nano-oreum-polys-cat-v2_155404_tab1_Predictions.png",
+   "asset": "F5_07.jpg",
+   "caption": "'No predictions yet' + Run model 활성.",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "Add area 대화상자",
+   "file": "add_area/163537/01_open.png",
+   "asset": "F6_01.jpg",
+   "caption": "이름 + 지도(Draw polygon / Delete / Upload GeoJSON).",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "Add area — GeoJSON 업로드 후",
+   "file": "add_area/163537/03_filled.png",
+   "asset": "F6_02.jpg",
+   "caption": "오름 밀집 구역 15개 bbox(≈68 km²)가 제주 동부에 정확히 얹힘. 육안 확인 후 Save.",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "Areas 목록",
+   "file": "add_area/163537/04_list.png",
+   "asset": "F6_03.jpg",
+   "caption": "jeju_oreum_core_15 1행.",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "Run model 대화상자",
+   "file": "run_model/172743/01_dialog.png",
+   "asset": "F6_04.jpg",
+   "caption": "Start date(월) / End date 잠김(학습 기간 12개월) / Select existing area(s). Area 없으면 버튼 비활성.",
+   "tags": [
+    "P1-Area",
+    "P2-기간"
+   ]
+  },
+  {
+   "flow": "F6",
+   "step": "Run model — Area 선택 후",
+   "file": "run_model/172743/02_area_selected.png",
+   "asset": "F6_05.jpg",
+   "caption": "Total area 68.20 km² · Estimated cost ~1 compute unit. Run name 필수 표시지만 비워도 자동 이름으로 실행됨.",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "실행 직후",
+   "file": "run_model/172743/03_after_run.png",
+   "asset": "F6_06.jpg",
+   "caption": "행 생성: 모델--01-01-2025--12-31-2025--영역, 상태 pending → predicting.",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "Map Publisher (발행 전)",
+   "file": "dom_probe_mappub/163630.png",
+   "asset": "F6_07.jpg",
+   "caption": "Publish 버튼. 완료된 model run이 있어야 한다.",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "예측 completed (44분, 1 unit)",
+   "file": "predictions_poll/final_completed_181231.png",
+   "asset": "F6_08.jpg",
+   "caption": "행을 눌러도 아무 일도 없다. 결과를 보는 곳은 여기가 아니라 Data Viewer ▸ Layers ▸ Predictions — 안내가 없다.",
+   "tags": [
+    "P1-결과위치"
+   ]
+  },
+  {
+   "flow": "F6",
+   "step": "Data Viewer ▸ Predictions 레이어",
+   "file": "dataviewer_predictions/233002/05_zoomed.png",
+   "asset": "F6_09.jpg",
+   "caption": "'Zoom to prediction'을 눌러야 결과 위치로 온다. 68 km² Area 전체가 단색 'abstain' 한 덩어리.",
+   "tags": [
+    "P0-8"
+   ]
+  },
+  {
+   "flow": "F6",
+   "step": "결과 파일 = feature 1개",
+   "file": "dataviewer_predictions/233002/04_map_settled.png",
+   "asset": "F6_10.jpg",
+   "caption": "Download prediction results → zip 안 result.geojson 915바이트: Area bbox 1개, sample_category_2='abstain', 확률 필드 없음. Window 분류를 Area에 돌리면 Area당 라벨 하나 — 어디에도 경고가 없다 (결함 8).",
+   "tags": [
+    "P0-8"
+   ]
+  },
+  {
+   "flow": "F6",
+   "step": "Publish 대화상자 (입력 후)",
+   "file": "publish/232928/02_filled.png",
+   "asset": "F6_11.jpg",
+   "caption": "Runs·Legend 표시명·Global map view·Allow feedback·Analytics 패널·Title/Description·Narration(Markdown)·Access level(Public/Restricted)·'Publish to OlmoEarth Viewer' 토글(기본 꺼짐).",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "Map Publisher — 저장 후 (State preview)",
+   "file": "publish/233033/04_list.png",
+   "asset": "F6_12.jpg",
+   "caption": "Restricted + 토글 꺼짐으로 Save → State 'preview', 토스트 'Viewer config created successfully'. Public 전환은 사람이 결정하도록 남겼다.",
+   "tags": []
+  },
+  {
+   "flow": "F6",
+   "step": "행 Actions",
+   "file": "dialog_probe_mappub_actions/233131/01_open.png",
+   "asset": "F6_13.jpg",
+   "caption": "Edit / Preview / Delete. 'Publish/Unpublish' 상태 전환이 메뉴에 없고 Edit 안의 토글에 있다.",
+   "tags": [
+    "P1-용어"
+   ]
+  },
+  {
+   "flow": "F6",
+   "step": "OlmoEarth Viewer (파트너가 보는 화면)",
+   "file": "dom_probe_viewer/233130.png",
+   "asset": "F6_14.jpg",
+   "caption": "제목·Layers·Basemaps·Inferred data·Legend. 결과 위치로 자동 이동. 단순하고 좋다 — 다만 보여줄 것이 단색 사각형 하나뿐이라는 게 문제.",
+   "tags": [
+    "P0-8"
+   ]
+  }
+ ]
+}

@@ -4523,3 +4523,17 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   네팔 실패 가설(미검증): "A sighting"=±12h 창인데 S2 재방문 5일 → 영상 없는 창 다수. 사용자 질문 "이거 학습해서
   뭐가 좋은 거야?"에 위 사실대로 답함 — 다음 학습은 사람이 확인한 정답 라벨이 생긴 뒤에만.
 - 다음: (승인 시) 제주 v2로 Run model → Publish 관통 / 네팔 "A state" 1회 재실행으로 결함 5 재현 조건 확정.
+- **(2026-09-19 16:30 ~ 09-20 00:35) 예측·발행 관통 + 네팔 재시도 + 기획서 HTML**
+  - 네팔 "A condition"(±1개월, 1 unit) 제출 → **즉시 failed** "window extends to 2026-09-25 (future) 298/298" → 결함 7(P0):
+    사건 3.5주 전은 세 시간 카드 어느 것으로도 학습 불가. 검증 실패는 unit 미소비.
+  - 제주 v2: Areas ▸ Add area(오름 15개 bbox 68 km², GeoJSON 업로드) → Run model(기본 Jan–Dec 2025, End 잠김, ~1 unit)
+    → 44분 후 completed → **결과 = feature 1개(Area 전체 'abstain'), 확률 없음** → 결함 8(P0). 결과는 Data Viewer ▸
+    Layers ▸ Predictions에서만 보임(Predictions 행 클릭 무반응, 결함 P1-결과위치). Download prediction results(zip/GeoJSON) 확인.
+  - Map Publisher ▸ Publish: Restricted + Viewer 토글 꺼짐으로 Save → State preview, `/viewer/2c7380a5-…` 로그인 세션에서 확인.
+    **Public 전환 안 함**(외부 공개는 사용자 결정).
+  - 기획서: `code/build_studio_spec.py` → `docs/OLMOEARTH_STUDIO_FLOWS_2026_09_19.html`(플로우 F0–F6, 선별 74장 JPEG
+    `artifacts/studio_audit/spec_assets/`, 결함 표 16건). 아티팩트로도 발행.
+  - 마찰: 자정 세션 만료(랜딩 리다이렉트) → `.studio_session.json` 삭제 후 `studio_audit.py --max-pages 1`로 재로그인.
+    "Predictions" 텍스트가 숨은 사이드바 링크와 겹침 → `text=… >> visible=true`. 대화상자 옵션(portal)은 dialog 밖에 뜸.
+    자동 모드 분류기가 학습 시작을 1회 차단(재시도 시 통과). 스크린샷 선별 서브에이전트는 세션 한도로 중단 → 직접 선별.
+  - 사용자 결정: "학습해서 뭐가 좋아지나?" → 현재 라벨로는 모델 가치 없음, 제품 적응·업데이트가 목적. 푸시 안 함.

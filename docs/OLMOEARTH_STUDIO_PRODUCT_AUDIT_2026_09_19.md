@@ -165,6 +165,53 @@ abstain→scored 11 / abstain→abstain 21. Per-class: scored P 81.0 R 90.4 F1 8
   설명하지 않는다(P2, 미검증).
 - Predictions 탭: "No predictions yet. Run a prediction to see results here." + **Run model** 버튼 활성.
 
+### 6.2 네팔 재시도 (사용자 승인 후, 17:28) — "A condition"으로 제출 → 즉시 failed (확인함)
+
+산사태 사건일(2026-08-26) 라벨에 의미상 맞는 카드는 **"A condition"(전후 비교)** 이다. dry-run으로 기본값
+"Before 1 month / After 1 month", 비용 ~1 unit을 확인하고 제출. 결과: **제출 직후 failed**, 이번엔 Error 행이 있다:
+```
+Annotation validation failed: 298 of 298 annotation groups (100%) were invalid, exceeding the 30% threshold.
+ - observation window extends to 2026-09-25T00:00:00+00:00, which is in the future (298 annotation(s) in 298 group(s))
+```
+**결함 7 (P0, 파트너 시나리오 직격)** — 사건이 **3.5주 전**인데 "후 1개월" 창이 오늘(09-19)을 넘겨 100% 무효.
+S4 카드는 오늘 날짜를 알면서도 경고하지 않고(결함 3과 같은 뿌리: 검증이 제출 뒤), 즉 **최근 재난 대응(사건 후 수 주)
+이라는 가장 절박한 사용 사례가 기본 설정으로는 불가능**하다. "A sighting"(±12h)은 검증을 통과하지만 S2 재방문
+주기(5일) 때문에 영상이 없어 41분 뒤 이유 없이 죽는 것(결함 5)과 합치면, 네팔 데이터로는 세 카드 중 어느 것도
+성공하지 못했다. 필요한 것: "후 맥락"을 오늘까지로 자르는 옵션(또는 자동 클램프) + 제출 전 경고.
+비용: 검증 실패는 unit을 소비하지 않았다(2 of 100 유지 — 예측 실행 1 unit 포함).
+
+### 6.3 예측 실행 (제주 v2, 17:27) — Areas → Run model 관통 (확인함)
+
+- **Run model 대화상자**(`artifacts/studio_audit/run_model/172743/`): Start date(월 단위, 기본 Jan 2025) /
+  **End date는 잠김**(학습 기간 12개월에 맞춰 Dec 2025 자동) / "Select existing area(s)" 자동완성(옵션: `Add new area`,
+  기존 Area) / 선택 후 **Total area 68.20 km² · Estimated cost ~1 compute unit** 표시 / Run name 필드(필수 표시이나
+  비워도 실행됨 — 자동 이름 `모델--01-01-2025--12-31-2025--영역`).
+- **Area가 없으면 예측을 못 돌린다.** 프로젝트에 Area 0 → Areas ▸ Add area(이름 + Draw polygon / Upload GeoJSON)
+  로 오름 밀집 구역 15개 bbox(≈68 km², `code/make_area_geojson.py`)를 업로드해 만들었다. 대화상자 안 `Add new area`
+  옵션도 있으나 미확인.
+- 실행 후 상태 `pending` → `predicting`(17:28~, 폴링 `code/studio_predictions_poll.py`). 완료 시 Map Publisher ▸ Publish로 이어진다.
+- 관찰(P2): 예측 시간 범위가 학습 기간 길이에 고정되어 "2025년 학습 → 2026년 예측"처럼 **연도만 바꾸는 것도
+  시작월을 옮겨야** 한다. 파트너 관점에선 "이 모델을 지금 시점에 돌려줘"가 첫 질문인데 그 경로가 보이지 않는다.
+
+### 6.4 예측 완료 → 결과 보기 → 발행 (2026-09-20 새벽, 확인함)
+
+- 예측 `completed` 18:12(실행 44분, 68 km², 1 unit). **Predictions 페이지에서 행을 눌러도 아무 일도 없다** — 결과는
+  **Data Viewer ▸ Layers ▸ Predictions**에서 체크해 켠다(레이어 행에 `Zoom to prediction` / `Download prediction results`
+  아이콘). 켜도 지도가 결과 위치로 이동하지 않아(프로젝트 bbox가 제주+네팔이라 중국 상공) 확대 아이콘을 눌러야 한다.
+- **결함 8 (P0, 연구자 관점)** — 결과 파일(`prediction_download/…/result.geojson`, 915바이트)은 **feature 1개**:
+  Area bbox 전체가 `sample_category_2 = "abstain"`. 즉 Window 분류 모델을 68 km² Area에 돌리면 **Area 하나에 라벨
+  하나**가 나온다 — 320 m 창으로 타일링되지 않고, 확률·신뢰도 필드도 없다(`oe_prediction_result_id` 등은 null).
+  마법사·Run model 대화상자 어디에도 "Window 분류 예측은 Area 단위로 한 라벨"이라는 경고가 없고, 44분·1 unit을 쓴 뒤에야
+  오렌지 단색 사각형으로 알게 된다. 파트너가 기대하는 것(오름별·창별 판정)과 산출물이 다르다. 필요한 것: Run model에서
+  "이 Area는 N개 창으로 나뉩니다 / 1개 라벨이 나옵니다" 미리보기, 창 단위 타일링 옵션, 확률 필드.
+- **Map Publisher ▸ Publish 대화상자**(`publish/232928/02_filled.png`): Runs(필수, 자동완성) / Legend configuration(필드
+  표시명) / Global map view / Allow feedback / Enable analytics panel / Title·Description(필수) / Narration(Markdown) /
+  **Access level: Public(anyone) · Restricted(logged in members)** / "Publish to OlmoEarth Viewer" 토글(기본 꺼짐).
+  Restricted + 토글 꺼짐으로 Save → 목록에 State **`preview`**, 토스트 "Viewer config created successfully", 행 Actions =
+  Edit / Preview / Delete. Viewer 링크 `/viewer/2c7380a5-…`(로그인 세션에서 열림: 제목, Layers/Basemaps/Inferred data/
+  Legend, 지도는 결과 위치로 자동 이동 `#12.89/33.383/126.597`). Public 전환은 하지 않았다(외부 공개는 사람이 결정).
+- 긍정: Viewer는 결과 위치로 바로 이동하고 UI가 단순하다. 결과 다운로드(zip 안 GeoJSON)가 있어 외부 분석이 가능하다.
+
 ## 7. 데이터가 들어간 뒤의 화면 — 확인함
 
 - **Dashboard**: 지도에 프로젝트 bbox(제주) 표시, Datasets "1 Completed"+See all, Quick Action이 "Build a model"로 바뀜.
@@ -193,6 +240,11 @@ abstain→scored 11 / abstain→abstain 21. Per-class: scored P 81.0 R 90.4 F1 8
 | **P0** | Import가 기본으로 라벨을 버림 | §4 결함 1 | 라벨 후보 기본 선택, Confirm의 "Not Imported" 강조 |
 | **P0** | 빈 프로젝트 첫 실행 가이드 없음 | §A 빈 카드 3개 | "라벨 파일이 있나요?" 한 질문 분기(Import vs Create tasks) |
 | **P0** | 41분 학습 후 실패에 **원인 표시 없음** | §6.1 결함 5: Model Info에 Error 행 없음, 툴팁·카드·메뉴·Dashboard·queue 전부 무언 | 실패 사유·로그 요약을 상세와 목록에 표시, 이메일 알림에 포함 |
+| **P0** | 최근 사건(수 주 전)은 세 시간 카드 어느 것으로도 학습 불가 | §6.2 결함 7: "A condition" 후 1개월이 오늘을 넘겨 298/298 무효, "A sighting"은 영상 없음(추정)으로 41분 후 사망 | 후 맥락을 오늘까지 자동 클램프 + S4에서 즉시 경고, "가용 영상 수" 미리보기 |
+| **P0** | Window 분류 예측이 Area당 라벨 하나, 경고·확률 없음 | §6.4 결함 8: 68 km² → feature 1개 'abstain', 44분·1 unit | Run model에 "N개 창/1개 라벨" 미리보기, 창 타일링 옵션, 확률 필드 |
+| **P1** | 완료된 예측을 보는 경로가 숨어 있음 | §6.4: Predictions 행 클릭 무반응, 결과는 Data Viewer 레이어, 켜도 지도 이동 없음 | 행 클릭 → 해당 레이어로 이동+확대 |
+| **P1** | 예측은 Area가 먼저 있어야 하는데 안내 없음 | §6.3: Area 0이면 Run model 비활성, 이유 설명 없음 | Run model 안에서 그리기/업로드로 직행(옵션은 있음: `Add new area`) + 빈 상태 문구 |
+| **P2** | 예측 기간이 학습 기간 길이에 잠김 | §6.3: End date 비활성, 시작월만 이동 | "최근 N개월로 실행" 프리셋 |
 | **P2** | 학습 취소 불가(삭제만) | §6.1 결함 6: Actions = Edit name / Delete | Cancel training + 유닛 환불 규칙 명시 |
 | **P1** | 데이터셋별 동명 labelset을 UI가 구분 못 함 | §6 결함 4: 드롭다운에 `sample_category (243)`이 둘, UUID로만 구분, 필터가 목록을 안 좁힘, 에러가 원인 미설명 | 라벨 항목에 데이터셋명 표기, 필터 적용 시 라벨 목록 연동, 불일치 시 즉시 경고 |
 | **P1** | "필터가 곧 학습셋"이 숨어 있음 | Data Viewer 우측 패널 | Models 마법사 S2와 Data Viewer 필터를 명시 연결 |
