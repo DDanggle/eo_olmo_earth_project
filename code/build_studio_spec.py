@@ -7,7 +7,7 @@
 import argparse, html, json, subprocess, time
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]; SRC = ROOT/"artifacts/studio_audit"; ASSETS = SRC/"spec_assets"
-ap = argparse.ArgumentParser(); ap.add_argument("--img-prefix", default="../artifacts/studio_audit/spec_assets/"); ap.add_argument("--out", default=str(ROOT/"docs/OLMOEARTH_STUDIO_FLOWS_2026_09_19.html")); ap.add_argument("--width", type=int, default=1200); ap.add_argument("--skip-convert", action="store_true"); a = ap.parse_args()
+ap = argparse.ArgumentParser(); ap.add_argument("--img-prefix", default="../artifacts/studio_audit/spec_assets/"); ap.add_argument("--out", default=str(ROOT/"docs/OLMOEARTH_STUDIO_FLOWS_2026_09_19.html")); ap.add_argument("--width", type=int, default=1200); ap.add_argument("--skip-convert", action="store_true"); ap.add_argument("--embed", action="store_true", help="이미지를 data URI로 넣어 HTML 한 파일로 만든다"); a = ap.parse_args()
 
 P = "20260919_124813/screenshots/"; Q = "20260919_125146/screenshots/"; R = "20260919_125651/screenshots/"; S = "20260919_130642/screenshots/"
 UUID = "e0{n}_projects_7f7546ff-cbc4-4c6c-8b09-deb2f63b2bb0_{rest}"
@@ -140,7 +140,10 @@ if missing: print("MISSING:", *missing, sep="\n  ")
 SEV = {"P0": "sev0", "P1": "sev1", "P2": "sev2"}
 def chip(t): return f'<a class="chip {SEV[t.split("-")[0]]}" href="#f-{html.escape(t)}">{html.escape(t)}</a>'
 def esc(s): return html.escape(s)
-img = lambda slug: a.img_prefix + slug
+import base64
+def img(slug):
+    if a.embed: return "data:image/jpeg;base64," + base64.b64encode((ASSETS/slug).read_bytes()).decode()
+    return a.img_prefix + slug
 
 sections = []
 for fid, fname, fdesc, steps in FLOWS:
