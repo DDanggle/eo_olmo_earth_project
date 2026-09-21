@@ -24,3 +24,6 @@ artifacts/external_data/**/materialized/**/code_snapshot/
 # 재생성 가능한 대용량 (npz 큐브·임베딩). artifacts 는 강제 포함이라 여기 둔다.
 .cache/
 labeling_pack/
+.venv*/
+.studio_session.json
+artifacts/studio_audit/**/*.png
