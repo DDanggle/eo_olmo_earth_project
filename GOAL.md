@@ -4543,3 +4543,8 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   Studio `/profile` API Keys·Budget(9월 실사용 2 units) · Embeddings API 튜토리얼 · ETH Canopy Height 10 m · Sen12Landslides(네팔 포함).
   계획: `docs/PLAN_JEJU_OREUM_STUDIO_2026_09_22.md` — WP0 라벨 정의서 → WP1 사용자 라벨 60곳(상위 30+대조 30) → WP2 결함 8 검증 →
   WP3 임베딩 API → WP4 Studio vs 캐시 프로브 → WP5 등급제 대조 → WP6 외부 데이터. 성공 기준 사전 고정, 예산 ≤10 units.
+- **(2026-09-22 새벽) WP0·WP1 준비 완료 — 사용자가 직접 라벨을 찍을 수 있게**: `docs/LABEL_SPEC_OREUM_v1.md`(코드 a–d + a 태그 6개, 절차, 판독 규칙, 확정 후 변경 금지),
+  `code/make_label_targets.py` → `label_targets.json`(상위 30 + 대조 30[깃발율 < 중앙값 1.74%, seed 20260922] + 재판독 5, sha 3c73480d; 대조군에
+  휴식년제 오름 문석이 포함). `apps/oreum-web`: 라벨 v2(태그·재판독·일치율·내보내기 sha), 명단 기반 목록, 키 a–d/1–6; verify-assets가 명단·태그·d 메모·
+  재판독·d≤30% 규칙을 빌드에서 검사. Playwright로 키 입력→저장→재판독→내보내기→검증 통과 확인. Node 22 + pnpm 10 로컬 설치.
+  마찰: 시계열 Δz PNG 539건이 JSON에 참조되나 미커밋(다른 기기) → verify를 경고로 완화, 지도 '비교' 모드 Δz는 이 기기에서 빈 이미지. 재생성 필요.

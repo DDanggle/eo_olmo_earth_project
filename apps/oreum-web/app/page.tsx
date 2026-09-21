@@ -6,7 +6,7 @@ import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { LABEL_CODES, LABEL_TOP_N, loadLocal, saveLocal, toFile, download, type Label, type LabelCode, type LabelFile } from '../lib/labels';
+import { LABEL_CODES, TAG_KEYS, agreement, loadLocal, saveLocal, toFile, download, type Label, type LabelCode, type LabelTag, type LabelFile, type Targets } from '../lib/labels';
 
 type Props = {
   oreum_id: string; name: string; verdict: 'scored' | 'abstain'; abstain_reason: string | null;
@@ -64,12 +64,15 @@ export default function Page() {
   const [lag, setLag] = useState(1);                 // 비교 기준: n년 전 같은 달
   const [news, setNews] = useState<News | null>(null);
   const [showNews, setShowNews] = useState(false);
-  const [labels, setLabels] = useState<Record<string, Label>>({});   // 사람 판독 (상위 20) — lib/labels.ts
+  const [labels, setLabels] = useState<Record<string, Label>>({});   // 사람 판독 (상위 30 + 대조 30) — lib/labels.ts
+  const [targets, setTargets] = useState<Targets | null>(null);      // 봉인된 대상 명단 — code/make_label_targets.py
+  const [recheckMode, setRecheckMode] = useState(false);              // 재판독: 첫 라벨을 가리고 5곳을 다시 본다
   const [noteDraft, setNoteDraft] = useState<{ id: string; text: string } | null>(null);   // 입력 중인 메모 (오름별)
 
   useEffect(() => {
     fetch(withBase('/data/summary.json')).then(r => r.json()).then(setSummary);
     fetch(withBase('/data/oreum.geojson')).then(r => r.json()).then(setFc);
+    fetch(withBase('/data/label_targets.json')).then(r => (r.ok ? r.json() : null)).catch(() => null).then(setTargets);
     // 커밋된 정답(labels.json)이 바닥, 이 브라우저에서 찍은 라벨이 그 위
     fetch(withBase('/data/labels.json')).then(r => (r.ok ? r.json() : null)).catch(() => null)
       .then((f: LabelFile | null) => setLabels({ ...(f?.labels ?? {}), ...loadLocal() }));
@@ -146,23 +149,45 @@ export default function Page() {
     }).catch(() => setSeries(null));
   }, [sel]);
 
-  const ranking = useMemo(() => (fc?.features ?? []).map(f => f.properties).filter(p => p.verdict === 'scored').sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9)).slice(0, LABEL_TOP_N), [fc]);
+  // 라벨 대상: 명단(top 30 + control 30)을 순서대로. 명단이 없으면 아무것도 라벨할 수 없다 — 대조군 없는 라벨은 만들지 않는다.
+  const byId = useMemo(() => new Map((fc?.features ?? []).map(f => [f.properties.oreum_id, f.properties])), [fc]);
+  const topList = useMemo(() => (targets?.top ?? []).map(id => byId.get(id)).filter((p): p is Props => !!p), [targets, byId]);
+  const controlList = useMemo(() => (targets?.control ?? []).map(id => byId.get(id)).filter((p): p is Props => !!p), [targets, byId]);
+  const targetIds = useMemo(() => new Set([...(targets?.top ?? []), ...(targets?.control ?? [])]), [targets]);
+  const recheckIds = useMemo(() => new Set(targets?.recheck ?? []), [targets]);
   const pair = summary?.pairs.event ?? ['2025', '2026'];
-  const labelable = !!sel && sel.verdict === 'scored' && (sel.rank ?? 1e9) <= LABEL_TOP_N;
-  const nLabeled = ranking.filter(p => labels[p.oreum_id]).length;
+  const labelable = !!sel && targetIds.has(sel.oreum_id);
+  const nLabeled = [...targetIds].filter(id => labels[id]).length;
+  const nRechecked = [...recheckIds].filter(id => labels[id]?.recheck).length;
+  const agree = agreement(labels, targets?.recheck ?? []);
   const labelNote = sel ? (noteDraft?.id === sel.oreum_id ? noteDraft.text : labels[sel.oreum_id]?.note ?? '') : '';
+  const isRecheck = recheckMode && !!sel && recheckIds.has(sel.oreum_id) && !!labels[sel.oreum_id];
   const setLabel = (id: string, code: LabelCode | null, note = labelNote) => {
     const next = { ...labels };
-    if (code) next[id] = { code, note: note.trim(), at: new Date().toISOString() }; else delete next[id];
+    if (isRecheck && code) { next[id] = { ...next[id], recheck: { code, at: new Date().toISOString() } }; }   // 첫 라벨은 건드리지 않는다
+    else if (code) next[id] = { ...(next[id] ?? {}), code, tag: code === 'a' ? next[id]?.tag : undefined, note: note.trim(), at: new Date().toISOString() };
+    else delete next[id];
     setLabels(next); saveLocal(next);
   };
-  // 키보드 a/b/c/d — 항공사진을 보면서 손을 옮기지 않고 찍는다. 입력칸에 커서가 있으면 무시.
+  const setTag = (id: string, tag: LabelTag) => {
+    const cur = labels[id]; if (!cur) return;
+    const next = { ...labels, [id]: isRecheck && cur.recheck ? { ...cur, recheck: { ...cur.recheck, tag } } : { ...cur, tag } };
+    setLabels(next); saveLocal(next);
+  };
+  // 키보드 a/b/c/d + 태그 1–6 — 항공사진을 보면서 손을 옮기지 않고 찍는다. 입력칸에 커서가 있으면 무시.
   useEffect(() => {
     if (!labelable || !sel) return;
     const h = (e: KeyboardEvent) => { if ((e.target as HTMLElement)?.tagName === 'INPUT') return; const k = e.key.toLowerCase();
-      if (['a', 'b', 'c', 'd'].includes(k)) setLabel(sel.oreum_id, k as LabelCode); };
+      if (['a', 'b', 'c', 'd'].includes(k)) setLabel(sel.oreum_id, k as LabelCode);
+      const n = Number(k); const cur = isRecheck ? labels[sel.oreum_id]?.recheck : labels[sel.oreum_id];
+      if (n >= 1 && n <= TAG_KEYS.length && cur?.code === 'a') setTag(sel.oreum_id, TAG_KEYS[n - 1]); };
     window.addEventListener('keydown', h); return () => window.removeEventListener('keydown', h);
   });
+  const row = (p: Props, i: number) => (
+    <button key={p.oreum_id} className="toggle" style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginBottom: 6, opacity: recheckMode && !recheckIds.has(p.oreum_id) ? 0.35 : 1 }} onClick={() => setSel(p)}>
+      <span>{labels[p.oreum_id] && <span className={`label-chip ${labels[p.oreum_id].code}`} title={LABEL_CODES.find(c => c.code === labels[p.oreum_id].code)?.short}>{labels[p.oreum_id].code}{labels[p.oreum_id].recheck ? '·' + labels[p.oreum_id].recheck!.code : ''}</span>}{i + 1}. {p.name}{recheckIds.has(p.oreum_id) && <span className="badge flag" style={{ marginLeft: 6 }} title="재판독 대상 (자기 일치율)">재</span>}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}{p.low_validity && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건 쌍 유효 토큰 <60%">저유효</span>}</span><span className="mono">#{p.rank} {pct(p.event_flag_frac)}</span>
+    </button>
+  );
 
   return (
     <div className="app-shell">
@@ -215,15 +240,20 @@ export default function Page() {
 
       <aside className="rail rail-right">
         <div className="series-head">
-          <p className="eyebrow">상위 {LABEL_TOP_N} — 먼저 볼 곳 · 사람 판독 {nLabeled}/{ranking.length}</p>
-          {nLabeled > 0 && <button className="toggle" onClick={() => download(toFile(labels, summary?.contract_sha256 ?? null))} title="이 브라우저의 라벨을 labels.json 으로 내려받아 public/data/ 에 커밋하면 정답 데이터가 됩니다">내보내기</button>}
+          <p className="eyebrow">사람 판독 {nLabeled}/{targetIds.size} · 재판독 {nRechecked}/{recheckIds.size}{agree && <> · 일치 {agree.same_code}/{agree.n}</>}</p>
+          <div className="toggles">
+            {nLabeled >= targetIds.size && targetIds.size > 0 && <button className="toggle" aria-pressed={recheckMode} onClick={() => setRecheckMode(v => !v)} title="60곳을 다 찍은 뒤: '재' 표시 5곳을 첫 라벨을 가린 채 다시 봅니다. 자기 일치율이 정답의 신뢰 구간입니다">재판독</button>}
+            {nLabeled > 0 && <button className="toggle" onClick={() => download(toFile(labels, summary?.contract_sha256 ?? null, targets))} title="이 브라우저의 라벨을 labels.json 으로 내려받아 public/data/ 에 커밋하면 정답 데이터가 됩니다">내보내기</button>}
+          </div>
         </div>
-        {ranking.map(p => (
-          <button key={p.oreum_id} className="toggle" style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginBottom: 6 }} onClick={() => setSel(p)}>
-            <span>{labels[p.oreum_id] && <span className={`label-chip ${labels[p.oreum_id].code}`} title={LABEL_CODES.find(c => c.code === labels[p.oreum_id].code)?.short}>{labels[p.oreum_id].code}</span>}#{p.rank} {p.name}{(p.persistent_tokens ?? 0) >= 20 && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건·귀무 양쪽에서 깃발 — 연간 변화보다 지속 인공물일 가능성">지속 {p.persistent_tokens}</span>}{p.buffer1_verdict === 'abstain' && <span className="badge abstain" style={{ marginLeft: 6 }} title="구름 가장자리를 1토큰 더 지우면 관측 불가로 떨어짐 — 관측 여유가 얇은 곳">구름 여유 부족</span>}{p.stable_top30_both && <span className="badge flag" style={{ marginLeft: 6 }} title="6개년 복제 계약(다른 장면 선택)에서도 상위 30">복제 일치</span>}{p.low_validity && !p.buffer1_verdict?.includes('abstain') && <span className="badge abstain" style={{ marginLeft: 6 }} title="사건 쌍 유효 토큰 <60% — 장면을 바꾸면 순위가 무너지는 구간">저유효</span>}</span><span className="mono">{pct(p.event_flag_frac)}</span>
-          </button>
-        ))}
-        <p style={{ fontSize: 11 }}>비율은 그 오름 창(2.56 km)의 유효 토큰 중 문턱 초과분. 양쪽 해에 다 깃발이 선 토큰(지속 인공물 후보)은 상세에서 따로 보입니다.</p>
+        {!targets && <p style={{ fontSize: 12 }}>대상 명단(label_targets.json)이 없습니다 — <code>code/make_label_targets.py</code>를 먼저 실행하세요.</p>}
+        {targets && <>
+          <p className="eyebrow" style={{ marginTop: 6 }}>상위 {topList.length} — 깃발율 순</p>
+          {topList.map(row)}
+          <p className="eyebrow" style={{ marginTop: 10 }} title={targets.control_rule}>대조 {controlList.length} — 깃발율 하위, 무작위 (seed {targets.seed})</p>
+          {controlList.map(row)}
+        </>}
+        <p style={{ fontSize: 11 }}>정의는 docs/LABEL_SPEC_OREUM_v1.md. 대조군은 "상위 = 변화"가 순환논리가 되지 않게 하는 장치이니 상위와 같은 눈으로 봅니다. 비율은 그 오름 창(2.56 km)의 유효 토큰 중 문턱 초과분.</p>
       </aside>
 
       {sel && (
@@ -246,17 +276,25 @@ export default function Page() {
               <img src={withBase(`/data/frames/${sel.oreum_id}_${frameYear}.jpg`)} alt="" /><figcaption>{frameYear} · 눌러서 전후 전환</figcaption></figure>
             <figure><img src={withBase(`/data/frames/${sel.oreum_id}_delta.png`)} alt="" style={{ background: '#0f1d1a' }} /><figcaption>Δz 토큰 맵 · 투명 = 유효하지 않은 토큰</figcaption></figure>
           </div>
-          {labelable && (
-            <div className="labels">
-              <span className="eyebrow">사람 판독 · 키 a–d</span>
-              {LABEL_CODES.map(c => (
-                <button key={c.code} className={`toggle label-btn ${c.code}`} aria-pressed={labels[sel.oreum_id]?.code === c.code} title={c.long}
-                  onClick={() => setLabel(sel.oreum_id, labels[sel.oreum_id]?.code === c.code ? null : c.code)}><b>{c.code}</b> {c.short}</button>
-              ))}
-              <input className="label-note" value={labelNote} placeholder="메모 (선택)" onChange={e => setNoteDraft({ id: sel.oreum_id, text: e.target.value })}
-                onBlur={() => labels[sel.oreum_id] && labelNote.trim() !== (labels[sel.oreum_id].note ?? '') && setLabel(sel.oreum_id, labels[sel.oreum_id].code, labelNote)} />
-            </div>
-          )}
+          {labelable && (() => {
+            const cur = isRecheck ? labels[sel.oreum_id]?.recheck : labels[sel.oreum_id];
+            return (
+              <div className="labels">
+                <span className="eyebrow">{isRecheck ? '재판독 · 첫 라벨은 가려져 있음' : '사람 판독'} · 키 a–d{cur?.code === 'a' && ' · 태그 1–6'}</span>
+                {LABEL_CODES.map(c => (
+                  <button key={c.code} className={`toggle label-btn ${c.code}`} aria-pressed={cur?.code === c.code} title={c.long}
+                    onClick={() => setLabel(sel.oreum_id, !isRecheck && cur?.code === c.code ? null : c.code)}><b>{c.code}</b> {c.short}</button>
+                ))}
+                {cur?.code === 'a' && (targets?.tags ?? []).map((t, i) => (
+                  <button key={t.tag} className="toggle label-btn" aria-pressed={cur.tag === t.tag} title={t.long} onClick={() => setTag(sel.oreum_id, t.tag)}><b>{i + 1}</b> {t.short}</button>
+                ))}
+                {cur?.code === 'a' && !cur.tag && <span className="badge flag">태그를 하나 고르세요</span>}
+                {cur?.code === 'd' && !labelNote.trim() && <span className="badge flag">왜 판독 불가인지 메모에 적으세요</span>}
+                {!isRecheck && <input className="label-note" value={labelNote} placeholder={cur?.code === 'd' ? '이유 (필수): 구름 / 해상도 / 연도 불명 …' : '메모 (선택)'} onChange={e => setNoteDraft({ id: sel.oreum_id, text: e.target.value })}
+                  onBlur={() => labels[sel.oreum_id] && labelNote.trim() !== (labels[sel.oreum_id].note ?? '') && setLabel(sel.oreum_id, labels[sel.oreum_id].code, labelNote)} />}
+              </div>
+            );
+          })()}
           {series && (() => {
             const keys = Object.keys(series.frames); const key = keys[seriesIdx]; const fr = series.frames[key];
             const d = fr?.deltas?.[String(lag)] ?? (lag === 1 ? fr?.delta ?? undefined : undefined);
