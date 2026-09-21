@@ -58,7 +58,9 @@ Studio 안에서의 자동 스케줄(없음) · 라벨 없이 "훼손"이라는 
 - 부산물: Ai2에 낼 버그 리포트 1건(재현 조건 확정).
 
 ### WP3 — Studio Embeddings API 시험 (Claude, 승인 필요, 예상 2~5 units)
-- `/profile`에서 API 키 발급(사용자 클릭 1회; 키는 `.env`에만) → `olmoearth_projects/tutorials/embeddings/studio_client.py`로
+- API 키: 2026-09-22 사용자가 발급해 `.env`(`OLMOEARTH_API_KEY`, git 무시)에 저장. `GET /api/v1/users/me` 200(role org_admin)으로 동작 확인.
+  인증은 `Authorization: Bearer`, 스펙은 `/api/v1/openapi.json`(사본 `artifacts/studio_audit/api/openapi.json`). UI Embeddings 모드와 API 중 먼저 되는 쪽으로 →
+  `olmoearth_projects/tutorials/embeddings/studio_client.py`로
   제주 오름 bbox(핵심 15곳 68 km² 먼저) · Tiny 192 · 40 m · 월별 2025-07~09, 2026-07~09 · S2 요청.
 - 판정: (1) 비용이 100 units 안에서 243곳 전체(≈2,000 km²)를 감당하는지 실측, (2) 우리 v8 Δz(40 m 토큰 코사인)와
   Studio 임베딩 Δz의 **오름별 Spearman** — ≥0.6이면 "Studio만으로 1단계(변화 상위 10곳) 재현 가능".
