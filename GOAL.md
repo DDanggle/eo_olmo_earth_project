@@ -4537,3 +4537,9 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
     "Predictions" 텍스트가 숨은 사이드바 링크와 겹침 → `text=… >> visible=true`. 대화상자 옵션(portal)은 dialog 밖에 뜸.
     자동 모드 분류기가 학습 시작을 1회 차단(재시도 시 통과). 스크린샷 선별 서브에이전트는 세션 한도로 중단 → 직접 선별.
   - 사용자 결정: "학습해서 뭐가 좋아지나?" → 현재 라벨로는 모델 가치 없음, 제품 적응·업데이트가 목적. 푸시 안 함.
+- **(2026-09-22) 커밋 정리 + 조사 + 계획**: 중단된 `pull --rebase`를 이어 main = origin/main(109커밋, apps/oreum-web 등) + 9커밋으로
+  정리(GOAL.md 충돌은 양쪽 보존, 마지막 커밋의 잘못 섞인 `GPT_0921` 제거). 푸시 안 함.
+  조사: 제주 오름 훼손 등급제(2026-04, 1–5등급, 휴식년제 5곳 — v8 3위 도너리오름 포함) · IUCN Outlook 제주(탐방 과밀 High) ·
+  Studio `/profile` API Keys·Budget(9월 실사용 2 units) · Embeddings API 튜토리얼 · ETH Canopy Height 10 m · Sen12Landslides(네팔 포함).
+  계획: `docs/PLAN_JEJU_OREUM_STUDIO_2026_09_22.md` — WP0 라벨 정의서 → WP1 사용자 라벨 60곳(상위 30+대조 30) → WP2 결함 8 검증 →
+  WP3 임베딩 API → WP4 Studio vs 캐시 프로브 → WP5 등급제 대조 → WP6 외부 데이터. 성공 기준 사전 고정, 예산 ≤10 units.
