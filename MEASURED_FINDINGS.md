@@ -5821,6 +5821,22 @@ paired(privileged − 기준선, AOI 12 bootstrap): Q1 vs full_prefix +.273 [.04
 다음: 사람 gold(prefix-visible)로 같은 4조건을 재평가하는 G1 본 진단(3주 말). 검수 도구·프로토콜 `docs/PREFIX_VISIBLE_GOLD_PROTOCOL_v0.md`.
 금지: "기억이 병목"을 사람 gold 없이 확정 인용, privileged를 배포 가능한 방법으로 서술.
 
+### MS-154 추가 1 — 두 번째 reader Molmo2-O-7B(amendment_1)와 **위치 교락 발견**: Molmo2는 privileged Q1 .95 / Q2 .909, full_prefix Q2 .318, latest·change_topk Q2 .000으로 순서는 Qwen과 같음. 그러나 감사 결과 **privileged 4장에서 gold 달은 항상 2번째 위치(index 1)**이고 Molmo2 예측 20/22이 index 1 — "두 번째 그림"이라는 위치 사전확률로 설명 가능. 또 silver Q2 gold가 전체 시계열의 2번째 달(index 1)에 11/22 몰려 있어 질문이 거의 상수임. **headroom_present 판정은 이 교락을 통제하기 전까지 보류**
+
+서버 `spacenet7/diag_lite_v0_3/{answers_molmo.jsonl, scores_molmo.json}`(SHA256SUMS), 로컬 `artifacts/spacenet7/diag_lite_v0_3_molmo_{scores.json,answers.jsonl}`. 환경: master venv torch 2.13 + 격리 폴더 `molmo_deps`(transformers 4.57.1, huggingface_hub 0.36.2; 별도 venv는 torch 의존성 충돌로 실패, 로그 `models/venv_molmo_setup.log`).
+
+| 조건 | Molmo2 Q1 acc (recall·spec) | Molmo2 Q2 acc / 월 오차 중앙값 | (Qwen Q2, 참고) |
+|---|---|---|---|
+| full_prefix | .464 (.25·1.0) | .318 / 1 | .227 |
+| latest_k | .821 (.80·.88) | .000 / 10.5 | .000 |
+| change_topk | .643 (.70·.50) | .000 / 7.5 | .000 |
+| privileged_silver | .950 | .909 / 0 | .455 |
+
+위치 감사: privileged 프레임 = [gold 직전, **gold**, 이후 clear 2장] 구조라 gold index가 22/22 모두 1. Molmo2 예측 index 분포 {1: 20, 2: 2}, Qwen {1: 10, 2: 8, 3: 4}. full_prefix에서 silver gold index 분포 {1: 11, 2: 4, 3: 4, 5: 2, 16: 1} — MIN_NEW=8 누적이 첫 달부터 빠르게 채워져 "처음 보인 달"이 대개 2번째 달.
+판정: 두 reader에서 privileged > full_prefix > latest·change 순서는 재현되나, **Q2 headroom은 (a) privileged의 고정 위치, (b) gold 분포 편중으로 설명될 수 있음**. MS-154의 headroom_present는 이 두 교락을 통제한 v0.4가 나오기 전까지 인용 보류. 추석 검수도 v0.4 결과를 보고 시작.
+v0.4 설계(별도 등록): (1) privileged에서 gold 위치를 {1,2,3} 균등 무작위(앞 k장·뒤 3−k장), (2) Q2 대상 사분면을 "가장 늦게 MIN_NEW에 도달한 사분면"으로 골라 gold index ≥ 2로 분산, (3) **wrong-content 통제**: privileged와 같은 달·같은 위치지만 다른 사분면의 영상 — 정확도가 유지되면 위치 사전확률, 떨어지면 내용을 읽은 것.
+금지: Molmo2 .909를 근거 선택 이득으로 인용, Molmo2 vs Qwen 순위 인용.
+
 ## MS-153 (2026-09-22) — G1-lite v0.2(원해상도 사분면 crop, MIN_NEW 8, Q3 삭제, Qwen3-VL): Q2에서 privileged **.455 vs latest_k .000 / change_topk .000 / full_prefix .227** — 두 기준선 대비 +.42 CI 밖, full_prefix 대비 +.21은 CI 0 포함. Q1 privileged .10은 **프레임 선택 버그**로 확인(근거 4장이 질문 창 끝에 못 미침) → 규칙상 reader_bottleneck이나 원인은 진단 설계, v0.3로 수정 재실행
 
 사전등록 `config/bottleneck_diag_lite_prereg_v0_2.json`. 서버 `spacenet7/diag_lite_v0_2/`(SHA256SUMS, items 50, answers 192, scores.json), 로컬 `artifacts/spacenet7/diag_lite_v0_2_scores.json`. 오류 0.
