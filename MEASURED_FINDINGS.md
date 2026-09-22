@@ -5804,6 +5804,23 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-153 (2026-09-22) — G1-lite v0.2(원해상도 사분면 crop, MIN_NEW 8, Q3 삭제, Qwen3-VL): Q2에서 privileged **.455 vs latest_k .000 / change_topk .000 / full_prefix .227** — 두 기준선 대비 +.42 CI 밖, full_prefix 대비 +.21은 CI 0 포함. Q1 privileged .10은 **프레임 선택 버그**로 확인(근거 4장이 질문 창 끝에 못 미침) → 규칙상 reader_bottleneck이나 원인은 진단 설계, v0.3로 수정 재실행
+
+사전등록 `config/bottleneck_diag_lite_prereg_v0_2.json`. 서버 `spacenet7/diag_lite_v0_2/`(SHA256SUMS, items 50, answers 192, scores.json), 로컬 `artifacts/spacenet7/diag_lite_v0_2_scores.json`. 오류 0.
+
+| 조건 | Q1 acc (recall·spec, 20/8) | Q2 acc (n 22) |
+|---|---|---|
+| full_prefix(13~21장) | .571 (.40·1.0) | .227 |
+| latest_k(4) | **.643** (.50·1.0) | .000 |
+| change_topk(4) | .536 (.40·.88) | .000 |
+| privileged_silver(4) | .100 (.10·—) | **.455** |
+
+paired Q2(privileged − 기준선, AOI 12): vs change_topk +.417 [.167,.667], vs latest_k +.417 [.167,.667], vs full_prefix +.208 [−.083,.500].
+Q1 privileged 버그: 창 [2018-08, 2019-01] 항목에 프레임 2018-07·08·09·10을 줌(첫 출현 주변 + "이후 clear 2장"이 정렬 동률로 가장 이른 달) → 창 끝을 못 봄. 같은 항목 full_prefix는 "yes". reader는 본 프레임에 대해서는 맞게 답한 것.
+판정(등록 규칙): privileged Q1 < .65 → **reader_bottleneck**(규칙 유지). 그러나 원인이 진단 설계임이 확인되어 v0.3(Q1 근거가 창을 가로지르게: 창 직전·첫 출현·중간 clear·cutoff) 등록.
+읽는 법: (1) Q1은 "최근 6개월"을 묻기 때문에 최신 4장으로 .643이 나옴 — **Q1은 기억 질문이 아님**. (2) Q2(처음 보인 달)는 최신·변화량 선택이 0, 전체 prefix .227, 올바른 근거 .455 — 근거 선택이 답을 가르는 질문이고 해상도를 올리자 신호가 커짐(v0.1 .348 → .455). full_prefix 대비 CI가 0을 포함하는 것은 항목 22개·AOI 12개의 검정력 한계. (3) silver oracle·zero-shot reader·12 AOI라는 세 한계는 그대로.
+금지: Q2 결과를 사람 gold 기반 headroom으로 인용, Q1 .643을 기억 기준선 성능으로 인용.
+
 ## MS-152 (2026-09-22) — G1-lite v0.1(reader만 Qwen3-VL-8B zero-shot으로 교체, 항목·조건 동일): 등록 규칙상 다시 **reader_bottleneck**(privileged Q1 정확도 .000 < .65). 그러나 **Q2(언제)에서는 privileged가 세 기준선을 CI 밖으로 이김**(+.21~.38, 월 오차 중앙값 1 vs 3/7/12) — 근거 선택의 headroom이 "시점" 질문에서 처음 관측됨. Q1 실패는 해상도·silver 정의 문제로 판단(아래)
 
 사전등록 `config/bottleneck_diag_lite_prereg_v0_1.json`. 서버 `spacenet7/diag_lite_v0/{answers_qwen.jsonl, scores_qwen_v0_1.json, run_qwen.log}`(SHA256SUMS 갱신), 로컬 `artifacts/spacenet7/diag_lite_v0_1_qwen_scores.json`. 오류 0/270, 파싱 실패 0(TEOChat의 퇴화 없음). 모델 `models/Qwen3-VL-8B-Instruct`(17 GB, bf16, GPU1).

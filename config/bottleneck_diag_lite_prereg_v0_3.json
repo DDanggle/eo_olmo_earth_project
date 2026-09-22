@@ -1,0 +1,15 @@
+{
+ "schema": "bottleneck-diag-lite-prereg-v0.3",
+ "registered_at": "2026-09-22",
+ "status": "registered before execution",
+ "supersedes": "v0.2 (MS-153): privileged Q1 .10 was a frame-selection bug — the 4 privileged frames clustered around the first appearance (e.g. 2018-07..2018-10) and never reached the question window end (2019-01), so the reader correctly answered 'no' for the frames it saw while full_prefix answered 'yes'. Q2 headroom held (.455 vs 0/0/.227).",
+ "changes": [
+  "Q1 privileged frames = {month before window start, first-appearance month, one clear mid month, cutoff month} so the evidence spans the asked interval",
+  "Q2 privileged unchanged (before/first/two later clear)",
+  "everything else identical to v0.2 (native crops, MIN_NEW 8, Q3 dropped, Qwen3-VL-8B zero-shot, K=4)"
+ ],
+ "readings": "as v0/v0.1 (reader_bottleneck if privileged Q1 acc < .65; no_headroom if privileged - max(latest_k, change_topk) < .05 on Q1 and Q2; headroom_present if privileged beats latest_k and change_topk by >= .10 on Q2 with CI excl 0 AND full_prefix <= privileged; full_prefix_wins otherwise).",
+ "decision_use": "headroom_present -> start Chuseok prefix-visible labelling on these AOIs/questions; reader_bottleneck again -> SN7 quadrant questions are not readable zero-shot at 4 m; postpone labelling and consider a small SFT reader before any memory work",
+ "not_allowed": "changing K, cutoffs, AOI selection or readings after seeing results; citing silver-oracle headroom as human-gold headroom",
+ "note": "Q1 latest_k reached .643 in v0.2: Q1 asks about the last 6 months so recent frames suffice — Q1 is a weak memory question; Q2 (first-visible month) is the memory-relevant one and will carry the headroom reading."
+}
