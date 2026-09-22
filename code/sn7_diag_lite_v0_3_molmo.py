@@ -3,8 +3,8 @@
 import json, sys, time, torch
 from pathlib import Path
 from PIL import Image
-ROOT=Path("/home/work/data/olmoearth"); OUT=ROOT/"spacenet7/diag_lite_v0_3"; MODEL=ROOT/"models/Molmo2-O-7B"
-src=(OUT/"sn7_diag_lite_v0_3.py").read_text().split('{"build":build')[0]; ns={}; exec(src.replace("import json, re, sys, time, numpy as np","import json, re, sys, time\nimport numpy as np"),ns); prompt,parse=ns["prompt"],ns["parse"]
+ROOT=Path("/home/work/data/olmoearth"); OUT=ROOT/("spacenet7/"+(sys.argv[2] if len(sys.argv)>2 else "diag_lite_v0_3")); MODEL=ROOT/"models/Molmo2-O-7B"
+SCRIPT=next(OUT.glob("sn7_diag_lite_v0_*.py")); src=SCRIPT.read_text().split('{"build":build')[0]; ns={}; exec(src.replace("import json, re, sys, time, numpy as np","import json, re, sys, time\nimport numpy as np"),ns); prompt,parse=ns["prompt"],ns["parse"]
 def run():
     from transformers import AutoProcessor, AutoModelForImageTextToText
     proc=AutoProcessor.from_pretrained(MODEL,trust_remote_code=True); model=AutoModelForImageTextToText.from_pretrained(MODEL,trust_remote_code=True,dtype=torch.bfloat16,device_map="cuda").eval()
@@ -13,7 +13,7 @@ def run():
     for it in items:
         for cond,frames in it["conds"].items():
             if frames is None or (it["id"],cond) in done: continue
-            paths=[it["png"][m][it["region"]] for m in frames]; text=prompt(it,frames).replace("<video> ","")
+            OPP={"NW":"SE","SE":"NW","NE":"SW","SW":"NE"}; qsrc=OPP[it["region"]] if cond=="privileged_wrongcontent" else it["region"]; paths=[it["png"][m][qsrc] for m in frames]; text=prompt(it,frames).replace("<video> ","")
             content=[]
             for m,pth in zip(frames,paths): content+=[{"type":"text","text":f"[{m}]"},{"type":"image","image":Image.open(pth).convert("RGB")}]
             content.append({"type":"text","text":text})
@@ -30,6 +30,6 @@ def score_molmo():
     import shutil
     a,b=OUT/"answers.jsonl",OUT/"answers_qwen_v0_3.jsonl"
     if not b.exists(): shutil.copy(a,b)
-    shutil.copy(OUT/"answers_molmo.jsonl",a); ns2={}; exec((OUT/"sn7_diag_lite_v0_3.py").read_text().split('{"build":build')[0].replace("import json, re, sys, time, numpy as np","import json, re, sys, time\nimport numpy as np"),ns2); ns2["score"]()
+    shutil.copy(OUT/"answers_molmo.jsonl",a); ns2={}; exec(SCRIPT.read_text().split('{"build":build')[0].replace("import json, re, sys, time, numpy as np","import json, re, sys, time\nimport numpy as np"),ns2); ns2["score"]()
     (OUT/"scores.json").rename(OUT/"scores_molmo.json"); shutil.copy(b,a); print("SCORE MOLMO DONE")
 {"run":run,"score":score_molmo}[sys.argv[1]]()

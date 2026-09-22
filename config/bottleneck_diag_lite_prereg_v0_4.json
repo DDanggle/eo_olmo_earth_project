@@ -1,0 +1,16 @@
+{
+ "schema": "bottleneck-diag-lite-prereg-v0.4",
+ "registered_at": "2026-09-22",
+ "status": "registered before execution",
+ "supersedes": "v0.3 + amendment_1 (MS-154, MS-154 addendum 1): privileged frames placed the gold month at a fixed position (index 1 of 4) and silver Q2 gold clustered at the 2nd month of the series, so reader accuracy under privileged could be a position prior. v0.4 controls both; readings unchanged.",
+ "changes": [
+  "privileged_silver: gold position drawn uniformly from {1,2,3} per item (seeded by item id): k in {1,2,3} frames before gold (spread over pre[:gi]), 3-k clear frames after; K=4 unchanged",
+  "Q2 target quadrant = the quadrant reaching MIN_NEW=8 cumulative new buildings LATEST (not earliest), and items with gold index < 2 are dropped, so gold months spread over the series",
+  "new control condition privileged_wrongcontent: identical months and positions as privileged_silver but images from a different quadrant of the same AOI (NW<->SE, NE<->SW). If accuracy stays near privileged_silver, the reader is using position/text, not content",
+  "Q1 unchanged from v0.3 (window-spanning privileged); Q1 has no position issue (yes/no)",
+  "both readers: Qwen3-VL-8B (master venv) and Molmo2-O-7B (molmo_deps); zero-shot, greedy, max_new_tokens 32"
+ ],
+ "readings": "as v0.3, computed per reader, PLUS: content_check = privileged_silver Q2 acc - privileged_wrongcontent Q2 acc must be >= .30 with AOI-bootstrap CI excluding 0; if content_check fails for a reader, that reader's privileged result is void (position prior) and it cannot support headroom_present. headroom_present requires: privileged Q1 >= .65, privileged beats latest_k and change_topk on Q2 by >= .10 with CI excl 0, full_prefix <= privileged, AND content_check passes.",
+ "decision_use": "headroom_present for at least one reader with content_check passed -> Chuseok labelling starts on the v0.4 items; otherwise labelling postponed and the diagnostic design is re-examined.",
+ "not_allowed": "changing K, cutoffs, AOIs, readings after results; dropping the wrong-content control"
+}
