@@ -32,7 +32,7 @@ button{margin:4px;padding:6px 10px}#q{font-size:18px;margin:10px 0}.ans button.o
 <div id="big" onclick="this.style.display='none'"><img id="bigimg"></div>
 <script>
 let items=[],i=0,sel=new Set(),ans=null,t0=0,out=[];
-fetch('items_public.json').then(r=>r.json()).then(d=>{items=d;const s=localStorage.getItem('pvg_out');if(s){out=JSON.parse(s);i=out.length}show();});
+items=__ITEMS__;{const s=localStorage.getItem('pvg_out');if(s){out=JSON.parse(s);i=out.length}}show();
 function qtext(it){if(it.q=='Q1')return `Q1. 이 영역(${it.region})에서 <b>${it.window[0]} ~ ${it.window[1]}</b> 사이에 새 건물이 생겼나?`;return `Q2. 이 영역(${it.region})에서 새 건설이 <b>처음 분명히 보이는 달</b>은? (아래 프레임 중 하나를 '정답 달'로 먼저 클릭 → 근거 추가 선택)`;}
 function show(){if(i>=items.length){document.getElementById('q').innerText='끝. JSON 내려받기를 눌러 저장하세요.';return}
 const it=items[i];sel=new Set();ans=null;t0=Date.now();document.getElementById('prog').innerText=`${i+1}/${items.length}`;document.getElementById('q').innerHTML=qtext(it);
@@ -45,6 +45,6 @@ function save(){if(!ans){alert('답을 고르세요');return}if(sel.size<1){aler
 function skip(){ans=null;rec('unreadable')}
 function dl(){const b=new Blob([JSON.stringify(out,null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`pvg_${document.getElementById('who').value||'anon'}.json`;a.click()}
 </script></body></html>'''
-(OUT/"index.html").write_text(html)
+(OUT/"index.html").write_text(html.replace("__ITEMS__",json.dumps(pub,ensure_ascii=False)))  # inline items so the file works from file:// without a server
 shutil.copy(Path(__file__).resolve(),OUT/"sn7_labeling_pack_v0.py")
 n=sum(1 for _ in (OUT/"frames").rglob("*.jpg")); print("items",len(pub),"jpg",n); print("PACK DONE")
