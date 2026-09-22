@@ -1,0 +1,6 @@
+{"schema":"bottleneck-diag-lite-prereg-v0.1","registered_at":"2026-09-22","status":"registered before execution",
+"supersedes":"v0 (MS-151) ended in reader_bottleneck with frozen TEOChat (degenerate zero-shot: near-constant 'no' / 'NW'). v0.1 changes ONLY the reader; items (75), conditions (4), questions, silver gold, scoring and the five readings are identical to v0.",
+"reader":"Qwen/Qwen3-VL-8B-Instruct, bf16, zero-shot, frames as separate images in chronological order with their month labels in the text; greedy decoding, max_new_tokens 32. Same parse regexes as v0.",
+"budget_note":"full_prefix feeds up to 21 images; if the model or memory cannot take them we report the failure rate as a finding (not silently truncate).",
+"readings":"as v0 (reader_bottleneck if privileged Q1 acc < .65; no_headroom; headroom_present; full_prefix_wins). If v0.1 also lands in reader_bottleneck: the SN7 4 m quadrant questions are re-designed before any human labelling; Chuseok labelling is postponed.",
+"not_allowed":"changing items/conditions/questions/K; comparing v0 and v0.1 readers as a reader benchmark (this is a diagnostic of evidence selection, the reader is instrumentation)"}

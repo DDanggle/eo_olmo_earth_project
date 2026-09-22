@@ -1,0 +1,170 @@
+{
+ "schema": "frozen-sensitivity-prereg-v1",
+ "registered_at": "2026-09-17 (v1 extension, registered before the new arms ran; v0 arms and rules unchanged)",
+ "status": "registered before execution; diagnostic, not confirmatory",
+ "question": "Does frozen OlmoEarth v1 base (patch 4, 40 m tokens) change its readout decisions under (a) sub-token spatial grid offsets of 20 m and (b) month-label perturbations of identical pixels?",
+ "model": "OlmoEarth v1 base via rslearn wrapper, token_pooling, patch 4, real acquisition dates from sealed contract (same as sealed P4 cache)",
+ "folds": [
+  "holdout_hiroshima",
+  "holdout_indonesia"
+ ],
+ "split": "test region tiles only",
+ "readout": "resolution_contract_v2/p4_native_control/<fold>_seed1_best.pt, frozen; normalisation stats recomputed from the unperturbed train cache exactly as in training",
+ "arms": {
+  "ctrl": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "role": "control; also reproducibility check against sealed cache (expect token cos >= .995)"
+  },
+  "s20_y": {
+   "offset_px": [
+    2,
+    0
+   ],
+   "time": "real",
+   "role": "20 m half-token shift"
+  },
+  "s20_x": {
+   "offset_px": [
+    0,
+    2
+   ],
+   "time": "real",
+   "role": "20 m half-token shift"
+  },
+  "s20_xy": {
+   "offset_px": [
+    2,
+    2
+   ],
+   "time": "real",
+   "role": "20 m diagonal"
+  },
+  "s40_xy": {
+   "offset_px": [
+    4,
+    4
+   ],
+   "time": "real",
+   "role": "full-token shift; positive control for the alignment machinery (tokens should re-align by one cell)"
+  },
+  "t_synth": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "synth_month",
+   "role": "same month index, synthetic day/year (what extract_olmo_variants used)"
+  },
+  "t_plus1": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "plus1",
+   "role": "every timestamp moved +1 calendar month; pixels unchanged"
+  },
+  "t_shuffle": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "shuffle",
+   "role": "month labels permuted per tile (seeded); pixels and order unchanged"
+  },
+  "y_plus1": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "year_plus1",
+   "role": "every timestamp +1 year, month/day kept; tests whether year matters (model encodes month only)"
+  },
+  "gap_r3": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "drop": "rand3",
+   "role": "3 of 12 timesteps removed at random (seeded per tile)"
+  },
+  "gap_r6": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "drop": "rand6",
+   "role": "6 of 12 removed at random"
+  },
+  "gap_c3": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "drop": "contig3",
+   "role": "3 consecutive timesteps removed (seasonal hole)"
+  },
+  "gap_c6": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "drop": "contig6",
+   "role": "6 consecutive removed (half-year hole)"
+  },
+  "cloud1": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "cloud": 1,
+   "role": "clearest kept timestep replaced by the cloudiest dropped one (NetCDF)"
+  },
+  "cloud3": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "cloud": 3,
+   "role": "3 clearest replaced by the 3 cloudiest dropped"
+  }
+ },
+ "spatial_handling": "tile viewed at (dy,dx) with 4-px edge replication on the far side; prediction map shifted back to the original frame; all metrics on the common window rows/cols 8..120 (2-token border excluded)",
+ "metrics": {
+  "primary_label_free": "decision_flip_rate = fraction of window pixels whose 0.5-threshold decision differs from ctrl",
+  "secondary_label_free": [
+   "prob_mae vs ctrl",
+   "token_cos vs ctrl on aligned arms (time arms and s40_xy shifted by one cell)"
+  ],
+  "labelled": "positive_patch_macro_iou in the window vs ctrl"
+ },
+ "decision_rules": {
+  "yardstick": "s40_xy decision_flip_rate (full-token shift) is the harmless-perturbation floor",
+  "spatial_axis_present": "mean decision_flip_rate over s20_* arms >= 2 x s40_xy flip rate AND >= 0.02 absolute, in both folds",
+  "time_axis_present": "decision_flip_rate of t_plus1 or t_shuffle >= 2 x s40_xy flip rate AND >= 0.02 absolute, in both folds",
+  "time_axis_inert": "all time arms flip rate < 0.005 and token_cos > .995 -> month encoding is effectively ignored at this contract; continuous-time post-training track closed for Sen12",
+  "control_failure": "ctrl vs sealed token_cos < .99 -> extraction not reproducible; stop and audit before interpreting anything"
+ },
+ "not_claimed": [
+  "cause of instability (aliasing vs boundary vs normalisation) is not separated here",
+  "no generalisation beyond Sen12 S2 10-band contract",
+  "no post-training result"
+ ],
+ "compute": "GPU0 only; ~1435 tiles x 8 arms at ~6.5 tiles/s ~ 30 min; no sealed file modified",
+ "question_v1": "Do frozen OlmoEarth decisions change under deployment-realistic temporal perturbations: missing timesteps (gaps), cloud-contaminated observations, and calendar-year shift?",
+ "decision_rules_v1": {
+  "yardstick": "same s40_xy flip rate",
+  "axis_present_generic": "arm flip rate >= 2 x yardstick AND >= 0.02 absolute in both folds",
+  "note": "gap/cloud arms change the information content, not only its encoding; a drop there is expected to some degree. The registered question is whether the drop is large relative to the tolerated s40 floor and whether it is graceful (gap_r3 < gap_r6, cloud1 < cloud3)."
+ },
+ "dup_month_probe": "separate 2-tile probe: does the wrapper accept two observations in the same calendar month with different days? Recorded as accept/reject; no metric."
+}

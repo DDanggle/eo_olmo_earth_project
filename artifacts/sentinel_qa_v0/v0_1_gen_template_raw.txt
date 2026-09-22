@@ -1,0 +1,29 @@
+Q1 balance Counter({'yes': 203, 'no': 203})
+Q1 gap median yes/no 50 52
+SENTINEL QA GEN DONE
+{
+ "missing_single_embeddings": 44,
+ "q1_threshold_median": 0.17323864251375198,
+ "Q1": {
+  "n": 384,
+  "acc": 0.4791666666666667,
+  "fpr_on_negatives": 0.5208333333333334,
+  "recall_on_positives": 0.4791666666666667,
+  "balanced_acc": 0.4791666666666667
+ },
+ "Q2": {
+  "n": 5,
+  "acc": 0.0
+ },
+ "Q3": {
+  "n": 192,
+  "exact": 0.2604166666666667,
+  "jaccard": 0.5412326388888887
+ },
+ "Q4": {
+  "n": 192,
+  "acc": 1.0
+ }
+}
+SENTINEL QA TEMPLATE DONE
+teochat-launched

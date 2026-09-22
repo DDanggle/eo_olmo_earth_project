@@ -1,0 +1,111 @@
+{
+ "arm": "E_trust_z",
+ "n_train": 7590,
+ "train_s": 2103.128499025479,
+ "evals": {
+  "hiroshima_test": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.9986666666666667,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.9933333333333333,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.864,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9968888888888889,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2022,
+    "frac_state_unchanged": 0.9624134520276953
+   }
+  },
+  "thrissur": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.7617777777777778,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.7288888888888889,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7577777777777778,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9151111111111111,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2020,
+    "frac_state_unchanged": 0.9034653465346535
+   }
+  },
+  "itogon": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.7026666666666667,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.7262222222222222,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7324444444444445,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9466666666666667,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2025,
+    "frac_state_unchanged": 0.9718518518518519
+   }
+  },
+  "hokkaido": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.7804444444444445,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.6857777777777778,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.6924444444444444,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.8884444444444445,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2015,
+    "frac_state_unchanged": 0.8600496277915632
+   }
+  }
+ }
+}

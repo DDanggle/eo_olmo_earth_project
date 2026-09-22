@@ -1,0 +1,103 @@
+{
+ "schema": "trust-head-v0",
+ "folds": {
+  "hiroshima": {
+   "n_train_tiles": 952,
+   "n_test_tiles": 864,
+   "token_auc": 0.981667937447508,
+   "acq_spearman_pred_vs_clear": -0.8586009293328362,
+   "cloudy_z2_before": [
+    0.6240084611316764,
+    1891
+   ],
+   "cloudy_z2_after_mask": [
+    0.34459459459459457,
+    592
+   ],
+   "normal_z2_before": [
+    0.03344962035706957,
+    9746
+   ],
+   "normal_z2_after_mask": [
+    0.016651248843663275,
+    9729
+   ]
+  },
+  "thrissur": {
+   "n_train_tiles": 1389,
+   "n_test_tiles": 427,
+   "token_auc": 0.9951081733997106,
+   "acq_spearman_pred_vs_clear": -0.8714765436981661,
+   "cloudy_z2_before": [
+    0.7210401891252955,
+    1269
+   ],
+   "cloudy_z2_after_mask": [
+    0.5668789808917197,
+    314
+   ],
+   "normal_z2_before": [
+    0.07196969696969698,
+    4488
+   ],
+   "normal_z2_after_mask": [
+    0.031124048365427676,
+    4466
+   ]
+  },
+  "itogon": {
+   "n_train_tiles": 1581,
+   "n_test_tiles": 235,
+   "token_auc": 0.988348351703262,
+   "acq_spearman_pred_vs_clear": -0.9017652385286538,
+   "cloudy_z2_before": [
+    0.7910798122065728,
+    426
+   ],
+   "cloudy_z2_after_mask": [
+    0.28431372549019607,
+    204
+   ],
+   "normal_z2_before": [
+    0.06973347937203359,
+    2739
+   ],
+   "normal_z2_after_mask": [
+    0.015395894428152493,
+    2728
+   ]
+  },
+  "hokkaido": {
+   "n_train_tiles": 1526,
+   "n_test_tiles": 290,
+   "token_auc": 0.9448720137409854,
+   "acq_spearman_pred_vs_clear": -0.8579516293151791,
+   "cloudy_z2_before": [
+    0.774597495527728,
+    2795
+   ],
+   "cloudy_z2_after_mask": [
+    0.45476190476190476,
+    1260
+   ],
+   "normal_z2_before": [
+    0.262780269058296,
+    1115
+   ],
+   "normal_z2_after_mask": [
+    0.16120218579234974,
+    1098
+   ]
+  }
+ },
+ "decision": {
+  "auc_ge_090_folds": [
+   "hiroshima",
+   "thrissur",
+   "itogon",
+   "hokkaido"
+  ],
+  "payoff_folds": [],
+  "trust_usable": false
+ }
+}

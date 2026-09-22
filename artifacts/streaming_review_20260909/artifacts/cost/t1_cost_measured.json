@@ -1,0 +1,23 @@
+{
+ "n_tiles": 64,
+ "per_tile_s": {
+  "init_0_4": 0.05766989474068396,
+  "A_reencode_6_8_10_12": 0.19449793474632315,
+  "B_singles_8": 0.33780854736687616,
+  "B_gru_4steps": 0.004423165257321671,
+  "C_final_0_12": 0.04903724673204124
+ },
+ "raw_bytes_per_tile": {
+  "init_0_4": 1310720,
+  "A_reencode_6_8_10_12": 11796480,
+  "B_singles_8": 2621440,
+  "C_final_0_12": 3932160
+ },
+ "paths_per_tile_s": {
+  "A_all_maps_reencode": 0.2521678294870071,
+  "B_all_maps_streaming": 0.3999016073648818,
+  "C_final_map_only": 0.04903724673204124
+ },
+ "note": "wall-clock incl. crop batching overhead on one H200; measured with other jobs possibly present (see gpu_procs)",
+ "gpu_procs_at_start": 1
+}

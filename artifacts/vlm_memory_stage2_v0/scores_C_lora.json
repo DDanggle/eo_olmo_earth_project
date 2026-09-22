@@ -1,0 +1,111 @@
+{
+ "arm": "C_lora",
+ "n_train": 7590,
+ "train_s": 1184.3147321287543,
+ "evals": {
+  "hiroshima_test": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.9955555555555555,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.9928888888888889,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.8688888888888889,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9991111111111111,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2022,
+    "frac_state_unchanged": 0.9663699307616221
+   }
+  },
+  "thrissur": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.7893333333333333,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.7973333333333333,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7528888888888889,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9195555555555556,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2020,
+    "frac_state_unchanged": 0.9579207920792079
+   }
+  },
+  "itogon": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.7204444444444444,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.7395555555555555,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7426666666666667,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9528888888888889,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2025,
+    "frac_state_unchanged": 0.985679012345679
+   }
+  },
+  "hokkaido": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.7755555555555556,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.7351111111111112,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7435555555555555,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.8715555555555555,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2015,
+    "frac_state_unchanged": 0.9027295285359801
+   }
+  }
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "schema": "vlm-memory-comparison-stage2-prereg-v0",
+ "registered_at": "2026-09-19 (registered before execution; launch only after MS-142 records the stage-1 'log_helps' branch)",
+ "launch_allowed": true,
+ "parent": "vlm_memory_comparison_prereg_v0.json (stage 1: A, C; controls CAL, LOG)",
+ "question": "With the same LLM, data, and injected-token budget, does a learned, quality- and change-conditioned event memory (D) answer 'when' better and keep judgments more stable under cloudy/irrelevant arrivals than the rule-based event log read by the same model (C), on unseen events? Secondary: does the T1 updated cache alone (B) help?",
+ "arms": {
+  "B_t1_cache": "64 pooled tokens of the Δt-GRU updated state at the current step (updater = p1_causal_v0_3/gru_dt_seed1.pt, hiroshima-trained, frozen; causal rollout over arrival order) + dates text; no log",
+  "D_learned_memory": "64 latest-observation tokens + K=4 slots x 64 tokens = 320 injected tokens (== C's 64 + <=256 log tokens). Slot writer: scalar gate g_i = sigmoid(w.[clear_i, mean|e_i - e_{i-1}|, dt_i/365, 1]) applied to the least-recently-written slot: slot <- g*cand + (1-g)*slot; slot tokens carry a slot-id type embedding and a projected date feature (sin/cos day-of-year, year offset). Trained end-to-end with the LM loss only (no auxiliary memory loss)."
+ },
+ "training": "Olmo-3-7B-Instruct with LoRA r=16 (q,k,v,o projections) + projector + (D) writer; 2 epochs on hiroshima train-block items, batch 8, AdamW 1e-4 (LoRA 5e-5); seed 1; identical for B and D; C and A are NOT retrained with LoRA in this stage (stated asymmetry: stage 2 LoRA arms are compared with stage-1 projector-only C; a LoRA re-run of C is required before any method claim — arm C_lora added for parity)",
+ "arms_added_for_parity": {
+  "C_lora": "arm C retrained with the same LoRA budget as B and D"
+ },
+ "eval": "identical to stage 1 (150-tile seeded subsamples x 15 steps x 4 questions; same scorer; CAL and LOG floors reported)",
+ "decision_rules": {
+  "method_claim": "D beats C_lora on Q_when AND on cloud_stability on >= 2 of 3 unseen events, each by >= .05 with tile-paired bootstrap CI excluding 0, at equal token budget",
+  "system_only": "otherwise: no learned-memory claim; the paper's contribution is the sequential-evidence benchmark + the rule-log VLM baseline (C) + negative results",
+  "t1_cache_note": "B is reported; it is not a decision arm (memory states cannot shorten the readout's detection latency, MS-141)"
+ },
+ "not_claimed": [
+  "belief correction",
+  "generalisation beyond Sentinel-2 landslides",
+  "any claim from arms A/C projector-only vs LoRA arms without C_lora"
+ ],
+ "launch_trigger": "MS-142 recorded 2026-09-19: stage-1 rule log_helps satisfied (2/3). Marker vlm_memory_stage2_v0/LAUNCH_OK created after this edit."
+}

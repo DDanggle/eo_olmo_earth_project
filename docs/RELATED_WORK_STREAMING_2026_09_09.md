@@ -1,5 +1,31 @@
 # 관련연구 점검 — 캐시된 지구 FM 임베딩의 증분 갱신 (2026-09-09 웹 조사, 초록·검색 스니펫 기준, 전문 미확인 항목 표시)
 
+> **9/9 JEPA 후속 조사:** [추가 학습 설계 §3](POSTTRAINING_JEPA_UPDATE_2026_09_09.md#3-최근-선행이-주는-방향--이름보다-학습-목표)에 원문 대조를 추가했다.
+> [V-JEPA 2.1](https://arxiv.org/html/2603.14482v1)의 dense predictive supervision,
+> [TerraFlow Appendix A](https://arxiv.org/html/2603.12762v1)의 temporal training/forward-only 초기 음성,
+> [2026-07 EO 관측성 world model](https://arxiv.org/html/2607.13651v1)의 JEPA·합성 anomaly와
+> 구분해야 한다. 따라서 “EO+JEPA+surprise 최초”는 주장하지 않는다. 신규성 후보는
+> **부분 관측 post-training + 기존 cache/readout 호환성 + arrival-valid 비용/외부 task 증거**다.
+> UniJEPA/Orthogonal JEPA는 초록 확인만이며 직접 비교 완료로 세지 않는다.
+
+> **9/9 후속 원문 점검에 따른 한정:** 아래 “EO 쪽은 비어 있음/아무도 발표하지 않음”은
+> 검색 미발견을 문헌 부재 증명으로 바꾼 과도한 표현이다. 현재는 **구체적 신규성 후보**로만
+> 쓴다. 수치/제품의 내부 인프라를 초록만으로 확정하지 않는다. 상세 검토는
+> [최신 연구판 §7](STREAMING_RESEARCH_UPDATE_2026_09_09.md#7-선행연구-확인-후-수정할-신규성-문장).
+>
+> - [RBC 전문](https://arxiv.org/html/2301.01796v4): EO map의 재귀 갱신·시점당 일정 비용은
+>   이미 선행이 있다. embedding state와 posterior state의 구분이 필요하다.
+> - [Tessera 시간 민감도 전문](https://arxiv.org/html/2608.27175v1): frozen encoder 창별
+>   재계산과 partial-window mapping을 평가한다. 기존 상태 재사용과는 구분 가능하지만
+>   시간/비용 trade-off 그 자체를 새 발견으로 쓰지는 않는다.
+> - [GEO-Bench-2 §3.5](https://arxiv.org/html/2511.15658v2): 시점별 encoder 출력 평균은
+>   정확한 running mean으로 업데이트할 수 있다(산술). “모두 창전체 재인코딩”은 부정확하다.
+> - OLMoEarth v1.2 [현재 abstract](https://arxiv.org/abs/2605.20804)는2.9배,
+>   [HTML v3](https://arxiv.org/html/2605.20804v3)는5.3배 MACs로 표시가 불일치한다.
+>   아래5.3배는 계수 확인 완료 인용으로 쓰지 않는다. 원문revision/PDF 확인 전 계수 인용 보류.
+>
+> 아래 초기 검색표는 당시 조사 이력으로 보존한다. “미발견”보다 강한 최초성 주장은 아직 하지 않는다.
+
 ## 질문
 "저장된 위치 임베딩을 새 관측의 단일 취득 임베딩으로 학습 갱신하고, downstream 회복률과 실측 비용으로 평가"가 이미 있는가.
 

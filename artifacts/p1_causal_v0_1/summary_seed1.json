@@ -1,0 +1,483 @@
+{
+ "schema": "p1-causal-update-v0.1",
+ "split": {
+  "train": 506,
+  "val": 165,
+  "test": 191
+ },
+ "far_target": 0.05,
+ "arms": {
+  "last": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 332.20000000000005,
+    "test_pre_event_far": 0.03415300546448088,
+    "n_positive": 87,
+    "confirmed": 54,
+    "never_confirmed": 33,
+    "confirm_rate": 0.6206896551724138,
+    "latencyA_event_to_confirm_median": 35.0,
+    "latencyA_p25_p75": [
+     18.0,
+     38.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 0.0,
+    "latencyB_p25_p75": [
+     0.0,
+     25.0
+    ],
+    "post_event_mean_iou": 0.12899426207308484,
+    "encode_units_per_arrival": 1
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 191.4000000000001,
+    "test_pre_event_far": 0.07240437158469945,
+    "n_positive": 87,
+    "confirmed": 68,
+    "never_confirmed": 19,
+    "confirm_rate": 0.7816091954022989,
+    "latencyA_event_to_confirm_median": 34.0,
+    "latencyA_p25_p75": [
+     18.0,
+     40.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 0.0,
+    "latencyB_p25_p75": [
+     0.0,
+     25.0
+    ],
+    "post_event_mean_iou": 0.12899426207308484,
+    "encode_units_per_arrival": 1
+   }
+  },
+  "latest_head": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 10.0,
+    "test_pre_event_far": 0.04781420765027322,
+    "n_positive": 87,
+    "confirmed": 87,
+    "never_confirmed": 0,
+    "confirm_rate": 1.0,
+    "latencyA_event_to_confirm_median": 3.0,
+    "latencyA_p25_p75": [
+     3.0,
+     8.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": -10.0,
+    "latencyB_p25_p75": [
+     -28.5,
+     0.0
+    ],
+    "post_event_mean_iou": 0.2864784163563242,
+    "encode_units_per_arrival": 1
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 0.0,
+    "test_pre_event_far": 1.0,
+    "n_positive": 87,
+    "confirmed": 87,
+    "never_confirmed": 0,
+    "confirm_rate": 1.0,
+    "latencyA_event_to_confirm_median": 3.0,
+    "latencyA_p25_p75": [
+     3.0,
+     3.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": -15.0,
+    "latencyB_p25_p75": [
+     -32.0,
+     -10.0
+    ],
+    "post_event_mean_iou": 0.2864784163563242,
+    "encode_units_per_arrival": 1
+   }
+  },
+  "mean": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 249.60000000000014,
+    "test_pre_event_far": 0.03278688524590164,
+    "n_positive": 87,
+    "confirmed": 7,
+    "never_confirmed": 80,
+    "confirm_rate": 0.08045977011494253,
+    "latencyA_event_to_confirm_median": 115.0,
+    "latencyA_p25_p75": [
+     49.0,
+     152.5
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 97.0,
+    "latencyB_p25_p75": [
+     33.5,
+     139.5
+    ],
+    "post_event_mean_iou": 0.033011214603455054,
+    "encode_units_per_arrival": 1
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 131.0,
+    "test_pre_event_far": 0.06147540983606557,
+    "n_positive": 87,
+    "confirmed": 18,
+    "never_confirmed": 69,
+    "confirm_rate": 0.20689655172413793,
+    "latencyA_event_to_confirm_median": 85.0,
+    "latencyA_p25_p75": [
+     50.0,
+     126.25
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 69.5,
+    "latencyB_p25_p75": [
+     12.0,
+     97.0
+    ],
+    "post_event_mean_iou": 0.033011214603455054,
+    "encode_units_per_arrival": 1
+   }
+  },
+  "ema": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 316.30000000000007,
+    "test_pre_event_far": 0.01639344262295082,
+    "n_positive": 87,
+    "confirmed": 16,
+    "never_confirmed": 71,
+    "confirm_rate": 0.1839080459770115,
+    "latencyA_event_to_confirm_median": 75.0,
+    "latencyA_p25_p75": [
+     53.75,
+     115.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 62.0,
+    "latencyB_p25_p75": [
+     34.5,
+     81.5
+    ],
+    "post_event_mean_iou": 0.08932871362335221,
+    "encode_units_per_arrival": 1
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 131.0,
+    "test_pre_event_far": 0.06967213114754098,
+    "n_positive": 87,
+    "confirmed": 36,
+    "never_confirmed": 51,
+    "confirm_rate": 0.41379310344827586,
+    "latencyA_event_to_confirm_median": 50.0,
+    "latencyA_p25_p75": [
+     43.0,
+     83.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 36.0,
+    "latencyB_p25_p75": [
+     8.75,
+     62.75
+    ],
+    "post_event_mean_iou": 0.08932871362335221,
+    "encode_units_per_arrival": 1
+   }
+  },
+  "gru": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 164.30000000000007,
+    "test_pre_event_far": 0.028688524590163935,
+    "n_positive": 87,
+    "confirmed": 60,
+    "never_confirmed": 27,
+    "confirm_rate": 0.6896551724137931,
+    "latencyA_event_to_confirm_median": 50.0,
+    "latencyA_p25_p75": [
+     36.0,
+     60.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 25.0,
+    "latencyB_p25_p75": [
+     5.0,
+     38.25
+    ],
+    "post_event_mean_iou": 0.2276188471589953,
+    "encode_units_per_arrival": 1
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 72.20000000000005,
+    "test_pre_event_far": 0.07377049180327869,
+    "n_positive": 87,
+    "confirmed": 74,
+    "never_confirmed": 13,
+    "confirm_rate": 0.8505747126436781,
+    "latencyA_event_to_confirm_median": 39.0,
+    "latencyA_p25_p75": [
+     18.0,
+     50.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 12.0,
+    "latencyB_p25_p75": [
+     0.0,
+     32.0
+    ],
+    "post_event_mean_iou": 0.2276188471589953,
+    "encode_units_per_arrival": 1
+   }
+  },
+  "gru_dt": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 166.10000000000002,
+    "test_pre_event_far": 0.03415300546448088,
+    "n_positive": 87,
+    "confirmed": 61,
+    "never_confirmed": 26,
+    "confirm_rate": 0.7011494252873564,
+    "latencyA_event_to_confirm_median": 50.0,
+    "latencyA_p25_p75": [
+     25.0,
+     60.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 22.0,
+    "latencyB_p25_p75": [
+     5.0,
+     42.0
+    ],
+    "post_event_mean_iou": 0.22591813358566834,
+    "encode_units_per_arrival": 1
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 70.40000000000009,
+    "test_pre_event_far": 0.07650273224043716,
+    "n_positive": 87,
+    "confirmed": 75,
+    "never_confirmed": 12,
+    "confirm_rate": 0.8620689655172413,
+    "latencyA_event_to_confirm_median": 38.0,
+    "latencyA_p25_p75": [
+     18.0,
+     50.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 10.0,
+    "latencyB_p25_p75": [
+     0.0,
+     31.0
+    ],
+    "post_event_mean_iou": 0.22591813358566834,
+    "encode_units_per_arrival": 1
+   }
+  },
+  "meta_only": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 92.10000000000002,
+    "test_pre_event_far": 0.04234972677595628,
+    "n_positive": 87,
+    "confirmed": 9,
+    "never_confirmed": 78,
+    "confirm_rate": 0.10344827586206896,
+    "latencyA_event_to_confirm_median": 75.0,
+    "latencyA_p25_p75": [
+     20.0,
+     130.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 62.0,
+    "latencyB_p25_p75": [
+     7.0,
+     117.0
+    ],
+    "post_event_mean_iou": 0.008421098337583975,
+    "encode_units_per_arrival": 1
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 36.0,
+    "test_pre_event_far": 0.08743169398907104,
+    "n_positive": 87,
+    "confirmed": 19,
+    "never_confirmed": 68,
+    "confirm_rate": 0.21839080459770116,
+    "latencyA_event_to_confirm_median": 38.0,
+    "latencyA_p25_p75": [
+     3.0,
+     50.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 5.0,
+    "latencyB_p25_p75": [
+     -10.0,
+     42.0
+    ],
+    "post_event_mean_iou": 0.008421098337583975,
+    "encode_units_per_arrival": 1
+   }
+  },
+  "resid_q": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 157.20000000000005,
+    "test_pre_event_far": 0.03825136612021858,
+    "n_positive": 87,
+    "confirmed": 48,
+    "never_confirmed": 39,
+    "confirm_rate": 0.5517241379310345,
+    "latencyA_event_to_confirm_median": 50.0,
+    "latencyA_p25_p75": [
+     27.0,
+     98.25
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 32.0,
+    "latencyB_p25_p75": [
+     5.0,
+     68.5
+    ],
+    "post_event_mean_iou": 0.16040124920413043,
+    "encode_units_per_arrival": 1
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 97.0,
+    "test_pre_event_far": 0.06693989071038252,
+    "n_positive": 87,
+    "confirmed": 58,
+    "never_confirmed": 29,
+    "confirm_rate": 0.6666666666666666,
+    "latencyA_event_to_confirm_median": 41.5,
+    "latencyA_p25_p75": [
+     18.0,
+     60.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 17.0,
+    "latencyB_p25_p75": [
+     0.0,
+     42.0
+    ],
+    "post_event_mean_iou": 0.16040124920413043,
+    "encode_units_per_arrival": 1
+   }
+  },
+  "prefix": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 167.30000000000007,
+    "test_pre_event_far": 0.028688524590163935,
+    "n_positive": 87,
+    "confirmed": 57,
+    "never_confirmed": 30,
+    "confirm_rate": 0.6551724137931034,
+    "latencyA_event_to_confirm_median": 43.0,
+    "latencyA_p25_p75": [
+     18.0,
+     60.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 17.0,
+    "latencyB_p25_p75": [
+     5.0,
+     42.0
+    ],
+    "post_event_mean_iou": 0.24488965267417645,
+    "encode_units_per_arrival": "min(c,12)"
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 72.20000000000005,
+    "test_pre_event_far": 0.06420765027322405,
+    "n_positive": 87,
+    "confirmed": 78,
+    "never_confirmed": 9,
+    "confirm_rate": 0.896551724137931,
+    "latencyA_event_to_confirm_median": 40.0,
+    "latencyA_p25_p75": [
+     18.0,
+     59.5
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": 12.0,
+    "latencyB_p25_p75": [
+     0.0,
+     37.0
+    ],
+    "post_event_mean_iou": 0.24488965267417645,
+    "encode_units_per_arrival": "min(c,12)"
+   }
+  },
+  "sealed12": {
+   "far05": {
+    "far_budget": 0.05,
+    "thr_area_px": 1399.0,
+    "test_pre_event_far": 0.07240437158469945,
+    "n_positive": 87,
+    "confirmed": 7,
+    "never_confirmed": 80,
+    "confirm_rate": 0.08045977011494253,
+    "latencyA_event_to_confirm_median": 3.0,
+    "latencyA_p25_p75": [
+     3.0,
+     3.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": -15.0,
+    "latencyB_p25_p75": [
+     -36.0,
+     -15.0
+    ],
+    "post_event_mean_iou": 0.31555542976268497,
+    "encode_units_per_arrival": "12 (full year, non-causal reference)"
+   },
+   "far10": {
+    "far_budget": 0.1,
+    "thr_area_px": 818.0,
+    "test_pre_event_far": 0.1284153005464481,
+    "n_positive": 87,
+    "confirmed": 13,
+    "never_confirmed": 74,
+    "confirm_rate": 0.14942528735632185,
+    "latencyA_event_to_confirm_median": 3.0,
+    "latencyA_p25_p75": [
+     3.0,
+     3.0
+    ],
+    "latencyB_firstvalidpost_to_confirm_median": -15.0,
+    "latencyB_p25_p75": [
+     -37.0,
+     -10.0
+    ],
+    "post_event_mean_iou": 0.31555542976268497,
+    "encode_units_per_arrival": "12 (full year, non-causal reference)"
+   }
+  }
+ },
+ "paired": {
+  "resid_q_minus_gru_dt_latency_days": {
+   "n": 48,
+   "mean": 20.625,
+   "ci95": [
+    11.8734375,
+    29.295833333333313
+   ],
+   "resid_q_only_confirmed": 0,
+   "other_only_confirmed": 13
+  },
+  "resid_q_minus_last_latency_days": {
+   "n": 43,
+   "mean": 27.302325581395348,
+   "ci95": [
+    16.530232558139534,
+    38.48953488372093
+   ],
+   "resid_q_only_confirmed": 5,
+   "other_only_confirmed": 11
+  },
+  "resid_q_minus_latest_head_latency_days": {
+   "n": 48,
+   "mean": 54.6875,
+   "ci95": [
+    41.979166666666664,
+    68.25364583333331
+   ],
+   "resid_q_only_confirmed": 0,
+   "other_only_confirmed": 39
+  }
+ }
+}

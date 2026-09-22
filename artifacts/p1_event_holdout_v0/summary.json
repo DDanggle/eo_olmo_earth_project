@@ -1,0 +1,740 @@
+{
+ "schema": "p1-event-holdout-v0",
+ "source": "p1_causal_v0_3",
+ "events": {
+  "thrissur": {
+   "n_tiles": 427,
+   "arms": {
+    "last": {
+     "far05": {
+      "thr": 582.2499999999998,
+      "realised_pre_event_far": 0.12669683257918551,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 26,
+      "never": 156,
+      "confirm_rate": 0.14285714285714285,
+      "latA_median": 15.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       0.0,
+       0.0
+      ],
+      "post_iou": 0.16859136967308516
+     },
+     "far10": {
+      "thr": 362.6000000000005,
+      "realised_pre_event_far": 0.25339366515837103,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 53,
+      "never": 129,
+      "confirm_rate": 0.29120879120879123,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       0.0,
+       90.0
+      ],
+      "post_iou": 0.16859136967308516
+     }
+    },
+    "latest_head": {
+     "far05": {
+      "thr": 3.549999999999997,
+      "realised_pre_event_far": 0.3665158371040724,
+      "valid": false,
+      "n_positive": 182,
+      "confirmed": 169,
+      "never": 13,
+      "confirm_rate": 0.9285714285714286,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       0.0,
+       0.0
+      ],
+      "post_iou": 0.08434394231603416
+     },
+     "far10": {
+      "thr": 1.0,
+      "realised_pre_event_far": 0.47058823529411764,
+      "valid": false,
+      "n_positive": 182,
+      "confirmed": 176,
+      "never": 6,
+      "confirm_rate": 0.967032967032967,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       0.0,
+       0.0
+      ],
+      "post_iou": 0.08434394231603416
+     }
+    },
+    "gru_dt": {
+     "far05": {
+      "thr": 356.89999999999986,
+      "realised_pre_event_far": 0.04524886877828054,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 113,
+      "never": 69,
+      "confirm_rate": 0.6208791208791209,
+      "latA_median": 80.0,
+      "latB_median": 50.0,
+      "latB_p25_p75": [
+       30.0,
+       75.0
+      ],
+      "post_iou": 0.3159633804131048
+     },
+     "far10": {
+      "thr": 200.10000000000002,
+      "realised_pre_event_far": 0.09049773755656108,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 152,
+      "never": 30,
+      "confirm_rate": 0.8351648351648352,
+      "latA_median": 80.0,
+      "latB_median": 40.0,
+      "latB_p25_p75": [
+       20.0,
+       56.25
+      ],
+      "post_iou": 0.3159633804131048
+     }
+    },
+    "gru_dt+head": {
+     "far05": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 182,
+      "confirmed": 182,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -30.0,
+      "latB_p25_p75": [
+       -30.0,
+       -25.0
+      ],
+      "post_iou": 0.15976808725695493
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 182,
+      "confirmed": 182,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -30.0,
+      "latB_p25_p75": [
+       -30.0,
+       -25.0
+      ],
+      "post_iou": 0.15976808725695493
+     }
+    },
+    "prefix": {
+     "far05": {
+      "thr": 405.34999999999985,
+      "realised_pre_event_far": 0.00904977375565611,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 64,
+      "never": 118,
+      "confirm_rate": 0.3516483516483517,
+      "latA_median": 57.5,
+      "latB_median": 25.0,
+      "latB_p25_p75": [
+       0.0,
+       46.25
+      ],
+      "post_iou": 0.40736443585297
+     },
+     "far10": {
+      "thr": 224.1000000000002,
+      "realised_pre_event_far": 0.03619909502262444,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 102,
+      "never": 80,
+      "confirm_rate": 0.5604395604395604,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       0.0,
+       45.0
+      ],
+      "post_iou": 0.40736443585297
+     }
+    },
+    "prefix+head": {
+     "far05": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 182,
+      "confirmed": 182,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -30.0,
+      "latB_p25_p75": [
+       -30.0,
+       -25.0
+      ],
+      "post_iou": 0.11315082154886366
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 182,
+      "confirmed": 182,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -30.0,
+      "latB_p25_p75": [
+       -30.0,
+       -25.0
+      ],
+      "post_iou": 0.11315082154886366
+     }
+    },
+    "resid_q+head": {
+     "far05": {
+      "thr": 2.0,
+      "realised_pre_event_far": 0.8190045248868778,
+      "valid": false,
+      "n_positive": 182,
+      "confirmed": 180,
+      "never": 2,
+      "confirm_rate": 0.989010989010989,
+      "latA_median": 5.0,
+      "latB_median": -30.0,
+      "latB_p25_p75": [
+       -30.0,
+       -25.0
+      ],
+      "post_iou": 0.11367647540312562
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 182,
+      "confirmed": 182,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -30.0,
+      "latB_p25_p75": [
+       -30.0,
+       -25.0
+      ],
+      "post_iou": 0.11367647540312562
+     }
+    }
+   }
+  },
+  "itogon": {
+   "n_tiles": 235,
+   "arms": {
+    "last": {
+     "far05": {
+      "thr": 582.2499999999998,
+      "realised_pre_event_far": 0.512,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 47,
+      "never": 66,
+      "confirm_rate": 0.415929203539823,
+      "latA_median": 110.0,
+      "latB_median": 95.0,
+      "latB_p25_p75": [
+       47.5,
+       125.0
+      ],
+      "post_iou": 0.15676294547498193
+     },
+     "far10": {
+      "thr": 362.6000000000005,
+      "realised_pre_event_far": 0.736,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 73,
+      "never": 40,
+      "confirm_rate": 0.6460176991150443,
+      "latA_median": 85.0,
+      "latB_median": 65.0,
+      "latB_p25_p75": [
+       25.0,
+       110.0
+      ],
+      "post_iou": 0.15676294547498193
+     }
+    },
+    "latest_head": {
+     "far05": {
+      "thr": 3.549999999999997,
+      "realised_pre_event_far": 0.672,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 100,
+      "never": 13,
+      "confirm_rate": 0.8849557522123894,
+      "latA_median": 5.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       -15.0,
+       0.0
+      ],
+      "post_iou": 0.053792584962795334
+     },
+     "far10": {
+      "thr": 1.0,
+      "realised_pre_event_far": 0.752,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 106,
+      "never": 7,
+      "confirm_rate": 0.9380530973451328,
+      "latA_median": 5.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       -15.0,
+       0.0
+      ],
+      "post_iou": 0.053792584962795334
+     }
+    },
+    "gru_dt": {
+     "far05": {
+      "thr": 356.89999999999986,
+      "realised_pre_event_far": 0.208,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 76,
+      "never": 37,
+      "confirm_rate": 0.672566371681416,
+      "latA_median": 85.0,
+      "latB_median": 65.0,
+      "latB_p25_p75": [
+       0.0,
+       125.0
+      ],
+      "post_iou": 0.16201568377707964
+     },
+     "far10": {
+      "thr": 200.10000000000002,
+      "realised_pre_event_far": 0.352,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 91,
+      "never": 22,
+      "confirm_rate": 0.8053097345132744,
+      "latA_median": 50.0,
+      "latB_median": 35.0,
+      "latB_p25_p75": [
+       -6.0,
+       110.0
+      ],
+      "post_iou": 0.16201568377707964
+     }
+    },
+    "gru_dt+head": {
+     "far05": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 113,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -2.0,
+      "latB_p25_p75": [
+       -15.0,
+       0.0
+      ],
+      "post_iou": 0.050199729680596675
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 113,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -2.0,
+      "latB_p25_p75": [
+       -15.0,
+       0.0
+      ],
+      "post_iou": 0.050199729680596675
+     }
+    },
+    "prefix": {
+     "far05": {
+      "thr": 405.34999999999985,
+      "realised_pre_event_far": 0.216,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 57,
+      "never": 56,
+      "confirm_rate": 0.504424778761062,
+      "latA_median": 10.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       -15.0,
+       20.0
+      ],
+      "post_iou": 0.2205366071524087
+     },
+     "far10": {
+      "thr": 224.1000000000002,
+      "realised_pre_event_far": 0.408,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 79,
+      "never": 34,
+      "confirm_rate": 0.6991150442477876,
+      "latA_median": 5.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       -15.0,
+       15.0
+      ],
+      "post_iou": 0.2205366071524087
+     }
+    },
+    "prefix+head": {
+     "far05": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 113,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -2.0,
+      "latB_p25_p75": [
+       -15.0,
+       0.0
+      ],
+      "post_iou": 0.07454346483554915
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 113,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -2.0,
+      "latB_p25_p75": [
+       -15.0,
+       0.0
+      ],
+      "post_iou": 0.07454346483554915
+     }
+    },
+    "resid_q+head": {
+     "far05": {
+      "thr": 2.0,
+      "realised_pre_event_far": 0.424,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 83,
+      "never": 30,
+      "confirm_rate": 0.7345132743362832,
+      "latA_median": 5.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       -15.0,
+       35.0
+      ],
+      "post_iou": 0.030395404989520643
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 113,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 5.0,
+      "latB_median": -2.0,
+      "latB_p25_p75": [
+       -15.0,
+       0.0
+      ],
+      "post_iou": 0.030395404989520643
+     }
+    }
+   }
+  },
+  "hokkaido": {
+   "n_tiles": 290,
+   "arms": {
+    "last": {
+     "far05": {
+      "thr": 582.2499999999998,
+      "realised_pre_event_far": 0.3466666666666667,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 105,
+      "never": 39,
+      "confirm_rate": 0.7291666666666666,
+      "latA_median": 149.0,
+      "latB_median": 105.0,
+      "latB_p25_p75": [
+       25.0,
+       130.0
+      ],
+      "post_iou": 0.08567741924877678
+     },
+     "far10": {
+      "thr": 362.6000000000005,
+      "realised_pre_event_far": 0.5733333333333334,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 124,
+      "never": 20,
+      "confirm_rate": 0.8611111111111112,
+      "latA_median": 69.0,
+      "latB_median": 35.0,
+      "latB_p25_p75": [
+       0.0,
+       100.0
+      ],
+      "post_iou": 0.08567741924877678
+     }
+    },
+    "latest_head": {
+     "far05": {
+      "thr": 3.549999999999997,
+      "realised_pre_event_far": 0.11333333333333333,
+      "valid": true,
+      "n_positive": 144,
+      "confirmed": 144,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 44.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       0.0,
+       0.0
+      ],
+      "post_iou": 0.052846626712463894
+     },
+     "far10": {
+      "thr": 1.0,
+      "realised_pre_event_far": 0.22,
+      "valid": true,
+      "n_positive": 144,
+      "confirmed": 144,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 44.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       0.0,
+       0.0
+      ],
+      "post_iou": 0.052846626712463894
+     }
+    },
+    "gru_dt": {
+     "far05": {
+      "thr": 356.89999999999986,
+      "realised_pre_event_far": 0.31333333333333335,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 104,
+      "never": 40,
+      "confirm_rate": 0.7222222222222222,
+      "latA_median": 109.0,
+      "latB_median": 65.0,
+      "latB_p25_p75": [
+       15.0,
+       130.0
+      ],
+      "post_iou": 0.11638889862969586
+     },
+     "far10": {
+      "thr": 200.10000000000002,
+      "realised_pre_event_far": 0.5066666666666667,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 118,
+      "never": 26,
+      "confirm_rate": 0.8194444444444444,
+      "latA_median": 81.5,
+      "latB_median": 45.0,
+      "latB_p25_p75": [
+       15.0,
+       75.0
+      ],
+      "post_iou": 0.11638889862969586
+     }
+    },
+    "gru_dt+head": {
+     "far05": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 144,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 4.0,
+      "latB_median": -40.0,
+      "latB_p25_p75": [
+       -40.0,
+       -30.0
+      ],
+      "post_iou": 0.10122650119922057
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 144,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 4.0,
+      "latB_median": -40.0,
+      "latB_p25_p75": [
+       -40.0,
+       -30.0
+      ],
+      "post_iou": 0.10122650119922057
+     }
+    },
+    "prefix": {
+     "far05": {
+      "thr": 405.34999999999985,
+      "realised_pre_event_far": 0.22,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 136,
+      "never": 8,
+      "confirm_rate": 0.9444444444444444,
+      "latA_median": 44.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       0.0,
+       25.0
+      ],
+      "post_iou": 0.2916791574150368
+     },
+     "far10": {
+      "thr": 224.1000000000002,
+      "realised_pre_event_far": 0.44666666666666666,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 139,
+      "never": 5,
+      "confirm_rate": 0.9652777777777778,
+      "latA_median": 44.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       -27.5,
+       22.5
+      ],
+      "post_iou": 0.2916791574150368
+     }
+    },
+    "prefix+head": {
+     "far05": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 144,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 4.0,
+      "latB_median": -40.0,
+      "latB_p25_p75": [
+       -40.0,
+       -30.0
+      ],
+      "post_iou": 0.08247088360584716
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 144,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 4.0,
+      "latB_median": -40.0,
+      "latB_p25_p75": [
+       -40.0,
+       -30.0
+      ],
+      "post_iou": 0.08247088360584716
+     }
+    },
+    "resid_q+head": {
+     "far05": {
+      "thr": 2.0,
+      "realised_pre_event_far": 0.6533333333333333,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 136,
+      "never": 8,
+      "confirm_rate": 0.9444444444444444,
+      "latA_median": 44.0,
+      "latB_median": 0.0,
+      "latB_p25_p75": [
+       -25.0,
+       25.0
+      ],
+      "post_iou": 0.042731695800499285
+     },
+     "far10": {
+      "thr": 0.0,
+      "realised_pre_event_far": 1.0,
+      "valid": false,
+      "n_positive": 144,
+      "confirmed": 144,
+      "never": 0,
+      "confirm_rate": 1.0,
+      "latA_median": 4.0,
+      "latB_median": -40.0,
+      "latB_p25_p75": [
+       -40.0,
+       -30.0
+      ],
+      "post_iou": 0.042731695800499285
+     }
+    }
+   }
+  }
+ },
+ "event_level": {
+  "n_events": 3,
+  "latest_head_valid_and_conf70": 1,
+  "generalises": false
+ }
+}

@@ -1,0 +1,515 @@
+{
+  "scope": "endpoint development snapshot; no spatial CI, inference timing, or causal attribution",
+  "n_valid_reports": 9,
+  "n_expected_reports": 18,
+  "errors": [],
+  "groups": [
+    {
+      "fold": "holdout_chimanimani",
+      "module": "ema",
+      "observed_seeds": [],
+      "complete_three_seeds": false,
+      "status": "INCOMPLETE",
+      "observed_mean_not_completion": {
+        "teacher_ap": null,
+        "frozen_ap": null,
+        "student_ap": null,
+        "singles_ap": null,
+        "recovery": null,
+        "teacher_minus_student_ap": null,
+        "student_cosine": null,
+        "student_rel_mse": null,
+        "student_macro_iou": null
+      },
+      "params_observed": [],
+      "student_ap_sample_sd": null,
+      "rows": []
+    },
+    {
+      "fold": "holdout_chimanimani",
+      "module": "gru",
+      "observed_seeds": [],
+      "complete_three_seeds": false,
+      "status": "INCOMPLETE",
+      "observed_mean_not_completion": {
+        "teacher_ap": null,
+        "frozen_ap": null,
+        "student_ap": null,
+        "singles_ap": null,
+        "recovery": null,
+        "teacher_minus_student_ap": null,
+        "student_cosine": null,
+        "student_rel_mse": null,
+        "student_macro_iou": null
+      },
+      "params_observed": [],
+      "student_ap_sample_sd": null,
+      "rows": []
+    },
+    {
+      "fold": "holdout_chimanimani",
+      "module": "residual",
+      "observed_seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete_three_seeds": true,
+      "status": "COMPLETE",
+      "observed_mean_not_completion": {
+        "teacher_ap": 0.28822172253265277,
+        "frozen_ap": 0.008909070909533552,
+        "student_ap": 0.07731836662911809,
+        "singles_ap": 0.14714108095031003,
+        "recovery": 0.24492014708982907,
+        "teacher_minus_student_ap": 0.21090335590353468,
+        "student_cosine": 0.9385603467623392,
+        "student_rel_mse": 0.12615783512592316,
+        "student_macro_iou": 0.12275943905115128
+      },
+      "params_observed": [
+        4721664
+      ],
+      "student_ap_sample_sd": 0.011789662994668632,
+      "rows": [
+        {
+          "file": "holdout_chimanimani_residual_seed1.json",
+          "sha256": "fc3df35e209eb5b8d2eb14f5e4e14309918f46b1929bea07a35ca4ca16e15a43",
+          "fold": "holdout_chimanimani",
+          "module": "residual",
+          "seed": 1,
+          "teacher_ap": 0.28822172253265277,
+          "frozen_ap": 0.008909070909533552,
+          "student_ap": 0.07847967903618447,
+          "singles_ap": 0.14714108095031003,
+          "recovery": 0.24907789791249269,
+          "teacher_minus_student_ap": 0.2097420434964683,
+          "student_cosine": 0.9379472136497498,
+          "student_rel_mse": 0.1275346577167511,
+          "student_macro_iou": 0.12503010034561157,
+          "params": 4721664,
+          "counts": {
+            "train": 600,
+            "val": 159,
+            "test": 1133
+          },
+          "best_val_epoch": 29,
+          "reported_train_s_not_inference_latency": 395.8694559317082,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        },
+        {
+          "file": "holdout_chimanimani_residual_seed2.json",
+          "sha256": "2fd5c97c0c6dd109f24687f8543890db80b8b818ecc324be11be0f3e6d03d15a",
+          "fold": "holdout_chimanimani",
+          "module": "residual",
+          "seed": 2,
+          "teacher_ap": 0.28822172253265277,
+          "frozen_ap": 0.008909070909533552,
+          "student_ap": 0.06499102286492534,
+          "singles_ap": 0.14714108095031003,
+          "recovery": 0.20078557712832865,
+          "teacher_minus_student_ap": 0.22323069966772743,
+          "student_cosine": 0.9384188055992126,
+          "student_rel_mse": 0.12642493844032288,
+          "student_macro_iou": 0.11285906285047531,
+          "params": 4721664,
+          "counts": {
+            "train": 600,
+            "val": 159,
+            "test": 1133
+          },
+          "best_val_epoch": 29,
+          "reported_train_s_not_inference_latency": 506.1523159444332,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        },
+        {
+          "file": "holdout_chimanimani_residual_seed3.json",
+          "sha256": "dcca84bf419fe0100ce434259849d907c961d3fcafc42f723868805fb056ba64",
+          "fold": "holdout_chimanimani",
+          "module": "residual",
+          "seed": 3,
+          "teacher_ap": 0.28822172253265277,
+          "frozen_ap": 0.008909070909533552,
+          "student_ap": 0.08848439798624447,
+          "singles_ap": 0.14714108095031003,
+          "recovery": 0.2848969662286659,
+          "teacher_minus_student_ap": 0.1997373245464083,
+          "student_cosine": 0.9393150210380554,
+          "student_rel_mse": 0.1245139092206955,
+          "student_macro_iou": 0.13038915395736694,
+          "params": 4721664,
+          "counts": {
+            "train": 600,
+            "val": 159,
+            "test": 1133
+          },
+          "best_val_epoch": 30,
+          "reported_train_s_not_inference_latency": 328.1642027813941,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        }
+      ]
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "module": "ema",
+      "observed_seeds": [],
+      "complete_three_seeds": false,
+      "status": "INCOMPLETE",
+      "observed_mean_not_completion": {
+        "teacher_ap": null,
+        "frozen_ap": null,
+        "student_ap": null,
+        "singles_ap": null,
+        "recovery": null,
+        "teacher_minus_student_ap": null,
+        "student_cosine": null,
+        "student_rel_mse": null,
+        "student_macro_iou": null
+      },
+      "params_observed": [],
+      "student_ap_sample_sd": null,
+      "rows": []
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "module": "gru",
+      "observed_seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete_three_seeds": true,
+      "status": "COMPLETE",
+      "observed_mean_not_completion": {
+        "teacher_ap": 0.5496239950253,
+        "frozen_ap": 0.013356122220402838,
+        "student_ap": 0.525478750700111,
+        "singles_ap": 0.1940795965346045,
+        "recovery": 0.9549754039918527,
+        "teacher_minus_student_ap": 0.024145244325189014,
+        "student_cosine": 0.9409318566322327,
+        "student_rel_mse": 0.11785251398881276,
+        "student_macro_iou": 0.281056414047877
+      },
+      "params_observed": [
+        3541248
+      ],
+      "student_ap_sample_sd": 0.013169681958291213,
+      "rows": [
+        {
+          "file": "holdout_hiroshima_gru_seed1.json",
+          "sha256": "09f969edbfccfc3d6d549a572e1f8e82ad64a627f08e8f29df5234583ff51b66",
+          "fold": "holdout_hiroshima",
+          "module": "gru",
+          "seed": 1,
+          "teacher_ap": 0.5496239950253,
+          "frozen_ap": 0.013356122220402838,
+          "student_ap": 0.534776714392399,
+          "singles_ap": 0.1940795965346045,
+          "recovery": 0.9723136861523258,
+          "teacher_minus_student_ap": 0.014847280632900972,
+          "student_cosine": 0.9404301047325134,
+          "student_rel_mse": 0.11884450912475586,
+          "student_macro_iou": 0.2834436595439911,
+          "params": 3541248,
+          "counts": {
+            "train": 600,
+            "val": 290,
+            "test": 862
+          },
+          "best_val_epoch": 29,
+          "reported_train_s_not_inference_latency": 355.8871569801122,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        },
+        {
+          "file": "holdout_hiroshima_gru_seed2.json",
+          "sha256": "24e8e1d4c2537c3db3a35943288881b338ffa4db9ee3acb035a49ca8155c4b03",
+          "fold": "holdout_hiroshima",
+          "module": "gru",
+          "seed": 2,
+          "teacher_ap": 0.5496239950253,
+          "frozen_ap": 0.013356122220402838,
+          "student_ap": 0.5104085680467082,
+          "singles_ap": 0.1940795965346045,
+          "recovery": 0.9268734358941189,
+          "teacher_minus_student_ap": 0.039215426978591816,
+          "student_cosine": 0.9413810968399048,
+          "student_rel_mse": 0.1169665977358818,
+          "student_macro_iou": 0.2811695337295532,
+          "params": 3541248,
+          "counts": {
+            "train": 600,
+            "val": 290,
+            "test": 862
+          },
+          "best_val_epoch": 30,
+          "reported_train_s_not_inference_latency": 569.6925416644663,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        },
+        {
+          "file": "holdout_hiroshima_gru_seed3.json",
+          "sha256": "a65060c765c1b9138577ba8370c5dd6902740467a455e7f40facc09afe4d3aa8",
+          "fold": "holdout_hiroshima",
+          "module": "gru",
+          "seed": 3,
+          "teacher_ap": 0.5496239950253,
+          "frozen_ap": 0.013356122220402838,
+          "student_ap": 0.5312509696612258,
+          "singles_ap": 0.1940795965346045,
+          "recovery": 0.9657390899291134,
+          "teacher_minus_student_ap": 0.018373025364074258,
+          "student_cosine": 0.9409843683242798,
+          "student_rel_mse": 0.11774643510580063,
+          "student_macro_iou": 0.27855604887008667,
+          "params": 3541248,
+          "counts": {
+            "train": 600,
+            "val": 290,
+            "test": 862
+          },
+          "best_val_epoch": 29,
+          "reported_train_s_not_inference_latency": 505.84431770443916,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        }
+      ]
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "module": "residual",
+      "observed_seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete_three_seeds": true,
+      "status": "COMPLETE",
+      "observed_mean_not_completion": {
+        "teacher_ap": 0.5496239950253,
+        "frozen_ap": 0.013356122220402838,
+        "student_ap": 0.30345234114999214,
+        "singles_ap": 0.1940795965346045,
+        "recovery": 0.5409539404482113,
+        "teacher_minus_student_ap": 0.24617165387530784,
+        "student_cosine": 0.9383581678072611,
+        "student_rel_mse": 0.13615177075068155,
+        "student_macro_iou": 0.18558484315872192
+      },
+      "params_observed": [
+        4721664
+      ],
+      "student_ap_sample_sd": 0.01816926279926301,
+      "rows": [
+        {
+          "file": "holdout_hiroshima_residual_seed1.json",
+          "sha256": "50cbc956a0d475f7174eaedaad87a2cbbf2d22f4134159e19b803086d3d81948",
+          "fold": "holdout_hiroshima",
+          "module": "residual",
+          "seed": 1,
+          "teacher_ap": 0.5496239950253,
+          "frozen_ap": 0.013356122220402838,
+          "student_ap": 0.3196810576426835,
+          "singles_ap": 0.1940795965346045,
+          "recovery": 0.5712162726065945,
+          "teacher_minus_student_ap": 0.2299429373826165,
+          "student_cosine": 0.9378435015678406,
+          "student_rel_mse": 0.13668836653232574,
+          "student_macro_iou": 0.1857994943857193,
+          "params": 4721664,
+          "counts": {
+            "train": 600,
+            "val": 290,
+            "test": 862
+          },
+          "best_val_epoch": 30,
+          "reported_train_s_not_inference_latency": 585.9311030153185,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        },
+        {
+          "file": "holdout_hiroshima_residual_seed2.json",
+          "sha256": "96f4129e00543d6bdfa4f707f523edd9e205eae7dd708a8eb86c7b31fe3a0c79",
+          "fold": "holdout_hiroshima",
+          "module": "residual",
+          "seed": 2,
+          "teacher_ap": 0.5496239950253,
+          "frozen_ap": 0.013356122220402838,
+          "student_ap": 0.30685291587863894,
+          "singles_ap": 0.1940795965346045,
+          "recovery": 0.5472951271966555,
+          "teacher_minus_student_ap": 0.24277107914666107,
+          "student_cosine": 0.9385040402412415,
+          "student_rel_mse": 0.13588857650756836,
+          "student_macro_iou": 0.18656213581562042,
+          "params": 4721664,
+          "counts": {
+            "train": 600,
+            "val": 290,
+            "test": 862
+          },
+          "best_val_epoch": 28,
+          "reported_train_s_not_inference_latency": 550.7582210693508,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        },
+        {
+          "file": "holdout_hiroshima_residual_seed3.json",
+          "sha256": "f85ca30adb16cd341fb525704f669f21b404acb6d1ec91b8dad2dd882edad0d3",
+          "fold": "holdout_hiroshima",
+          "module": "residual",
+          "seed": 3,
+          "teacher_ap": 0.5496239950253,
+          "frozen_ap": 0.013356122220402838,
+          "student_ap": 0.28382304992865404,
+          "singles_ap": 0.1940795965346045,
+          "recovery": 0.504350421541384,
+          "teacher_minus_student_ap": 0.265800945096646,
+          "student_cosine": 0.9387269616127014,
+          "student_rel_mse": 0.13587836921215057,
+          "student_macro_iou": 0.18439289927482605,
+          "params": 4721664,
+          "counts": {
+            "train": 600,
+            "val": 290,
+            "test": 862
+          },
+          "best_val_epoch": 30,
+          "reported_train_s_not_inference_latency": 540.1496596429497,
+          "missing_provenance_fields": [
+            "sample_ids",
+            "code_sha256",
+            "decoder_sha256",
+            "manifest_sha256"
+          ]
+        }
+      ]
+    }
+  ],
+  "v0_gate": {
+    "status": "INCOMPLETE_NO_FINAL_GATE",
+    "residual_v0_pass": null,
+    "residual_90pct_in_both_folds_prerequisite": false,
+    "utility_90pct_by_module": null
+  },
+  "reference_checks": [
+    {
+      "fold": "holdout_chimanimani",
+      "reference_ap": 0.28822172253265277,
+      "teacher_ap": 0.28822172253265277,
+      "teacher_minus_saved_decoder_ap": 0
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "reference_ap": 0.5496239950253,
+      "teacher_ap": 0.5496239950253,
+      "teacher_minus_saved_decoder_ap": 0
+    }
+  ],
+  "manifest_audit": {
+    "holdout_chimanimani": {
+      "counts": {
+        "train": 600,
+        "val": 159,
+        "test": 1133
+      },
+      "duplicate_counts": {
+        "train": 0,
+        "val": 0,
+        "test": 0
+      },
+      "train_val_intersection": 0,
+      "train_test_intersection": 0,
+      "val_test_intersection": 0,
+      "source_region_counts_from_id": {
+        "hiroshima": 96,
+        "hokkaido": 32,
+        "indonesia": 64,
+        "itogon": 26,
+        "kyrgyzstan1": 174,
+        "kyrgyzstan2": 46,
+        "newzealand": 131,
+        "thrissur": 31
+      }
+    },
+    "holdout_hiroshima": {
+      "counts": {
+        "train": 600,
+        "val": 290,
+        "test": 862
+      },
+      "duplicate_counts": {
+        "train": 0,
+        "val": 0,
+        "test": 0
+      },
+      "train_val_intersection": 0,
+      "train_test_intersection": 0,
+      "val_test_intersection": 0,
+      "source_region_counts_from_id": {
+        "chimanimani": 126,
+        "china": 18,
+        "indonesia": 64,
+        "itogon": 26,
+        "kyrgyzstan1": 174,
+        "kyrgyzstan2": 46,
+        "newzealand": 130,
+        "thrissur": 16
+      }
+    }
+  },
+  "matched_workload_timestep_bookkeeping_not_speedup": {
+    "all_cutoffs_including_initial": {
+      "full": 40,
+      "stream": 12
+    },
+    "updates_after_common_initial": {
+      "full": 36,
+      "stream": 8
+    },
+    "final_only_cold_start": {
+      "full": 12,
+      "stream": 12
+    },
+    "final_only_after_common_initial": {
+      "full": 12,
+      "stream": 8
+    }
+  }
+}

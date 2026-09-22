@@ -1,0 +1,558 @@
+{
+  "scope": "2026-09-09 retrospective report arithmetic; no new model evaluation, no raw test labels",
+  "kuro": {
+    "errors": [],
+    "complete": true,
+    "rows": [
+      {
+        "decoder_seed": 1,
+        "n_test": 1999,
+        "teacher_ap": 0.7028598348114216,
+        "stale_ap": 0.07407174747913103,
+        "teacher_event_macro_ap": 0.8144325982470354,
+        "gru": {
+          "ap_mean": 0.7936811350495174,
+          "recovery_mean": 1.1444386464498972,
+          "ap_by_updater_seed": [
+            0.7864121263652474,
+            0.7991756928569604,
+            0.7954555859263444
+          ],
+          "event_macro_ap_mean": 0.8287050991487426,
+          "reported_far_mean": 0.0102262112001578
+        },
+        "gru_noobs": {
+          "ap_mean": 0.09112190172983646,
+          "recovery_mean": 0.02711589897169135,
+          "ap_by_updater_seed": [
+            0.09344971352938947,
+            0.09311249315765102,
+            0.08680349850246889
+          ],
+          "event_macro_ap_mean": 0.08911205550628261,
+          "reported_far_mean": 0.039802564308047295
+        },
+        "ema": {
+          "ap_mean": 0.15799767662925288,
+          "recovery_mean": 0.13347251775425287,
+          "ap_by_updater_seed": [
+            0.1570658158522486,
+            0.15947842538996487,
+            0.15744878864554518
+          ],
+          "event_macro_ap_mean": 0.15433825163681675,
+          "reported_far_mean": 0.028040664891401928
+        },
+        "reported_teacher_far": 0.00778565788641572,
+        "arithmetic_gate": true
+      },
+      {
+        "decoder_seed": 2,
+        "n_test": 1999,
+        "teacher_ap": 0.7213148269119246,
+        "stale_ap": 0.08677099608370084,
+        "teacher_event_macro_ap": 0.7949806978650275,
+        "gru": {
+          "ap_mean": 0.7797320121344975,
+          "recovery_mean": 1.0920617022567616,
+          "ap_by_updater_seed": [
+            0.7709127759047008,
+            0.786346311841362,
+            0.7819369486574299
+          ],
+          "event_macro_ap_mean": 0.814690212195373,
+          "reported_far_mean": 0.02361225460966428
+        },
+        "gru_noobs": {
+          "ap_mean": 0.09967843396333746,
+          "recovery_mean": 0.020341286531443358,
+          "ap_by_updater_seed": [
+            0.10111018752066223,
+            0.10175629882555484,
+            0.09616881554379532
+          ],
+          "event_macro_ap_mean": 0.10095306993326668,
+          "reported_far_mean": 0.06289146343866985
+        },
+        "ema": {
+          "ap_mean": 0.1549087444490757,
+          "recovery_mean": 0.10738068050624594,
+          "ap_by_updater_seed": [
+            0.15419662209155352,
+            0.15604030913587386,
+            0.15448930211979978
+          ],
+          "event_macro_ap_mean": 0.1622538232434523,
+          "reported_far_mean": 0.03677161907156309
+        },
+        "reported_teacher_far": 0.02114124223589897,
+        "arithmetic_gate": true
+      },
+      {
+        "decoder_seed": 3,
+        "n_test": 1999,
+        "teacher_ap": 0.7420982260416034,
+        "stale_ap": 0.08173057997145533,
+        "teacher_event_macro_ap": 0.8138185540126732,
+        "gru": {
+          "ap_mean": 0.7917799457528806,
+          "recovery_mean": 1.0752334249064648,
+          "ap_by_updater_seed": [
+            0.787405998528292,
+            0.7962617412540435,
+            0.7916720974763063
+          ],
+          "event_macro_ap_mean": 0.8376553068641255,
+          "reported_far_mean": 0.031872481728593506
+        },
+        "gru_noobs": {
+          "ap_mean": 0.09816018186850793,
+          "recovery_mean": 0.02487947735602322,
+          "ap_by_updater_seed": [
+            0.09998633592864034,
+            0.10032602547464728,
+            0.09416818420223616
+          ],
+          "event_macro_ap_mean": 0.10424465976555486,
+          "reported_far_mean": 0.07245639090736707
+        },
+        "ema": {
+          "ap_mean": 0.1441870641755563,
+          "recovery_mean": 0.09457835279450758,
+          "ap_by_updater_seed": [
+            0.14353212945303082,
+            0.14522756244277765,
+            0.14380150063086042
+          ],
+          "event_macro_ap_mean": 0.1581123849421219,
+          "reported_far_mean": 0.049962626149257026
+        },
+        "reported_teacher_far": 0.025251343846321106,
+        "arithmetic_gate": true
+      }
+    ],
+    "all_arithmetic_gates_pass": true,
+    "event_delta_gru_minus_teacher_seed_mean": {
+      "1111002": 0.02209897221386085,
+      "1111007": 0.02103545027505971,
+      "1111013": 0.10259987111108974,
+      "205": 0.003429530884735114,
+      "277": 0.008638218269066559,
+      "321": -0.00825447553447726,
+      "411": -0.0013280931166436138,
+      "445": -0.004206182382865742,
+      "561": 0.03448002317666902,
+      "562": 0.014235912048521945
+    },
+    "events_positive": 7,
+    "events_negative": 3,
+    "event_macro_delta": 0.01927292269450163,
+    "provenance_certified": false,
+    "note": "Reported AP and arithmetic screen only; selection, excluded-input and cost audits remain separate."
+  },
+  "kuro_dropped": {
+    "train": [],
+    "val": [
+      "ks_04357"
+    ],
+    "test": [
+      "ks_05418"
+    ]
+  },
+  "updater_logs": {
+    "ks_update_ema_s1.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    },
+    "ks_update_ema_s2.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    },
+    "ks_update_ema_s3.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    },
+    "ks_update_gru_noobs_s1.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    },
+    "ks_update_gru_noobs_s2.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    },
+    "ks_update_gru_noobs_s3.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    },
+    "ks_update_gru_s1.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    },
+    "ks_update_gru_s2.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    },
+    "ks_update_gru_s3.log": {
+      "done_finite": true,
+      "skipped_batches": 0,
+      "nan_epochs": 0
+    }
+  },
+  "italy": {
+    "errors": [],
+    "rows": [
+      {
+        "arm": "decoder",
+        "macro_iou": 0.08925818900267284,
+        "ap": 0.2460084144967694,
+        "micro_iou": 0.16955426583687463,
+        "splits": [
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          },
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          },
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          }
+        ]
+      },
+      {
+        "arm": "p4_upsample2",
+        "macro_iou": 0.09471885363260905,
+        "ap": 0.26920921464138453,
+        "micro_iou": 0.1739653373757998,
+        "splits": [
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          },
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          },
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          }
+        ]
+      },
+      {
+        "arm": "p2_native",
+        "macro_iou": 0.08738730599482854,
+        "ap": 0.2651610854459671,
+        "micro_iou": 0.18511795500914255,
+        "splits": [
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          },
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          },
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          }
+        ]
+      },
+      {
+        "arm": "p2_avgpool2",
+        "macro_iou": 0.09001684685548146,
+        "ap": 0.268562019435141,
+        "micro_iou": 0.1972111314535141,
+        "splits": [
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          },
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          },
+          {
+            "train": 6675,
+            "val": 159,
+            "test": 5321
+          }
+        ]
+      }
+    ],
+    "registered_contrasts": {
+      "native20_minus_native40": -0.0018708830078442984,
+      "native20_minus_up40": -0.007331547637780517,
+      "native20_minus_pooled20": -0.0026295408606529236
+    },
+    "resolution_gate": false,
+    "size_strata_descriptive_only": [
+      {
+        "arm": "decoder",
+        "large_component_tile_macro": 0.11122200044831768,
+        "all_small_tile_macro": 0.017777779014802472,
+        "n_large_tiles": 2187,
+        "n_small_tiles": 672,
+        "any_overlap_component_recall": {
+          "<16": 0.374,
+          "16-64": 0.6283333333333333,
+          ">=64": 0.8396666666666667
+        }
+      },
+      {
+        "arm": "p4_upsample2",
+        "large_component_tile_macro": 0.11805496956992541,
+        "all_small_tile_macro": 0.01877238622951795,
+        "n_large_tiles": 2187,
+        "n_small_tiles": 672,
+        "any_overlap_component_recall": {
+          "<16": 0.44833333333333336,
+          "16-64": 0.68,
+          ">=64": 0.8826666666666667
+        }
+      },
+      {
+        "arm": "p2_native",
+        "large_component_tile_macro": 0.1085513980689869,
+        "all_small_tile_macro": 0.018509429345276576,
+        "n_large_tiles": 2187,
+        "n_small_tiles": 672,
+        "any_overlap_component_recall": {
+          "<16": 0.328,
+          "16-64": 0.5533333333333333,
+          ">=64": 0.773
+        }
+      },
+      {
+        "arm": "p2_avgpool2",
+        "large_component_tile_macro": 0.11307997162379242,
+        "all_small_tile_macro": 0.014958779705201554,
+        "n_large_tiles": 2187,
+        "n_small_tiles": 672,
+        "any_overlap_component_recall": {
+          "<16": 0.299,
+          "16-64": 0.5423333333333333,
+          ">=64": 0.7913333333333333
+        }
+      }
+    ]
+  },
+  "cross_sensor": {
+    "rows": [
+      {
+        "fold": "holdout_chimanimani",
+        "obs_source": "both",
+        "complete": true,
+        "ap": 0.12191276399306768,
+        "recovery": 0.4031861153407361,
+        "counts": {
+          "train": 544,
+          "val": 133,
+          "test": 1128
+        },
+        "teacher_ap": 0.28917465047184526,
+        "stale_ap": 0.00891661563361156
+      },
+      {
+        "fold": "holdout_chimanimani",
+        "obs_source": "s1",
+        "complete": true,
+        "ap": 0.010527590925331783,
+        "recovery": 0.005748185926765975,
+        "counts": {
+          "train": 544,
+          "val": 133,
+          "test": 1128
+        },
+        "teacher_ap": 0.28917465047184526,
+        "stale_ap": 0.00891661563361156
+      },
+      {
+        "fold": "holdout_hiroshima",
+        "obs_source": "both",
+        "complete": true,
+        "ap": 0.3582212105677582,
+        "recovery": 0.6430836263667482,
+        "counts": {
+          "train": 560,
+          "val": 290,
+          "test": 862
+        },
+        "teacher_ap": 0.5496239950253,
+        "stale_ap": 0.013356122220402838
+      },
+      {
+        "fold": "holdout_hiroshima",
+        "obs_source": "s1",
+        "complete": true,
+        "ap": 0.013761342574390642,
+        "recovery": 0.0007556304871823454,
+        "counts": {
+          "train": 560,
+          "val": 290,
+          "test": 862
+        },
+        "teacher_ap": 0.5496239950253,
+        "stale_ap": 0.013356122220402838
+      }
+    ],
+    "failed_execution_not_scientific_negative": {
+      "thrissur": {
+        "error_present": true,
+        "filter_line": "after obs-source filter {'train': 567, 'val': 1128, 'test': 0}"
+      },
+      "newzealand": {
+        "error_present": true,
+        "filter_line": "after obs-source filter {'train': 593, 'val': 0, 'test': 1147}"
+      }
+    },
+    "date_alignment": {
+      "files": 4614,
+      "assignments": 55368,
+      "after_target_s2_date": 25682,
+      "absolute_gap_mean_days": 33.35495231902904,
+      "max_absolute_gap_days": 992,
+      "tiles_reusing_same_s1_date": 4447
+    },
+    "date_alignment_by_manifest": {
+      "holdout_chimanimani": {
+        "train": {
+          "files": 544,
+          "assignments": 6528,
+          "after_target_s2_date": 3259,
+          "absolute_gap_mean_days": 53.26868872549019,
+          "max_absolute_gap_days": 962,
+          "tiles_reusing_same_s1_date": 526
+        },
+        "val": {
+          "files": 133,
+          "assignments": 1596,
+          "after_target_s2_date": 1022,
+          "absolute_gap_mean_days": 36.33897243107769,
+          "max_absolute_gap_days": 477,
+          "tiles_reusing_same_s1_date": 132
+        },
+        "test": {
+          "files": 1128,
+          "assignments": 13536,
+          "after_target_s2_date": 5711,
+          "absolute_gap_mean_days": 6.724512411347518,
+          "max_absolute_gap_days": 55,
+          "tiles_reusing_same_s1_date": 1089
+        }
+      },
+      "holdout_hiroshima": {
+        "train": {
+          "files": 560,
+          "assignments": 6720,
+          "after_target_s2_date": 3501,
+          "absolute_gap_mean_days": 52.39404761904762,
+          "max_absolute_gap_days": 962,
+          "tiles_reusing_same_s1_date": 554
+        },
+        "val": {
+          "files": 290,
+          "assignments": 3480,
+          "after_target_s2_date": 1542,
+          "absolute_gap_mean_days": 9.65632183908046,
+          "max_absolute_gap_days": 40,
+          "tiles_reusing_same_s1_date": 275
+        },
+        "test": {
+          "files": 862,
+          "assignments": 10344,
+          "after_target_s2_date": 3856,
+          "absolute_gap_mean_days": 7.799980665119876,
+          "max_absolute_gap_days": 45,
+          "tiles_reusing_same_s1_date": 774
+        }
+      },
+      "holdout_thrissur": {
+        "train": {
+          "files": 567,
+          "assignments": 6804,
+          "after_target_s2_date": 3439,
+          "absolute_gap_mean_days": 52.93930041152263,
+          "max_absolute_gap_days": 962,
+          "tiles_reusing_same_s1_date": 545
+        },
+        "val": {
+          "files": 1128,
+          "assignments": 13536,
+          "after_target_s2_date": 5711,
+          "absolute_gap_mean_days": 6.724512411347518,
+          "max_absolute_gap_days": 55,
+          "tiles_reusing_same_s1_date": 1089
+        },
+        "test": {
+          "files": 0,
+          "assignments": 0,
+          "after_target_s2_date": 0,
+          "absolute_gap_mean_days": null,
+          "max_absolute_gap_days": null,
+          "tiles_reusing_same_s1_date": 0
+        }
+      },
+      "holdout_newzealand": {
+        "train": {
+          "files": 593,
+          "assignments": 7116,
+          "after_target_s2_date": 3492,
+          "absolute_gap_mean_days": 43.34527824620574,
+          "max_absolute_gap_days": 992,
+          "tiles_reusing_same_s1_date": 571
+        },
+        "val": {
+          "files": 0,
+          "assignments": 0,
+          "after_target_s2_date": 0,
+          "absolute_gap_mean_days": null,
+          "max_absolute_gap_days": null,
+          "tiles_reusing_same_s1_date": 0
+        },
+        "test": {
+          "files": 1147,
+          "assignments": 13764,
+          "after_target_s2_date": 6305,
+          "absolute_gap_mean_days": 44.78596338273758,
+          "max_absolute_gap_days": 947,
+          "tiles_reusing_same_s1_date": 1145
+        }
+      }
+    },
+    "all_four_fold_failure_established": false
+  },
+  "source_sha256": {
+    "code/cache_decoder_train.py": "bedf62dbff9fedca4ec2dd93139d59b4716dbe53eb9564915a8b0cd62b0af6d2",
+    "code/cache_decoder_train_lib.py": "5f062e036434f4d6dbd06a588b1d0660fa87d91b0551cfd529bdfd067738edff",
+    "code/extract_kurosiwo_s1_cache.py": "317288d1c3db1ef57dccaa57d38b0cf6717f901032596b20bdb893b67d9c72e4",
+    "code/extract_sen12_s1_singles.py": "c33f929f604e4d27e107744fdc4cb677eeba1583d7e76c3360c6a794e7284ba7",
+    "code/italy_size_stratified.py": "ccde1490d426486b43947107b029f012ad23b2f323bcf04c78ecee577ff5c646",
+    "code/kurosiwo_chain2.sh": "db9cbe145bd520b053e93b5a7da0db094e1aa627eca7428d58c3ad51969f9019",
+    "code/kurosiwo_pipeline.py": "a6d811a3ea0360bd536ca3fe8abef719557ac4e024919ffd20876c1190233129",
+    "code/streaming_update_train.py": "b77da2ac847eb6d770eefa081370d4ff6c217d2601debee3cb43639706f6b2eb",
+    "code/t1_cost_measure.py": "8044141fba6721fe4b8603ab08ff94a363104a06de7307569bf63b6fbbda7184"
+  }
+}

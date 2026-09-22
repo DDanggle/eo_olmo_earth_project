@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/code/audit_region_language_contract_20260921.py", line 186, in <module>
+    elif args.mode=='audit': audit()
+                             ^^^^^^^
+  File "/home/work/data/olmoearth/code/audit_region_language_contract_20260921.py", line 84, in audit
+    import pyarrow.parquet as pq
+ModuleNotFoundError: No module named 'pyarrow'

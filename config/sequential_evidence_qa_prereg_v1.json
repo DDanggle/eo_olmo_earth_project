@@ -1,0 +1,24 @@
+{
+  "schema": "sequential-evidence-qa-prereg-v1",
+  "registered_at": "2026-09-19",
+  "status": "registered before generation; label contract only (no model), blueprint §8 / design doc §9.4",
+  "purpose": "Per-arrival-step questions whose answer is only what could be known from observations seen SO FAR, with the evidence observation id, for the event-memory VLM comparison (latest-only VLM vs T1-cache VLM vs rule-based event-log VLM vs learned event-memory VLM).",
+  "source": "arrival_v0/{hiroshima,thrissur,itogon,hokkaido}: 15 acquisitions in arrival order, real dates, SCL clear fraction per acquisition, post_index and event_date from the contract, sealed masks from sen12_pilot/holdout_<region>/mask_u8",
+  "per_step_state_label": {
+    "no_change": "step i < post_index (no post-event observation seen yet)",
+    "abstain": "i >= post_index but no post-event observation with clear >= 0.5 has arrived yet (only cloudy post-event views)",
+    "confirmed": "the first step at which a post-event observation with clear >= 0.5 has arrived; evidence_obs = that step, evidence_date = its date, evidence_region = mask quadrants (>= 25% of mask pixels)",
+    "keep": "any step after 'confirmed'; the answer and evidence stay those of the confirmation step regardless of later cloudy or unchanged observations",
+    "negative_tiles": "mask empty: 'no_change' at every step"
+  },
+  "questions_per_step": [
+    "Q_state: Has a landslide occurred in this tile as of this observation? {no / cannot tell yet / yes}",
+    "Q_when: If yes, which observation date is the earliest evidence? (date string)",
+    "Q_where: If yes, which quadrant(s) contain it? (NW/NE/SW/SE multi-label)",
+    "Q_update: Compared with your previous answer, should you {keep / strengthen / revise / abstain}? (derived: no_change->no_change = keep; no_change->abstain = abstain; abstain->confirmed = strengthen; confirmed->keep = keep; no revise cases exist in this data and none are fabricated)"
+  ],
+  "explicit_exclusions": ["final masks are NOT copied to pre-confirmation steps", "no lookahead: the clear fraction of FUTURE acquisitions is never used to define the current label", "belief-correction (revise) is not claimed because no such ground truth exists here"],
+  "splits": "hiroshima: same tile-hash blocks as P1 (train 0-2, val 3, test 4); thrissur/itogon/hokkaido: test-only external events",
+  "outputs": "sequential_qa_v1/<region>/items.jsonl (one item per tile per step), stats.json (label class counts per region and per step)",
+  "not_claimed": ["human verification", "anything beyond Sentinel-2 landslide scars"]
+}

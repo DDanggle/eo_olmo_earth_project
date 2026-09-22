@@ -1,0 +1,20 @@
+{
+  "schema": "sentinel-temporal-qa-prereg-v0",
+  "registered_at": "2026-09-18",
+  "status": "registered before generation; benchmark v0 for G-L0/G-L1 (auto-generated, label-derived, no human captions)",
+  "purpose": "A Sentinel-resolution temporal QA set on which a pixel VLM (TEOChat, S2 RGB composites) and a cache-token LLM (OlmoEarth tokens -> OLMo, G-L1) answer the same questions. Fair ground: both see the same tiles and dates; only the input representation differs.",
+  "sources": {"sen12": "sen12_pilot test tiles of holdout_hiroshima and holdout_indonesia (labels: mask_u8, contract post_index/event dates)", "kurosiwo": "kurosiwo_npy pre/post S1 events with flood masks (10 held-out events per MS-117)"},
+  "question_types": {
+    "Q1_event_yes_no": "Given images at dates d1<d2 (pre/post for positives; two pre-event dates or two post-event dates for negatives), did a landslide/flood occur between them? Balanced 50/50 by construction.",
+    "Q2_when": "Given 4 images at dates d1<d2<d3<d4 with the event between exactly one adjacent pair, between which pair did the event occur? 3-way (pairs 1-2, 2-3, 3-4) or 'none'.",
+    "Q3_where": "For positive tiles, which quadrant(s) contain the change (NE/NW/SE/SW; from mask_u8 quadrant positive-pixel share >= 25% of the mask)? Multi-label.",
+    "Q4_count_obs": "Control question with no visual reasoning: how many images are shown? Detects prompt-following failures."
+  },
+  "inputs": {"vlm": "S2 RGB composites (B04,B03,B02 / 3000, 512x512 bicubic) per date; dates given in the prompt", "cache_token": "OlmoEarth single-observation embeddings at the same dates (single_fp16 where available; else re-extracted), pooled to K tokens; dates as text"},
+  "sizes": {"sen12": "up to 400 items per fold per question type (balanced)", "kurosiwo": "all 10 held-out events x available date pairs"},
+  "metrics": {"Q1": "accuracy, balanced", "Q2": "accuracy over 4 classes", "Q3": "quadrant-set Jaccard and exact match", "Q4": "accuracy", "hallucination_proxy": "rate of answers asserting change on negative pairs (Q1 false positive rate)"},
+  "scoring": "string parsing with registered regexes (yes/no; pair index; quadrant names); unparseable -> wrong; parse-failure rate reported",
+  "baselines": ["TEOChat zero-shot (fp16)", "majority/random", "OlmoEarth cache + L2 change score + template (no LLM)", "text-only OLMo with dates and place names (no image/token)"],
+  "decision_rules": {"G-L0_pass": "TEOChat and the no-LLM template baseline both run end-to-end on >= 95% of items with parse-failure < 10%; numbers are recorded regardless of who wins", "G-L1_reference": "G-L1 cache-token model must exceed the template baseline on Q1 and Q2 and be reported against TEOChat on all four"},
+  "not_claimed": ["human-verified correctness of auto labels beyond the sealed masks", "generalisation beyond landslide/flood"]
+}

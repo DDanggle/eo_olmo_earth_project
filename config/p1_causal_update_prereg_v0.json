@@ -1,0 +1,27 @@
+{
+  "schema": "p1-causal-update-prereg-v0",
+  "registered_at": "2026-09-19",
+  "status": "registered before execution; P1 first independent experiment (design doc §8.3, audit §6)",
+  "question": "In hiroshima, with all 15 acquisitions arriving in order (cloudy ones included), does a learned observation-corrected state confirm the landslide earlier than last-observation / EMA / running-mean / Δt-GRU states at the same pre-event false-alarm rate, using the frozen sealed readout?",
+  "data": "arrival_v0/hiroshima (single_fp16, prefix_fp16, meta); readout resolution_contract_v2/p4_native_control/holdout_hiroshima_seed1 (frozen); normalisation stats from the sealed train cache as in training",
+  "split": "tile-id hash into 5 blocks: train {0,1,2}, val {3}, test {4}. Pseudo-spatial (adjacent tiles may share blocks) — stated limitation. Single event date for the whole region: tiles are spatial replicates of ONE event; CIs are over tiles and do not license event-level generalisation.",
+  "state_init": "m_0 = single_0 for all arms (no lookahead)",
+  "arms": {
+    "last": "m_i = single_i",
+    "mean": "running mean of singles",
+    "ema": "m_i = (1-a) m_{i-1} + a single_i, a learned scalar",
+    "gru": "ConvGRU 1x1 (MS-116 architecture) on [m, single_i]",
+    "gru_dt": "ConvGRU with Δt embedding (MS-116-arch gru_dt)",
+    "resid_q": "PROPOSED: m_i = m_{i-1} + g ⊙ f([m, u, u - P(m)]), gate g from [m, u, u-P(m), q_i, Δt_i] (quality- and innovation-conditioned correction); no uncertainty head in v0",
+    "prefix": "full re-encoding of the arrival prefix (teacher; cost reference, not a physical ceiling)"
+  },
+  "training": "learned arms: teacher = prefix state at each step, MSE, closed-loop rollout from step 1..14, AdamW 1e-3, 30 epochs, batch 8 tiles, seed 1 (seeds 2-3 if seed 1 shows an effect); GPU0",
+  "detection_rule": "predicted-positive area (readout prob > .5) in window 8..120 >= A_thr; A_thr set PER ARM on the validation block so that the pre-event step-level false-alarm rate = 5% (steps with no post-event observation in the prefix). Test reports the realised pre-event FAR.",
+  "metrics": ["days-to-confirmation per positive test tile: date of the first post-event step with detection minus event_date (fallback: first post-event acquisition date); censored if never", "confirmation rate within the window", "mean IoU on post-event steps", "realised pre-event FAR on test", "paired bootstrap (tiles) of days-to-confirmation and of IoU: resid_q vs gru_dt and vs last", "cost: encoded timestep-units per tile per arrival (1 for streaming arms, min(c,12) for prefix)"],
+  "decision_rules": {
+    "method_signal": "resid_q median days-to-confirmation < gru_dt AND < last with paired-bootstrap 95% CI excluding 0, at matched 5% pre-event FAR, AND post-event IoU not worse than gru_dt by more than .02",
+    "no_signal": "otherwise: report table; no method claim; Δt-GRU or last-observation remains the recommendation",
+    "sanity": "prefix arm must confirm >= 90% of positive tiles; else the readout/threshold contract is broken and nothing is interpreted"
+  },
+  "not_claimed": ["generalisation to other events/regions (single event)", "uncertainty calibration (v1)", "real-time cost measurement (v1)"]
+}

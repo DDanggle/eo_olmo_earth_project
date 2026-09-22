@@ -1,0 +1,48 @@
+{
+  "validation_tile": {
+    "id": "ks_04357",
+    "split": "validation",
+    "valid_pixels": 20687,
+    "total_pixels": 36864,
+    "mask_values": {
+      "0": 16177,
+      "1": 17893,
+      "2": 2794
+    },
+    "features": {
+      "teacher3": {
+        "nonfinite_values": 589824,
+        "total_values": 1769472,
+        "bad_spatial_tokens": 768,
+        "bad_tokens_with_any_valid_label": 327
+      },
+      "stale2": {
+        "nonfinite_values": 589824,
+        "total_values": 1769472,
+        "bad_spatial_tokens": 768,
+        "bad_tokens_with_any_valid_label": 327
+      },
+      "single": {
+        "nonfinite_values": 1769472,
+        "total_values": 5308416,
+        "bad_spatial_tokens": 768,
+        "bad_tokens_with_any_valid_label": 327
+      }
+    },
+    "raw": {
+      "shape": [
+        2,
+        3,
+        224,
+        224
+      ],
+      "nonfinite_count": 1338,
+      "zeros": 137868,
+      "nan_by_time": [
+        444,
+        446,
+        448
+      ]
+    }
+  }
+}

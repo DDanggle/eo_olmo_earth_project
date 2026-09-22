@@ -1,0 +1,36 @@
+{
+  "schema": "resolution-contract-summary-v1",
+  "status": "DEVELOPMENT_SCREEN_ONLY",
+  "p4_reference": "/home/work/data/olmoearth/resolution_contract_v2/confirmatory_8region_summary.json",
+  "folds": [
+    "hiroshima",
+    "hokkaido",
+    "indonesia",
+    "itogon",
+    "kyrgyzstan1",
+    "kyrgyzstan2",
+    "newzealand",
+    "thrissur"
+  ],
+  "means": {
+    "p4_native": 0.27216575,
+    "p4_native_control": 0.2908954992890358,
+    "p4_upsample2": 0.2680818922817707,
+    "p2_native": 0.27182963490486145,
+    "p2_avgpool2": 0.23799904622137547
+  },
+  "deltas": {
+    "registered_p2_minus_p4": -0.0003361150951385339,
+    "dense_representation_effect": 0.003747742623090744,
+    "fine_grid_information_effect": 0.033830588683485985,
+    "same_trainer_calibration_gap": 0.018729749289035813,
+    "decoder_grid_artifact": -0.02281360700726509
+  },
+  "p2_native_wins_vs_p4_native": 5,
+  "registered_gate_pass": false,
+  "interpretation_gate": {
+    "same_trainer_calibration_pass": true,
+    "token_resolution_lever": false,
+    "warning": "Sen12 folds were previously exposed; external task/Korea preregistration is required for confirmation."
+  }
+}

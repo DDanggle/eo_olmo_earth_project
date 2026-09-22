@@ -1,0 +1,68 @@
+{
+  "scope": "CPU only, train/validation inputs; no test evaluation",
+  "rows": [
+    {
+      "split": "train",
+      "kind": "teacher3",
+      "n": 4000,
+      "nonfinite_ids": [],
+      "min": -8.796875,
+      "max": 12.8671875
+    },
+    {
+      "split": "train",
+      "kind": "stale2",
+      "n": 4000,
+      "nonfinite_ids": [],
+      "min": -8.9921875,
+      "max": 13.109375
+    },
+    {
+      "split": "train",
+      "kind": "single",
+      "n": 4000,
+      "nonfinite_ids": [],
+      "min": -9.5546875,
+      "max": 14.0078125
+    },
+    {
+      "split": "validation",
+      "kind": "teacher3",
+      "n": 1000,
+      "nonfinite_ids": [
+        "ks_04357"
+      ],
+      "min": -8.546875,
+      "max": 12.9765625
+    },
+    {
+      "split": "validation",
+      "kind": "stale2",
+      "n": 1000,
+      "nonfinite_ids": [
+        "ks_04357"
+      ],
+      "min": -8.8515625,
+      "max": 13.1875
+    },
+    {
+      "split": "validation",
+      "kind": "single",
+      "n": 1000,
+      "nonfinite_ids": [
+        "ks_04357"
+      ],
+      "min": -9.3203125,
+      "max": 14.0703125
+    }
+  ],
+  "full_train_scale": {
+    "numel": 7077888000,
+    "allocated_bytes": 28311552000,
+    "all_train_teacher_finite": true,
+    "trainer_torch_std": 0.48853766918182373,
+    "chunked_float64_std": 0.4885376707939189,
+    "elapsed_s": 66.66003729775548,
+    "torch": "2.13.0+cu130"
+  }
+}

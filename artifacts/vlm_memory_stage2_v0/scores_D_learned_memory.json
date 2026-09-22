@@ -1,0 +1,111 @@
+{
+ "arm": "D_learned_memory",
+ "n_train": 7590,
+ "train_s": 1124.055631665513,
+ "evals": {
+  "hiroshima_test": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.9911111111111112,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.9791111111111112,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7875555555555556,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9715555555555555,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2022,
+    "frac_state_unchanged": 0.9619188921859545
+   }
+  },
+  "thrissur": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.7875555555555556,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.6457777777777778,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.672,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.8928888888888888,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2020,
+    "frac_state_unchanged": 0.9128712871287129
+   }
+  },
+  "itogon": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.6733333333333333,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.6857777777777778,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7093333333333334,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9377777777777778,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2025,
+    "frac_state_unchanged": 0.9525925925925925
+   }
+  },
+  "hokkaido": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.74,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.6746666666666666,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7071111111111111,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9044444444444445,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2015,
+    "frac_state_unchanged": 0.8615384615384616
+   }
+  }
+ }
+}

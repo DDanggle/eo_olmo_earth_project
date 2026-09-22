@@ -1,0 +1,262 @@
+{
+ "decoder": [
+  {
+   "seed": 1,
+   "macro_iou_tiles_with_component_ge16px": 0.1202171018781892,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.0225757914158157,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.37,
+     27046
+    ],
+    "16-64": [
+     0.619,
+     12039
+    ],
+    ">=64": [
+     0.834,
+     1950
+    ]
+   }
+  },
+  {
+   "seed": 2,
+   "macro_iou_tiles_with_component_ge16px": 0.10642750383900151,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.016680494156514108,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.29,
+     27046
+    ],
+    "16-64": [
+     0.524,
+     12039
+    ],
+    ">=64": [
+     0.761,
+     1950
+    ]
+   }
+  },
+  {
+   "seed": 3,
+   "macro_iou_tiles_with_component_ge16px": 0.10702139562776233,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.014077051472077606,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.462,
+     27046
+    ],
+    "16-64": [
+     0.742,
+     12039
+    ],
+    ">=64": [
+     0.924,
+     1950
+    ]
+   }
+  }
+ ],
+ "p4_upsample2": [
+  {
+   "seed": 1,
+   "macro_iou_tiles_with_component_ge16px": 0.12435589880081231,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.020310783294739475,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.481,
+     27046
+    ],
+    "16-64": [
+     0.678,
+     12039
+    ],
+    ">=64": [
+     0.875,
+     1950
+    ]
+   }
+  },
+  {
+   "seed": 2,
+   "macro_iou_tiles_with_component_ge16px": 0.12492078330130144,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.020213097496776765,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.34,
+     27046
+    ],
+    "16-64": [
+     0.586,
+     12039
+    ],
+    ">=64": [
+     0.837,
+     1950
+    ]
+   }
+  },
+  {
+   "seed": 3,
+   "macro_iou_tiles_with_component_ge16px": 0.10488822660766246,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.01579327789703761,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.524,
+     27046
+    ],
+    "16-64": [
+     0.776,
+     12039
+    ],
+    ">=64": [
+     0.936,
+     1950
+    ]
+   }
+  }
+ ],
+ "p2_native": [
+  {
+   "seed": 1,
+   "macro_iou_tiles_with_component_ge16px": 0.08326990760747442,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.017855981067096897,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.197,
+     27046
+    ],
+    "16-64": [
+     0.402,
+     12039
+    ],
+    ">=64": [
+     0.638,
+     1950
+    ]
+   }
+  },
+  {
+   "seed": 2,
+   "macro_iou_tiles_with_component_ge16px": 0.11289662636032506,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.01853101819884566,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.278,
+     27046
+    ],
+    "16-64": [
+     0.518,
+     12039
+    ],
+    ">=64": [
+     0.767,
+     1950
+    ]
+   }
+  },
+  {
+   "seed": 3,
+   "macro_iou_tiles_with_component_ge16px": 0.12948766023916125,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.019141288769887174,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.509,
+     27046
+    ],
+    "16-64": [
+     0.74,
+     12039
+    ],
+    ">=64": [
+     0.914,
+     1950
+    ]
+   }
+  }
+ ],
+ "p2_avgpool2": [
+  {
+   "seed": 1,
+   "macro_iou_tiles_with_component_ge16px": 0.10029886641785227,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.013152454853691986,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.234,
+     27046
+    ],
+    "16-64": [
+     0.45,
+     12039
+    ],
+    ">=64": [
+     0.709,
+     1950
+    ]
+   }
+  },
+  {
+   "seed": 2,
+   "macro_iou_tiles_with_component_ge16px": 0.11800896236210362,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.016735806769273102,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.252,
+     27046
+    ],
+    "16-64": [
+     0.49,
+     12039
+    ],
+    ">=64": [
+     0.771,
+     1950
+    ]
+   }
+  },
+  {
+   "seed": 3,
+   "macro_iou_tiles_with_component_ge16px": 0.12093208609142139,
+   "n_tiles_ge16": 2187,
+   "macro_iou_tiles_all_small": 0.01498807749263957,
+   "n_tiles_small_only": 672,
+   "component_recall": {
+    "<16": [
+     0.411,
+     27046
+    ],
+    "16-64": [
+     0.687,
+     12039
+    ],
+    ">=64": [
+     0.894,
+     1950
+    ]
+   }
+  }
+ ]
+}

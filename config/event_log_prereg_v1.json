@@ -1,0 +1,12 @@
+{
+  "schema": "event-log-prereg-v1",
+  "registered_at": "2026-09-19",
+  "status": "registered before execution; inference only",
+  "purpose": "Rule-based event-log inputs for the VLM comparison (design doc §9.4 fourth arm), rebuilt from the detector that survived the event holdout: the cross-region sealed readout (8-region LOCO, M65) applied to causal prefix states. Replaces event_log_v0 (hiroshima-trained head, which did not generalise: MS-140/141).",
+  "detector": "resolution_contract_v2/p4_native_control/holdout_<region>_seed1 (the LOCO readout that never saw <region>), normalisation stats from that fold's sealed train cache",
+  "states": "arrival_v0/<region>/prefix_fp16 (causal prefix re-encoding, 15 steps) — no lookahead",
+  "outputs_per_tile_step": ["predicted-positive area in the 8..120 window", "quadrants with >= 25% of predicted area", "sum of probabilities (for later threshold sweeps)"],
+  "thresholds": "not applied here; applied at read time per region on its own validation block as in P1 (tile-level 5%/10% pre-event budgets)",
+  "regions": ["hiroshima", "thrissur", "itogon", "hokkaido"],
+  "not_claimed": ["any detection performance (that is MS-140/141)", "anything beyond Sentinel-2 landslide scars"]
+}

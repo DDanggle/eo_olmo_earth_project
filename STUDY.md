@@ -28,6 +28,54 @@
 
 ## 개념 카드
 
+### 2026-09-13 — shared latent ≠ sensor invariance, output GSD ≠ recovered detail
+
+- **부딪힌 곳:** 미팅 카드가 “같은 공간이면 S1/S2 Δz 분포도 같아야 한다”고 요구했고,
+  기존 Studio 10/20/40/80 m 옵션을 확인하지 않고 “10m 모드를 추가해달라”고 제안했다.
+- 공동 latent는 비교/공유 처리의 기반이지 서로 다른 관측 물리·날짜·궤도의 정보가 같다는 보증이 아니다.
+  센서별 normalization만으로 의미론적 transfer가 성립하는 것도 아니다. 통제된 downstream 평가가 필요하다.
+- 더 촘촘한 출력은 새로운 관측 정보를 만들지 않는다. 재표본화, tokenizer, 입력 GSD, decoder,
+  물체 크기를 구분해야 한다. Studio export와 local patch 설정의 동등성은 별도 확인한다.
+- **확인 질문:** Δz가 커졌다면 재해인가? 아니다. 계절·품질·센서·처리 차이도 원인이다.
+  condition-matched placebo와 독립 참조로 검증한다. model-card에 보편 정상값 하나를 요구하지 않는다.
+- 출처/수정: [공식 embedding 안내](https://allenai.org/blog/olmoearth-embeddings),
+  [최종 PR 검토 §4~5](docs/PR_REENTRY_2026_09_10.md).
+
+### upstream 가치와 연구 novelty는 다르다 (2026-09-11)
+
+범주형 SCL에 nearest를 쓰는 것은 새로운 알고리즘이 아니다. 그러나 실제 반사도 보간 설정이
+SCL scoring에 전달되는 결함을 두 compositor 경로에서 고치고 재격자 회귀 테스트를 붙이면
+유용한 upstream 기여다. 동일 격자 테스트에서 bilinear 인자만 넘기는 것은 보간 오류 검증이 아니다.
+반대로 이미 존재하는 cache/STAC/export 기능에 새 이름을 붙여도 novelty는 생기지 않는다.
+
+LFMC도 새 fine-tuning run이 문서 점수에 가깝다고 원 checkpoint의 업로드 오류가 증명되는 것은 아니다.
+재현 이슈는 weights/config/split/평가를 분리하고, repo 수정일과 파일 수정일도 구별해야 한다.
+
+**확인 질문:** SCL correctness PR이 논문 novelty 없이도 가치 있는 이유와, 이를 가장 작은
+실패→수정 테스트로 보여주려면 원본/대상 격자를 어떻게 정할지 설명하라.
+
+### 관측 전 예측과 관측 후 보정 — 같은 차원도 같은 계약이 아니다 (2026-09-09)
+
+`E0(single_t)`와 `E0(window_<=t)`는 둘 다 768차원이지만 맥락 범위가 다르다. 창 상태의 예측을
+단일 관측에서 바로 빼면 맥락 차이를 실제 변화로 오인할 수 있다. 예측기 목표를 single_t로
+고정해 `qhat_t = P(M_(t-1), metadata)`를 만들고 현재 관측을 반영하기 **전** residual을 잰다.
+이것은 모델의 예상 불일치이지 홍수/산사태 확률이 아니다. noobs GRU가 실패한 사실도 모든
+예측기의 불가능성을 증명하지 않는다. 시간 조건 Δt는 로봇의 제어 행동과 다르다.
+
+**확인 질문:** 비가 오지 않은 정상 장면에서도 surprise가 클 수 있는 세 원인과,
+single/window 계약 오류를 막는 target 정의를 설명하라.
+
+### encoder post-training과 기존 cache 호환성 (2026-09-09)
+
+LoRA는 encoder를 바꾸므로 새 관측 표현은 기존 cache와 자동 호환되지 않는다. 기존 E0를
+reference teacher로 고정하고 새 Eθ의 출력/갱신 상태를 canonical E0 공간으로 distill할 수는 있다.
+하지만 이는 목적함수이지 보장이 아니다. 기존 D0를 동결한 평가, D1을 재학습한 평가를 분리하고
+기존 task retention·필요한 re-embedding 비용을 측정해야 한다. fixed teacher는 target의 동반
+collapse를 막지만 학생의 상수/평균 예측을 자동 배제하지 않는다.
+
+**확인 질문:** D1을 새로 학습해 점수가 올라가도 “기존 임베딩 제품을 그대로 개선했다”는
+주장이 안 되는 이유와 frozen/LoRA × forecast-loss 2×2가 분리하는 효과를 설명하라.
+
 ### #52 관측된 경계와 필요조건은 다르다 (2026-09-06, MS-108 재판정)
 
 OlmoEarth base `.272`, tiny `.228`, nano `.194`가 raw `.197`의 위아래를 가른 것은 이 과업에서
@@ -1071,3 +1119,200 @@ missing-band shift 중 무엇이 원인인지 구별하려면 어떤 두 arm을 
   정확도 95%나 teacher 비열등성은 아니다. 양의 headroom, 절대 gap, 평가 단위와 CI가 필요하다.
 - 비용 해석: 초기 encode를 한쪽만 빼지 않는다. 모든 cutoff 지도/최종 지도 한 번 요청은 서로 다른
   workload다. timestep 수가 같아도 attention/호출 overhead 때문에 실제 비용은 다를 수 있다.
+
+### 2026-09-08 개념 카드 — 일괄 처리 속도와 온라인 갱신 지연
+
+- 부딪힌 곳: `t1_cost_measure.py`는 새 8개 관측을 한 batch로 묶었지만 비교 대상은
+  4개 cutoff의 전체 창을 각각 계산한다. 관측 시점별 encoder는 독립이어서 예측은 같을 수 있다.
+- 핵심: 아직 도착하지 않은 관측과 batch를 만들면 중간 시각의 응답을 제때 낼 수 없다.
+  이는 정확도 입력 누수와 별개인 **비용 측정의 가용성/스케줄 조건**이다. 도착한 여러 타일로
+  배치를 채울 수는 있지만, teacher도 같은 타일 수·대기 예산을 허용해야 한다.
+- raw tensor byte×접근 횟수는 논리 입력량이다. OS cache·compression·chunk layout 때문에
+  실제 disk/network read와 다를 수 있다. 이번 script의 raw load는 타이머 밖이다.
+- 확인 질문: “같은 출력이 나오는 batch 코드가 2.3배 빠르면 온라인도 2.3배 빠른가?”
+  아니다. arrival-valid schedule과 I/O/decoder를 포함한 응답 시간을 추가로 계측해야 한다.
+
+### 2026-09-08 개념 카드 — 방법의 외부 재현과 가중치 전이
+
+- 부딪힌 곳: KuroSiwo 초안은 S1 train split에서 GRU를 새로 학습한다.
+- 같은 설계가 다른 센서/과업에서도 작동하면 **방법의 외부 재현**이다. source와 test 사건이
+  분리됐다면 그 안에서 **사건 일반화**도 평가한다. S2에서 학습한 checkpoint를 그대로 S1에
+  적용하는 **zero-shot 가중치 전이**는 별도의 질문이다.
+- 확인 질문: “S1 홍수에서 새로 학습한 GRU가 성공하면 S2 산사태 가중치가 S1으로 전이됐나?”
+  아니다. 학습한 것/고정한 것/새로 본 라벨의 범위를 표기해야 한다. 판독기 3seed도 3task가 아니다.
+
+### 2026-09-08 오후 개념 카드 — 검증 손실 NaN은 방법의 음성이 아니다
+
+- 부딪힌 곳: KuroSiwo updater는 val NaN을30번 내고도 DONE/rc0. train4,000 teacher의
+  std는 finite였지만 validation의 `ks_04357` 한 타일 raw NaN이 cache로 전파됐다.
+- `NaN < best`는 False이므로 best state는 None 그대로다. 검사 없이 저장하면 실패를 성공으로
+  기록한다. 학습 수렴 불량/검증 입력 불량/평가 불량은 각각 다른 상태로 남겨야 한다.
+- 숫자로 출력된 AP도 안전하지 않다. 비정상 score를 정렬하는 metric이 에러를 내지 않으면
+  NaN이 있어도 AP는 유한할 수 있다. 입력·예측·metric 경계에서 finite 검사가 필요하다.
+- 원시 결측 하나는 attention/decoder를 거치며 이웃의 유효 영역까지 번질 수 있다. 이번에는
+  327개 feature token이 유효 label 픽셀을 포함했다. mask를 손실 끝에서 곱하기만 하면
+  NaN×0=NaN 문제도 남는다. 입력 단계의 적절한 결측 처리와 유효영역 평가가 둘 다 필요하다.
+- 확인 질문: “정답이 없는 픽셀에서 발생한 NaN이면 최종 loss mask만 씌우면 충분한가?”
+  아니다. 주변 유효 출력으로 전파될 수 있다. 입력 계약을 복구하고 해당 cache·검증 선택을 재확인한다.
+
+### 2026-09-09 개념 카드 — 관측이 필요하다는 것과 기억이 필요하다는 것은 다르다
+
+- 부딪힌 곳: Kuro에서 GRU(pre,post)는 좋고 GRU(pre,0)는 나쁘다. 이 대조는 새 관측의
+  정보를 지지하지만, post만 잘 변환해도 같은 성능이 나는 가능성은 제거하지 않는다.
+- POST_ONLY와 train부터 기억 없이 학습한 동등 예산 adapter/GRU를 비교해야 한다.
+  추론 때만 memory를0으로 만드는 실험은 학습분포 밖 입력의 영향이 섞인다.
+- 확인 질문: “관측0 baseline을 이겼으니 cache memory가 유효한가?” 아니다. memory0 또는
+  post-only 학습 대조를 이겨야 기억의 추가 가치를 더 직접적으로 말할 수 있다.
+
+### 2026-09-09 개념 카드 — 분해 가능한 평균과 비분해적 창 임베딩
+
+- 부딪힌 곳: GEO-Bench-2 baseline은 독립 시점 encoder 출력 평균이다. encoder가 고정이면
+  `m_new=(n*m_old+u_new)/(n+1)`로 과거 영상을 읽지 않고 정확히 갱신할 수 있다.
+- 창 안에서 attention을 수행한 후 pooling하는 embedding은 개별시점 encoder 출력 평균과
+  일반적으로 같지 않다. 현재 GRU가 근사하는 것은 후자의 창 수준 표현이다.
+- 확인 질문: “mean pooling이 있으니 OLMoEarth의 전체창 표현도 running mean이면 충분한가?”
+  아니다. encoder가 pooling 전에 시점 간 상호작용을 했는지부터 구분해야 한다.
+
+### 2026-09-10 개념 카드 — 같은 step, 같은 라벨 수, 같은 시간 범위는 별개다
+
+- KR-4 FULL은 4,000 step으로 같아도 batch32/16으로 샘플 노출이2배다. K-shot은 이미
+  같은 support/step/batch라 raw step 확대는 exposure matching이 아니라 추가 최적화다.
+- 양성10+음성10 support는 정답20장이고, 전체 정답 목록으로 양성을 찾았다면 screening 정보도
+  예산이다. 픽셀 양성률로 무양성 칩 draw 확률을 계산하지 않는다.
+- 마지막 label이 없어서 target 날짜를 앞당기면 cache와 raw의 cutoff도 같이 바뀌어야 한다.
+  KR-4 test64칩에서 cache만 뒤 시점을 본 사실을 manifest·mask 존재·코드로 확인했다.
+- 확인 질문: “원본 보고서와 숫자가 같으면 과학 검증도 끝났나?” 아니다. 산술·공정 비교·실행 계보·
+  원시 정렬·통계적 일반화는 각각 확인해야 한다. warm-cache 학습시간도 cold 시스템 비용과 다르다.
+
+### 2026-09-10 개념 카드 — 기능 시연·현장 검증·과학적 새로움은 별개다
+
+- 오름 실험은 후보생성→원영상→국내 근거검토의 실제 workflow와 재현 가능한 입력 개선을 남겼다.
+  이것은 upstream 미팅 자산이지만 검증된 오름 훼손 탐지 정확도는 아니다.
+- 별도14후보의 assistant RGB4고유site와 공식 오름점8개 구름기각을 같은 성공률 분모로 합치지 않는다.
+- 확인 질문: “논문 novelty가 약하면 팀에 보여줄 가치도 없나?” 아니다. 지역 활용 사례·재현 테스트·
+  작은 유지보수 기여는 별도 가치이며, 현장 효과/정확도는 그에 맞는 평가로 따로 검증한다.
+
+### 2026-09-18 개념 카드 — VLM의 기억 추가·판단 수정·가중치 학습은 다르다
+
+- EO projector-only pilot에는 재귀 기억 갱신이 없었다. 사용자의 robotics 이식 질문을
+  검토하면서 memory-VLM의 실행 상태 갱신과 offline alignment 학습을 분리했다.
+- RAVEN은 embedding으로 검색하지만 반환된 원영상도 VLM이 읽는다. 이 방식이
+  OlmoEarth latent-only 추론이나 text↔EO embedding의 무학습 cosine 검색을 보장하지 않는다.
+- 판단 수정(belief revision)은 새 관측마다 답을 바꾸는 것이 아니다. 유효한 반대 근거에는
+  수정하고 저품질/무관 관측에는 보류·안정적이어야 한다. 최신 상태와 과거 사실도 구분한다.
+- 확인 질문: “새 영상이 오면 VLM 가중치부터 다시 학습해야 하나?” 아니다. offline으로
+  adapter/updater를 학습하고 test에서는 가중치 고정, 기억만 갱신하는 계약부터 검증할 수 있다.
+- 문헌·설계: `docs/EO_MEMORY_VLM_DIRECTION_2026_09_18.md`. 우리 EO 실측 성공은 아직 없다.
+
+### 2026-09-18 개념 카드 — 관측 시각과 도착 시각을 나눠야 판단 갱신을 평가한다
+
+- 부딪힌 곳: 현재 추출/QA/projector는 전체 15장의 구름 정보를 보고 12장을 선택한다.
+  획득순으로 나열해도 선택 자체가 미래 품질을 본 것이므로 운영적인 causal replay와 다르다.
+- 획득 시각은 관측한 땅의 시점, 도착 시각은 그 관측을 모델이 알 수 있게 된 시점이다.
+  과거 획득 영상이 늦게 도착했을 때 기억 쓰기와 사건의 시간 귀속을 같은 시각으로 처리하면
+  최신 상태를 과거로 덮어쓰거나 근거를 잘못된 날짜에 붙일 수 있다.
+- 실제 도착 시각이 없으면 획득순 replay라고 명시한다. 지연·중복 도착 stress test는 별도다.
+  새 관측에 반응한 답 변화는 현상 변화/unknown 해소/잘못된 해석 교정을 구분해야 한다.
+- 확인 질문: “전체 자료로 맑은 12장을 고르고 날짜순으로 replay하면 미래 누출이 없나?”
+  아니다. 해당 cutoff에 이용할 수 없었던 영상 품질이 입력 선택에 영향을 주었는지 확인해야 한다.
+- 설계: `docs/EO_MEMORY_VLM_IMPLEMENTATION_BLUEPRINT_2026_09_18.md`. 운영 실측은 미실행.
+
+### 2026-09-18 개념 카드 — arm 이름과 지연 변수 이름보다 실제 정보 집합을 읽는다
+
+- 부딪힌 곳: 관측 교정 설계 §8은 `postlast1`을 최신 관측 단독 head의 반례로 사용한다.
+  하지만 extractor는 `preslots + 마지막 post slot`을 유지한다. 사건 전 기억이 남으므로
+  이 결과는 latest-only baseline이 아니다. 진짜 latest-only와 그 표현에 맞춰 학습한 head가 필요하다.
+- T5의 `days_since_event`는 실제 event_date가 아니라 첫 kept post 관측 날짜부터 센다.
+  이 통계는 첫 사후 관측 이후 추가 확인 지연이며 사건 발생일 기준의 총 탐지 지연과 다르다.
+  미탐지14타일을 제외한 median도 전체 사건의 확인 성공률을 대체하지 않는다.
+- 확인 질문: “postlast1 성능이 낮고 days_since_event 중앙값25일이면, 최신 영상만으로는
+  사건 발생25일 이내 탐지가 안 된다는 결론이 나오는가?” 아니다. 입력 집합·학습 head 계약·
+  기준 시각·미탐지 조건을 각각 확인해야 한다.
+- 근거: `code/extract_olmo_perturb.py`의 preslots+sel,
+  `code/t5_prefix_latency_v0.py`의 d[c-1]−d[fp], 기존 summary. 새 실험은 하지 않았다.
+
+### 2026-09-19 개념 카드 — 예측 상태와 관측 증거는 같은 기억 항목이 아니다
+
+- 부딪힌 곳: latent interpolation을 VLM 기억에 바로 넣으면 관측하지 않은 날짜의 그럴듯한 상태가
+  실제 사건 근거처럼 인용될 수 있다. 현재 D도 서로 다른 날짜 token을 섞고 최신 날짜를 붙여
+  content와 provenance가 어긋난다.
+- 보간·forecast 상태는 정상 기대값과 anomaly proposal에는 쓸 수 있지만 `predicted`로 표시하고,
+  실제 관측 전에는 claim을 supported로 바꾸거나 evidence ID가 될 수 없게 한다. 관측 기억은
+  obs ID·획득/도착 시각·영역·품질·raw chip pointer를 보존한다.
+- 확인 질문: “1일과 3일의 임베딩으로 2일 상태를 잘 맞혔으면, 2일에 사건이 관측됐다고 말할 수
+  있는가?” 아니다. 상태 추정과 증거 확인은 별도 명제다.
+- 근거·설계: `docs/EXPERIMENT_LEDGER_AUDIT_AND_CVPR_REDESIGN_2026_09_20.md`. 새 실험은 하지 않았다.
+
+### 2026-09-21 개념 카드 — label-derived caption은 supervision일 수 있지만 metadata 조회는 visual understanding이 아니다
+
+- 부딪힌 곳: BigEarthNet.txt 전체 파일의 국가/계절/기후 MCQ1,390,573개가 같은 행의 metadata값을
+  선택지와 비교하는 것만으로100% 정답이었다. 전체MCQ42.7%라 합산점수가 시각능력을 가릴 수 있다.
+- label map에서 문장을 생성해 train에 쓰는 것은 일반적인 supervision이다. 그 자체가누수는아니다.
+  test의 정답생성map/필드를 input에도 주거나 동일patch의 다른QA를 train/test에나누면 누수다.
+  같은지도에서 생성한silver평가만으로 독립적인 영상 사실성을 주장하면 construct validity문제다.
+- context질의에는 country/date를줄수있지만 visual-only country/season평가에는 직접값과유도필드를
+  차단하고 contextQA와 visualQA점수를 분리한다. metadata의 factual consistency도 별도평가한다.
+- 확인 질문: “지도에서 만든 캡션으로학습하면 전부라벨누수인가?” 아니다. split과 test정보집합,
+  입력허용필드, 평가가 측정하려는 개념을 구분해야한다.
+- 근거: `artifacts/region_language_contract_20260921/evidence/audit_summary.json` 및
+  `docs/REGION_LANGUAGE_VLM_RESEARCH_2026_09_21.md`. 이번GPU실행은 encoder입력검증이며언어학습아님.
+
+### 2026-09-21 개념 카드 — 계산 시계·물리 시간·관측 간격은 다르다
+
+- 부딪힌 곳: 과거 Poseidon 실험의 시간 관계를 EO short-gap 보간 근거로 가져오려 했지만,
+  residual-clock은 정상해 solver의수렴척도였고 NS는고정Δt=.05를반복한rollout이었다.
+  전자는실제시간이아니며후자는variableΔt나양끝관측보간을시험하지않았다.
+- 물리 상태(수심·유량)와센서관측(침수영역/SAR)과EOlatent는서로다르다. 관측연산자H와
+  실제forcing/경계조건을정의하지않고임베딩에PDE를강제하면무엇을보존하는지불명확하다.
+- 5분시뮬레이션/시간별재분석을40m로재표본화해도40m실관측정답이생기지않는다.
+  보간은미래관측사용을허용하지만온라인판단갱신은발행시점의정보만사용해야한다.
+- 확인 질문: “PDE모델이Δt=.05예측을20번안정적으로반복했다면, 위성1일·3일영상으로2일상태를
+  복원할수있다고입증한것인가?” 아니다. 시간입력변화·부분관측·외력·관측대응을별도로시험해야한다.
+- 근거: `docs/POSEIDON_EO_WEATHER_BRIDGE_AUDIT_2026_09_21.md`. 새학습은하지않았다.
+
+### 2026-09-22 개념 카드 — daily 데이터와 causal 관측 스트림은 다르다
+
+- 부딪힌 곳: 홍수 밖의 다중 현상 benchmark로 DynamicEarthNet을 검토했다. daily PlanetFusion은
+  인접 날짜로 채운 픽셀이 있고, 보조 Sentinel-2는 한 달 전체 영상의 합성이다. 달력의 날짜가
+  그 시점에 이용 가능했던 정보의 범위를 보장하지 않는다.
+- acquisition_time, available_time, support_interval을 분리하고 QA의 원관측 날짜를 검사해야 한다.
+  미래를 이용한 복원은 회고적 해석에 유효할 수 있지만 같은 입력으로 온라인 능력을 주장하면 안 된다.
+  월별 정답으로 사건 발생의 정확한 일자를 소급 생성하는 것도 별개의 오류다.
+- 확인 질문: “매일 한 장씩 있는 공개 시계열에서 앞쪽 프레임만 넣으면 자동으로 causal 평가인가?”
+  아니다. 앞 프레임 자체의 합성·gap-fill에 이후 관측이 사용됐는지와 실제 발행 시점도 확인해야 한다.
+- 근거: DynamicEarthNet Appendix A1/A2 및
+  `docs/MULTI_REGIME_EARTH_MEMORY_BLUEPRINT_2026_09_22.md`. 새 학습은 하지 않았다.
+
+### 2026-09-22 개념 카드 — 실제 상태, 지금 알 수 있는 것, 과거 사실은 다른 평가 대상이다
+
+- 부딪힌 곳: SpaceNet7의 정교한 건물 라벨은 보조 고해상도 자료와 여러 날짜 검토로 만들어졌다.
+  그 건물이 라벨에 있다는 사실만으로 현재 prefix의 영상에서 확인 가능하다는 gold를 만들 수 없다.
+- 새 구름 영상은 현재 상태의 판독 가능성을 낮추지만 과거 맑은 영상에서 확인한 사실을 지우지 않는다.
+  물이 빠진 영상은 현재 상태의 회복이며 과거 침수의 반증이 아니다. 실제 상태 변화, 지식 증가,
+  잘못된 과거 해석의 정정을 별도로 평가해야 한다.
+- 확인 질문: “나중에 침수가 끝났으므로 이전의 침수 판단을 철회하는 모델이 revision을 잘하는가?”
+  아니다. 같은 장소라도 명제의 시간 범위가 다르다. 과거 사실을 유지하며 현재 상태를 갱신해야 한다.
+- 근거: SpaceNet7 §3.3 및 `docs/CVPR_SINGLE_CLAIM_DECISION_2026_09_22.md`. 새 학습 없음.
+
+### 2026-09-22 개념 카드 — 검수 건수·판정 횟수·독립 표본 수를 구분한다
+
+- 부딪힌 곳: 100인·시간으로 검수를 줄일 때 질문 수와 실제 작업량, 통계 표본 수가 혼동됐다.
+  한 지역·시점의 판정 묶음에서 여러 QA를 만들 수 있지만 독립 사건이 늘어난 것은 아니다.
+  400단위에25%중복을 붙이면500판정이며, 항목당6분이면50인·시간이다.
+- 두 검수자의 합의는 프로토콜의 재현성이지 관측 사실의 정확성 보장이 아니다. 같은 미래영상이나
+  틀린 지도에 노출되면 같은 오류에 합의할 수 있다. 판정 시 정보 제한과 참조자료 타당성이 별도로 필요하다.
+- 확인 질문: “같은 사건의100타일×5질문을 두 명이 읽으면1,000개 독립 검증 표본인가?” 아니다.
+  1,000판정일 수는 있으나 질문·타일은 군집 상관을 가지며 사건 수는 여전히1개다.
+- 근거: `docs/HUMAN_VALIDATION_100H_BUDGET_2026_09_22.md`. 예산 설계이며 새 검수는 하지 않았다.
+
+### 2026-09-22 개념 카드 — 판독 불가와 검수 미완료는 다른 라벨이다
+
+- 부딪힌 곳: 추석20인·시간 pilot 검토 중 검수 초안에 ‘5분 넘으면 판독 불가’가 있었다.
+  이는 영상의 정보 부족과 작업 속도·UI 마찰을 한 라벨로 합쳐 모델의 보류 정답을 왜곡한다.
+- 구름/해상도로 판단 불가, 근거가 서로 충돌, 시간 초과로 미완료를 별도 기록한다.
+  같은 검수자가 미래 cutoff를 먼저 본 뒤 과거 cutoff를 판정하는 것도 정보 누수이므로
+  AOI 안에서는 시간순으로만 공개한다. 화면에서 미래 프레임을 숨기는 것만으로 충분하지 않다.
+- 확인 질문: ‘8분이면 확인 가능한 변화를5분 제한에서 보류 처리했다면 모델은 보류를 배워야 하나?’
+  아니다. 이 항목은 시간 제한에 따른 미완료이며 시각적 판독 불가 정답이 아니다.
+- 근거: `docs/PREFIX_VISIBLE_GOLD_PROTOCOL_v0.md` §2의 검토와
+  `docs/KOREA_PILOT_20H_PROBLEM_2026_09_22.md`. 기존 프로토콜·gate는 변경하지 않았다.

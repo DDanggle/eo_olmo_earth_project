@@ -1,0 +1,3 @@
+b6663880c25c93860b407b4198f04ef751b861bed087a1819ed4f4b13b731375  ./latent_interp_train.py
+0097d7d338d2ad80a70f50b650ab8487b7d95cae46b9e435452a01d71ae0fdab  ./latent_interp_train_prereg_v0.json
+2026-09-19: chain stopped after seed1 (it had started a duplicate resmlp seed2 on GPU1 while a manual GPU0 loop ran the same run); seed2 = GPU0 loop, seed3 = GPU1 loop, same sealed snapshot and script args

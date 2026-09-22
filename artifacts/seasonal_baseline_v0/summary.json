@@ -1,0 +1,141 @@
+{
+ "schema": "seasonal-baseline-v0",
+ "regions": {
+  "hiroshima": {
+   "loeo": {
+    "normal_pairs": 5293,
+    "normal_z2": 0.03802934682734809,
+    "normal_z_mean": -0.18251781165599823,
+    "n_events": 237,
+    "event_auc": 0.8720475294884275,
+    "event_tpr_z2": 0.03255340793489318,
+    "event_fpr_z2": 0.006607098177747056,
+    "cells": 21
+   },
+   "inregion_season": {
+    "normal_pairs": 5293,
+    "normal_z2": 0.050727918717340996,
+    "normal_z_mean": 0.017019178718328476,
+    "n_events": 237,
+    "event_auc": 0.8853001952528347,
+    "event_tpr_z2": 0.4817613718936201,
+    "event_fpr_z2": 0.04966349599460576,
+    "cells": 18
+   },
+   "inregion_month": {
+    "normal_pairs": 5293,
+    "normal_z2": 0.04869260754333517,
+    "normal_z_mean": 0.01686275377869606,
+    "n_events": 237,
+    "event_auc": 0.88539119001121,
+    "event_tpr_z2": 0.4335125708472606,
+    "event_fpr_z2": 0.04018540586157324,
+    "cells": 43
+   },
+   "fit_half_pairs": 4954
+  },
+  "thrissur": {
+   "loeo": {
+    "normal_pairs": 2280,
+    "normal_z2": 0.05829799110009229,
+    "normal_z_mean": 0.033060592167086136,
+    "n_events": 112,
+    "event_auc": 0.6409309012416133,
+    "event_tpr_z2": 0.3336402701043585,
+    "event_fpr_z2": 0.1967513237009782,
+    "cells": 20
+   },
+   "inregion_season": {
+    "normal_pairs": 2280,
+    "normal_z2": 0.04896832639615376,
+    "normal_z_mean": -0.013145381730273891,
+    "n_events": 112,
+    "event_auc": 0.6189774132769339,
+    "event_tpr_z2": 0.15623081645181092,
+    "event_fpr_z2": 0.11104729426545813,
+    "cells": 16
+   },
+   "inregion_month": {
+    "normal_pairs": 2280,
+    "normal_z2": 0.04623397614249441,
+    "normal_z_mean": -0.013430926982513332,
+    "n_events": 112,
+    "event_auc": 0.6584994022955224,
+    "event_tpr_z2": 0.09729895641497852,
+    "event_fpr_z2": 0.06082742528941937,
+    "cells": 36
+   },
+   "fit_half_pairs": 2452
+  },
+  "itogon": {
+   "loeo": {
+    "normal_pairs": 1496,
+    "normal_z2": 0.06858638469664168,
+    "normal_z_mean": -0.10889238771655063,
+    "n_events": 68,
+    "event_auc": 0.6288400456639442,
+    "event_tpr_z2": 0.18064516129032257,
+    "event_fpr_z2": 0.13619690838694654,
+    "cells": 21
+   },
+   "inregion_season": {
+    "normal_pairs": 1496,
+    "normal_z2": 0.054398983401838664,
+    "normal_z_mean": 0.04595266019498778,
+    "n_events": 68,
+    "event_auc": 0.6284323162243793,
+    "event_tpr_z2": 0.1053763440860215,
+    "event_fpr_z2": 0.09545573636866467,
+    "cells": 16
+   },
+   "inregion_month": {
+    "normal_pairs": 1496,
+    "normal_z2": 0.055633125202639806,
+    "normal_z_mean": 0.06678681009080822,
+    "n_events": 68,
+    "event_auc": 0.6097316507666115,
+    "event_tpr_z2": 0.04516129032258064,
+    "event_fpr_z2": 0.0614392594102064,
+    "cells": 36
+   },
+   "fit_half_pairs": 1355
+  },
+  "hokkaido": {
+   "loeo": {
+    "normal_pairs": 937,
+    "normal_z2": 0.12500417139424683,
+    "normal_z_mean": 0.7673230019036917,
+    "n_events": 83,
+    "event_auc": 0.7031300653744905,
+    "event_tpr_z2": 0.4543727439680831,
+    "event_fpr_z2": 0.20556061328593517,
+    "cells": 19
+   },
+   "inregion_season": {
+    "normal_pairs": 937,
+    "normal_z2": 0.043666154975639054,
+    "normal_z_mean": -0.010412631722774903,
+    "n_events": 83,
+    "event_auc": 0.7096143203327091,
+    "event_tpr_z2": 0.23861693369640935,
+    "event_fpr_z2": 0.09196398895969711,
+    "cells": 15
+   },
+   "inregion_month": {
+    "normal_pairs": 937,
+    "normal_z2": 0.049560335046385906,
+    "normal_z_mean": -0.004013081234103982,
+    "n_events": 83,
+    "event_auc": 0.71054461016799,
+    "event_tpr_z2": 0.23310746627825976,
+    "event_fpr_z2": 0.08875594283319606,
+    "cells": 20
+   },
+   "fit_half_pairs": 750
+  }
+ },
+ "gate": {
+  "hokkaido_pass": false,
+  "controls_ok": true
+ }
+}

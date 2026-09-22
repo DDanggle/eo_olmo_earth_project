@@ -1,0 +1,37 @@
+{'train': 600, 'val': 159, 'test': 1133}
+after obs-source filter {'train': 544, 'val': 133, 'test': 1128}
+/home/work/data/olmoearth/code/streaming_update_train.py:106: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  idx=perm[i:i+16]; loss,_=rollout(Ttr,Utr,idx,DT["train"]); opt.zero_grad(set_to_none=True); loss.backward(); opt.step(); tot+=float(loss)*len(idx)
+epoch 1/30 train 0.1764 val 0.0919 (best 0.0919@1) 7s
+epoch 2/30 train 0.0877 val 0.0838 (best 0.0838@2) 13s
+epoch 3/30 train 0.0781 val 0.0815 (best 0.0815@3) 19s
+epoch 4/30 train 0.0730 val 0.0798 (best 0.0798@4) 26s
+epoch 5/30 train 0.0691 val 0.0786 (best 0.0786@5) 32s
+epoch 6/30 train 0.0662 val 0.0767 (best 0.0767@6) 38s
+epoch 7/30 train 0.0637 val 0.0762 (best 0.0762@7) 45s
+epoch 8/30 train 0.0616 val 0.0747 (best 0.0747@8) 51s
+epoch 9/30 train 0.0598 val 0.0742 (best 0.0742@9) 58s
+epoch 10/30 train 0.0583 val 0.0730 (best 0.0730@10) 64s
+epoch 11/30 train 0.0571 val 0.0719 (best 0.0719@11) 71s
+epoch 12/30 train 0.0558 val 0.0712 (best 0.0712@12) 77s
+epoch 13/30 train 0.0547 val 0.0711 (best 0.0711@13) 84s
+epoch 14/30 train 0.0538 val 0.0702 (best 0.0702@14) 90s
+epoch 15/30 train 0.0530 val 0.0699 (best 0.0699@15) 96s
+epoch 16/30 train 0.0523 val 0.0701 (best 0.0699@15) 103s
+epoch 17/30 train 0.0517 val 0.0692 (best 0.0692@17) 109s
+epoch 18/30 train 0.0512 val 0.0689 (best 0.0689@18) 116s
+epoch 19/30 train 0.0507 val 0.0688 (best 0.0688@19) 122s
+epoch 20/30 train 0.0503 val 0.0682 (best 0.0682@20) 129s
+epoch 21/30 train 0.0499 val 0.0684 (best 0.0682@20) 135s
+epoch 22/30 train 0.0496 val 0.0682 (best 0.0682@22) 142s
+epoch 23/30 train 0.0494 val 0.0681 (best 0.0681@23) 148s
+epoch 24/30 train 0.0491 val 0.0680 (best 0.0680@24) 155s
+epoch 25/30 train 0.0490 val 0.0677 (best 0.0677@25) 161s
+epoch 26/30 train 0.0488 val 0.0677 (best 0.0677@25) 167s
+epoch 27/30 train 0.0487 val 0.0678 (best 0.0677@25) 173s
+epoch 28/30 train 0.0486 val 0.0677 (best 0.0677@25) 179s
+epoch 29/30 train 0.0486 val 0.0677 (best 0.0677@25) 186s
+epoch 30/30 train 0.0486 val 0.0677 (best 0.0677@25) 192s
+TEST {"agreement_c12": {"student": {"cosine": 0.945440948009491, "rel_mse": 0.10850256681442261}, "frozen_m4": {"cosine": 0.9001801013946533, "rel_mse": 0.2639528512954712}, "singles_mean": {"cosine": 0.7440510988235474, "rel_mse": 0.771178126335144}}, "downstream_c12": {"teacher_full_reencode": {"iou": 0.12573862075805664, "positive_patch_macro_iou": 0.19516953825950623, "positive_patch_n": 420, "auprc_exact": 0.28917465047184526}, "student": {"iou": 0.11351441591978073, "positive_patch_macro_iou": 0.11368253827095032, "positive_patch_n": 420, "auprc_exact": 0.12717347457052697}, "frozen_m4": {"iou": 0.008326246403157711, "positive_patch_macro_iou": 0.015915872529149055, "positive_patch_n": 420, "auprc_exact": 0.00891661563361156}, "singles_mean": {"iou": 0.04622193053364754, "positive_patch_macro_iou": 0.02926049381494522, "positive_patch_n": 420, "auprc_exact": 0.07285191882046713}}}
+DONE

@@ -1,0 +1,56 @@
+{
+ "fold": "holdout_indonesia",
+ "n_positive": 271,
+ "arms": {
+  "hole_pre3": {
+   "n_analysis": 50,
+   "n_fallback_positive": 221,
+   "mean_delta_iou": -0.012641478534170705,
+   "median_delta_iou": 0.0,
+   "ci95_boot": [
+    -0.06008084332910654,
+    0.034227331975504136
+   ],
+   "mean_delta_all_positive": -0.004737610697742643
+  },
+  "hole_post3": {
+   "n_analysis": 50,
+   "n_fallback_positive": 221,
+   "mean_delta_iou": -0.19678628079566468,
+   "median_delta_iou": -0.14394317510566845,
+   "ci95_boot": [
+    -0.2566281218855215,
+    -0.1411667185505873
+   ],
+   "mean_delta_all_positive": -0.03871266646554596
+  },
+  "hole_span3": {
+   "n_analysis": 50,
+   "n_fallback_positive": 221,
+   "mean_delta_iou": -0.11272538909278973,
+   "median_delta_iou": -0.06895676919796165,
+   "ci95_boot": [
+    -0.16401090469325336,
+    -0.0623220922621609
+   ],
+   "mean_delta_all_positive": -0.023203276852469402
+  },
+  "hole_late3": {
+   "n_analysis": 50,
+   "n_fallback_positive": 221,
+   "mean_delta_iou": -0.18536285044777273,
+   "median_delta_iou": -0.10498169367414739,
+   "ci95_boot": [
+    -0.2471449865458089,
+    -0.12569217483966943
+   ],
+   "mean_delta_all_positive": -0.03660502248992014
+  }
+ },
+ "rules_v2": {
+  "information_explanation": true,
+  "structure_explanation": false,
+  "pre": -0.012641478534170705,
+  "post": -0.19678628079566468
+ }
+}

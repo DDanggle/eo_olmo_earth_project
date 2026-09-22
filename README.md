@@ -1,6 +1,53 @@
 # OlmoEarth 프로젝트 — 전체 정리 및 인수인계
 
-최종 갱신: 2026-09-08
+최종 갱신: 2026-09-13 (PR 준비 문서; 연구 성능 새 측정 없음)
+
+> **9/13 최종 PR 준비:** [유지보수·연구·채용 관점 판정표](docs/PR_REENTRY_2026_09_10.md).
+> sample → SCL(회귀 테스트 필요) / LFMC(원 실행 자료 필요). 미제출.
+> SCL 영향 전원·LFMC 원인 확정·센서 불변성·10m 미지원 주장을 교정했다.
+> 공식 OlmoEarth Senior Research Engineer 마감 9/16 확인. 지원과 PR 완료는 독립이다.
+
+> **9/10 한국 KR-4 감사:** 공유 static cache→세 신규 head 실행과 보고 수치는 확인했다.
+> 단 test 64칩 cache/raw cutoff 불일치·FULL 샘플노출 2배·seed-before-init 누락이 있어
+> 공정 확증은 보류한다. 산사태 .115는 양성10+음성10, 총20칩 감도 결과다.
+> source head 한국 전이/공유 streaming은 미실행. [감사·다음 수정 순서](docs/KOREA_KR4_AUDIT_2026_09_10.md).
+> **PR 노트는 [9/10 재진입 목록](docs/PR_REENTRY_2026_09_10.md)**에서 찾는다.
+> **9/11 PR 우선순위:** [사용자 가치·EO 비교·제출 조건](docs/PR_PRIORITIES_AND_EO_GAPS_2026_09_11.md).
+> sample → SCL → LFMC 확인 이슈. 제출/제품 코드 변경 없이 준비 문서만 갱신했다.
+> 아래 9/9 이전 sealed/다음 실행 표시는 당시 이력이다.
+
+> **다음 학습 준비:** [JEPA 아이디어 → OLMoEarth post-training 설계](docs/POSTTRAINING_JEPA_UPDATE_2026_09_09.md).
+> 핵심은 이름 변경이 아니라 **새 관측 경로의 encoder/갱신기를 추가 학습하면서 기존 cache와
+> 고정 판독기 품질을 보존**하는 것이다. frozen/LoRA × 미래표현 예측손실 2×2를 제안했고,
+> 센서 정렬·surprise는 별도 검증으로 나눴다. **미등록·미실행**, 아래 실측 수치는 그대로다.
+
+> **최신판(9/9 서버·보고서 독립 확인):** KuroSiwo updater9개·eval3개가 완료됐고 GRU AP는
+> 판독기별 `.794/.780/.792`로 teacher `.703/.721/.742`보다 높다. 다만 NaN은 복구가 아닌
+> val/test 각1개 제외로 처리됐고, 기존 판독기의 clean-validation epoch 선택은 미검증이다.
+> **수치상 양성, 클린 확증은 조건부**로 보고한다. 사건별 seed-평균 차이는 +.0193(7승3패).
+> 구조36/36은 원 gate 미달. 교차센서는2지역 음성+2지역 실행불가이며 날짜/표본 교란이 있다.
+> 이탈리아4-arm·크기층화 완료: macro `.089`, 큰 덩어리 포함 타일도 `.111`; raw 대조 미실행.
+> **다음:** Kuro 검증 정리 → POST_ONLY/NO_MEMORY로 과거 기억 기여 → 실제 도착 비용 → 시간별 외부 과업.
+> [9/9 최신 검토·큰 그림](docs/STREAMING_RESEARCH_UPDATE_2026_09_09.md) ·
+> [독립 재집계](artifacts/streaming_review_20260909/summary.json).
+> 아래 9/8 이하 블록은 당시 이력이며 현재 상태와 구분한다. 새 GPU 실행/서버 코드 변경 없음.
+
+> **오후 서버 재점검:** KuroSiwo S1 cache 7,000·판독기3개는 완료했으나 GRU seed1은
+> **val NaN 30epoch인데 DONE을 남긴 실행 무효**다. 외부 전이 성공/실패는 아직 판정하지 않는다.
+> CPU 전수 검사로 검증타일 **ks_04357의 원시 NaN→캐시 오염**을 확인했다. 유효 라벨 영역에도
+> 번졌으므로 해당 입력 복구 후 판독기 validation AP/epoch 선택과 updater를 재검증해야 한다.
+> Sen12 기본 갱신36보고는 유지되고, 새 Δt arm은 완료3지역 AP +.009~+.012의 작은 개선이나
+> 등록 승격 기준에는 미달이다. 다음은 새 구조 확대가 아니라 S1 정상 학습·완료 검증 복구다.
+> [최신 큰 그림의 오후 재감사](docs/BIG_PICTURE_STREAMING_EARTH_2026_09_08.md),
+> [재현 집계](artifacts/streaming_review_20260908_1530/summary.json).
+
+> **현재 큰 그림:** **“OLMoEarth가 읽어 놓은 과거를 다시 처리하지 않고, 새 관측으로 지도를
+> 갱신한다.”** MS-116은 개발 4지역·판독기 3seed로 확대됐고 관측 없는 대조보다 GRU 갱신이
+> 강하다. 다음은 KuroSiwo의 미본 홍수 사건 검증이다. 다만 2.3배 비용은 8개 새 관측의 일괄
+> batch-compute이며 온라인 도착 latency는 미측정, 4.5배 raw는 update-only 논리 입력량이다.
+> 기존 transfer·release·한국 3-task를 이번 논문에 어떻게 연결할지와 동결 전 수정 항목은
+> **[2026-09-08 큰 그림](docs/BIG_PICTURE_STREAMING_EARTH_2026_09_08.md)**을 먼저 읽는다.
+> 아래 시간별 상태는 이력이다. 이번 검토는 로컬 장부/코드 검토이며 새 GPU 실행은 하지 않았다.
 
 > **2026-09-08 00:03 KST 추가 감사:** T1 Hiroshima GRU 3seed AP `.525479`로 full teacher
 > `.549624` 대 frozen c4 `.013356` 격차의 95.50%를 회복했다. 한 exposed 지역의 utility 결과이며

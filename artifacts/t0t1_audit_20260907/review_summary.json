@@ -1,0 +1,190 @@
+{
+  "scope": "Read-only snapshot, not a new performance experiment",
+  "snapshot_utc": "2026-09-07T12:03:35Z",
+  "source_commit": "4a18746",
+  "followup_status": {
+    "checked_at_utc": "2026-09-07T13:28:49Z",
+    "other_runner_restarted_at_utc": "2026-09-07T13:16:44Z",
+    "log_message": "train runner start (audit gate bug bypassed: audit_max=0.0 is a pass)",
+    "streaming_t1_directory_present": true,
+    "started_by_this_review": false,
+    "new_training_results_read": false
+  },
+  "t0": {
+    "scope": "snapshot only; unobserved arms are not failures",
+    "groups": [
+      {
+        "fold": "holdout_chimanimani",
+        "arm": "diffpca",
+        "complete_three_seeds": true,
+        "ap_mean": 0.29016632905382794,
+        "ap_sample_sd": 0.037441215803850486,
+        "macro_iou_mean": 0.19111041724681854,
+        "rows": [
+          {
+            "seed": 1,
+            "ap": 0.3028889923029219,
+            "macro_iou": 0.20872052013874054,
+            "best_epoch": 25,
+            "split": {
+              "train": 5542,
+              "val": 159,
+              "test": 1133
+            },
+            "params": 195265,
+            "report_sha256": "147ce77ceb2ddb2957375d42e9906962e4fa9143b0b3ee206e2392b2f7fb6740"
+          },
+          {
+            "seed": 2,
+            "ap": 0.248021690975599,
+            "macro_iou": 0.18052873015403748,
+            "best_epoch": 31,
+            "split": {
+              "train": 5542,
+              "val": 159,
+              "test": 1133
+            },
+            "params": 195265,
+            "report_sha256": "5b87b5c25f72c37dfcf7955b430f08360aa155655e75ce11ec12e3a0f3a955c7"
+          },
+          {
+            "seed": 3,
+            "ap": 0.319588303882963,
+            "macro_iou": 0.1840820014476776,
+            "best_epoch": 25,
+            "split": {
+              "train": 5542,
+              "val": 159,
+              "test": 1133
+            },
+            "params": 195265,
+            "report_sha256": "503eeeae728798642b31630af2739bd4f258005bdd56470da2ad493813298df7"
+          }
+        ]
+      },
+      {
+        "fold": "holdout_chimanimani",
+        "arm": "mean",
+        "complete_three_seeds": true,
+        "ap_mean": 0.33505655742970486,
+        "ap_sample_sd": 0.034336847842688825,
+        "macro_iou_mean": 0.1583427389462789,
+        "rows": [
+          {
+            "seed": 1,
+            "ap": 0.3027636436490177,
+            "macro_iou": 0.20734678208827972,
+            "best_epoch": 25,
+            "split": {
+              "train": 5542,
+              "val": 159,
+              "test": 1133
+            },
+            "params": 191169,
+            "report_sha256": "1cec9dd893b0238d3dfb93dd2b63dc7af247cc78655b8b92f695109f7b61ec2e"
+          },
+          {
+            "seed": 2,
+            "ap": 0.37112523581858603,
+            "macro_iou": 0.12655380368232727,
+            "best_epoch": 4,
+            "split": {
+              "train": 5542,
+              "val": 159,
+              "test": 1133
+            },
+            "params": 191169,
+            "report_sha256": "13c70c35cd3e7dd83069dd5bd8a0e69ada7cbb724860e26f3d1a7146864b635b"
+          },
+          {
+            "seed": 3,
+            "ap": 0.3312807928215109,
+            "macro_iou": 0.14112763106822968,
+            "best_epoch": 11,
+            "split": {
+              "train": 5542,
+              "val": 159,
+              "test": 1133
+            },
+            "params": 191169,
+            "report_sha256": "8c537be347a44946596c81f0db06197c592a63c01b6cea938769b9472cc1594a"
+          }
+        ]
+      },
+      {
+        "fold": "holdout_chimanimani",
+        "arm": "sketch",
+        "complete_three_seeds": false,
+        "ap_mean": null,
+        "ap_sample_sd": null,
+        "macro_iou_mean": null,
+        "rows": [
+          {
+            "seed": 1,
+            "ap": 0.2850107546878098,
+            "macro_iou": 0.16790367662906647,
+            "best_epoch": 34,
+            "split": {
+              "train": 5542,
+              "val": 159,
+              "test": 1133
+            },
+            "params": 219873,
+            "report_sha256": "bc5b76650f866e4c2a5581d029b52b791772e7c419319f7c7c530cc5e82ea3d1"
+          }
+        ]
+      }
+    ]
+  },
+  "t1": {
+    "extracted": 3372,
+    "expected": 3372,
+    "audit_max": 0,
+    "upstream_gate": true,
+    "runner_failure": "(audit_max or 1) rejects exact zero",
+    "learned_results_at_snapshot": 0,
+    "local_runner_fix_deployed": false
+  },
+  "source_only_gru_reachability": {
+    "scope": "10 source tiles per fold; four future-prefix teacher arrays per tile; no query labels",
+    "chimanimani": {
+      "unreachable_coordinate_fraction": 0.0017971992492675781,
+      "relative_feature_mse_lower_bound": 0.0005123959122859185,
+      "source_ids": [
+        "hiroshima_s2_1000",
+        "hiroshima_s2_511",
+        "indonesia_s2_1157",
+        "itogon_s2_411",
+        "kyrgyzstan1_s2_2945",
+        "kyrgyzstan1_s2_4980",
+        "kyrgyzstan2_s2_2572",
+        "newzealand_s2_2159",
+        "newzealand_s2_5074",
+        "thrissur_s2_274"
+      ]
+    },
+    "hiroshima": {
+      "unreachable_coordinate_fraction": 0.0017534255981445312,
+      "relative_feature_mse_lower_bound": 0.0003819484556378891,
+      "source_ids": [
+        "chimanimani_s2_1000",
+        "chimanimani_s2_1807",
+        "china_s2_527",
+        "indonesia_s2_715",
+        "kyrgyzstan1_s2_2414",
+        "kyrgyzstan1_s2_4505",
+        "kyrgyzstan1_s2_7074",
+        "newzealand_s2_1543",
+        "newzealand_s2_4496",
+        "thrissur_s2_1707"
+      ]
+    }
+  },
+  "verification": {
+    "cache_validator": "8 local unit tests plus 5 invalid-value subtests passed",
+    "candidate": "9 CPU-only unit tests passed in server .venv-master",
+    "new_gpu_training": false,
+    "active_server_runner_modified": false
+  },
+  "candidate_status": "UNTRAINED_NOT_REGISTERED; functional tests do not demonstrate AP gain"
+}

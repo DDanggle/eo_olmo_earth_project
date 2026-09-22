@@ -1,0 +1,102 @@
+downloaded BigEarthNet.txt.parquet 466819745
+{"url": "https://zenodo.org/records/10891137/files/BigEarthNet-S2.tar.zst?download=1", "sampling": "archive prefix, non-representative", "limit": 8, "status": "complete", "compressed_bytes_read": 1048576, "patches": {"S2A_MSIL2A_20170613T101031_N9999_R022_T33UUP_26_57": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11", "B12", "B8A"], "S2A_MSIL2A_20170613T101031_N9999_R022_T33UUP_27_55": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11", "B12", "B8A"], "S2A_MSIL2A_20170613T101031_N9999_R022_T33UUP_27_56": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11", "B12", "B8A"], "S2A_MSIL2A_20170613T101031_N9999_R022_T33UUP_27_57": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11", "B12", "B8A"], "S2A_MSIL2A_20170613T101031_N9999_R022_T33UUP_27_58": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11", "B12", "B8A"], "S2A_MSIL2A_20170613T101031_N9999_R022_T33UUP_27_59": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11", "B12", "B8A"], "S2A_MSIL2A_20170613T101031_N9999_R022_T33UUP_27_60": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11", "B12", "B8A"], "S2A_MSIL2A_20170613T101031_N9999_R022_T33UUP_27_61": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11", "B12", "B8A"]}}
+text rows 327680
+text rows 655360
+text rows 983040
+text rows 1310720
+text rows 1638400
+text rows 1966080
+text rows 2293760
+text rows 2621440
+text rows 2949120
+text rows 3276800
+text rows 3604480
+text rows 3932160
+text rows 4259840
+text rows 4587520
+text rows 4915200
+text rows 5242880
+text rows 5570560
+text rows 5898240
+text rows 6225920
+text rows 6553600
+text rows 6881280
+text rows 7208960
+text rows 7536640
+text rows 7864320
+text rows 8192000
+text rows 8519680
+text rows 8847360
+text rows 9175040
+text rows 9502720
+{
+  "source": "https://huggingface.co/datasets/BIFOLD-BigEarthNetv2-0/BigEarthNet.txt/resolve/main/BigEarthNet.txt.parquet",
+  "file_bytes": 466819745,
+  "schema": "ID: int64\ns1_name: string\npatch_id: string\ninput: string\noutput: string\ntype: string\ncategory: string\nsplit: string\nlatitude: double\nlongitude: double\ncountry: string\nseason: string\nclimate_zone: string",
+  "rows": 9553962,
+  "annotations_by_split": {
+    "test": 2409962,
+    "bench": 15029,
+    "validation": 2454690,
+    "train": 4674281
+  },
+  "unique_patches_by_split": {
+    "test": 115753,
+    "bench": 1082,
+    "validation": 118095,
+    "train": 229114
+  },
+  "unique_patches_total": 464044,
+  "types": {
+    "binary": 3625160,
+    "bounding box": 2205686,
+    "captioning": 463932,
+    "mcq": 3259184
+  },
+  "categories": {
+    "adjacency": 1222128,
+    "area": 1390845,
+    "count": 1390730,
+    "presence": 1391053,
+    "point": 1143883,
+    "reference": 1061803,
+    "None": 463932,
+    "climate zone": 463637,
+    "country": 463274,
+    "season": 463662,
+    "relative pos": 99015
+  },
+  "split_patch_overlap": {
+    "bench__test": 0,
+    "bench__train": 0,
+    "bench__validation": 0,
+    "test__train": 0,
+    "test__validation": 0,
+    "train__validation": 0
+  },
+  "metadata_mcq_lookup": {
+    "climate zone": {
+      "n": 463637,
+      "parsed": 463637,
+      "correct": 463637
+    },
+    "country": {
+      "n": 463274,
+      "parsed": 463274,
+      "correct": 463274
+    },
+    "season": {
+      "n": 463662,
+      "parsed": 463662,
+      "correct": 463662
+    }
+  },
+  "sampled_complete_images": 8,
+  "sampled_images_with_exact_text_join": 8,
+  "joined_text_rows": 212,
+  "limitations": [
+    "archive-prefix image sample; not a test set",
+    "lookup baseline is not visual understanding",
+    "no model training"
+  ]
+}

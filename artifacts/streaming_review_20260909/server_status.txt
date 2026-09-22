@@ -1,0 +1,24 @@
+2026-09-09T15:53:16+09:00
+/home/work/data/olmoearth/artifacts/kurosiwo/decoder_seed1.pt|780754|1788842639|2026-09-08 13:43:59.125226000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/decoder_seed2.pt|780754|1788843660|2026-09-08 14:01:00.673228000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/decoder_seed3.pt|780754|1788844547|2026-09-08 14:15:47.717170000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_ema_seed1.pt|1775|1788864707|2026-09-08 19:51:47.299930000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_ema_seed2.pt|1775|1788865603|2026-09-08 20:06:43.432680000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_ema_seed3.pt|1775|1788866604|2026-09-08 20:23:24.035993000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_gru_noobs_seed1.pt|14167741|1788861612|2026-09-08 19:00:12.436879000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_gru_noobs_seed2.pt|14167741|1788862652|2026-09-08 19:17:32.621147000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_gru_noobs_seed3.pt|14167741|1788863700|2026-09-08 19:35:00.184716000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_gru_seed1.pt|14167617|1788857781|2026-09-08 17:56:21.039274000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_gru_seed2.pt|14167617|1788859815|2026-09-08 18:30:15.755389000 +0900
+/home/work/data/olmoearth/artifacts/kurosiwo/updater_gru_seed3.pt|14167617|1788860631|2026-09-08 18:43:51.622395000 +0900
+2026-09-09T03:19:01Z p2_avgpool2 s1 rc=0
+2026-09-09T03:45:46Z upsample2 s2 rc=0
+2026-09-09T04:14:55Z p2_native s2 rc=0
+2026-09-09T04:27:09Z p2_avgpool2 s2 rc=0
+2026-09-09T04:48:47Z upsample2 s3 rc=0
+2026-09-09T05:27:08Z p2_native s3 rc=0
+2026-09-09T05:40:13Z p2_avgpool2 s3 rc=0
+2026-09-09T05:40:13Z ITALY_RES DONE
+p2_avgpool2 {'seed': 2, 'macro_iou_tiles_with_component_ge16px': 0.11800896236210362, 'n_tiles_ge16': 2187, 'macro_iou_tiles_all_small': 0.016735806769273102, 'n_tiles_small_only': 672, 'component_recall': {'<16': (0.252, 27046), '16-64': (0.49, 12039), '>=64': (0.771, 1950)}}
+p2_avgpool2 {'seed': 3, 'macro_iou_tiles_with_component_ge16px': 0.12093208609142139, 'n_tiles_ge16': 2187, 'macro_iou_tiles_all_small': 0.01498807749263957, 'n_tiles_small_only': 672, 'component_recall': {'<16': (0.411, 27046), '16-64': (0.687, 12039), '>=64': (0.894, 1950)}}
+DONE

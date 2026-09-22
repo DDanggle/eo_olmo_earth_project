@@ -1,0 +1,131 @@
+{
+ "schema": "p1-causal-update-v0",
+ "split": {
+  "train": 506,
+  "val": 165,
+  "test": 191
+ },
+ "far_target": 0.05,
+ "arms": {
+  "last": {
+   "thr_area_px": 332.20000000000005,
+   "test_pre_event_far": 0.03415300546448088,
+   "n_positive": 87,
+   "confirmed": 54,
+   "confirm_rate": 0.6206896551724138,
+   "latency_days_median": 35.0,
+   "latency_days_p25_p75": [
+    18.0,
+    38.0
+   ],
+   "post_event_mean_iou": 0.12899426207308484,
+   "encode_units_per_arrival": 1
+  },
+  "mean": {
+   "thr_area_px": 249.60000000000014,
+   "test_pre_event_far": 0.03278688524590164,
+   "n_positive": 87,
+   "confirmed": 7,
+   "confirm_rate": 0.08045977011494253,
+   "latency_days_median": 115.0,
+   "latency_days_p25_p75": [
+    49.0,
+    152.5
+   ],
+   "post_event_mean_iou": 0.033011214603455054,
+   "encode_units_per_arrival": 1
+  },
+  "ema": {
+   "thr_area_px": 316.30000000000007,
+   "test_pre_event_far": 0.01639344262295082,
+   "n_positive": 87,
+   "confirmed": 16,
+   "confirm_rate": 0.1839080459770115,
+   "latency_days_median": 75.0,
+   "latency_days_p25_p75": [
+    53.75,
+    115.0
+   ],
+   "post_event_mean_iou": 0.08932871362335221,
+   "encode_units_per_arrival": 1
+  },
+  "gru": {
+   "thr_area_px": 164.30000000000007,
+   "test_pre_event_far": 0.028688524590163935,
+   "n_positive": 87,
+   "confirmed": 60,
+   "confirm_rate": 0.6896551724137931,
+   "latency_days_median": 50.0,
+   "latency_days_p25_p75": [
+    36.0,
+    60.0
+   ],
+   "post_event_mean_iou": 0.2276188471589953,
+   "encode_units_per_arrival": 1
+  },
+  "gru_dt": {
+   "thr_area_px": 166.10000000000002,
+   "test_pre_event_far": 0.03415300546448088,
+   "n_positive": 87,
+   "confirmed": 61,
+   "confirm_rate": 0.7011494252873564,
+   "latency_days_median": 50.0,
+   "latency_days_p25_p75": [
+    25.0,
+    60.0
+   ],
+   "post_event_mean_iou": 0.22591813358566834,
+   "encode_units_per_arrival": 1
+  },
+  "resid_q": {
+   "thr_area_px": 157.20000000000005,
+   "test_pre_event_far": 0.03825136612021858,
+   "n_positive": 87,
+   "confirmed": 48,
+   "confirm_rate": 0.5517241379310345,
+   "latency_days_median": 50.0,
+   "latency_days_p25_p75": [
+    27.0,
+    98.25
+   ],
+   "post_event_mean_iou": 0.16040124920413043,
+   "encode_units_per_arrival": 1
+  },
+  "prefix": {
+   "thr_area_px": 167.30000000000007,
+   "test_pre_event_far": 0.028688524590163935,
+   "n_positive": 87,
+   "confirmed": 57,
+   "confirm_rate": 0.6551724137931034,
+   "latency_days_median": 43.0,
+   "latency_days_p25_p75": [
+    18.0,
+    60.0
+   ],
+   "post_event_mean_iou": 0.24488965267417645,
+   "encode_units_per_arrival": "min(c,12)"
+  }
+ },
+ "paired": {
+  "resid_q_minus_gru_dt_latency_days": {
+   "n": 48,
+   "mean": 20.625,
+   "ci95": [
+    11.8734375,
+    29.295833333333313
+   ],
+   "resid_q_only_confirmed": 0,
+   "other_only_confirmed": 13
+  },
+  "resid_q_minus_last_latency_days": {
+   "n": 43,
+   "mean": 27.302325581395348,
+   "ci95": [
+    16.530232558139534,
+    38.48953488372093
+   ],
+   "resid_q_only_confirmed": 5,
+   "other_only_confirmed": 11
+  }
+ }
+}

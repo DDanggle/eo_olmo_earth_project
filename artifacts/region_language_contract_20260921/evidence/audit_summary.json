@@ -1,0 +1,71 @@
+{
+  "source": "https://huggingface.co/datasets/BIFOLD-BigEarthNetv2-0/BigEarthNet.txt/resolve/main/BigEarthNet.txt.parquet",
+  "file_bytes": 466819745,
+  "schema": "ID: int64\ns1_name: string\npatch_id: string\ninput: string\noutput: string\ntype: string\ncategory: string\nsplit: string\nlatitude: double\nlongitude: double\ncountry: string\nseason: string\nclimate_zone: string",
+  "rows": 9553962,
+  "annotations_by_split": {
+    "test": 2409962,
+    "bench": 15029,
+    "validation": 2454690,
+    "train": 4674281
+  },
+  "unique_patches_by_split": {
+    "test": 115753,
+    "bench": 1082,
+    "validation": 118095,
+    "train": 229114
+  },
+  "unique_patches_total": 464044,
+  "types": {
+    "binary": 3625160,
+    "bounding box": 2205686,
+    "captioning": 463932,
+    "mcq": 3259184
+  },
+  "categories": {
+    "adjacency": 1222128,
+    "area": 1390845,
+    "count": 1390730,
+    "presence": 1391053,
+    "point": 1143883,
+    "reference": 1061803,
+    "None": 463932,
+    "climate zone": 463637,
+    "country": 463274,
+    "season": 463662,
+    "relative pos": 99015
+  },
+  "split_patch_overlap": {
+    "bench__test": 0,
+    "bench__train": 0,
+    "bench__validation": 0,
+    "test__train": 0,
+    "test__validation": 0,
+    "train__validation": 0
+  },
+  "metadata_mcq_lookup": {
+    "climate zone": {
+      "n": 463637,
+      "parsed": 463637,
+      "correct": 463637
+    },
+    "country": {
+      "n": 463274,
+      "parsed": 463274,
+      "correct": 463274
+    },
+    "season": {
+      "n": 463662,
+      "parsed": 463662,
+      "correct": 463662
+    }
+  },
+  "sampled_complete_images": 8,
+  "sampled_images_with_exact_text_join": 8,
+  "joined_text_rows": 212,
+  "limitations": [
+    "archive-prefix image sample; not a test set",
+    "lookup baseline is not visual understanding",
+    "no model training"
+  ]
+}

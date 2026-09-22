@@ -1,0 +1,352 @@
+{
+ "schema": "p1-loeo-head-v0",
+ "folds": {
+  "hiroshima": {
+   "n_train": 863,
+   "n_val": 89,
+   "n_test": 862,
+   "arms": {
+    "loeo_head": {
+     "far05": {
+      "thr": 34.89999999999999,
+      "realised_far": 0.1400437636761488,
+      "valid": true,
+      "n_positive": 388,
+      "confirmed": 221,
+      "never": 167,
+      "confirm_rate": 0.5695876288659794,
+      "latA_median": 40.0,
+      "latB_median": 25.0,
+      "post_iou": 0.10000462338279283
+     },
+     "far10": {
+      "thr": 31.499999999999993,
+      "realised_far": 0.1422319474835886,
+      "valid": true,
+      "n_positive": 388,
+      "confirmed": 227,
+      "never": 161,
+      "confirm_rate": 0.5850515463917526,
+      "latA_median": 40.0,
+      "latB_median": 25.0,
+      "post_iou": 0.10000462338279283
+     }
+    },
+    "prefix_frozen": {
+     "far05": {
+      "thr": 1063.6999999999996,
+      "realised_far": 0.002188183807439825,
+      "valid": true,
+      "n_positive": 388,
+      "confirmed": 65,
+      "never": 323,
+      "confirm_rate": 0.16752577319587628,
+      "latA_median": 115.0,
+      "latB_median": 77.0,
+      "post_iou": 0.23928082077918528
+     },
+     "far10": {
+      "thr": 853.8999999999996,
+      "realised_far": 0.002188183807439825,
+      "valid": true,
+      "n_positive": 388,
+      "confirmed": 88,
+      "never": 300,
+      "confirm_rate": 0.2268041237113402,
+      "latA_median": 112.5,
+      "latB_median": 77.0,
+      "post_iou": 0.23928082077918528
+     }
+    },
+    "last_frozen": {
+     "far05": {
+      "thr": 1199.4499999999994,
+      "realised_far": 0.00437636761487965,
+      "valid": true,
+      "n_positive": 388,
+      "confirmed": 55,
+      "never": 333,
+      "confirm_rate": 0.14175257731958762,
+      "latA_median": 38.0,
+      "latB_median": 10.0,
+      "post_iou": 0.1384551207178985
+     },
+     "far10": {
+      "thr": 939.9999999999999,
+      "realised_far": 0.006564551422319475,
+      "valid": true,
+      "n_positive": 388,
+      "confirmed": 83,
+      "never": 305,
+      "confirm_rate": 0.21391752577319587,
+      "latA_median": 38.0,
+      "latB_median": 10.0,
+      "post_iou": 0.1384551207178985
+     }
+    }
+   }
+  },
+  "thrissur": {
+   "n_train": 1253,
+   "n_val": 134,
+   "n_test": 427,
+   "arms": {
+    "loeo_head": {
+     "far05": {
+      "thr": 26.59999999999991,
+      "realised_far": 0.004524886877828055,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 78,
+      "never": 104,
+      "confirm_rate": 0.42857142857142855,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "post_iou": 0.03978534583135758
+     },
+     "far10": {
+      "thr": 8.400000000000006,
+      "realised_far": 0.013574660633484163,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 108,
+      "never": 74,
+      "confirm_rate": 0.5934065934065934,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "post_iou": 0.03978534583135758
+     }
+    },
+    "prefix_frozen": {
+     "far05": {
+      "thr": 325.19999999999936,
+      "realised_far": 0.04524886877828054,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 79,
+      "never": 103,
+      "confirm_rate": 0.4340659340659341,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "post_iou": 0.2843518292998959
+     },
+     "far10": {
+      "thr": 213.00000000000006,
+      "realised_far": 0.09502262443438914,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 101,
+      "never": 81,
+      "confirm_rate": 0.554945054945055,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "post_iou": 0.2843518292998959
+     }
+    },
+    "last_frozen": {
+     "far05": {
+      "thr": 471.5999999999992,
+      "realised_far": 0.08144796380090498,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 56,
+      "never": 126,
+      "confirm_rate": 0.3076923076923077,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "post_iou": 0.17331467910617077
+     },
+     "far10": {
+      "thr": 277.20000000000005,
+      "realised_far": 0.16289592760180996,
+      "valid": true,
+      "n_positive": 182,
+      "confirmed": 93,
+      "never": 89,
+      "confirm_rate": 0.510989010989011,
+      "latA_median": 35.0,
+      "latB_median": 0.0,
+      "post_iou": 0.17331467910617077
+     }
+    }
+   }
+  },
+  "itogon": {
+   "n_train": 1438,
+   "n_val": 141,
+   "n_test": 235,
+   "arms": {
+    "loeo_head": {
+     "far05": {
+      "thr": 61.39999999999995,
+      "realised_far": 0.2,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 80,
+      "never": 33,
+      "confirm_rate": 0.7079646017699115,
+      "latA_median": 15.0,
+      "latB_median": 0.0,
+      "post_iou": 0.1027869540494551
+     },
+     "far10": {
+      "thr": 13.799999999999997,
+      "realised_far": 0.512,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 98,
+      "never": 15,
+      "confirm_rate": 0.8672566371681416,
+      "latA_median": 6.5,
+      "latB_median": 0.0,
+      "post_iou": 0.1027869540494551
+     }
+    },
+    "prefix_frozen": {
+     "far05": {
+      "thr": 694.199999999999,
+      "realised_far": 0.168,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 23,
+      "never": 90,
+      "confirm_rate": 0.20353982300884957,
+      "latA_median": 43.0,
+      "latB_median": 25.0,
+      "post_iou": 0.17874208305057737
+     },
+     "far10": {
+      "thr": 586.8,
+      "realised_far": 0.256,
+      "valid": true,
+      "n_positive": 113,
+      "confirmed": 29,
+      "never": 84,
+      "confirm_rate": 0.25663716814159293,
+      "latA_median": 25.0,
+      "latB_median": 5.0,
+      "post_iou": 0.17874208305057737
+     }
+    },
+    "last_frozen": {
+     "far05": {
+      "thr": 777.3999999999997,
+      "realised_far": 0.184,
+      "valid": false,
+      "n_positive": 113,
+      "confirmed": 63,
+      "never": 50,
+      "confirm_rate": 0.5575221238938053,
+      "latA_median": 110.0,
+      "latB_median": 88.0,
+      "post_iou": 0.08003635214123596
+     },
+     "far10": {
+      "thr": 667.1999999999999,
+      "realised_far": 0.248,
+      "valid": true,
+      "n_positive": 113,
+      "confirmed": 68,
+      "never": 45,
+      "confirm_rate": 0.6017699115044248,
+      "latA_median": 98.0,
+      "latB_median": 88.0,
+      "post_iou": 0.08003635214123596
+     }
+    }
+   }
+  },
+  "hokkaido": {
+   "n_train": 1375,
+   "n_val": 149,
+   "n_test": 290,
+   "arms": {
+    "loeo_head": {
+     "far05": {
+      "thr": 26.000000000000057,
+      "realised_far": 0.04,
+      "valid": true,
+      "n_positive": 144,
+      "confirmed": 141,
+      "never": 3,
+      "confirm_rate": 0.9791666666666666,
+      "latA_median": 44.0,
+      "latB_median": 0.0,
+      "post_iou": 0.04781472246922119
+     },
+     "far10": {
+      "thr": 8.200000000000045,
+      "realised_far": 0.12,
+      "valid": true,
+      "n_positive": 144,
+      "confirmed": 143,
+      "never": 1,
+      "confirm_rate": 0.9930555555555556,
+      "latA_median": 44.0,
+      "latB_median": 0.0,
+      "post_iou": 0.04781472246922119
+     }
+    },
+    "prefix_frozen": {
+     "far05": {
+      "thr": 470.40000000000043,
+      "realised_far": 0.12666666666666668,
+      "valid": true,
+      "n_positive": 144,
+      "confirmed": 134,
+      "never": 10,
+      "confirm_rate": 0.9305555555555556,
+      "latA_median": 44.0,
+      "latB_median": 0.0,
+      "post_iou": 0.2962242748927839
+     },
+     "far10": {
+      "thr": 330.2000000000004,
+      "realised_far": 0.20666666666666667,
+      "valid": true,
+      "n_positive": 144,
+      "confirmed": 137,
+      "never": 7,
+      "confirm_rate": 0.9513888888888888,
+      "latA_median": 29.0,
+      "latB_median": 0.0,
+      "post_iou": 0.2962242748927839
+     }
+    },
+    "last_frozen": {
+     "far05": {
+      "thr": 566.6,
+      "realised_far": 0.04,
+      "valid": true,
+      "n_positive": 144,
+      "confirmed": 52,
+      "never": 92,
+      "confirm_rate": 0.3611111111111111,
+      "latA_median": 174.0,
+      "latB_median": 130.0,
+      "post_iou": 0.04956387419442984
+     },
+     "far10": {
+      "thr": 466.60000000000014,
+      "realised_far": 0.08666666666666667,
+      "valid": true,
+      "n_positive": 144,
+      "confirmed": 66,
+      "never": 78,
+      "confirm_rate": 0.4583333333333333,
+      "latA_median": 154.0,
+      "latB_median": 115.0,
+      "post_iou": 0.04956387419442984
+     }
+    }
+   }
+  }
+ },
+ "event_level": {
+  "folds_valid_conf70": 1,
+  "which": [
+   "hokkaido"
+  ],
+  "verdict": "fails"
+ }
+}

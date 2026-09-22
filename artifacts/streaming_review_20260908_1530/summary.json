@@ -1,0 +1,1116 @@
+{
+  "scope": "retrospective copied reports, decoder seed1; no fresh test scoring or pre-run attestation",
+  "errors": [],
+  "baseline_reports": 36,
+  "architecture_reports": 22,
+  "rows": [
+    {
+      "fold": "holdout_hiroshima",
+      "arm": "gru",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.525478750700111,
+      "teacher_ap": 0.5496239950253,
+      "stale_ap": 0.013356122220402838,
+      "recovery": 0.9549754039918527,
+      "params": [
+        3541248
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.534776714392399,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.9723136861523258,
+          "params": 3541248,
+          "sha256": "9dc5d3d9951dc3aba0007fd36bc4cc281fe130c2a8a0962b708db0aa90e2a351",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_gru_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.5104085680467082,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.9268734358941189,
+          "params": 3541248,
+          "sha256": "e83499fa31f780d0fe344317594955902e55e19428c3d73b300aa7e1137a0099",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_gru_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.5312509696612258,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.9657390899291134,
+          "params": 3541248,
+          "sha256": "25e4a6746e4bad2ed611e2d3c9d7c319db346cfae7c9d42cb023f57ec29c0deb",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_gru_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "arm": "gru_noobs",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.013574031655777991,
+      "teacher_ap": 0.5496239950253,
+      "stale_ap": 0.013356122220402838,
+      "recovery": 0.0004063443782962411,
+      "params": [
+        3541248
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.014345696811505201,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.0018452990404338211,
+          "params": 3541248,
+          "sha256": "6dc488a5290823aa04055ce5a9a8eefc7478b0990208c5b95217a8a6ccc6f688",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_gru_noobs_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.013145863731794844,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": -0.0003920773540064172,
+          "params": 3541248,
+          "sha256": "6f5a868aa409752cddfe9f04842fa351f36f8f0de62c96a552fc71e120141004",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_gru_noobs_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.01323053442403393,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": -0.00023418855153868053,
+          "params": 3541248,
+          "sha256": "a35798ac1bab843dd9110aa54eb85704124894699f137afe10446272b2d34269",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_gru_noobs_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "arm": "ema",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.02865072037304138,
+      "teacher_ap": 0.5496239950253,
+      "stale_ap": 0.013356122220402838,
+      "recovery": 0.028520444591695615,
+      "params": [
+        1
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.028857785067144415,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.028906566350248863,
+          "params": 1,
+          "sha256": "48cd1efeaed809cf900a3d307a0cfc7d66886b5da5859fdb3ce0a572740332dc",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_ema_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.028548984251848115,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.028330733206112988,
+          "params": 1,
+          "sha256": "3211a9dc32dd8a6106fce33dfd26c5673b267fe097df29b0477b23a87a1dea40",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_ema_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.028545391800131607,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.02832403421872499,
+          "params": 1,
+          "sha256": "11fd62b1dc32fba36a0a98be1df5bda49bcd9207eee908229ddcb8ee1a204d3f",
+          "file": "artifacts/streaming_t1v/holdout_hiroshima_ema_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "arm": "gru_dt",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.5377173935094081,
+      "teacher_ap": 0.5496239950253,
+      "stale_ap": 0.013356122220402838,
+      "recovery": 0.9777972872892503,
+      "params": [
+        3578144
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.5436447309241025,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.9888502287673443,
+          "params": 3578144,
+          "sha256": "cb06da06067ab446f4e9fc31b45ee5ff0720ba8c1e1790305b31359b6f9add4e",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_gru_dt_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.5274144700724906,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.9585850167815487,
+          "params": 3578144,
+          "sha256": "9d8750e321a2c3baa51cc0e764a6ad16ef66d0346dcf727ab0cf7e05f3283a20",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_gru_dt_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.5420929795316309,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.9859566163188579,
+          "params": 3578144,
+          "sha256": "5ea1253e9f2ea607d060a1f0d7de9f467de3f40e5008f68154e5ad4580ae144d",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_gru_dt_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "arm": "gru_sp",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.48803362306849396,
+      "teacher_ap": 0.5496239950253,
+      "stale_ap": 0.013356122220402838,
+      "recovery": 0.8851499873847307,
+      "params": [
+        3556608
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.4746557227886799,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.8602036854370824,
+          "params": 3556608,
+          "sha256": "25fd5dc026309b5dd76db1a7053d7b67720accb2437658a8c4ec6ef03255146e",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_gru_sp_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.49482676030396816,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.8978174201733916,
+          "params": 3556608,
+          "sha256": "034918463fe65989b798ed9591a81e63394c3de0126bfad39b3827e4c857dc6d",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_gru_sp_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.4946183861128339,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.8974288565437183,
+          "params": 3556608,
+          "sha256": "45d37643489d792019282a769b2d715c99852087e738cc7a2d40347b9ac6a9a6",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_gru_sp_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_hiroshima",
+      "arm": "xattn",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.39519051795926985,
+      "teacher_ap": 0.5496239950253,
+      "stale_ap": 0.013356122220402838,
+      "recovery": 0.7120217620752091,
+      "params": [
+        3149056
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.4044601271787818,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.7293071705242147,
+          "params": 3149056,
+          "sha256": "15c87504ff21a9b011be0dcce1945e61e7cdaa63fc7d7bcc5bc7c1df788a82f4",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_xattn_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.39236326012886014,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.7067496621158698,
+          "params": 3149056,
+          "sha256": "8036d412249a8957a9395ceb41ceccb61356d95f8fd88bc91be02e0c62d53a39",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_xattn_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.38874816657016753,
+          "teacher_ap": 0.5496239950253,
+          "stale_ap": 0.013356122220402838,
+          "recovery": 0.7000084535855429,
+          "params": 3149056,
+          "sha256": "9b94e00fa2b5212b5dcdf2dc6fdc8ab7cad2d530bcb8a785af6c542d9dc24e4d",
+          "file": "artifacts/streaming_t1arch/holdout_hiroshima_xattn_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_thrissur",
+      "arm": "gru",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.5571545229361633,
+      "teacher_ap": 0.6127716762389828,
+      "stale_ap": 0.012471261162389575,
+      "recovery": 0.9073511330227496,
+      "params": [
+        3541248
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.5536120606737425,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.9014499839089866,
+          "params": 3541248,
+          "sha256": "94f579b5ea86ae5d30e63bac8e8f3a72f7c57dfad3851d98e86145693fd23d4c",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_gru_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.5619306090826105,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.9153072930161387,
+          "params": 3541248,
+          "sha256": "2a3554818936fc31480b53d7e30ee236ef1dc2184521108c9516265e56809b0e",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_gru_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.5559208990521368,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.9052961221431235,
+          "params": 3541248,
+          "sha256": "f3b49d4d7a40bb095fae69668a743d7dcaaa3c1c0cfb9cd7541f4e64d6d2f5cc",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_gru_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_thrissur",
+      "arm": "gru_noobs",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.01831026342678021,
+      "teacher_ap": 0.6127716762389828,
+      "stale_ap": 0.012471261162389575,
+      "recovery": 0.009726800311550057,
+      "params": [
+        3541248
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.01830296869961667,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.00971464851724785,
+          "params": 3541248,
+          "sha256": "f2b9d0b5c775afbb85d3309efbb670a9585d05a670256165751aeec77dc10310",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_gru_noobs_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.01819020819900438,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.009526808399566265,
+          "params": 3541248,
+          "sha256": "1138a9b1de8f47fc5798ce3f1f874b7c654d5433fba87f4ffd396b88ad7b665f",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_gru_noobs_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.01843761338171958,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.009938944017836055,
+          "params": 3541248,
+          "sha256": "66c79b880aa3059289e0e56ffe5e185435195d5586872b3961df9cb6c9111752",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_gru_noobs_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_thrissur",
+      "arm": "ema",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.02441650824294282,
+      "teacher_ap": 0.6127716762389828,
+      "stale_ap": 0.012471261162389575,
+      "recovery": 0.01989878197740232,
+      "params": [
+        1
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.024396159472674258,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.019864884332560673,
+          "params": 1,
+          "sha256": "2b12b7fcc7cd2b04986edd3debbb98046a3023c27718f18eae5a6be17cdc2db7",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_ema_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.024445599199209897,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.019947242640657677,
+          "params": 1,
+          "sha256": "0a9fe9d31f2f15b26eb5cad4271349b2dedcecbc0172b24f89e3065e05a2641d",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_ema_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.0244077660569443,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.01988421895898861,
+          "params": 1,
+          "sha256": "d4be066455177b1865b1924b39d6d255b5f9f8868bdc332aae194322632cc5d5",
+          "file": "artifacts/streaming_t1v/holdout_thrissur_ema_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_thrissur",
+      "arm": "gru_dt",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.5693751441066183,
+      "teacher_ap": 0.6127716762389828,
+      "stale_ap": 0.012471261162389575,
+      "recovery": 0.9277086421357422,
+      "params": [
+        3578144
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.5722198731979373,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.93244748458841,
+          "params": 3578144,
+          "sha256": "a86881b6e89f9a94b149397c8487c687572a63d41dd2f21a253af36a7d0f0d5f",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_gru_dt_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.572996195005479,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.9337407067619157,
+          "params": 3578144,
+          "sha256": "06b4528efe4b389d1101c101232ff8b446b1e2de26accc25b145bcda6e296569",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_gru_dt_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.5629093641164385,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.9169377350569011,
+          "params": 3578144,
+          "sha256": "e124e2aa74fea2a8a0a2de601e75acc93ac22eb857f980df99d6f3575fce7123",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_gru_dt_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_thrissur",
+      "arm": "gru_sp",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.5399470103036917,
+      "teacher_ap": 0.6127716762389828,
+      "stale_ap": 0.012471261162389575,
+      "recovery": 0.8786862975498706,
+      "params": [
+        3556608
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.5402823965489967,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.8792449948902049,
+          "params": 3556608,
+          "sha256": "ef7a8f5641974911ebdd649658dbd841545758dec651e75005ba6ef86d214c34",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_gru_sp_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.5458519399532421,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.8885229218487176,
+          "params": 3556608,
+          "sha256": "7dfad7cbab4d7da34e68431b13eaf55f55a4ad13d00f3eaca3e1c5e968715c01",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_gru_sp_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.5337066944088366,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.8682909759106893,
+          "params": 3556608,
+          "sha256": "54b22031f06697d571d0a7d26da352cc9fed7587e9d8a1e8bd6e89a93fad5173",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_gru_sp_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_thrissur",
+      "arm": "xattn",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.4189767459628373,
+      "teacher_ap": 0.6127716762389828,
+      "stale_ap": 0.012471261162389575,
+      "recovery": 0.6771700878277439,
+      "params": [
+        3149056
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.427533124303782,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.6914235817885185,
+          "params": 3149056,
+          "sha256": "83560570e4e492fc875bac5d294c390cea4dd7365ed26c18068a31c5a7334827",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_xattn_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.4102388019919627,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.662614135921964,
+          "params": 3149056,
+          "sha256": "99666b74913bdf85156dd5fc37015e85a83a5591e427f9c342087f722c3b998e",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_xattn_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.4191583115927672,
+          "teacher_ap": 0.6127716762389828,
+          "stale_ap": 0.012471261162389575,
+          "recovery": 0.6774725457727492,
+          "params": 3149056,
+          "sha256": "35d5df2e21fc4730e8390706e0edc3bf06017dbea144a7388cc0fd7471cbae47",
+          "file": "artifacts/streaming_t1arch/holdout_thrissur_xattn_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_chimanimani",
+      "arm": "gru",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.22426369497369686,
+      "teacher_ap": 0.28822172253265277,
+      "stale_ap": 0.008909070909533552,
+      "recovery": 0.7710163603857966,
+      "params": [
+        3541248
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.2234656836577301,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.7681593064309205,
+          "params": 3541248,
+          "sha256": "92872a4457d0326f526c46b1921f5131eb2157928500cd58e13e4382a34137f6",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_gru_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.22496240989043426,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.7735179116498624,
+          "params": 3541248,
+          "sha256": "5a466e13494cd0245bbd8cc4997ab31039b3fbf86a30b666f0255ece7c108496",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_gru_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.2243629913729262,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.7713718630766068,
+          "params": 3541248,
+          "sha256": "d60bbf78cb572946d7999ec91dab56fc2433fe4359e27573e5f1ba93ab3767f1",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_gru_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_chimanimani",
+      "arm": "gru_noobs",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.009677095840705304,
+      "teacher_ap": 0.28822172253265277,
+      "stale_ap": 0.008909070909533552,
+      "recovery": 0.0027496961799212015,
+      "params": [
+        3541248
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.0096382546047074,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.0026106361131029094,
+          "params": 3541248,
+          "sha256": "d7399590c2206ef5a732f76ef591bd6d1a2a35026a0d6670cdd215d88912466d",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_gru_noobs_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.00970371521907883,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.0028449993400853995,
+          "params": 3541248,
+          "sha256": "856fa0d11d018f2225d712b510b67ec93b04af83506eb80c094eb014f7c8a67b",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_gru_noobs_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.009689317698329685,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.002793453086575296,
+          "params": 3541248,
+          "sha256": "993e49556e75566318c215002efac01694627fe83d5467231cd766af4dc2ef8d",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_gru_noobs_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_chimanimani",
+      "arm": "ema",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.012903533260426684,
+      "teacher_ap": 0.28822172253265277,
+      "stale_ap": 0.008909070909533552,
+      "recovery": 0.014301043392344863,
+      "params": [
+        1
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.012849108486778551,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.014106190873735828,
+          "params": 1,
+          "sha256": "207d93c34e77cdd2390d86961db3d6d1a60c9b95484ec96c54bf6b34de479227",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_ema_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.012927409110718874,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.01438652412568596,
+          "params": 1,
+          "sha256": "9a1c3041a4d402bfe6887291eb938f88f1af210d6f210eefcf108dc913deec2e",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_ema_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.012934082183782626,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.0144104151776128,
+          "params": 1,
+          "sha256": "732828e6072c2bbc2603bf43feb693b8a81658562258242b97958d79a5d4628e",
+          "file": "artifacts/streaming_t1v/holdout_chimanimani_ema_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_chimanimani",
+      "arm": "gru_dt",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.23278185486253047,
+      "teacher_ap": 0.28822172253265277,
+      "stale_ap": 0.008909070909533552,
+      "recovery": 0.8015132241667015,
+      "params": [
+        3578144
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.23639669763343668,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.8144551469543014,
+          "params": 3578144,
+          "sha256": "49b60f81d6b176ad6738d5dd9d0e95ee2d178b9ad5f00ee41ace0962367c2309",
+          "file": "artifacts/streaming_t1arch/holdout_chimanimani_gru_dt_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.24015881831600994,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.827924356675777,
+          "params": 3578144,
+          "sha256": "c8df97cd21bd1892b2eaebbb1bf7db968467ea6d13ad38c703624b4b93793812",
+          "file": "artifacts/streaming_t1arch/holdout_chimanimani_gru_dt_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.22179004863814483,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.762160168870026,
+          "params": 3578144,
+          "sha256": "8317b085f42f1795137d4269a84466fc39955b9afbd7637f1fcf452bb2036041",
+          "file": "artifacts/streaming_t1arch/holdout_chimanimani_gru_dt_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_chimanimani",
+      "arm": "gru_sp",
+      "seeds": [
+        1
+      ],
+      "complete": false,
+      "ap": 0.17634885895204122,
+      "teacher_ap": 0.28822172253265277,
+      "stale_ap": 0.008909070909533552,
+      "recovery": 0.5994708333814994,
+      "params": [
+        3556608
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.17634885895204122,
+          "teacher_ap": 0.28822172253265277,
+          "stale_ap": 0.008909070909533552,
+          "recovery": 0.5994708333814994,
+          "params": 3556608,
+          "sha256": "eca7a86c4cb5b3d88de6848a021ebec1f80b46f0de467db17608e1c001b498ad",
+          "file": "artifacts/streaming_t1arch/holdout_chimanimani_gru_sp_seed1.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_chimanimani",
+      "arm": "xattn",
+      "seeds": [],
+      "complete": false,
+      "ap": null,
+      "teacher_ap": null,
+      "stale_ap": null,
+      "recovery": null,
+      "params": [],
+      "reports": []
+    },
+    {
+      "fold": "holdout_newzealand",
+      "arm": "gru",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.46588909778551585,
+      "teacher_ap": 0.43317184092731575,
+      "stale_ap": 0.2921266289038949,
+      "recovery": 1.2319629031630461,
+      "params": [
+        3541248
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.4659913842266604,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 1.2326881063775132,
+          "params": 3541248,
+          "sha256": "0f518e650f35ece386a611c386aac6b9dfddda118593284baedda8f452b0812d",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_gru_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.4685667059246673,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 1.2509469445263706,
+          "params": 3541248,
+          "sha256": "c675cbe980c0d98e05e373006d3319e5d81f38ddba1a3e3d2ec20b50b7a8948b",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_gru_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.46310920320521975,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 1.2122536585852546,
+          "params": 3541248,
+          "sha256": "9759a1e8e7140c57d5805c68885813bd1962067602365c442e5f71434fa63e7a",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_gru_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_newzealand",
+      "arm": "gru_noobs",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.3011317007907562,
+      "teacher_ap": 0.43317184092731575,
+      "stale_ap": 0.2921266289038949,
+      "recovery": 0.06384528590283498,
+      "params": [
+        3541248
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.2951804306718566,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 0.021651226044132763,
+          "params": 3541248,
+          "sha256": "ffff62bd7048212cb21fd2f7cd649da8d04ed4b23e0ff0a3248cc9f3ce85dd01",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_gru_noobs_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.30228659315143025,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 0.07203338632897559,
+          "params": 3541248,
+          "sha256": "08f1132f67f5e460b3abc36027d96653229bd899bcfea2e88562945eaecb04f2",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_gru_noobs_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.3059280785489817,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 0.09785124533539659,
+          "params": 3541248,
+          "sha256": "2b73423cf630325a8aaca95adfad0123ec40eacbb4ecc31063c979416c7b7794",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_gru_noobs_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_newzealand",
+      "arm": "ema",
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "complete": true,
+      "ap": 0.3262810769041162,
+      "teacher_ap": 0.43317184092731575,
+      "stale_ap": 0.2921266289038949,
+      "recovery": 0.24215248082685623,
+      "params": [
+        1
+      ],
+      "reports": [
+        {
+          "seed": 1,
+          "student_ap": 0.3264415056068418,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 0.24328990832562866,
+          "params": 1,
+          "sha256": "6f9607322aef158feb9c8b2cba82fb49ef1d1ef0f79f2fabc7ff6280ff4bc478",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_ema_seed1.json"
+        },
+        {
+          "seed": 2,
+          "student_ap": 0.32641825964430765,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 0.24312509619056444,
+          "params": 1,
+          "sha256": "081c9f334a84bdfbcc761a02efddcd5a229e3090df3536c7b9ff791dcf7c49da",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_ema_seed2.json"
+        },
+        {
+          "seed": 3,
+          "student_ap": 0.3259834654611991,
+          "teacher_ap": 0.43317184092731575,
+          "stale_ap": 0.2921266289038949,
+          "recovery": 0.2400424379643756,
+          "params": 1,
+          "sha256": "c6c776da95148a318e650b52207aaf5cc472bb74ae25d58264d25c5b845e875a",
+          "file": "artifacts/streaming_t1v/holdout_newzealand_ema_seed3.json"
+        }
+      ]
+    },
+    {
+      "fold": "holdout_newzealand",
+      "arm": "gru_dt",
+      "seeds": [],
+      "complete": false,
+      "ap": null,
+      "teacher_ap": null,
+      "stale_ap": null,
+      "recovery": null,
+      "params": [],
+      "reports": []
+    },
+    {
+      "fold": "holdout_newzealand",
+      "arm": "gru_sp",
+      "seeds": [],
+      "complete": false,
+      "ap": null,
+      "teacher_ap": null,
+      "stale_ap": null,
+      "recovery": null,
+      "params": [],
+      "reports": []
+    },
+    {
+      "fold": "holdout_newzealand",
+      "arm": "xattn",
+      "seeds": [],
+      "complete": false,
+      "ap": null,
+      "teacher_ap": null,
+      "stale_ap": null,
+      "recovery": null,
+      "params": [],
+      "reports": []
+    }
+  ],
+  "architecture_screen": [
+    {
+      "arm": "gru_dt",
+      "completed_folds": 3,
+      "wins": 0,
+      "max_possible_wins": 1,
+      "three_of_four_still_possible": false,
+      "final_gate": null,
+      "comparisons": [
+        {
+          "fold": "holdout_hiroshima",
+          "delta_recovery": 0.02282188329739765,
+          "delta_ap": 0.012238642809297096
+        },
+        {
+          "fold": "holdout_thrissur",
+          "delta_recovery": 0.02035750911299261,
+          "delta_ap": 0.01222062117045497
+        },
+        {
+          "fold": "holdout_chimanimani",
+          "delta_recovery": 0.03049686378090488,
+          "delta_ap": 0.008518159888833615
+        }
+      ]
+    },
+    {
+      "arm": "gru_sp",
+      "completed_folds": 2,
+      "wins": 0,
+      "max_possible_wins": 2,
+      "three_of_four_still_possible": false,
+      "final_gate": null,
+      "comparisons": [
+        {
+          "fold": "holdout_hiroshima",
+          "delta_recovery": -0.06982541660712194,
+          "delta_ap": -0.037445127631617
+        },
+        {
+          "fold": "holdout_thrissur",
+          "delta_recovery": -0.028664835472879013,
+          "delta_ap": -0.017207512632471555
+        }
+      ]
+    },
+    {
+      "arm": "xattn",
+      "completed_folds": 2,
+      "wins": 0,
+      "max_possible_wins": 2,
+      "three_of_four_still_possible": false,
+      "final_gate": null,
+      "comparisons": [
+        {
+          "fold": "holdout_hiroshima",
+          "delta_recovery": -0.2429536419166436,
+          "delta_ap": -0.13028823274084111
+        },
+        {
+          "fold": "holdout_thrissur",
+          "delta_recovery": -0.2301810451950057,
+          "delta_ap": -0.138177776973326
+        }
+      ]
+    }
+  ],
+  "kuro_manifest": {
+    "rows": 7000,
+    "unique_ids": 7000,
+    "splits": {
+      "train": 4000,
+      "validation": 1000,
+      "test": 2000
+    },
+    "activations": {
+      "train": 27,
+      "validation": 6,
+      "test": 10
+    },
+    "pairwise": {
+      "train__validation": {
+        "sample_overlap": 0,
+        "activation_overlap": 0
+      },
+      "train__test": {
+        "sample_overlap": 0,
+        "activation_overlap": 0
+      },
+      "validation__test": {
+        "sample_overlap": 0,
+        "activation_overlap": 0
+      }
+    },
+    "spatial_geometry_overlap_audited": false,
+    "sha256": "23c0df0e058df6664bcfaf007fb7da48a370b247153896fb15261bafe100612b"
+  },
+  "kuro_gru_seed1": {
+    "nan_epoch_count": 30,
+    "says_done": true,
+    "valid_scientific_negative": false
+  }
+}

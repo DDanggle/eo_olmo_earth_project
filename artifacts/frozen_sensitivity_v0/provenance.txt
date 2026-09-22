@@ -1,0 +1,7 @@
+3a6bd679874731039e7e71273544057a927f2ad124a7c6a1cadeb4902b6a068f  ./extract_olmo_perturb.py
+ce61948b26df5ffb0528555cefc8f521866c163b0879a11050735dd1a4034a13  ./eval_frozen_sensitivity.py
+5f062e036434f4d6dbd06a588b1d0660fa87d91b0551cfd529bdfd067738edff  ./cache_decoder_train_lib.py
+eb930b4e63ce233005f477c3464971e8b714c17102a63baaec964bd1b4236f09  ./frozen_sensitivity_prereg_v0.json
+2026-09-17 amendment 1: t_shuffle assigns a unique synthetic day (2+i) per slot because the rslearn wrapper rejects duplicate timestamps; the 7 arms extracted before this amendment are unchanged
+amendment 2: eval json dump casts numpy bool; metrics unchanged
+2026-09-17T07:41:58Z

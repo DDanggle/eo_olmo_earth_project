@@ -1,0 +1,21 @@
+{
+ "schema": "trust-aware-reader-prereg-v0-draft",
+ "registered_at": "2026-09-20 (DRAFT, launch_allowed=false until MS-147 records the trust-head decision)",
+ "launch_allowed": false,
+ "question": "Does giving the log-reading VLM the two calibrated per-token signals — token change z (MS-146) and token trust (trust head) — as continuous inputs raise cloud stability and evidence-date accuracy over C_lora on unseen events, at the same LoRA budget?",
+ "arm": "E_trust_z: identical to C_lora (latest 64 tokens + rule-log text, LoRA r=16) except the 64 latest-observation tokens are augmented with two channels pooled to the same 4x4 grid: z_t (token change vs the previous CLEAR acquisition, gap/season-calibrated with the table fitted on the training regions) and trust_t (trust-head p(untrusted), head trained with the held-out event excluded); projector input 770 -> 2048 -> H. No thresholds anywhere: both signals are continuous.",
+ "controls": [
+  "C_lora (stage 2) as the decision baseline",
+  "E_z_only and E_trust_only ablations if E_trust_z passes"
+ ],
+ "data_and_eval": "sequential_qa_v1, same 150-tile subsamples, same scorer and questions as stage 2; LOEO-consistent signals: for each unseen event the z table and the trust head come from the other three events",
+ "decision_rules": {
+  "signal_helps": "E_trust_z beats C_lora on cloud_stability AND Q_when on >= 2 of 3 unseen events by >= .03 each with tile-paired CI excluding 0",
+  "no_help": "otherwise: the calibrated signals do not transfer into the reader; reported as a negative result next to MS-142/143"
+ },
+ "unlock_condition": "MS-147 trust_usable = true, or a documented partial (>= 3 folds AUC >= .90) with the payoff shortfall stated",
+ "not_claimed": [
+  "belief correction",
+  "generalisation beyond Sentinel-2 landslides"
+ ]
+}

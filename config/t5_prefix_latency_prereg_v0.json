@@ -1,0 +1,11 @@
+{
+  "schema": "t5-prefix-latency-prereg-v0",
+  "registered_at": "2026-09-19",
+  "status": "registered before execution; measurement only (T5 region-fixed dense stream, v0)",
+  "question": "In one dense region (hiroshima), how many days after the landslide does the frozen readout first detect it when the state is built from the observation prefix available at that time?",
+  "data": "olmo_streaming_dev/teacher_fp16 hiroshima tiles: pooled states for prefixes [0:c], c in {4,6,8,10,12} (same encoder contract; synthetic-month timestamps per MS-116 extraction); real dates from contract; post_index for the event boundary; sealed readout resolution_contract_v2/p4_native_control/holdout_hiroshima_seed1",
+  "analysis_set": "positive tiles (mask>0) with post_index such that at least one cutoff falls before and one after the first post-event observation",
+  "measures": ["per tile and cutoff: window macro IoU (8..120), detected = any positive pixel; days_since_event = date(slot c-1) - date(first post-event slot)", "curve: detection rate and mean IoU vs number of post-event observations in the prefix and vs days_since_event bins [<0, 0-30, 31-60, 61-120, >120]", "days-to-first-detection distribution over tiles (first cutoff with detected=true)"],
+  "caveats": ["prefix states with c<12 are out of the readout's training distribution (trained on 12-step windows); this biases early cutoffs downward and is reported, not corrected", "cutoffs are coarse (2-observation steps); v1 would re-extract every prefix length", "synthetic-month timestamps"],
+  "not_claimed": ["any streaming-update result", "generalisation beyond hiroshima"]
+}

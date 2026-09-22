@@ -1,0 +1,111 @@
+{
+ "arm": "C_rule_log",
+ "n_train": 7590,
+ "train_s": 943.1530175842345,
+ "evals": {
+  "hiroshima_test": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.9604444444444444,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.9737777777777777,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.8377777777777777,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9728888888888889,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2022,
+    "frac_state_unchanged": 0.9609297725024728
+   }
+  },
+  "thrissur": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.7866666666666666,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.8391111111111111,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7706666666666667,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9004444444444445,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2020,
+    "frac_state_unchanged": 0.9331683168316832
+   }
+  },
+  "itogon": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.808,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.7964444444444444,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7591111111111111,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9422222222222222,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2025,
+    "frac_state_unchanged": 0.9125925925925926
+   }
+  },
+  "hokkaido": {
+   "Q_state": {
+    "n": 2250,
+    "acc": 0.712,
+    "parse_fail": 0.0
+   },
+   "Q_when": {
+    "n": 2250,
+    "acc": 0.72,
+    "parse_fail": 0.0
+   },
+   "Q_where": {
+    "n": 2250,
+    "acc": 0.7297777777777777,
+    "parse_fail": 0.0
+   },
+   "Q_update": {
+    "n": 2250,
+    "acc": 0.9208888888888889,
+    "parse_fail": 0.0
+   },
+   "cloud_stability": {
+    "n": 2015,
+    "frac_state_unchanged": 0.8253101736972704
+   }
+  }
+ }
+}

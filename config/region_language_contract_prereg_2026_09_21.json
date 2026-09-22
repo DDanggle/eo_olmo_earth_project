@@ -1,0 +1,15 @@
+{
+  "kind": "exploratory_data_and_execution_contract_not_performance",
+  "date": "2026-09-21",
+  "outroot": "/home/work/data/olmoearth/region_language_contract_20260921",
+  "data": "BigEarthNet.txt official parquet and bounded prefix of official BigEarthNet-S2 v2 tar.zst",
+  "limits": {"text_download_bytes": 650000000, "compressed_image_bytes": 33554432, "complete_images": 8, "gpu": 1, "gpu_forward_images": 8},
+  "success": [
+    "Read released text schema; count annotation rows and unique patch IDs separately; check cross-split patch overlap.",
+    "Audit metadata-derived MCQs separately from visual tasks, with deterministic metadata lookup; report parser coverage and accuracy among parsed rows separately.",
+    "If raw patch sampling succeeds, require all 12 named S2 bands, georeferenced footprint, acquisition timestamp, and exact text patch-ID join before declaring image-text compatibility.",
+    "Only run frozen OlmoEarth on eligible complete patches; require finite 768-dimensional spatial features with actual band ordering and no Sen12 missing-band mask copied onto complete BEN data."
+  ],
+  "invalid_claims": ["No generalization or VLM quality claim from a few archive-prefix samples.", "No evidence of time interpolation, belief revision or H100 training throughput.", "No claim that metadata lookup accuracy measures visual understanding.", "No pretrained LLM training or language alignment is performed by this smoke test."],
+  "stop": "Stop rather than fetch full 59 GiB image archive; preserve any failed network or contract checks. Existing experiment code and output roots are not modified."
+}

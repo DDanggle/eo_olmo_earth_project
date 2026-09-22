@@ -1,0 +1,14 @@
+{
+  "schema": "latent-interp-prereg-v0",
+  "registered_at": "2026-09-18",
+  "status": "registered before execution; benchmark v0 (baselines only, no learned model)",
+  "question": "G-T2: how well can the single-observation OlmoEarth embedding at an unobserved date be reconstructed from neighbouring single-observation embeddings, as a function of the temporal gap and position?",
+  "data": "olmo_streaming_dev/single_fp16 (12x768x32x32 per tile, one embedding per kept observation; encoded with synthetic month timestamps, cos ~.989 to real-date encoding per 2026-09-07 probe). Real acquisition dates from sen12_gp_contract via the sealed 12-of-15 selection. Seeded sample of 1500 tiles.",
+  "target": "single embedding at held-out slot j, j in 1..10 (interior); slot 0 and 11 are extrapolation and reported separately (previous-only baseline)",
+  "baselines": {"nearest": "neighbour with smaller |dt| (tie -> previous)", "previous": "slot j-1 (causal)", "linear": "time-weighted linear interpolation between j-1 and j+1 using real dates", "mean_all": "mean of the other 11 singles", "zero_change": "not applicable"},
+  "metrics": ["token cos (mean over 32x32 tokens) between prediction and target", "relative MSE = ||pred-target||^2 / ||target - mean_all||^2"],
+  "strata": ["gap_days = date(j+1) - date(j-1) in bins [<=20, 21-40, 41-70, 71-120, >120]", "position j", "region prefix of the tile id"],
+  "reference_ceiling": "cos between the two neighbours themselves (how similar consecutive observations already are); a baseline must beat nearest to be meaningful",
+  "decision": "descriptive. Records the headroom for a learned interpolator: headroom = 1 - cos(linear). G-T4 learned model must beat linear by a bootstrap-CI margin later.",
+  "not_claimed": ["no readout/label evaluation in v0", "synthetic-month encoding caveat", "dev regions only (streaming dev tiles)"]
+}

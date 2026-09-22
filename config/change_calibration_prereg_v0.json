@@ -1,0 +1,32 @@
+{
+ "schema": "change-calibration-prereg-v0.2",
+ "registered_at": "2026-09-20",
+ "status": "registered before execution; measurement + fitted baseline (no downstream claim yet)",
+ "question": "What is the distribution of NORMAL temporal change (1 - token-mean cosine between consecutive single-observation OlmoEarth states) as a function of gap length, season, region, cloud quality and model size — so that an observed change can be expressed as a calibrated z-score instead of a hand-set threshold?",
+ "data": "arrival_v0/{hiroshima,thrissur,itogon,hokkaido}/single_fp16 (base; real dates, all 15 acquisitions incl. cloudy, clear fraction per acquisition, post_index). nano/tiny singles for hiroshima extracted under the same contract (amendment to p1_arrival_extract: --size).",
+ "pair_definition": "consecutive acquisitions (i, i+1) of the same tile. NORMAL = both clear >= 0.5 AND the pair does not cross the event (both < post_index or both >= post_index). EVENT = clear pair that crosses post_index on a positive tile. CLOUDY = at least one clear < 0.5, not crossing.",
+ "fit": "mu(gap_bin, season_bin) and sigma(gap_bin, season_bin) from NORMAL pairs pooled over regions (region-specific tables also reported); gap bins [<=10, 11-20, 21-40, 41-70, 71-120, >120] days; season = month of the later acquisition grouped {DJF, MAM, JJA, SON}. z = (change - mu)/sigma.",
+ "validation": [
+  "EVENT pairs: fraction with z >= 2 (detection power of the calibrated score at a fixed z)",
+  "CLOUDY pairs: fraction with z >= 2 (how much cloud inflates the score — motivates the trust head)",
+  "held-out region: fit on three regions, evaluate z on the fourth (LOEO) — reports whether the normal-change table transfers",
+  "model size: same tables for nano/tiny on hiroshima; the raw 1-cos scale and the z-scale compared"
+ ],
+ "decision": "descriptive. The table is a benchmark artifact. It feeds the trust-aware reader contract (next) as an input feature and as a training signal (z-score of the arriving observation).",
+ "not_claimed": [
+  "event detection performance (that requires the FAR-budgeted protocol)",
+  "generalisation beyond Sentinel-2 landslide regions"
+ ],
+ "amendment_1": {
+  "registered_at": "2026-09-20 after MS-144, before the v0.1 run",
+  "event_pair_fix": "EVENT = (last clear pre-event acquisition, first clear post-event acquisition) of a positive tile — a non-consecutive clear-to-clear pair spanning the event; NORMAL pairs likewise become clear-to-clear pairs of any span that do not cross the event (consecutive-clear definition kept for the gap table). Reason: the v0 consecutive definition yielded n=3 events because the first post-event view is usually cloudy.",
+  "region_variance_factor": "sigma_region = sigma_pooled * s_r where s_r is the ratio of the region's own PRE-EVENT clear-pair change spread to the pooled spread (labels not used; a deployment has its own normal period). LOEO reports z with and without s_r estimated on the held-out region's pre-event pairs only.",
+  "model_size": "nano/tiny tables for hiroshima from arrival_v0_<size>"
+ },
+ "amendment_2": {
+  "registered_at": "2026-09-20 after MS-145, before the v0.2 run",
+  "token_level": "z is computed per 4x4 token: change_t = 1 - cos(single_i[t], single_j[t]); the gap/season table is fitted on NORMAL_SPAN token changes (subsampled) and z_t = (change_t - mu)/sigma. Region variance factor as in amendment_1 (pre-event tokens only).",
+  "event_metric": "on EVENT pairs (last clear pre <-> first clear post) of positive tiles: AUC of z_t separating mask tokens (>=25% of the token's pixels in the sealed mask) from non-mask tokens; also fraction of mask tokens with z>=2 vs non-mask tokens with z>=2 (token-level TPR/FPR at 2 sigma); LOEO as before",
+  "why": "tile-mean change washes out scars covering a few percent of the tile (MS-145); the trust head is also token-level, so the reader input becomes [token z, token trust]."
+ }
+}

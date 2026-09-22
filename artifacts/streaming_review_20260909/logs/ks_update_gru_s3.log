@@ -1,0 +1,37 @@
+DROPPING non-finite cache tiles: {'train': 0, 'val': 1, 'test': 1}
+finite check True True True sc 0.4851762354373932
+/home/work/data/olmoearth/code/kurosiwo_pipeline.py:86: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  if i==0 and ep==1: print("first batch loss",float(l),"grad norm",float(gn),flush=True)
+first batch loss 0.30364763736724854 grad norm 1.416247844696045
+epoch 1 val 0.0259 best 0.0259@1
+epoch 2 val 0.0230 best 0.0230@2
+epoch 3 val 0.0208 best 0.0208@3
+epoch 4 val 0.0203 best 0.0203@4
+epoch 5 val 0.0194 best 0.0194@5
+epoch 6 val 0.0191 best 0.0191@6
+epoch 7 val 0.0187 best 0.0187@7
+epoch 8 val 0.0182 best 0.0182@8
+epoch 9 val 0.0179 best 0.0179@9
+epoch 10 val 0.0176 best 0.0176@10
+epoch 11 val 0.0173 best 0.0173@11
+epoch 12 val 0.0174 best 0.0173@11
+epoch 13 val 0.0172 best 0.0172@13
+epoch 14 val 0.0170 best 0.0170@14
+epoch 15 val 0.0169 best 0.0169@15
+epoch 16 val 0.0170 best 0.0169@15
+epoch 17 val 0.0168 best 0.0168@17
+epoch 18 val 0.0167 best 0.0167@18
+epoch 19 val 0.0166 best 0.0166@19
+epoch 20 val 0.0168 best 0.0166@19
+epoch 21 val 0.0166 best 0.0166@21
+epoch 22 val 0.0166 best 0.0166@22
+epoch 23 val 0.0165 best 0.0165@23
+epoch 24 val 0.0165 best 0.0165@24
+epoch 25 val 0.0164 best 0.0164@25
+epoch 26 val 0.0164 best 0.0164@26
+epoch 27 val 0.0164 best 0.0164@27
+epoch 28 val 0.0165 best 0.0164@27
+epoch 29 val 0.0164 best 0.0164@27
+epoch 30 val 0.0165 best 0.0164@27
+DONE update 0.01641123277415802 skipped 0

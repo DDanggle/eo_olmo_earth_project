@@ -1,0 +1,36 @@
+{
+ "schema": "trust-head-prereg-v0.1",
+ "registered_at": "2026-09-20",
+ "status": "registered before execution",
+ "question": "Can a per-token 'do not trust' signal be read from the frozen OlmoEarth single-observation state (replacing external SCL masks), and does masking untrusted tokens remove the cloud inflation of the calibrated change score (MS-144: cloudy pairs z>=2 at .53-.82)?",
+ "labels": "arrival_v0/<region>/scl_token_fp16: fraction of untrustworthy SCL pixels {nodata, saturated, cloud shadow, cloud medium/high, thin cirrus} per 4x4 token per acquisition (MS-138-era NetCDF SCL, no lookahead). Positive token = fraction >= 0.5.",
+ "model": "1x1-conv head 768->128->1 on the base single-observation token (no spatial context), BCE with class balancing; 10 epochs AdamW 1e-3; seed 1",
+ "folds": "leave-one-event-out over {hiroshima, thrissur, itogon, hokkaido}: train on all acquisitions of the other three regions, test on the held-out region",
+ "metrics": [
+  "token AUC vs SCL label on the held-out region",
+  "acquisition-level agreement: predicted untrusted fraction vs SCL clear fraction (Spearman)",
+  "payoff: on the held-out region's CLOUDY consecutive pairs (MS-144 definition), fraction with tile z>=2 BEFORE and AFTER masking tokens with predicted p(untrusted) >= 0.5 from the change computation (z from the base gap/season table fitted on the other regions); NORMAL pairs' z>=2 reported alongside to show the masking does not suppress real change"
+ ],
+ "decision": "trust_usable: held-out token AUC >= 0.90 on >= 3 of 4 folds AND cloudy-pair z>=2 drops by >= 50% relative on >= 3 of 4 folds with NORMAL z>=2 changing by < 2 points; otherwise the external SCL mask remains the input and the head is reported as a negative result",
+ "not_claimed": [
+  "cloud detection beyond Sentinel-2 SCL semantics",
+  "any downstream detection performance"
+ ],
+ "amendment_1": {
+  "registered_at": "2026-09-20 after MS-147, before the v0.1 rescoring",
+  "status": "re-scoring only (no retraining; the four LOEO heads of MS-147 are reused)",
+  "reason": "the v0 payoff used a hard mask (p>=0.5) that dropped 70-80% of cloudy pairs from scoring, and a 'normal' set defined by acquisition-level SCL clear>=0.5 that still contained token-level cloud; the normal-invariance clause therefore penalised a genuine improvement.",
+  "v0_1_payoff": {
+   "soft_weight": "per-token weight w_t = (1-p_i)(1-p_j) from the held-out fold's trust head; tile change = sum(w_t * change_t)/sum(w_t); a pair is scored if sum(w_t) >= 64 (coverage), and the coverage fraction is reported",
+   "normal_set": "consecutive pairs whose token-level SCL bad fraction (scl_token_fp16) has mean < 0.1 on BOTH acquisitions and that do not cross the event (label-free apart from SCL, as in v0)",
+   "cloudy_set": "consecutive pairs with acquisition-level clear < 0.5 on at least one side (as v0)",
+   "z_table": "fitted on the OTHER regions' normal set (v0.1 definition) from soft-weighted changes",
+   "metrics": [
+    "cloudy-pair z>=2 fraction: hard-mask v0 vs soft-weight v0.1, on the same residual set and on all scorable pairs",
+    "normal(v0.1)-pair z>=2 before/after soft weighting",
+    "coverage: fraction of cloudy pairs scorable under soft weighting vs hard mask"
+   ]
+  },
+  "v0_1_decision": "descriptive amendment; the v0 rule verdict (trust_usable=false) stands. If soft weighting brings cloudy z>=2 within 2x of the normal rate on >= 3 folds while keeping >= 80% of cloudy pairs scorable, the reader-side use of continuous trust (already running as E_trust_z) is the supported form and hard masking is recorded as the wrong operationalisation."
+ }
+}

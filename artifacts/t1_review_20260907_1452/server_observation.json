@@ -1,0 +1,27 @@
+{
+  "scope": "Read-only retrospective observation, not pre-run provenance",
+  "initial_observed_utc": "2026-09-07T14:52:19Z",
+  "hashes_observed_utc": "2026-09-07T14:53:23Z",
+  "status_observed_utc": "2026-09-07T14:58:02Z",
+  "local_head_at_start": "f2f2ffb",
+  "hashes_local_server_equal": {
+    "code/streaming_update_train.py": "4ffe2b2906ef9653bea32a9beb739730cbd9771adc40d85d6ca05b36c87e2de2",
+    "code/cache_decoder_train_lib.py": "5f062e036434f4d6dbd06a588b1d0660fa87d91b0551cfd529bdfd067738edff",
+    "code/extract_olmo_streaming.py": "398cb0add9e84b3905d091fe72a4487b57c944d15302bd883c322f8eef3a7ea0"
+  },
+  "remote_hashes": {
+    "sen12_gp_contract/t1_manifest.json": "d3f26af17de29cee2b0732e9fb3c8c9dee8f8b1ead4e8380665de5169dd8d8a4",
+    "resolution_contract_v2/p4_native_control/holdout_hiroshima_seed1_best.pt": "bbab8071cb899490ff892bfd47f627397861cd80b8446f2d0a4fc7835f83e2e8",
+    "resolution_contract_v2/p4_native_control/holdout_chimanimani_seed1_best.pt": "94b7c8614a7dbd1b7a387c12ca7563240a3ae966f1e77f830dc5a6276f011a20"
+  },
+  "observed_status": {
+    "completed_t1_reports": 8,
+    "planned_t1_reports": 18,
+    "hiroshima_gru_seed3": "30/30 epochs logged; report not yet present at 14:58:02Z",
+    "t0b": "CPU precompute, hiroshima 6000 logged, no learned claim made",
+    "p2_real_dates": "native hiroshima completed; hokkaido 7/40 epochs; native+avgpool2 plan has 16 reports",
+    "streaming_output_code_snapshot_present": false,
+    "resolution_contract_v2_code_snapshot_present": true
+  },
+  "no_mutations_by_this_review": ["Server code", "Server queues", "GPU jobs", "Korea label seal", "Original preregistration"]
+}

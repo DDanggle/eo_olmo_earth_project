@@ -1,0 +1,22 @@
+{
+  "schema": "latent-interp-train-prereg-v0",
+  "registered_at": "2026-09-18",
+  "status": "registered before execution; G-T4 learned interpolator vs linear baseline",
+  "question": "Does a small learned, continuous-time interpolator predict the OlmoEarth single-observation embedding at a held-out date better than date-weighted linear interpolation of its two neighbours, on regions never seen in training?",
+  "data": "olmo_streaming_dev/single_fp16 (12 single-observation embeddings per tile, 768x32x32), real dates from contract (12-of-15 sealed selection). Synthetic-month encoding caveat carried from MS-126.",
+  "split": {"test_regions": ["hokkaido", "kyrgyzstan1", "newzealand"], "test_rule": "the three regions with the lowest linear-baseline cos in MS-126; fixed before training", "train_regions": "all other dev regions", "val": "10% of train tiles by seed"},
+  "models": {
+    "linear": "no learning; reference",
+    "resmlp": "per-token MLP on [S_prev, S_next, linear, w, gap/365, sin/cos doy_target] predicting a residual added to linear (768*3+4 -> 512 -> 768)",
+    "ctxattn": "per-token 2-layer transformer (d=256, 4 heads) over the 11 context observations, each with continuous time encoding (sin/cos doy, signed dt to target / 365); query token = target time; output 768"
+  },
+  "objective": "MSE + (1 - cos) on the target single embedding; interior slots j=1..10; tokens subsampled 128 per tile per step",
+  "training": "AdamW 1e-3 wd 1e-4, cosine, 20000 steps, batch 8 tiles x 128 tokens, 3 seeds per model, GPU1",
+  "metrics": "mean token cos on test regions, all interior slots and all tokens; by gap bin as in MS-126; bootstrap CI over tiles (2000 resamples)",
+  "decision_rules": {
+    "G-T4_pass": "best learned model beats linear by >= +0.03 mean cos on test regions with the 95% bootstrap CI of the paired difference excluding 0, for at least 2 of 3 seeds",
+    "G-T4_fail": "otherwise: method claim withdrawn; benchmark (MS-126) and MS-125 curve remain",
+    "secondary": "gain must not come only from gap<=40d; report gap>120d separately"
+  },
+  "not_claimed": ["readout/label utility (separate gate)", "generalisation beyond Sentinel-2 landslide-region tiles", "equivalence to real-date encoding"]
+}

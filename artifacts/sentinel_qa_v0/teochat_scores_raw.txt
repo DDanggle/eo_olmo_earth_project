@@ -1,0 +1,35 @@
+{
+ "Q1": {
+  "n": 408,
+  "acc": 0.571078431372549,
+  "parse_fail": 0.0,
+  "fpr_on_negatives": 0.058823529411764705,
+  "recall_on_positives": 0.20098039215686275,
+  "balanced_acc": 0.571078431372549
+ },
+ "Q2": {
+  "n": 204,
+  "acc": 0.20098039215686275,
+  "parse_fail": 0.0
+ },
+ "Q3": {
+  "n": 204,
+  "exact": 0.13725490196078433,
+  "jaccard": 0.2802287581699347,
+  "parse_fail": 0.0
+ },
+ "Q4": {
+  "n": 204,
+  "acc": 1.0,
+  "parse_fail": 0.0
+ }
+}
+1020 sentinel_qa_v0/answers_teochat.jsonl
+0
+Q1 parsed dist {'no': 355, 'yes': 53}
+Q2 parsed dist {'1': 167, '3': 20, '2': 17}
+Q3 parsed dist {"['NW']": 204}
+Q4 parsed dist {'3': 73, '4': 72, '2': 59}
+sample raw: ['Yes.', 'Yes.', 'Between image 1 and 2']
+
+step 16000 loss 0.1016 val_cos 0.9201 linear 0.9051 5398s

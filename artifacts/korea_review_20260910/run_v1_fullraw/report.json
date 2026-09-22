@@ -1,0 +1,200 @@
+{
+ "schema": "korea-3task-v1",
+ "prereg": "config/korea_shared_cache_3task_prereg_v1_amendment.json",
+ "target_rule": "last labeled acquisition per chip",
+ "n": {
+  "test": 7232,
+  "val": 4992,
+  "train": 25152
+ },
+ "tasks": {
+  "land_cover": {
+   "FULL_RAW": {
+    "train": {
+     "steps": 4000,
+     "gpu_s": 673.5523152854294,
+     "final_loss": 0.5538556575775146,
+     "train_bytes_read": 105282404352,
+     "peak_mem_mb": 3088.02685546875
+    },
+    "test": {
+     "n_chips": 7232,
+     "clusters": {
+      "C02": {
+       "miou": 0.15479640848734563,
+       "n": 576
+      },
+      "C03": {
+       "miou": 0.11406117937435305,
+       "n": 1792
+      },
+      "C05": {
+       "miou": 0.12393771058867695,
+       "n": 512
+      },
+      "C06": {
+       "miou": 0.15756425027654794,
+       "n": 1920
+      },
+      "C07": {
+       "miou": 0.1181621051745048,
+       "n": 896
+      },
+      "C08": {
+       "miou": 0.15760576829040596,
+       "n": 384
+      },
+      "C12": {
+       "miou": 0.13327556379390892,
+       "n": 1152
+      }
+     },
+     "cluster_macro_miou": 0.13705756942653474,
+     "pooled_miou": 0.12656805224790268,
+     "pixel_acc": 0.7538049490313344,
+     "per_class_ap": {
+      "10": 0.0026991507983904284,
+      "20": 0.28212534712931087,
+      "30": 0.0005215350432761443,
+      "40": 9.283701675833591e-05,
+      "50": 0.001822294902106879,
+      "60": 0.5452373100443434,
+      "100": 0.8969962959140528
+     }
+    },
+    "test_bytes_read": 13463715840
+   }
+  },
+  "logged": {
+   "FULL_RAW": {
+    "train": {
+     "steps": 4000,
+     "gpu_s": 686.0220900904387,
+     "final_loss": 0.021106120198965073,
+     "train_bytes_read": 105282404352,
+     "peak_mem_mb": 3081.025390625
+    },
+    "test": {
+     "n_chips": 7232,
+     "clusters": {
+      "C02": {
+       "n": 576,
+       "pos_px": 2385,
+       "ap": 0.02644241424082896,
+       "iou": 0.0
+      },
+      "C03": {
+       "n": 1792,
+       "pos_px": 0,
+       "ap": null,
+       "iou": null
+      },
+      "C05": {
+       "n": 512,
+       "pos_px": 2341,
+       "ap": 0.0004867597760937943,
+       "iou": 0.0
+      },
+      "C06": {
+       "n": 1920,
+       "pos_px": 4959,
+       "ap": 0.00029033637144334037,
+       "iou": 0.0
+      },
+      "C07": {
+       "n": 896,
+       "pos_px": 0,
+       "ap": null,
+       "iou": null
+      },
+      "C08": {
+       "n": 384,
+       "pos_px": 162,
+       "ap": 1.5635989533466396e-05,
+       "iou": 0.0
+      },
+      "C12": {
+       "n": 1152,
+       "pos_px": 2105,
+       "ap": 0.00037539610407058164,
+       "iou": 0.0
+      }
+     },
+     "all_cluster_ap": 0.0001995172988087942,
+     "iou_0p5": 0.0,
+     "positive_cluster_macro_iou": 0.0,
+     "positive_clusters": 5,
+     "test_pos_px": 11952
+    },
+    "test_bytes_read": 13463715840
+   }
+  },
+  "landslide": {
+   "FULL_RAW": {
+    "train": {
+     "steps": 4000,
+     "gpu_s": 683.6983145978302,
+     "final_loss": 0.006932207383215427,
+     "train_bytes_read": 105282404352,
+     "peak_mem_mb": 3081.025390625
+    },
+    "test": {
+     "n_chips": 7232,
+     "clusters": {
+      "C02": {
+       "n": 576,
+       "pos_px": 0,
+       "ap": null,
+       "iou": null
+      },
+      "C03": {
+       "n": 1792,
+       "pos_px": 0,
+       "ap": null,
+       "iou": null
+      },
+      "C05": {
+       "n": 512,
+       "pos_px": 1748,
+       "ap": 0.002525704818806785,
+       "iou": 0.0014259381629742984
+      },
+      "C06": {
+       "n": 1920,
+       "pos_px": 0,
+       "ap": null,
+       "iou": null
+      },
+      "C07": {
+       "n": 896,
+       "pos_px": 0,
+       "ap": null,
+       "iou": null
+      },
+      "C08": {
+       "n": 384,
+       "pos_px": 57584,
+       "ap": 0.046221002230870674,
+       "iou": 0.00968029358019844
+      },
+      "C12": {
+       "n": 1152,
+       "pos_px": 19766,
+       "ap": 0.004004328096599251,
+       "iou": 0.000735172765599916
+      }
+     },
+     "all_cluster_ap": 0.0015037510066676606,
+     "iou_0p5": 0.0007983008857899497,
+     "positive_cluster_macro_iou": 0.003947134836257552,
+     "positive_clusters": 3,
+     "test_pos_px": 79098
+    },
+    "test_bytes_read": 13463715840
+   }
+  }
+ },
+ "raw_model": "RawUNetT (per-date 2D encoder, temporal max+mean pooling, 2D U-Net decoder; base 32)",
+ "cache_head": "EmbDecoder(768->128, 2 upsample blocks)",
+ "done_utc": "2026-09-09T22:51:33Z"
+}

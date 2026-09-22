@@ -1,0 +1,141 @@
+{
+ "schema": "frozen-sensitivity-eval-v0",
+ "fold": "holdout_hiroshima",
+ "n_tiles": 862,
+ "window": "8:120",
+ "ctrl_vs_sealed_token_cos": 1.0,
+ "arms": {
+  "ctrl": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.0,
+   "flip_rate_among_predicted_positive": 0.0,
+   "prob_mae": 0.0,
+   "per_tile_flip_p50": 0.0,
+   "per_tile_flip_p90": 0.0,
+   "token_cos_vs_ctrl": 1.0,
+   "window_macro_iou": 0.317599892616272,
+   "window_micro_iou": 0.3546042740345001,
+   "window_auprc": 0.5535470831185465
+  },
+  "s20_y": {
+   "offset_px": [
+    2,
+    0
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.004047747289170889,
+   "flip_rate_among_predicted_positive": 0.19471569853055667,
+   "prob_mae": 0.004113149829208851,
+   "per_tile_flip_p50": 0.0011160714285714285,
+   "per_tile_flip_p90": 0.01171875,
+   "window_macro_iou": 0.3166077136993408,
+   "window_micro_iou": 0.3596290946006775,
+   "window_auprc": 0.5541597781849069
+  },
+  "s20_x": {
+   "offset_px": [
+    0,
+    2
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.004300592771911549,
+   "flip_rate_among_predicted_positive": 0.2041011595958532,
+   "prob_mae": 0.004365807864814997,
+   "per_tile_flip_p50": 0.0011957908163265306,
+   "per_tile_flip_p90": 0.011949936224489794,
+   "window_macro_iou": 0.32458239793777466,
+   "window_micro_iou": 0.35657206177711487,
+   "window_auprc": 0.5589705697171872
+  },
+  "s20_xy": {
+   "offset_px": [
+    2,
+    2
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.0049077363689095125,
+   "flip_rate_among_predicted_positive": 0.23183384956815392,
+   "prob_mae": 0.005005490966141224,
+   "per_tile_flip_p50": 0.0013552295918367347,
+   "per_tile_flip_p90": 0.013942920918367345,
+   "window_macro_iou": 0.3214828073978424,
+   "window_micro_iou": 0.3596974015235901,
+   "window_auprc": 0.5559499884738613
+  },
+  "s40_xy": {
+   "offset_px": [
+    4,
+    4
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.00294610303518159,
+   "flip_rate_among_predicted_positive": 0.14744939758478479,
+   "prob_mae": 0.0030384245328605175,
+   "per_tile_flip_p50": 0.0008769132653061224,
+   "per_tile_flip_p90": 0.008689413265306123,
+   "token_cos_vs_ctrl_realigned": 0.9621816873550415,
+   "window_macro_iou": 0.31987082958221436,
+   "window_micro_iou": 0.36194556951522827,
+   "window_auprc": 0.5529730241345427
+  },
+  "t_synth": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "synth_month",
+   "decision_flip_rate": 0.0021228292651167195,
+   "flip_rate_among_predicted_positive": 0.10176675312008157,
+   "prob_mae": 0.0021355843637138605,
+   "per_tile_flip_p50": 0.0,
+   "per_tile_flip_p90": 0.00701530612244898,
+   "token_cos_vs_ctrl": 0.9941873550415039,
+   "window_macro_iou": 0.3077962100505829,
+   "window_micro_iou": 0.3411581218242645,
+   "window_auprc": 0.55555553251126
+  },
+  "t_plus1": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "plus1",
+   "decision_flip_rate": 0.003440233764619537,
+   "flip_rate_among_predicted_positive": 0.17245871542619773,
+   "prob_mae": 0.003443073248490691,
+   "per_tile_flip_p50": 0.0007971938775510204,
+   "per_tile_flip_p90": 0.01027582908163265,
+   "token_cos_vs_ctrl": 0.9829690456390381,
+   "window_macro_iou": 0.3225155174732208,
+   "window_micro_iou": 0.35982394218444824,
+   "window_auprc": 0.5348087811899056
+  },
+  "t_shuffle": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "shuffle",
+   "decision_flip_rate": 0.007299410483450921,
+   "flip_rate_among_predicted_positive": 0.3194805930759236,
+   "prob_mae": 0.007595602422952652,
+   "per_tile_flip_p50": 0.0026307397959183672,
+   "per_tile_flip_p90": 0.020878507653061224,
+   "token_cos_vs_ctrl": 0.9317541718482971,
+   "window_macro_iou": 0.3210562765598297,
+   "window_micro_iou": 0.3551817536354065,
+   "window_auprc": 0.5652000654060471
+  }
+ },
+ "rules": {
+  "yardstick_s40_flip": 0.00294610303518159,
+  "spatial_axis_present": false,
+  "time_axis_present": false,
+  "time_axis_inert": false,
+  "control_ok": true
+ }
+}

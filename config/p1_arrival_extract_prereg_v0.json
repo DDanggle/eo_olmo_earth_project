@@ -1,0 +1,22 @@
+{
+ "schema": "p1-arrival-extract-prereg-v0",
+ "registered_at": "2026-09-19",
+ "status": "registered before execution; data preparation for P1 (design doc §8.3), no model result",
+ "region": "hiroshima (all 864 non-error tiles; positives and negatives)",
+ "source": "Sen12Landslides NetCDF, ALL 15 acquisitions in arrival (acquisition) order, real dates, including cloudy ones (SCL clear fraction kept as quality q_i). No top-12 clear selection.",
+ "outputs_per_tile": {
+  "single_fp16": "(15,768,32,32): OlmoEarth v1 base single-observation state per acquisition (1-timestep window), same crop/pool/band contract as the sealed cache",
+  "prefix_fp16": "(15,768,32,32): full re-encoding of the arrival prefix [max(0,c-12):c] for c=1..15 (encoder max 12 timesteps; older observations drop off) — the cost reference and teacher for the causal update",
+  "meta.json": "dates, clear fractions, post_index, event_date"
+ },
+ "why": "P1 requires causal arms that never see future observations or quality; the sealed cache pre-selected the clearest 12 using the whole year, which is a lookahead. This extraction removes that lookahead.",
+ "cost_note": "encode units per tile = 15 singles + sum(min(c,12)) for c=1..15 = 15 + 78+36 = 129 timestep-units vs 12 for the sealed cache; ~26k crops-of-4 on GPU0, est. 60-90 min",
+ "not_claimed": [
+  "any detection or latency result"
+ ],
+ "amendment_1": {
+  "registered_at": "2026-09-20",
+  "change": "same extraction contract applied to additional single-event regions for EVENT-LEVEL holdout: thrissur (2018-08-07, 427 tiles), itogon (2018-09-15, 235), hokkaido (2018-09-06, 290). Script generalised with --region; hiroshima outputs unchanged.",
+  "purpose": "design doc §9.3 — hold out whole events, not tiles"
+ }
+}

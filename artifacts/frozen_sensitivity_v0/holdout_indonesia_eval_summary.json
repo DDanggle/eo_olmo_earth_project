@@ -1,0 +1,141 @@
+{
+ "schema": "frozen-sensitivity-eval-v0",
+ "fold": "holdout_indonesia",
+ "n_tiles": 573,
+ "window": "8:120",
+ "ctrl_vs_sealed_token_cos": 1.0,
+ "arms": {
+  "ctrl": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.0,
+   "flip_rate_among_predicted_positive": 0.0,
+   "prob_mae": 0.0,
+   "per_tile_flip_p50": 0.0,
+   "per_tile_flip_p90": 0.0,
+   "token_cos_vs_ctrl": 1.0,
+   "window_macro_iou": 0.3139127790927887,
+   "window_micro_iou": 0.345317542552948,
+   "window_auprc": 0.4859752570273578
+  },
+  "s20_y": {
+   "offset_px": [
+    2,
+    0
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.005902434599494248,
+   "flip_rate_among_predicted_positive": 0.17940206359945873,
+   "prob_mae": 0.006380971521139145,
+   "per_tile_flip_p50": 0.0016741071428571428,
+   "per_tile_flip_p90": 0.016406250000000004,
+   "window_macro_iou": 0.3177158832550049,
+   "window_micro_iou": 0.3437674641609192,
+   "window_auprc": 0.48749640730502214
+  },
+  "s20_x": {
+   "offset_px": [
+    0,
+    2
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.0059454246358229155,
+   "flip_rate_among_predicted_positive": 0.18095818830085453,
+   "prob_mae": 0.006405518855899572,
+   "per_tile_flip_p50": 0.001833545918367347,
+   "per_tile_flip_p90": 0.016485969387755105,
+   "window_macro_iou": 0.32202014327049255,
+   "window_micro_iou": 0.3449772596359253,
+   "window_auprc": 0.4871961869875863
+  },
+  "s20_xy": {
+   "offset_px": [
+    2,
+    2
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.007079025982120597,
+   "flip_rate_among_predicted_positive": 0.21026401808331716,
+   "prob_mae": 0.007631197571754456,
+   "per_tile_flip_p50": 0.002311862244897959,
+   "per_tile_flip_p90": 0.019993622448979596,
+   "window_macro_iou": 0.31668201088905334,
+   "window_micro_iou": 0.3428233861923218,
+   "window_auprc": 0.48908527004403723
+  },
+  "s40_xy": {
+   "offset_px": [
+    4,
+    4
+   ],
+   "time": "real",
+   "decision_flip_rate": 0.00494719320974463,
+   "flip_rate_among_predicted_positive": 0.14873637451165747,
+   "prob_mae": 0.005322027951478958,
+   "per_tile_flip_p50": 0.0014349489795918368,
+   "per_tile_flip_p90": 0.01411033163265306,
+   "token_cos_vs_ctrl_realigned": 0.962364673614502,
+   "window_macro_iou": 0.3214338421821594,
+   "window_micro_iou": 0.3407067656517029,
+   "window_auprc": 0.48542728278806213
+  },
+  "t_synth": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "synth_month",
+   "decision_flip_rate": 0.0063455519642411935,
+   "flip_rate_among_predicted_positive": 0.20590585484111254,
+   "prob_mae": 0.006543398834764957,
+   "per_tile_flip_p50": 0.0013552295918367347,
+   "per_tile_flip_p90": 0.01736288265306123,
+   "token_cos_vs_ctrl": 0.9903994798660278,
+   "window_macro_iou": 0.297689288854599,
+   "window_micro_iou": 0.3411201536655426,
+   "window_auprc": 0.465363659680417
+  },
+  "t_plus1": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "plus1",
+   "decision_flip_rate": 0.0037291421804323825,
+   "flip_rate_among_predicted_positive": 0.11911512447450517,
+   "prob_mae": 0.0039208116941154,
+   "per_tile_flip_p50": 0.0008769132653061224,
+   "per_tile_flip_p90": 0.011383928571428576,
+   "token_cos_vs_ctrl": 0.9952313899993896,
+   "window_macro_iou": 0.30515822768211365,
+   "window_micro_iou": 0.34677061438560486,
+   "window_auprc": 0.490432429420726
+  },
+  "t_shuffle": {
+   "offset_px": [
+    0,
+    0
+   ],
+   "time": "shuffle",
+   "decision_flip_rate": 0.008857477873348292,
+   "flip_rate_among_predicted_positive": 0.2588102816769719,
+   "prob_mae": 0.00937675591558218,
+   "per_tile_flip_p50": 0.002311862244897959,
+   "per_tile_flip_p90": 0.024952168367346966,
+   "token_cos_vs_ctrl": 0.9749749302864075,
+   "window_macro_iou": 0.2945919632911682,
+   "window_micro_iou": 0.3336878716945648,
+   "window_auprc": 0.4719165521126502
+  }
+ },
+ "rules": {
+  "yardstick_s40_flip": 0.00494719320974463,
+  "spatial_axis_present": false,
+  "time_axis_present": false,
+  "time_axis_inert": false,
+  "control_ok": true
+ }
+}

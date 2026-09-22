@@ -1,0 +1,64 @@
+{
+ "schema": "latent-interp-train-v0",
+ "model": "ctxattn",
+ "seed": 1,
+ "steps": 20000,
+ "n_train": 2745,
+ "n_val": 304,
+ "n_test": 2114,
+ "test_regions": [
+  "hokkaido",
+  "kyrgyzstan1",
+  "newzealand"
+ ],
+ "test_cos_model": 0.8490117952368568,
+ "test_cos_linear": 0.8204599513052878,
+ "paired_diff_mean": 0.02855184393156894,
+ "paired_diff_ci95": [
+  0.027817263085511402,
+  0.029299734608360977
+ ],
+ "by_gap": {
+  "<=20": {
+   "n": 428,
+   "cos_model": 0.8063960225086346,
+   "cos_linear": 0.7956042859320328
+  },
+  "21-40": {
+   "n": 756,
+   "cos_model": 0.8180641956509106,
+   "cos_linear": 0.8040587184605775
+  },
+  "41-70": {
+   "n": 2265,
+   "cos_model": 0.8234882774995126,
+   "cos_linear": 0.8071454221839147
+  },
+  "71-120": {
+   "n": 2018,
+   "cos_model": 0.8407537695555786,
+   "cos_linear": 0.8174348191032325
+  },
+  ">120": {
+   "n": 15673,
+   "cos_model": 0.8564201662899136,
+   "cos_linear": 0.8242435078709749
+  }
+ },
+ "by_region": {
+  "hokkaido": {
+   "cos_model": 0.8228737532475899,
+   "cos_linear": 0.8052183381442366
+  },
+  "kyrgyzstan1": {
+   "cos_model": 0.8616559774553355,
+   "cos_linear": 0.822828519857058
+  },
+  "newzealand": {
+   "cos_model": 0.8484565263132915,
+   "cos_linear": 0.8229135998044376
+  }
+ },
+ "train_s": 10753.061171859503,
+ "params": 1450240
+}

@@ -1,0 +1,39 @@
+{
+ "schema": "change-calibration-token-v0.2",
+ "size": "tiny",
+ "n_event_pairs": 457,
+ "table_cells": 18,
+ "pooled": {
+  "n_events": 440,
+  "auc_per_event_median": 0.9355996726674185,
+  "auc_pooled": 0.8962998338103056,
+  "tpr_z2": 0.5172860497125739,
+  "fpr_z2": 0.06248616527729919,
+  "mask_tokens": 12351,
+  "nonmask_tokens": 438209
+ },
+ "loeo": {
+  "hiroshima": {
+   "n_events": 457,
+   "factor": 1.0,
+   "plain": {
+    "n_events": 440,
+    "auc_per_event_median": 0.6935295701337162,
+    "auc_pooled": 0.6759037548138889,
+    "tpr_z2": 0.0,
+    "fpr_z2": 0.0,
+    "mask_tokens": 12351,
+    "nonmask_tokens": 438209
+   },
+   "with_factor": {
+    "n_events": 440,
+    "auc_per_event_median": 0.6935295701337162,
+    "auc_pooled": 0.6759037548138889,
+    "tpr_z2": 0.0,
+    "fpr_z2": 0.0,
+    "mask_tokens": 12351,
+    "nonmask_tokens": 438209
+   }
+  }
+ }
+}

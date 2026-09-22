@@ -1,0 +1,13 @@
+{
+  "schema": "p1-event-holdout-prereg-v0",
+  "registered_at": "2026-09-19",
+  "status": "registered before execution; evaluation-only (no training on external events)",
+  "question": "Do the heads and updaters trained on the hiroshima event (P1 v0.3 seed 1) confirm landslides on three UNSEEN events (thrissur 2018-08, itogon 2018-09, hokkaido 2018-09) at the first valid post-event observation, with pre-event false alarms within budget, when thresholds are fixed on hiroshima validation?",
+  "train_source": "p1_causal_v0_3 seed 1 checkpoints: updaters (ema, gru, gru_dt, resid_q, meta_only) and matched heads (last, gru_dt, prefix, resid_q). Nothing is re-fitted on external data.",
+  "thresholds": "per arm, the tile-level 5% and 10% pre-event false-alarm thresholds computed on the hiroshima validation block in v0.3 (reused verbatim); realised pre-event FAR on each external event is reported and is the primary validity check",
+  "external_events": {"thrissur": "arrival_v0/thrissur, masks sen12_pilot/holdout_thrissur/mask_u8", "itogon": "arrival_v0/itogon, masks sen12_pilot/holdout_itogon/mask_u8", "hokkaido": "arrival_v0/hokkaido, masks sen12_pilot/holdout_hokkaido/mask_u8"},
+  "arms": ["last+head (latest_head)", "gru_dt+head", "prefix+head", "resid_q+head", "frozen-readout reference arms (last, gru_dt, prefix) for continuity"],
+  "metrics": ["per event: realised tile-level pre-event FAR, confirmation rate and never-confirmed count, latency A (event date) and B (first valid post-event observation), post-event mean IoU", "event-level summary: number of events (of 3) where latest_head keeps confirmation >= 70% with realised FAR <= 2x budget", "head_valid flag per event (realised FAR < 3x budget)"],
+  "decision_rules": {"generalises": "latest_head valid on >= 2 of 3 events with confirmation >= 70% at the 10% budget and latency B median <= 1 observation step", "does_not_generalise": "otherwise: the hiroshima head result (MS-137) is event-specific; report as such", "memory_on_external": "if any +head memory arm beats latest_head on post-event IoU by >= .03 on >= 2 events, revisit the v0.3 verdict"},
+  "not_claimed": ["performance after re-fitting on the new events", "any claim beyond Sentinel-2 landslide scars", "statistical significance across events (n=3 events; reported per event)"]
+}

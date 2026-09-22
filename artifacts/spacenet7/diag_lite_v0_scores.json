@@ -1,0 +1,136 @@
+{
+ "schema": "sn7-diag-lite-v0",
+ "per_condition": {
+  "change_topk": {
+   "Q1": {
+    "n": 30,
+    "acc": 0.23333333333333334,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 23,
+    "acc": 0.08695652173913043,
+    "parse_fail": 0.391304347826087,
+    "error": 0.0
+   },
+   "Q3": {
+    "n": 22,
+    "acc": 0.3181818181818182,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "full_prefix": {
+   "Q1": {
+    "n": 30,
+    "acc": 0.1,
+    "parse_fail": 0.4666666666666667,
+    "error": 0.2
+   },
+   "Q2": {
+    "n": 23,
+    "acc": 0.0,
+    "parse_fail": 1.0,
+    "error": 0.17391304347826086
+   },
+   "Q3": {
+    "n": 22,
+    "acc": 0.13636363636363635,
+    "parse_fail": 0.45454545454545453,
+    "error": 0.2727272727272727
+   }
+  },
+  "latest_k": {
+   "Q1": {
+    "n": 30,
+    "acc": 0.3,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 23,
+    "acc": 0.0,
+    "parse_fail": 0.5652173913043478,
+    "error": 0.0
+   },
+   "Q3": {
+    "n": 22,
+    "acc": 0.3181818181818182,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "privileged_silver": {
+   "Q1": {
+    "n": 22,
+    "acc": 0.045454545454545456,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 23,
+    "acc": 0.043478260869565216,
+    "parse_fail": 0.782608695652174,
+    "error": 0.0
+   },
+   "Q3": null
+  }
+ },
+ "paired_vs": {
+  "Q1:privileged-change_topk": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": 0.08333333333333333,
+   "ci95": [
+    0.0,
+    0.25
+   ]
+  },
+  "Q1:privileged-full_prefix": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": 0.08333333333333333,
+   "ci95": [
+    0.0,
+    0.25
+   ]
+  },
+  "Q1:privileged-latest_k": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": -0.041666666666666664,
+   "ci95": [
+    -0.125,
+    0.0
+   ]
+  },
+  "Q2:privileged-change_topk": {
+   "n_items": 23,
+   "n_aois": 12,
+   "diff": -0.041666666666666664,
+   "ci95": [
+    -0.125,
+    0.0
+   ]
+  },
+  "Q2:privileged-full_prefix": {
+   "n_items": 23,
+   "n_aois": 12,
+   "diff": 0.041666666666666664,
+   "ci95": [
+    0.0,
+    0.125
+   ]
+  },
+  "Q2:privileged-latest_k": {
+   "n_items": 23,
+   "n_aois": 12,
+   "diff": 0.041666666666666664,
+   "ci95": [
+    0.0,
+    0.125
+   ]
+  }
+ }
+}

@@ -1,4 +1,102 @@
 # OLMoEarth 연구 재시작 지점
+
+> ## 2026-09-17 — CVPR 재집중, frozen 민감성 진단 실행
+>
+> PR·Ai2 지원 작업은 종료. 논문 방향 검토 `docs/EARTHBRIDGE_PROPOSAL_REVIEW_2026_09_17.md` §3·§5~7,
+> 자산 목록 `docs/CVPR_ASSET_INVENTORY_2026_09_17.md`. 서버 `frozen_sensitivity_v0/` 체인 결과
+> 결과 MS-122~124: 격자·월·연도·구름·결측 모두 결정 수준 강건, 손실은 사건 후 증거 제거뿐(2/2). A·C post-training 축 Sen12에서 폐기.
+> 다음 분기는 검토문 §10: 갱신형 캐시+continuity benchmark 복귀(추천) 또는 PASTIS 재다운로드 후 시간 민감 과업 진단.
+>
+> **9/18 갱신:** 두 트랙 설계 `docs/RESEARCH_DESIGN_TIME_AND_LANGUAGE_2026_09_18.md`(§5 문헌검증·관문). MS-125: 사건 후 관측 1장 21%·2장 64~75%·3장 87~96%(2/2 폴드), G-T0 통과.
+> 논문 몸통 = 갱신형 캐시(R7/R8) + 잠재 보간 벤치마크(T2) + 강건성·지연 열(MS-122~125). 다음 관문 G-T1(같은 달 구분), G-T2(보간 벤치마크 v0).
+> GPU 두 장 허용(CLAUDE.md 4b 갱신). 새 sealed 파일 변경 없음.
+
+> ## 2026-09-13 — PR 최종 준비 완료, 제출·새 실험은 하지 않음
+>
+> [최종 준비표](docs/PR_REENTRY_2026_09_10.md): sample 정적 검사 PASS, 최신 upstream에서도 schema 불일치 유지.
+> SCL은 두 compositor + 실제 재격자 회귀 테스트, LFMC는 당시 config/log/full hash가 남았다.
+> 기존 meeting cards의 T9~T14를 교정했다. Markdown만 변경했고 HTML/공개 페이지는 미동기화다.
+> 공식 채용 마감 9/16 확인. PR 완료를 지원 조건으로 두지 않는다.
+> 연구·제품 코드, GPU 작업, 외부 게시를 변경하지 않았다. 아래 연구 상태는 당시 검토 기록이다.
+
+> ## 2026-09-10 — Korea KR-4 검증 / PR 준비 위치
+>
+> [한국 감사](docs/KOREA_KR4_AUDIT_2026_09_10.md): 원 보고서 수치 확인, random 주 규칙 불통과 유지.
+> test C05 한 타일64칩은 cache 20220924 / raw·label 20220427 cutoff 비대칭.
+> FULL batch32/16으로 노출2배, init 후 seed 설정·raw padding·mIoU 정의도 다음 revision에서 보완한다.
+> K-shot은 이미 같은 support/step/batch다. 단순 raw step 확대를 exposure matching이라 부르지 않는다.
+> 한국 label/test 성능은 이제 개봉됐다. 신규 head 세 개의 static 재사용이며 source-head 전이와
+> 공유 streaming은 아직 없다(single_fp16=0). 원 v1은 보존하고 실행 전 새 규격을 마련한다.
+> [PR 재진입 목록](docs/PR_REENTRY_2026_09_10.md): 첫 영문 초안·branch 확인. 최신 upstream 검증은 별도.
+> 이번 감사는 원격 읽기·CPU 집계·문서만 수행했고 GPU/production/PR 제출을 변경하지 않았다.
+
+> ## 2026-09-09 — 다음 학습 준비: JEPA / encoder post-training
+>
+> **설계 입구:** [추가 학습 준비안](docs/POSTTRAINING_JEPA_UPDATE_2026_09_09.md).
+> 현재 수치판은 아래 MS-117~120 검토다. 새 성능/확증 결과는 추가하지 않았다.
+> 방향: frozen readout을 유지하는 **encoder frozen/LoRA × forecast loss 유무** 비교.
+> 교차센서 정렬·surprise·decoder joint tuning은 원인이 섞이지 않도록 별도 가지로 둔다.
+> “관측0 실패=재해 예측불가”, “surprise=재해”, “S1 날짜정렬 원인배제”는 채택하지 않는다.
+> draft JSON은 `launch_allowed=false`; 날짜/clean validation/기억대조/λ·gate·외부holdout을
+> 실행 전 동결해야 한다. 이번 준비는 서버/GPU/production/prereg/Korea 봉인을 건드리지 않았다.
+
+> ## 2026-09-09 — MS-117~120 최신 검토부터 읽기
+>
+> **현재 입구:** [최신 연구판](docs/STREAMING_RESEARCH_UPDATE_2026_09_09.md).
+> Kuro의 어제 false-DONE은 이후 updater 재실행으로 수치상 회복됐다.9개 updater의 finite
+> validation/skip0,3개 eval의12-arm 완결 및 원 산술 gate 통과를 확인했다. 단 val/test 각1개
+> NaN 제외 + 제외 전 decoder 선택을 유지한 상태이므로 clean 확증 보류. 기존 AP를 폐기하지 않는다.
+>
+> **핵심 남은 질문:** GRU가 새 영상만 읽어도 되는 것이 아니라 과거 캐시를 실제 활용하는가?
+> POST_ONLY/NO_MEMORY 대조가 미실행이다. 같은 가중치 S2→S1 zero-shot·공유3task도 미검증이다.
+> 구조36/36 gate미달, 교차센서2지역만 완료(나머지 test0/val0), 이탈리아 크기층화까지 완료됐다.
+> 이탈리아 raw 미실행이며 “해상도/IoU만의 문제”라는 인과 해석은 보류한다.
+>
+> **다음 제안:** validation/coverage 복구 → 기억 기여 대조 → 도착 스케줄 비용 → DEN 시간별 평가
+> → Korea3task. 원 prereg·active queue는 변경하지 않았고 새 GPU 실행도 하지 않았다.
+> 과거의 여러 SSOT/다음 순서는 날짜별 이력이다. 실험 추가 시 별도 amendment가 필요하다.
+
+> ## 2026-09-08 오후 — 서버 재점검: 외부 갱신 실험은 현재 실행 무효
+>
+> **확인:** KuroSiwo S1 7,000 cache·판독기3개 완료. 사건 27/6/10개, 모든 split 쌍의
+> sample/activation 중복0 재확인. 판독기 validation AP .662/.664/.688, **test 결과 아님**.
+> **추가 발견:** 이 AP도 검증 입력 NaN이 유효 영역에 번진 상태라 재검토해야 한다.
+>
+> **P0:** GRU seed1은 val NaN 30epoch인데 DONE/rc0를 남겼다. 유효한 updater·최종 평가 없음.
+> 방법 실패로 세지 말고 finite 검사·유효 checkpoint·fail-closed chain을 갖춘 별도 수정본으로
+> 재현해야 한다. 훈련 teacher 전수 finite·전체 std .488538은 CPU에서 확인했으므로 scale 자체는
+> 정상이다. 후속 전수 검사에서 validation **ks_04357**의 원시 NaN1,338개와 오염 cache를
+> 확인했다(유효 라벨 포함327토큰). 데이터 전처리/캐시 해당 revision을 복구한 뒤 검증/학습을
+> 재검토한다. 빈 타일로 삭제하거나 NaN을0손실로 바꾸지 않는다. 기존 산출물은 보존한다.
+>
+> **T1 구조:** 보존본22/36, 기본대조36/36. Δt는 3지역 평균 AP +.009~+.012지만 +5%p/3-of-4
+> gate에는 못 미친다. 공간/attention도 완료 두 지역에서 미달이라 세 arm 모두 승격 gate는
+> 남은 지역만으로 도달 불가다. 미완료를 음성으로 기록하거나 runner를 감사자가 중단하지 않았다.
+>
+> **다음:** 정상 S1 갱신 실행 복구 → 외부 사건 평가 → POST_ONLY와 온라인 비용 검증.
+> frozen v0는 이미 실행됐으므로 오전의 "동결 전 권고"는 이제 별도 amendment 제안이다.
+> 최신 근거/결함/해석은 [큰 그림 §8](docs/BIG_PICTURE_STREAMING_EARTH_2026_09_08.md#8-2026-09-08-오후-재감사--실제-진전과-실행-무효를-분리한다).
+
+> ## 2026-09-08 오전 — 현재 큰 그림과 다음 검증
+>
+> **집중 질문:** OLMoEarth의 저장 상태를 새 관측으로 갱신해 과거 전체 재인코딩 없이
+> downstream 지도를 유지할 수 있는가? 이전 cache/few-shot은 기반, MS-116은 시간 갱신 개발,
+> KuroSiwo는 다음 외부 사건 시험, Korea 3-task는 후속 공유 상태 검증이다.
+>
+> **최신 장부:** MS-116은 4노출 지역·판독기 3seed·갱신기 3seed로 확대됐다. EMA/noobs/calib,
+> checkpoint 저장 및 logit-MSE 보존 손실도 실행됐다. 아래 00:03의 9/18·미완료 표시는 과거 snapshot이다.
+>
+> **비용 코드 검토:** 2.3배는 새 8시점을 한 번에 묶은 메모리 상주 batch-compute 결과이지
+> 순차 도착 온라인 latency가 아니다. 4.5배는 update-only 논리 입력량이며 실측 I/O가 아니다
+> (초기 포함 3.33배). 다음 계측은 cutoff별 실제 가용 관측으로 맞춘다.
+>
+> **다음:** KuroSiwo 초안의 POST_ONLY·사건 분리·실제 취득일·단위/mask·head/crop을 동결 전
+> 보완한다. SAR에서 updater를 재학습하는 것은 방법의 외부 재현이지 같은 가중치의 S2→S1
+> zero-shot이 아니다. 현재 초안·서버 queue·GPU·Korea 봉인은 이번 검토에서 변경하지 않았다.
+>
+> **현재 설명/설계 입구:** [큰 그림과 KuroSiwo 체크리스트](docs/BIG_PICTURE_STREAMING_EARTH_2026_09_08.md).
+> 이 블록은 최신 장부·코드 검토이며 서버 전수 재계산은 아니다. 아래 인수인계와 기존 gate는 이력으로 보존한다.
+
 > ## 2026-09-08 00:03 KST — T1 streaming utility 독립 감사
 >
 > **최신 확인**: Hiroshima GRU 3seed AP `.525479`, full teacher `.549624`, frozen c4 `.013356`.

@@ -1,0 +1,105 @@
+{
+ "schema": "change-calibration-token-v0.2",
+ "size": "base",
+ "n_event_pairs": 953,
+ "table_cells": 21,
+ "pooled": {
+  "n_events": 931,
+  "auc_per_event_median": 0.796813725490196,
+  "auc_pooled": 0.8025074687836693,
+  "tpr_z2": 0.27182625538315713,
+  "fpr_z2": 0.0760378111278242,
+  "mask_tokens": 48531,
+  "nonmask_tokens": 904813
+ },
+ "loeo": {
+  "hiroshima": {
+   "n_events": 457,
+   "factor": 0.824,
+   "plain": {
+    "n_events": 440,
+    "auc_per_event_median": 0.9101811919384828,
+    "auc_pooled": 0.8705832890597541,
+    "tpr_z2": 0.03400534369686665,
+    "fpr_z2": 0.008721865593814824,
+    "mask_tokens": 12351,
+    "nonmask_tokens": 438209
+   },
+   "with_factor": {
+    "n_events": 440,
+    "auc_per_event_median": 0.9101811919384828,
+    "auc_pooled": 0.8705832890597541,
+    "tpr_z2": 0.08436563840984536,
+    "fpr_z2": 0.01549260740879352,
+    "mask_tokens": 12351,
+    "nonmask_tokens": 438209
+   }
+  },
+  "thrissur": {
+   "n_events": 221,
+   "factor": 1.05,
+   "plain": {
+    "n_events": 219,
+    "auc_per_event_median": 0.6914108618654073,
+    "auc_pooled": 0.6509699393642433,
+    "tpr_z2": 0.3814387211367673,
+    "fpr_z2": 0.21372413793103448,
+    "mask_tokens": 6756,
+    "nonmask_tokens": 217500
+   },
+   "with_factor": {
+    "n_events": 219,
+    "auc_per_event_median": 0.6914108618654073,
+    "auc_pooled": 0.6509699393642433,
+    "tpr_z2": 0.35198342214328004,
+    "fpr_z2": 0.1955816091954023,
+    "mask_tokens": 6756,
+    "nonmask_tokens": 217500
+   }
+  },
+  "itogon": {
+   "n_events": 125,
+   "factor": 1.187,
+   "plain": {
+    "n_events": 122,
+    "auc_per_event_median": 0.6593239508349058,
+    "auc_pooled": 0.6531858837428131,
+    "tpr_z2": 0.21347644603458557,
+    "fpr_z2": 0.13823011577999367,
+    "mask_tokens": 1677,
+    "nonmask_tokens": 123251
+   },
+   "with_factor": {
+    "n_events": 122,
+    "auc_per_event_median": 0.6593239508349058,
+    "auc_pooled": 0.6531858837428131,
+    "tpr_z2": 0.14788312462731068,
+    "fpr_z2": 0.09993428045208558,
+    "mask_tokens": 1677,
+    "nonmask_tokens": 123251
+   }
+  },
+  "hokkaido": {
+   "n_events": 150,
+   "factor": 1.014,
+   "plain": {
+    "n_events": 150,
+    "auc_per_event_median": 0.6957086260137771,
+    "auc_pooled": 0.6867280118930236,
+    "tpr_z2": 0.398529570764407,
+    "fpr_z2": 0.19675335510476508,
+    "mask_tokens": 27747,
+    "nonmask_tokens": 125853
+   },
+   "with_factor": {
+    "n_events": 150,
+    "auc_per_event_median": 0.6957086260137771,
+    "auc_pooled": 0.6867280118930236,
+    "tpr_z2": 0.38840234980358235,
+    "fpr_z2": 0.19026960024790826,
+    "mask_tokens": 27747,
+    "nonmask_tokens": 125853
+   }
+  }
+ }
+}

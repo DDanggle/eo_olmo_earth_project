@@ -1,0 +1,11 @@
+{
+  "schema": "latent-noise-floor-prereg-v0",
+  "registered_at": "2026-09-19",
+  "status": "registered before execution; measurement only",
+  "question": "What is the repeatability ceiling of OlmoEarth single-observation embeddings? If two observations of the same tile a few days apart already differ, no interpolator can be expected to match a held-out observation beyond that ceiling.",
+  "data": "olmo_streaming_dev/single_fp16, the same 1500-tile seed-0 sample as MS-126; real dates from the contract",
+  "measure": "token cos between consecutive kept observations, binned by day gap: <=5, 6-10, 11-20, 21-40, 41-70, 71-120, >120; also same-calendar-month pairs",
+  "ceiling_definition": "mean cos of pairs with gap <= 10 days (short enough that surface change is negligible for most tiles; cloud/atmosphere/geometry differences remain)",
+  "normalised_gain": "(cos_model - cos_linear) / (ceiling - cos_linear) computed from MS-130 (resmlp seed mean, test regions) and MS-126 (linear, dev sample); reported descriptively",
+  "not_claimed": ["that <=10-day pairs have zero surface change", "any model result"]
+}

@@ -1,0 +1,73 @@
+{
+ "n_label_tifs": 2700,
+ "raster_shapes": {
+  "((1024, 1024), 'uint8')": 2527
+ },
+ "codes_pixel_counts": {
+  "10": 924063,
+  "20": 218898383,
+  "30": 371796,
+  "40": 46214,
+  "50": 1448744,
+  "60": 476737114,
+  "70": 626578,
+  "80": 1568904,
+  "100": 1949129756
+ },
+ "per_split_codes": {
+  "test": {
+   "10": 509538,
+   "20": 47894996,
+   "30": 150079,
+   "40": 27989,
+   "50": 363645,
+   "60": 88975420,
+   "70": 44702,
+   "80": 243546,
+   "100": 422778245
+  },
+  "val": {
+   "10": 217080,
+   "20": 195775,
+   "30": 71483,
+   "50": 122273,
+   "60": 102212005,
+   "70": 1484,
+   "80": 22191,
+   "100": 270450765
+  },
+  "train": {
+   "10": 197445,
+   "20": 170807612,
+   "30": 150234,
+   "40": 18225,
+   "50": 962826,
+   "60": 285549689,
+   "70": 580392,
+   "80": 1303167,
+   "100": 1255900746
+  }
+ },
+ "chip_dates_with_label": {
+  "test": 34240,
+  "val": 22784,
+  "train": 104704
+ },
+ "chip_dates_missing_label": {
+  "test": 64,
+  "train": 64
+ },
+ "unreadable_label_tifs": [
+  {
+   "key": "SA0300000001_20220924",
+   "bytes": 8,
+   "err": "'/home/work/data/olmoearth/aihub/labels_v1/tif/SA0300000001_20220924.tif' not recognized as being in a supported file fo"
+  },
+  {
+   "key": "SA1800020007_20220424",
+   "bytes": 8,
+   "err": "'/home/work/data/olmoearth/aihub/labels_v1/tif/SA1800020007_20220424.tif' not recognized as being in a supported file fo"
+  }
+ ],
+ "note": "codes follow AI-Hub 71363 class table (e.g., 10 building, 20 river, 30 road, 40 paddy, 50 field, 60 forest, 70 logged, 100 non-target); landslide code to be confirmed from META"
+}

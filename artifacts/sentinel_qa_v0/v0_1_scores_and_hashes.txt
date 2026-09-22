@@ -1,0 +1,55 @@
+{
+ "Q1": {
+  "n": 406,
+  "acc": 0.5812807881773399,
+  "parse_fail": 0.0,
+  "fpr_on_negatives": 0.029556650246305417,
+  "recall_on_positives": 0.1921182266009852,
+  "balanced_acc": 0.58128078817734
+ },
+ "Q2": {
+  "n": 5,
+  "acc": 0.0,
+  "parse_fail": 0.0
+ },
+ "Q3": {
+  "n": 203,
+  "exact": 0.13793103448275862,
+  "jaccard": 0.2816091954022989,
+  "parse_fail": 0.0
+ },
+ "Q4": {
+  "n": 203,
+  "acc": 1.0,
+  "parse_fail": 0.0
+ }
+}---
+{
+ "missing_single_embeddings": 44,
+ "q1_threshold_median": 0.17323864251375198,
+ "Q1": {
+  "n": 384,
+  "acc": 0.4791666666666667,
+  "fpr_on_negatives": 0.5208333333333334,
+  "recall_on_positives": 0.4791666666666667,
+  "balanced_acc": 0.4791666666666667
+ },
+ "Q2": {
+  "n": 5,
+  "acc": 0.0
+ },
+ "Q3": {
+  "n": 192,
+  "exact": 0.2604166666666667,
+  "jaccard": 0.5412326388888887
+ },
+ "Q4": {
+  "n": 192,
+  "acc": 1.0
+ }
+}---
+c05f25e282469ed862080db35a875b1ef80e6e66f1bc4fa72b3326cfb6f9da65  sentinel_qa_gen.py
+46bc37826d13c2a75e2b6fb2a62d2c1b6d88399ceb6cb8faa7bc6c7907ae70be  sentinel_qa_teochat.py
+d9c8e15403649c850e711344a918b688deeaf951758d8e77ffe19bcbbe8806e7  sentinel_qa_template.py
+bf58985409de269d0afe2049b91db64bd08ea001a8d2363a22998281590087e8  sentinel_temporal_qa_prereg_v0_1.json
+1df2f15ec531a3d2782229bd1d63e23e726c1ffe8a0af9c84bbd3c80122b192f  items.jsonl

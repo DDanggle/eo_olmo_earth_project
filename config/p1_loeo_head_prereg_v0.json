@@ -1,0 +1,15 @@
+{
+  "schema": "p1-loeo-head-prereg-v0",
+  "registered_at": "2026-09-19",
+  "status": "registered before execution; leave-one-event-out (LOEO) training of the arrival-time head",
+  "question": "Does a single-observation temporal-contrast head generalise to an UNSEEN landslide event when it is trained on THREE other events (instead of one), at tile-level pre-event false-alarm budgets set on the pooled validation of the training events?",
+  "events": ["hiroshima 2018-06-28", "thrissur 2018-08-07", "itogon 2018-09-15", "hokkaido 2018-09-06"],
+  "folds": "4 LOEO folds: hold out one event, train on all tiles of the other three (10% of training tiles by hash as validation for the threshold), test on all tiles of the held-out event",
+  "data": "arrival_v0/<event>/single_fp16 (15 single-observation states per tile), sealed masks, meta (post_index, clear)",
+  "head": "1x1-conv head (768->128->1, bilinear to 128) on the single-observation state normalised with the hiroshima sealed train stats (fixed across folds); temporal-contrast labels (pre-event steps weighted to match post-event steps; negatives included); 30 epochs AdamW 1e-3; seed 1",
+  "reference_arms": ["prefix (causal full re-encoding) + frozen sealed readout of the held-out event's own LOCO fold (resolution_contract_v2/p4_native_control/holdout_<event>_seed1) — the cross-region readout that legitimately never saw the held-out region", "last + same frozen readout"],
+  "budget": "tile-level 5% and 10% on the pooled validation tiles of the training events; realised pre-event FAR on the held-out event reported; validity = realised FAR < 3x budget",
+  "metrics": ["per fold: realised FAR, confirmation rate, never-confirmed, latency A/B medians, post-event mean IoU", "event-level: number of folds (of 4) where the LOEO head is valid with confirmation >= 70% at the 10% budget and post-event IoU >= the frozen prefix reference on that event"],
+  "decision_rules": {"generalises": ">= 3 of 4 folds valid with confirmation >= 70% at 10% budget; then the arrival-time head claim (0-step latency) is restored on multi-event evidence", "partial": "2 of 4: report as event-dependent; no method claim", "fails": "<= 1 of 4: the arrival-time detector for the VLM track is fixed to the frozen cross-region readout; the head line is closed"},
+  "not_claimed": ["anything beyond four Sentinel-2 landslide events", "label-budget parity with the sealed readout"]
+}

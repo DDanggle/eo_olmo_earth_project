@@ -3,6 +3,41 @@
 > 이 파일이 이 프로젝트의 단일 진실 공급원(SSOT)입니다.
 > 에이전트든 사람이든, 작업 시작 전에 읽고 / 끝나면 Worklog와 상태를 갱신합니다.
 
+> **2026-09-17 CVPR 재집중 — frozen 민감성 진단 실행 중:** 논문 몸통 후보를 "연속 취득시각·격자
+> 일관성 post-training + continuity benchmark"로 좁혔다([검토](docs/EARTHBRIDGE_PROPOSAL_REVIEW_2026_09_17.md),
+> [CVPR 자산 목록](docs/CVPR_ASSET_INVENTORY_2026_09_17.md)). v1.2는 월 index만 쓰고 day를 버림(확인).
+> 1주차 gate: [prereg](config/frozen_sensitivity_prereg_v0.json) — hiroshima·indonesia test, 8 arm
+> (offset 0/2/4 px, 월 라벨 synth/+1/shuffle), 봉인 p4 readout eval-only, label-free flip rate 기준.
+> 서버 `frozen_sensitivity_v0/`, GPU0(사용자 9/17 두 GPU 허용). 결과 전 해석 금지.
+
+> **9/10 최신:** Korea 공유 static cache의 세 head 실행/수치는 확인했다. 공정 비교 전 cutoff64칩,
+> FULL 노출2배, seed/raw padding/metric 정의를 보완해야 한다. source head 한국 전이와 한국
+> streaming은 미실행이다. [KR-4 감사](docs/KOREA_KR4_AUDIT_2026_09_10.md) ·
+> [PR 후보·영문 초안 위치](docs/PR_REENTRY_2026_09_10.md). 원 실패 gate/산출물은 보존한다.
+
+> **9/9 다음 학습 준비:** [관측 갱신 post-training / JEPA 설계](docs/POSTTRAINING_JEPA_UPDATE_2026_09_09.md).
+> 기존 실측과 새 가설을 분리한다. encoder LoRA를 포함한 2×2 objective 비교를 준비하되
+> clean-validation·causal arrival·기억 대조·외부holdout 동결 전 실행하지 않는다.
+> cross-sensor/surprise 실패 여부가 주 갱신 연구의 존폐를 자동 결정하지 않는다.
+
+> **2026-09-09 최신:** 질문은 여전히 저장 지구 표현의 시간 갱신이다. KuroSiwo 수치상 양성
+> (3decoder×3updater), 하지만 입력 제외/기존 decoder validation 선택의 잔여 조건이 있다.
+> 다음은 POST_ONLY/NO_MEMORY와 실제 도착 비용으로 기억의 추가 가치를 분리한다.
+> 교차센서2지역 음성+2지역 실행불가·Italy4-arm/크기층화 완료를 별도 범위로 보고한다.
+> [9/9 최신 연구판·재현근거](docs/STREAMING_RESEARCH_UPDATE_2026_09_09.md).
+> 아래 9/8의 “실행 무효”는 당시 최초 실행의 이력이며 최신 재실행 상태와 혼합하지 않는다.
+
+> **2026-09-08 현재 집중 질문:** 새 위성 관측으로 OLMoEarth의 저장 상태를 갱신해,
+> 과거 전체 재인코딩 없이 현재 지도의 task utility를 유지할 수 있는가? MS-116 개발 4지역이
+> 근거이며 다음은 KuroSiwo 외부 사건 + 도착 스케줄을 맞춘 비용 검증이다. 기존 transfer는
+> 기반, release migration은 별도 자산, Korea 3-task는 후속 공유 상태 시험으로 둔다.
+> [최신 큰 그림/범위/동결 전 체크리스트](docs/BIG_PICTURE_STREAMING_EARTH_2026_09_08.md).
+> 아래 과거 날짜별 로드맵은 이력이며 새 실행 순서가 아니다. 사전등록과 활성 queue는 변경하지 않았다.
+
+> **9/8 오후 추가:** KuroSiwo v0는 이미 frozen/추출·decoder 실행까지 진행됐지만 updater 검증
+> 입력 오염(ks_04357 raw NaN→유효327토큰 오염)으로 val NaN·false DONE이 발생했다. 다음은
+> 입력/완료 검증 복구 후 별도 revision 재검증이다. 세부 근거는 최신 큰 그림 §8과 아래 Worklog.
+
 > **2026-09-02 재시작 경계:** 현재 활성 기준점은 MS-93/commit `0dc68c3`이다.
 > Nepal M66–M85는 보존된 역사이며 전용 구현·산출물은 sibling 저장소
 > `/Users/dgyi/dong/ai_projects/nepal-live-twin`로 이관했다. MS-86 mechanism audit과 MS-87
@@ -340,6 +375,10 @@ v7은 SCL(Scene Classification Layer)을 실제 장면 선택에 연결하고, �
 
 ## PR 후보
 
+**2026-09-11 우선순위:** [실제 사용자 가치·EO 비교·제출 조건](docs/PR_PRIORITIES_AND_EO_GAPS_2026_09_11.md).
+sample → SCL(FirstValid·BestClear) → LFMC 확인 이슈를 추천. source/metadata 재확인만 했고
+미제출·GPU 미사용. LFMC “성능60%/업로드 오류 확정”은 철회하며 아래 과거 발견 계보와 구분한다.
+
 **2026-08-26 current-upstream 재감사**: 아래는 발견 계보라 번호를 지우지 않는다. 실제 제출 큐는
 `PR_DOSSIER.md`가 SSOT다. 첫 sample schema PR은 current main에도 유효하고 미제출 상태다.
 rslearn direct-materialize `NotImplementedError`는 v0.1.14에서 해소됐고, `미출시 API` 문제는
@@ -372,10 +411,11 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
 6. **macOS에서 `olmoearth_projects.main`이 행** — `utils/mp.py`의 `init_mp()`가
    forkserver + torch preload를 강제하는데 macOS에서 Pool 생성이 안 돌아옴.
    러너 직접 호출로 우회 가능. 재현: README의 prepare_labeled_windows 명령을 맥에서 실행.
-7. **✅ 결론 확정 (2026-08-21): HF의 LFMC 체크포인트가 잘못된 파일** —
+7. **LFMC 공개 평가 불일치 (9/11 교정: 업로드 오류 확정 아님)** —
    최종 매트릭스: 문서 주장 580.6 / 공개 ckpt 실측 **951.9** / 공개 데이터·레시피로
-   우리가 재학습(ep33, 그들의 1/3 학습량) **558.8**. 데이터·코드·레시피는 정상이고
-   체크포인트 업로드만 불량이라는 결론. Ai2 이슈 등록 준비 완료 (ISSUE_DRAFT_lfmc.md).
+   우리가 별도 task fine-tuning(ep33) **558.8**. 가까운 점수가 가능하다는 근거지만
+   원 run 재현이나 업로드 오류의 입증은 아니다. epoch 비율을 계산량 비율로 부르지 않는다.
+   Ai2에 checkpoint/config/split/evaluation 확인을 요청하는 초안(ISSUE_DRAFT_lfmc.md)으로 교정했다.
    (조사 이력) 공개 LFMC 아티팩트의 문서 수치 재현 불가 —
    docs/lfmc.md는 "test set MSE 580.6"을 주장하나, 공개 ckpt + 공개 dataset.tar(20251029) +
    레포 model.yaml로 실측 시 test split(4,585윈도우) MSE **951.9**. 통제 실험으로
@@ -402,6 +442,121 @@ public API end-to-end repro 전에는 연구 blocker이지 제출 가능한 PR�
     upstream data issue로 보고할 가치가 있다.
 
 ## Worklog
+
+### 2026-09-13 — PR 최종 준비: 유지보수·연구·채용 관점 분리 (계획)
+
+- PR_REENTRY에 추가된 9/13 판정·미팅 카드까지 읽고, 현재 upstream/공식 채용 안내와 대조한다.
+- 제출 가능한 결함, 문서/설계 협의, 모델러의 평가 책임, 미검증 연구를 나눠 최종 준비표로 정리한다.
+- 영향 범위·원인 확정·팀의 의중·지원 마감에 관한 단정을 검증하고 필요한 초안을 교정한다.
+  PR/issue·메일·지원서 제출, fork/push, GPU 작업, 제품 코드 변경은 하지 않는다.
+
+#### 완료 — 9/13 최종 준비
+
+- PR_REENTRY를 최종 준비표로 정리: maintainer / applied RE / model researcher 관점과
+  sample·SCL·LFMC 우선순위, 제출 전 체크리스트, 모델러 책임, 미팅 전달 문장을 구분했다.
+- public API: projects main 23a3d7b, rslearn master c47952f 유지; open issue13/PR4,
+  sample legacy6개·SCL 두 scoring read와 기본 bilinear·LFMC card580.6 및 HF file hash 재확인.
+- 로컬 sample 커밋 diff만 1파일(+36/−24); feature6개·label·geometry·task ID 보존 정적 검사 PASS.
+  forest의 기존 dirty 두 파일은 보존. Linux CLI replay·SCL runtime test·LFMC 재평가는 하지 않았다.
+- 9/13 이전 초안의 “전원 영향”, “LFMC 원인 증명”, “공동 latent=센서 불변”,
+  “10m 기능 없음”, “Nano면 충분”, “PR 전 지원 금지”를 교정했다.
+- 공식 OlmoEarth Senior Research Engineer 공고8140098의 9/16 마감·Seattle·파트너 적응/
+  embeddings/rslearn 업무를 확인했다. 실제 채용 평가를 추정 사실로 말하지 않는다.
+- 미팅 Markdown T9~T14·기능/채용 출처 교정. HTML/공개 페이지, 개인 이력·다른 실험 수치는 검토 범위 밖이다.
+- 게시·지원·서버·GPU·제품 코드 수정 없음. 다음: sample 공개 로그 또는 Linux replay →
+  SCL 두 경로 회귀 검증 / LFMC 실행 자료 묶음. 지원 준비는 PR 일정과 독립.
+- 문서 검증: git diff --check 통과; 최종 준비표·미팅 카드 로컬 링크11개 정상;
+  T9~T14의 철회 문구 제거 확인. 기존 outer worktree 변경 목록은 작업 전과 동일하다.
+
+### 2026-09-11 — upstream 기여 우선순위·EO 생태계 비교 (계획)
+
+- `docs/PR_REENTRY_2026_09_10.md`와 실제 초안·브랜치를 대조하고 공개 upstream을 재확인한다.
+- 사용자 영향, 재현 강도, 제출 준비도, Ai2에 설명할 가치, 기존 EO 도구와의 중복을 분리해
+  우선순위를 정리한다. 연구 코드 결함은 upstream 후보에 섞지 않는다.
+- 근거 문서와 연결된 우선순위 문서를 작성하고 제출 문구의 과장을 정정한다.
+  PR/issue 게시·fork/push·GPU 실험·제품 코드 변경은 하지 않는다.
+
+#### 완료
+
+- 공개 API로 projects main `23a3d7b`, rslearn master/latest `c47952f`/v0.1.14,
+  open issue13/PR4, sample6개 legacy schema, SCL 두 scoring read를 확인했다.
+- 로컬 sample 브랜치 1파일 +36/−24·label6개 보존을 정적으로 확인. Linux E2E는 과거 기록이다.
+- `docs/PR_PRIORITIES_AND_EO_GAPS_2026_09_11.md`에8개 우선순위,5개 EO 비교,
+  SCL 회귀 테스트 범위, 비중복 receipt 튜토리얼 제안을 정리했다.
+- LFMC “60% 성능/업로드 불량 확정/모든 버전효과 기각”을 현재 명세·영문 초안에서 교정했다.
+  HF repository lastModified11/3과 file lastCommit10/30을 구분하고 full LFS oid를 남겼다.
+- rslearn의 EmbeddingCache·AlphaEarth source·시간 옵션·SCL 문서/테스트를 확인해 중복 제안을 제외했다.
+  STAC/Cloud Score+/TerraTorch/TorchGeo 사례는 입력·품질·버전 인터페이스 참고이지 신기술 주장 아님.
+- 사용자 계정의 이슈 작성 권한은 미검증. Github connector 미연결 후 공개 읽기만 사용했다.
+  기존 사용자 작업 보존; commit/push/PR/issue 게시·서버 작업·GPU 재실험 없음.
+- 검증: 준비 문서6개의 로컬 링크13개 존재 확인, `git diff --check` 통과.
+  바깥 제품 저장소의 기존 dirty 파일 목록은 그대로다. 새 우선순위 문서의 파일 패널 열기를 요청했다.
+
+### 2026-09-10 — 미팅용 기존 제주 산출물 화면 열기 (계획)
+
+- 기존 14후보 RGB 검토 대시보드를 좁은 산출물 폴더·loopback에서만 제공하고 브라우저로 연다.
+  r10 전후 RGB와 SCL 전후 그림도 보여준다. 새 후보·실험·공개배포·기존 판정 변경은 하지 않는다.
+
+#### 완료
+
+- `artifacts/human_review_v1`만127.0.0.1:8844로 제공(로컬 Python 세션40109).
+  최초 bind는 sandbox 제한으로 실패했고 승인된 loopback 실행으로 해결했다. 외부 공개 아님.
+- 인앱 브라우저의 `dashboard.html`을 visible/deliverable로 열고 r10 위치로 이동했다.
+  실제 스크린샷에서 2023–2026 RGB와 판정 카드 로딩을 확인했다. 판정은 편집하지 않았다.
+- SCL 전후 PNG는 파일 패널 열기 요청 및 로컬 링크로 제공한다. 옛 순위는 현행 탐지 확증이 아닌
+  역사적 검토 자료임을 안내했다. 모델 재실행/서버 GPU/공개배포 없음.
+
+### 2026-09-10 — Ai2 미팅용 제주 오름 사례 재평가 (계획)
+
+- 초기 제주/오름 탐색과 368개 레지스트리 실험을 구분하고, 보존 보고서·육안 검수·후속 시간계약
+  감사를 확인한다. 실측 탐지 성과와 입력 품질/온보딩/현장 workflow 자산을 섞지 않는다.
+- 오늘 미팅용 핵심 문장·짧은 영문 설명·보여줄 근거·PR 연결·팀에 물을 질문을 로컬 문서로 준비한다.
+  과거 결과를 새로운 성능으로 재포장하거나 PR/메일을 보내지 않는다.
+
+#### 완료 — 미팅 브리프와 근거 이미지 준비
+
+- `docs/AI2_MEETING_JEJU_2026_09_10.md`에10분 흐름·영문60–90초 소개·질문3개·로컬 그림2개를
+  정리했다. 사용자에게 상대/미팅 길이를 비동기로 물었으며 기본안은10분이다.
+- 공식 오름368/위치243/상위8구름기각과, 별도14후보의 assistant RGB4고유변화site를 분리했다.
+  독립 현장 GT는 아니며9/14의 후속 시간계약 노출을 함께 밝혔다.
+- SCL 한-window95.64%는 입력 bad proxy 개선이지 정확도나 pixel 복원 결과가 아니다.
+  r10시계열/v7전후 이미지를 직접 열어 확인했다.
+- 공식4/23 embedding 활용/입력한계와7/28 인프라 로드맵(변화알림·embedding)을 확인해
+  지역 온보딩/품질검증/캐시갱신의 연결을 준비했다. 팀의 내부 관심·채용을 추정해 확정하지 않았다.
+- 새 서버작업·실험·게시·메일·PR제출 없음. 기존 연구 산출물/정정 이력 보존.
+
+### 2026-09-10 — 한국 KR-4 결과 및 OLMoEarth PR 노트 위치 검증 (계획)
+
+- 최신 KR-1~4 장부·사전등록·chip/cache/label/trainer/집계 코드를 원 보고서와 대조한다.
+  같은 예산·희소율·support draw·통계 단위·static 공유와 streaming/transfer의 범위를 확인한다.
+- 서버는 nx로 read-only 조회/소형 결과 보존만 한다. 새 학습·production 수정·GPU 점유·PR 제출은 하지 않는다.
+- PR_DOSSIER/PR_REVIEW_NOTES/영문 제출 초안의 실제 위치와 기록 시점을 안내한다.
+  확인된 수치·결함·미검증을 별도 감사 문서로 남긴다. 기존 미커밋 작업을 보존한다.
+
+#### 완료 — 서버 원 보고서 대조·CPU 산술 검증·PR 목록 재추출
+
+- nx로 기존 서버에 read-only 접속해 원 보고서·manifest·label inventory·현재 source를 보존했다.
+  sandbox 네트워크 제한으로 첫 상태 조회가 실패했으나 기존 연결의 승인된 읽기로 해결했다.
+  새 서버 세션/학습/GPU 점유/production push/PR 제출은 하지 않았다.
+- FULL_CACHE/RAW LC .202677/.137058, 산사태 .060021/.001504, 벌목 .001437/.000200 재집계.
+  K20 산사태 .115290은 총20칩(10양성+10음성)이며 positive-aware 감도다. random gate 실패 유지.
+- 발견: C05 test64칩 cache가 label/raw보다 뒤 시점을 사용, FULL sample exposure2배, seed가
+  init 이후 설정, raw edge padding 평균, GT-present mIoU, K-shot byte0 누적 누락. 새 감사 문서로
+  정정 병기했다. 초기 추출+3head 부분시간합은 raw3head 합의1.93배로 cold 비용절감 입증 아님.
+- 서버15:08KST GPU1메모리0, singles파일0. 한국은 신규 head static 공유이며 Q3/streaming 미실행.
+- `audit_korea_3task_results.py` 및 CPU 테스트9개 추가/통과. 보고서 산술 검증이지 원시 label/예측
+  재채점은 아니다. 현재 local/server source SHA 일치는 실행 전 봉인 증명이 아님을 명시했다.
+- 사용자 후속 PR 요청: PR_DOSSIER·PR_REVIEW_NOTES·영문 schema/LFMC 초안과 로컬 branch를
+  다시 확인해 `docs/PR_REENTRY_2026_09_10.md`로 정리. upstream 확인일은8/26, 당일 최신 여부 미검증.
+
+### 2026-09-09 — JEPA / 관측 갱신 post-training 업데이트 준비 (계획)
+
+- 사용자 첨부의 predict–surprise–correct, 센서 정렬, decoder joint training, encoder LoRA를
+  현재 MS-116~120와 대조한다. 기존 frozen logit-MSE/Δt/잔차 모듈을 새 실험으로 재포장하지 않는다.
+- 공식 논문에서 JEPA/SLIM·EO temporal prediction·recursive filtering 선행을 확인하고,
+  같은 잠재공간/실제 도착시각/기억 기여/독립 평가를 갖춘 단계별 post-training 초안을 만든다.
+- 준비 범위: 로컬 설계 문서·실행 불가 draft config·입구 갱신. 기존 prereg, production 코드,
+  서버 queue, GPU, Korea label 봉인은 변경하지 않는다. 새 성능을 주장하지 않는다.
 
 ### 2026-09-01 (세션: Presto C1 full cache 완료 + sanity 스크린)
 - full cache 6,834/6,834 완료함: 8.65h(0.219 tile/s, IO-bound), peak 4.3GiB, 26.7GiB, content sha da18f121…. 계약 게이트(sha 대조·split 해시·결정성) 전 구간 유지. 봉인(seal_manifest, 파일별 sha + 40타일 finite 검사 + chmod a-w) 진행함.
@@ -3779,3 +3934,490 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - `docs/T1_GRU_UTILITY_AUDIT_2026_09_07.md`, 새 검증 초안, README/RESTART_HERE/BIG_PICTURE
   연결 갱신. TESSERA temporal sensitivity(8/27), v2(8/6개정), Deep Feature Flow와 차별성 경계를
   확인했다. 신규 방법/확증/비용 우위는 아직 아님. 새 GPU 실행·server push·commit·Korea 개봉 없음.
+
+### 2026-09-08 오전 — MS-116 이후 큰 그림 정렬 (계획)
+
+- 사용자 요청: 개발 4지역·비용 측정·KuroSiwo 초안을 기존 transfer 자산과 연결해 연구의 중심을
+  명확히 한다. 최신 장부, 비용/갱신 코드와 외부 데이터 원문을 대조하는 문서 검토다.
+- "새 관측으로 저장된 Earth 표현을 갱신한다"를 현재 집중 질문으로 정리하되, 표준 GRU의
+  utility를 새 아키텍처 성공으로 바꾸거나 노출 지역을 확증으로 세지 않는다.
+- 온라인 도착 스케줄과 일괄 처리 비용, 논리적 입력 byte와 실제 I/O, 방법의 외부 재현과
+  동일 가중치 zero-shot transfer를 분리한다. 결과 숫자를 새로 재측정한 것으로 보고하지 않는다.
+- 기존 사전등록·활성 코드·서버 큐·GPU·Korea 봉인은 변경하지 않는다. 설계 보완은 별도 제안이며
+  새 학습을 시작하거나 현재 실행의 gate를 사후 변경하지 않는다.
+
+### 2026-09-08 오전 — MS-116 이후 큰 그림 정렬 (완료: 문서·코드 범위 검토)
+
+- `docs/BIG_PICTURE_STREAMING_EARTH_2026_09_08.md`: 현재 질문을 “과거 재인코딩 없이 새 관측으로
+  Earth 표현/지도를 갱신”으로 좁혔다. 기존 region/few-shot은 기반, KuroSiwo는 외부 사건,
+  Korea 3task는 후속 공유 상태, FoldRefresh는 별도 release 자산으로 배치했다.
+- 최신 장부 4지역·decoder3seed·updater3seed, 완료 noobs/EMA·checkpoint 및 mixed logit-MSE를
+  반영했다. 예전 9/18 미완료 메모를 현재 상태로 재사용하지 않도록 README/RESTART/기존 큰 그림에
+  최신 링크를 추가했다. 새로운 서버 전수 재계산을 수행한 것은 아니다.
+- 비용 코드에서 B가 미래 도착 8시점을 일괄 batch하는 것을 확인했다. 2.3배는 batch-compute
+  결과로 보존하고 온라인 per-arrival speedup은 미측정으로 분리했다. raw4.5배는 논리 update
+  입력량(36/8); 초기 포함40/12=3.33이고 실제 I/O는 미측정이다. `MEASURED_FINDINGS`에 정정 병기.
+- KuroSiwo 초안 보완: POST_ONLY, actid/AOI/좌표 독립성, 실제 취득일, S1 단위/invalid mask,
+  crop/head/회복률 분모 규칙을 동결 전 결정. 3시점 한 번 갱신 및 SAR 재학습의 범위를 명시했다.
+- KuroSiwo 원본·GEO-Bench-2, Tessera temporal sensitivity(2026-08-27), Deep Feature Flow
+  1차 자료를 대조했다. 새 이름/표준 GRU 자체를 novelty로 삼거나 본회의 확률을 약속하지 않는다.
+- STUDY에 arrival-valid 비용과 방법 재현/가중치 전이 개념 카드를 남겼다. 다음은 별도 새
+  protocol의 도착 스케줄 비용 + KuroSiwo 동결 전 보완이다. 코드·config·GPU·server queue·Korea
+  봉인·Nepal 앱은 변경하지 않았고 commit/push도 하지 않았다. tracked diff와 신규 문서의 whitespace
+  검사 통과, 새 안내 링크·참조 초안의 파일 존재 확인. 변경은 기존 문서 6개와 신규 큰 그림 1개다.
+
+### 2026-09-08 오후 — 최신 실행·프로토콜 재점검 (계획)
+
+- 사용자 요청: 오전 큰 그림 이후의 커밋·서버 완료 결과·진행 상태를 꼼꼼히 확인하고 최신화한다.
+  KuroSiwo frozen 계약 및 실행 코드, T1 architecture 비교, 비용 조건 보완 여부를 우선 확인한다.
+- nx 읽기 조회 및 완료 산출물 확보만 한다. 실행 중 trainer·queue·GPU 배치·원 사전등록은
+  수정하지 않고, 기존 미커밋 문서/그림 작업도 보존한다. 이상이 있으면 근거와 범위를 기록한다.
+- 로컬 새 감사 코드가 필요하면 파일로 만든 후 별도 실행한다. 최신 수치/미완료/결함/미검증을
+  구분하여 같은 큰 그림 문서와 인수인계에 반영한다. 새 학습이나 Korea 개봉은 하지 않는다.
+
+### 2026-09-08 오후 — 최신 실행·프로토콜 재점검 (완료: 서버 조회·CPU 진단·문서)
+
+- `ac36ed5`까지 확인. nx터널 읽기 접속, 15:30 보존본 basic36/arch22 보고를 독립 재집계해
+  기존 GRU 수치 재현. Δt 완료3지역 +.009~+.012 AP이나 등록+5%p/3지역 미달. 15:40 로그는
+  arch24/36 종료, runner alive. 추가2개 score는 보존 집계에 소급 혼합하지 않았다.
+- Kuro S1 7,000 cache/meta·decoder3개 완료, 27/6/10 activation과 모든 split쌍 ID/actid
+  중복0 재확인. 그러나 GRU seed1은 valNaN30epoch인데 DONE/rc0, 유효 updater/eval 없음.
+  외부 결과를 실패/성공 어느 쪽으로도 세지 않는다. 중단 경위는 이번에 확정하지 못했다.
+- CPU4thread로 train teacher4,000 전수 finite 및 원 global std 식 .4885376692 재현,
+  float64 chunk .4885376708 일치(28.3GB, 가용1.8TB 중, 66.66s). scale문제 가설 배제.
+- 이어 train/val5,000의 teacher/stale/post 입력 전수 finite 검사에서 val ks_04357 한 건의
+  오염 발견. 원시 NaN1,338→teacher/stale 각589,824값·768토큰 오염, 유효label 포함327토큰.
+  검증 mask와 원시 영상은 이 알려진 val타일만 열었고 test영상/label은 열지 않았다.
+- decoder validation AP도 nonfinite score guard가 없어 재검토 필요. 원본/export 원인 구분,
+  finite/valid 처리 후 해당cache revision 복구, validation선택·updater 재검증 순서를 문서화했다.
+  production코드의 fail-open/누락ckpt/회복률분모/FAR분모/resume 위험도 기록했다. 이번에는 수정·재학습 안 함.
+- `audit_streaming_progress.py`와 CPU전용 `probe_kurosiwo_numeric.py` 추가, regression7개 통과.
+  진단만 별도 서버 `review_20260908_1530` 경로에 전송했고 보호4파일mtime/SHA 전후동일.
+  실제 GPU는 다른 작업 점유가 있어 새 GPU 실행·재기동·중단·스케줄 변경을 하지 않았다.
+- README/RESTART/동일 큰 그림 §8/MEASURED_FINDINGS/STUDY에 반영. 원 frozen JSON·cache·
+  decoder checkpoint·사용자 그림 작업·Korea봉인·Nepal앱 보존. commit/push 없음.
+- 산출물 `artifacts/streaming_review_20260908_1530/`: 작은 원본JSON·로그·코드·meta와 재집계,
+  전수입력진단·문제val타일진단. 원격 config파일은 없어 전송경고가 났으며 로컬 git등록본과
+  runtime 적용 증거를 혼동하지 않도록 README에 명시했다. 최종 diff/JSON/Python 검사 통과 후 인계.
+
+### 2026-09-09 — MS-117~120 최신판 독립 재점검 (계획)
+
+- 사용자 요청: 밤사이 업데이트된 결과와 코드/서버 상태를 다시 확인하고 연구 큰 그림 및
+  재시작 문서를 최신화한다. KuroSiwo NaN 조치·평가 완결성, 교차센서/이탈리아 음성의
+  정확한 범위, 구조 실험 완료와 선행연구의 신규성 주장을 구분해 검토한다.
+- nx 읽기 조회와 작은 완료 산출물 보존·독립 재집계만 수행한다. 새 GPU 학습·진행 중 코드
+  변경·queue 제어·Korea 개봉·Nepal 동기화는 하지 않는다. 기존 미커밋 작업을 보존한다.
+- 외부 validation/test 결과가 이미 공개된 범위의 보고서/평가 구현을 검사하며, 새 test 라벨
+  탐색이나 결과에 맞춘 사후 gate 변경은 하지 않는다. 새 검토는 별도 dated audit로 기록한다.
+
+### 2026-09-09 — MS-117~120 최신판 독립 재점검 (완료: 서버 읽기·보고 재집계·문서)
+
+- 로컬 `41343ba`, 서버15:51~15:53 KST 확인. 초기9922터널 거절은 기존nx tunnel 복구 후
+  조회/전송으로 해결했다. 서버/GPU세션 재시작·실험프로세스 제어는 하지 않았다.
+- 작은 결과·로그·현재소스·날짜metadata를 `artifacts/streaming_review_20260909/`로 보존했다.
+  Kuro eval3×12arm 및 updater9개 finite/skip0 확인. GRU AP `.793681/.779732/.791780`,
+  회복114.44/109.21/107.52%로 원 수치gate 통과. 사건별 동일가중 격차+.019273(7승3패).
+- Kuro NaN은 val/test각1개 제외로 처리됐으며 decoder3개의로그가 어제 보존본과 **바이트동일**,
+  checkpointmtime도 초기학습시각이다. clean-validation epoch선택/학습복구는 미검증.
+  수치상양성은 인정하고 “클린확증완결”로 확대하지 않는다. FAR분모/chain fail-open도 남는다.
+- 구조36/36(기본36별도)원gate 모두불통과, Δt는4지역방향양수. 교차센서12보고는2지역×2arm×3seed:
+  S1회복 .0756/.5748%. Thrissur test0 / NewZealand val0 실행불가를4지역음성과 구분했다.
+- S1날짜4,614파일 재집계: 대응S2이후매칭25,682/55,368, 중복취득타일4,447.
+  완료지역train평균gap52.39/53.27일 vs test7.80/6.72일. 양방향nearest/gap무제한/표본변경이
+  섞여센서원인 단독분리나 인과적온라인계약을 만족하지 않음을 기록했다.
+- Italy4arm×3seed macro .089258/.094719/.087387/.090017 및 최신크기층화완료 확인.
+  큰덩어리포함타일도.111222 vs 모두작음.017778. patch-size처치실패를 공간원인배제로 바꾸지 않는다.
+- RBC/Tessera/GEO-Bench-2 원문을 확인해 온라인EO갱신최초성·기존평균필수재인코딩 주장을
+  한정했다. OlmoEarth v1.2 MACs 계수는abs2.9 vsHTML5.3불일치로 인용보류.
+  다음은Kuro검증정리→POST_ONLY/NO_MEMORY→도착비용→시간별외부과업→한국공유상태 제안이다.
+- `code/audit_streaming_external_reports.py` + regression10개(기존7개합쳐**17통과**),
+  Pythoncompile/JSON/diff검사통과. summary/inputSHA/architecture집계오류0. 비용코드는
+  로컬·9/8서버보존본·9/9서버보존본이동일하므로2.3배온라인/4.5배실측I/O 승격없음.
+- 새최신연구문서/README/RESTART/GOAL/장부/STUDY/관련연구/Stream계획 안내를갱신했다.
+  사용자그림과기존미커밋작업·production코드/config·서버캐시·Korea봉인·Nepal앱은보존.
+  **새GPU실험/서버코드업로드/commit/push없음**. 다음학습은 제안이며 이번턴에 실행하지 않았다.
+
+### 2026-09-09 — JEPA / 관측 갱신 post-training 업데이트 준비 (완료)
+
+- 사용자 첨부를 기존 source/9·9 보존 보고서와 대조했다. noobs 실패를 재해 예측불가로,
+  surprise를 재해 탐지로, S1 test gap8일을 정렬 원인배제로 해석한 부분을 채택하지 않았다.
+  single-observation과 contextual-window 목표를 구분하고 미래 관측의 input/target 경계를 명시했다.
+- OLMo v1/I-JEPA/V-JEPA2/2.1, TerraFlow, KalmanNet/RBC, 7월 EO 관측성 world-model 원문을 확인했다.
+  “EO+JEPA 최초” 대신 partial-observation post-training과 기존 readout 호환성을 신규성 후보로 좁혔다.
+  UniJEPA/Orthogonal JEPA는 초록 확인만 했다고 구분했다.
+- `docs/POSTTRAINING_JEPA_UPDATE_2026_09_09.md`와 실행 금지 draft JSON을 만들었다.
+  encoder frozen/LoRA × forecast objective 2×2와 plain GRU 기준, joint-D1/센서정렬/surprise
+  별도 가지, source-only/도착시각/기억 대조/한국 미사용 readout 전이 계획을 정리했다.
+- README/RESTART/GOAL 입구와 관련연구/STUDY를 갱신했다. 기존 MSE/Δt/잔차/미학습 KL 모듈을
+  신규 결과로 재포장하지 않았고, Kuro 조건부 양성/clean-validation 미완료 상태를 유지했다.
+- JSON 구문·draft 불변식(완전2×2, 30회 제안 산술, 미실행, Korea 봉인, 참조파일) 확인,
+  기존 external-report/progress regression **17개 통과**, `git diff --check` 통과.
+  이 검사는 문서/기존 감사 코드 검증이지 새 LoRA/forecast 모델의 gradient나 성능 검증이 아니다.
+- **이번 준비에서 서버 접속·업로드·학습·기존 prereg/production 수정·Korea 개봉·commit/push 없음.**
+  다음 실제 실행 전 clean input revision, exact arrival manifest, source λ/HPO, margin, 외부 holdout,
+  설치 module path와 immutable execution snapshot을 확정한다. 미결10항목은 JSON에 남겼다.
+
+### 2026-09-18 — 지역 특화 단기 보간·관측 교정·언어 접지 문헌 재감사 (계획)
+
+- 사용자 요청: 특정 지역의 짧은 시간 간격 보간과 새 관측에 따른 상태 갱신이 CVPR 연구로
+  유의미한지, 기존 T/L 실험의 판정 범위와 최신 선행연구를 함께 재검토한다.
+- 로컬 설계·코드·보존 산출물과 공식 proceedings/arXiv/저자 저장소를 읽는다. 문헌 확인 수준,
+  기존 측정 사실, 과잉 해석, 새 가설을 구분한 별도 dated research audit를 작성한다.
+- 서버 접속·GPU 실행·기존 prereg 기준 변경·실험 코드 수정·라벨 개봉·commit/push는 하지 않는다.
+  기존 미커밋 작업은 보존하고, 이번 조사는 기존 실패를 사후 통과로 바꾸지 않는다.
+
+### 2026-09-18 — 지역 특화 단기 보간·관측 교정·언어 접지 문헌 재감사 (완료)
+
+- `docs/REGIONAL_CONTINUOUS_EO_LITERATURE_AUDIT_2026_09_18.md` 작성. 55편의 1차 자료,
+  본문 일부 확인(S)/서지·초록 확인(M), main/workshop/preprint를 구분했다. 전체 정독·재현 아님.
+- 직접 prior를 SPEAR NeXT(9/15 공개), LIANet, AlphaEarth, AnytimeFormer/AGFlow,
+  S-CCD/RBC, LAINR/KalmanNet으로 정리했다. 지역별 cached causal predictor·임의 날짜 복원·
+  재귀 갱신 자체를 빈 분야라고 주장하지 않는다.
+- 로컬 코드/산출물에서 T0의 21/75/96%가 탐지확률 아닌 control 대비 IoU 비율임을 확인했다.
+  T2의 ≤20일 질의는 2.7%, T4는 unseen-region offline interpolation이며 local causal update 아님.
+  +.029의 기존 gate 실패는 보존하되 효과 없음/구조적 상한으로 확대하지 않았다.
+- MS-132 근접 관측 cosine은 noise ceiling을 입증하지 않으며 정규화 headroom에도 사용할 수 없다.
+  window teacher도 무노이즈 정답은 아니다. timestamp/cache snapshot provenance 미확정 사항을 남겼다.
+- L1 projector-only 실패는 유지했다. learned EO→LLM 경로가 불가능하거나 L 전체가 제품뿐이라는
+  일반화를 배제하고, 좌표/시간/evidence grounding 및 matched training-budget 평가를 제안했다.
+- 새 가설: 지역 과거로 적응한 상태를 실제 Δt/품질 조건으로 전개하고 새 관측으로 교정한다.
+  chronological/purged split, causal arrival, 독립 GT, 고정 오경보 지연, uncertainty 및 batch-1 비용을
+  함께 평가하는 독립 프로토콜 초안. 신규성/성공/10주·2 GPU 완성을 보장하지 않는다.
+- 문서 QA: reference ID 01–55 순서·유일성, 103개 web link 및 로컬 문서 링크 존재,
+  heading 형식, 이번 GOAL 변경/신규 문서 whitespace 확인. 원격 URL 전체 유효성의 자동 검사는 아님.
+- 서버 접속·GPU 실행·기존 prereg/실험 코드 수정·새 라벨 개봉·commit/push 없음.
+  원본 MEASURED_FINDINGS/설계/기존 미커밋 작업은 보존했다. 다음 실행 전 dense AOI/GT 계약,
+  immutable cache provenance, 미사용 미래 test와 새 prereg를 확정한다.
+
+### 2026-09-18 — VLM 중심 지역 기억 갱신과 robotics 이식 방향 검토 (계획)
+
+- 사용자 추가 요청: EO embedding에 메타정보를 조건으로 넣고 로봇 VLM의 기억/갱신 구조를
+  이식하는 방향이 가능한지 검토한다. 보간 우선이 아니라 VLM을 주 연구 대상으로 해석한다.
+- 기존 projector-only 코드와 robotics memory/spatial reasoning 및 EO VLM/agent 1차 자료를
+  대조해 feasibility, 새 관측의 memory update와 가중치 update, 신규성 후보/필수 대조를 설명한다.
+- 별도 설계 노트만 작성한다. 서버/GPU/실험 코드/기존 prereg/새 라벨/commit/push 변경 없음.
+
+### 2026-09-18 — VLM 중심 지역 기억 갱신과 robotics 이식 방향 검토 (완료)
+
+- `docs/EO_MEMORY_VLM_DIRECTION_2026_09_18.md` 작성. 사용자 의도에 맞춰 VLM memory/답의
+  갱신을 독립 본체로 설계했다. 보간/PDE 먼저 실행은 기술적 필수 조건이 아니다.
+- RAVEN(2026 preprint) §3–4, MemoryVLA §3/memory ablation, ReMEmbR memory/limitations,
+  ConceptGraphs 공식 프로젝트 및 EO VLM/agent 초록을 확인했다. 전체 정독·우리 환경 재현 아님.
+  MemoryVLA ICLR2026 공식 검색 기록을 구분하고 직접 OpenReview verification 제한을 남겼다.
+- RAVEN의 visual-embedding retrieval에는 정렬된 multimodal embedding과 반환된 원영상이 쓰인다.
+  OlmoEarth latent-only 추론/무학습 text cosine 검색으로 일반화하지 않았다.
+- 기존 projector-only 코드에는 재귀 기억·quality/XY 조건부 갱신·학습 retrieval이 없으며 Q2도 제외다.
+  원 L1 실패는 유지하되 memory-VLM 가설의 실패라고 확대하지 않았다.
+- 제안: EO spatial tokens+geo/time/quality → memory adapter/updater → evidence-grounded VLM.
+  최신-only/trained metadata-only/structured readout/RAVEN-style raw retrieval/단순 memory를
+  동일 예산으로 비교하고 유효 증거에서의 수정·불필요 수정·grounding·망각·cost를 함께 평가한다.
+- STUDY에 기억 갱신/판단 수정/가중치 학습 구분 카드와 확인 질문을 추가했다.
+  새 노트 146줄·web link8개, heading/whitespace/scope 확인, GOAL/STUDY diff-check 통과.
+- 새 GPU/서버 작업·실험 코드/prereg 수정·새 라벨 개봉·queue 변경·commit/push 없음.
+  다음 실행에는 하나의 변화 현상, prefix에서 판단 가능한 독립 gold, 새 split/budget 계약이 필요하다.
+
+### 2026-09-18 — CVPR memory-VLM의 연결 모듈·학습·실행 순서 명세 (계획)
+
+- 사용자 요청: 메타정보 조건부 공간 기억과 근거 기반 판단 갱신을 CVPR 연구로 만들 때
+  무엇을 연계하고 어느 부분을 업데이트할지 구체화한다.
+- 기존 EO 추출/GRU·Δt·spatial updater/projector의 재사용 범위와 없는 기능을 확인하고,
+  robotics memory·EO grounding prior에 대응하는 모듈, 데이터 계약, losses 및 ablation을 설계한다.
+- 별도 implementation blueprint와 개념 카드만 작성한다. 서버/GPU/production 코드/기존 gate,
+  prereg/queue/새 라벨/commit/push는 변경하지 않는다. 새 구조의 성능·최초성을 주장하지 않는다.
+
+### 2026-09-18 — CVPR memory-VLM의 연결 모듈·학습·실행 순서 명세 (완료)
+
+- `docs/EO_MEMORY_VLM_IMPLEMENTATION_BLUEPRINT_2026_09_18.md` 작성(275줄, 11개 본문 절).
+  metadata FM·robot memory/retrieval·temporal EO VLM·pixel grounding을 실제 모듈과 연결하고,
+  핵심 가설을 품질 조건 국소 write+제한 용량 사건 근거 보존+grounded 판단 갱신으로 좁혔다.
+- 기존 추출/EMA·GRU·Δt·spatial/XAttn/quality residual candidate/projector/QA/contract 코드를 확인했다.
+  pair mean의 시점·품질 소실, `.days`, 전체 15장 품질 기반 선택의 미래 참조, Q2 제외,
+  별도 학습되지 않은 text-only, final mask의 prefix 정답 부적합을 설계에서 분리했다.
+- 기존 candidate는 미학습 baseline, projector는 정적 alignment 부품으로 취급한다.
+  새로운 projector/head/updater 성공이나 temporal interpolation 필요성을 주장하지 않았다.
+- TerraScope §3.2/Appendix A를 추가 확인: mask-conditioned 특징의 언어 생성 연결은 선행연구이며,
+  저자의 bi-temporal 제한과 long-sequence 확장 필요를 본문으로 확인했다.
+  MemoryVLA/RAVEN 지정 절, Atomizer/Copernicus-FM/TEOChat 초록 확인 범위를 문서에 구분했다.
+- 설계: 현재 map+K 사건 slot+별도 claim ledger; 관측 ID/시공간 근거, 지지/반박/불충분 관계와
+  유지/강화/수정·철회/보류 행동. 현상 변화·unknown 해소·실제 오해 교정을 구분한다.
+  EO/LLM frozen 시작→prefix rollout→선택적 LoRA, test 가중치 고정, P0–P4 순서를 제안했다.
+- matched baseline, joint 답/영역/관측 근거, 불필요 수정·망각·보류/false alarm·전체 시스템 cost,
+  외부 AOI/기간과 memory/archive 예산, 새 prereg·kill gate 조건을 명시했다. acceptance 보장 아님.
+- STUDY에 획득 시각/도착 시각과 미래 품질 선택의 개념 카드+확인 질문을 추가했다.
+  heading/whitespace 및 GOAL/STUDY diff-check를 확인한다. 기존 dirty 파일은 보존했다.
+- 서버/GPU 실행·실험 코드·기존 prereg/gate/queue 변경·새 라벨 개봉·download·commit/push 없음.
+  다음 구현은 한 현상에 대한 prefix 독립 gold와 관측/좌표/cache 계약부터 확정한다.
+
+### 2026-09-18 — 기존 T1과 memory-VLM 연결 범위 검토 (계획)
+
+- 사용자 질문의 새 T1 자료는 메시지에 보이지 않는다. 기존 streaming T1과 같은 달 관측 G-T1의
+  명칭 중복을 확인하고, 자료/코드가 지지하는 범위에서 memory-VLM과 연결할 수 있는지 의견을 낸다.
+- 로컬 기록·기존 artifact·코드를 읽는다. 새 방법 구현/학습, 원격 실행, gate/prereg 변경,
+  라벨 개봉, 외부 게시/commit/push는 하지 않는다. 사용자 clarification에 따라 대상을 좁힌다.
+
+### 2026-09-18 — 기존 T1과 memory-VLM 연결 범위 검토 (완료)
+
+- 새 첨부/표는 없고 T1 명칭은 streaming cache와 G-T1 same-month에 중복된다. 확인 질문을 보냈다.
+  현재 의견은 기존 로컬 기록 기준이며 새 자료를 검토했다는 주장은 하지 않는다.
+- streaming T1 감사와 9/9 최신 검토, extractor/trainer를 확인했다. Hiroshima GRU 3seed AP
+  .525479/full .549624는 과거 기록의 개발 결과다. teacher gap 회복 95.50%는 정확도95%가 아니며
+  최신 기록에서도 POST_ONLY/NO_MEMORY가 미측정이라 과거 기억의 추가 효용은 미검증이다.
+- v4 원시 summary의 sm_swap cos .999636(Hiroshima)/.999809(Indonesia)를 확인했다.
+  sm_swap은 영상만 교환하고 timestamp는 고정한다. 전체 fold 862/573의 aggregate이며
+  prereg analysis_set은 same-month pair/no-fallback로 명시되어 있어 해당 cohort 평가를 따로 요구한다.
+  순서 둔감성은 이 pooled/task 계약 범위이며 OlmoEarth 전체 능력의 불가능성으로 일반화하지 않는다.
+- 의견: 기존 T1을 lower-level state updater와 강한 baseline으로 재사용한다. 관측별 입력/정확한
+  날짜/quality/근거 ID, 별도 사건 기억, prefix grounded QA·판단 행동 supervision을 추가해야 한다.
+  순서 둔감 pooled teacher MSE만 맞추는 목표는 날짜별 언어 판단을 감독하는 대체물이 아니다.
+- friction: 추가 upstream 모델 소스 폴더 `olmoearth_pretrain_minimal/`는 이 root에 없었다.
+  새 architecture 주장 없이 확인한 extractor/trainer/기존 artifact 범위로 제한했다.
+  새 concept card는 기존 카드와 중복이어서 추가하지 않았다.
+- Worklog만 추가했다. 서버/GPU/실험 코드/기존 gate·prereg·artifact/라벨/commit/push 변경 없음.
+
+### 2026-09-18 — 사용자 제시 관측 교정 §8/MS-134 설계 검토 (계획)
+
+- 사용자가 제공한 F1–F4, quality/innovation correction, P0 계약을 기준으로 기존 VLM 제안과의
+  연결 및 주장 근거를 검토한다. T1 대상의 모호성은 새 메시지로 해소됐다.
+- §8/실측/관련 코드에서 pooling 인과, latest-only 학습 계약, 오경보·사건일·불확실성 supervision을
+  확인한다. 지정된 기존 문헌과 비교하되 최초성/성공을 단정하지 않는다.
+- 연구 의견과 Worklog만 남긴다. 서버/GPU/실험 코드/prereg/gate/새 라벨/외부 게시/commit/push 없음.
+
+### 2026-09-18 — 사용자 제시 관측 교정 §8/MS-134 설계 검토 (완료)
+
+- 사용자 제시 자료와 설계 §8, MS-133/134, extractor/eval/T5 코드, 기존 latency summary 및 새
+  arrival 추출 계약을 확인했다. 문서는9/19로 기재되어 있으나 현재 서버 상태를 조회한 것은 아니다.
+- 구체적 정정: `postlast1`은 preslots+마지막 post라 최신1장-only가 아니다. F3 latest-only
+  불안정성은 이 arm으로 입증되지 않는다. `postkeep1`도 pre+1이므로 F1의 정확한1/12
+  원인 설명은 기존 결과에서 따라오지 않는다. attention 이후 pooling의 인과 분리도 필요하다.
+- T5는 d[c−1]−d[fp]로 첫 kept 사후 관측 기준 추가 지연을 센다. median25일은 event_date
+  기준 지연이 아니고 탐지된374/388의 조건부 통계다. F4 .3117도648 tile-prefix 행의
+  any-positive alarm 비율이지 FAR/km²/time나648개의 독립 사건이 아니다.
+- same-month 기여는 현 pooled/frozen-readout 계약에서 작다는 범위로 제한한다. 기여정확히0,
+  시간정보의 원리적 손실, 전체 모델의 불가능성은 주장하지 않는다.
+- 학습 설계 의견: 느린 teacher 복제와 early-confirmation 목표의 충돌을 분리하고 teacher MSE는
+  보조/표현 호환 목적, event/provenance supervision은 독립 목표로 둔다. quality와 사건확률·
+  불확실성은 구분한다. 큰 innovation만으로 change/cloud를 분리한다고 가정하지 않는다.
+- P0의 한 사건 제약은 유지한다. DOY/region-only shortcut, post-only 학습 대조, 각 사건 전체
+  holdout, negative 기간의 경보 episode/면적·시간 예산, 미탐지 포함 지연/recall 평가를 권장한다.
+  top12-of15는20%를 제외하므로 clear<.5의10.7%와 동일한 비율로 표현하지 않는다.
+- 새 arrival 추출은 전15장 획득순·real dates로 lookahead를 제거하는 계약이고 rolling cap12다.
+  실제 전달 시각 데이터·prefix QA gold·정상 구간 clean-state GT를 제공하는 것은 아니다.
+- 1차 자료 재확인: KalmanNet(2107.10043), EO Recursive Bayesian Classifier(2301.01796) 초록.
+  predict/innovation/correct 자체는 선행연구이며 Δt-GRU뿐 아니라 filtering baseline과 비교해야 한다.
+  JMA 공식 폭우기간6/28–7/8 확인:6/28을 각 타일 산사태의 정확한 발생일로 가정하지 않는다.
+  ScienceDirect field paper 직접 fetch403은 남기고 전체 정독/재현으로 표시하지 않는다.
+- 현재 §8은 EO state correction 연구이며, VLM 주장은 별도 learned grounding reader·근거 관측
+  선택·prefix 답/보류/갱신 supervision과 비교가 필요하다. 조건부 연구 지속에 찬성, 성공/acceptance 보장 없음.
+- STUDY에 arm 정보집합·지연 기준시각 카드+확인 질문 추가. Worklog/카드 외 기존 기록·설계·
+  실험/prereg/gate/artifact는 보존했다. 서버/GPU/라벨 개봉/외부 게시/commit/push 없음.
+
+### 2026-09-19 — MS-122~149 원장 독립 감사와 시간·VLM 통합 재설계 (계획)
+
+- 사용자 요청: `docs/EXPERIMENT_LEDGER_2026_09_20.md`의 숫자·판정·확정 사실을 코드/설정/
+  로컬 산출물과 다시 대조하고, 빠진 통계·대조·프로토콜 문제를 찾는다.
+- 병렬 검토: (1) 원장 내부 증거 감사, (2) irregular-time interpolation/filtering/early detection
+  최신 1차 문헌, (3) EO-VLM·robot memory·grounded revision 최신 1차 문헌. 본 agent가 통합한다.
+- time interpolation과 VLM을 실패한 학습 arm에 임의로 덧붙이지 않고, 현재 살아 있는 증거와
+  결합 가능한 최소 가설·강한 baseline·kill gate·필요 데이터까지 제안한다.
+- 별도 audit 문서와 Worklog/STUDY만 작성한다. 서버/GPU/진행 중 소거 arm/실험 코드/prereg/gate,
+  새 라벨·외부 게시·commit/push는 변경하지 않는다. 원장 자체는 독립 감사 전 원문 보존한다.
+
+### 2026-09-19 — MS-122~149 원장 독립 감사와 시간·VLM 통합 재설계 (완료)
+
+- 로컬 원장·상세 MS 기록·등록 설정·코드·산출물을 대조했다. 원장의 `3/11/3/9` 집계는 단위가
+  섞여 재현되지 않았고, MS 단위 강제 분류도 한 예로 `3/13/2/10`이 된다. atomic run/gate와
+  MS 최종 상태를 분리하도록 제안했다. `*prereg*.json`은 draft/amendment 포함 52개라 원장의
+  25건을 재현하려면 scope manifest가 필요하다.
+- 핵심 정정: post-k의 21/75/96은 탐지율이 아니라 control 대비 mean IoU이고 `postlast1`은
+  pre 전부+마지막 post다. T5의 25일은 첫 선택 post 이후·detected 374/388 조건부다. cos .848은
+  복원 상한이 아니며, cloud>event 비교는 event n=3 arm 때문에 폐기해야 한다.
+- T4 exact 21,140 query 중 ≤20일은 428(2.0%), >120일은 15,673(74.1%)라 현재 결과는
+  hyperlocal short-gap 근거가 아니다. 전체 v0에서는 mean-all .8747이 linear .8681보다 높아
+  exact-split mean-all/seasonal 기준선 없이는 learned interpolation 우위를 주장하지 않는다.
+- publication blocker를 확인했다. 미래 15장 quality로 top-12를 고르는 prefix는 online replay가
+  아니고, 계절표는 target-site retrospective cross-fit이다. 사건 네 개는 tile bootstrap으로 늘지
+  않으며 모든 사건이 반복 개발에 사용돼 untouched final event가 남지 않았다.
+- 순차 QA는 post-index+clear≥.5로 만든 synthetic evidence-availability proxy이고 revise 예제가 없다.
+  Q_where는 등록 Jaccard와 달리 exact match이며 prediction/gold quadrant 순서도 달라 재채점 전
+  MS-142/143의 공간 접지 수치를 논문 근거로 쓰지 않는다.
+- D는 K=4 round-robin slot에 서로 다른 날짜 토큰을 섞고 최신 날짜를 붙이는 구현이라, 실패가
+  bounded evidence memory 일반을 기각하지 않는다. observed/predicted를 분리하고 불변 obs ID·시각·
+  영역·raw chip provenance를 보존하는 CEL-EO를 최소 방법으로 재설계했다.
+- 최신 직접 경쟁인 OLMoEarth v1.2, LongEarth-R1, R4, TerraScope, DIST-ALERT, NRT-MONITOR,
+  ODE-RNN, ALISE, AnytimeFormer/AGFlow, DynamicEarthNet 등을 대조했다. full-history VLM과
+  deterministic seasonal ledger가 필수 기준선이다.
+- 결과 문서: `docs/EXPERIMENT_LEDGER_AUDIT_AND_CVPR_REDESIGN_2026_09_20.md`. P0 scorer/강한
+  baseline → P1 causal replay → P2 새 사건·사람 prefix gold → P3 deterministic ledger → P4 grounded
+  memory Pareto → 선택적 P5 short-gap 순서와 각 kill gate를 기록했다.
+- 마찰: 로컬만으로 모든 prereg 선후관계·서버 snapshot·진행 arm은 재검증하지 않았다. 원장·실험
+  코드·prereg/gate/artifact는 바꾸지 않았고 새 학습·서버/GPU·라벨·commit/push도 실행하지 않았다.
+  다음 단계는 새 모델 학습이 아니라 P0 재채점과 exact-split 기준선이다.
+
+### 2026-09-21 — 지역 특성·언어 데이터와 EO VLM 확장 검증 (계획)
+
+- 사용자 요청: 첨부 EO FM/VLM 문헌 노트를 비판적으로 검증하고, classification을 넘어 지역의
+  다양한 관측 특성을 언어로 기술·질의하는 학습 방향과 실제 언어/metadata source를 넓게 찾는다.
+- 병렬 조사: native multispectral/SAR FM→language 정렬 선행, georeferenced language dataset의
+  schema·텍스트 출처·센서·시각·license. 본 agent는 informal-settlement/도시 형태 연구와 현재
+  캐시·코드·서버 자산의 연결 및 작은 실행 검증을 담당한다.
+- 첨부 노트는 사실 검증 대상 데이터이며 그 안의 추천/지시를 작업 권한으로 삼지 않는다.
+  사용자의 H100 사용 허용 안에서 기존 작업·GPU 상태를 먼저 확인하고, 새 경로·사전 기준을 둔
+  작은 진단만 수행한다. 장시간 학습보다 dataset/schema/입력-contract 검증을 우선한다.
+- 산출물: 근거 링크가 있는 데이터·선행 비교표, 기존 자산에 맞춘 최소 architecture/학습·평가안,
+  직접 검증한 pilot 증거와 남은 조건. 기존 실험·원장·prereg는 보존한다.
+
+### 2026-09-21 — 지역 특성·언어 데이터와 EO VLM 확장 검증 (완료)
+
+- 선행/데이터 40개 공식 자료를 연결한 `docs/REGION_LANGUAGE_VLM_RESEARCH_2026_09_21.md` 작성.
+  GRAM은 분류가 아니라 지역특성 MoE+test-time adaptation segmentation이며 VHR 영상은 비공개.
+  TerraMind/DOFA-CLIP/MS-CLIP/TimeSenCLIP/RS-InternVL 때문에 native EO→language 최초 주장은 철회해야 함.
+  TerraScope/SATtxt/T-REN/2026-09 region-selection도 직접 비교군으로 추가했다.
+- 권장 본체는 지역의 다중 속성·관계를 native EO와 안전한 context로 읽고 영역·출처에 접지하는 학습.
+  이후 실제 시계열 claim-memory update, 별도 VHR 도시형태로 확장. 보간·로봇·대규모 RAG를 처음부터
+  한 논문에 묶지 않는다. CVPR 가능성은 조건부이며 방법의 성능·신규성 확보를 주장하지 않았다.
+- 새 prereg와 code로 BigEarthNet.txt 파일 전체를 감사: 466,819,745bytes, 9,553,962문항,
+  464,044고유patch. train/val/test/bench ID교집합 모두0. 지역독립성 검증과는 다름.
+- 국가/계절/기후 MCQ 1,390,573개(전체MCQ42.7%)를 해당 metadata의 문자열조회만으로 모두 맞힘.
+  입력meta를 주는 arm에서 이 점수를 visual reasoning과 합산하면 안 됨. label-derived train supervision
+  자체가 누수라는 과장도 명시적으로 피했다.
+- 공식 S2 tar.zst의 앞1MiB만 streaming해 8개×12band를 받고 text212문항과 exact patch-ID조인8/8.
+  GPU1 NVIDIA H200에서 frozen OlmoEarth-v1-Base를 실행, 8/8 finite30×30×768features.
+  code측정 load포함5.17초, peakallocated0.607GiB. VLM학습/언어정확도/일반화 측정이 아님.
+- 마찰: pyarrow21은 서버19.0.1제약으로 설치실패→별도outroot/deps에19.0.1+zstandard0.25.0 설치.
+  sharedvenv변경없음. .venv wrapper는 normalize미지원→기존.venv-master로 전환해 성공. 실패로그보존.
+- 새 파일만 nx로전송. 기존4확증실행파일size/mtime/SHA256불변. 기존gate/학습/원장변경없음.
+  evidence JSON·logs·RGBcontactsheet는 `artifacts/region_language_contract_20260921/evidence/`로회수.
+  원본text와8개raster/features는 서버새outroot에보존. 학습프로세스를남기지않음.
+- 다음: 2k–10k고유patch/지리분할 pilot에서 matchedRGB-SFT, metadata-only, naiveprojector를 먼저 비교.
+  native-sensor/evidence기여가 실제로남을때만 regionadapter·외부지역검수·시간기억으로 확장한다.
+
+### 2026-09-21 — Poseidon 자산과 EO 시간·언어 연구 연결 감사 (계획)
+
+- 사용자 질문: 이전 `nips2026-1/v1-0426`의 PDE/Poseidon 시간 실험을 현재 EO 연구와
+  연결하고, 날씨 시뮬레이션으로 짧은 시간 변화를 학습할 수 있는지 검토한다.
+- 이전 저장소는 읽기 전용으로 조사한다. 실제 시간·pseudo-time·고정 time 입력 개입을 구분하고,
+  최신 원장/결과로 주장 범위를 확인한다. 기존 Earth–PDE bridge 설계는 결과와 구분한다.
+- 독립 병렬 조사: local raw/프로토콜 시간 감사, 공식 문헌의 PDE→weather 및 weather→EO 경로.
+  본 agent는 최신 식별성/repair 결과, 관측 연산자, 현재 EO/VLM 자산과 최소 연결 실험을 대조한다.
+- 기존 실험/기준/체크포인트를 바꾸지 않고 새 학습·서버 실행도 하지 않는다. 산출물은 근거 있는
+  연결 가능성, 재사용/비재사용 자산, 한 가지 작은 검증 설계와 물리·관측·언어 역할의 설명이다.
+
+### 2026-09-21 — Poseidon 자산과 EO 시간·언어 연구 연결 감사 (완료)
+
+- 이전 프로젝트 README·최신8/22원장·G1raw·NS실행코드·기존Earthbridge/sim2real설계를 읽기 전용으로
+  대조했다. 전체 수천런 재현은 아니다. NS는Δt=.05고정one-step을1/5/10/20회 반복하는 평가이므로
+  short-gap interpolation/variableΔt 증명이 아니다. G1 pseudo-time은true/const/shuffle대조 실패다.
+- 8/22 repair의 식별성·반사실 설계는 EO metadata shortcut 감사에 재사용 가능하나, IID safety2/4실패·
+  조건수기제0/4반증·arm4개의한계를 유지한다. source refresh도 online memory update와 구분했다.
+- Poseidon→OpenMARS의실제선행, EarthNet/Contextformer의weather→EO선행, FloodCastBench,
+  NeuralGCM·4DVarNet·홍수동화·PDEBench·ERA5의공식자료를확인했다. 연결은가능하나새로움은미확정.
+- 제안: 시간단위물리연결은작은홍수pilot으로, 실제EO일반화는EarthNet류별도평가로구분. FloodCast는
+  4사건·simulator보정자료이며dense실관측truth가아니다. EarthNet은5일4band라현재12band계약조인필요.
+- `docs/POSEIDON_EO_WEATHER_BRIDGE_AUDIT_2026_09_21.md`에물리상태/관측연산자/VLM역할,
+  scratch/Poseidon×raw/raw+EO대조, forcing가용시점·관측출처·실패기준을정리했다.
+- 새학습·시뮬레이션·서버실행·기존PDE저장소수정·기존gate변경없음. 다음실행은paireddata/시간·단위·
+  경계조건·실관측독립성계약검사이며, 언어모델확대는물리/EO추가기여확인후다.
+
+### 2026-09-22 — 홍수를 넘어 다중 현상 지역 상태 갱신으로 확장 (계획)
+
+- 사용자 요청: 물리/기상 prior→EO관측교정→언어판단갱신의큰구조를홍수한도메인보다넓게확장하고
+  학계공개벤치마크를활용할연구방향을찾는다. 이번은방향설계·문헌검증이며학습실행요청으로확대하지않는다.
+- 병렬조사: 실제시계열벤치마크의센서/시간/라벨/분할계약; 최근EO시계열VLM·memory선행과revision평가.
+  본agent는물리로설명가능한변화와돌발/인위적변화의분리,공통updater와현상별prior의역할,
+  최소3축평가·기존자산연결·확장과과장경계를정리한다.
+- 기존실험/기준은보존한다. 실제공개자료로가능한평가와새annotation필요항목을구분해연구설계를문서화한다.
+
+### 2026-09-22 — 홍수를 넘어 다중 현상 지역 상태 갱신으로 확장 (완료)
+
+- `docs/MULTI_REGIME_EARTH_MEMORY_BLUEPRINT_2026_09_22.md` 작성. 본체 후보를 빠른 재해
+  WildfireSpreadTS, 느린 식생 GreenEarthNet, 토지피복 DynamicEarthNet의 3개 변화 양식으로 확장했다.
+  홍수는 이전 자산의 물리 연결 pilot으로 유지한다. 새 학습/정량 성능 결과는 없다.
+- EO-WM·LongEarth-R1·PhyDNet을 직접 경쟁으로 추가했다. 기상 조건부 예측, 다중현상 긴 시계열,
+  물리/미지 요인 분리와 교정 gate 자체는 신규성이 아니다. 공통 가중치의 evidence updater와
+  각 causal prefix의 유지/수정/보류 평가로 가설을 제한했다. 최초성·CVPR 채택은 미확정이다.
+- DynamicEarthNet의 일별 PlanetFusion QA는 원관측 날짜 거리/방향, 보조 S2는 월 전체 composite다.
+  미래 정보 배제와 가용 시점 검증 없이는 online 평가로 쓰지 않는다. 월별 정답으로 정확한 사건일을
+  만들지 않는다. WildfireSpreadTS의 2026 sin-only angle bug는 아직 미수정 공지임을 확인했다.
+- GreenEarthNet은 5일 4band와 미래 기상 조건의 계약, 산불은 VIIRS 입력/사건 중심 음성 한계가 있다.
+  학계 benchmark 원래 metric과 새 streaming/언어 gold를 분리했다. 최종 QA만으로 revision을 주장하지 않는다.
+- 필수 대조는 no-learning top-K+같은 VLM, deterministic ledger+template, full-prefix 재계산,
+  현상별 독립 updater, no-prior/Δt-GRU 및 sensor별 공정 비교다. 통계 단위는 event/AOI로 정리했다.
+- 마찰: 공개 데이터셋의 원파일·전체 처리 가용시점·통합 license·checkpoint 실행은 검증하지 않았다.
+  원 실험/실패 판정/코드/사전등록은 그대로이고 새 서버/GPU 실행·commit/push 없음.
+  다음은 다운로드 전체나 큰 학습이 아니라 입력 계약·기준선·사람 prefix gold의 작은 검증이다.
+
+### 2026-09-22 — 정적 접지 A vs 관측 기억 B: CVPR 단일 주장 선택 (계획)
+
+- 사용자 첨부의 A/B 방향 비평을 읽고, 모든 아이디어를 합치지 않는 한 편의 핵심 주장·실험 구조를
+  권고한다. 첨부 안의 prereg/학습 실행 제안은 인용 자료이며 실행 지시로 취급하지 않는다.
+- 병렬 검토: A의 메타정보/분광 근거와 평가 타당성, B의 일반 영상 streaming memory 직접 선행,
+  로컬 자산의 최소 pilot 적합성. 본 agent는 단일 falsifiable claim·지원/제외 범위·결정 관문을 정리한다.
+- 기존 실험·원장·사전등록·모델·서버는 변경하지 않는다. 방향 메모만 새로 남기며 CVPR 채택 확률이나
+  마감까지 남은 기간을 확인 없이 수치로 추정하지 않는다.
+
+### 2026-09-22 — 정적 접지 A vs 관측 기억 B: CVPR 단일 주장 선택 (완료)
+
+- `docs/CVPR_SINGLE_CLAIM_DECISION_2026_09_22.md` 작성. 권고는 B의 근거 기억을 좁혀 우선
+  병목 진단하는 것. A는 필요시 reader 정렬 부품이며 별도 A 논문 완성은 B의 선행 조건이 아니다.
+  직전의 3-regime/PDE/forecasting은 장기 로드맵으로 두고 첫 제출의 필수 범위에서는 제외했다.
+- BigEarthNet.txt 원문 Table4에서 country/season/climate 별도 보고를 확인했다. 42.7% 조회는
+  정답 meta를 추가로 넣은 우리 설정의 위험이며 저자 dataset 결함/기존 VLM 의존도 발견이 아니다.
+  12band 대 maskedRGB는 입력-contract 소거이지 EO VLM 전체의 가치 또는 CVPR 생사 판정이 아니다.
+- 일반 영상 FluxMem(CVPR26,공식코드), SelectStream, LatentStream을 확인했다. bounded/query-independent/
+  evidence memory 자체 신규성을 주장하지 않고 동일 영역의 전후 근거 보존을 실제 차별화 가설로 제한했다.
+- SpaceNet7 pilot+DEN 조건부 external을 권고. SN7 omniscient label은 prefix에서 보이는 근거와 달라
+  독립 검수가 필요하다. DEN 미래 gap-fill 제약은 유지. 신규 gold/모델/우위는 아직 없다.
+- 첫 7–10일 진단은 full-prefix/topK/generic memory/privileged-evidence를 같은 reader에서 비교해
+  reader 병목과 선택 개선 여지를 구분하는 계획이다. 극소 K 강제·미래query노출·공짜 archive 접근 금지.
+  이는 미등록 제안이며 실행한 실험이 아니다. 기존 실패 판정·gate는 보존한다.
+- 공식 CFP 확인: CVPR2027 등록11/10, 본문11/16 AoE. 약8주지만 완성·채택 확률은 추정하지 않았다.
+  새 서버/GPU/다운로드/학습/commit/push 없음. 다음 실행은 방향 승인 뒤 별도 prereg와 작은 gold 검증이다.
+
+### 2026-09-22 — 사람 검수 100인·시간 예산 설계 (계획)
+
+- 사용자 예산 상한은 총 100인·시간, 시급 15,000원이다. 인력 고용/지급/데이터 취득 승인이 아니라
+  이 예산으로 유의미한 연구 평가가 가능한지와 검수 배분을 검토하는 요청으로 다룬다.
+- 첨부된 작업량·이중 검수·시간 산술을 재검토하고, episode/prefix/question/annotation job을 구분해
+  진단과 봉인 평가에 우선 배분한다. 불확실한 항목당 시간은 소규모 측정으로 확정하는 안을 제안한다.
+- 독립 검수, 분쟁 조정, abstention, AOI/event 군집 통계, 기존 gold/silver 역할의 지침을 1차 자료로
+  확인한다. 기존 사전등록·gate·코드·서버는 변경하지 않고 별도 예산 검토 메모를 작성한다.
+
+### 2026-09-22 — 사람 검수 100인·시간 예산 설계 (완료)
+
+- `docs/HUMAN_VALIDATION_100H_BUDGET_2026_09_22.md` 작성. 총100인시×15,000원=직접인건비150만원.
+  6분/판정 가정의 예시는 교육8+G1이중검수12+본평가40+중복10+S2평가10+중복2+조정10+예비8=100h.
+  개발60+최종500=고유560단위, 판정740건. 500개 독립 사건이라는 뜻이 아니다.
+- 8분이면 본252+외부100=최종352단위, 10분이면 본160+외부100=260단위로 축소해 시간 상한을 지킨다.
+  처리 시간은 미측정이며 150프레임/6분 전수 판독을 보장하지 않는다. 우선20인시 이내 pilot로 실측 권고.
+- 기존 일정의 산술 정정: 2명×주10h면 G1 50h는2.5주, 총180–320h는9–16주다.
+  2raters+kappa=gold 및20%overlap충분이라는 보편 기준은 없다. reference타당성·층별합의·군집CI 필요.
+- 검수는 질문마다 반복하지 않고 영역/cutoff/주장묶음의 상태·근거·영역을 함께 기록한다. 개발과
+  봉인 평가, silver와 사람 판독가능성 gold를 분리한다. 기존4지역S2는 신규사건 일반화로 세지 않는다.
+- 새 실험/자료취득/채용/지급/사전등록 변경 없음. 충분한 메커니즘 평가의 실행가능성 제안이지
+  CVPR채택·500개 확보·통계검정력 보장은 아니다. 다음은 검수 UI·교육·실측 작업량을 별도 확정하는 것.
+
+### 2026-09-22 — 추석 20인·시간 한국 pilot의 문제 정의 (계획)
+
+- 사용자가 첫 사람 검수를 최대20인·시간으로 진행하는 방향에 동의하고, 실제 연구 의미·한국에서의
+  수행 가능성·VLM 역할·문제 정의를 묻는다. 한국의 지역/데이터를 대상으로 한다고 가정해 확인한다.
+- 이번은 한국 사례와 데이터 가용성의 읽기 전용 조사 및 pilot 설계다. 고용·지급·예약·자동 실행·
+  대용량 취득·GPU학습을 시작하지 않는다. ‘추석’ 언급을 예약/알림 요청으로 확대하지 않는다.
+- 한국 자산·공개 S1/S2/국내 참조자료와 annotation-ready 상태를 대조하고, 20시간은 효과 입증이
+  아닌 과제/라벨/reader/기억 병목을 구분하는 feasibility pilot으로 설계한다.
+
+### 2026-09-22 — 추석 20인·시간 한국 pilot의 문제 정의 (완료)
+
+- `docs/KOREA_PILOT_20H_PROBLEM_2026_09_22.md` 작성. 권고 문제는 새 관측에 따른 지역 변화의
+  확인/유지/보류와 시공간 근거 보존. 한국 첫 후보는 큰 산림 표면 변화(울진·삼척 등)이며
+  영구 손실·원인·불법성 판정으로 확대하지 않는다. 실제 신규 AOI/product 수는 아직 미조회다.
+- 예산은 교육4+30묶음×2명×8분=8+조정4+예비4=20인시, 직접인건비30만원. 처리시간 미측정이며
+  길면 건수를 줄인다. 자료 준비/UI/분석/GPU는 이 검수 인건비 밖이다. 채용·지급은 하지 않았다.
+- Copernicus S2, 산림청 산불통계, NGII 제공 조건을 공식 페이지에서 확인. 산불통계는 주소/날짜이지
+  피해 polygon이 아니며, NGII 항공사진은 승인·공공누리3유형 표시. 2022 S2 PB04.00 offset 주의.
+- 기존 제주 후보/비교페이지는 교육 자산이고 사람 gold가 아니다. KR-4 대규모 칩은 static head
+  자산이며 새로운 streaming QA 검수 세트가 아니다. 이번은 로컬 문서·산출물 감사, 서버 실물 재감사 아님.
+- 검수 초안의 시간초과→판독불가 및 같은 AOI 미래 cutoff 선노출 위험을 발견. 다음 revision에서
+  timeout 분리·AOI내 시간순 공개를 제안하며 원 프로토콜은 보존. STUDY 개념 카드 추가했다.
+- VLM은 region/time/evidence 조합 질의 reader, 학습 본체 후보는 전후 근거 선택/갱신 모듈이다.
+  detector→ledger→template 대조가 충분하면 VLM 필수 주장을 하지 않는다.20시간으로 generic memory
+  비교가 미완이면 G1 통과·CVPR 우위를 주장하지 않는다. 새 GPU/취득/예약/기존 prereg 변경 없음.

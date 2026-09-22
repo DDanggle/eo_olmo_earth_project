@@ -1,0 +1,64 @@
+{
+ "schema": "vlm-memory-comparison-prereg-v0",
+ "registered_at": "2026-09-19 (promoted from draft after MS-141; prerequisites satisfied below)",
+ "launch_allowed": true,
+ "question": "Given the same LLM, the same sequential-evidence QA v1 data, and the same injected-token budget, does a learned event memory answer 'what changed earlier, when, and where is the evidence' better — and keep its judgment stable under cloudy or irrelevant arrivals — than (a) reading only the latest observation, (b) reading the T1 updated cache, or (c) reading a rule-based event log built from the cross-region sealed readout?",
+ "detector_for_evidence": "event_log_v1 (sealed cross-region readout on causal prefix states); the hiroshima-trained head is NOT used (MS-140/141)",
+ "data": "sequential_qa_v1 (MS-138): per-arrival-step items with state/when/where/update labels; hiroshima blocks for train/val/test-in-event; thrissur/itogon/hokkaido as unseen events",
+ "arms": {
+  "A_latest_only": "OLMo + projector reads the latest single-observation tokens (64) + dates text",
+  "B_t1_cache": "reads the Δt-GRU (MS-116 recipe) updated state tokens (64) + dates text",
+  "C_rule_log": "reads the latest-observation tokens (64) + a text serialisation of event_log_v1 up to the current step (dates, area, quadrants above the region's validation threshold)",
+  "D_learned_memory": "reads the T1 state tokens (64) + K=4 learned event-memory slots (written by a quality- and change-conditioned writer from single-observation tokens; slots hold pooled tokens + date embedding), same total token budget as C"
+ },
+ "training": "S1 projector-only alignment on train items (state question), then S2 LoRA r=16 on OLMo for all four question types; identical epochs/budget across arms; seed 1; GPU1",
+ "metrics": [
+  "Q_state accuracy (3-way incl. 'cannot tell yet')",
+  "Q_when: exact evidence-date accuracy",
+  "Q_where: quadrant Jaccard",
+  "Q_update: action accuracy, with the cloud-stability sub-metric = fraction of 'keep/abstain' steps where the model does NOT change its state answer",
+  "all reported in-event (hiroshima test block) and on the three unseen events"
+ ],
+ "decision_rules": {
+  "method_claim": "D beats C on Q_when AND Q_update cloud-stability on >= 2 of 3 unseen events with tile-paired CI excluding 0, at equal token budget",
+  "system_only": "D ~ C: the contribution is the benchmark + system (no learned-memory method claim)",
+  "memory_irrelevant": "A >= all others on Q_state/Q_when: past evidence is recoverable from the latest observation alone; the memory line is closed"
+ },
+ "not_claimed": [
+  "belief correction (no revise labels exist)",
+  "generalisation beyond Sentinel-2 landslides"
+ ],
+ "prerequisites_before_launch": [
+  "MS-141 recorded",
+  "event_log_v1 thresholds fixed per region on validation",
+  "token-budget parity check between C and D"
+ ],
+ "prerequisites_status": {
+  "MS-141 recorded": true,
+  "thresholds": "event_log_v1/thresholds.json — own-region validation-block thresholds (hash block 3), 10% budget; realised pre-event FAR .059/.123/.210/.145 (hiroshima/thrissur/itogon/hokkaido). Uses pre-event AREA statistics of the region (no labels); stated as a mild leak for the rule-log arm.",
+  "token_budget_parity": "arm C log serialisation is truncated to the most recent entries so that its tokenised length <= 256 LLM tokens; arm D uses 4 slots x 64 tokens = 256 injected tokens. Both add to the same 64 latest-observation tokens."
+ },
+ "execution_order": "Stage 1 (this contract's first run): arms A_latest_only and C_rule_log only, projector-only training on Q_state/Q_when/Q_where/Q_update with the answer as text; if A >= C on Q_when and Q_update-stability on the unseen events, the 'memory_irrelevant' branch fires early and D is not trained. Stage 2 (separate launch): B and D with LoRA if stage 1 leaves room.",
+ "stage1_training": "Olmo-3-7B-Instruct frozen, projector (768->2048->4096, LayerNorm+RMS rescale, type embeddings) trained 2 epochs on hiroshima train-block items (all steps), batch 8, AdamW 1e-4; eval greedy on hiroshima test block and the three unseen events; registered regex parsing (state: no/cannot tell yet/yes; when: ISO date; where: quadrants; update: keep/strengthen/abstain/revise)",
+ "stage1_decision": {
+  "memory_irrelevant": "A >= C on Q_when exact accuracy AND on Q_update cloud-stability on >= 2 of 3 unseen events",
+  "log_helps": "C > A by >= 10 points on Q_when on >= 2 of 3 unseen events -> proceed to stage 2 (B, D)"
+ },
+ "amendment_1": {
+  "registered_at": "2026-09-19, before the stage-1 launch",
+  "change": "evaluation sets are a seeded uniform random subsample of 150 tiles per set (all 15 arrival steps kept, all 4 questions), to bound generation time (~9k generations per set); hiroshima test block and the three unseen events alike. Full-set evaluation is deferred to stage 2 if stage 1 leaves room.",
+  "seed": "numpy default_rng(1000+seed)"
+ },
+ "amendment_2": {
+  "registered_at": "2026-09-19, while stage 1 arm A was evaluating (before any unseen-event score was read)",
+  "reason": "arm A's in-event Q_when accuracy (.71-.74 on hiroshima test) is obtainable from the prompt's date list alone if the model memorised the training event's calendar; a text-only control is needed to size that effect.",
+  "control": "CAL_heuristic: no model. Q_state = 'yes' iff any seen date >= 2018-06-28 (hiroshima event date, the only date a hiroshima-trained model could memorise) else 'no'; Q_when = first seen date >= 2018-06-28 else 'none'; Q_where = 'none'; Q_update = 'strengthen' at the first step where Q_state flips to yes, else 'keep'. Scored with the identical scorer on the identical 150-tile eval subsamples.",
+  "use": "reported next to arms A and C; if A ~ CAL_heuristic on Q_when in-event, A's Q_when is calendar memorisation; on unseen events CAL_heuristic must fail on Q_when by construction (different event dates), so any A > CAL_heuristic there is real evidence reading."
+ },
+ "amendment_3": {
+  "registered_at": "2026-09-19, while arm C was evaluating (before any C score was read)",
+  "reason": "arm C's training loss (.093) is far below arm A's; the event-log text may let the model answer from text alone. A model-free control that reads the same log with the same thresholds sizes that shortcut.",
+  "control": "LOG_heuristic: no model. From event_log_v1 with the region's own 10% validation threshold: Q_state = 'yes' iff any step so far has area >= threshold else 'no' (never 'cannot tell yet'); Q_when = date of the first ALERT step else 'none'; Q_where = quadrants of the first ALERT step else 'none'; Q_update = 'strengthen' at the first ALERT step, else 'keep'. Same 150-tile subsamples and scorer.",
+  "use": "reported next to A and C; C - LOG_heuristic on the unseen events is the model's contribution beyond the rule; if C ~ LOG_heuristic the 'log helps' branch is a rule effect, not a VLM effect."
+ }
+}

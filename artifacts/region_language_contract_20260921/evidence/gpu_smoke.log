@@ -1,0 +1,10 @@
+/home/work/data/olmoearth/.venv/lib/python3.11/site-packages/rslearn/models/olmoearth_pretrain/model.py:11: UserWarning: olmo-core not installed. Running in inference-only mode. For training: pip install olmoearth-pretrain[training]
+  from olmoearth_pretrain.config import Config, require_olmo_core
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/code/audit_region_language_contract_20260921.py", line 198, in <module>
+    else: gpu()
+          ^^^^^
+  File "/home/work/data/olmoearth/code/audit_region_language_contract_20260921.py", line 145, in gpu
+    wrapper = OlmoEarth(patch_size=4, model_id=ModelID.OLMOEARTH_V1_BASE,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: OlmoEarth.__init__() got an unexpected keyword argument 'normalize'

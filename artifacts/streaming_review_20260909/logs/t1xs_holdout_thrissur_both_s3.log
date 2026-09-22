@@ -1,0 +1,12 @@
+{'train': 600, 'val': 1133, 'test': 427}
+after obs-source filter {'train': 567, 'val': 1128, 'test': 0}
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/code/streaming_update_train.py", line 34, in <module>
+    Ttr,Utr,_,_=load("train"); Tva,Uva,_,_=load("val"); Tte,Ute,Ste,Yte=load("test")
+                                                                        ^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/code/streaming_update_train.py", line 27, in load
+    T=torch.from_numpy(np.stack([np.load(D/"teacher_fp16"/f"{s}.npy") for s in ids[split]]).astype("float32"))   # (N,5,768,32,32)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/numpy/_core/shape_base.py", line 454, in stack
+    raise ValueError('need at least one array to stack')
+ValueError: need at least one array to stack

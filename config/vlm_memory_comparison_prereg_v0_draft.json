@@ -1,0 +1,19 @@
+{
+  "schema": "vlm-memory-comparison-prereg-v0-draft",
+  "registered_at": "2026-09-19 (DRAFT — launch_allowed=false until MS-141 is recorded and the evidence detector is fixed)",
+  "launch_allowed": false,
+  "question": "Given the same LLM, the same sequential-evidence QA v1 data, and the same injected-token budget, does a learned event memory answer 'what changed earlier, when, and where is the evidence' better — and keep its judgment stable under cloudy or irrelevant arrivals — than (a) reading only the latest observation, (b) reading the T1 updated cache, or (c) reading a rule-based event log built from the cross-region sealed readout?",
+  "detector_for_evidence": "event_log_v1 (sealed cross-region readout on causal prefix states); the hiroshima-trained head is NOT used (MS-140/141)",
+  "data": "sequential_qa_v1 (MS-138): per-arrival-step items with state/when/where/update labels; hiroshima blocks for train/val/test-in-event; thrissur/itogon/hokkaido as unseen events",
+  "arms": {
+    "A_latest_only": "OLMo + projector reads the latest single-observation tokens (64) + dates text",
+    "B_t1_cache": "reads the Δt-GRU (MS-116 recipe) updated state tokens (64) + dates text",
+    "C_rule_log": "reads the latest-observation tokens (64) + a text serialisation of event_log_v1 up to the current step (dates, area, quadrants above the region's validation threshold)",
+    "D_learned_memory": "reads the T1 state tokens (64) + K=4 learned event-memory slots (written by a quality- and change-conditioned writer from single-observation tokens; slots hold pooled tokens + date embedding), same total token budget as C"
+  },
+  "training": "S1 projector-only alignment on train items (state question), then S2 LoRA r=16 on OLMo for all four question types; identical epochs/budget across arms; seed 1; GPU1",
+  "metrics": ["Q_state accuracy (3-way incl. 'cannot tell yet')", "Q_when: exact evidence-date accuracy", "Q_where: quadrant Jaccard", "Q_update: action accuracy, with the cloud-stability sub-metric = fraction of 'keep/abstain' steps where the model does NOT change its state answer", "all reported in-event (hiroshima test block) and on the three unseen events"],
+  "decision_rules": {"method_claim": "D beats C on Q_when AND Q_update cloud-stability on >= 2 of 3 unseen events with tile-paired CI excluding 0, at equal token budget", "system_only": "D ~ C: the contribution is the benchmark + system (no learned-memory method claim)", "memory_irrelevant": "A >= all others on Q_state/Q_when: past evidence is recoverable from the latest observation alone; the memory line is closed"},
+  "not_claimed": ["belief correction (no revise labels exist)", "generalisation beyond Sentinel-2 landslides"],
+  "prerequisites_before_launch": ["MS-141 recorded", "event_log_v1 thresholds fixed per region on validation", "token-budget parity check between C and D"]
+}

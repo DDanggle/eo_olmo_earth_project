@@ -1,0 +1,25 @@
+{
+ "n_train": 2072,
+ "n_test": 768,
+ "text_only": false,
+ "train_s": 969.4703836590052,
+ "Q1": {
+  "n": 384,
+  "acc": 0.6067708333333334,
+  "parse_fail": 0.0,
+  "fpr_on_negatives": 0.046875,
+  "recall_on_positives": 0.2604166666666667,
+  "balanced_acc": 0.6067708333333334
+ },
+ "Q3": {
+  "n": 192,
+  "exact": 0.08854166666666667,
+  "jaccard": 0.27777777777777785,
+  "parse_fail": 0.0
+ },
+ "Q4": {
+  "n": 192,
+  "acc": 1.0,
+  "parse_fail": 0.0
+ }
+}

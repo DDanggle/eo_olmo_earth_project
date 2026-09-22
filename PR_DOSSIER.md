@@ -1,7 +1,12 @@
 # PR·이슈 명세서 — 2026-08-26 upstream 재감사판
 
-최종 갱신: 2026-09-10 (2026-08-26 판을 재감사). 원칙: **PR을 찾아다니지 않는다.** 전부 실제로 부딪혀서 진단한 것만.
+최종 갱신: 2026-09-13 (현재 코드·공식 채용 요구 대조, 준비도·주장 범위 정정). 원칙: **PR을 찾아다니지 않는다.** 전부 실제로 부딪혀서 진단한 것만.
 판단 기준 하나: *"이게 머지되면 메인테이너의 일이 줄어드는가?"*
+
+> **최종 준비는 [PR_REENTRY](docs/PR_REENTRY_2026_09_10.md)를 따른다.**
+> sample은 첫 제출 후보, SCL은 두 경로의 재격자 테스트가 남은 기술 PR 후보, LFMC는 원인 미확정 이슈다.
+> 공식 OlmoEarth 채용 공고와의 연결은 응용 연구 엔지니어링 역량이며 채용/머지 보증이 아니다.
+> 아래 날짜별 감사는 이력이다. 준비·제출·검증 완료를 구분하고, 현재 runtime 미실행을 숨기지 않는다.
 
 감사 기준: `olmoearth_projects origin/main=23a3d7b`,
 `rslearn v0.1.14/master=c47952f`. 과거에 맞았어도 current upstream에서 해소됐으면 제출 큐에서
@@ -12,20 +17,35 @@
 | # | 대상 | 제목 | 등급 | 상태 |
 |---|---|---|---|---|
 | 1 | olmoearth_projects | sample 예제의 반쪽 스키마 마이그레이션 | **A (첫 PR 추천)** | 로컬 커밋, 미제출 |
-| 2 | olmoearth_projects | LFMC 공개 체크포인트가 문서 성능의 60% | **A (이슈 초안 완료)** | `ISSUE_DRAFT_lfmc.md` |
-| 3 | olmoearth_projects | forest_loss_driver를 외부에서 실행 불가 | A | 패치 보유, 미제출 |
+| 2 | olmoearth_projects | LFMC 공개 checkpoint의 test MSE 951.9 vs 문서 580.6 | **A (재현 이슈 후보)** | `ISSUE_DRAFT_lfmc.md`; config·로그 묶음 보강 |
+| 3 | olmoearth_projects | forest_loss_driver를 외부에서 실행 불가 | B (문서/이슈) | 로컬 소스 교체는 upstream 기본값으로 제출하지 않음 |
 | 4 | rslearn | `ingest:false` + PC Sentinel2 + CONTAINS → NotImplementedError | **종결** | current upstream에서 구현됨 |
 | 5 | olmoearth_projects | model.yaml과 lockfile의 rslearn API skew | B+ | #13에 병합 |
 | 6 | olmoearth_run(비공개) | `OEDATASETS_API_URL` 미설정 시 무한 재시도 | B | 이슈만 가능 |
 | 7 | olmoearth_run(비공개) | 상대 `project_path` → 깨진 심링크 | B (한 줄 수정) | 이슈만 가능 |
 | 8 | olmoearth_projects | macOS에서 `main.py` 행(hang) | C | 참고용 |
 | 9 | rslearn / 문서 | 임베딩 가이드의 consumed-timestep provenance | C+ | clarification으로 낮춤 |
-| 10 | rslearn | SCL 보조자산·범주형 resampling 계약 | **A-** | 작은 PR + RFC로 분리 |
+| 10 | rslearn | SCL 보조자산·범주형 resampling 계약 | **A- / B** | #10a 두 경로 수정·테스트 필요; #10b 설정 예제부터 |
 | 12 | rslearn | partial-band mask가 release별로 달리 소비됨 | B+ | public API repro 필요 |
 | 13 | olmoearth_projects | lockfile에서 v1.2 로드 불가 | B+ | compatibility matrix 먼저 |
 | — | olmoearth-runner | `requires-python <3.12` 상한 | 주의 | PR 금지, 이슈로만 |
 
 ---
+
+## 2026-09-11 우선순위·주장 교정
+
+실행 순서는 **#1 sample → #10a SCL scoring → #2 LFMC 확인 이슈**를 추천한다.
+첫 제출의 준비도와 대표 기술 기여의 깊이는 다르다. 자세한 사용자 가치·기존 EO와의 비교·
+제출 조건은 [우선순위 검토](docs/PR_PRIORITIES_AND_EO_GAPS_2026_09_11.md)를 따른다.
+
+- main `23a3d7b`, rslearn master/latest `c47952f`/v0.1.14 및 open issue 13·PR 4 재확인.
+- SCL nearest 수정은 **FirstValid L115·BestClear L279 둘 다**와 실제 재격자 regression test가 대상.
+- LFMC MSE를 “성능 60%”로 읽지 않는다. 재학습의 근접 점수는 업로드 오류 확증이 아니다.
+- HF 11/3은 저장소 수정일, checkpoint 파일 lastCommit은 **10/30**. 이슈에 full LFS hash를 추가했다.
+- 작성 권한은 과거 외부 작성 이력과 현재 사용자 권한을 분리한다. 로그인 제출 경로는 아직 미검증.
+- 현재 첫 sample 브랜치 diff는 1 file **+36/−24**. Linux E2E는 과거 실행, 오늘은 정적 재확인이다.
+- 품질/캐시/AlphaEarth source/출력 metadata 자체는 rslearn에 이미 있다. 비중복 제안은 입력·실제 시간·
+  품질·버전의 연결과 검증이다. 아래 과거 감사 절은 당시 이력을 포함하며 최신 교정이 우선한다.
 
 ## 2026-09-10 재감사 결론 (upstream origin/main=23a3d7b 변동 없음, rslearn latest release v0.1.14 2026-08-25)
 
@@ -34,8 +54,8 @@
 | # | 재확인 결과 | 판정 |
 |---|---|---|
 | 1 | upstream sample `annotation_features.geojson` 여전히 `es_*` 6 feature. open PR 4건(#37·#42·#43·#64)·open issue 13건에 중복 없음. 로컬 브랜치 `fix/sample-annotation-oe-schema` = origin/main + 1 file(+36 −24). fork 는 아직 없음 | **제출** (첫 PR) |
-| 2 | HF `OlmoEarth-v1-FT-LFMC-Base/model.ckpt` lastModified 2025-11-03 → 우리 측정 뒤 교체 없음. `docs/lfmc.md` 580.6 문구 유지. 관련 issue #45(경로)·#46(라벨 형식)만 있고 성능 불일치 이슈 없음 | **제출** (이슈) |
-| — | **정정**: "신규 이슈 작성 제한" 은 틀림. 외부 계정(robmarkcole, Bili-Sakura 등)이 #40~#65 를 열었고 `has_issues=true`. 이메일 우회 불필요 | 명세서 수정 |
+| 2 | HF 크기/oid와 문서 580.6 유지. 9/11 교정: 11/3은 repo 수정일, 파일 lastCommit은 10/30. 관련 #45·#46은 수치 불일치와 다른 문제 | **이슈 후보**, 재현 묶음 확인 후 |
+| — | 외부 계정의 #40~#65 작성 이력과 `has_issues=true` 확인. 9/11 교정: 현재 사용자 작성 권한을 이것만으로 단정하지 않음 | 로그인 경로 확인 필요 |
 | 3 | upstream `forest_loss_driver/dataset.json` 여전히 내부 `olmoearth_datasets.sentinel2_l2a` 2개 레이어. 단 origin/main 최신 머지가 `#39 forest-loss-deploy`(Ai2 내부 배포용) → 소스 교체 PR 은 그들 배포를 깨뜨릴 수 있음 | **PR 금지, 이슈로**: "문서가 외부 실행을 안내하나 데이터소스가 내부 전용(401)" + fail-fast 요청 |
 | 10a | rslearn v0.1.14 `sentinel2_scl.py` `_score_item` 이 반사도 layer 의 `resampling_method` 를 SCL(uint8 범주형) 읽기에 그대로 전달(L115). `missing scoring bands` ValueError(L103·L267) 유지. #616(SCL harmonization) 는 다른 문제로 닫힘 | **유효**. nearest 강제 최소 patch + 합성 회귀 테스트로 제출 가능 |
 | 10b | PC Sentinel2 는 `context.layer_config.band_sets` 교차 자산만 등록(L353 등). compositor 보조 band 의존성 자동 전달 없음 | 유효, RFC/이슈 |
@@ -43,7 +63,7 @@
 | 13 | origin/main `uv.lock`: rslearn 0.0.23 · olmoearth-pretrain 0.0.2 · olmoearth-runner 0.1.12. rslearn latest 0.1.14 와 스큐 그대로. 인접 issue #49(uv run 제안) | 유효, compatibility matrix 뒤 |
 
 **유의미성 총평**
-- 확실히 유의미: #1(문서 첫 예제가 즉사하는 버그, 1파일 수정, 검증 완료), #2(공개 체크포인트가 문서 수치의 60%; 재학습으로 데이터·레시피 정상 입증 → 메인테이너가 ckpt 재업로드만 하면 됨). 둘은 메인테이너 일을 확실히 줄임.
+- 유의미: #1(bundled sample 학습 준비 예제의 schema 실패, 작은 수정), #2(공개 평가와 문서 MSE 불일치의 provenance 확인 요청). #2의 원인과 해결책은 아직 확정하지 않는다.
 - 유의미하나 형식 주의: #10a(rslearn 실제 버그, 작은 patch). #3(이슈 형태).
 - 지금 내면 역효과: #12·#13(설계 논의 필요, 좁은 수정 아님), #6·#7(비공개 레포), #8(macOS, 재현 환경 제한), runner python 상한.
 
@@ -90,7 +110,7 @@ gate가 통과하지만 CLI가 이후 forkserver multiprocessing에서 멈춘다
 end-to-end macOS 검증으로 세지 않는다.
 
 **제출 상태**: 브랜치 `fix/sample-annotation-oe-schema`, 기능 커밋 `5e044ee` + newline 커밋
-`21b658a` (전체 1 file, +37 −25). 로컬에만 있음 — fork·push·PR 생성 대기. 2026-08-26 current upstream과
+`21b658a` (9/11 확인: origin/main 대비 1 file, +36 −24). 로컬에만 있음 — fork·push·PR 생성 대기. 2026-08-26 current upstream과
 open PR/issue를 재확인했고 직접 중복은 없었다. EOF newline·static schema gate는 보완했다.
 current Linux runtime quick-start를 한 번 더 확인한 뒤 제출한다(macOS는 별도 #8에서 멈춤).
 
@@ -107,7 +127,7 @@ gh pr create --repo allenai/olmoearth_projects \
 
 ---
 
-## 2. LFMC 공개 체크포인트가 문서 성능의 60% — 이슈 초안 완료
+## 2. LFMC 공개 checkpoint의 test MSE 불일치 — 재현 이슈 후보
 
 **본문**: `ISSUE_DRAFT_lfmc.md` (영어, 재현 절차·통제 실험·제안 포함)
 
@@ -117,18 +137,16 @@ gh pr create --repo allenai/olmoearth_projects \
 |---|---|---|---|
 | 문서 주장 (`docs/lfmc.md`) | test | — | **580.6** |
 | 공개 ckpt (HF, epoch 91) | val | rslearn 0.0.27 | 995.3 |
-| 공개 ckpt | val | rslearn master | 995.4 ← 버전 효과 기각 |
+| 공개 ckpt | val | 당시 rslearn master | 995.4 ← 시험한 두 환경의 차이는 작음 |
 | 공개 ckpt | **test** | rslearn 0.0.27 | **951.9** |
 | **우리 재학습 (epoch 33/100)** | **test** | rslearn 0.0.27 | **558.8** |
 
-**결론**: 데이터·설정·레시피는 정상. 우리가 그들 학습량의 1/3로도 문서 수치를 웃돎 →
-**HF에 업로드된 체크포인트 파일이 문서의 실험 산출물이 아닐 가능성**이 높다.
-보조 단서: 공개 ckpt는 60,260스텝/91에폭 = 662 steps/epoch, 공개 데이터는 655 → ~1% 다른
-데이터 스냅샷.
+**결론**: 별도 task fine-tuning으로 문서에 가까운 점수를 얻었지만 원 논문/문서 run을 재현한 것은 아니다.
+공개 가중치의 revision 또는 평가 세부 설정 차이를 확인해야 한다. epoch 비율은 계산량 비율이 아니고,
+step 차이도 batch·accumulation·분산 sampler·resume 등에 영향받으므로 데이터 snapshot 차이를 입증하지 않는다.
 
-**제출 경로 주의**: `olmoearth_projects`는 신규 이슈 작성이 제한돼 있음. 따라서
-① `olmoearth@allenai.org`로 리포트 전송 또는 ② PR #1 설명에 함께 언급하며 maintainer
-경로 요청. 둘 중 하나를 택한다.
+**제출 경로**: sample PR에 섞지 말고 독립 issue로 준비한다. 외부 issue 작성 이력은 확인했지만
+현재 사용자 계정의 작성 권한은 아직 확인하지 않았다. 자동 게시/메일 전송은 하지 않는다.
 
 ---
 
@@ -267,8 +285,10 @@ band-set 요구를 config error로 명시하고, categorical SCL scoring은 near
 
 ## 제출 순서 (2026-08-26 권장)
 
+> 역사적 순서. 현재는 9/11 우선순위 절을 따른다. 당시 작성 권한 판단은 미검증으로 교정했다.
+
 1. **#1** — 무해하고 명확하다. EOF newline 완료; current Linux quick-start 확인 뒤 첫 기여로 제출
-2. **#2** — 완결된 매트릭스. issue 작성 제한 때문에 maintainer 경로 확인 후 report
+2. **#2** — 당시 평가 매트릭스에 기반한 독립 issue. 현재 제출 전 조건은 9/11 검토를 따른다.
 3. **#10a** — SCL scoring만 nearest로 분리하는 최소 rslearn patch + synthetic regression
 4. **#10b** — compositor auxiliary-band dependency declaration은 별도 issue/RFC
 5. **#13** — current runner integration까지 통과한 compatibility matrix/lock update
@@ -294,7 +314,8 @@ band-set 요구를 config error로 명시하고, categorical SCL scoring은 near
 masked-average 경로로 전환되지만, 출력 mask에는 MISSING이 없어 결과가 baseline과 동일하다.
 사용자는 밴드 부재를 선언했다고 믿고, 경고는 없다.
 
-**영향**: 10밴드 S2 제품 사용자 전체. 예로 PhilEO-downstream S2는
+**잠재적 영향(9/11 범위 교정)**: 10밴드 S2 제품 온보딩과 관련되지만 공개 API E2E 미재현이므로
+전체 사용자 영향으로 단정하지 않는다. 예로 PhilEO-downstream S2는
 `B02 B03 B04 B08 / B05 B06 B07 B8A B11 B12`로 v1의 `band_set 0+1`과 정확히 일치하고
 없는 `B01 B09`가 `band_set 2` 전체다. v1에서는 그 set을 MISSING으로 표현할 수 있으나
 v1.2에서는 표현 수단 자체가 없다. 같은 입력을 두 릴리스에 대칭적으로 줄 수 없다.
