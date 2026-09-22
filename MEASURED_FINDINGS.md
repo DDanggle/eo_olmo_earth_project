@@ -5804,6 +5804,23 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-154 (2026-09-22) — G1-lite v0.3(Q1 근거가 질문 창을 가로지르게 수정, 나머지 v0.2 동일): 등록 규칙 순서로 **headroom_present**. privileged Q1 .700(≥.65, reader 병목 아님), Q2 .455가 latest_k·change_topk(.000)를 +.42 CI 밖으로 이기고 full_prefix(.227)보다 높음 → 근거 선택이 (이 reader·silver oracle에서) 병목. 결정 규칙대로 추석 prefix-visible 검수 **시작 가능**
+
+사전등록 `config/bottleneck_diag_lite_prereg_v0_3.json`. 서버 `spacenet7/diag_lite_v0_3/`(SHA256SUMS, items 50, answers 192, scores.json; frames는 v0.2 심볼릭 링크), 로컬 `artifacts/spacenet7/diag_lite_v0_3_{scores.json,answers.jsonl}`. 오류 0. Qwen3-VL-8B zero-shot, 12 AOI × cutoff 2.
+
+| 조건 | Q1 acc (recall·spec, 20/8) | Q2 acc / 월 오차 중앙값 (n 22) |
+|---|---|---|
+| full_prefix(13~21장) | .571 (.40·1.0) | .227 / 2 |
+| latest_k(4) | .643 (.50·1.0) | .000 / 13 |
+| change_topk(4) | .536 (.40·.88) | .000 / 8.5 |
+| privileged_silver(4) | **.700** (.70·—) | **.455 / 1** |
+
+paired(privileged − 기준선, AOI 12 bootstrap): Q1 vs full_prefix +.273 [.045,.500], vs latest_k +.182 [.045,.318], vs change_topk +.273 [.000,.545]; Q2 vs change_topk +.417 [.167,.667], vs latest_k +.417 [.167,.667], vs full_prefix +.208 [−.083,.500].
+판정(등록 규칙 순서): reader_bottleneck 아님(.70 ≥ .65) → no_headroom 아님(Q2 차 .455 ≥ .05) → headroom_present 조건(Q2에서 latest_k·change_topk 대비 ≥.10 CI 0 제외 AND full_prefix ≤ privileged) 충족 → **headroom_present**. decision_use: 추석 prefix-visible 검수 시작.
+읽는 법: (1) 4장짜리 올바른 근거가 13~21장 전체보다 나음(Q1 +.27 CI 밖, Q2 +.21 CI 0 포함) — "전부 읽기"가 상한이 아니라는 첫 근거. 비용은 4장 vs 최대 21장. (2) 단순 선택(최신·변화량)은 Q2를 전혀 못 맞힘 — 논문의 "기존 기억이 전후 근거를 잃는다" 주장의 lite 버전. (3) 세 한계: silver oracle(라벨 첫 출현이 실제로 보이는지 미검증 — 추석 검수가 이걸 확인함), zero-shot reader 하나, AOI 12·항목 50. (4) v0→v0.3 세 번의 수정은 모두 진단 설계(날짜 형식·해상도·근거 창)였고 판정 규칙은 한 번도 바꾸지 않음.
+다음: 사람 gold(prefix-visible)로 같은 4조건을 재평가하는 G1 본 진단(3주 말). 검수 도구·프로토콜 `docs/PREFIX_VISIBLE_GOLD_PROTOCOL_v0.md`.
+금지: "기억이 병목"을 사람 gold 없이 확정 인용, privileged를 배포 가능한 방법으로 서술.
+
 ## MS-153 (2026-09-22) — G1-lite v0.2(원해상도 사분면 crop, MIN_NEW 8, Q3 삭제, Qwen3-VL): Q2에서 privileged **.455 vs latest_k .000 / change_topk .000 / full_prefix .227** — 두 기준선 대비 +.42 CI 밖, full_prefix 대비 +.21은 CI 0 포함. Q1 privileged .10은 **프레임 선택 버그**로 확인(근거 4장이 질문 창 끝에 못 미침) → 규칙상 reader_bottleneck이나 원인은 진단 설계, v0.3로 수정 재실행
 
 사전등록 `config/bottleneck_diag_lite_prereg_v0_2.json`. 서버 `spacenet7/diag_lite_v0_2/`(SHA256SUMS, items 50, answers 192, scores.json), 로컬 `artifacts/spacenet7/diag_lite_v0_2_scores.json`. 오류 0.
