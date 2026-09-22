@@ -12,7 +12,7 @@
 | 관문 | 시점 | 질문 | 통과 | 실패 시 |
 |---|---|---|---|---|
 | G0 데이터 적합성 | 1주 말 | 제안 데이터에 논문의 현상(가림·불규칙 간격·긴 누적)이 실제로 있는가 | SpaceNet 7 AOI별 가림 월 비율 집계 + S2 장기열 확보 가능 확인 | **SN7 실패(MS-150, 9/22)**: 사건 18.9% 가림이나 13/60 AOI에 집중. 가림 축은 S2 장기열로 이관, SN7은 변화 기억 개발 자료 |
-| G1 병목 진단 | 3주 말 | 같은 reader에서 근거 선택이 병목인가 (결정 문서 §7의 4조건) | 일반 memory가 근거를 잃고 privileged evidence에서 회복 | reader 병목 → 기억 학습 중단, reader 정렬로 회귀. 동률 → 방법 주장 중단, CVPR 철회 검토. **진행(9/22)**: lite v0 TEOChat 퇴화(MS-151), v0.1 Qwen3-VL은 Q1 해상도 병목이나 Q2에서 privileged 우세 CI 밖(MS-152) → v0.2 Q1 근거 창 버그(MS-153) → **v0.3 headroom_present(MS-154, 9/22)**: privileged Q1 .70·Q2 .455 vs 단순 선택 .000, 전체 prefix .227. lite 통과 → **보류(MS-154 추가 1)**: privileged gold 위치 고정·Q2 gold 편중 교락 발견, Molmo2 .909가 위치 사전확률로 설명 가능. v0.4(위치 무작위·gold 분산·wrong-content 통제) 뒤 재판정. 본 G1(사람 gold)은 3주 말 |
+| G1 병목 진단 | 3주 말 | 같은 reader에서 근거 선택이 병목인가 (결정 문서 §7의 4조건) | 일반 memory가 근거를 잃고 privileged evidence에서 회복 | reader 병목 → 기억 학습 중단, reader 정렬로 회귀. 동률 → 방법 주장 중단, CVPR 철회 검토. **진행(9/22)**: lite v0 TEOChat 퇴화(MS-151), v0.1 Qwen3-VL은 Q1 해상도 병목이나 Q2에서 privileged 우세 CI 밖(MS-152) → v0.2 Q1 근거 창 버그(MS-153) → **v0.3 headroom_present(MS-154, 9/22)**: privileged Q1 .70·Q2 .455 vs 단순 선택 .000, 전체 prefix .227. lite 통과 → **보류(MS-154 추가 1)**: privileged gold 위치 고정·Q2 gold 편중 교락 발견, Molmo2 .909가 위치 사전확률로 설명 가능. **v0.4 content_check 실패 2/2(MS-155)**: wrong-content ≥ privileged → 근거 선택 headroom 주장 철회. zero-shot reader는 변화 시점을 내용으로 못 읽음. 추석 검수 보류. 선행 조건 = reader 정렬(SFT) 또는 질문·변화 단위 재설계 |
 | G2 방법 이득 | 6주 말 | 제안 모듈이 generic memory·deterministic top-K보다 답·근거·영역 joint score를 개선하는가 | 독립 출처 2곳, AOI cluster CI 0 제외 | 방법 절 삭제, 실패 분석+벤치마크 계약으로 축소하고 학회 급 재판단 |
 
 G1이 진짜 결정점임. G1 실패면 11/16 제출을 포기하는 것을 지금 합의함.

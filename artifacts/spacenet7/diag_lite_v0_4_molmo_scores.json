@@ -1,0 +1,144 @@
+{
+ "schema": "sn7-diag-lite-v0",
+ "per_condition": {
+  "change_topk": {
+   "Q1": {
+    "n": 28,
+    "acc": 0.6428571428571429,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 22,
+    "acc": 0.09090909090909091,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "full_prefix": {
+   "Q1": {
+    "n": 28,
+    "acc": 0.4642857142857143,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 22,
+    "acc": 0.18181818181818182,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "latest_k": {
+   "Q1": {
+    "n": 28,
+    "acc": 0.8214285714285714,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 22,
+    "acc": 0.045454545454545456,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "privileged_silver": {
+   "Q1": {
+    "n": 20,
+    "acc": 0.95,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 22,
+    "acc": 0.2727272727272727,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "privileged_wrongcontent": {
+   "Q1": null,
+   "Q2": {
+    "n": 22,
+    "acc": 0.36363636363636365,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  }
+ },
+ "paired_vs": {
+  "Q1:privileged-change_topk": {
+   "n_items": 20,
+   "n_aois": 11,
+   "diff": 0.2727272727272727,
+   "ci95": [
+    0.09090909090909091,
+    0.5
+   ]
+  },
+  "Q1:privileged-full_prefix": {
+   "n_items": 20,
+   "n_aois": 11,
+   "diff": 0.6818181818181818,
+   "ci95": [
+    0.5,
+    0.8636363636363636
+   ]
+  },
+  "Q1:privileged-latest_k": {
+   "n_items": 20,
+   "n_aois": 11,
+   "diff": 0.13636363636363635,
+   "ci95": [
+    0.0,
+    0.2727272727272727
+   ]
+  },
+  "Q2:privileged-change_topk": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": 0.20833333333333334,
+   "ci95": [
+    -0.041666666666666664,
+    0.5
+   ]
+  },
+  "Q2:privileged-full_prefix": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": 0.125,
+   "ci95": [
+    -0.20833333333333334,
+    0.4166666666666667
+   ]
+  },
+  "Q2:privileged-latest_k": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": 0.25,
+   "ci95": [
+    0.0,
+    0.5
+   ]
+  },
+  "Q2:privileged-privileged_wrongcontent": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": -0.125,
+   "ci95": [
+    -0.3333333333333333,
+    0.0
+   ]
+  }
+ },
+ "content_check_Q2": {
+  "n_items": 22,
+  "diff": -0.125,
+  "ci95": [
+   -0.3333333333333333,
+   0.0
+  ],
+  "pass": false
+ }
+}

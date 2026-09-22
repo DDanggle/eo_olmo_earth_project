@@ -5804,6 +5804,24 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-155 (2026-09-22) — G1-lite v0.4(gold 위치 무작위·Q2 gold 분산·wrong-content 통제, reader 2종): **content_check 실패 2/2** — 반대 사분면 영상을 준 wrong-content가 privileged와 같거나 더 높음(Qwen .591 vs .545, Molmo2 .364 vs .273). v0.3~추가 1의 Q2 "근거 선택 headroom"은 **위치·텍스트 사전확률의 산물**로 확정. headroom_present 주장 철회, 추석 검수 보류
+
+사전등록 `config/bottleneck_diag_lite_prereg_v0_4.json`. 서버 `spacenet7/diag_lite_v0_4/`(SHA256SUMS, items 50, answers 214×2, scores_qwen/molmo.json), 로컬 `artifacts/spacenet7/diag_lite_v0_4_{qwen,molmo}_{scores.json,answers.jsonl}`. 오류 0.
+
+| 조건 | Qwen Q1 | Qwen Q2 | Molmo2 Q1 | Molmo2 Q2 |
+|---|---|---|---|---|
+| full_prefix | .571 | .136 | .464 | .182 |
+| latest_k | .643 | .045 | .821 | .045 |
+| change_topk | .536 | .091 | .643 | .091 |
+| privileged_silver | .700 | .545 | .950 | .273 |
+| **privileged_wrongcontent** | — | **.591** | — | **.364** |
+
+content_check(privileged − wrongcontent, Q2, AOI 12 bootstrap): Qwen −.083 [−.375, .208] 실패, Molmo2 −.125 [−.333, .000] 실패. gold 위치를 무작위화하자 Molmo2 privileged Q2는 .909 → .273으로 붕괴(MS-154 추가 1의 위치 교락 확정). Qwen privileged Q2 .545는 wrongcontent .591과 구분 안 됨 — 프레임 날짜 텍스트·위치·질문 형식만으로 내는 답.
+판정(등록 규칙): content_check 실패 → 두 reader 모두 privileged 결과 **무효** → headroom_present 성립 불가. decision_use: 추석 검수 **보류**, 진단 설계 재검토.
+읽는 법: (1) 지금 설정(SN7 4 m 사분면 crop, zero-shot VLM, "처음 보인 달" 질문)에서는 reader가 **영상 내용으로 시점을 읽지 못함**. 근거 선택이 병목인지 아닌지 이 도구로는 알 수 없음 — MS-151의 reader_bottleneck 결론이 더 정교한 형태로 돌아옴. (2) Q1(최근 6개월 신축 여부)은 Molmo2가 최신 4장으로 .82 — 읽을 수는 있으나 기억 질문이 아님. (3) v0.3의 "통과"는 진단 설계의 세 번째 결함(위치)이었고, 통제 조건을 넣기 전까지 두 reader가 일관되게 그럴듯한 수치를 냈다는 점이 교훈: **privileged 조건은 반드시 wrong-content 통제와 짝으로만 해석**. (4) 여섯 판(v0~v0.4, Molmo 추가) 동안 판정 규칙은 바꾸지 않았고, 규칙이 매번 설계 결함을 잡아냈음.
+함의: 기억 방법을 만들기 전에 (a) 변화 시점을 내용으로 읽을 수 있는 reader(소량 SFT 또는 더 큰 변화 단위), (b) silver가 아닌 사람 검수 gold 중 무엇이 먼저인지 결정해야 함. 사람 gold를 먼저 만들어도 reader가 못 읽으면 병목 진단은 여전히 불가 → **reader 정렬(SFT)이 선행 조건**이라는 결론이 두 번째로 나옴.
+금지: v0.3·추가 1의 privileged 수치 인용, "근거 선택이 병목"을 어떤 형태로든 인용.
+
 ## MS-154 (2026-09-22) — G1-lite v0.3(Q1 근거가 질문 창을 가로지르게 수정, 나머지 v0.2 동일): 등록 규칙 순서로 **headroom_present**. privileged Q1 .700(≥.65, reader 병목 아님), Q2 .455가 latest_k·change_topk(.000)를 +.42 CI 밖으로 이기고 full_prefix(.227)보다 높음 → 근거 선택이 (이 reader·silver oracle에서) 병목. 결정 규칙대로 추석 prefix-visible 검수 **시작 가능**
 
 사전등록 `config/bottleneck_diag_lite_prereg_v0_3.json`. 서버 `spacenet7/diag_lite_v0_3/`(SHA256SUMS, items 50, answers 192, scores.json; frames는 v0.2 심볼릭 링크), 로컬 `artifacts/spacenet7/diag_lite_v0_3_{scores.json,answers.jsonl}`. 오류 0. Qwen3-VL-8B zero-shot, 12 AOI × cutoff 2.
