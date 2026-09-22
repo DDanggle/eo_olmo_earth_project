@@ -1,0 +1,136 @@
+{
+ "schema": "sn7-diag-lite-v0",
+ "per_condition": {
+  "change_topk": {
+   "Q1": {
+    "n": 30,
+    "acc": 0.36666666666666664,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 23,
+    "acc": 0.043478260869565216,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q3": {
+    "n": 22,
+    "acc": 0.3181818181818182,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "full_prefix": {
+   "Q1": {
+    "n": 30,
+    "acc": 0.4666666666666667,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 23,
+    "acc": 0.13043478260869565,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q3": {
+    "n": 22,
+    "acc": 0.36363636363636365,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "latest_k": {
+   "Q1": {
+    "n": 30,
+    "acc": 0.3333333333333333,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 23,
+    "acc": 0.0,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q3": {
+    "n": 22,
+    "acc": 0.3181818181818182,
+    "parse_fail": 0.0,
+    "error": 0.0
+   }
+  },
+  "privileged_silver": {
+   "Q1": {
+    "n": 22,
+    "acc": 0.0,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q2": {
+    "n": 23,
+    "acc": 0.34782608695652173,
+    "parse_fail": 0.0,
+    "error": 0.0
+   },
+   "Q3": null
+  }
+ },
+ "paired_vs": {
+  "Q1:privileged-change_topk": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": -0.16666666666666666,
+   "ci95": [
+    -0.375,
+    0.0
+   ]
+  },
+  "Q1:privileged-full_prefix": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": -0.3333333333333333,
+   "ci95": [
+    -0.5833333333333334,
+    -0.125
+   ]
+  },
+  "Q1:privileged-latest_k": {
+   "n_items": 22,
+   "n_aois": 12,
+   "diff": -0.125,
+   "ci95": [
+    -0.292708333333333,
+    0.0
+   ]
+  },
+  "Q2:privileged-change_topk": {
+   "n_items": 23,
+   "n_aois": 12,
+   "diff": 0.3333333333333333,
+   "ci95": [
+    0.08333333333333333,
+    0.5833333333333334
+   ]
+  },
+  "Q2:privileged-full_prefix": {
+   "n_items": 23,
+   "n_aois": 12,
+   "diff": 0.20833333333333334,
+   "ci95": [
+    0.041666666666666664,
+    0.4166666666666667
+   ]
+  },
+  "Q2:privileged-latest_k": {
+   "n_items": 23,
+   "n_aois": 12,
+   "diff": 0.375,
+   "ci95": [
+    0.125,
+    0.625
+   ]
+  }
+ }
+}

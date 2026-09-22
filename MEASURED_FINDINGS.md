@@ -5804,6 +5804,23 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-152 (2026-09-22) — G1-lite v0.1(reader만 Qwen3-VL-8B zero-shot으로 교체, 항목·조건 동일): 등록 규칙상 다시 **reader_bottleneck**(privileged Q1 정확도 .000 < .65). 그러나 **Q2(언제)에서는 privileged가 세 기준선을 CI 밖으로 이김**(+.21~.38, 월 오차 중앙값 1 vs 3/7/12) — 근거 선택의 headroom이 "시점" 질문에서 처음 관측됨. Q1 실패는 해상도·silver 정의 문제로 판단(아래)
+
+사전등록 `config/bottleneck_diag_lite_prereg_v0_1.json`. 서버 `spacenet7/diag_lite_v0/{answers_qwen.jsonl, scores_qwen_v0_1.json, run_qwen.log}`(SHA256SUMS 갱신), 로컬 `artifacts/spacenet7/diag_lite_v0_1_qwen_scores.json`. 오류 0/270, 파싱 실패 0(TEOChat의 퇴화 없음). 모델 `models/Qwen3-VL-8B-Instruct`(17 GB, bf16, GPU1).
+
+| 조건 | Q1 acc / 균형 acc (recall·spec) | Q2 acc / 월 오차 중앙값 | Q3 acc |
+|---|---|---|---|
+| full_prefix(13~21장) | .467 / .597 (.32·.88) | .130 / 3 | .364 |
+| latest_k(4) | .333 / .545 (.09·1.0) | .000 / 12 | .318 |
+| change_topk(4) | .367 / .528 (.18·.88) | .043 / 7 | .318 |
+| privileged_silver(4) | **.000** / — (.00·—, 22건 전부 gold=yes) | **.348 / 1** | — |
+
+paired(privileged − 기준선, AOI 12 bootstrap): Q2 vs change_topk +.333 [.083,.583], vs full_prefix +.208 [.042,.417], vs latest_k +.375 [.125,.625] — 셋 다 CI가 0을 제외. Q1은 반대로 privileged가 −.13~−.33.
+판정(등록 규칙): privileged Q1 < .65 → **reader_bottleneck**. 규칙은 유지함.
+읽는 법: (1) Q1 privileged .000은 "근거 4장을 줘도 신축을 못 본다"인데, 같은 항목에서 full_prefix는 recall .32라 프레임 수가 아니라 **보이는지**의 문제. 원인 후보 두 개: (a) 1024px 4 m 모자이크를 512px로 줄여 8 m/px가 되어 건물 3동(MIN_NEW=3)이 1~2픽셀 — 해상도 병목; (b) silver gold(라벨 id 첫 출현)가 그 달 영상에서 실제로 보이지 않을 수 있음(SN7 omniscient 라벨, 결정 문서 §6). 둘 다 reader 능력이 아니라 **진단 설계**의 문제. (2) Q2는 누적 건물이 많은 사분면을 고르므로 보이는 변화가 크고, 거기서는 근거 선택이 답을 갈랐음 — 이것이 이 논문이 찾던 신호의 첫 사례. 단 silver oracle이고 항목 23개·AOI 12개. (3) Q3(가장 최근 신축 사분면)은 모든 조건이 우연(.25) 근처 — 사분면 비교 질문은 이 해상도에서 성립하지 않음.
+후속(별도 등록 v0.2): 사분면 질문은 **원해상도 사분면 crop(512×512 native)**으로, MIN_NEW를 올려 보이는 변화만 항목화, Q3 삭제 또는 재설계. Q2의 headroom이 해상도 수정 후에도 유지되고 Q1이 .65를 넘으면 headroom_present로 추석 검수 시작.
+금지: Q2 결과를 "기억이 병목"으로 확정 인용(silver, 규칙상 판정 불가), Qwen vs TEOChat을 reader 벤치마크로 인용.
+
 ## MS-151 (2026-09-22) — G1-lite 병목 진단(SpaceNet 7, frozen TEOChat, silver oracle, 12 AOI × cutoff 2, 항목 75·생성 270): 등록 판정 **reader_bottleneck**. privileged(정답 근거 4장)를 줘도 Q1 정확도 .045(규칙 <.65) — reader가 좋은 근거도 못 읽음. 기억 학습·사람 검수(기억 목적)는 **보류**, reader 정렬이 먼저
 
 사전등록 `config/bottleneck_diag_lite_prereg_v0.json`. 서버 `spacenet7/diag_lite_v0/`(SHA256SUMS, items.jsonl, answers.jsonl, scores.json), 로컬 `artifacts/spacenet7/diag_lite_v0_{scores.json,answers.jsonl}`. 첫 실행은 날짜 형식(`%Y-%m-%d`) 불일치로 270건 전부 예외 → `*_failed_timestamp_format`으로 보존, 15일 고정 후 재실행.
