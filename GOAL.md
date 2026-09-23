@@ -4421,3 +4421,69 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - VLM은 region/time/evidence 조합 질의 reader, 학습 본체 후보는 전후 근거 선택/갱신 모듈이다.
   detector→ledger→template 대조가 충분하면 VLM 필수 주장을 하지 않는다.20시간으로 generic memory
   비교가 미완이면 G1 통과·CVPR 우위를 주장하지 않는다. 새 GPU/취득/예약/기존 prereg 변경 없음.
+
+### 2026-09-22 — PDE 후속 방향 분리와 MS-155 이후 reader·전문가 전이 검토 (계획)
+
+- 사용자 요청에 따라 기존 PDE/Poseidon·기상 예상 구상을 별도 폴더에 분리한다. 기존 링크·이력과
+  원 PDE 저장소는 보존하고, 현재 VLM 실험·사전등록·산출물을 이동하거나 수정하지 않는다.
+- MS-155(v0.4) 원본 점수·답·코드·통제를 읽어 관측된 실패와 인과 해석의 범위를 점검한다.
+  신규 SFT/서버 실행 승인은 아니므로 진단과 다음 설계 권고에 한정한다.
+- ETH Systemic Design 맥락의 산악/해상 전문가 지식 전이 아이디어는 별도 탐색안으로 검토한다.
+  전문가 해설의 단순 문장 모방과 시각 근거 사용·미본 지역 전이를 구분하고 관련 1차 문헌을 확인한다.
+  전문가 연락·고용·지급·인력 검수 재개는 하지 않는다.
+
+### 2026-09-22 — PDE 후속 방향 분리와 MS-155 이후 reader·전문가 전이 검토 (완료)
+
+- `research_tracks/pde_forecasting/` 생성. 9/21 Poseidon–EO–기상 감사 본문을 이동하고 README와
+  이전 docs 경로의 안내 파일을 남겼다. 안내3행을 뺀 본문 SHA256이 HEAD 원문과 동일함을 확인.
+  원 `nips2026-1/v1-0426`의 코드/모델/결과와 현재 EO 실행 파일은 이동·수정하지 않았다.
+- `docs/MS155_READER_AND_EXPERT_TRANSFER_REVIEW_2026_09_22.md` 작성. 등록 content gate2/2실패와
+  headroom 철회/본 검수 보류를 유지한다. ‘이미지를 전혀 안 읽음/위치만 원인 확정’ 해석은 제한했다.
+- 읽기 전용 `code/audit_sn7_v04_interpretation.py` 로컬CPU 실행 성공. 보고 item accuracy 전부 일치.
+  Q2 22항목/12AOI/(AOI,region,gold)13개, v0.3과 같은 item2/22. Qwen 영상교체후 답변11/22가
+  달라짐(Molmo2/22). privileged Q1은yes20개뿐이라 all-yes=1.0. Molmo latest23/28은TP16/TN7.
+- 코드상 Q2 gold=누적8동 도달월, prompt=처음 분명히 보인월 불일치. wrongcontent는 반대사분면
+  영상에 원gold 재사용, 새사분면 gold검증없음. 원frames/items/label 로컬미보유라 시각판독은 미확인.
+  기존 bootstrap CI는 코드/저장점수 대조이며 재실행 안 함. 사전등록/원장/실험runner는 그대로다.
+- 다음 권고는 소수 사람 판독으로 목표정합 확인→유효한 반사실/text-only/같은항목 위치대조→
+  필요시 reader SFT→그 뒤 memory진단. 기준을 낮추거나 실패를 성공으로 다시 판정하지 않는다.
+- ETH SDL 공식 활동, HINT/VisualCoT/DRESS/최소grounding CVPR26 선행을 확인. 전문가의 날짜·영역·
+  정보부족·관측후갱신 감독을 미지지역으로 전이하는 별도 가설을 제안. 산악우선/해상후속,
+  전문가의현장지식과 EO판독 구분, safety deployment제외, 답-only·설명-only·RAG 대조를 명시했다.
+- 새GPU/서버/대용량취득/채용/지급/검수재개/commit/push 없음. 기존20시간의 집행이나 전문가시간
+  단가를 가정하지 않았다. 다음에는 목표/소수사례/전문가접근가능성을 별도확정해야 한다.
+
+### 2026-09-22 — 비전문가 소규모 검수로 가능한 정답 계약 v0.5 구현 (계획)
+
+- 사용자 요청은 고비용 전문가 주석을 전제로 하지 않고 정답 계약을 실제로 바로잡아 다음 단계로
+  진행하는 것이다. 전문가 인터뷰는 과제·용어 설계의 선택적 보조이며 학습/평가 필수 자원에서 뺀다.
+- MS-155 runner/prereg/결과는 보존하고 별도 v0.5 계약·검증·검수 패키지 준비 코드를 만든다.
+  공개 polygon의 silver 변화 후보와 영상에서 확인되는 visible label을 명시적으로 분리한다.
+- 질문/정답 의미 일치, 음성·판독불가, 대체 영상의 고유 정답, 고정 항목 비교, 근거ID 검증을
+  CPU 회귀 테스트로 검사한다. 가능한 경우 기존 자료에 읽기 전용 preflight를 한다.
+- 새 GPU학습/대규모 취득·인력고용을 자동 시작하지 않는다. 사람 검수 또는 서버 가용성이 막으면
+  현재 가능한 준비·테스트까지 완료하고 실제 확보물/미완료를 구분한다.
+
+### 2026-09-22 — 비전문가 소규모 검수로 가능한 정답 계약 v0.5 구현 (완료)
+
+- 별도 `sn7_visible_contract_v05` 계약/설정·패키지 생성/주석 병합·검수 HTML·무결성 감사 구현.
+  누적8동 대신 첫 제공 관측의 명확한 구조 변화로 목표를 맞추고, 무변화/정보부족/timeout 분리.
+  과거 변화와 최신 불명확 상태를 분리하며 기준 불명확시 비교를 보류한다. 원입력도 보존한다.
+- 독립2인 합의는 답·시점·현재/기준 상태·근거ID까지 검사한다. own-gold 영상교체, null 입력의
+  정보부족 target과 실제영상 reference gold 분리, frameID/날짜·중복·해시 실패차단을 구현했다.
+- 기존 서버자료로6AOI×2사분면=12episode/172PNG(각13~21장),66MB를 새 폴더에 생성.
+  `labeling_pack/visible_contract_v05_20260922/`로 수신, pack `sn7v05-198e4ff03e26f004`.
+  기존 노출 개발자료이며 모집단 표본/봉인test/12독립사건이 아니다. legacy gold는 선택에 쓰지 않음.
+- `python3 -B -m unittest discover -s tests -p 'test_sn7_visible*.py' -v`:23/23통과.
+  실제172PNG 해시·빌드코드3해시 일치, `artifacts/sn7_visible_v05/preparation_audit.json` 저장.
+  브라우저에서 영상표시/확대/미완료저장차단 확인. 실제 사람주석0, model/SFT실행0.
+- 서버는 `nx`만 사용, 새 `review_tools/sn7_visible_v05_20260922`에만 코드복사. 보호코드4해시
+  최초/종료 일치. mtime은 초기2회새도구전송 이후부터 기록했으며 이후전송 전후4개동일;
+  최초전송 이전mtime봉인은 없으므로 전체구간mtime불변의 직접측정이라고 주장하지 않는다.
+- 마찰: nx push의 상대경로는 h100-setup기준이어서 실패→절대경로로 해결. localhost서버는
+  sandbox bind제한→승인된127.0.0.1:8766만사용. 기존runner/prereg/MS-155/gate/원결과 불변.
+- `docs/EXPERT_LABELED_NATURE_DATA_2026_09_22.md`에KuroSiwo/ForestNet/Landslide4Sense/BRIGHT의
+  전문가관여·센서·시점·권리·적용범위 정리. 전문가mask≠당시판독가능정답≠전문가설명임을 명시.
+  Kuro논문MIT와HF CC BY4.0차이도 기록. 새자연환경원자료 다운로드/유료주석/채용/지급/commit없음.
+- 다음은 총20인시내 소규모 독립검수로 정답계약을 확인하고, 별도실행사전등록 후 내용통제 진단.
+  전문가인터뷰는 선택적용어설계이며 필수라벨링에서 제외. reader근거감독 효과→memory검증 순서.

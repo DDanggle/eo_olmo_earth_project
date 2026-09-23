@@ -5816,10 +5816,10 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 | privileged_silver | .700 | .545 | .950 | .273 |
 | **privileged_wrongcontent** | — | **.591** | — | **.364** |
 
-content_check(privileged − wrongcontent, Q2, AOI 12 bootstrap): Qwen −.083 [−.375, .208] 실패, Molmo2 −.125 [−.333, .000] 실패. gold 위치를 무작위화하자 Molmo2 privileged Q2는 .909 → .273으로 붕괴(MS-154 추가 1의 위치 교락 확정). Qwen privileged Q2 .545는 wrongcontent .591과 구분 안 됨 — 프레임 날짜 텍스트·위치·질문 형식만으로 내는 답.
+content_check(privileged − wrongcontent, Q2, AOI 12 bootstrap): Qwen −.083 [−.375, .208] 실패, Molmo2 −.125 [−.333, .000] 실패. gold 위치를 무작위화하자 Molmo2 privileged Q2는 .909 → .273으로 붕괴(MS-154 추가 1의 위치 교락 확정). Qwen privileged Q2 .545는 wrongcontent .591과 구분 안 됨. **원인 확정 금지(9/23 정정)**: wrong-content 조건은 대체 영상에 원래 정답을 그대로 썼으므로 "날짜·위치만 읽었다"는 해석은 과함. 확정되는 것은 "영상 내용 통제를 통과하지 못했다"까지이고, 원인 후보는 (a) 위치·텍스트 사전확률, (b) silver 정답(신규 8동 누적 도달월)과 질문(처음 분명히 보이는 달)의 불일치, (c) 통제 설계(대체 영상 자체의 정답 미사용) 셋이 남음.
 판정(등록 규칙): content_check 실패 → 두 reader 모두 privileged 결과 **무효** → headroom_present 성립 불가. decision_use: 추석 검수 **보류**, 진단 설계 재검토.
 읽는 법: (1) 지금 설정(SN7 4 m 사분면 crop, zero-shot VLM, "처음 보인 달" 질문)에서는 reader가 **영상 내용으로 시점을 읽지 못함**. 근거 선택이 병목인지 아닌지 이 도구로는 알 수 없음 — MS-151의 reader_bottleneck 결론이 더 정교한 형태로 돌아옴. (2) Q1(최근 6개월 신축 여부)은 Molmo2가 최신 4장으로 .82 — 읽을 수는 있으나 기억 질문이 아님. (3) v0.3의 "통과"는 진단 설계의 세 번째 결함(위치)이었고, 통제 조건을 넣기 전까지 두 reader가 일관되게 그럴듯한 수치를 냈다는 점이 교훈: **privileged 조건은 반드시 wrong-content 통제와 짝으로만 해석**. (4) 여섯 판(v0~v0.4, Molmo 추가) 동안 판정 규칙은 바꾸지 않았고, 규칙이 매번 설계 결함을 잡아냈음.
-함의: 기억 방법을 만들기 전에 (a) 변화 시점을 내용으로 읽을 수 있는 reader(소량 SFT 또는 더 큰 변화 단위), (b) silver가 아닌 사람 검수 gold 중 무엇이 먼저인지 결정해야 함. 사람 gold를 먼저 만들어도 reader가 못 읽으면 병목 진단은 여전히 불가 → **reader 정렬(SFT)이 선행 조건**이라는 결론이 두 번째로 나옴.
+함의(9/23 정정): "reader 정렬(SFT)이 선행 조건"은 과한 결론이었음. 현재 증거는 학습 부족을 원인으로 특정하지 못하며, 기존 silver(8동 누적)로 "처음 보인 달"을 SFT하면 목표 불일치를 더 잘 배우는 모델이 됨. 남는 다음 단계는 하나: 목표가 맞춰진 사람 근거로 (1) 단순 선택(최신·변화량)이 확인 가능한 근거를 실제로 버리는지(근거 손실 측정, VLM 불필요), (2) 대체 영상 자체의 정답을 쓰는 내용 통제로 기존 VLM이 유효 근거를 읽는지를 함께 재는 **작은 결정 실험**. SFT는 그 결과에 따른 유료 선택지.
 금지: v0.3·추가 1의 privileged 수치 인용, "근거 선택이 병목"을 어떤 형태로든 인용.
 
 ## MS-154 (2026-09-22) — G1-lite v0.3(Q1 근거가 질문 창을 가로지르게 수정, 나머지 v0.2 동일): 등록 규칙 순서로 **headroom_present**. privileged Q1 .700(≥.65, reader 병목 아님), Q2 .455가 latest_k·change_topk(.000)를 +.42 CI 밖으로 이기고 full_prefix(.227)보다 높음 → 근거 선택이 (이 reader·silver oracle에서) 병목. 결정 규칙대로 추석 prefix-visible 검수 **시작 가능**

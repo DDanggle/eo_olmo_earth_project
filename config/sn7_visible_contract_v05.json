@@ -1,0 +1,38 @@
+{
+  "schema": "sn7-visible-contract-v0.5",
+  "created_at": "2026-09-22",
+  "stage": "task-contract feasibility; not G1 or a confirmatory result",
+  "previous_results": "MS-155 content gate failure remains unchanged",
+  "question": "Relative to the first reference image, which provided observation first clearly shows new structural construction in this fixed region?",
+  "not_the_target": ["date of cumulative eight new building IDs", "true physical onset month", "event cause or legality"],
+  "sampling": {
+    "seed": "sn7-visible-v05-20260922",
+    "max_episodes": 12,
+    "method": "hash-ranked AOIs, earliest available full-prefix cutoff, one hash-selected opposite-quadrant pair per AOI; paired regions interleaved in review order",
+    "uses_legacy_answer_or_privileged_frames": false,
+    "split": "exposed development only; no geographical generalization claim"
+  },
+  "states": ["no_visible_change", "visible_change", "unreadable", "ambiguous"],
+  "annotation": {
+    "expert_required": false,
+    "interview": "optional terminology and task scoping only, not evaluation gold",
+    "budget_person_hours_max": 20,
+    "paid_work_automatically_started": false,
+    "independent_raters_for_agreed_target": 2,
+    "timeout_is_not_unreadable": true,
+    "silver_label_is_not_visible_gold": true,
+    "one_cutoff_per_aoi": true,
+    "answer_hints_in_public_pack": false
+  },
+  "controls": ["identical prompt and dates with real images", "same dates and prompt without images", "same dates and prompt with blank images", "matched dates with independently agreed different-outcome donor images and donor gold"],
+  "readiness": {
+    "requires_agreed_change_case": true,
+    "requires_agreed_no_change_case": true,
+    "requires_agreed_insufficient_evidence_case": true,
+    "requires_verified_different_outcome_pair": true,
+    "meaning": "structural readiness of a reader diagnostic, not success of a model or sufficient statistical power"
+  },
+  "model_launch_allowed": false,
+  "training_launch_allowed": false,
+  "next_registration": "Freeze agreed targets, splits, contrasts, metrics, minimum practically relevant effect and compute budget before model inference/training. Do not reuse v0.4 G1 thresholds as if the task were unchanged."
+}

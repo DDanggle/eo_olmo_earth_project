@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>관측 가능한 변화 · v0.5</title>
+<style>
+body{font:16px/1.55 system-ui,sans-serif;background:#f4f5f3;color:#182820;margin:0}main{max-width:1150px;margin:auto;padding:24px}
+h1{font-size:25px}h2{font-size:20px}.note{background:#fff;border-left:4px solid #426653;padding:16px;margin:16px 0}
+button,input,select{font:inherit;padding:8px;margin:4px}button{cursor:pointer}button:disabled{cursor:default;opacity:.5}
+#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px}.frame{background:#fff;padding:12px;border:1px solid #ccd6ce;border-radius:8px}
+.frame img{width:100%;cursor:zoom-in;image-rendering:auto}.frame select{width:95%}.ref{border:3px solid #426653}
+#status{white-space:pre-wrap}#viewer{max-width:96vw;max-height:96vh;padding:8px}#viewer img{max-width:90vw;max-height:85vh}
+.error{color:#9d2525}#session{background:#e7eee7;padding:10px;position:sticky;top:0;z-index:1}small{color:#475d50}
+</style></head><body><main>
+<h1>관측 가능한 변화 · v0.5</h1>
+<div class="note"><b>전문지식 없이, 영상에서 직접 보이는 것만 표시합니다.</b><br>
+첫 영상이 비교 기준입니다. 건물 수를 세거나 사건 발생 월을 추측하지 않습니다.
+각 후속 영상에서 기준영상과 다른 <b>새 구조물·공사 형태</b>가 분명히 보이는지 표시하세요.
+밝기·색·계절 차이만으로 구조 변화를 확정하지 마세요. 작은 변화가 안 보이면 추측하지 않아도 됩니다.
+‘판독 불가’는 구름/해상도 등으로 안 보이는 경우, ‘애매함’은 보이지만 변화인지 확신할 수 없는 경우입니다.<br>
+이 자료는 <b>개발용 과제 점검</b>이며 완성된 정답이나 학습 효과가 아닙니다. 두 검수자는 서로의 답을 보지 않고 따로 작업합니다.</div>
+<div id="session"><label>검수자 코드 <input id="who" maxlength="40" placeholder="실명 대신 본인만의 코드"></label>
+<button id="start">시작 / 이어하기</button><button id="download">현재 기록 내려받기</button><span id="progress"></span></div>
+<p id="status">검수자 코드를 입력하세요. 기록은 이 브라우저에만 저장되며 외부로 전송하지 않습니다.</p>
+<section id="work" hidden><h2 id="title"></h2><p id="question"></p><div id="grid"></div>
+<p><button id="save">모든 관측 판정 저장 · 다음</button><button id="timeout">시간 부족 / 미완료로 저장 · 다음</button></p>
+<small>시간 초과는 ‘판독 불가’ 정답으로 바뀌지 않습니다. 이미 제출한 과거 항목은 이 화면에서 다시 열지 않습니다.
+나중에 근거를 더 보고 판정을 바꾸었다면 독립적인 최초 판정과 구분해 별도 검토해야 합니다.</small></section>
+<dialog id="viewer"><button id="closeviewer">닫기</button><br><img id="large" alt="원본 관측 확대"></dialog>
+</main><script id="pack" type="application/json">__PACK_JSON__</script><script>
+'use strict';
+const pack=JSON.parse(document.getElementById('pack').textContent);
+const el=id=>document.getElementById(id);let who='',key='',rows=[],idx=0,startAt=0,states={};
+const names={no_visible_change:'기준 대비 분명한 구조 변화 없음',visible_change:'새 구조적 변화가 분명히 보임',unreadable:'구름·해상도 등으로 판독 불가',ambiguous:'보이지만 변화인지 애매함'};
+function persist(){localStorage.setItem(key,JSON.stringify({annotations:rows,current_episode_id:pack.episodes[idx]?.id,states,started_at:startAt}));}
+function show(){
+  el('progress').textContent=` ${rows.length} / ${pack.episodes.length} 완료`;
+  if(idx>=pack.episodes.length){el('work').hidden=true;el('status').textContent='이 묶음은 끝났습니다. 현재 기록을 내려받으세요. 이는 검수 완료이며 모델 평가 통과를 뜻하지 않습니다.';return;}
+  el('work').hidden=false;const ep=pack.episodes[idx];el('title').textContent=`영역 ${idx+1} · ${ep.id}`;
+  el('question').textContent=`제공된 첫 기준영상(${ep.frames[0].date})과 비교해 새 구조적 변화가 분명히 보이는 관측을 표시하세요. 마지막 제공 관측: ${ep.cutoff}.`;
+  const grid=el('grid');grid.replaceChildren();
+  for(const fr of ep.frames){const card=document.createElement('div');card.className='frame'+(fr.id===ep.reference_id?' ref':'');
+    const title=document.createElement('b');title.textContent=`${fr.id} · ${fr.date}`+(fr.id===ep.reference_id?' · 기준영상':'');card.append(title);
+    const img=document.createElement('img');img.src=fr.path;img.alt=`${fr.date}의 ${ep.id} 관측`;img.loading='lazy';
+    img.onclick=()=>{el('large').src=fr.path;el('viewer').showModal();};card.append(img);
+    const select=document.createElement('select');select.setAttribute('aria-label',`${fr.id} 판정`);
+    const empty=document.createElement('option');empty.value='';empty.textContent='판정 선택';select.append(empty);
+    for(const [value,label] of Object.entries(names)){if(fr.id===ep.reference_id&&value==='visible_change')continue;
+      const option=document.createElement('option');option.value=value;option.textContent=fr.id===ep.reference_id&&value==='no_visible_change'?'기준영상의 구조를 판독할 수 있음':label;select.append(option);}
+    select.value=states[fr.id]||'';select.onchange=()=>{if(select.value)states[fr.id]=select.value;else delete states[fr.id];persist();};card.append(select);grid.append(card);}
+  el('status').textContent='기준과 각 관측을 비교하세요. 이미 확인한 과거 변화를 나중의 구름 때문에 지우지 마세요. 각 관측의 상태를 따로 표시하면 됩니다.';
+}
+el('start').onclick=()=>{if(who)return;who=el('who').value.trim();if(!/^[A-Za-z0-9_-]{2,40}$/.test(who)){who='';el('status').textContent='검수자 코드는 영문·숫자·밑줄·하이픈 2~40자로 입력하세요.';return;}
+  key=`sn7-visible-v05:${pack.pack_id}:${who}`;let saved;
+  try{saved=JSON.parse(localStorage.getItem(key)||'{}');if(!saved||typeof saved!=='object'||(saved.annotations&&!Array.isArray(saved.annotations)))throw new Error('invalid saved format');}
+  catch(error){who='';el('status').textContent='저장된 기록을 읽지 못했습니다. 기존 기록을 지우지 말고 관리자에게 복구를 요청하세요. 새 검수자 코드로 시작하면 별도 기록이 만들어집니다.';return;}
+  rows=saved.annotations||[];idx=rows.length;
+  states=saved.current_episode_id===pack.episodes[idx]?.id?(saved.states||{}):{};startAt=Date.now();
+  el('who').disabled=true;el('start').disabled=true;show();};
+function save(status){if(!who||idx>=pack.episodes.length)return;const ep=pack.episodes[idx];
+  if(status==='complete'&&ep.frames.some(f=>!states[f.id])){el('status').textContent='판정하지 않은 관측이 있습니다. 모두 표시하거나 미완료로 저장하세요.';return;}
+  rows.push({episode_id:ep.id,annotator_id:who,status,states:{...states},seconds:Math.round((Date.now()-startAt)/1000),timestamp:new Date().toISOString()});
+  idx++;states={};startAt=Date.now();persist();show();}
+el('save').onclick=()=>save('complete');el('timeout').onclick=()=>{if(confirm('이 항목은 미완료로 기록하며 정답 생성·평가에서 제외합니다. 다음으로 갈까요?'))save('timeout');};
+el('download').onclick=()=>{if(!who){el('status').textContent='먼저 검수자 코드로 시작하세요.';return;}
+  const data={schema:'sn7-visible-annotations-v0.5',pack_id:pack.pack_id,annotator_id:who,annotations:rows};
+  const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`${pack.pack_id}_${who}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+el('closeviewer').onclick=()=>el('viewer').close();
+</script></body></html>
