@@ -1,0 +1,83 @@
+{
+ "schema": "decision-experiment-d1-prereg-v0",
+ "registered_at": "2026-09-23",
+ "status": "registered before human annotation and before any model run on the v0.5 pack",
+ "supersedes_nothing": "MS-150..155 verdicts and their preregs stay as recorded. This does not re-judge them.",
+ "purpose": "One decision experiment that tells us where to spend the next block of time. It does NOT try to prove that memory helps. Following docs/PLAN_GROUNDED_CHANGE_MEMORY_2026_09_22.md section 9b.",
+ "question": "On the v0.5 visible-contract episodes, (H) can people read the question consistently, (L) do simple budgeted selectors drop the evidence people needed, and (R) do frozen VLMs answer from image content under a matched-content control?",
+ "data": {
+  "pack": "labeling_pack/visible_contract_v05_20260922/annotator_pack (pack_id sn7v05-198e4ff03e26f004)",
+  "scope": "6 AOIs, 12 episodes, 172 PNG frames, SpaceNet 7 monthly Planet mosaics at native crop resolution",
+  "known_limits": [
+   "exposed development split: these AOIs were already used in v0.1-v0.4; not an untouched test set",
+   "the target is the first PROVIDED observation that clearly shows change, not the physical onset date and not a detection-latency measurement",
+   "a before/after pair shows that change exists but does not by itself prove it is the FIRST such observation"
+  ]
+ },
+ "stage_H_human_readability": {
+  "protocol": "docs/SN7_VISIBLE_CONTRACT_V05_IMPLEMENTATION_2026_09_22.md; annotators see only frames up to cutoff, no candidate hints, no model answers, no polygons",
+  "budget": "hard cap 10 person-hours total (2 annotators x 5h). The cap is a ceiling, not a target; stop early when all 12 episodes are covered twice.",
+  "records": ["per-episode status ok/timeout", "per-observation readability", "answer, first_change_id, last_clear_no_change_id, evidence_ids, current_state", "seconds per episode"],
+  "metrics": [
+   "readable_rate = episodes where both annotators produced a non-timeout answer",
+   "agreement_rate = episodes whose full agreed target is derivable (consensus_target succeeds)",
+   "first_change_id disagreement in observations, for episodes where both said change_supported",
+   "median seconds per episode"
+  ],
+  "gate": {
+   "pass": "agreement_rate >= 0.60 over the 12 episodes AND at least one agreed episode in each of change_supported / no_visible_change / insufficient_evidence",
+   "fail_reading": "if agreement is below 0.60 or a class is empty, the question/변화 단위 is not consistently readable by people on this data; stages L and R are not run and the SN7 memory line is closed for now"
+  }
+ },
+ "stage_L_evidence_loss": {
+  "runs_on": "agreed targets only; no VLM, CPU only, code/sn7_evidence_loss_v0.py",
+  "selectors": ["latest_k", "uniform_k", "change_topk (mean absolute pixel difference to previous frame, computed from the same PNGs)"],
+  "budgets_K": [2, 3, 4, 6],
+  "preservation_tiers": {
+   "tierA_change_exists": "selection contains both last_clear_no_change_id and first_change_id",
+   "tierB_first_claim": "tierA and every observation from the reference up to first_change_id is present, so an earlier change cannot be hidden by the selection",
+   "tierC_human_set": "selection is a superset of the annotator-agreed evidence_ids"
+  },
+  "metrics": ["preserved fraction per selector x budget x tier", "minimum K at which each selector first reaches tierA for an episode", "episodes where no selector reaches tierA at K=4"],
+  "reading": {
+   "loss_present": "at K=4 the best simple selector preserves tierA on < 0.70 of change_supported episodes",
+   "no_loss": "at K=4 some simple selector preserves tierA on >= 0.90 of change_supported episodes"
+  },
+  "not_a_claim": "this measures what a fixed-budget selection keeps, not any model's accuracy, and the episode count is small"
+ },
+ "stage_R_reader_content_check": {
+  "runs_on": "the diagnostic matrix produced by sn7_visible_pack_v05.py finalize, which scores the swap condition against the DONOR episode's own target",
+  "readers": ["Qwen3-VL-8B-Instruct (models/Qwen3-VL-8B-Instruct, master venv)", "Molmo2-O-7B (models/Molmo2-O-7B, molmo_deps)"],
+  "conditions": ["real", "metadata_only (prompt and dates, no images)", "blank (blank images)", "different_outcome_swap (source prompt, donor images, donor target)"],
+  "decoding": "greedy, max_new_tokens 256, JSON-only output as specified by the v0.5 prompt; unparsable output counts as wrong and is reported separately",
+  "metrics": [
+   "answer accuracy per condition (3-class)",
+   "first_change_id exact accuracy on change_supported episodes",
+   "swap_vs_donor_target (correct if the model follows the pixels) and swap_vs_source_target (correct if it follows the prompt/dates)",
+   "metadata_only and blank accuracy, which upper-bound what can be produced without pixels"
+  ],
+  "content_use_criterion": "swap_vs_donor_target - swap_vs_source_target >= 0.30 with an episode-level bootstrap CI excluding 0, for a reader to be called content-using on this data",
+  "reading": {
+   "reads_content": "content_use_criterion met and real-condition answer accuracy > metadata_only + 0.15",
+   "does_not_read": "criterion not met; that reader cannot be used to evaluate memory on this data"
+  }
+ },
+ "decision_table": [
+  {"observed": "stage H fails", "next": "close the SN7 memory line; the question is not consistently readable by people here"},
+  {"observed": "H passes, L says no_loss", "next": "weak case for a new memory method on this data; pivot to a benchmark/reading paper"},
+  {"observed": "H passes, L says loss_present, R says reads_content", "next": "enter the memory method experiment (online writer, no future frames, no question at write time)"},
+  {"observed": "H passes, L says loss_present, R says does_not_read", "next": "reader alignment becomes a priced option, not an automatic next step; if taken it is ONE limited pilot with target-matched supervision and region-held-out evaluation"}
+ ],
+ "unlock_record": {
+  "model_launch_allowed_after": "stage H gate passes and the finalize step reports diagnostic_manifest_ready true",
+  "note": "sn7_visible_pack_v05 writes allowed_for_model_run false on every matrix row by design; the runner flips it only when this prereg id and the matrix sha256 are recorded in the run output"
+ },
+ "not_allowed": [
+  "changing the gates, tiers, budgets or criteria after seeing any result",
+  "training anything on the v0.5 annotator targets; they are evaluation gold",
+  "using the old silver definition (8-building cumulative month) anywhere in this experiment",
+  "reporting stage L or R if stage H failed",
+  "calling any outcome of this 12-episode development sample a general conclusion about EO VLMs or memory"
+ ],
+ "compute": "stage L is CPU minutes on a laptop; stage R is under 1 GPU-hour per reader"
+}
