@@ -1,0 +1,63 @@
+{
+  "schema": "earthtalk-content-controls-prereg-v0",
+  "id": "E0",
+  "registered_at": "2026-09-25",
+  "status": "registered before any content-control run; the only prior outputs are the MS-131 real-arm answers (answers_seed1.jsonl) and the untrained text-only answers",
+  "question": "Does the frozen EarthTalk G-L1 projector (seed 1) + Olmo-3-7B-Instruct answer the landslide Q1 question from the OlmoEarth embedding, or from the prompt text (dates)?",
+  "direction_doc": "docs/DIRECTION_EO_EMBEDDING_READER_2026_09_25.md",
+  "model": {
+    "projector": "/home/work/data/olmoearth/earthtalk_projector_v0/projector_seed1.pt",
+    "projector_sha256": "792a2485049164e080f5dd74f59122c403e5b17486d247807fedb58649e61ac9",
+    "llm": "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct (bf16, frozen)",
+    "embeddings": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/<tile>.npy (OlmoEarth v1 Base, 4x4 avg-pooled to 64 tokens/date, plus d2-d1 tokens)",
+    "decoding": "greedy, max_new_tokens 16, identical prompt template and parser to code/earthtalk_projector_train.py"
+  },
+  "data": {
+    "items": "/home/work/data/olmoearth/sentinel_qa_v0_1/items.jsonl, type Q1 (and Q3 for a secondary check), restricted to tiles whose embedding file exists (MS-131 used 384 Q1 = 192 tiles)",
+    "structure": "each tile has one positive item (date pair spanning the landslide, answer yes) and one negative item (later date pair on the same tile, answer no)",
+    "regions": "holdout_hiroshima, holdout_indonesia (test folds of MS-131)",
+    "known_limits": [
+      "exposed evaluation set: MS-131 already reported the real arm on these items",
+      "two regions only; tiles within a region are not independent",
+      "the model is conservative (MS-131 recall .26, FPR .047), which bounds any effect near .21"
+    ]
+  },
+  "arms": {
+    "real": "source prompt, source embedding (reproduces MS-131)",
+    "swap_within_tile": "source prompt text (its dates), embedding from the OTHER item of the same tile (pos<->neg). Location, region and prompt form are held fixed; only the embedded observations differ",
+    "zero_embedding": "source prompt, all EO input tokens set to zero before the projector (the projector still emits tokens, so the sequence length is unchanged)",
+    "swap_cross_tile": "source prompt, embedding from a different tile in the same region whose item has the opposite answer; donor chosen deterministically by sha256(seed|source id)"
+  },
+  "metrics": {
+    "d_real": "P(yes | gold yes) - P(yes | gold no) in the real arm (= recall - FPR)",
+    "d_swap": "in swap_within_tile: P(yes | embedding from the positive item) - P(yes | embedding from the negative item). Because each tile contributes one item of each kind with the texts exchanged, d_swap > 0 means answers follow the embedding and d_swap < 0 means they follow the prompt text",
+    "d_zero": "in zero_embedding: P(yes | positive prompt text) - P(yes | negative prompt text), i.e. the date-text cue with the embedding removed",
+    "d_cross": "in swap_cross_tile: P(yes | donor embedding positive) - P(yes | donor embedding negative)",
+    "balanced_acc": "per arm, against the source gold (and against the donor gold for swap arms)",
+    "ci": "95% percentile bootstrap over tiles (2000 resamples, seed 20260925); both items of a tile move together",
+    "q3_secondary": "Q3 with swap_cross_tile donors having a different quadrant set: Jaccard vs donor minus Jaccard vs source. Descriptive only"
+  },
+  "validity_checks": {
+    "reproduction": "real-arm parsed answers must equal answers_seed1.jsonl on >= 95% of Q1 items; otherwise verdict = invalid_run",
+    "parse": "parse failure <= 10% in every arm; otherwise verdict = invalid_run",
+    "signal": "if d_real < 0.10 on the rerun, there is too little signal to transfer and the verdict is uninformative_low_signal"
+  },
+  "primary_verdict": {
+    "reads_embedding": "d_swap >= 0.10 AND bootstrap CI lower bound > 0",
+    "follows_text": "d_swap <= -0.10 AND bootstrap CI upper bound < 0",
+    "not_demonstrated": "any other valid outcome (includes small or uncertain d_swap)"
+  },
+  "supporting_reading": "reads_embedding is strengthened if d_cross >= 0.10 with CI lower > 0 and |d_zero| < 0.05; these are reported but do not change the primary verdict",
+  "what_this_does_not_show": [
+    "that the model reads landslide content well (recall is low); only whether its answers depend on the embedding",
+    "anything about other phenomena, other regions or other projectors",
+    "that a trained text-only model would score .500; the MS-131 text-only arm was zero-shot"
+  ],
+  "next_step_by_verdict": {
+    "reads_embedding": "E1 multi-phenomenon audit and E2 training with the same controls",
+    "follows_text": "treat MS-131 .607 as a text/date cue; redesign E2 training (e.g. swap-based negatives) and re-measure with these controls",
+    "not_demonstrated": "same as follows_text for planning; report the effect size and CI as is",
+    "invalid_run / uninformative_low_signal": "fix the reproduction path before any interpretation; no threshold changes"
+  },
+  "compute": "single GPU, about 1,700 generations of 16 tokens; run only when the chosen GPU has no other process (CLAUDE.md 4b)"
+}

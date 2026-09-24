@@ -1,5 +1,12 @@
 # OLMoEarth 연구 재시작 지점
 
+> ## 2026-09-25 — 방향 재정의: 위성 임베딩을 실제로 읽는 VLM
+>
+> **[DIRECTION_EO_EMBEDDING_READER_2026_09_25.md](docs/DIRECTION_EO_EMBEDDING_READER_2026_09_25.md)가 현재 기준이다.**
+> SN7 D1은 판독자 A만 완료(미정)로 보류. 첫 실험 E0 = 기존 EarthTalk(MS-131)에 임베딩 교체·제거 통제
+> (`config/earthtalk_content_controls_prereg_v0.json`, `code/earthtalk_content_controls_v0.py`). 학습 없음, GPU 약 20분.
+
+
 > ## 2026-09-24 저녁 — D1 단계 H 진행 중
 >
 > **한 장 정리: [D1_H_STATUS_20260924.md](docs/D1_H_STATUS_20260924.md).** 연습 패키지·판독 화면·판독 전 기록 준비 완료,
