@@ -4548,3 +4548,8 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   휴식년제 오름 문석이 포함). `apps/oreum-web`: 라벨 v2(태그·재판독·일치율·내보내기 sha), 명단 기반 목록, 키 a–d/1–6; verify-assets가 명단·태그·d 메모·
   재판독·d≤30% 규칙을 빌드에서 검사. Playwright로 키 입력→저장→재판독→내보내기→검증 통과 확인. Node 22 + pnpm 10 로컬 설치.
   마찰: 시계열 Δz PNG 539건이 JSON에 참조되나 미커밋(다른 기기) → verify를 경고로 완화, 지도 '비교' 모드 Δz는 이 기기에서 빈 이미지. 재생성 필요.
+- **(2026-09-24) OlmoEarth Studio 작업을 별도 저장소로 분리** → `../olmoearth_platform` (로컬 git, Studio 11커밋 히스토리 포함).
+  옮긴 것: `code/studio_*.py`·`build_studio_spec.py`·`make_area_geojson.py`, `artifacts/studio_audit/`(스크린샷 128 MB 포함),
+  Studio 문서 3개, `.venv-studio`, `.studio_session.json`. 위 4490행~의 Studio 워크로그는 그쪽 `WORKLOG.md`로 복사(여기 원문 보존).
+  **여기 남긴 것**: 제주 라벨링 도구(`apps/oreum-web`, `docs/LABEL_SPEC_OREUM_v1.md`, `code/make_label_targets.py`) — 추적기 앱에 붙어 있음.
+  이후 Studio 작업은 이 저장소에서 하지 않는다.
