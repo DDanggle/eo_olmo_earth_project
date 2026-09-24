@@ -9,6 +9,7 @@ import hashlib
 import itertools
 import json
 import shutil
+import statistics
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -185,6 +186,7 @@ def review_exports(pack, exports):
     episodes = {ep["id"]: ep for ep in pack["episodes"]}
     by_episode = defaultdict(list)
     seen = set()
+    annotators = set()
     incomplete = []
     for export in exports:
         if export.get("schema") != "sn7-visible-annotations-v0.5" or export.get("pack_id") != pack["pack_id"]:
@@ -192,6 +194,7 @@ def review_exports(pack, exports):
         who = export.get("annotator_id")
         if not isinstance(who, str) or not who.strip():
             raise ValueError("Missing annotator identity")
+        annotators.add(who)
         for annotation in export["annotations"]:
             eid = annotation["episode_id"]
             if eid not in episodes or annotation.get("annotator_id") != who:
@@ -221,11 +224,39 @@ def review_exports(pack, exports):
             pass  # same-outcome or temporally unmatched donors are not counterfactuals
     counts = Counter(t["answer"] for t in targets.values())
     ready = all(counts.get(k, 0) > 0 for k in ("change_supported", "no_visible_change", "insufficient_evidence")) and bool(pairs)
+
+    # Registered stage H gate: full consensus over ALL episodes as the denominator.
+    n_total = len(episodes)
+    n_agreed = len(targets)
+    agreement_rate = (n_agreed / n_total) if n_total else 0.0
+    agreed_counts = Counter(t["answer"] for t in targets.values())
+    n_annotators = len(annotators)
+    h_gate_reason = None
+    if n_annotators < 2:
+        h_gate_reason = f"only {n_annotators} distinct annotator(s); consensus requires at least two"
+    elif agreement_rate < 0.60:
+        h_gate_reason = f"agreement_rate {agreement_rate:.3f} below the registered 0.60"
+    else:
+        missing = [name for name in ("change_supported", "no_visible_change", "insufficient_evidence")
+                   if agreed_counts.get(name, 0) < 1]
+        if missing:
+            h_gate_reason = "no agreed episode in category: " + ", ".join(missing)
+    h_gate_pass = h_gate_reason is None
     return {"schema": "sn7-visible-reviewed-v0.5", "pack_id": pack["pack_id"],
             "targets": targets, "pending": pending, "incomplete": incomplete, "control_pairs": pairs,
-            "answer_counts": dict(counts), "diagnostic_manifest_ready": ready,
-            "model_launch_allowed": False, "scientific_gate_passed": False,
-            "note": "Readiness is schema/coverage only; no model inference or G1 success. Resolve a separate evaluation preregistration before launching."}
+            "answer_counts": dict(counts),
+            "n_total": n_total, "n_agreed": n_agreed, "agreement_rate": agreement_rate,
+            "agreed_answer_counts": dict(agreed_counts), "n_annotators": n_annotators,
+            "diagnostic_manifest_ready": ready,
+            "h_gate_pass": h_gate_pass, "h_gate_reason": h_gate_reason,
+            "scientific_gate_passed": h_gate_pass,
+            "model_launch_allowed": False,
+            "note": ("diagnostic_manifest_ready is schema/coverage readiness only (every answer category "
+                     "present and at least one control pair); scientific_gate_passed is the registered "
+                     "stage H gate over all episodes (agreement_rate >= 0.60 and each answer category "
+                     "agreed). Stages L and R refuse to run unless scientific_gate_passed is true; "
+                     "a passed gate with no content-different donor pair is reported as "
+                     "preparation_incomplete, not as an H or reader failure.")}
 
 
 def finalize(args):
@@ -237,6 +268,19 @@ def finalize(args):
         raise FileExistsError(f"Refusing to overwrite {out}")
     out.mkdir(parents=True)
     (out / "review_report.json").write_text(json.dumps(result, ensure_ascii=False, indent=2))
+    durations = [a.get("seconds") for export in exports for a in export.get("annotations", [])
+                 if isinstance(a.get("seconds"), (int, float))]
+    h_report = {"schema": "sn7-visible-h-report-v0", "pack_id": payload["pack_id"],
+                "prereg": "config/decision_experiment_d1_prereg_v0.json",
+                "amendment": "config/decision_experiment_d1_prereg_v0_amendment_20260924.json",
+                "n_total": result["n_total"], "n_agreed": result["n_agreed"],
+                "agreement_rate": result["agreement_rate"],
+                "agreed_answer_counts": result["agreed_answer_counts"],
+                "n_annotators": result["n_annotators"],
+                "n_pending": len(result["pending"]), "n_incomplete": len(result["incomplete"]),
+                "h_gate_pass": result["h_gate_pass"], "h_gate_reason": result["h_gate_reason"],
+                "median_seconds_per_episode": (float(statistics.median(durations)) if durations else None)}
+    (out / "H_report.json").write_text(json.dumps(h_report, ensure_ascii=False, indent=2))
     episodes = {ep["id"]: ep for ep in payload["episodes"]}
     matrix = []
     for eid, target in result["targets"].items():
@@ -254,13 +298,16 @@ def finalize(args):
                 raise ValueError("Swap prompt/target frame IDs must align; reindex explicitly before export")
             matrix.append({"id": f"{source['id']}|swap|{donor['id']}", "episode_id": source["id"],
                            "aoi": source["aoi"], "condition": "different_outcome_swap", "donor_episode_id": donor["id"],
+                           "control_pair_kind": pair["pair_kind"],
                            "input": {"prompt": prompt(source), "frames": donor["frames"], "image_mode": "real"},
                            "target": result["targets"][donor["id"]], "allowed_for_model_run": False})
     with (out / "diagnostic_matrix.jsonl").open("w") as handle:
         for row in matrix:
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
     print(json.dumps({"agreed": len(result["targets"]), "pending": len(result["pending"]),
-                      "verified_control_pairs": len(result["control_pairs"]), "diagnostic_manifest_ready": result["diagnostic_manifest_ready"]}, indent=2))
+                      "verified_control_pairs": len(result["control_pairs"]),
+                      "diagnostic_manifest_ready": result["diagnostic_manifest_ready"],
+                      "h_gate_pass": result["h_gate_pass"]}, indent=2))
 
 
 def main():

@@ -1,0 +1,103 @@
+{
+  "schema": "d1-H-rater-record-v0",
+  "created": "2026-09-24",
+  "status": "FROZEN 2026-09-25 before rater A opened the evaluation pack. Only 'completion' and a later rater-B block may be added after this commit.",
+  "why_this_file_exists": "Who reads, what they had already seen, and the criteria agreed in calibration change what an H pass or fail means. Recording them after the result would be post-hoc. Registered H gate (agreement_rate >= .60 over 12 and each class agreed) is unchanged; see config/decision_experiment_d1_prereg_v0.json.",
+  "evaluation_pack": {
+    "pack_id": "sn7v05-198e4ff03e26f004",
+    "episodes": 12,
+    "aois": 6,
+    "frames": 172,
+    "integrity_check_2026_09_24": "audit_sn7_visible_pack_v05.py run with the committed (HEAD 8845014) build code: image hashes verified, counts match provenance. The working-tree pack code differs from build provenance because of the 2026-09-24 A-D repairs, which do not touch the pack contents or the review HTML."
+  },
+  "practice_pack": {
+    "pack_id": "sn7v05train-1ebc2af71cc80cdb",
+    "episodes": 3,
+    "frames": 39,
+    "builder": "code/sn7_v05_training_pack.py",
+    "overlap_with_evaluation_aois": "none (checked by the builder)",
+    "note": "Practice answers are not gold and are never scored."
+  },
+  "raters": {
+    "A": {
+      "code": "dongdong",
+      "role": "project lead; knows the hypothesis",
+      "prior_exposure_to_evaluation_aois": "none (self-report 2026-09-25): did not see MS-150..155 reports, model answers, SN7 polygons or frames for these 6 AOIs",
+      "satellite_imagery_experience": "project lead on this EO research workspace; practice pack done 2026-09-24",
+      "practice_briefing_contamination": "Before A's practice reading, the assistant described practice_03 as showing construction traces and practice_02 as seasonal field colour change (practice pack only, not evaluation AOIs). A still reported no clear structural change. From here on the assistant gives no content opinions on any frame."
+    },
+    "B": {
+      "code": "TODO e.g. rater_b",
+      "role": "TODO (e.g. part-time assistant / grad student)",
+      "blind_to_hypothesis": "TODO must be true",
+      "prior_exposure_to_evaluation_aois": "TODO expected: none",
+      "satellite_imagery_experience": "TODO",
+      "briefing_material": "docs/D1_H_ANNOTATOR_GUIDE_20260924.md only",
+      "status": "not recruited as of 2026-09-25"
+    }
+  },
+  "independence_rules": [
+    "Practice pack only for training; evaluation frames are never used as examples.",
+    "No discussion of evaluation frames or answers between A and B until both exports are handed in.",
+    "Separate machines or browser profiles (the UI stores records in browser localStorage keyed by pack_id and rater code).",
+    "Opening the evaluation pack counts as the formal reading; there is no 'preview' pass."
+  ],
+  "calibration_decisions": {
+    "status": "SKIPPED for rater A (deviation)",
+    "reason": "A reads the evaluation pack before any rater B exists; A reads with the annotator guide only. If B is recruited later, B also reads with the guide only (no calibration talk), so both raters share the same written criteria.",
+    "open_questions_left_to_each_rater": [
+      "bare-earth clearing without a visible building",
+      "new road only"
+    ]
+  },
+  "completion": {
+    "A_export": "TODO path + sha256",
+    "B_export": "TODO path + sha256",
+    "A_hours": "TODO",
+    "B_hours": "TODO",
+    "deviations": [
+      "calibration step skipped (see calibration_decisions)",
+      "review UI changed before evaluation (see review_ui)",
+      "A heard practice-pack content descriptions before practice (practice AOIs only)"
+    ]
+  },
+  "review_ui": {
+    "page": "code/sn7_visible_review_v05_split.html rendered by `sn7_v05_training_pack.py render-ui` into BOTH packs on 2026-09-24, before any evaluation reading",
+    "why": "rater A reported the save/timeout buttons appeared dead (error text rendered off-screen at the top; confirm() dialog) and asked for the reference pinned left with observations scrolling right",
+    "unchanged": "pack.json, images, pack_id, four labels and wording, reference-frame options, localStorage key, export schema",
+    "changed": "layout (reference pinned left), button choices instead of <select>, bottom save bar with visible errors and missing-frame outline, two-click timeout instead of confirm()",
+    "original_page_kept_as": "annotator_pack/index.v05_original.html in each pack",
+    "verification": "jsdom click-through on the practice pack (11 checks) and export parsed by derive_target"
+  },
+  "export_locations": {
+    "practice": "labeling_pack/visible_contract_v05_training_20260924/exports/",
+    "evaluation": "labeling_pack/visible_contract_v05_20260922/exports/ (sha256 of each file goes into completion)"
+  },
+  "practice_exports": {
+    "A": {
+      "file": "labeling_pack/visible_contract_v05_training_20260924/exports/sn7v05train-1ebc2af71cc80cdb_dongdong.json",
+      "sha256": "344f568ab76e05ddd1c5d8fb4074eb732f9e63d305fa5dc82e90727b29d2490c",
+      "annotator_id": "dongdong",
+      "derived": {
+        "practice_01": "change_supported (first F003)",
+        "practice_02": "no_visible_change",
+        "practice_03": "insufficient_evidence"
+      },
+      "seconds": [
+        102,
+        93,
+        101
+      ]
+    }
+  },
+  "A_only_interpretation_prereg": {
+    "registered": "2026-09-25, before A's evaluation reading",
+    "logic": "consensus_target requires two annotators with identical answer, first_change_id, last_clear_no_change_id, current/reference states and evidence_ids. Therefore A's labels alone can make the registered H gate impossible but can never pass it.",
+    "rules": [
+      "If any of change_supported / no_visible_change / insufficient_evidence is absent from A's 12 derived answers -> H gate cannot pass for any rater B -> record H = FAIL (determined by A) and close the SN7 memory line.",
+      "If A marks 5 or more episodes timeout/incomplete -> at most 7 agreeable episodes < 8 -> H = FAIL (determined by A).",
+      "Otherwise -> H undetermined; rater B required. Whether to recruit B is a separate decision (SN7 line vs EarthTalk embedding-VLM line) and does not change these rules."
+    ],
+    "not_a_claim": "A-only results are never reported as human agreement or readability; they are one rater's labels."
+  }
+}

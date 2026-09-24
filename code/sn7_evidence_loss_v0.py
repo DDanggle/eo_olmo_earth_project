@@ -216,6 +216,10 @@ def main() -> None:
     report = json.loads((Path(a.review) / "review_report.json").read_text())
     if report.get("pack_id") != pack.get("pack_id"):
         raise SystemExit("review report belongs to a different pack")
+    if not report.get("scientific_gate_passed"):
+        raise SystemExit(f"stage H gate not passed: {report.get('h_gate_reason') or 'scientific_gate_passed is false'}; stage L must not run")
+    if not report.get("diagnostic_manifest_ready"):
+        raise SystemExit("stage H not complete: diagnostic_manifest_ready is false; stage L must not run")
     targets = report.get("targets") or {}
     if not targets:
         raise SystemExit("no agreed targets yet; stage H must finish first")

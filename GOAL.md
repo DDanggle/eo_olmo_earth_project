@@ -1,5 +1,12 @@
 # OlmoEarth 연구 목표 — 살아있는 계획서
 
+> **2026-09-24 최신 연구 검토:** [CVPR·VLM 업데이트](docs/CVPR_VLM_RESEARCH_UPDATE_2026_09_24.md).
+> 현재 연구 질문은 Grounded Change Memory이며, 기억 병목·SFT 선행 주장은 철회 상태다.
+> D1 H/L/R 기준은 원 사전등록에 남기되, 합성 감사로 확인한 H 실행 관문·R 채점 결함을
+> 수리하기 전 L/R을 과학적 판정에 쓰지 않는다. H는 독립 2인·≤10인시·완전 합의 ≥.60이다.
+> 새 모델 성능이나 사람 gold는 이번에 추가하지 않았다. 아래 과거 계획의 실행 지시보다 이 최신 검토를 먼저 읽는다.
+
+
 > 이 파일이 이 프로젝트의 단일 진실 공급원(SSOT)입니다.
 > 에이전트든 사람이든, 작업 시작 전에 읽고 / 끝나면 Worklog와 상태를 갱신합니다.
 
@@ -4553,3 +4560,132 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   Studio 문서 3개, `.venv-studio`, `.studio_session.json`. 위 4490행~의 Studio 워크로그는 그쪽 `WORKLOG.md`로 복사(여기 원문 보존).
   **여기 남긴 것**: 제주 라벨링 도구(`apps/oreum-web`, `docs/LABEL_SPEC_OREUM_v1.md`, `code/make_label_targets.py`) — 추적기 앱에 붙어 있음.
   이후 Studio 작업은 이 저장소에서 하지 않는다.
+
+
+### 2026-09-24 — CVPR·VLM 연구 재검토 (계획)
+
+- 사용자 요청: 최신 저장소를 pull하고 Grounded Change Memory의 진행 과정·현재 주장·CVPR 관점의 확장을 꼼꼼히 정리한다.
+- 시작 상태: main `8845014`, `git pull --ff-only` 결과 최신. MS-155와 9/23 철회, D1 H→L→R 사전등록을 기준으로 읽는다.
+- 범위: MS-122~155 원장·사전등록·D1 구현을 대조하고, CVPR 2027 공식 안내와 가까운 VLM/streaming memory 선행을 확인한다. dated 검토 문서와 최신 읽기 입구를 갱신한다.
+- 사전등록 JSON·원 실험 판정은 보존한다. 이번 작업은 문헌·코드 감사와 문서 정리이며 새 사람 gold나 모델 성능을 생성하지 않는다.
+
+
+### 2026-09-24 — CVPR·VLM 연구 재검토 (결과)
+
+- 산출물: `docs/CVPR_VLM_RESEARCH_UPDATE_2026_09_24.md`. 현재 주장, D1, 가까운 선행 8종,
+  강한 baseline·근거 intervention·독립 AOI 평가·방법/분석 논문 분기·CVPR 2027 일정 정리.
+- 원장 정정 반영: ‘학습 후보 8개’는 taxonomy가 불완전한 프로젝트 요약이며 논문용 집계가 아님.
+  v0.4에는 content_check가 추가됐으므로 ‘여섯 판 규칙 전부 불변’ 대신 버전별 통제·실패 보존으로 서술.
+- 기존 결과 재확인: MS-155 모든 저장 item accuracy 재현. Q2 privileged/wrong-content:
+  Qwen 12/22 vs 13/22, Molmo 6/22 vs 8/22. 원 AOI bootstrap은 재실행하지 않음.
+- 합성 D1 감사: 3/12 완전 합의(.25)인데 manifest ready 및 모델 loader 진입 가능;
+  완벽한 real/swap 답·올바른 metadata 보류에도 real=1, metadata=1, content diff=1로
+  `does_not_read` 판정. 같은 class·다른 최초 관측 swap은 정확한 donor 답도 class diff=0.
+  11행 matrix/답 1행도 보고서 생성. **합성 코드 반례이며 VLM 성능 결과가 아님.**
+- 검증: visible-contract 기존 테스트 23개, L selftest 12 checks, R selftest 10 checks 통과.
+  `code/audit_d1_contract_20260924.py`와 소스 SHA 포함 JSON·MS155 재계산 JSON 보관.
+- 마찰: 기본 python3의 numpy 부재 → 기존 `.venv-nano-lab` numpy 2.5.3 사용, 설치 없음.
+  현재 열린 학습자료 저장소와 실제 연구 저장소가 달라 연구 저장소를 별도로 확인·pull함.
+- 다음: H gate 연결·R 채점 의미/시간 swap·완결성 수리와 사전 결과 amendment →
+  두 검수자 H(≤10인시) → 통과 시 L/R. 새 학습·데이터 확장은 D1 결과로 결정.
+- 변경 경계: 문서·독립 감사 스크립트/보고서만. 원 prereg·운영 runner·MEASURED_FINDINGS 유지.
+  서버·GPU·실제 사람 라벨·외부 메시지·커밋/푸시는 실행하지 않음.
+
+
+### 2026-09-24 — D1 H 준비: 검수 패키지 로컬 확보·재검증 (계획)
+
+- 사용자 요청: 결정 실험 D1 단계 H를 이 기기에서 시작. 패키지를 받아 pack_id를 검증하고,
+  전체 상태를 다시 꼼꼼히 분석·정리·갱신한다. Studio 작업은 ../olmoearth_platform 소관이라 여기서 하지 않는다.
+- 범위: 로컬 검증과 문서 갱신만. 사람 판독·모델 실행·L/R 판정·prereg·runner 변경은 하지 않는다.
+
+### 2026-09-24 — D1 H 준비: 검수 패키지 로컬 확보·재검증 (결과)
+
+- 패키지 확보: `./bin/nx pull olmoearth/spacenet7/visible_contract_v05_20260922 $PWD/labeling_pack` (65MB).
+  감사 `code/audit_sn7_visible_pack_v05.py` → pack_id `sn7v05-198e4ff03e26f004`(사전등록과 동일),
+  12 episode·6 AOI·172영상, image_hashes_verified·build_source_hashes_match 모두 true.
+  `artifacts/sn7_visible_v05/`에는 preparation_audit.json만 있고 사람 판독 산출물은 없음을 확인.
+- 이 세션 재검증: visible-contract 테스트 23개 OK, L selftest 12 checks OK, R selftest 10 checks OK.
+  원본 5개 파일(Prereg·pack·contract·L·R)의 SHA-256이 `artifacts/cvpr_vlm_review_20260924/d1_contract_audit.json`
+  기록과 전부 동일. `code/audit_d1_contract_20260924.py` 재실행(nano-lab venv numpy)으로 4개 반례 재현:
+  합의 3/12(0.25)인데 manifest ready·모델 loader 도달 / 완벽 reader real=1·metadata=1·diff=1인데 does_not_read /
+  시간만 다른 swap은 content diff=0 / matrix 11행·답 1행도 보고서 생성.
+- 갱신: RESTART_HERE.md 9/24 블록에 H 준비 완료 상태와 남은 사람 결정 두 개를 추가.
+- 다음(순서 고정): (1) 검수자 2명·판독 시기 결정 → H 독립 판독, 총 ≤10인시는 상한.
+  (2) 병렬 선행: 수리 A(H 관문 연결)·B(보류/장면 정답 분리)·C(시간 swap 채점)·D(완결성·reader별 경로)
+  + 채점 의미 변경은 dated amendment로 결과 확인 전 등록. (3) H 관문 통과 + manifest ready 후에만 L→R.
+  H 실패 시 L·R은 돌리지 않는다(사전등록 그대로). 마찰 없음.
+
+### 2026-09-24 — D1 수리 A·B·C·D + dated amendment 등록 (결과)
+
+- 수리 (docs/CVPR_VLM_RESEARCH_UPDATE_2026_09_24.md §2 방향 그대로, 합성 픽스처만 사용):
+  `sn7_visible_contract_v05.make_control_pair`에 pair_kind(content/temporal) 추가.
+  `sn7_visible_pack_v05.review_exports`가 H 관문 계산(전체 분모 합의율 ≥.60 + 세 범주 각 ≥1,
+  annotator <2이면 합의 불가로 실패) → scientific_gate_passed 하드코딩 폐기. `finalize`가
+  H_report.json(소요시간 중앙값 포함) 추가 작성, swap 행에 control_pair_kind 심음.
+  `sn7_evidence_loss_v0` main이 review gate 통과 전에는 계산 전 SystemExit 거부.
+  `sn7_d1_reader_run_v0`: run은 diagnostic_manifest_ready+scientific_gate_passed 이중 관문,
+  content pair 0이면 정확한 메시지로 preparation_incomplete 거부, run_context_{reader}.json
+  (결함 D 덮어쓰기 수리). score은 정확한 id 커버리지·중복·해시 검사 + answers 옆 run_context의
+  matrix 해시 불일치 거부, content/temporal swap 분리(기존 .30+CI 불변은 content 전용,
+  temporal은 joint 정확도 기술통계·threshold 이식 금지·low_support <4행),
+  proper_abstention_rate/coincidental_match_rate 신규 열, first_acc_change_subset 추가,
+  reads_content 규칙 교체(content_use_pass AND real > coincidence + .15, 근거는 reading_basis),
+  보고서 schema v1 + amendment id 기록.
+- amendment: `config/decision_experiment_d1_prereg_v0_amendment_20260924.json` 등록.
+  원 prereg SHA-256 `c8fa70a7…bc93` 그대로(감사 기록과 일치 확인), 결정표 4행 유지,
+  preparation_incomplete/low_support는 운영 상태일 뿐 새 결과 분기 아님을 명시.
+- 검증: 기존 visible 테스트 23개 OK, 신규 `tests/test_d1_repairs_20260924.py` 15개 OK,
+  L selftest 12 checks OK, R selftest 18 checks OK(기존 10 + 순수 파이썬 신규 8).
+  `audit_d1_contract_20260924.py --repo .`은 수리 후 SystemExit(종료코드 1)로 실패하는 것이 정상 —
+  감사 스크립트는 결함 버전을 단언하므로 수정하지 않음.
+- 마찰 없음. 서버·GPU·실제 모델·실제 판독 데이터 미접촉, 커밋 없음.
+- 다음: 두 검수자 H 독립 판독(≤10인시 상한) → H 통과 + manifest ready 시에만 L→R.
+
+
+### 2026-09-24 — D1 단계 H 판독 준비 (계획·결과)
+
+- 계획: 판독자 A(연구자)·B(가설 모름) 구성으로 H를 시작할 수 있게 교육 패키지·판독 안내서·판독 전 기록을 만든다.
+  실전 패키지는 열지 않는다. 서버는 원본 읽기만 한다.
+- 실전 패키지 무결성: 로컬 `labeling_pack/visible_contract_v05_20260922` 존재. 작업 트리 코드로는 audit가
+  "Current source differs from recorded build source"로 실패(9/24 A–D 수리가 생성 코드 해시를 바꿈).
+  HEAD `8845014` 코드로 재실행하면 pack_id `sn7v05-198e4ff03e26f004`, 12 episode·6 AOI·172장 해시 일치.
+  계약 테스트 23개, 수리 회귀 테스트 15개 OK. 합성 감사 JSON도 재실행 결과와 동일.
+- 교육 패키지: `code/sn7_v05_training_pack.py` → `sn7v05train-1ebc2af71cc80cdb`, 3 episode·39장.
+  서버 `diag_lite_v0_4`에서 실전에 쓰지 않은 6개 AOI의 원본만 tar로 받음(items.jsonl sha256 `062b2bab…` = 실전 provenance).
+  실전 AOI와 겹치면 생성 거부. legacy silver는 다양성 선정에만 쓰고 공개 pack에 넣지 않음.
+  육안 확인(L5): practice_01 사막 미세 구조물, practice_02 농지 계절색 변화, practice_03 산지 공사 + 검은 무자료 영역.
+  정답은 만들지 않음 — 교육 사례도 두 판독자가 맞춘다.
+- 문서: `docs/D1_H_ANNOTATOR_GUIDE_20260924.md`(B에게 그대로 전달), `config/d1_H_rater_record_20260924.json`
+  (판독자·사전 노출·보정 결정 — 실전 전에 채워 커밋).
+- 마찰: 서버에 rsync 없음 → `ssh … tar -c | tar -x`. `nx`에 pull 명령 없음(9/23 인수인계 명령과 다름).
+  원 규약에 맨흙 정리·도로만 있는 경우의 판정이 없음 → 보정 단계 결정 항목으로 올림.
+- 다음: A·B 확정 → 기록 파일 TODO 채움 → 연습 → compare로 맞추기 → 기록 커밋 → 실전 → finalize.
+- 추가(저녁): 판독 화면 개선 `code/sn7_visible_review_v05_split.html`(기준영상 왼쪽 고정·버튼 선택·하단 저장바).
+  원인: 저장 오류 문구가 화면 맨 위에 떠서 버튼이 "안 되는" 것처럼 보임 + confirm() 창. `render-ui`로 연습·실전 모두 적용,
+  원 화면은 `index.v05_original.html`로 보존, pack.json·이미지 해시 불변. jsdom 클릭 재현 11개 OK.
+- 판독자 A 연습: practice_01 change_supported(F003) / 02 no_visible_change / 03 insufficient_evidence, 각 약 100초.
+  → 실전 172장 한 사람 20~30분 예상(당초 1~2시간 추정은 과대). A의 연습 전 사례 설명 노출은 기록 파일에 적음.
+- 마찰: labeling_pack이 실수로 `pr_bodies/` 아래로 이동 → 원위치·해시 재확인. 서버를 labeling_pack 안에서 상대경로로 실행해 404
+  → 절대경로로 재실행. 정리 문서 `docs/D1_H_STATUS_20260924.md`.
+
+
+### 2026-09-24 — D1 H의 실험적 의미 검토 (계획)
+
+- 사용자 요청: `docs/D1_H_STATUS_20260924.md`를 바탕으로 H가 유의미한 실험인지, 통계·판독·L/R 연결·CVPR 기여까지 검토한다.
+- 현재 작업 트리에는 다른 세션의 D1 A–D 수리·개정·연습 도구가 미커밋으로 존재함을 확인했다. 이전 코드 결함을 그대로 현행 결함이라고 반복하지 않고 수리본을 대조한다.
+- 범위: 판독 안내·노출 기록·연습 export·선정 코드·합의/파생정답·H/L/R 개정을 확인하고, 실제 실전 이미지와 정답을 열지 않은 상태에서 설계·통계 반례를 검토한다.
+- 별도 검토 문서에 현재 규칙의 운영 판단과 과학적 해석을 분리한다. 원 사전등록·수리본·사람 판독 자료를 변경하지 않는다.
+
+
+### 2026-09-24 — D1 H의 실험적 의미 검토 (결과)
+
+- 산출물: `docs/D1_H_EXPERIMENT_REVIEW_20260924.md`, `code/audit_d1_h_design_20260924.py`, `artifacts/d1_h_review_20260924/design_audit.json`.
+- 판정: H는 저비용 판독 재현성 파일럿으로 한 번 수행할 가치가 있으나 기억 병목·일반 판독 가능성·CVPR 기여의 증명은 아니다. 원 H 관문은 유지하되 범주 부족·판독 미완료와 관측된 불일치를 구분해 해석해야 한다.
+- 합성 반례(실전 결과 아님): 변화 6/무변화 6에서 12/12 합의해도 근거 부족 범주가 없으면 H 실패. 반대로 변화 1/무변화 10/근거 부족 1에서 H 및 manifest 통과 가능, L 변화 표본 1개와 R donor pair 1개만 남을 수 있음.
+- 합의 계약: first F003 일치에도 last-clear F002/F001 차이로 전체 합의 거부. 첫 변화 뒤 중간 프레임 상태가 달라도 파생 정답 묶음이 같으면 합의 통과. 따라서 파생 정답·첫 시점·프레임 합의를 구분.
+- 통계: 독립 표본 참고 Wilson 8/12 95% CI [.3906,.8619]. 실제는 6 AOI의 짝지어진 개발 표본으로 독립성·선택 편향을 이 구간으로 해결하지 못함. 한 AOI의 양방향 swap 2행이 모두 +1이면 현 bootstrap CI [1,1]도 나옴.
+- H→L: evidence_ids는 사람이 고른 최소 충분 집합이 아닌 자동 파생 집합. F000+F003은 tier C만, F002+F003은 tier A만 통과하는 합성 사례 재현. 원본 집합 보존과 답변 가능성은 구분.
+- H→R: 내용 범주 관문 통과는 시간 판독 통과를 보장하지 않음. 단순 사건 기록표로 고정 질문이 해결될 가능성을 새 학습형 기억의 필요성보다 먼저 비교할 것을 제안.
+- 현재 수리본 검증: visible 23개, 수리 15개 테스트 및 L 12/R 18 selftest checks OK. 이전 A–D 결함을 현재 미수리 상태로 인용하지 않음.
+- 원 prereg·수리 코드·안내서·상태 문서·판독자 기록 불변. 실전 이미지/정답 미열람, 서버·GPU·실제 모델 미실행. 연습 export는 절차/시간/파생 라벨 확인만 했고 새 영상 내용 판단은 하지 않음. 커밋·푸시 없음.
+- 다음: B 확보 → 연습에서 정의 확정 및 노출/버전 기록 고정 → 원 규칙으로 H 1회 → 합의/범주/필드별 불일치/유효 L·R 표본 수를 함께 보고. 후속 실험 제안은 D1 변경이나 자동 실행이 아님.

@@ -350,6 +350,10 @@ def make_control_pair(source_ep, source_target, donor_ep, donor_target):
     donor_signature = (donor_target["answer"], donor_target.get("first_change_date"))
     if source_signature == donor_signature:
         raise ValueError("source and donor outcome signatures must differ")
+    # Beyond the reject above, differing signatures are exactly one of:
+    # a different answer (content control) or the same answer with a different
+    # first-change date (temporal control).
+    pair_kind = "content" if source_target["answer"] != donor_target["answer"] else "temporal"
 
     frame_pairs = [
         {
@@ -362,6 +366,7 @@ def make_control_pair(source_ep, source_target, donor_ep, donor_target):
     return {
         "source_episode_id": source_ep["id"],
         "donor_episode_id": donor_ep["id"],
+        "pair_kind": pair_kind,
         "frame_pairs": frame_pairs,
         "source_target": copy.deepcopy(source_target),
         "donor_target": copy.deepcopy(donor_target),

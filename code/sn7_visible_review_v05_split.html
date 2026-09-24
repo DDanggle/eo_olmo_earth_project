@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>관측 가능한 변화 · v0.5</title>
+<!-- Split layout of sn7_visible_review_v05.html (2026-09-24): reference pinned left, observations
+     scroll right, button choices, always-visible save bar. Same labels, storage key and export format. -->
+<style>
+:root{--ink:#182820;--muted:#475d50;--line:#ccd6ce;--accent:#426653;--bg:#f4f5f3;--card:#fff;--warn:#9d2525;--sel:#dcebe0}
+body{font:16px/1.55 system-ui,sans-serif;background:var(--bg);color:var(--ink);margin:0}
+main{max-width:1500px;margin:auto;padding:12px 24px 110px}
+h1{font-size:23px;margin:6px 0}h2{font-size:19px;margin:0 0 6px}
+.note{background:var(--card);border-left:4px solid var(--accent);padding:12px 16px;margin:10px 0}
+button,input{font:inherit;padding:8px 10px;margin:4px}button{cursor:pointer}button:disabled{cursor:default;opacity:.5}
+#session{background:#e7eee7;padding:6px 10px;position:sticky;top:0;z-index:3;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+#status{white-space:pre-wrap;margin:8px 0}
+#work{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+#refpane{position:sticky;top:60px;background:var(--card);border:3px solid var(--accent);border-radius:8px;padding:12px;max-height:calc(100vh - 150px);overflow:auto}
+#refpane img,.frame img{width:100%;cursor:zoom-in;display:block}
+#question{margin:0 0 8px;color:var(--muted)}
+.frame{background:var(--card);padding:12px;border:1px solid var(--line);border-radius:8px;margin-bottom:16px;scroll-margin-top:70px}
+.missing{outline:3px solid var(--warn);outline-offset:2px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.choices button{margin:0;text-align:left;background:#fff;border:1px solid var(--line);border-radius:6px;color:var(--ink)}
+.choices button.on{background:var(--sel);border:2px solid var(--accent);font-weight:600}
+#bar{position:fixed;left:0;right:0;bottom:0;background:#e7eee7;border-top:1px solid var(--line);padding:6px 24px;z-index:3;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+#msg{flex:1 1 280px}.error{color:var(--warn);font-weight:600}
+small{color:var(--muted)}
+#viewer{max-width:96vw;max-height:96vh;padding:8px}#viewer img{max-width:90vw;max-height:85vh}
+@media (max-width:800px){#work{grid-template-columns:1fr}#refpane{position:static;max-height:none}}
+</style></head><body><main>
+<h1>관측 가능한 변화 · v0.5</h1>
+<div class="note"><b>전문지식 없이, 영상에서 직접 보이는 것만 표시합니다.</b><br>
+첫 영상이 비교 기준입니다. 건물 수를 세거나 사건 발생 월을 추측하지 않습니다.
+각 후속 영상에서 기준영상과 다른 <b>새 구조물·공사 형태</b>가 분명히 보이는지 표시하세요.
+밝기·색·계절 차이만으로 구조 변화를 확정하지 마세요. 작은 변화가 안 보이면 추측하지 않아도 됩니다.
+‘판독 불가’는 구름/해상도 등으로 안 보이는 경우, ‘애매함’은 보이지만 변화인지 확신할 수 없는 경우입니다.<br>
+이 자료는 <b>개발용 과제 점검</b>이며 완성된 정답이나 학습 효과가 아닙니다. 두 검수자는 서로의 답을 보지 않고 따로 작업합니다.<br>
+왼쪽의 기준영상은 고정되어 있습니다. 기준영상 자체도 판독 가능 여부를 표시하고, 오른쪽 관측을 내려가며 표시하세요. 사진을 누르면 확대됩니다.</div>
+<div id="session"><label>검수자 코드 <input id="who" maxlength="40" placeholder="실명 대신 본인만의 코드"></label>
+<button id="start">시작 / 이어하기</button><button id="download">현재 기록 내려받기</button><span id="progress"></span></div>
+<p id="status">검수자 코드를 입력하세요. 기록은 이 브라우저에만 저장되며 외부로 전송하지 않습니다.</p>
+<section id="work" hidden>
+  <div id="refpane"><h2 id="title"></h2><p id="question"></p><b id="reftitle"></b><img id="refimg" alt="기준영상"><div id="refchoices"></div></div>
+  <div id="list"></div>
+</section>
+<small>시간 초과는 ‘판독 불가’ 정답으로 바뀌지 않습니다. 이미 제출한 과거 항목은 이 화면에서 다시 열지 않습니다.
+나중에 근거를 더 보고 판정을 바꾸었다면 독립적인 최초 판정과 구분해 별도 검토해야 합니다.</small>
+<dialog id="viewer"><button id="closeviewer">닫기</button><br><img id="large" alt="원본 관측 확대"></dialog>
+</main>
+<div id="bar" hidden><span id="remaining"></span><button id="save">모든 관측 판정 저장 · 다음</button><button id="timeout">시간 부족 / 미완료로 저장 · 다음</button><span id="msg"></span></div>
+<script id="pack" type="application/json">__PACK_JSON__</script><script>
+'use strict';
+const pack=JSON.parse(document.getElementById('pack').textContent);
+const el=id=>document.getElementById(id);let who='',key='',rows=[],idx=0,startAt=0,states={},armed=0;
+const names={no_visible_change:'기준 대비 분명한 구조 변화 없음',visible_change:'새 구조적 변화가 분명히 보임',unreadable:'구름·해상도 등으로 판독 불가',ambiguous:'보이지만 변화인지 애매함'};
+const TIMEOUT_LABEL='시간 부족 / 미완료로 저장 · 다음';
+function persist(){localStorage.setItem(key,JSON.stringify({annotations:rows,current_episode_id:pack.episodes[idx]?.id,states,started_at:startAt}));}
+function say(text,isError){el('msg').textContent=text;el('msg').className=isError?'error':'';el('status').textContent=text;}
+function zoom(path){el('large').src=path;el('viewer').showModal();}
+function remaining(){const ep=pack.episodes[idx];return ep?ep.frames.filter(f=>!states[f.id]):[];}
+function updateRemaining(){const n=remaining().length;el('remaining').textContent=n?`남은 관측 ${n}개`:'모두 표시함';}
+function choices(fr,ep,holder){
+  const isRef=fr.id===ep.reference_id;const box=document.createElement('div');box.className='choices';
+  for(const [value,label] of Object.entries(names)){if(isRef&&value==='visible_change')continue;
+    const b=document.createElement('button');b.type='button';b.dataset.value=value;
+    b.textContent=isRef&&value==='no_visible_change'?'기준영상의 구조를 판독할 수 있음':label;
+    b.onclick=()=>{if(states[fr.id]===value)delete states[fr.id];else states[fr.id]=value;
+      for(const x of box.children)x.classList.toggle('on',states[fr.id]===x.dataset.value);
+      holder.classList.remove('missing');persist();updateRemaining();};
+    box.append(b);}
+  for(const x of box.children)x.classList.toggle('on',states[fr.id]===x.dataset.value);
+  return box;}
+function show(){
+  el('progress').textContent=` ${rows.length} / ${pack.episodes.length} 완료`;
+  if(idx>=pack.episodes.length){el('work').hidden=true;el('bar').hidden=true;el('status').textContent='이 묶음은 끝났습니다. 현재 기록을 내려받으세요. 이는 검수 완료이며 모델 평가 통과를 뜻하지 않습니다.';return;}
+  el('work').hidden=false;el('bar').hidden=false;const ep=pack.episodes[idx];
+  el('title').textContent=`영역 ${idx+1} · ${ep.id}`;
+  el('question').textContent=`제공된 첫 기준영상(${ep.frames[0].date})과 비교해 새 구조적 변화가 분명히 보이는 관측을 표시하세요. 마지막 제공 관측: ${ep.cutoff}.`;
+  const ref=ep.frames.find(f=>f.id===ep.reference_id);
+  el('reftitle').textContent=`${ref.id} · ${ref.date} · 기준영상`;el('refimg').src=ref.path;el('refimg').onclick=()=>zoom(ref.path);
+  el('refpane').classList.remove('missing');el('refchoices').replaceChildren(choices(ref,ep,el('refpane')));
+  const list=el('list');list.replaceChildren();
+  for(const fr of ep.frames){if(fr.id===ep.reference_id)continue;
+    const card=document.createElement('div');card.className='frame';card.id=`card-${fr.id}`;
+    const title=document.createElement('b');title.textContent=`${fr.id} · ${fr.date}`;card.append(title);
+    const img=document.createElement('img');img.src=fr.path;img.alt=`${fr.date}의 ${ep.id} 관측`;img.loading='lazy';img.onclick=()=>zoom(fr.path);card.append(img);
+    card.append(choices(fr,ep,card));list.append(card);}
+  armed=0;el('timeout').textContent=TIMEOUT_LABEL;updateRemaining();
+  say('기준과 각 관측을 비교하세요. 이미 확인한 과거 변화를 나중의 구름 때문에 지우지 마세요. 각 관측의 상태를 따로 표시하면 됩니다.',false);
+}
+el('start').onclick=()=>{if(who)return;who=el('who').value.trim();if(!/^[A-Za-z0-9_-]{2,40}$/.test(who)){who='';el('status').textContent='검수자 코드는 영문·숫자·밑줄·하이픈 2~40자로 입력하세요.';return;}
+  key=`sn7-visible-v05:${pack.pack_id}:${who}`;let saved;
+  try{saved=JSON.parse(localStorage.getItem(key)||'{}');if(!saved||typeof saved!=='object'||(saved.annotations&&!Array.isArray(saved.annotations)))throw new Error('invalid saved format');}
+  catch(error){who='';el('status').textContent='저장된 기록을 읽지 못했습니다. 기존 기록을 지우지 말고 관리자에게 복구를 요청하세요. 새 검수자 코드로 시작하면 별도 기록이 만들어집니다.';return;}
+  rows=saved.annotations||[];idx=rows.length;
+  states=saved.current_episode_id===pack.episodes[idx]?.id?(saved.states||{}):{};startAt=Date.now();
+  el('who').disabled=true;el('start').disabled=true;show();};
+function save(status){if(!who||idx>=pack.episodes.length)return;const ep=pack.episodes[idx];
+  const missing=remaining();
+  if(status==='complete'&&missing.length){
+    for(const f of missing)(f.id===ep.reference_id?el('refpane'):el(`card-${f.id}`)).classList.add('missing');
+    const first=missing[0];(first.id===ep.reference_id?el('refpane'):el(`card-${first.id}`)).scrollIntoView({behavior:'smooth',block:'start'});
+    say(`판정하지 않은 관측 ${missing.length}개가 있습니다(빨간 테두리: ${missing.map(f=>f.id).join(', ')}). 모두 표시하거나 미완료로 저장하세요.`,true);return;}
+  rows.push({episode_id:ep.id,annotator_id:who,status,states:{...states},seconds:Math.round((Date.now()-startAt)/1000),timestamp:new Date().toISOString()});
+  idx++;states={};startAt=Date.now();persist();show();window.scrollTo({top:el('work').offsetTop-60});}
+el('save').onclick=()=>save('complete');
+el('timeout').onclick=()=>{if(armed&&Date.now()-armed<8000){armed=0;save('timeout');return;}
+  armed=Date.now();el('timeout').textContent='한 번 더 누르면 미완료로 저장';
+  say('이 항목은 미완료로 기록하며 정답 생성·평가에서 제외합니다. 계속하려면 버튼을 한 번 더 누르세요.',true);
+  setTimeout(()=>{if(armed&&Date.now()-armed>=8000){armed=0;el('timeout').textContent=TIMEOUT_LABEL;}},8100);};
+el('download').onclick=()=>{if(!who){el('status').textContent='먼저 검수자 코드로 시작하세요.';return;}
+  const data={schema:'sn7-visible-annotations-v0.5',pack_id:pack.pack_id,annotator_id:who,annotations:rows};
+  const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`${pack.pack_id}_${who}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+el('closeviewer').onclick=()=>el('viewer').close();
+</script></body></html>

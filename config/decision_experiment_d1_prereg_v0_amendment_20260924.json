@@ -1,0 +1,41 @@
+{
+ "schema": "decision-experiment-d1-prereg-amendment-v0",
+ "registered_at": "2026-09-24",
+ "status": "registered before any human annotation of the v0.5 pack and before any D1 stage L/R scoring run",
+ "amends": {
+  "file": "config/decision_experiment_d1_prereg_v0.json",
+  "sha256": "c8fa70a7a420176a7825e056d6a8ca8819a66c4bf881aba7364d9a2a8f85bc93",
+  "original": "preserved unchanged"
+ },
+ "purpose": "Repair execution wiring and scoring semantics confirmed by the 2026-09-24 synthetic audit (code/audit_d1_contract_20260924.py, docs/CVPR_VLM_RESEARCH_UPDATE_2026_09_24.md section 2) without weakening any registered gate, tier, budget or threshold. The original prereg file stays byte-identical; this amendment is the dated registration of the repairs.",
+ "stage_H_human_readability": {
+  "gate_definition_unchanged": "agreement_rate >= 0.60 over ALL 12 episodes as the denominator with full-consensus targets AND at least one agreed episode in each of change_supported / no_visible_change / insufficient_evidence, under the existing <=10 person-hour cap",
+  "execution_wiring_only": [
+   "sn7_visible_pack_v05 finalize writes an H_report.json recording n_total, n_agreed, agreement_rate, agreed_answer_counts, n_annotators, pending/incomplete counts and median seconds per episode",
+   "stages L and R refuse to run before the H gate passes (scientific_gate_passed must be true, alongside diagnostic_manifest_ready)",
+   "fewer than two distinct annotators means consensus is impossible and the H gate fails"
+  ]
+ },
+ "stage_L_evidence_loss": {
+  "definition_unchanged": "selectors (latest_k, uniform_k, change_topk), budgets K in {2,3,4,6}, preservation tiers tierA/tierB/tierC and the registered loss readings <0.70 loss_present / >=0.90 no_loss stay exactly as in the original prereg",
+  "execution_wiring_only": "sn7_evidence_loss_v0.py main() reads review_report.json and exits before any computation unless both scientific_gate_passed and diagnostic_manifest_ready are true"
+ },
+ "stage_R_reader_content_check": {
+  "scoring_changes": {
+   "A_gate_wiring": "the R runner requires review_report.diagnostic_manifest_ready AND review_report.scientific_gate_passed; stage R must not launch on a failed H gate",
+   "B_abstention": "the old registered_reading rule real.answer_acc > metadata_only.answer_acc + 0.15 is replaced: a reader reads_content iff content_check.content_use_pass AND real.answer_acc > coincidental_match_rate + 0.15. proper_abstention_rate is answer accuracy of metadata_only+blank rows against their withheld targets (diagnostic only, not a gate); coincidental_match_rate is the fraction of metadata_only+blank predictions whose answer equals the row's real_image_reference_target answer, counting None predictions as mismatches",
+   "C_temporal_pairs": "swap rows are classified by the pack builder's pair_kind: content pairs (different answers) keep the unchanged 0.30 + CI-excludes-0 criterion computed on answer accuracy only; temporal pairs (same change_supported answer, different first_change_id) are reported as descriptive statistics only — joint accuracy (answer_ok and first_ok) donor-vs-source difference with an episode-level 5000-bootstrap CI — with no pass/fail threshold, the 0.30 content threshold is not transplanted to temporal_use, low_support is true when there are fewer than 4 temporal rows, and first_acc_change_subset is added alongside the unchanged first_acc",
+   "D_completeness": "scoring requires the answer file to cover the matrix row ids exactly (missing/unknown/duplicate ids are rejected with counts), records answers_sha256 and matrix_sha256 in the report, refuses an answers file whose neighbouring run_context_*.json records a different matrix sha256, and the runner writes one run_context_{reader}.json per reader so two readers sharing --out no longer overwrite each other"
+  },
+  "reads_content_rule": "registered_reading = reads_content iff content_check.content_use_pass AND real.answer_acc > coincidental_match_rate + 0.15; the decision basis numbers are stored in a reading_basis object (real_answer_acc, coincidental_match_rate, proper_abstention_rate, margin)",
+  "preparation_incomplete": "if no content-different donor pair exists, content_check is null, registered_reading is null and the report status is preparation_incomplete — an operational state, not an H failure and not a reader failure"
+ },
+ "decision_table": "the original four rows are kept verbatim from the prereg; preparation_incomplete and low_support are operational reporting states only, not new result branches",
+ "not_allowed": [
+  "changing the gates, tiers, budgets or criteria after seeing any result",
+  "training anything on the v0.5 annotator targets; they are evaluation gold",
+  "using the old silver definition (8-building cumulative month) anywhere in this experiment",
+  "reporting stage L or R if stage H failed",
+  "calling any outcome of this 12-episode development sample a general conclusion about EO VLMs or memory"
+ ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "synthetic-d1-contract-audit-20260924",
+  "scope": "Synthetic software audit only; no human annotation, satellite-image or model result.",
+  "source_sha256": {
+    "config/decision_experiment_d1_prereg_v0.json": "c8fa70a7a420176a7825e056d6a8ca8819a66c4bf881aba7364d9a2a8f85bc93",
+    "code/sn7_visible_pack_v05.py": "113f497615abc78d0f072224fafae8fc7af6b2f9ad4f3c8d4629efd7f46181b5",
+    "code/sn7_visible_contract_v05.py": "c87cc7f494bd3d0dd640a7731f09c302c9d040939b9409fcd4f086b4f6e9783f",
+    "code/sn7_evidence_loss_v0.py": "350a17580a331f4d9bd6111ad050582c92ac488e2d639fa10c7a40a5614e81cc",
+    "code/sn7_d1_reader_run_v0.py": "1d0d4ea385971b413c6fbbb405e0f929e70eea5b6e5affaff324f1e9108004eb"
+  },
+  "H_gate": {
+    "agreed": 3,
+    "total": 12,
+    "agreement_rate": 0.25,
+    "diagnostic_manifest_ready": true,
+    "would_reach_model_loader": true
+  },
+  "perfect_reader": {
+    "real_accuracy": 1.0,
+    "metadata_withheld_target_accuracy": 1.0,
+    "content_difference": 1.0,
+    "content_ci95": [
+      1.0,
+      1.0
+    ],
+    "registered_reading": "does_not_read"
+  },
+  "temporal_swap": {
+    "pair_accepted": true,
+    "source_first_id": "F001",
+    "donor_first_id": "F002",
+    "prediction_matches_donor_first": true,
+    "content_difference_using_answer_only": 0
+  },
+  "incomplete_answers": {
+    "matrix_rows": 11,
+    "answer_rows": 1,
+    "scorer_wrote_report": true,
+    "registered_reading": null
+  }
+}

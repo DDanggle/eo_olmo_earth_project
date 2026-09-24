@@ -1,0 +1,56 @@
+{
+  "qwen": {
+    "all_reported_item_accuracies_match": true,
+    "q2_items": 22,
+    "q2_aois": 12,
+    "q2_distinct_aoi_region_gold": 13,
+    "q2_same_item_ids_as_v03": 2,
+    "q2_correctness_pairs": {
+      "priv_0_wrong_0": 6,
+      "priv_0_wrong_1": 4,
+      "priv_1_wrong_0": 3,
+      "priv_1_wrong_1": 9
+    },
+    "q2_same_prediction_after_swap": 11,
+    "q1_latest_gold_counts": {
+      "yes": 20,
+      "no": 8
+    },
+    "q1_latest_confusion_gold_pred": {
+      "yes_no": 10,
+      "yes_yes": 10,
+      "no_no": 8
+    },
+    "q1_privileged_gold_counts": {
+      "yes": 20
+    },
+    "limitations": "No source frames/items/labels here; no visual correctness or alternate-quadrant gold audit. AOI bootstrap not rerun."
+  },
+  "molmo": {
+    "all_reported_item_accuracies_match": true,
+    "q2_items": 22,
+    "q2_aois": 12,
+    "q2_distinct_aoi_region_gold": 13,
+    "q2_same_item_ids_as_v03": 2,
+    "q2_correctness_pairs": {
+      "priv_0_wrong_0": 14,
+      "priv_0_wrong_1": 2,
+      "priv_1_wrong_1": 6
+    },
+    "q2_same_prediction_after_swap": 20,
+    "q1_latest_gold_counts": {
+      "yes": 20,
+      "no": 8
+    },
+    "q1_latest_confusion_gold_pred": {
+      "yes_yes": 16,
+      "no_no": 7,
+      "no_yes": 1,
+      "yes_no": 4
+    },
+    "q1_privileged_gold_counts": {
+      "yes": 20
+    },
+    "limitations": "No source frames/items/labels here; no visual correctness or alternate-quadrant gold audit. AOI bootstrap not rerun."
+  }
+}

@@ -1,5 +1,11 @@
 # 실행 계획 — Grounded Change Memory for EO Streams (CVPR 2027, 마감 2026-11-16 AoE)
 
+> **2026-09-24 검토 추가:** [CVPR·VLM 연구 업데이트](CVPR_VLM_RESEARCH_UPDATE_2026_09_24.md)가
+> 현재 증거·D1 구현 결함·후속 제출 판단을 정리한다. 아래 §1의 ‘reader는 내용을 못 읽음/SFT 선행’과
+> §6의 8주 자동 실행표는 이력이며 §9b의 철회를 우선한다. D1 자체도 H gate 누락·R 채점 의미 혼합이
+> 확인되어 L/R 실행 전 수리가 필요하다. 이 추가는 원 prereg·과거 gate를 바꾸지 않는다.
+
+
 작성 2026-09-22. 근거 문서: `CVPR_SINGLE_CLAIM_DECISION_2026_09_22.md`(방향), `EXPERIMENT_LEDGER_2026_09_20.md`(기존 실패), `REGION_LANGUAGE_VLM_RESEARCH_2026_09_21.md`(문헌·데이터 감사).
 이 문서는 계획이며 사전등록이 아님. 각 단계는 실행 전 별도 prereg JSON으로 등록함. 기존 실험의 관문 수치는 바꾸지 않음.
 

@@ -30,6 +30,7 @@ import time
 from pathlib import Path
 
 PREREG = "config/decision_experiment_d1_prereg_v0.json"
+AMENDMENT = "config/decision_experiment_d1_prereg_v0_amendment_20260924.json"
 ANSWERS = ("change_supported", "no_visible_change", "insufficient_evidence")
 STATES = ("no_visible_change", "visible_change", "unreadable", "ambiguous")
 READERS = {
@@ -86,6 +87,65 @@ def score_one(pred: dict | None, target: dict) -> dict:
     return {"answer_ok": bool(answer_ok), "first_ok": bool(first_ok),
             "state_ok": pred["current_state"] == target.get("current_state"),
             "evidence_jaccard": float(jac), "parse_fail": False}
+
+
+# ---------------------------------------------------------------- pure helpers (amendment 2026-09-24)
+
+def swap_row_kind(row: dict, real_answer) -> str:
+    """Classify a swap row as 'content' or 'temporal'.
+
+    New matrices carry the pack builder's explicit control_pair_kind; legacy
+    matrices are classified by comparing the swap target answer with the
+    episode's real-image target answer.
+    """
+    kind = row.get("control_pair_kind")
+    if kind in ("content", "temporal"):
+        return kind
+    return "content" if row.get("target", {}).get("answer") != real_answer else "temporal"
+
+
+def answer_coverage(answer_ids, matrix_ids):
+    """Exact-set coverage between answer ids and matrix row ids (pure).
+
+    Returns (missing, unknown, duplicates) as sorted lists; all three empty
+    means the answer file covers the matrix exactly once.
+    """
+    seen = set()
+    duplicates = set()
+    for aid in answer_ids:
+        if aid in seen:
+            duplicates.add(aid)
+        seen.add(aid)
+    matrix_set = set(matrix_ids)
+    return sorted(matrix_set - seen), sorted(seen - matrix_set), sorted(duplicates)
+
+
+def withheld_input_rates(rows, answers_by_id):
+    """Proper-abstention and coincidental-match rates over metadata_only+blank rows (pure).
+
+    proper_abstention_rate: pred answer equals the withheld target answer, i.e.
+    the reader abstains when pixels are missing (diagnostic, not a gate).
+    coincidental_match_rate: pred answer equals the real-image reference answer;
+    a None prediction (parse fail) counts as a mismatch.
+    """
+    n = 0
+    proper = 0
+    coincidence = 0
+    for row in rows:
+        if row.get("condition") not in ("metadata_only", "blank"):
+            continue
+        n += 1
+        ans = answers_by_id.get(row["id"])
+        pred = ans.get("pred") if ans else None
+        pred_answer = pred.get("answer") if isinstance(pred, dict) else None
+        if pred_answer == row.get("target", {}).get("answer"):
+            proper += 1
+        reference = row.get("real_image_reference_target") or {}
+        if pred_answer is not None and pred_answer == reference.get("answer"):
+            coincidence += 1
+    if n == 0:
+        return None, None
+    return proper / n, coincidence / n
 
 
 # ---------------------------------------------------------------- readers
@@ -154,16 +214,29 @@ def cmd_run(a: argparse.Namespace) -> None:
     matrix_dir = Path(a.matrix)
     matrix_path = matrix_dir / "diagnostic_matrix.jsonl"
     review = json.loads((matrix_dir / "review_report.json").read_text())
+    gate_reasons = []
+    if not review.get("scientific_gate_passed"):
+        gate_reasons.append(f"scientific_gate_passed is false ({review.get('h_gate_reason') or 'no reason recorded'})")
     if not review.get("diagnostic_manifest_ready"):
-        raise SystemExit("stage H not complete: diagnostic_manifest_ready is false")
+        gate_reasons.append("diagnostic_manifest_ready is false")
+    if gate_reasons:
+        raise SystemExit("stage H gate not passed: " + "; ".join(gate_reasons))
     rows = [json.loads(line) for line in matrix_path.read_text().splitlines() if line.strip()]
+    real_answer_by_ep = {r["episode_id"]: r["target"]["answer"] for r in rows if r.get("condition") == "real"}
+    n_content_pairs = sum(1 for r in rows
+                          if r.get("condition") == "different_outcome_swap"
+                          and swap_row_kind(r, real_answer_by_ep.get(r["episode_id"])) == "content")
+    if n_content_pairs == 0:
+        raise SystemExit("preparation_incomplete: no content-different donor pair")
     pack_dir = Path(a.pack)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "run_context.json").write_text(json.dumps({
-        "prereg": PREREG, "reader": a.reader, "matrix_sha256": sha256_file(matrix_path),
-        "pack_id": review.get("pack_id"), "n_rows": len(rows),
-        "unlocked_because": "review_report.diagnostic_manifest_ready is true",
+    (out / f"run_context_{a.reader}.json").write_text(json.dumps({
+        "prereg": PREREG, "amendment": AMENDMENT, "reader": a.reader,
+        "matrix_sha256": sha256_file(matrix_path),
+        "pack_id": review.get("pack_id"), "n_rows": len(rows), "n_content_pairs": n_content_pairs,
+        "h_agreement_rate": review.get("agreement_rate"), "h_gate_pass": review.get("h_gate_pass"),
+        "unlocked_because": "review_report.diagnostic_manifest_ready and review_report.scientific_gate_passed are both true",
         "started_at": time.strftime("%Y-%m-%dT%H:%M:%S")}, indent=1))
 
     generate = load_reader(a.reader, root)
@@ -189,29 +262,62 @@ def cmd_run(a: argparse.Namespace) -> None:
     print("READER RUN DONE")
 
 
+def _episode_diff(swap_rows, donor_key, source_key):
+    """Mean per-episode (donor - source) gap with a 5000-episode bootstrap CI."""
+    import numpy as np
+
+    by_ep: dict[str, list[float]] = {}
+    for r in swap_rows:
+        by_ep.setdefault(r["episode_id"], []).append(float(r[donor_key]) - float(r[source_key]))
+    vals = np.array([np.mean(v) for v in by_ep.values()])
+    rng = np.random.default_rng(20260923)
+    boot = np.array([rng.choice(vals, len(vals)).mean() for _ in range(5000)])
+    diff = float(vals.mean())
+    lo, hi = float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5))
+    return by_ep, diff, lo, hi
+
+
 def cmd_score(a: argparse.Namespace) -> None:
     import numpy as np
 
     matrix_dir = Path(a.matrix)
-    rows = {r["id"]: r for r in (json.loads(l) for l in
-                                 (matrix_dir / "diagnostic_matrix.jsonl").read_text().splitlines() if l.strip())}
-    answers = [json.loads(l) for l in Path(a.answers).read_text().splitlines() if l.strip()]
-    rng = np.random.default_rng(20260923)
+    matrix_path = matrix_dir / "diagnostic_matrix.jsonl"
+    rows = {r["id"]: r for r in (json.loads(l) for l in matrix_path.read_text().splitlines() if l.strip())}
+    answers_path = Path(a.answers)
+    answers = [json.loads(l) for l in answers_path.read_text().splitlines() if l.strip()]
+    matrix_hash = sha256_file(matrix_path)
+    answers_hash = sha256_file(answers_path)
+
+    missing, unknown, duplicates = answer_coverage([ans["id"] for ans in answers], rows.keys())
+    if missing or unknown or duplicates:
+        raise SystemExit(f"incomplete answers: missing {len(missing)}, unknown {len(unknown)}, duplicate {len(duplicates)}")
+    for ctx_path in sorted(answers_path.parent.glob("run_context_*.json")):
+        recorded = json.loads(ctx_path.read_text()).get("matrix_sha256")
+        if recorded and recorded != matrix_hash:
+            raise SystemExit(f"answers resume from a different matrix: {ctx_path.name} recorded "
+                             f"{recorded[:16]}..., current matrix is {matrix_hash[:16]}...")
 
     per_condition: dict[str, list] = {}
-    swap_rows = []
+    scored_rows: dict[str, dict] = {}
+    content_rows = []   # swap rows whose donor has a DIFFERENT answer
+    temporal_rows = []  # swap rows whose donor has the SAME answer but a different first change
     for ans in answers:
-        row = rows.get(ans["id"])
-        if row is None:
-            raise SystemExit(f"answer {ans['id']} is not in this matrix")
+        row = rows[ans["id"]]
         target = row["target"]
         sc = score_one(ans["pred"], target)
-        per_condition.setdefault(row["condition"], []).append({**sc, "episode_id": row["episode_id"]})
+        scored_rows[ans["id"]] = {**sc, "episode_id": row["episode_id"], "condition": row["condition"]}
+        per_condition.setdefault(row["condition"], []).append(scored_rows[ans["id"]])
         if row["condition"] == "different_outcome_swap":
-            source_target = rows[f"{row['episode_id']}|real"]["target"]
-            swap_rows.append({"episode_id": row["episode_id"],
-                              "vs_donor": score_one(ans["pred"], target)["answer_ok"],
-                              "vs_source": score_one(ans["pred"], source_target)["answer_ok"]})
+            real_row = rows[f"{row['episode_id']}|real"]
+            source_sc = score_one(ans["pred"], real_row["target"])
+            entry = {"episode_id": row["episode_id"],
+                     "vs_donor": sc["answer_ok"], "vs_source": source_sc["answer_ok"],
+                     "joint_donor": bool(sc["answer_ok"] and sc["first_ok"]),
+                     "joint_source": bool(source_sc["answer_ok"] and source_sc["first_ok"])}
+            if swap_row_kind(row, real_row["target"].get("answer")) == "content":
+                content_rows.append(entry)
+            else:
+                temporal_rows.append(entry)
 
     summary = {}
     for cond, items in sorted(per_condition.items()):
@@ -224,37 +330,61 @@ def cmd_score(a: argparse.Namespace) -> None:
             "parse_fail": float(np.mean([x["parse_fail"] for x in items])),
         }
 
+    change_first = [sc["first_ok"] for rid, sc in scored_rows.items()
+                    if rows[rid]["target"].get("answer") == "change_supported"]
+    first_acc_change_subset = float(np.mean(change_first)) if change_first else None
+
     content = None
-    if swap_rows:
-        by_ep: dict[str, list[float]] = {}
-        for r in swap_rows:
-            by_ep.setdefault(r["episode_id"], []).append(float(r["vs_donor"]) - float(r["vs_source"]))
-        vals = np.array([np.mean(v) for v in by_ep.values()])
-        boot = np.array([rng.choice(vals, len(vals)).mean() for _ in range(5000)])
-        diff = float(vals.mean())
-        lo, hi = float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5))
-        content = {"n_swap_rows": len(swap_rows), "n_episodes": len(by_ep),
-                   "swap_vs_donor": float(np.mean([r["vs_donor"] for r in swap_rows])),
-                   "swap_vs_source": float(np.mean([r["vs_source"] for r in swap_rows])),
+    if content_rows:
+        by_ep, diff, lo, hi = _episode_diff(content_rows, "vs_donor", "vs_source")
+        content = {"n_content_rows": len(content_rows), "n_episodes": len(by_ep),
+                   "swap_vs_donor": float(np.mean([r["vs_donor"] for r in content_rows])),
+                   "swap_vs_source": float(np.mean([r["vs_source"] for r in content_rows])),
                    "diff": diff, "ci95": [lo, hi], "criterion": "diff >= .30 and CI excludes 0",
                    "content_use_pass": bool(diff >= 0.30 and lo > 0)}
 
-    real = summary.get("different_outcome_swap") and summary.get("real")
-    meta = summary.get("metadata_only", {}).get("answer_acc")
-    reading = None
-    if content is not None and real is not None and meta is not None:
-        beats_meta = summary["real"]["answer_acc"] > meta + 0.15
-        reading = "reads_content" if (content["content_use_pass"] and beats_meta) else "does_not_read"
+    temporal = None
+    if temporal_rows:
+        by_ep, diff, lo, hi = _episode_diff(temporal_rows, "joint_donor", "joint_source")
+        temporal = {"n_temporal_rows": len(temporal_rows), "n_episodes": len(by_ep),
+                    "swap_vs_donor_joint": float(np.mean([r["joint_donor"] for r in temporal_rows])),
+                    "swap_vs_source_joint": float(np.mean([r["joint_source"] for r in temporal_rows])),
+                    "diff": diff, "ci95": [lo, hi], "low_support": len(temporal_rows) < 4,
+                    "note": "descriptive only; no pass/fail threshold is defined for temporal_use "
+                            "and the 0.30 content threshold is not transplanted"}
 
-    out = {"schema": "sn7-d1-reader-scores-v0", "prereg": PREREG,
-           "answers_file": str(Path(a.answers).name), "per_condition": summary,
-           "content_check": content, "registered_reading": reading,
+    proper_abstention_rate, coincidental_match_rate = withheld_input_rates(
+        rows.values(), {ans["id"]: ans for ans in answers})
+
+    status = "ok"
+    reading = None
+    reading_basis = None
+    real_summary = summary.get("real")
+    if content is None:
+        status = "preparation_incomplete"
+    elif real_summary is not None and coincidental_match_rate is not None:
+        margin = real_summary["answer_acc"] - coincidental_match_rate
+        reading_basis = {"real_answer_acc": real_summary["answer_acc"],
+                         "coincidental_match_rate": coincidental_match_rate,
+                         "proper_abstention_rate": proper_abstention_rate,
+                         "margin": margin}
+        reading = ("reads_content" if (content["content_use_pass"] and margin > 0.15)
+                   else "does_not_read")
+
+    out = {"schema": "sn7-d1-reader-scores-v1", "prereg": PREREG, "amendment": AMENDMENT,
+           "status": status, "answers_file": str(answers_path.name),
+           "answers_sha256": answers_hash, "matrix_sha256": matrix_hash,
+           "per_condition": summary, "first_acc_change_subset": first_acc_change_subset,
+           "content_check": content, "temporal_check": temporal,
+           "proper_abstention_rate": proper_abstention_rate,
+           "coincidental_match_rate": coincidental_match_rate,
+           "registered_reading": reading, "reading_basis": reading_basis,
            "not_a_claim": "12-episode exposed development sample; no memory claim follows from this alone"}
     dest = Path(a.out)
     dest.mkdir(parents=True, exist_ok=True)
-    (dest / f"scores_{Path(a.answers).stem}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
-    print(json.dumps({"per_condition": summary, "content_check": content,
-                      "registered_reading": reading}, indent=1))
+    (dest / f"scores_{answers_path.stem}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
+    print(json.dumps({"per_condition": summary, "content_check": content, "temporal_check": temporal,
+                      "registered_reading": reading, "status": status}, indent=1))
     print("READER SCORE DONE")
 
 
@@ -281,7 +411,37 @@ def selftest() -> None:
     nc = {"answer": "no_visible_change", "first_change_id": None, "evidence_ids": [], "current_state": "no_visible_change"}
     assert score_one(parse_reply('{"answer":"no_visible_change","first_change_id":null,'
                                  '"evidence_ids":[],"current_state":"no_visible_change"}'), nc)["first_ok"]
-    print("SELFTEST OK (10 checks)")
+
+    # --- amendment 2026-09-24 repairs (pure checks) ---
+    # swap rows classify by explicit control_pair_kind; legacy matrices fall
+    # back to comparing the swap target answer with the real target answer
+    assert swap_row_kind({"target": {"answer": "no_visible_change"}}, "change_supported") == "content"
+    assert swap_row_kind({"target": {"answer": "change_supported"}}, "change_supported") == "temporal"
+    assert swap_row_kind({"target": {"answer": "change_supported"}, "control_pair_kind": "temporal"},
+                         "no_visible_change") == "temporal"
+    assert swap_row_kind({"target": {"answer": "no_visible_change"}, "control_pair_kind": "content"},
+                         "change_supported") == "content"
+    # exact answer coverage reports missing/unknown/duplicate counts
+    assert answer_coverage(["a|real", "a|real", "zzz|real"], ["a|real", "b|real"]) == (
+        ["b|real"], ["zzz|real"], ["a|real"])
+    assert answer_coverage(["a", "b"], ["b", "a"]) == ([], [], [])
+    # withheld-input diagnostics: proper abstention vs the withheld target,
+    # coincidence vs the real-image reference; None predictions never coincide
+    withheld_rows = [
+        {"id": "a|metadata_only", "condition": "metadata_only",
+         "target": {"answer": "insufficient_evidence"}, "real_image_reference_target": {"answer": "change_supported"}},
+        {"id": "a|blank", "condition": "blank",
+         "target": {"answer": "insufficient_evidence"}, "real_image_reference_target": {"answer": "change_supported"}},
+        {"id": "a|real", "condition": "real",
+         "target": {"answer": "change_supported"}, "real_image_reference_target": {"answer": "change_supported"}},
+    ]
+    withheld_answers = {"a|metadata_only": {"pred": {"answer": "insufficient_evidence"}},
+                        "a|blank": {"pred": None},
+                        "a|real": {"pred": {"answer": "change_supported"}}}
+    proper_rate, coincidence_rate = withheld_input_rates(withheld_rows, withheld_answers)
+    assert proper_rate == 0.5
+    assert coincidence_rate == 0.0
+    print("SELFTEST OK (18 checks)")
 
 
 def main() -> None:
