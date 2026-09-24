@@ -5804,6 +5804,23 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-156 (2026-09-25) — E0 EarthTalk 임베딩 교체·제거 통제(MS-131 projector seed 1, 학습 없음): 등록 판정 **reads_embedding** — 같은 타일의 yes/no 문항에서 문구는 두고 임베딩만 맞바꾸자 답이 임베딩을 따라감(d_swap **.203** [.135, .271], real d .214 [.141, .281]). 단 **Q1(유무)만** 해당하고 Q3(어느 사분면)는 교체 임베딩을 따르지 않음
+
+사전등록 `config/earthtalk_content_controls_prereg_v0.json`(커밋 90b5228, 실행 전). 코드 `code/earthtalk_content_controls_v0.py`(sha256 510a6e55…), projector sha256 792a2485…(일치). 서버 `earthtalk_content_controls_v0/`(SHA256SUMS), 로컬 `artifacts/earthtalk_content_controls_v0/`. GPU1, 306 s. 재현율 1.000(384/384가 MS-131 답과 동일), parse 실패 0.
+
+| 조건 (Q1, 192 타일 × yes/no) | P(yes) | 균형정확도(문구 정답 기준) | 균형정확도(임베딩 정답 기준) | d = P(yes│정답 yes) − P(yes│정답 no) |
+|---|---|---|---|---|
+| real | .154 | .607 | .607 | .214 [.141, .281] |
+| **swap_within_tile** (문구 그대로, 같은 타일 반대 문항 임베딩) | .154 | .398 | **.602** | **.203 [.135, .271]** (임베딩 기준) |
+| swap_cross_tile (같은 지역 다른 타일, 반대 정답) | .169 | .378 | .622 | .245 [.172, .323] |
+| zero_embedding | .000 | .500 | — | .000 (문구의 날짜 단서) |
+
+타일별 (임베딩 yes일 때 답, 임베딩 no일 때 답): real {no,no 135 · yes,no 48 · no,yes 7 · yes,yes 2}, swap {no,no 136 · yes,no 46 · no,yes 7 · yes,yes 3} — 교체 후에도 거의 같은 타일에서 같은 방향으로 구분.
+Q3 보조(기술 통계): 교체 임베딩의 사분면과 Jaccard .261 < 원 문항 사분면과 .315. 예측은 NE·NW 단일에 몰림 → **위치 질문은 임베딩을 따라가지 않음**(8×8 풀링·2D 위치 임베딩 없음과 일치하는 관찰, 원인 미확정).
+읽는 법: (1) MS-131의 Q1 .607은 날짜 문구 단서가 아니라 임베딩에서 온다(이 모델·이 시험셋). 임베딩을 0으로 바꾸면 전부 "no". (2) 효과 크기는 원래 성능(recall .26)만큼만 크다 — "잘 읽는다"가 아니라 "읽어서 답한다". (3) within-tile 교환은 위치·지역·문구를 고정하므로 가장 깨끗한 통제지만, 두 날짜 쌍의 차이가 산사태만은 아니다(계절·구름 등). "산사태 내용을 읽는다"는 이 실험으로 분리되지 않음.
+한계: MS-131에서 이미 쓴 시험셋(hiroshima·indonesia 2지역), seed 1, 한 현상. 학습된 텍스트 전용 기준선은 여전히 없음.
+금지: "EO-VLM이 위성 임베딩을 이해한다"의 일반화, Q3 위치 판독 주장, 이 수치를 다른 현상·지역으로 확장.
+
 ## MS-155 (2026-09-22) — G1-lite v0.4(gold 위치 무작위·Q2 gold 분산·wrong-content 통제, reader 2종): **content_check 실패 2/2** — 반대 사분면 영상을 준 wrong-content가 privileged와 같거나 더 높음(Qwen .591 vs .545, Molmo2 .364 vs .273). v0.3~추가 1의 Q2 "근거 선택 headroom"은 **위치·텍스트 사전확률의 산물**로 확정. headroom_present 주장 철회, 추석 검수 보류
 
 사전등록 `config/bottleneck_diag_lite_prereg_v0_4.json`. 서버 `spacenet7/diag_lite_v0_4/`(SHA256SUMS, items 50, answers 214×2, scores_qwen/molmo.json), 로컬 `artifacts/spacenet7/diag_lite_v0_4_{qwen,molmo}_{scores.json,answers.jsonl}`. 오류 0.

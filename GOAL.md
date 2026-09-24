@@ -4710,3 +4710,26 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
   주 판정 d_swap = P(yes|임베딩 yes) − P(yes|임베딩 no), 타일 bootstrap. ≥ .10 & CI>0 → reads_embedding, ≤ −.10 & CI<0 → follows_text.
   재현율 < .95 또는 parse 실패 > 10% → invalid, d_real < .10 → 신호 부족. selftest OK.
 - GPU: 09-25 확인 시 GPU0(kneelabels 학습)·GPU1(npark SAM3) 모두 타 프로세스 → 규약상 대기.
+
+
+### 2026-09-25 — A 판독 결과와 재난·토지 변화 검색 확장 (결과)
+
+- A 감사: 12/12·6AOI·172frame, timeout/누락/중복0, 1752초(29.2분), episode 중앙110초. 변화3/무변화4/근거부족5, frame no119/change44/ambiguous6/unreadable3. 원 export SHA54b3474b…0483f 및 pack/image해시 일치. `artifacts/d1_A_audit_20260925/summary.json` + CLI 감사 코드로 재현.
+- H는 원 A단독 규칙상 미정(B필요). 고정된 A라벨 때문에 합의변화 최대3, 내용pair최대3AOI, 시간-onlypair0. 이 점을 새 결과 문서에 명시하고 D1상태/RESTART/README를 갱신했다. 원라벨/동결raterrecord/prereg/runner 미변경. calibration 생략과 판독중 안내 추가 이력도 문서에 기록.
+- 사용자 2/3번 선호에 따라 홍수 이후 농지 겹침을 첫 응용으로 선택. 기존실물 Kuro metadata7000·43사건(2015–2022), 양성2465. sourceSHA23c0df0e…0612b. 6NPZ 사례는 선택된 기존test예시이며 대표 성능으로 사용하지 않음.
+- 실제 구현: `code/eo_query_core_v0.py`, `eo_evidence_search_v0.py/.html`, `render_eo_evidence_previews_20260925.py`, `verify_eo_evidence_search_v0.py`. `artifacts/eo_evidence_search_v0_20260925`에 참조카탈로그7000+A기록12, provenance,6triptych,HTTP검증을 저장. localhost8774에서 실행·앱 브라우저 열기.
+- 범위/정직성: pflood는 참조라벨 비율이며 모델예측/피해면적 아님. bbox는centroid포함, 날짜는사건일. 실제취득일·원지리래스터·농지교집합 없음; land_cover 요청은 needs_data. SN7월은월구간으로검색하고원월보존. 근거label0은nonwater/permanentwater/nodata가병합됨을표시. VLM·자연어해석·자동탐지는미실행.
+- 검증: 새단위테스트24개,실제HTTP통합16개PASS. bbox84/24/87/27+2019+pflood>=10→72개,validation1000, SN7change3/none4/unknown5,2월중순질의→region003하나. 브라우저에서근거이미지/자료부족/SN7/월부분검색검증. form.reset을버튼id가가린UI오류를수정. 기존학습·D1테스트재실행은불필요해새영향경로만검증.
+- 문서: `docs/EO_EVIDENCE_SEARCH_20260925.md`, `docs/EO_IMPACT_SEARCH_RESEARCH_BRIDGE_20260925.md`. 다음산출물은 train사건1111009 작은AOI의 원CRS/취득일+사건이전농지+유효영역을복원한교집합. 이후자동후보점수와평가정답분리→사건장부baseline→동일budget기억비교.
+- 마찰: 기본 sandbox localhost HTTP불가→승인된 읽기검증으로재시도. 이미지렌더링은기존bundledPythonNumPy/Pillow사용,패키지설치없음. 기존서버/GPU/Studio/외부발신/커밋/푸시없음. 로컬프리뷰서버만실행중.
+
+
+### 2026-09-25 — E0 결과
+
+- **MS-156: reads_embedding.** 같은 타일 yes/no 짝에서 문구는 두고 임베딩만 교환 → 답이 임베딩을 따름.
+  d_swap .203 [.135, .271] vs real .214 [.141, .281], cross-tile .245 [.172, .323], zero-embedding은 전부 "no"(d .000).
+  재현 384/384, parse 실패 0, GPU1 306 s.
+- 약점 먼저: 효과는 원 성능(recall .26) 크기뿐. Q3 사분면은 교체 임베딩을 따르지 않음(.261 vs .315) → 위치는 못 읽음.
+  노출된 2지역 시험셋·seed 1·한 현상. "산사태 내용"과 "두 날짜의 다른 변화"를 분리하지 못함.
+- 다음: E1 — 홍수(KuroSiwo S1)·AI-Hub(토지피복·벌목)·Solar Farm 캐시를 같은 입력 계약으로 감사하고 현상별 Q1형 문항 생성.
+  E2 설계에 학습된 텍스트 전용 기준선 + 이번 교환 통제를 기본 평가로 포함. 위치(Q3)는 풀링 해상도·2D 위치 임베딩이 후보.
