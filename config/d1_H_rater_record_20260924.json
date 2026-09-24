@@ -51,14 +51,20 @@
     ]
   },
   "completion": {
-    "A_export": "TODO path + sha256",
+    "A_export": {
+      "path": "labeling_pack/visible_contract_v05_20260922/exports/sn7v05-198e4ff03e26f004_dongdong.json",
+      "sha256": "54b3474bf6f0843ed2c4814ee6d18cd2eb7a51d33cfd86308bcb3913f7a0483f",
+      "episodes_complete": 12,
+      "timeouts": 0
+    },
     "B_export": "TODO path + sha256",
-    "A_hours": "TODO",
+    "A_hours": 0.49,
     "B_hours": "TODO",
     "deviations": [
       "calibration step skipped (see calibration_decisions)",
       "review UI changed before evaluation (see review_ui)",
-      "A heard practice-pack content descriptions before practice (practice AOIs only)"
+      "A heard practice-pack content descriptions before practice (practice AOIs only)",
+      "A's export was first saved into the practice exports folder; moved to the evaluation exports folder unchanged (sha256 above)."
     ]
   },
   "review_ui": {
@@ -116,5 +122,14 @@
       "question": "moving ships/cars?",
       "answer": "transient objects are not structures; ignore. Persistent new facilities (pier, parking lot) may count; if unsure -> ambiguous. Added to the guide so rater B gets the same wording."
     }
-  ]
+  ],
+  "A_only_outcome_2026_09_25": {
+    "derived_answers": {
+      "change_supported": 3,
+      "no_visible_change": 4,
+      "insufficient_evidence": 5
+    },
+    "registered_A_only_rule": "UNDETERMINED - all three categories present, 0 timeouts -> rater B required",
+    "descriptive_note_not_a_gate": "All 5 insufficient_evidence episodes are triggered by 1-2 frames under derive_target: 2 episodes (region_007, region_008) have visible_change frames but the reference was marked ambiguous; 3 episodes (region_002, region_005, region_006) are otherwise all no_visible_change with 1-3 ambiguous/unreadable frames. Consensus requires identical evidence_ids (the set of ambiguous/unreadable frames), so agreement on these needs B to flag the same frames. This is a property of the registered contract, recorded after A's reading; the H gate and rules are not changed."
+  }
 }
