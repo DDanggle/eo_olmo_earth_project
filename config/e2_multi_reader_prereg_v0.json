@@ -1,0 +1,45 @@
+{
+  "schema": "e2-multi-reader-prereg-v0",
+  "id": "E2",
+  "registered_at": "2026-09-25",
+  "status": "registered before any E2 training or evaluation",
+  "question": "Can one projector-only EO reader (OlmoEarth v1 Base embeddings -> Olmo-3-7B-Instruct, frozen) be trained on two phenomena from two sensors (landslide / Sentinel-2, flood / Sentinel-1) so that on held-out regions and events it (a) answers from the embedding under the within-tile swap control and (b) beats a blind reader trained with the same budget?",
+  "prior": "MS-156 (E0): the single-task landslide projector reads the embedding for Q1 (d_swap .203 [.135,.271]) but not for Q3 location.",
+  "data": {
+    "landslide_train": "/home/work/data/olmoearth/sentinel_qa_train_v0/items.jsonl, type Q1, tiles with an embedding (olmo_streaming_dev/single_fp16)",
+    "landslide_test": "/home/work/data/olmoearth/sentinel_qa_v0_1/items.jsonl, type Q1 (holdout_hiroshima, holdout_indonesia; exposed in MS-131/MS-156)",
+    "flood_train": "/home/work/data/olmoearth/flood_qa_v0/items.jsonl fold train (sha256 7c09a6b0..., built by code/e1_flood_qa_v0.py)",
+    "flood_test": "flood_qa_v0 fold test: 10 events disjoint from train (never used before)",
+    "flood_validation": "not used (no model selection; fixed epochs)",
+    "embeddings": "landslide: (12,768,32,32) per-date, avg-pool 4 -> 8x8; flood: (3,768,48,48) pre_1/pre_2/post, avg-pool 6 -> 8x8. Both: 64 tokens per date plus d2-d1 tokens (192 tokens)",
+    "prompt": "These are 2 Sentinel-{2|1} observations of the same area in chronological order, taken on <d1>, <d2>: <EO> Did a {landslide|flood} occur between the two observations? Answer with yes or no."
+  },
+  "arms": {
+    "reader": "projector (same architecture as MS-131) trained on the mixed train set, seeds 1, 2, 3",
+    "blind": "the same projector and budget with the EO input always zero (a learned soft prompt of the same length); seeds 1, 2, 3. This is the trained text-only baseline MS-131 lacked"
+  },
+  "training": "3 epochs, AdamW lr 1e-4 wd 0.01, batch 8, items shuffled across phenomena, no early stopping, no model selection",
+  "evaluation": {
+    "reader": ["real_all (all test items incl. flood hard negatives)", "swap_within_tile", "swap_cross_tile (same fold, same phenomenon, opposite answer)", "zero_embedding"],
+    "blind": ["real_all"],
+    "decoding": "greedy, max_new_tokens 16, same parser as MS-131",
+    "per_phenomenon_metrics": ["balanced_acc real_all", "recall", "FPR on within-tile negatives", "FPR on flood hard negatives", "d_real / d_swap / d_cross / d_zero with 95% tile bootstrap (2000)"]
+  },
+  "primary_verdict": {
+    "reads_both": "for BOTH phenomena, in at least 2 of 3 seeds: d_swap >= 0.10 with CI lower > 0 AND reader balanced_acc - blind balanced_acc (same seed) >= 0.05",
+    "reads_one": "the reads_both condition holds for exactly one phenomenon",
+    "not_demonstrated": "neither phenomenon meets it",
+    "invalid": "parse failure > 10% in any evaluated arm of any seed, or a training run crashes (reported, not re-run with changed settings)"
+  },
+  "descriptive_only": [
+    "flood hard-negative FPR vs within-tile negative FPR (a large gap would mean a 'post image' shortcut)",
+    "landslide balanced accuracy vs MS-131 single-task .607 (effect of mixing)",
+    "per-event flood results"
+  ],
+  "what_this_does_not_show": [
+    "location/grounding (Q3 was not read in E0 and is not trained here)",
+    "that the reader identifies the phenomenon rather than any change between the two dates",
+    "generalisation beyond two phenomena, these sensors, or these event/region splits"
+  ],
+  "compute": "GPU1 only (CUDA_VISIBLE_DEVICES=1); the run starts only after GPU1 has no other process and then holds it for all 6 trainings and evaluations in one process. A small probe (few items, 1 step) runs first in the same process to catch errors; probe outputs are discarded"
+}
