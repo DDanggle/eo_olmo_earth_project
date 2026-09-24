@@ -1,0 +1,24 @@
+{
+ "code_sha256": "64454f70a940ba591fb117e43d114546d4f90ceb47480a0bf6bbd349f43cb366",
+ "e0_code_sha256": "510a6e55d976e5b6b104cc9e585a2ab8a010e4f6a71234eaf972955823e09e80",
+ "train": {
+  "landslide|yes": 518,
+  "landslide|no": 518,
+  "flood|yes": 1066,
+  "flood|no": 2132
+ },
+ "test": {
+  "landslide|pos": 192,
+  "landslide|neg": 192,
+  "flood|pos": 457,
+  "flood|neg": 457,
+  "flood|hard_neg": 457
+ },
+ "plan": {
+  "real_all": 1755,
+  "swap_within_tile": 1298,
+  "swap_cross_tile": 1298,
+  "zero_embedding": 1298
+ },
+ "started": "2026-09-25T01:32:55"
+}
