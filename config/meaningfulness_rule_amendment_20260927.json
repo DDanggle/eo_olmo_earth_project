@@ -1,0 +1,9 @@
+{
+  "schema": "meaningfulness-rule-amendment-v0",
+  "amends": "config/meaningfulness_rule_20260927.json",
+  "registered_at": "2026-09-27",
+  "decided_by": "user: '10% may be too harsh; use 5%'",
+  "change": "threshold 0.10 -> 0.05 absolute balanced-accuracy (or accuracy) points over the strongest baseline; CI lower bound > 0 and >= 2 of 3 seeds and content-use controls unchanged",
+  "applies_to": "experiments registered after this amendment; results already seen (scoreboard, X1 partial, E7) are not re-classified as meaningful by the lower threshold. For the record: under 0.05 none of them passes either (MS-158 CIs include 0; X1 italy reader vs EarthDial +0.03).",
+  "open_decision": "which 'strongest baseline' for benchmark targets: published best on a recognized benchmark (user's original wording) vs also our own non-LLM head/segmentation+template (stricter)"
+}
