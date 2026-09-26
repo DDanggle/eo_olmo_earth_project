@@ -1,0 +1,32 @@
+{
+  "schema": "e7-multi-reader-prereg-v0",
+  "id": "E7",
+  "registered_at": "2026-09-26",
+  "status": "registered before any E7 training or evaluation",
+  "paper_plan": "docs/PAPER_EO_VLM_SKELETON_20260926.md (E7: sensor-phenomenon confound)",
+  "question": "When a second Sentinel-2 phenomenon (solar farm) is added so the sensor no longer identifies the phenomenon, does the frozen-OlmoEarth projector reader (a) still answer each phenomenon from the embedding and beat a same-budget blind reader, and (b) answer the asked question rather than flag any anomaly (solar question on landslide tiles, pre vs post event)? How does a non-LLM head trained on the same batches compare?",
+  "data": {
+    "landslide": "sentinel_qa_train_v0 / sentinel_qa_v0_1 Q1 (S2 pair); test regions reported separately (hiroshima 186 tiles, indonesia 6)",
+    "flood": "flood_qa_v0 train / test (S1 pair, synthetic -24/-12 d dates as in E2; exposed events)",
+    "solar": "e7_items_v1 (items sha256 c4aa5bf0a82c80fde36f04e2e48a80c707185882e410c5f851918e3e73b54ab2): task2_cache OlmoEarth v1 Base single embedding; yes = solar pixels >= 1%, no = 0; train regions task2_fold2..7 (222 pos / 2,231 neg), test task2_fold0+fold1 (96 pos / 711 neg). v0 (fold0 only, 47 pos) was superseded before any model run",
+    "cross": "solar question on landslide tiles, single S2 date: pre-event (first date of the positive item) and post-event (second date); gold no. train 1,036 / test 384"
+  },
+  "training": "per epoch 4,234 items (E2 budget): 1/3 landslide, 1/3 flood, 1/3 solar question (half solar chips balanced yes/no, half cross items), sampled with replacement, 3 epochs, batch 8. Reader/blind: projector as E2, AdamW 1e-4. Head: LayerNorm-MLP on mean-pooled [first, second, second-first] + question one-hot, BCE, AdamW 1e-3, same item schedule per seed. Seeds 1,2,3",
+  "evaluation": "reader: real_all, swap_within_tile (landslide, flood), swap_cross_tile (all three), zero_embedding; blind: real_all; head: same plan as reader. Greedy, max_new_tokens 16",
+  "primary_verdicts": {
+    "reads_<phenomenon>": "for landslide, flood, solar separately: in >= 2 of 3 seeds, content control >= 0.10 with tile-bootstrap CI lower > 0 (landslide/flood: d_swap within tile; solar: d_cross) AND reader balanced_acc - blind balanced_acc >= 0.05",
+    "cross_question": "anomaly_driven if in >= 2 seeds the reader's cross FPR(post) - FPR(pre) >= 0.10 with tile-bootstrap CI lower > 0; question_specific if in >= 2 seeds overall cross FPR <= 0.10 and |post - pre| < 0.05; otherwise unclear",
+    "invalid": "parse failure > 10% in any arm of any seed, or a crash (reported, not re-run with changed settings)"
+  },
+  "descriptive_only": [
+    "reader - head balanced accuracy per phenomenon and seed (no threshold, no equivalence claim)",
+    "landslide balanced accuracy per test region",
+    "comparison with E2 landslide seed spread (balanced sampling effect; not causal because the solar task is also added)"
+  ],
+  "what_this_does_not_show": [
+    "change understanding (solar is single-date presence)",
+    "date use (flood dates stay synthetic here; see planned E9)",
+    "generality beyond these datasets/regions"
+  ],
+  "compute": "GPU0 (CUDA_VISIBLE_DEVICES=0) only if no other process; one process holds it for head, reader and blind runs"
+}
