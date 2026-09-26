@@ -1,0 +1,24 @@
+{
+  "schema": "e8t-teochat-prereg-v0",
+  "id": "E8t",
+  "registered_at": "2026-09-27",
+  "status": "registered before the E8t run",
+  "motivation": "So far every system passed 'reads content' (MS-156/157/159). An analysis paper needs a case where the controls expose a failure that accuracy hides. TEOChat (ICLR 2025, temporal EO-VLM) receives dates both as prompt text and as timestamps, so it can be tested for image use, date use, and pair use in one run.",
+  "model": "teochat/TEOChat via .venv-teochat, loaded and prompted exactly as code/sentinel_qa_teochat.py (fp16, run_inference_single, timestamps=dates, max_new_tokens 64); code/e8t_teochat_protocol_v0.py",
+  "data": "sentinel_qa_v0_1 Q1 tiles with a yes and a no item (primary: the 192 tiles of MS-156; all 203 secondary). Italy (x1_italy_items_v0) is a later, separately registered run.",
+  "arms": ["real", "swap_within_tile (item dates, other item's images)", "date_swap (item images, other item's dates in prompt and timestamps)", "pair_post_post", "pair_pre_pre", "pair_reversed", "blank (grey images)"],
+  "validity": "parse failure > 10% in any arm, or real-arm agreement with sentinel_qa_v0_1/answers_teochat.jsonl < 0.95 -> invalid_run",
+  "primary_verdict": {
+    "uninformative_low_signal": "d_real < 0.10",
+    "reads_images": "d_swap (by image gold) >= 0.10 with tile-bootstrap CI lower > 0",
+    "follows_text": "d_swap <= -0.10 with CI upper < 0",
+    "not_demonstrated": "otherwise"
+  },
+  "secondary_verdicts": {
+    "date_use": "uses_dates if d under date_swap scored by the dates' gold >= 0.10 with CI lower > 0, else no_date_use_detected",
+    "pair_use": "compares_pair if P(yes|real pos) - P(yes|[post,post] pos) >= 0.10 with CI lower > 0; post_scar_cue if |diff| < 0.05; else unclear"
+  },
+  "what_counts_as_a_caught_failure": "any of: follows_text; uses_dates with d_swap not significant; post_scar_cue; or blank P(yes) >= 0.25 — reported as such, not as a general claim about TEOChat",
+  "what_this_does_not_show": ["TEOChat on its own training distribution", "multispectral input", "other regions (separate run)"],
+  "compute": "GPU1 if no other user's process; may share with our own jobs"
+}
