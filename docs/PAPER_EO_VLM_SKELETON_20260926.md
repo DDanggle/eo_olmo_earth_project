@@ -8,6 +8,14 @@
 > - **E7(진행 중)**: 태양광(S2) 추가, 엇갈린 질문. seed 1: 산사태 타일에 "태양광?" 오경보 3.4%, 전/후 차이 −.016 → 센서=현상 교락 아래에서도 물은 현상을 읽는 쪽.
 > - **X1(진행 중)**: 미사용 지역 italy 963 타일(hiroshima 192의 5배)로 산사태 외부 시험, 학습된 모델 재학습 없이 평가 + EarthDial. china는 7쌍뿐이라 불사용.
 >
+> - **신규성 심층 검색(9/27, 약 25개 질의)** — 쓸 수 있는 주장이 좁아졌다:
+>   - EO 인코더→LLM 선행이 있다: Spectral-LLaVA 2501.10144(**LLM은 LoRA 학습, 고정 아님** — 이전 표기 정정), FUSAR-GPT 2602.19190(고정 AlphaEarth 임베딩 → Qwen2.5-VL SAR 토큰 조절), BigEarthNet.txt 2603.29630(고정 BEN 사전학습 S1/S2 ViT → InternVL3-1B). 모두 정확도·구성요소 추가 ablation만 있고 blind·교체·위치 불일치 통제는 없음(요약 기반, PDF 재확인 필요). AlphaEarth+LLM 2602.10354·2604.18715는 검색/도구 방식.
+>   - 같은 영상 쌍·역순 통제의 선례: **Chung et al. 2609.08391 (EMNLP 2026 Findings)** — 자기 모델 하나의 자가진단으로 사용. 같은 장소 시점쌍 교환은 없음. 비디오 선례: Lei 2206.03428, 2607.12304, Vinoground 2410.02763.
+>   - 2609.02187: SAR 뷰를 다른 장면으로 바꿔도 출력이 거의 불변(F1 −0.0007) → 픽셀 VLM이 SAR를 무시. 우리 문제의식의 외부 근거로 인용.
+>   - 쓸 수 있는 문장(a): "To our knowledge, no prior work tests with counterfactual inputs (blind, token swap, location mismatch) whether an LLM connected to a frozen self-supervised multispectral/SAR EO foundation encoder actually uses its tokens; existing encoder-to-LLM systems [Spectral-LLaVA, FUSAR-GPT, BigEarthNet.txt] report accuracy or additive ablations only."
+>   - 쓸 수 있는 문장(b): "Identical-pair and reversed-order probes have appeared as self-diagnostics of a single model [Chung 2026]; we add within-location time-pair swaps with the prompt fixed and apply the same controls across an embedding reader and a public EO-VLM."
+>   - 제출 2주 전 재검색 대상: OlmoEarth·Galileo+LLM, 2609.02187·2609.08391 후속.
+>
 > 수정된 핵심 문장 후보: *"EO 임베딩 reader와 공개 픽셀 EO-VLM은 모두 영상 내용을 쓰고 프롬프트 날짜는 무시하며, 짝 통제에서는 두 영상의 차이에 의존한다. 그러나 같은 과제가 사후 영상 하나만으로도 거의 같은 정확도로 학습되므로, 흔한 전·후 변화 벤치마크의 점수는 '비교 능력'의 증거가 되지 못한다. 우리는 이를 가르는 짝 통제 세트를 제안한다."*
 
 사용자 결정(9/26): "지금 증거로 뼈대가 서는 EO-VLM 논문"으로 고정. 목표 CVPR 2027(등록 11/10, 본문 11/16 AoE).
