@@ -44,3 +44,25 @@
 ## 5. 에이전틱을 미루는 이유
 
 AlphaEarth 에이전트와 OlmoEarth-Agent가 "임베딩 저장소 위 에이전트"를 이미 차지했고, 새로 만들 것(벤치·도구·픽셀 에이전트 기준선)이 많다. 반사실 학습 reader가 성공하면 그 reader가 에이전트의 **검증된 도구**가 되므로, 에이전틱은 그 다음 논문의 자연스러운 확장이다.
+
+## 6. 갱신(같은 날) — 사용자 판단: "반사실 학습만으로는 의미가 약하다, 더 넓게 스케일업"
+
+**채택: EO 기반 모델의 LLM 판독 가능성(language readability) 벤치마크 + 스케일링 (R-ZOO).** 반사실 학습은 이 벤치마크 안의 한 개입(팔)으로 내린다.
+
+- 신규성 조사(약 18 질의): 가장 가까운 선행은 일반 도메인 **Cambrian-1**(LLM을 probe로 20+ 비전 인코더 비교), Prismatic, LLaVA-MORE, SAIL(고정 비전+고정 LLM 정렬 probe), Web-SSL(언어 없는 SSL 인코더의 VLM 스케일링). EO에서는 단일 인코더(BigEarthNet.txt, AlignJEPA)이거나 LLM 없는 목적함수 비교(GeoMeld)뿐 — **EO 기반 모델 여러 종을 LLM 판독으로 비교한 선행은 찾지 못함**(GeoChat·LHRS-Bot·SkySenseGPT·EarthGPT·Falcon의 부록 ablation은 미확인).
+- 우리만의 것: (1) 다중분광·시계열 EO FM과 임베딩 제품을 LLM이 읽는다, (2) **판독 가능성 = 정확도 + 증거 의존**(교체 통제·같은 예산 blind — EO에서 없음), (3) 크기·언어 감독량 스케일링. EO에는 언어 정렬 다중분광 인코더가 거의 없으므로 "MAE vs 잠재예측(JEPA) vs 대조"가 LLM 판독에 어떻게 다른가는 **열린 질문**이다.
+- **가장 큰 위험**: LLM 판독 순위 = 선형/MLP probe 순위이면 논문이 무너진다. → 모든 칸에 head(probe)를 같이 두고 순위 상관을 주 결과 중 하나로 보고.
+
+### 심사자 요구 → 로드맵
+
+| 요구 | v0 (지금 실행 대기) | 11/16 최소판 | 강한 판 (D&B급) |
+|---|---|---|---|
+| 인코더 수·계열 | 9 체크포인트: OlmoEarth N/T/B, Galileo N/T/B, Prithvi, Clay×2 (모두 기존 캐시) | + OlmoEarth Large, CROMA 또는 DOFA, **언어정렬 EO 인코더(DOFA-CLIP / Llama3-MS-CLIP)**, **자연영상 대조(DINOv3·SigLIP-2 RGB)** | 12–15 + AlphaEarth·TESSERA 제품 트랙 |
+| 과제 | 산사태 기간 존재 1개 | + 홍수(보류 사건), BigEarthNet.txt 이진/객관식, 토지피복 | 6–8개(태양광, SAR, TEOChat 시계열 일부) |
+| 공정성 | 같은 연결부·예산, 64 토큰 고정 | 토큰 예산 16/64/256 sweep, 입력 계약 맞춘 조건 vs native 조건 명시 | 인코더별 동일 크기 HP 탐색 |
+| 판독 ≠ probe | head 병행 | 순위 상관(Spearman) + 차이 사례 | SAIL식 정렬 지표와 비교 |
+| 일반화 | hiroshima·indonesia·china | + italy·보류 홍수 사건 | 3개 대륙 이상 |
+| 스케일링 | OlmoEarth·Galileo 크기 3단계 | + LLM 2 크기, 언어 감독 1k→10k | 1k→1M, 곡선 적합 |
+| 인과 개입 | — | (선택) 반사실 학습 팔 | OlmoEarth-Base에 언어 대조 손실 추가 사전학습 1회 |
+
+v0 결과로 결정할 것: (a) 인코더 간 판독 차이가 seed 분산보다 큰가, (b) reader 순위가 head 순위와 다른가, (c) 크기에 따라 단조로운가. 셋 다 "아니오"면 벤치마크 축을 과제·토큰 예산 쪽으로 옮긴다.
