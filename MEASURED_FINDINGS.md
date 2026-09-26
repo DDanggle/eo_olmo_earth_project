@@ -5804,6 +5804,13 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-161 (2026-09-27) — E7s 공간 attention head(가장 강한 비LLM 기준선) vs E7 LLM reader: **세 현상 모두 10%p 규칙 불통과**. 태양광의 +16~20%p(vs mean-pool head)는 **약한 기준선 착시** — attention head가 reader와 같음(차이 −.020 [−.039, −.004] / −.005 [−.028, .017] / .000 [−.014, .018]). 산사태는 head가 **더 높음**(−.065 / −.135 / −.224, 모두 CI < 0). 홍수 .000 / −.129 / +.083
+
+사전등록 `config/e7s_strong_head_prereg_v0.json`(커밋 cf02b5e, 실행 전). 코드 `code/e7s_strong_head_v0.py`. 같은 E7 균형 스케줄(seed별 동일), 약 1.6M 파라미터. 로컬 `artifacts/e7s_strong_head_v0/`.
+seed별 BA: landslide_seed1: head 0.799 / reader 0.734 | flood_seed1: head 0.792 / reader 0.792 | solar_seed1: head 0.967 / reader 0.947 | landslide_seed2: head 0.760 / reader 0.625 | flood_seed2: head 0.852 / reader 0.723 | solar_seed2: head 0.949 / reader 0.944 | landslide_seed3: head 0.844 / reader 0.620 | flood_seed3: head 0.695 / reader 0.777 | solar_seed3: head 0.923 / reader 0.924
+읽는 법: 같은 OlmoEarth 토큰·같은 노출이면 작은 공간 head가 7B reader와 같거나 낫다(MS-158과 일치, 이번엔 세 현상·세 seed). **LLM은 판별 정확도를 더하지 않는다** — 이득이 있다면 인코더·토큰 해상도·과제 설계에서 온다.
+금지: "LLM reader가 태양광에서 우월"(철회), "head가 항상 낫다"의 일반화(홍수 seed 3은 reader 우위).
+
 ## MS-160 (2026-09-27) — E8b EarthDial, 같은 두 장 질문에 영상 쌍만 바꿈: 등록 판정 **compares_pair + direction_sensitive**. 산사태 양성 문항에서 real [전, 후] "yes" .448 vs 같은 영상 두 장 [후, 후] .010, [전, 전] .000 → 차이 **.438** [.365, .510]. 순서를 뒤집은 [후, 전]은 .115 → 차이 .333 [.250, .411]. 질문 문구가 같으므로 MS-159의 "두 장일 때만 구분"은 문구 효과가 아니라 **영상 비교**다
 
 사전등록 `config/e8b_pair_controls_prereg_v0.json`(커밋 5ca343c, 실행 전). 코드 `code/e8b_pair_controls_v0.py`(sha256 280a74f1…, E8 스크립트 529d1422… 무수정 래핑). GPU1, 4조건 × 406. real 재실행이 E8과 **406/406 일치**(재현 1.000), parse 실패 0. 로컬 `artifacts/e8b_pair_controls_v0/`. 주 결과 192타일(203타일도 같은 판정: .424 [.355, .493], .325 [.246, .399]).
