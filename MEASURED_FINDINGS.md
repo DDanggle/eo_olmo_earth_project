@@ -5804,6 +5804,21 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-163 (2026-09-27) — A1 라벨 없는 홍수 탐지: OlmoEarth 촬영일 임베딩 vs AlphaEarth 연간 임베딩 vs 고전 SAR 감소 지표. 등록 판정 **olmoearth_beats_aef**. **T1(침수 타일 찾기)에서 가장 강한 기준선까지 +5%p 이상 넘은 첫 결과**: OlmoEarth **.903** vs SAR .760 (+.143 [.101, .393]) vs AlphaEarth .663 (+.240 [.133, .444]). 단 T2(타일 안 위치)는 SAR .911 > OlmoEarth .833 (−.077 [−.118, −.039]) → 개정 기준(T1·T2 모두) **불통과**
+
+사전등록 `config/a1_aef_vs_olmoearth_floods_prereg_v0.json`(c3541aa) + 개정 `..._amendment_20260927.json`(a9ac315, 채점 전 SAR 경쟁 기준선 추가). 코드 `code/a1_aef_vs_olmoearth_floods_v0.py`. AlphaEarth V1 annual, Source Cooperative 미러(CC-BY 4.0, produced by Google and Google DeepMind), 192×192 창 1,175개(edge 69, error 1, 마스킹 0). 라벨·학습 없음. KuroSiwo 시험 사건 중 2018년 이후 7개 사건, 홍수 183 / 원래 물만 28 / 건조 181 타일. 로컬 `artifacts/a1_aef/`.
+
+| 지표 | OlmoEarth | AlphaEarth Y−1→Y | AlphaEarth Y−1→Y+1 | SAR 감소(dB) |
+|---|---|---|---|---|
+| T1 홍수 vs (건조+원래 물) | **.903** | .663 | .630 | .760 |
+| T1 홍수 vs 원래 물만 | .778 | .734 | .655 | .807 |
+| T2 토큰 위치 (40 m) | .833 | .586 | .549 | **.911** |
+
+사건별 T1: 277 OlmoEarth .946 / AEF .474, 445 .991 / .454, 321 .960 / .687, 1111007 .920 / .795 — **연간 임베딩은 일시적 홍수에서 우연 수준까지 떨어짐**(가설과 일치).
+읽는 법: (1) 촬영일 단위 기반모델 임베딩의 단순 변화량이 라벨 없이 침수 타일을 AlphaEarth 연간 임베딩과 고전 SAR 지표보다 잘 찾는다. (2) 위치 정밀도는 10 m 픽셀 SAR 지표가 40 m 토큰보다 낫다 → 패치 축소(20/10 m 토큰)가 다음 검증 대상. (3) 홍수와 원래 물 구분은 세 방법 모두 비슷.
+한계: 사건 7개(1111007이 206/392 타일), 신뢰구간 상단 넓음. 한 재난·한 데이터셋. 구글 맞춤형 임베딩(5일 간격, 2026-07 비공개 프리뷰)과는 비교 안 됨 — AlphaEarth 대비 격차는 줄 수 있으나 SAR 지표 대비 우위와는 무관.
+금지: "OlmoEarth가 홍수 위치까지 더 정확", "AlphaEarth는 홍수를 못 본다"의 일반화(사건 1111007·561·411에서는 비슷하거나 같음).
+
 ## MS-162 (2026-09-27) — E7 산사태(S2)+홍수(S1)+태양광(S2) reader, 엇갈린 질문: 등록 판정 **세 현상 모두 reads**(산사태 2/3, 홍수 3/3, 태양광 3/3) + **cross_question = question_specific (3/3 seed)** — 산사태 타일에 "태양광?"을 물으면 전·후 영상 모두 오경보 약 2–4%, 후−전 차이 −.021~.000. 센서=현상 교락을 풀어도(S2 안에 두 현상) 물은 현상을 구분해 읽는다
 
 사전등록 `config/e7_multi_reader_prereg_v0.json`(커밋 075e353, 실행 전). GPU0, 약 3시간. 로컬 `artifacts/e7_multi_reader_v0/`(.pt 제외, 해시는 SHA256SUMS_models).
