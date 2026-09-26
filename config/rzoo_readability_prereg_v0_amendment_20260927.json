@@ -1,0 +1,11 @@
+{
+  "schema": "rzoo-prereg-amendment-v0",
+  "amends": "config/rzoo_readability_prereg_v0.json",
+  "registered_at": "2026-09-27",
+  "status": "registered before any R-ZOO run started (part A/B were queued but had not begun)",
+  "changes": [
+    "adds arm attn_head: LayerNorm-Linear(d->256) + learned 64-token position + 2-layer Transformer encoder (4 heads, no dropout) + mean pool + linear; BCE, AdamW 3e-4, same epochs and batch order as the other arms; seeds 1-3",
+    "adds the meaningfulness rule (config/meaningfulness_rule_20260927.json): per encoder, 'meaningful_10pp' if reader BA - max(blind, mean-pool head, attention head) >= 0.10 in >= 2 of 3 seeds; reported next to the original 'readable' verdict, which is unchanged"
+  ],
+  "note": "per-seed CI of the difference is computed in the analysis script from saved rows (tile bootstrap), not inside the run"
+}

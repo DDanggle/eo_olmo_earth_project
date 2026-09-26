@@ -91,8 +91,13 @@ def verdicts(sc):
             if d and d["value"] >= 0.10 and d["ci95"][0] > 0 and r["balanced_acc"] - b["balanced_acc"] >= 0.05:
                 ok += 1
         heads = [sc[f"{enc}/head_seed{s}"]["balanced_acc"] for s in SEEDS if f"{enc}/head_seed{s}" in sc]
+        attn = [sc[f"{enc}/attn_head_seed{s}"]["balanced_acc"] for s in SEEDS if f"{enc}/attn_head_seed{s}" in sc]
         readers = [sc[f"{enc}/reader_seed{s}"]["balanced_acc"] for s in SEEDS if f"{enc}/reader_seed{s}" in sc]
-        out[enc] = {"readable": ok >= 2, "seeds_passing": ok, "reader_ba": readers, "head_ba": heads}
+        # meaningfulness rule (config/meaningfulness_rule_20260927.json): reader beats the strongest baseline by >= .10 in >= 2 seeds
+        strongest = [max(x) for x in zip(*[v for v in (heads, attn, [sc[f"blind/reader_seed{s}"]["balanced_acc"] for s in SEEDS if f"blind/reader_seed{s}" in sc]) if len(v) == len(readers)])] if readers else []
+        gain = [r - b for r, b in zip(readers, strongest)]
+        out[enc] = {"readable": ok >= 2, "seeds_passing": ok, "reader_ba": readers, "head_ba": heads, "attn_head_ba": attn,
+                    "reader_minus_strongest": gain, "meaningful_10pp": sum(g >= 0.10 for g in gain) >= 2}
     return out
 
 
@@ -172,6 +177,18 @@ def run(a):
         def forward(s, x):
             return s.net(x).squeeze(-1)
 
+    class AttnHead(nn.Module):
+        """Strong non-LLM baseline (amendment 2026-09-27): attention over the same 64 spatial tokens."""
+        def __init__(s, d):
+            super().__init__()
+            s.inp = nn.Sequential(nn.LayerNorm(d), nn.Linear(d, 256))
+            s.pos = nn.Parameter(torch.zeros(64, 256))
+            s.enc = nn.TransformerEncoder(nn.TransformerEncoderLayer(256, 4, 512, 0.0, batch_first=True, norm_first=True), 2)
+            s.cls = nn.Linear(256, 1)
+
+        def forward(s, t):  # t: B,64,d
+            return s.cls(s.enc(s.inp(t) + s.pos).mean(1)).squeeze(-1)
+
     def load_tokens(enc):
         cache = {}
         for it in items:
@@ -228,6 +245,23 @@ def run(a):
                 opt.step()
         return head.eval()
 
+    def train_attn_head(cache, d, seed):
+        torch.manual_seed(seed)
+        rng = np.random.default_rng(seed)
+        head = AttnHead(d).to(dev)
+        opt = torch.optim.AdamW(head.parameters(), 3e-4, weight_decay=0.01)
+        for ep in range(EPOCHS):
+            order = rng.permutation(len(train))
+            for i in range(0, len(order), 8):
+                b = [train[j] for j in order[i:i + 8]]
+                x = torch.stack([cache[it["tile"]] for it in b]).to(dev)
+                y = torch.tensor([1.0 if it["answer"] == "yes" else 0.0 for it in b], device=dev)
+                loss = F.binary_cross_entropy_with_logits(head(x), y)
+                opt.zero_grad()
+                loss.backward()
+                opt.step()
+        return head.eval()
+
     def evaluate(model, cache, d, kind, blind=False):
         rows_by_arm = {}
         jobs = {"real": plan["real"]} if blind else plan
@@ -237,7 +271,10 @@ def run(a):
                 for src, emb_item, eg in js:
                     zero = blind or arm == "zero_embedding"
                     t = torch.zeros(64, d) if zero else cache[(emb_item or src)["tile"]]
-                    if kind == "head":
+                    if kind == "attn_head":
+                        z = float(model(t[None].to(dev)))
+                        raw, parsed = f"{z:.3f}", ("yes" if z > 0 else "no")
+                    elif kind == "head":
                         z = float(model(t.mean(0)[None].to(dev)))
                         raw, parsed = f"{z:.3f}", ("yes" if z > 0 else "no")
                     else:
@@ -253,7 +290,7 @@ def run(a):
 
     sc = {}
     runs = [("blind", "reader", s) for s in SEEDS] if a.with_blind else []
-    runs += [(enc, kind, s) for enc in encoders for kind in ("head", "reader") for s in SEEDS]
+    runs += [(enc, kind, s) for enc in encoders for kind in ("head", "attn_head", "reader") for s in SEEDS]
     cache, cache_enc = None, None
     for enc, kind, s in runs:
         name = f"{enc}/{kind}_seed{s}"
@@ -269,6 +306,9 @@ def run(a):
         if kind == "head":
             model = train_head(cache, d, s)
             rows = evaluate(model, cache, d, "head")
+        elif kind == "attn_head":
+            model = train_attn_head(cache, d, s)
+            rows = evaluate(model, cache, d, "attn_head")
         else:
             model = train_reader(cache, d, s, enc == "blind")
             rows = evaluate(model, cache, d, "reader", blind=(enc == "blind"))

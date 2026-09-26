@@ -1,0 +1,10 @@
+{
+  "schema": "meaningfulness-rule-v0",
+  "registered_at": "2026-09-27",
+  "decided_by": "user (2026-09-27): 'only results that beat the benchmark by >= 10% count as meaningful'",
+  "rule": "A result is MEANINGFUL only if, on held-out regions/events, balanced accuracy exceeds the STRONGEST baseline by >= 0.10 absolute (10 percentage points) AND the 95% bootstrap CI (tile- or event-clustered, as registered per experiment) of the difference has lower bound > 0, in >= 2 of 3 seeds.",
+  "why_absolute": "stricter and unambiguous for BA in 0.5-0.9; relative gains are reported alongside",
+  "strongest_baseline": "max over: same-budget blind reader; non-LLM heads on the same input (mean-pool MLP head AND a spatial attention head over the same tokens); public EO-VLMs zero-shot on the same items where applicable (EarthDial, TEOChat); prior best reader of this project",
+  "scope": "applies to new experiments registered from 2026-09-27 on; earlier registered verdicts stay as recorded, and are only re-labelled descriptively (meaningful / not) in docs/SCOREBOARD_20260927.md",
+  "does_not_replace": "content-use controls remain required: a >= 10 pp gain without passing the swap control is not meaningful"
+}
