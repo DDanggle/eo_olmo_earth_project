@@ -1,0 +1,12 @@
+{
+  "schema": "e7s-strong-head-prereg-v0",
+  "id": "E7s",
+  "registered_at": "2026-09-27",
+  "status": "registered before the E7s run; E7 reader results (seeds 1-3) are known, the attention head results are not",
+  "question": "Is the E7 reader's apparent +14-22 pp advantage on solar (over the mean-pool MLP head) real, or an artefact of a weak baseline? Apply the meaningfulness rule (config/meaningfulness_rule_20260927.json) with a spatial attention head as the strongest non-LLM baseline.",
+  "head": "per-slot Linear(768->256) + 64-token position + slot type + question token, 2-layer Transformer (4 heads, no dropout), masked mean pool, linear; BCE, AdamW 3e-4; the SAME balanced item schedule as E7 per seed (e7.epoch_sample with the same seed, 3 epochs, batch 8)",
+  "comparison": "reader (e7_multi_reader_v0/reader_seed{s}/answers_real_all.jsonl) vs attention head on the same test items, per phenomenon (landslide, flood, solar), paired tile bootstrap of the balanced-accuracy difference",
+  "verdict": "meaningful_10pp for a phenomenon if reader - attention head >= 0.10 with CI lower > 0 in >= 2 of 3 seeds; otherwise not meaningful (the LLM adds < 10 pp over a strong small model)",
+  "caveat": "the reader has seen these test items' answers already reported; the head is trained blind to them. Same exposures, different parameter counts (head ~1.6M vs projector ~23M + frozen 7B)",
+  "compute": "GPU0 (shares with E7 blind runs, our own processes)"
+}
