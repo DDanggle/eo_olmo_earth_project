@@ -1,0 +1,31 @@
+{
+  "schema": "e8-earthdial-prereg-v0",
+  "id": "E8",
+  "registered_at": "2026-09-26",
+  "status": "registered before the full E8 run; only a 4-tile loading probe (e8_probe_rgb) was run and is not scored",
+  "paper_plan": "docs/PAPER_EO_VLM_SKELETON_20260926.md (E8: apply the protocol to a public EO-VLM)",
+  "question": "Zero-shot, does the public EO-VLM EarthDial (CVPR 2025) answer the landslide Q1 question from the images, from the prompt text, or not at all, under the same within-tile swap protocol used for our reader (MS-156)?",
+  "model": {
+    "checkpoint": "akshaydudhane/EarthDial_4B_RGB (HF sha recorded in manifest), modeling code from github.com/hiyamdebary/EarthDial src/ at commit 92c1260",
+    "runtime": ".venv-master torch + isolated package dir third_party/earthdial_py (transformers 4.37.2, tokenizers 0.15.2, timm 0.9.12, sentencepiece 0.1.99, peft 0.7.1) placed first on PYTHONPATH for this run only (the repo pins transformers 4.37.2; transformers 5.15 fails at tokenizer load)",
+    "input_contract": "docs/E8_EARTHDIAL_INPUT_CONTRACT_20260926.md; 512x512 RGB PNG renders of Sentinel-2 from sentinel_qa_v0_1, 448 bicubic, 1 tile + no thumbnail -> 256 tokens per image, one num_patches entry per <image>",
+    "decoding": "greedy, max_new_tokens 16, yes/no regex parser"
+  },
+  "prompt": {
+    "primary": "EarthDial's own two-image change template tag [changedet] [hr_rgb_temp_0.5] <image> <image> \\n Did a landslide occur between the first image (taken on {d1}) and the second image (taken on {d2})? Please answer yes or no.",
+    "one_image_arms": "[s2_rgb_10] <image> \\n Is there a landslide visible in this image? Please answer yes or no.",
+    "note": "[hr_rgb_temp_0.5] is the only two-image tag the model was trained with (0.5 m aerial); no S2 two-image tag exists. Dates are added so the swap arm can separate text from images"
+  },
+  "data": "sentinel_qa_v0_1 Q1, tiles with both a yes item and a no item (192 tiles, 384 items; same test set as MS-156, exposed)",
+  "arms": ["real", "swap_within_tile (prompt/dates of the item, images of the other item on the same tile)", "blank (two mid-grey images)", "post_only (second image only, one-image prompt)", "pre_only (first image only, one-image prompt)"],
+  "primary_verdict": {
+    "invalid_run": "parse failure > 10% in any arm",
+    "uninformative_low_signal": "d_real < 0.10 (zero-shot the model does not separate the pairs; off-distribution task, not evidence that it ignores images)",
+    "reads_images": "d_swap >= 0.10 and tile-bootstrap CI lower > 0",
+    "follows_text": "d_swap <= -0.10 and CI upper < 0",
+    "not_demonstrated": "any other valid outcome"
+  },
+  "descriptive_only": ["P(yes) per arm incl. blank", "d_post, d_pre, d_real - d_post (paired tile bootstrap): does the two-image answer beat a post-image-only reading", "balanced accuracy vs prompt gold and vs image gold"],
+  "what_this_does_not_show": ["multispectral or SAR use (RGB checkpoint and RGB renders only; _MS/SAR is a later step)", "EarthDial's quality on its own training distribution", "anything about other EO-VLMs"],
+  "compute": "GPU1 (CUDA_VISIBLE_DEVICES=1) only if no other process"
+}
