@@ -1,0 +1,39 @@
+{
+ "experiment": "E8",
+ "ckpt": "RGB",
+ "model_dir": "/home/work/data/olmoearth/models/EarthDial_4B_RGB",
+ "model_config_sha256": "5548c8b092c55823dde192880f338ade318389438444260977ce6ec208c578b4",
+ "model_index_sha256": "7d53749d804274c9d83e1b94f2d373e5245073f3bf5a70061e02fc2755d7ec36",
+ "earthdial_src": "/home/work/data/olmoearth/third_party/EarthDial/src",
+ "earthdial_head": "92c1260703ae8b3ddcac17fce6e8234de717308b",
+ "code_sha256": "529d1422b8ecccf0650c560d1c794096815ecfb77b28e8e1ac1e3674bb85bb94",
+ "controls_sha256": "510a6e55d976e5b6b104cc9e585a2ab8a010e4f6a71234eaf972955823e09e80",
+ "transformers": "4.37.2",
+ "torch": "2.13.0+cu130",
+ "template": "earthdial",
+ "sensor": "hr_temp",
+ "image_size": 448,
+ "use_thumbnail": true,
+ "max_dynamic_patch": 6,
+ "llm_template": "phi3-chat",
+ "question_2img_example": "[changedet] [hr_rgb_temp_0.5] <image> <image> \\n Did a landslide occur between the first image (taken on <d1>) and the second image (taken on <d2>)? Please answer yes or no.",
+ "question_1img": "[s2_rgb_10] <image> \\n Is there a landslide visible in this image? Please answer yes or no.",
+ "probe": false,
+ "n_q1_items": 406,
+ "n_pairs": 203,
+ "arms": [
+  "real",
+  "swap_within_tile",
+  "blank",
+  "post_only",
+  "pre_only"
+ ],
+ "jobs": {
+  "real": 406,
+  "swap_within_tile": 406,
+  "blank": 406,
+  "post_only": 406,
+  "pre_only": 406
+ },
+ "started": "2026-09-26T23:58:50"
+}

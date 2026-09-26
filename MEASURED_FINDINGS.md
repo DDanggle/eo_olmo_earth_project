@@ -5804,6 +5804,24 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-159 (2026-09-27) — E8 공개 EO-VLM EarthDial_4B_RGB(zero-shot, 산사태·S2를 학습한 적 없음)에 같은 타일 교환 통제: 등록 판정 **reads_images**. 주 결과(사전등록 192타일) d_swap **.365** [.292, .443] = real .365. 교환 답이 영상 제공 문항의 real 답과 402/406 일치 → **프롬프트의 날짜 문구는 거의 무시하고 영상으로 답함**. 단일 영상 질문은 거의 구분 못 함(d_post .036, 산사태 전 영상에도 72%가 "보인다")
+
+사전등록 `config/e8_earthdial_prereg_v0.json`(커밋 90ce540, 실행 전; 4타일 로딩 probe만 선행, 미채점). 코드 `code/e8_earthdial_protocol_v0.py`(sha256 529d1422…), 입력 계약 `docs/E8_EARTHDIAL_INPUT_CONTRACT_20260926.md`. 모델 코드 github EarthDial@92c1260, 런타임 .venv-master torch + `third_party/earthdial_py`(transformers 4.37.2 등, 이 실행에서만 PYTHONPATH 앞). GPU1, 418 s, parse 실패 0. 로컬 `artifacts/e8_earthdial_rgb_v0/`.
+편차(결과 전 기록): 스크립트가 PNG가 있는 모든 타일(203)을 사용 → 사전등록 문구(192타일)와 다름. 주 결과는 E0와 같은 192타일 부분집합, 203타일은 보조.
+
+| 조건 | P(yes) 192 | d (192) [CI] | d (203) [CI] |
+|---|---|---|---|
+| real (두 영상, 날짜 포함 변화 질문) | .266 | .365 [.286, .443] | .355 [.281, .429] |
+| **swap_within_tile** (문구·날짜 그대로, 같은 타일 반대 문항 영상) | .271 | **.365 [.292, .443]** (영상 기준) | .355 [.281, .429] |
+| blank (회색 두 장) | .000 | .000 | .000 |
+| post_only (사후 한 장, "보이나?" 질문) | .779 | .036 [−.021, .094] | .044 [−.010, .099] |
+| pre_only (사전 한 장) | .724 | −.135 [−.198, −.078] | −.128 [−.187, −.069] |
+
+균형정확도(real) .677(203). d_real − d_post(203, paired tile bootstrap) .310 [.217, .404].
+읽는 법: (1) 공개 EO-VLM도 이 과제에서 영상 내용으로 답하고, 날짜 문구는 쓰지 않는다 — 우리 reader(MS-156·157)와 같은 방향. (2) **우리 임베딩 reader와 다른 점**: 우리 reader는 사후 영상만으로 재학습해도 전·후 쌍과 비슷했지만(E5 later-only), EarthDial은 한 장 질문에서는 거의 구분하지 못하고 두 장 질문에서만 구분한다. 다만 한 장 질문은 문구가 다르므로("occur between" vs "visible in this image") d_real − d_post에는 질문 효과가 섞여 있다. 같은 두 장 질문에 (사후, 사후)·(사전, 사전)을 넣는 통제가 필요하다.
+한계: zero-shot, RGB 렌더링(다중분광·SAR 미사용), 노출된 2지역(hiroshima 편중), 한 모델·한 checkpoint, 0.5 m 항공 태그 사용.
+금지: "EarthDial이 변화를 이해한다"(질문 문구 교락 미해소), 다중분광·SAR 일반화, 다른 EO-VLM으로 확장.
+
 ## MS-158 (2026-09-26) — E6 LLM 없는 소형 head(367,361 파라미터) vs E5 full(7B LLM reader): 주 대조 **E5 full − head가 세 seed 모두 신뢰구간에 0 포함**(−.064 [−.143, .006] / +.032 [−.030, .105] / +.108 [−.034, .264]). 같은 임베딩·같은 예제 노출에서 작은 head가 홍수 판별을 7B 시스템과 구분되지 않는 수준으로 해낸다
 
 사전등록 `config/e6_no_llm_prereg_v0.json`(SHA 66f820db…, 9/25 E5 최종 점수 열람 전 동결, 다른 세션 설계). 봉인 bundle `code/e6_bundle_v0/`(10파일 SHA 일치, 서버 합성 테스트 57/57), prepare manifest d7525b49…(E5 참조·독립 감사 게이트 통과). 사용자 승인(9/26) 후 GPU0, 학습 3 seed + 평가 5,265행 96 s. valid=true, parse 실패 0. 로컬 `artifacts/e6_no_llm_v0/`(모델·텐서 제외).
