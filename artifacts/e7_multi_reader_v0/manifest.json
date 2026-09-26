@@ -1,0 +1,28 @@
+{
+ "code_sha256": "f388e22e22458c9674efd625b70ea9f63c24d44623534c440726a145b57f0601",
+ "items_sha256": "c4aa5bf0a82c80fde36f04e2e48a80c707185882e410c5f851918e3e73b54ab2",
+ "train_pools": {
+  "landslide": 1036,
+  "flood": 3198,
+  "solar": 2453,
+  "cross_solar_on_landslide": 1036
+ },
+ "test": {
+  "landslide|pos": 192,
+  "landslide|neg": 192,
+  "flood|pos": 457,
+  "flood|neg": 457,
+  "flood|hard_neg": 457,
+  "solar|neg": 711,
+  "solar|pos": 96,
+  "cross_solar_on_landslide|cross_pre": 192,
+  "cross_solar_on_landslide|cross_post": 192
+ },
+ "plan": {
+  "real_all": 2946,
+  "swap_within_tile": 1298,
+  "zero_embedding": 2105,
+  "swap_cross_tile": 2105
+ },
+ "started": "2026-09-26T23:49:22"
+}

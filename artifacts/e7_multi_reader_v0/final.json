@@ -1,0 +1,882 @@
+{
+ "verdicts": {
+  "validity": "valid",
+  "reads": {
+   "landslide": {
+    "seeds_passing": 2,
+    "reads": true
+   },
+   "flood": {
+    "seeds_passing": 3,
+    "reads": true
+   },
+   "solar": {
+    "seeds_passing": 3,
+    "reads": true
+   }
+  },
+  "cross_question": "question_specific",
+  "cross_counts": {
+   "anomaly_seeds": 0,
+   "specific_seeds": 3
+  }
+ },
+ "reader_minus_head_ba": {
+  "landslide": [
+   0.13541666666666663,
+   0.0026041666666667407,
+   -0.22135416666666652
+  ],
+  "flood": [
+   0.10995623632385121,
+   0.0448577680525164,
+   0.11870897155361049
+  ],
+  "solar": [
+   0.1867747890295357,
+   0.15605221518987344,
+   0.20141086497890304
+  ]
+ },
+ "table": {
+  "head_seed1": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.5989583333333334,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.3645833333333333,
+     "fpr_neg": 0.16666666666666666,
+     "fpr_hard_neg": null,
+     "d_real": {
+      "value": 0.19791666666666666,
+      "ci95": [
+       0.11458333333333331,
+       0.28125
+      ]
+     },
+     "d_swap": {
+      "value": 0.19791666666666666,
+      "ci95": [
+       0.11458333333333331,
+       0.28125
+      ]
+     },
+     "d_cross": {
+      "value": 0.18749999999999997,
+      "ci95": [
+       0.09375,
+       0.27604166666666663
+      ]
+     },
+     "ba_by_region": {
+      "holdout_hiroshima": 0.6021505376344086,
+      "holdout_indonesia": 0.5
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.6821663019693655,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.437636761487965,
+     "fpr_neg": 0.13347921225382933,
+     "fpr_hard_neg": 0.01312910284463895,
+     "d_real": {
+      "value": 0.3041575492341356,
+      "ci95": [
+       0.2472647702407002,
+       0.3610503282275711
+      ]
+     },
+     "d_swap": {
+      "value": 0.3041575492341356,
+      "ci95": [
+       0.2472647702407002,
+       0.3610503282275711
+      ]
+     },
+     "d_cross": {
+      "value": 0.2713347921225383,
+      "ci95": [
+       0.21881838074398247,
+       0.3238512035010941
+      ]
+     }
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.7603067862165964,
+     "parse_fail": {
+      "real_all": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.59375,
+     "fpr_neg": 0.07313642756680731,
+     "fpr_hard_neg": null,
+     "d_cross": {
+      "value": 0.5552478902953587,
+      "ci95": [
+       0.501722606518989,
+       0.6037623762376237
+      ]
+     }
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.0,
+    "fpr_pre": 0.0,
+    "fpr_post": 0.0,
+    "post_minus_pre": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  },
+  "head_seed2": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.6223958333333333,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.34375,
+     "fpr_neg": 0.09895833333333333,
+     "fpr_hard_neg": null,
+     "d_real": {
+      "value": 0.24479166666666669,
+      "ci95": [
+       0.16666666666666666,
+       0.3229166666666667
+      ]
+     },
+     "d_swap": {
+      "value": 0.24479166666666669,
+      "ci95": [
+       0.16666666666666666,
+       0.3229166666666667
+      ]
+     },
+     "d_cross": {
+      "value": 0.203125,
+      "ci95": [
+       0.125,
+       0.2864583333333333
+      ]
+     },
+     "ba_by_region": {
+      "holdout_hiroshima": 0.6290322580645161,
+      "holdout_indonesia": 0.41666666666666663
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.6783369803063457,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.424507658643326,
+     "fpr_neg": 0.12035010940919037,
+     "fpr_hard_neg": 0.015317286652078774,
+     "d_real": {
+      "value": 0.3041575492341356,
+      "ci95": [
+       0.24945295404814002,
+       0.3566739606126915
+      ]
+     },
+     "d_swap": {
+      "value": 0.3041575492341356,
+      "ci95": [
+       0.24945295404814002,
+       0.3566739606126915
+      ]
+     },
+     "d_cross": {
+      "value": 0.3063457330415755,
+      "ci95": [
+       0.25601750547045954,
+       0.3588621444201313
+      ]
+     }
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.7883482770745429,
+     "parse_fail": {
+      "real_all": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.71875,
+     "fpr_neg": 0.1420534458509142,
+     "fpr_hard_neg": null,
+     "d_cross": {
+      "value": 0.5979254571026723,
+      "ci95": [
+       0.5157001414427156,
+       0.671905569323073
+      ]
+     }
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.0,
+    "fpr_pre": 0.0,
+    "fpr_post": 0.0,
+    "post_minus_pre": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  },
+  "head_seed3": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.8411458333333333,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.90625,
+     "fpr_neg": 0.22395833333333334,
+     "fpr_hard_neg": null,
+     "d_real": {
+      "value": 0.6822916666666666,
+      "ci95": [
+       0.609375,
+       0.75
+      ]
+     },
+     "d_swap": {
+      "value": 0.6822916666666666,
+      "ci95": [
+       0.609375,
+       0.75
+      ]
+     },
+     "d_cross": {
+      "value": 0.6666666666666667,
+      "ci95": [
+       0.5885416666666667,
+       0.7395833333333333
+      ]
+     },
+     "ba_by_region": {
+      "holdout_hiroshima": 0.8602150537634408,
+      "holdout_indonesia": 0.25
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.6586433260393874,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.3413566739606127,
+     "fpr_neg": 0.04814004376367615,
+     "fpr_hard_neg": 0.0,
+     "d_real": {
+      "value": 0.29321663019693656,
+      "ci95": [
+       0.24288840262582057,
+       0.3413566739606127
+      ]
+     },
+     "d_swap": {
+      "value": 0.29321663019693656,
+      "ci95": [
+       0.24288840262582057,
+       0.3413566739606127
+      ]
+     },
+     "d_cross": {
+      "value": 0.3063457330415755,
+      "ci95": [
+       0.2603938730853392,
+       0.3522975929978118
+      ]
+     }
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.7223540787623066,
+     "parse_fail": {
+      "real_all": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.9791666666666666,
+     "fpr_neg": 0.5344585091420534,
+     "fpr_hard_neg": null,
+     "d_cross": {
+      "value": 0.4538502109704641,
+      "ci95": [
+       0.3515154701506269,
+       0.5586845827439888
+      ]
+     }
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.013020833333333334,
+    "fpr_pre": 0.026041666666666668,
+    "fpr_post": 0.0,
+    "post_minus_pre": {
+     "value": -0.026041666666666668,
+     "ci95": [
+      -0.052083333333333336,
+      -0.005208333333333333
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  },
+  "reader_seed1": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.734375,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.6822916666666666,
+     "fpr_neg": 0.21354166666666666,
+     "fpr_hard_neg": null,
+     "d_real": {
+      "value": 0.46875,
+      "ci95": [
+       0.375,
+       0.5520833333333334
+      ]
+     },
+     "d_swap": {
+      "value": 0.46875,
+      "ci95": [
+       0.375,
+       0.5520833333333334
+      ]
+     },
+     "d_cross": {
+      "value": 0.484375,
+      "ci95": [
+       0.39583333333333337,
+       0.5677083333333334
+      ]
+     },
+     "ba_by_region": {
+      "holdout_hiroshima": 0.75,
+      "holdout_indonesia": 0.25
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.7921225382932167,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.6039387308533917,
+     "fpr_neg": 0.0175054704595186,
+     "fpr_hard_neg": 0.02188183807439825,
+     "d_real": {
+      "value": 0.5864332603938731,
+      "ci95": [
+       0.5382932166301969,
+       0.6345733041575492
+      ]
+     },
+     "d_swap": {
+      "value": 0.586433260393873,
+      "ci95": [
+       0.5382932166301969,
+       0.6323851203501094
+      ]
+     },
+     "d_cross": {
+      "value": 0.5886214442013129,
+      "ci95": [
+       0.5426695842450765,
+       0.6367614879649891
+      ]
+     }
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.9470815752461321,
+     "parse_fail": {
+      "real_all": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.9166666666666666,
+     "fpr_neg": 0.02250351617440225,
+     "fpr_hard_neg": null,
+     "d_cross": {
+      "value": 0.8871747538677919,
+      "ci95": [
+       0.8421455938697318,
+       0.923493538550893
+      ]
+     }
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.033854166666666664,
+    "fpr_pre": 0.041666666666666664,
+    "fpr_post": 0.026041666666666668,
+    "post_minus_pre": {
+     "value": -0.015624999999999997,
+     "ci95": [
+      -0.03645833333333333,
+      0.0
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  },
+  "reader_seed2": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.625,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.4427083333333333,
+     "fpr_neg": 0.19270833333333334,
+     "fpr_hard_neg": null,
+     "d_real": {
+      "value": 0.24999999999999997,
+      "ci95": [
+       0.15625,
+       0.3385416666666667
+      ]
+     },
+     "d_swap": {
+      "value": 0.24479166666666666,
+      "ci95": [
+       0.15104166666666666,
+       0.33333333333333337
+      ]
+     },
+     "d_cross": {
+      "value": 0.28125,
+      "ci95": [
+       0.19791666666666669,
+       0.36979166666666674
+      ]
+     },
+     "ba_by_region": {
+      "holdout_hiroshima": 0.6263440860215054,
+      "holdout_indonesia": 0.5833333333333334
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.7231947483588621,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.474835886214442,
+     "fpr_neg": 0.0437636761487965,
+     "fpr_hard_neg": 0.01312910284463895,
+     "d_real": {
+      "value": 0.4310722100656455,
+      "ci95": [
+       0.37636761487964987,
+       0.47921225382932164
+      ]
+     },
+     "d_swap": {
+      "value": 0.4310722100656455,
+      "ci95": [
+       0.37636761487964987,
+       0.47921225382932164
+      ]
+     },
+     "d_cross": {
+      "value": 0.437636761487965,
+      "ci95": [
+       0.39168490153172864,
+       0.48577680525164113
+      ]
+     }
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.9444004922644164,
+     "parse_fail": {
+      "real_all": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.8958333333333334,
+     "fpr_neg": 0.007032348804500703,
+     "fpr_hard_neg": null,
+     "d_cross": {
+      "value": 0.8869110407876231,
+      "ci95": [
+       0.8530698065601345,
+       0.9143258426966292
+      ]
+     }
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.020833333333333332,
+    "fpr_pre": 0.020833333333333332,
+    "fpr_post": 0.020833333333333332,
+    "post_minus_pre": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  },
+  "reader_seed3": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.6197916666666667,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.5052083333333334,
+     "fpr_neg": 0.265625,
+     "fpr_hard_neg": null,
+     "d_real": {
+      "value": 0.23958333333333337,
+      "ci95": [
+       0.15104166666666669,
+       0.32291666666666674
+      ]
+     },
+     "d_swap": {
+      "value": 0.234375,
+      "ci95": [
+       0.15104166666666663,
+       0.31770833333333337
+      ]
+     },
+     "d_cross": {
+      "value": 0.21875,
+      "ci95": [
+       0.125,
+       0.3125
+      ]
+     },
+     "ba_by_region": {
+      "holdout_hiroshima": 0.6236559139784946,
+      "holdout_indonesia": 0.5
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.7773522975929978,
+     "parse_fail": {
+      "real_all": 0.0,
+      "swap_within_tile": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.5711159737417943,
+     "fpr_neg": 0.02188183807439825,
+     "fpr_hard_neg": 0.010940919037199124,
+     "d_real": {
+      "value": 0.5492341356673961,
+      "ci95": [
+       0.5010940919037199,
+       0.5973741794310722
+      ]
+     },
+     "d_swap": {
+      "value": 0.5470459518599562,
+      "ci95": [
+       0.49890590809628005,
+       0.5951859956236324
+      ]
+     },
+     "d_cross": {
+      "value": 0.5711159737417943,
+      "ci95": [
+       0.5295404814004376,
+       0.6170678336980306
+      ]
+     }
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.9237649437412097,
+     "parse_fail": {
+      "real_all": 0.0,
+      "zero_embedding": 0.0,
+      "swap_cross_tile": 0.0
+     },
+     "recall": 0.9895833333333334,
+     "fpr_neg": 0.1420534458509142,
+     "fpr_hard_neg": null,
+     "d_cross": {
+      "value": 0.8609353023909986,
+      "ci95": [
+       0.789842918427249,
+       0.9242016558249557
+      ]
+     }
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.08333333333333333,
+    "fpr_pre": 0.09375,
+    "fpr_post": 0.07291666666666667,
+    "post_minus_pre": {
+     "value": -0.02083333333333333,
+     "ci95": [
+      -0.04687499999999999,
+      0.0
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  },
+  "blind_seed1": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.7005208333333333,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.6979166666666666,
+     "fpr_neg": 0.296875,
+     "fpr_hard_neg": null,
+     "ba_by_region": {
+      "holdout_hiroshima": 0.7150537634408602,
+      "holdout_indonesia": 0.25
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.5,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.0,
+     "fpr_neg": 0.0,
+     "fpr_hard_neg": 0.0
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.5,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.0,
+     "fpr_neg": 0.0,
+     "fpr_hard_neg": null
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.0,
+    "fpr_pre": 0.0,
+    "fpr_post": 0.0,
+    "post_minus_pre": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  },
+  "blind_seed2": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.5104166666666666,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.16666666666666666,
+     "fpr_neg": 0.14583333333333334,
+     "fpr_hard_neg": null,
+     "ba_by_region": {
+      "holdout_hiroshima": 0.5161290322580645,
+      "holdout_indonesia": 0.3333333333333333
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.5,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.0,
+     "fpr_neg": 0.0,
+     "fpr_hard_neg": 0.0
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.5,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.0,
+     "fpr_neg": 0.0,
+     "fpr_hard_neg": null
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.0,
+    "fpr_pre": 0.0,
+    "fpr_post": 0.0,
+    "post_minus_pre": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  },
+  "blind_seed3": {
+   "phen": {
+    "landslide": {
+     "n_real": 384,
+     "balanced_acc": 0.5442708333333334,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.6458333333333334,
+     "fpr_neg": 0.5572916666666666,
+     "fpr_hard_neg": null,
+     "ba_by_region": {
+      "holdout_hiroshima": 0.5483870967741935,
+      "holdout_indonesia": 0.41666666666666663
+     }
+    },
+    "flood": {
+     "n_real": 1371,
+     "balanced_acc": 0.4447483588621444,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.0,
+     "fpr_neg": 0.2210065645514223,
+     "fpr_hard_neg": 0.0
+    },
+    "solar": {
+     "n_real": 807,
+     "balanced_acc": 0.5,
+     "parse_fail": {
+      "real_all": 0.0
+     },
+     "recall": 0.0,
+     "fpr_neg": 0.0,
+     "fpr_hard_neg": null
+    }
+   },
+   "cross": {
+    "n_tiles": 192,
+    "fpr_all": 0.0,
+    "fpr_pre": 0.0,
+    "fpr_post": 0.0,
+    "post_minus_pre": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "parse_fail": 0.0
+   }
+  }
+ },
+ "manifest": {
+  "code_sha256": "f388e22e22458c9674efd625b70ea9f63c24d44623534c440726a145b57f0601",
+  "items_sha256": "c4aa5bf0a82c80fde36f04e2e48a80c707185882e410c5f851918e3e73b54ab2",
+  "train_pools": {
+   "landslide": 1036,
+   "flood": 3198,
+   "solar": 2453,
+   "cross_solar_on_landslide": 1036
+  },
+  "test": {
+   "landslide|pos": 192,
+   "landslide|neg": 192,
+   "flood|pos": 457,
+   "flood|neg": 457,
+   "flood|hard_neg": 457,
+   "solar|neg": 711,
+   "solar|pos": 96,
+   "cross_solar_on_landslide|cross_pre": 192,
+   "cross_solar_on_landslide|cross_post": 192
+  },
+  "plan": {
+   "real_all": 2946,
+   "swap_within_tile": 1298,
+   "zero_embedding": 2105,
+   "swap_cross_tile": 2105
+  },
+  "started": "2026-09-26T23:49:22"
+ },
+ "finished": "2026-09-27T01:53:28"
+}

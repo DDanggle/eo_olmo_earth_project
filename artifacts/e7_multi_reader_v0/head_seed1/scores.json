@@ -1,0 +1,113 @@
+{
+ "summary": {
+  "phen": {
+   "landslide": {
+    "n_real": 384,
+    "balanced_acc": 0.5989583333333334,
+    "parse_fail": {
+     "real_all": 0.0,
+     "swap_within_tile": 0.0,
+     "zero_embedding": 0.0,
+     "swap_cross_tile": 0.0
+    },
+    "recall": 0.3645833333333333,
+    "fpr_neg": 0.16666666666666666,
+    "fpr_hard_neg": null,
+    "d_real": {
+     "value": 0.19791666666666666,
+     "ci95": [
+      0.11458333333333331,
+      0.28125
+     ]
+    },
+    "d_swap": {
+     "value": 0.19791666666666666,
+     "ci95": [
+      0.11458333333333331,
+      0.28125
+     ]
+    },
+    "d_cross": {
+     "value": 0.18749999999999997,
+     "ci95": [
+      0.09375,
+      0.27604166666666663
+     ]
+    },
+    "ba_by_region": {
+     "holdout_hiroshima": 0.6021505376344086,
+     "holdout_indonesia": 0.5
+    }
+   },
+   "flood": {
+    "n_real": 1371,
+    "balanced_acc": 0.6821663019693655,
+    "parse_fail": {
+     "real_all": 0.0,
+     "swap_within_tile": 0.0,
+     "zero_embedding": 0.0,
+     "swap_cross_tile": 0.0
+    },
+    "recall": 0.437636761487965,
+    "fpr_neg": 0.13347921225382933,
+    "fpr_hard_neg": 0.01312910284463895,
+    "d_real": {
+     "value": 0.3041575492341356,
+     "ci95": [
+      0.2472647702407002,
+      0.3610503282275711
+     ]
+    },
+    "d_swap": {
+     "value": 0.3041575492341356,
+     "ci95": [
+      0.2472647702407002,
+      0.3610503282275711
+     ]
+    },
+    "d_cross": {
+     "value": 0.2713347921225383,
+     "ci95": [
+      0.21881838074398247,
+      0.3238512035010941
+     ]
+    }
+   },
+   "solar": {
+    "n_real": 807,
+    "balanced_acc": 0.7603067862165964,
+    "parse_fail": {
+     "real_all": 0.0,
+     "zero_embedding": 0.0,
+     "swap_cross_tile": 0.0
+    },
+    "recall": 0.59375,
+    "fpr_neg": 0.07313642756680731,
+    "fpr_hard_neg": null,
+    "d_cross": {
+     "value": 0.5552478902953587,
+     "ci95": [
+      0.501722606518989,
+      0.6037623762376237
+     ]
+    }
+   }
+  },
+  "cross": {
+   "n_tiles": 192,
+   "fpr_all": 0.0,
+   "fpr_pre": 0.0,
+   "fpr_post": 0.0,
+   "post_minus_pre": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "parse_fail": 0.0
+  }
+ },
+ "train_s": 120.22005224227905,
+ "total_s": 122.7953107431531
+}

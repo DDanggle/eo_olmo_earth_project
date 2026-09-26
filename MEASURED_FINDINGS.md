@@ -5804,6 +5804,13 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-162 (2026-09-27) — E7 산사태(S2)+홍수(S1)+태양광(S2) reader, 엇갈린 질문: 등록 판정 **세 현상 모두 reads**(산사태 2/3, 홍수 3/3, 태양광 3/3) + **cross_question = question_specific (3/3 seed)** — 산사태 타일에 "태양광?"을 물으면 전·후 영상 모두 오경보 약 2–4%, 후−전 차이 −.021~.000. 센서=현상 교락을 풀어도(S2 안에 두 현상) 물은 현상을 구분해 읽는다
+
+사전등록 `config/e7_multi_reader_prereg_v0.json`(커밋 075e353, 실행 전). GPU0, 약 3시간. 로컬 `artifacts/e7_multi_reader_v0/`(.pt 제외, 해시는 SHA256SUMS_models).
+reader BA: 산사태 .734/.625/.620, 홍수 .792/.723/.777, 태양광 .947/.944/.924. blind: 산사태 .5–.54, 홍수 .45–.50, 태양광 .50.
+읽는 법: (1) 발견 D(센서–현상 교락)에 대한 방어 근거. (2) 현상별 균형 샘플링은 산사태 seed 분산을 줄이지 못했다(E2 .789/.682/.526 → E7 .734/.625/.620). (3) mean-pool head 대비 우위(태양광 +.16~.20)는 MS-161에서 **공간 attention head와 동률로 확인 → LLM 우위 아님**.
+금지: "LLM reader가 판별에서 우월", 산사태 불안정 원인을 학습 비중으로 단정.
+
 ## MS-161 (2026-09-27) — E7s 공간 attention head(가장 강한 비LLM 기준선) vs E7 LLM reader: **세 현상 모두 10%p 규칙 불통과**. 태양광의 +16~20%p(vs mean-pool head)는 **약한 기준선 착시** — attention head가 reader와 같음(차이 −.020 [−.039, −.004] / −.005 [−.028, .017] / .000 [−.014, .018]). 산사태는 head가 **더 높음**(−.065 / −.135 / −.224, 모두 CI < 0). 홍수 .000 / −.129 / +.083
 
 사전등록 `config/e7s_strong_head_prereg_v0.json`(커밋 cf02b5e, 실행 전). 코드 `code/e7s_strong_head_v0.py`. 같은 E7 균형 스케줄(seed별 동일), 약 1.6M 파라미터. 로컬 `artifacts/e7s_strong_head_v0/`.

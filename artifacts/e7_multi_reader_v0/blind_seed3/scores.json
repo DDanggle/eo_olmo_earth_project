@@ -1,0 +1,56 @@
+{
+ "summary": {
+  "phen": {
+   "landslide": {
+    "n_real": 384,
+    "balanced_acc": 0.5442708333333334,
+    "parse_fail": {
+     "real_all": 0.0
+    },
+    "recall": 0.6458333333333334,
+    "fpr_neg": 0.5572916666666666,
+    "fpr_hard_neg": null,
+    "ba_by_region": {
+     "holdout_hiroshima": 0.5483870967741935,
+     "holdout_indonesia": 0.41666666666666663
+    }
+   },
+   "flood": {
+    "n_real": 1371,
+    "balanced_acc": 0.4447483588621444,
+    "parse_fail": {
+     "real_all": 0.0
+    },
+    "recall": 0.0,
+    "fpr_neg": 0.2210065645514223,
+    "fpr_hard_neg": 0.0
+   },
+   "solar": {
+    "n_real": 807,
+    "balanced_acc": 0.5,
+    "parse_fail": {
+     "real_all": 0.0
+    },
+    "recall": 0.0,
+    "fpr_neg": 0.0,
+    "fpr_hard_neg": null
+   }
+  },
+  "cross": {
+   "n_tiles": 192,
+   "fpr_all": 0.0,
+   "fpr_pre": 0.0,
+   "fpr_post": 0.0,
+   "post_minus_pre": {
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "parse_fail": 0.0
+  }
+ },
+ "train_s": 502.4694020599127,
+ "total_s": 727.4026106074452
+}
