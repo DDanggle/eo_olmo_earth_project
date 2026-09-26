@@ -1,0 +1,28 @@
+{
+  "schema": "e8b-pair-controls-prereg-v0",
+  "id": "E8b",
+  "registered_at": "2026-09-27",
+  "status": "registered before the E8b run, after E8 (MS-159) results",
+  "motivation": "MS-159: EarthDial separates event/non-event pairs with the two-image question (d .365) but not with the one-image question (d_post .036). The two questions differ in wording, so the contrast mixes image content and question wording. E8b keeps the SAME two-image question and changes only the image pair.",
+  "code": "code/e8b_pair_controls_v0.py wrapping unchanged code/e8_earthdial_protocol_v0.py (sha256 529d1422...); same model, runtime, template, decoding and items as E8",
+  "arms": {
+    "real": "rerun of E8 real (reproduction check)",
+    "pair_post_post": "[post, post] of each item: no change between the images",
+    "pair_pre_pre": "[pre, pre]: no change",
+    "pair_reversed": "[post, pre]"
+  },
+  "primary_subset": "192 tiles shared with E0 (as in MS-159); 203 tiles reported as secondary",
+  "metrics": {
+    "compare": "on positive items (dates spanning the landslide), P(yes | real [pre, post]) - P(yes | [post, post]), paired tile bootstrap 2000",
+    "direction": "on positive items, P(yes | real) - P(yes | [post, pre]), paired tile bootstrap"
+  },
+  "verdict": {
+    "invalid_run": "real-arm reproduction vs E8 < 0.95, or parse failure > 10% in any arm",
+    "compares_pair": "compare >= 0.10 and CI lower > 0 (answers depend on the pair, not only on a scar in the second image)",
+    "post_scar_cue": "|compare| < 0.05",
+    "unclear": "otherwise",
+    "direction_sensitive": "direction >= 0.10 and CI lower > 0; otherwise direction_blind_or_unclear (reported alongside)"
+  },
+  "what_this_does_not_show": ["change understanding in general (one model, zero-shot, RGB renders, exposed hiroshima-heavy tiles)", "why a pair is needed (could be a difference detector)"],
+  "compute": "GPU1 only if idle"
+}
