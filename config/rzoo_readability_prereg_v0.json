@@ -1,0 +1,20 @@
+{
+  "schema": "rzoo-readability-prereg-v0",
+  "id": "R-ZOO v0",
+  "registered_at": "2026-09-27",
+  "status": "registered before any R-ZOO training or evaluation",
+  "direction": "Scalable benchmark: how language-readable are frozen EO foundation-model embeddings? (docs/NOVELTY_DIRECTIONS_20260927.md follow-up requested by the user: broader, scale-up-able)",
+  "task": "Sen12 window embeddings (12 timesteps -> one spatial map per tile). Q: 'During the observed period, did a landslide occur in this area?' yes = mask >= 200 px, no = empty mask, 1-199 px dropped. Labels from olmo_nano/mask_u8 (identical tile set in all caches, checked 2026-09-27).",
+  "splits": {"train_regions": ["chimanimani", "hokkaido", "kyrgyzstan1", "kyrgyzstan2", "newzealand", "thrissur", "itogon"], "test_regions": ["hiroshima (186 pos / 405 neg)", "indonesia (176 / 273)", "china (29 / 78, never used by any EO-VLM run)"]},
+  "encoders": ["olmo_nano (128-d)", "olmo_tiny (192-d)", "olmo_base_half (768-d)", "galileo_nano (128-d)", "galileo_tiny (192-d)", "galileo_cache (768-d)", "prithvi_cache (1024-d, 8x8)", "clay_cache (1024-d, 32x32 bilinear)", "clay_cache_native16 (1024-d, 16x16)"],
+  "caveats": ["caches were built in August by different scripts (window/band/timestamp handling differs per encoder); differences mix encoder quality and cache contract", "all maps pooled to 8x8 = 64 tokens; this favours coarse encoders less than fine ones"],
+  "arms": "per encoder: reader (LayerNorm-MLP projector + learned 64-token position, frozen Olmo-3-7B, 2 epochs, AdamW 1e-4, batch 8) seeds 1-3; head (LayerNorm-MLP on mean-pooled tokens, BCE, AdamW 1e-3, same epochs/batches) seeds 1-3; shared blind reader (zero input) seeds 1-3",
+  "evaluation": "reader: real, swap_cross_tile (same test region, opposite answer), zero_embedding; head: same; blind: real. Greedy, max_new_tokens 8",
+  "primary_verdict_per_encoder": {
+    "readable": ">= 2 of 3 seeds with reader balanced_acc - blind balanced_acc >= 0.05 AND d_cross >= 0.10 with tile-bootstrap CI lower > 0",
+    "invalid": "parse failure > 10% in any arm"
+  },
+  "descriptive": ["size scaling within OlmoEarth (nano, tiny, base) and within Galileo (nano, tiny, base): mean reader BA and d_cross with seed range", "reader - head BA per encoder ('LLM tax/gain')", "per-region BA, especially china (untouched) and indonesia", "encoder ranking with seed ranges (no significance claim across encoders in v0)"],
+  "what_this_does_not_show": ["change understanding (window presence only)", "which pretraining objective causes readability (confounded with cache contract and size)", "generality beyond landslides"],
+  "compute": "our own GPUs only when no other user's process; part A (OlmoEarth x3, Galileo x3, blind) and part B (Prithvi, Clay x2) may run on different GPUs"
+}
