@@ -1,0 +1,8 @@
+{
+  "schema": "a1-prereg-amendment-v0",
+  "amends": "config/a1_aef_vs_olmoearth_floods_prereg_v0.json",
+  "registered_at": "2026-09-27",
+  "status": "registered while AlphaEarth tiles were still downloading; no score had been computed",
+  "why": "A win over AlphaEarth is not meaningful for CVPR if a classic, training-free SAR change index already beats both embeddings on floods (reviewer: 'just use the SAR ratio').",
+  "change": "adds sar = backscatter decrease post vs pre_2 in dB (VV+VH mean, 4x4-pooled to the 48x48 grid) as a competitor. New field meaningful_vs_strongest = OlmoEarth - max-competitor >= 0.05 on BOTH T1 (flood vs dry+perm) and T2 (token localisation), for both AEF and SAR, each with event-bootstrap CI lower bound > 0. The original verdict (vs AEF only) is kept and reported unchanged."
+}

@@ -208,11 +208,16 @@ def score(a):
         aef_next = pool4(cos_change(dequant(np.load(ya)), aB)) if ya.exists() else None
         S = np.load(KURO / "single_fp16" / f"{t['id']}.npy").astype(np.float32)
         olmo = cos_change(S[2], S[1])
+        # classic label-free SAR flood change (amendment 2026-09-27): backscatter decrease post vs pre_2, dB, VV+VH mean
+        raw = np.load(ROOT / "kurosiwo_npy/raw_f32" / f"{t['id']}.npy")[:, :, 16:208, 16:208].astype(np.float64)
+        db = 10 * np.log10(np.clip(raw, 1e-6, None))
+        db[raw == 0] = np.nan
+        sar = pool4(np.nanmean(db[:, 1] - db[:, 2], 0).astype(np.float32))
         m = np.load(KURO / "mask_u8" / f"{t['id']}.npy")
         v = (np.load(KURO / "valid_u8" / f"{t['id']}.npy") == 1) & (m > 0)
         flood_frac = pool4(((m == 3) & v).astype(np.float32))
         valid_frac = pool4(v.astype(np.float32))
-        per.append({**t, "aef": aef, "aef_next": aef_next, "olmo": olmo, "ff": flood_frac, "vf": valid_frac})
+        per.append({**t, "aef": aef, "aef_next": aef_next, "olmo": olmo, "sar": sar, "ff": flood_frac, "vf": valid_frac})
     ok = lambda x: np.isfinite(x)
 
     def tile_mean(p, key):
@@ -249,11 +254,14 @@ def score(a):
     for name, fn in (("T1_flood_vs_dry_perm", lambda ps, k: t1(ps, k, ("dry", "perm"))),
                      ("T1_flood_vs_perm", lambda ps, k: t1(ps, k, ("perm",))),
                      ("T2_token_localisation", t2)):
-        r = {k: fn(per, k) for k in ("olmo", "aef", "aef_next")}
+        r = {k: fn(per, k) for k in ("olmo", "aef", "aef_next", "sar")}
         diff_fn = lambda groups: (lambda o, a_: None if o is None or a_ is None else o - a_)(fn(flat(groups), "olmo"), fn(flat(groups), "aef"))
         r["olmo_minus_aef"] = r["olmo"] - r["aef"] if r["olmo"] is not None and r["aef"] is not None else None
         r["ci95"] = event_bootstrap(by_ev, diff_fn)
-        r["per_event"] = {str(e): {k: fn(ps, k) for k in ("olmo", "aef")} for e, ps in by_ev.items()}
+        r["per_event"] = {str(e): {k: fn(ps, k) for k in ("olmo", "aef", "sar")} for e, ps in by_ev.items()}
+        sar_fn = lambda groups: (lambda o, s_: None if o is None or s_ is None else o - s_)(fn(flat(groups), "olmo"), fn(flat(groups), "sar"))
+        r["olmo_minus_sar"] = r["olmo"] - r["sar"] if r["olmo"] is not None and r["sar"] is not None else None
+        r["ci95_vs_sar"] = event_bootstrap(by_ev, sar_fn)
         res[name] = r
     enough = len(by_ev) >= 3 and res["kinds"]["flood"] >= 100 and res["masked_frac_mean"] <= 0.10
     win = lambda k: res[k]["olmo_minus_aef"] is not None and res[k]["olmo_minus_aef"] >= 0.05 and res[k]["ci95"] and res[k]["ci95"][0] > 0
@@ -261,6 +269,10 @@ def score(a):
     res["verdict"] = ("invalid" if not enough else
                       "olmoearth_beats_aef" if win("T1_flood_vs_dry_perm") and win("T2_token_localisation") else
                       "aef_beats_olmoearth" if lose("T1_flood_vs_dry_perm") and lose("T2_token_localisation") else "tie_or_mixed")
+    # amendment: meaningful only if OlmoEarth beats the STRONGEST of {AEF, SAR log-ratio} by >= .05 on T1 and T2 (CI > 0)
+    beats = lambda k: all(res[k][d] is not None and res[k][d] >= 0.05 and res[k][c] and res[k][c][0] > 0
+                          for d, c in (("olmo_minus_aef", "ci95"), ("olmo_minus_sar", "ci95_vs_sar")))
+    res["meaningful_vs_strongest"] = res["verdict"] != "invalid" and beats("T1_flood_vs_dry_perm") and beats("T2_token_localisation")
     res["code_sha256"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     (OUT / "scores.json").write_text(json.dumps(res, indent=1))
     print(json.dumps({k: (v if not isinstance(v, dict) or "per_event" not in v else {kk: vv for kk, vv in v.items() if kk != "per_event"})
