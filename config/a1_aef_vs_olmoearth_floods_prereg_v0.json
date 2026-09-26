@@ -1,0 +1,33 @@
+{
+  "schema": "a1-aef-vs-olmoearth-prereg-v0",
+  "id": "A1",
+  "registered_at": "2026-09-27",
+  "status": "registered before any AlphaEarth tile is downloaded or scored",
+  "direction": "Beat AlphaEarth (user, 2026-09-27). Hypothesis from its public design: annual embeddings (one per calendar year) dilute transient events such as floods, which recede in days-weeks; per-observation OlmoEarth embeddings do not. 2609.25731 itself reports annual-summary limits (late-season fires, no within-season mapping) and never compared per-date embeddings.",
+  "data": {
+    "events": "KuroSiwo test split (10 events, disjoint from train), restricted to flood years 2018+ so that both year Y and Y-1 exist in AlphaEarth (2017-2025)",
+    "tiles": "flood tiles (flood >= 2% of valid px), permanent-water-only tiles (flood 0, permanent water >= 5%), dry tiles (no water, >= 90% valid); from kurosiwo_s1_cache mask_u8/valid_u8 (192x192 centre crop, 10 m)",
+    "alphaearth": "Satellite Embedding V1 annual, anonymous mirror https://data.source.coop/tge-labs/aef/v1/annual/ (CC-BY 4.0, 'The AlphaEarth Foundations Satellite Embedding dataset is produced by Google and Google DeepMind'), window 192x192 px around the KuroSiwo tile centroid, years Y (flood year) and Y-1; int8 dequantised as (v/127.5)^2*sign(v)",
+    "olmoearth": "kurosiwo_s1_cache/single_fp16 (3,768,48,48): pre_1, pre_2, post, OlmoEarth v1 Base, S1 VV/VH (existing cache)",
+    "sar_reference": "raw S1 VV log-ratio post vs pre_2 from kurosiwo_npy raw_f32 (classic label-free flood change), reported as reference, not a competitor for the primary verdict"
+  },
+  "scores_label_free": {
+    "aef": "per pixel 1 - cos(e_Y, e_Y-1), mean-pooled to the 48x48 grid (4x4 px = 40 m)",
+    "olmoearth": "per token 1 - cos(post, pre_2) on the 48x48 grid",
+    "no_training": "no labels, no fitting; thresholds are never tuned, only rank metrics are used"
+  },
+  "metrics": {
+    "T1_tile_detection": "AUC of tile-mean change: flood tiles vs (dry + permanent-water-only) tiles; also flood vs permanent-water-only alone",
+    "T2_localisation": "within flood tiles, token-level AUC of change score for tokens with flood fraction >= 0.5 vs tokens with flood fraction 0 (pooled across tiles), and the per-tile mean of token AUCs",
+    "ci": "95% event-clustered bootstrap (resample events, 2000) of OlmoEarth - AEF differences"
+  },
+  "primary_verdict": {
+    "olmoearth_beats_aef": "OlmoEarth - AEF >= 0.05 AUC on BOTH T1 (flood vs dry+perm) and T2 (pooled token AUC), each with event-bootstrap CI lower bound > 0",
+    "aef_beats_olmoearth": "AEF - OlmoEarth >= 0.05 on both, CI > 0",
+    "tie_or_mixed": "otherwise",
+    "invalid": "fewer than 3 events or fewer than 100 flood tiles with both AEF years available; or AEF windows failing georeference checks (> 10% of tiles with all-masked pixels)"
+  },
+  "secondary": ["AEF with year Y+1 instead of Y-1 as the 'after' layer", "per-event results", "flood month (late-year events) vs AEF gap", "SAR log-ratio reference AUCs"],
+  "what_this_does_not_show": ["AlphaEarth's quality on its own benchmark tasks", "anything about landslides or fires (separate A2/A3)", "LLM or agent value"],
+  "meaningfulness_rule": "config/meaningfulness_rule_amendment_20260927.json (+0.05); here the strongest baseline is AlphaEarth annual embeddings (the target named by the user)"
+}
