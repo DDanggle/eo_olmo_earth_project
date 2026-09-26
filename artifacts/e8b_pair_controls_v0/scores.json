@@ -1,0 +1,80 @@
+{
+ "primary_192": {
+  "reproduction_vs_e8": 1.0,
+  "parse_fail": {
+   "real": 0.0,
+   "pair_post_post": 0.0,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.0
+  },
+  "p_yes_pos_items": {
+   "real": 0.4479166666666667,
+   "pair_post_post": 0.010416666666666666,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.11458333333333333
+  },
+  "p_yes_neg_items": {
+   "real": 0.08333333333333333,
+   "pair_post_post": 0.0,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.24479166666666666
+  },
+  "compare_real_vs_postpost_pos": {
+   "n_tiles": 192,
+   "value": 0.4375,
+   "ci95": [
+    0.3645833333333333,
+    0.5104166666666666
+   ]
+  },
+  "compare_real_vs_reversed_pos": {
+   "n_tiles": 192,
+   "value": 0.3333333333333333,
+   "ci95": [
+    0.25,
+    0.4114583333333333
+   ]
+  },
+  "verdict": "compares_pair",
+  "direction": "direction_sensitive"
+ },
+ "all_203": {
+  "reproduction_vs_e8": 1.0,
+  "parse_fail": {
+   "real": 0.0,
+   "pair_post_post": 0.0,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.0
+  },
+  "p_yes_pos_items": {
+   "real": 0.43349753694581283,
+   "pair_post_post": 0.009852216748768473,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.10837438423645321
+  },
+  "p_yes_neg_items": {
+   "real": 0.07881773399014778,
+   "pair_post_post": 0.0,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.2315270935960591
+  },
+  "compare_real_vs_postpost_pos": {
+   "n_tiles": 203,
+   "value": 0.4236453201970443,
+   "ci95": [
+    0.35467980295566504,
+    0.49261083743842365
+   ]
+  },
+  "compare_real_vs_reversed_pos": {
+   "n_tiles": 203,
+   "value": 0.3251231527093596,
+   "ci95": [
+    0.24630541871921183,
+    0.39901477832512317
+   ]
+  },
+  "verdict": "compares_pair",
+  "direction": "direction_sensitive"
+ }
+}
