@@ -1,0 +1,1253 @@
+{
+ "scores": {
+  "blind/reader_seed1": {
+   "balanced_acc": 0.5,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.5,
+    "china": 0.5
+   },
+   "parse_fail": {
+    "real": 0.0
+   },
+   "p_yes": 0.0
+  },
+  "blind/reader_seed2": {
+   "balanced_acc": 0.5,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.5,
+    "china": 0.5
+   },
+   "parse_fail": {
+    "real": 0.0
+   },
+   "p_yes": 0.0
+  },
+  "blind/reader_seed3": {
+   "balanced_acc": 0.5,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.5,
+    "china": 0.5
+   },
+   "parse_fail": {
+    "real": 0.0
+   },
+   "p_yes": 0.0
+  },
+  "olmo_nano/head_seed1": {
+   "balanced_acc": 0.6070295267865601,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6550012487512488,
+    "china": 0.648762157382847
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.2885789014821273,
+   "d_cross": {
+    "value": 0.05649941135874642,
+    "ci95": [
+     -0.00044385264092317023,
+     0.11365882110752762
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_nano/head_seed2": {
+   "balanced_acc": 0.6143029675638372,
+   "ba_by_region": {
+    "hiroshima": 0.49876543209876545,
+    "indonesia": 0.680787962037962,
+    "china": 0.6940760389036251
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.24062772449869224,
+   "d_cross": {
+    "value": 0.08489966034723065,
+    "ci95": [
+     0.030518119197364524,
+     0.13918439716312056
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_nano/head_seed3": {
+   "balanced_acc": 0.6046005358665205,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6794767732267732,
+    "china": 0.603448275862069
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.2022667829119442,
+   "d_cross": {
+    "value": 0.11321195144724558,
+    "ci95": [
+     0.06030992600865562,
+     0.16231398029763155
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_nano/attn_head_seed1": {
+   "balanced_acc": 0.5951247648817981,
+   "ba_by_region": {
+    "hiroshima": 0.5070489844683393,
+    "indonesia": 0.6123147685647685,
+    "china": 0.6768346595932803
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.3042720139494333,
+   "d_cross": {
+    "value": 0.043887603350519,
+    "ci95": [
+     -0.013394050286795078,
+     0.10217968094038621
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_nano/attn_head_seed2": {
+   "balanced_acc": 0.6398767236363144,
+   "ba_by_region": {
+    "hiroshima": 0.5122062923138192,
+    "indonesia": 0.7440684315684316,
+    "china": 0.6511936339522546
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.21970357454228423,
+   "d_cross": {
+    "value": 0.1634765017117958,
+    "ci95": [
+     0.11312971551926815,
+     0.2151866151866152
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_nano/attn_head_seed3": {
+   "balanced_acc": 0.6047781431413145,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6694243256743257,
+    "china": 0.6206896551724138
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.23016564952048824,
+   "d_cross": {
+    "value": 0.07387786032287313,
+    "ci95": [
+     0.018823770985123667,
+     0.12676478893124382
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_nano/reader_seed1": {
+   "balanced_acc": 0.6034114128743284,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6620983183483183,
+    "china": 0.6379310344827587
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.23452484742807322,
+   "d_cross": {
+    "value": 0.07405377609981192,
+    "ci95": [
+     0.01918884929784115,
+     0.12804068996019463
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_nano/reader_seed2": {
+   "balanced_acc": 0.6144349043965412,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6824321511821512,
+    "china": 0.6832449160035368
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.23278116826503922,
+   "d_cross": {
+    "value": 0.08445987090488372,
+    "ci95": [
+     0.029351437141051012,
+     0.135974489966276
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_nano/reader_seed3": {
+   "balanced_acc": 0.6008132721687709,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6289127539127539,
+    "china": 0.6724137931034483
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 1.0
+   },
+   "p_yes": 0.3121185701830863,
+   "d_cross": {
+    "value": 0.05050135996427557,
+    "ci95": [
+     -0.007158836689037995,
+     0.10935541780984315
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/head_seed1": {
+   "balanced_acc": 0.6289868604446609,
+   "ba_by_region": {
+    "hiroshima": 0.5080645161290323,
+    "indonesia": 0.7071782384282383,
+    "china": 0.6856763925729443
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.25196163905841323,
+   "d_cross": {
+    "value": 0.11258948023653909,
+    "ci95": [
+     0.05482368860940856,
+     0.1699423935644408
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/head_seed2": {
+   "balanced_acc": 0.6303079202695571,
+   "ba_by_region": {
+    "hiroshima": 0.5178016726403823,
+    "indonesia": 0.7157321844821845,
+    "china": 0.7186118479221928
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.2118570183086312,
+   "d_cross": {
+    "value": 0.1708852623174874,
+    "ci95": [
+     0.11730310663308147,
+     0.2203975060507208
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/head_seed3": {
+   "balanced_acc": 0.6126250016914978,
+   "ba_by_region": {
+    "hiroshima": 0.5026881720430108,
+    "indonesia": 0.694576257076257,
+    "china": 0.6379310344827587
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.18657367044463818,
+   "d_cross": {
+    "value": 0.12705855288975496,
+    "ci95": [
+     0.07550690178984218,
+     0.17421422663358146
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/attn_head_seed1": {
+   "balanced_acc": 0.7501606922962422,
+   "ba_by_region": {
+    "hiroshima": 0.7027080844285145,
+    "indonesia": 0.7797306859806861,
+    "china": 0.6768346595932803
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.3147340889276373,
+   "d_cross": {
+    "value": 0.3943388949782812,
+    "ci95": [
+     0.33848133848133843,
+     0.4464309629034418
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/attn_head_seed2": {
+   "balanced_acc": 0.7263511684867183,
+   "ba_by_region": {
+    "hiroshima": 0.7000199123855038,
+    "indonesia": 0.7192911255411256,
+    "china": 0.6748452696728559
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.34612031386224934,
+   "d_cross": {
+    "value": 0.33710199055467605,
+    "ci95": [
+     0.2788746999247148,
+     0.39534492730231746
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/attn_head_seed3": {
+   "balanced_acc": 0.7300978362359436,
+   "ba_by_region": {
+    "hiroshima": 0.6541019514137794,
+    "indonesia": 0.7711351148851149,
+    "china": 0.7349690539345712
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.3156059285091543,
+   "d_cross": {
+    "value": 0.35403726708074534,
+    "ci95": [
+     0.2989181179718264,
+     0.40876201397990386
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/reader_seed1": {
+   "balanced_acc": 0.6827849497286838,
+   "ba_by_region": {
+    "hiroshima": 0.5876941457586619,
+    "indonesia": 0.7338702963702963,
+    "china": 0.7117595048629531
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.3217088055797733,
+   "d_cross": {
+    "value": 0.24583214928483477,
+    "ci95": [
+     0.18838526912181303,
+     0.3014372961674372
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/reader_seed2": {
+   "balanced_acc": 0.6094923476637032,
+   "ba_by_region": {
+    "hiroshima": 0.5080645161290323,
+    "indonesia": 0.6915064102564102,
+    "china": 0.6595932802829354
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.14210985178727115,
+   "d_cross": {
+    "value": 0.1474343360532619,
+    "ci95": [
+     0.10307820652404451,
+     0.1897860765067686
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_tiny/reader_seed3": {
+   "balanced_acc": 0.7104307906737575,
+   "ba_by_region": {
+    "hiroshima": 0.6174830744723218,
+    "indonesia": 0.7851523476523476,
+    "china": 0.6206896551724138
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.29293809938971227,
+   "d_cross": {
+    "value": 0.3099466839876047,
+    "ci95": [
+     0.25565483297513864,
+     0.36504217432052477
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/head_seed1": {
+   "balanced_acc": 0.5630167525947577,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.5998896936396936,
+    "china": 0.6014588859416445
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.13687881429816914,
+   "d_cross": {
+    "value": 0.06630333292737385,
+    "ci95": [
+     0.022354821161430727,
+     0.1078367833672504
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/head_seed2": {
+   "balanced_acc": 0.553799780781878,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.5800761738261738,
+    "china": 0.6206896551724138
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.10810810810810811,
+   "d_cross": {
+    "value": 0.023799374822392735,
+    "ci95": [
+     -0.016837072605348113,
+     0.06200869049970373
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/head_seed3": {
+   "balanced_acc": 0.561118892001245,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6038856976356977,
+    "china": 0.603448275862069
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.0959023539668701,
+   "d_cross": {
+    "value": 0.08667911609088079,
+    "ci95": [
+     0.0519489867362897,
+     0.12065926849208583
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/attn_head_seed1": {
+   "balanced_acc": 0.6147004695598046,
+   "ba_by_region": {
+    "hiroshima": 0.5053763440860215,
+    "indonesia": 0.6748459873459873,
+    "china": 0.6704244031830239
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.25544899738448124,
+   "d_cross": {
+    "value": 0.09680442225199257,
+    "ci95": [
+     0.041139175784845106,
+     0.15249948868846944
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/attn_head_seed2": {
+   "balanced_acc": 0.595030041001908,
+   "ba_by_region": {
+    "hiroshima": 0.5026881720430108,
+    "indonesia": 0.6605581918081918,
+    "china": 0.6379310344827587
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.15605928509154315,
+   "d_cross": {
+    "value": 0.0948727317013762,
+    "ci95": [
+     0.04717733069481092,
+     0.14166326669386642
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/attn_head_seed3": {
+   "balanced_acc": 0.6098492537111463,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6771249583749583,
+    "china": 0.6379310344827587
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.23626852659110723,
+   "d_cross": {
+    "value": 0.06399951284861771,
+    "ci95": [
+     0.008497172098033912,
+     0.11935252569927496
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/reader_seed1": {
+   "balanced_acc": 0.5727614717384538,
+   "ba_by_region": {
+    "hiroshima": 0.5097371565113501,
+    "indonesia": 0.6003371628371629,
+    "china": 0.6832449160035368
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.13426329555361813,
+   "d_cross": {
+    "value": 0.07150638032990975,
+    "ci95": [
+     0.02893922564265311,
+     0.1143377796729875
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/reader_seed2": {
+   "balanced_acc": 0.5678645854477057,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6133033633033633,
+    "china": 0.6724137931034483
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.07933740191804708,
+   "d_cross": {
+    "value": 0.11216660577274387,
+    "ci95": [
+     0.08257051128976625,
+     0.14077901966065176
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "olmo_base_half/reader_seed3": {
+   "balanced_acc": 0.5588691998538546,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.5925949050949051,
+    "china": 0.6724137931034483
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.07585004359197908,
+   "d_cross": {
+    "value": 0.0899437069513796,
+    "ci95": [
+     0.059421252433696024,
+     0.11952347675618116
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_nano/head_seed1": {
+   "balanced_acc": 0.6454874220219489,
+   "ba_by_region": {
+    "hiroshima": 0.5815013938669853,
+    "indonesia": 0.6862096237096238,
+    "china": 0.7219274977895667
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.4629468177855275,
+   "d_cross": {
+    "value": 0.23303427651253733,
+    "ci95": [
+     0.1708739234787519,
+     0.2926099419226134
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_nano/head_seed2": {
+   "balanced_acc": 0.6074676247310519,
+   "ba_by_region": {
+    "hiroshima": 0.49826762246117084,
+    "indonesia": 0.6938270063270063,
+    "china": 0.7038019451812556
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.22406277244986922,
+   "d_cross": {
+    "value": 0.14777940161571876,
+    "ci95": [
+     0.09628878684874867,
+     0.19781716176560704
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_nano/head_seed3": {
+   "balanced_acc": 0.6040288095914694,
+   "ba_by_region": {
+    "hiroshima": 0.5016129032258064,
+    "indonesia": 0.6856789044289044,
+    "china": 0.6757294429708223
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.23626852659110723,
+   "d_cross": {
+    "value": 0.13384484228473997,
+    "ci95": [
+     0.08005100691170783,
+     0.1857520747243409
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_nano/attn_head_seed1": {
+   "balanced_acc": 0.6076909024479357,
+   "ba_by_region": {
+    "hiroshima": 0.5106332138590204,
+    "indonesia": 0.6825778388278388,
+    "china": 0.6954022988505747
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.2877070619006103,
+   "d_cross": {
+    "value": 0.1498024330505149,
+    "ci95": [
+     0.09320345437236499,
+     0.20585774058577405
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_nano/attn_head_seed2": {
+   "balanced_acc": 0.5829020013802623,
+   "ba_by_region": {
+    "hiroshima": 0.5029072082835524,
+    "indonesia": 0.6319201631701632,
+    "china": 0.7285587975243147
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.10810810810810811,
+   "d_cross": {
+    "value": 0.13200449261830335,
+    "ci95": [
+     0.09246228159103106,
+     0.16927684470269838
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_nano/attn_head_seed3": {
+   "balanced_acc": 0.6038106063681511,
+   "ba_by_region": {
+    "hiroshima": 0.505694942254082,
+    "indonesia": 0.6787275224775224,
+    "china": 0.7018125552608312
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.2877070619006103,
+   "d_cross": {
+    "value": 0.1514770159271438,
+    "ci95": [
+     0.0967144145046579,
+     0.20817951005283744
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_nano/reader_seed1": {
+   "balanced_acc": 0.6019990121652525,
+   "ba_by_region": {
+    "hiroshima": 0.49681401831939465,
+    "indonesia": 0.6802572427572428,
+    "china": 0.7141909814323608
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.2031386224934612,
+   "d_cross": {
+    "value": 0.13675760159136122,
+    "ci95": [
+     0.08466290127528583,
+     0.1861049402306146
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_nano/reader_seed2": {
+   "balanced_acc": 0.5839169000933707,
+   "ba_by_region": {
+    "hiroshima": 0.503126244524094,
+    "indonesia": 0.6333041958041958,
+    "china": 0.7265694076038904
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.12467306015693112,
+   "d_cross": {
+    "value": 0.11418963720754001,
+    "ci95": [
+     0.07134285603685209,
+     0.15440330721660644
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_nano/reader_seed3": {
+   "balanced_acc": 0.6129835992367961,
+   "ba_by_region": {
+    "hiroshima": 0.5367980884109916,
+    "indonesia": 0.669757326007326,
+    "china": 0.6693191865605659
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.3190932868352223,
+   "d_cross": {
+    "value": 0.1452117078715544,
+    "ci95": [
+     0.08634081752589734,
+     0.20330359295876538
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_tiny/head_seed1": {
+   "balanced_acc": 0.6057084669616639,
+   "ba_by_region": {
+    "hiroshima": 0.5103345280764635,
+    "indonesia": 0.6543248418248417,
+    "china": 0.719053934571176
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.32868352223190933,
+   "d_cross": {
+    "value": 0.10861446027686439,
+    "ci95": [
+     0.04886856541981727,
+     0.16525543422095146
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_tiny/head_seed2": {
+   "balanced_acc": 0.6202536570183629,
+   "ba_by_region": {
+    "hiroshima": 0.5055953803265631,
+    "indonesia": 0.6950237262737262,
+    "china": 0.7590627763041556
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.1944202266782912,
+   "d_cross": {
+    "value": 0.13666964370289178,
+    "ci95": [
+     0.08411872705018361,
+     0.18544297300071863
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_tiny/head_seed3": {
+   "balanced_acc": 0.611877359639508,
+   "ba_by_region": {
+    "hiroshima": 0.5010951812027081,
+    "indonesia": 0.675626456876457,
+    "china": 0.7526525198938991
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.23103748910200522,
+   "d_cross": {
+    "value": 0.11303265267459639,
+    "ci95": [
+     0.05913402228648856,
+     0.16522167822657416
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_tiny/attn_head_seed1": {
+   "balanced_acc": 0.6132034939579697,
+   "ba_by_region": {
+    "hiroshima": 0.5065511748307447,
+    "indonesia": 0.6671453546453546,
+    "china": 0.7619363395225465
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.3060156931124673,
+   "d_cross": {
+    "value": 0.10650008795788851,
+    "ci95": [
+     0.048211271800642,
+     0.1633226350575278
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_tiny/attn_head_seed2": {
+   "balanced_acc": 0.6161517747195496,
+   "ba_by_region": {
+    "hiroshima": 0.5029072082835524,
+    "indonesia": 0.6875832500832502,
+    "china": 0.7847038019451813
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.16913687881429817,
+   "d_cross": {
+    "value": 0.1564263386514026,
+    "ci95": [
+     0.1108354011579818,
+     0.20316324095851654
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_tiny/attn_head_seed3": {
+   "balanced_acc": 0.6176216863557017,
+   "ba_by_region": {
+    "hiroshima": 0.5774193548387097,
+    "indonesia": 0.5979645354645355,
+    "china": 0.7175066312997347
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.5047951176983435,
+   "d_cross": {
+    "value": 0.12764719414335784,
+    "ci95": [
+     0.06250669344042836,
+     0.1906589081913757
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_tiny/reader_seed1": {
+   "balanced_acc": 0.6175235794801012,
+   "ba_by_region": {
+    "hiroshima": 0.5143966547192353,
+    "indonesia": 0.6875520313020314,
+    "china": 0.6973916887709992
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.2798605056669573,
+   "d_cross": {
+    "value": 0.1313718724204658,
+    "ci95": [
+     0.0750041737620622,
+     0.18456897433275382
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_tiny/reader_seed2": {
+   "balanced_acc": 0.6094483687194685,
+   "ba_by_region": {
+    "hiroshima": 0.5014536041417762,
+    "indonesia": 0.6839930902430902,
+    "china": 0.7458001768346596
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.14472537053182213,
+   "d_cross": {
+    "value": 0.15431196633242672,
+    "ci95": [
+     0.11130490956072352,
+     0.19683636486806896
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_tiny/reader_seed3": {
+   "balanced_acc": 0.6179227729739238,
+   "ba_by_region": {
+    "hiroshima": 0.5256670649143768,
+    "indonesia": 0.66632326007326,
+    "china": 0.7210433244916004
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.3330427201394943,
+   "d_cross": {
+    "value": 0.13365877752067012,
+    "ci95": [
+     0.0752895752895753,
+     0.19114736737598037
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_cache/head_seed1": {
+   "balanced_acc": 0.6184471373090299,
+   "ba_by_region": {
+    "hiroshima": 0.5002190362405416,
+    "indonesia": 0.695772977022977,
+    "china": 0.7683465959328029
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.22493461203138623,
+   "d_cross": {
+    "value": 0.13393280017320938,
+    "ci95": [
+     0.07978494623655916,
+     0.18467292261661905
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_cache/head_seed2": {
+   "balanced_acc": 0.613815816181545,
+   "ba_by_region": {
+    "hiroshima": 0.5014536041417762,
+    "indonesia": 0.6938270063270063,
+    "china": 0.7314323607427056
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.1926765475152572,
+   "d_cross": {
+    "value": 0.1364057700374836,
+    "ci95": [
+     0.08673576533550115,
+     0.18517230800695367
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_cache/head_seed3": {
+   "balanced_acc": 0.6138597951257798,
+   "ba_by_region": {
+    "hiroshima": 0.5014536041417762,
+    "indonesia": 0.6928175990675991,
+    "china": 0.737842617152962
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.1900610287707062,
+   "d_cross": {
+    "value": 0.12979201342372698,
+    "ci95": [
+     0.07869444011096718,
+     0.17923832923832925
+    ]
+   },
+   "p_yes_zero": 1.0
+  },
+  "galileo_cache/attn_head_seed1": {
+   "balanced_acc": 0.6125844057429735,
+   "ba_by_region": {
+    "hiroshima": 0.495499800876145,
+    "indonesia": 0.6958874458874459,
+    "china": 0.7150751547303271
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.26591107236268524,
+   "d_cross": {
+    "value": 0.11823231708142196,
+    "ci95": [
+     0.06080444928647327,
+     0.17371130160070264
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_cache/attn_head_seed2": {
+   "balanced_acc": 0.6197259096875465,
+   "ba_by_region": {
+    "hiroshima": 0.5016726403823178,
+    "indonesia": 0.7085934898434898,
+    "china": 0.7298850574712643
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.22580645161290322,
+   "d_cross": {
+    "value": 0.15342223846060163,
+    "ci95": [
+     0.10043022139855048,
+     0.20567795457636337
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_cache/attn_head_seed3": {
+   "balanced_acc": 0.5949945195469493,
+   "ba_by_region": {
+    "hiroshima": 0.49703305455993624,
+    "indonesia": 0.640422077922078,
+    "china": 0.7219274977895667
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.35047951176983433,
+   "d_cross": {
+    "value": 0.06998741525595742,
+    "ci95": [
+     0.0086160291931342,
+     0.12694444444444442
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_cache/reader_seed1": {
+   "balanced_acc": 0.6231664163249842,
+   "ba_by_region": {
+    "hiroshima": 0.5018916766228594,
+    "indonesia": 0.705679736929737,
+    "china": 0.768788682581786
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.25196163905841323,
+   "d_cross": {
+    "value": 0.14892285416582093,
+    "ci95": [
+     0.09483870967741936,
+     0.200682382133995
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_cache/reader_seed2": {
+   "balanced_acc": 0.596087227161396,
+   "ba_by_region": {
+    "hiroshima": 0.5,
+    "indonesia": 0.6610785048285048,
+    "china": 0.7221485411140584
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 0.0
+   },
+   "p_yes": 0.13164777680906714,
+   "d_cross": {
+    "value": 0.13023856885749469,
+    "ci95": [
+     0.0860262396242901,
+     0.17104520659602485
+    ]
+   },
+   "p_yes_zero": 0.0
+  },
+  "galileo_cache/reader_seed3": {
+   "balanced_acc": 0.6025335254874896,
+   "ba_by_region": {
+    "hiroshima": 0.49311031461569094,
+    "indonesia": 0.6673326673326674,
+    "china": 0.7391688770999116
+   },
+   "parse_fail": {
+    "real": 0.0,
+    "swap_cross_tile": 0.0,
+    "zero_embedding": 1.0
+   },
+   "p_yes": 0.32519616390584133,
+   "d_cross": {
+    "value": 0.09794449180638437,
+    "ci95": [
+     0.03885602222585388,
+     0.155114247868201
+    ]
+   },
+   "p_yes_zero": 0.0
+  }
+ },
+ "manifest": {
+  "code_sha256": "1d8d692a0394ceff14fbbfaa87288fd1104f6e747ef33ab9b55b7cf216734c9f",
+  "encoders": [
+   "olmo_nano",
+   "olmo_tiny",
+   "olmo_base_half",
+   "galileo_nano",
+   "galileo_tiny",
+   "galileo_cache"
+  ],
+  "n_train": {
+   "no": 2736,
+   "yes": 1494
+  },
+  "n_test": {
+   "china|no": 78,
+   "china|yes": 29,
+   "hiroshima|no": 405,
+   "hiroshima|yes": 186,
+   "indonesia|no": 273,
+   "indonesia|yes": 176
+  },
+  "items_sha256": "15fafe832244ef3776a8ff1a53816ecbe3c3fa7dc21b619cf291376807a2a0ee",
+  "started": "2026-09-27T01:44:21"
+ }
+}

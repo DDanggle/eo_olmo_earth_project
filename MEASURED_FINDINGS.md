@@ -5804,6 +5804,15 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-166 (2026-09-27) — R-ZOO v0 (EO 기반모델 9종 × LLM reader / mean head / attention head, 산사태 기간 존재, 시험 hiroshima·indonesia·china): **LLM reader가 가장 강한 head를 넘은 인코더 없음**, 인코더 간 차이도 작음(대부분 BA .59–.62). reader 순위 ≈ head 순위 → "판독 가능성 = 분리 가능성"의 위험이 현실화, **R-ZOO 방향 중단**
+
+사전등록 `config/rzoo_readability_prereg_v0.json` + 개정(attention head 추가, 실행 전). 로컬 `artifacts/rzoo_v0/`. 평균 BA (reader / mean head / attn head): OlmoEarth nano .606/.609/.613, tiny .668/.624/**.736**, base .566/.559/.607; Galileo nano .600/.619/.598, tiny .615/.613/.616, base .607/.615/.609; Prithvi .621/**.661**/.638; Clay .594/.574/.615, Clay16 .588/.574/.618. blind .500. china BA .54–.78.
+읽는 법: 크기 증가가 판독을 단조롭게 올리지 않음(OlmoEarth tiny > base, 캐시 계약 차이 교락 가능). 가장 높은 값은 모두 head 쪽. 금지: 인코더 순위 주장(차이가 seed 범위 수준), "tiny가 base보다 낫다".
+
+## MS-165 (2026-09-27) — E8t TEOChat(zero-shot, 날짜를 문구·timestamp로 받음): 등록 판정 **reads_images, no_date_use_detected, compares_pair**. 192타일: d_swap(영상 기준) .182 [.125, .245], 날짜만 바꾸면 답은 영상을 따름(날짜 기준 d −.188), [후,후]·[전,전] "yes" 0%, real 대비 .208 [.151, .266], 역순 −.193. 재현율 .956(저장 답 대비). **통제가 잡아낸 실패 없음** — EarthDial(MS-159/160)과 같은 행동.
+
+## MS-164 (2026-09-27) — X1 italy 외부 시험(963 타일, 재학습 없음): 등록 판정 E7 **does_not_transfer**(통과 seed 1), E2 **does_not_transfer**(통과 seed 0). E7 reader BA .684/.586/.635 vs blind .695/.546/.360(blind도 날짜 문구로 흔들림), E7 attention 아님 mean head .508/.566/.843. E2 reader .570/.431/.501. EarthDial .538(MS-159 비교). → **산사태 판독은 새 지역으로 일반화되지 않음**, 모든 시스템 공통.
+
 ## MS-163 (2026-09-27) — A1 라벨 없는 홍수 탐지: OlmoEarth 촬영일 임베딩 vs AlphaEarth 연간 임베딩 vs 고전 SAR 감소 지표. 등록 판정 **olmoearth_beats_aef**. **T1(침수 타일 찾기)에서 가장 강한 기준선까지 +5%p 이상 넘은 첫 결과**: OlmoEarth **.903** vs SAR .760 (+.143 [.101, .393]) vs AlphaEarth .663 (+.240 [.133, .444]). 단 T2(타일 안 위치)는 SAR .911 > OlmoEarth .833 (−.077 [−.118, −.039]) → 개정 기준(T1·T2 모두) **불통과**
 
 사전등록 `config/a1_aef_vs_olmoearth_floods_prereg_v0.json`(c3541aa) + 개정 `..._amendment_20260927.json`(a9ac315, 채점 전 SAR 경쟁 기준선 추가). 코드 `code/a1_aef_vs_olmoearth_floods_v0.py`. AlphaEarth V1 annual, Source Cooperative 미러(CC-BY 4.0, produced by Google and Google DeepMind), 192×192 창 1,175개(edge 69, error 1, 마스킹 0). 라벨·학습 없음. KuroSiwo 시험 사건 중 2018년 이후 7개 사건, 홍수 183 / 원래 물만 28 / 건조 181 타일. 로컬 `artifacts/a1_aef/`.

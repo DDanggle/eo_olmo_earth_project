@@ -1,0 +1,140 @@
+{
+ "all": {
+  "parse_fail": {
+   "real": 0.0,
+   "swap_within_tile": 0.0,
+   "date_swap": 0.0,
+   "pair_post_post": 0.0,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.0,
+   "blank": 0.0
+  },
+  "p_yes": {
+   "real": 0.11576354679802955,
+   "swap_within_tile": 0.1206896551724138,
+   "date_swap": 0.1206896551724138,
+   "pair_post_post": 0.0,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.03940886699507389,
+   "blank": 0.0
+  },
+  "d_real": {
+   "value": 0.1724137931034483,
+   "ci95": [
+    0.11330049261083745,
+    0.2315270935960591
+   ]
+  },
+  "d_swap_images": {
+   "value": 0.1625615763546798,
+   "ci95": [
+    0.10344827586206895,
+    0.22660098522167488
+   ]
+  },
+  "d_date_swap_by_dates": {
+   "value": -0.1724137931034483,
+   "ci95": [
+    -0.23645320197044337,
+    -0.10837438423645321
+   ]
+  },
+  "compare_real_vs_postpost_pos": {
+   "n_tiles": 203,
+   "value": 0.2019704433497537,
+   "ci95": [
+    0.1477832512315271,
+    0.2561576354679803
+   ]
+  },
+  "compare_real_vs_reversed_pos": {
+   "n_tiles": 203,
+   "value": 0.18719211822660098,
+   "ci95": [
+    0.12807881773399016,
+    0.24630541871921183
+   ]
+  },
+  "reproduction_vs_saved": 0.9556650246305419,
+  "verdict": "reads_images",
+  "date_use": "no_date_use_detected",
+  "pair_use": "compares_pair"
+ },
+ "primary": {
+  "parse_fail": {
+   "real": 0.0,
+   "swap_within_tile": 0.0,
+   "date_swap": 0.0,
+   "pair_post_post": 0.0,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.0,
+   "blank": 0.0
+  },
+  "p_yes": {
+   "real": 0.11458333333333333,
+   "swap_within_tile": 0.12239583333333333,
+   "date_swap": 0.11979166666666667,
+   "pair_post_post": 0.0,
+   "pair_pre_pre": 0.0,
+   "pair_reversed": 0.041666666666666664,
+   "blank": 0.0
+  },
+  "d_real": {
+   "value": 0.1875,
+   "ci95": [
+    0.13020833333333331,
+    0.24479166666666669
+   ]
+  },
+  "d_swap_images": {
+   "value": 0.18229166666666666,
+   "ci95": [
+    0.125,
+    0.24479166666666666
+   ]
+  },
+  "d_date_swap_by_dates": {
+   "value": -0.1875,
+   "ci95": [
+    -0.25,
+    -0.11979166666666669
+   ]
+  },
+  "compare_real_vs_postpost_pos": {
+   "n_tiles": 192,
+   "value": 0.20833333333333334,
+   "ci95": [
+    0.15104166666666666,
+    0.265625
+   ]
+  },
+  "compare_real_vs_reversed_pos": {
+   "n_tiles": 192,
+   "value": 0.19270833333333334,
+   "ci95": [
+    0.13020833333333334,
+    0.25
+   ]
+  },
+  "reproduction_vs_saved": 0.9557291666666666,
+  "verdict": "reads_images",
+  "date_use": "no_date_use_detected",
+  "pair_use": "compares_pair"
+ },
+ "manifest": {
+  "code_sha256": "1b3dcb379ad6a91c2eae6551af77b2993541a40b10cb39d1937caed9d3bbaedd",
+  "items": "/home/work/data/olmoearth/sentinel_qa_v0_1",
+  "items_sha256": "1df2f15ec531a3d2782229bd1d63e23e726c1ffe8a0af9c84bbd3c80122b192f",
+  "n_pairs": 203,
+  "arms": [
+   "real",
+   "swap_within_tile",
+   "date_swap",
+   "pair_post_post",
+   "pair_pre_pre",
+   "pair_reversed",
+   "blank"
+  ],
+  "started": "2026-09-27T00:55:33"
+ }
+}
