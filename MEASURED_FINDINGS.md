@@ -5804,6 +5804,12 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-170 (2026-09-27) — **정정·보류: AlphaEarth 기준선 창의 위치가 타일과 맞지 않을 가능성** → MS-163·MS-167·MS-168 및 A2b의 모든 AlphaEarth 비교를 보류
+
+발견 경위(A2b 준비·검증 중): AlphaEarth는 라벨을 줘도 T2 .52–.60. 검사 — (1) AEF 변화 지도 vs 산사태 마스크/dNDVI 상관 ±120 m 전 범위에서 ≈.02(대조 OlmoEarth .25, 이동 0에서 최대) `code/a2b_aef_alignment_check_v0.py`; (2) AEF Y−1 64차원 → 같은 타일 S2 NDVI, 좌우 반 교차 R² 중앙값 **−.81**, 대조(S2 이전 날짜 밴드 → NDVI) **+.40** `..._v1.py`·`a2b_aef_location_probe_v0.py`; (3) 행 뒤집기·파일 내 행 거울상 4가설 모두 음수(−.82~−.92) `code/aef_orientation_probe_v0.py`; (4) 육안: AEF PCA 영상이 S2 장면 구조와 대응하지 않음 `artifacts/a2b_20260927/aef_visual_check.png`. 파일 변환은 10 m, 원점 = 남쪽 끝(e>0).
+원인 미확정(경계 교차상관 탐색 진행 중, `code/aef_offset_search_v1.py`). 받기 코드는 A1(`a1_aef_vs_olmoearth_floods_v0.py`)에서 작성해 A1b·A2가 재사용 — **받기 전 육안 정렬 확인(L5)을 하지 않은 것이 실수**.
+유지되는 결과(AEF 무관): MS-167 홍수 T1 OlmoEarth vs SAR +.086 [.034, .151]; MS-169 N1; A2b OlmoEarth vs S2 원밴드(아래 MS-171 예정). 보류: "OlmoEarth가 AlphaEarth를 이김", "AlphaEarth는 순간 홍수에 우연 수준"(MS-163 해석), A2 부분석 AEF 우세(.842).
+
 ## MS-169 (2026-09-27) — N1 여러 해(중앙값 36개월) 월별 S1로 '평소'를 학습한 예측 모델: 등록 판정 **no_gain** (도움 seed 0/3, 강한 기준선 대비 0/3). 822타일·24사건(홍수 365 / 원래 물 105 / 건조 352). T1: 학습 모델 .821(3 seed 평균 지도) vs **같은 영상의 단순 변화 .853**, 평년 같은 달 비교 .846, 손 보정 .742, SAR .725, AlphaEarth .745. 학습 모델 − max(손 보정, 평년) −.025 [−.093, .039]. T2(80 m): 학습 모델 .814 ≈ 평년 .815, SAR .958(−.144 [−.19, −.095]). → **3년치로 '평소'를 학습해도 단순 전·후 변화보다 낫지 않다**
 
 사전등록 `config/n1_learned_normal_prereg_v0.json`(de4e9f8), 코드 `code/n1_fetch_s1_series_v0.py`·`n1_embed_s1_v0.py`·`n1_normal_model_v0.py`(9b46a91). 노출 기록 `config/n1_smoke_exposure_note_20260927.json`(스모크 테스트 수치가 본 실행 전 보였고, 설정은 바꾸지 않음). Planetary Computer RTC, 1,061타일 받기 → 876 임베딩(토큰 발급 실패 2, 사건 전후 영상 없음 등 나머지) → AEF 공통 822. 1.78M 파라미터, 4000스텝, 사건 3분할, 학습 손실 −3.97. 로컬 `artifacts/a1b_a2_n1_20260927/n1_out_scores.json`.
