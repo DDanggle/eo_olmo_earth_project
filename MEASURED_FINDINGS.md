@@ -5804,6 +5804,21 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-169 (2026-09-27) — N1 여러 해(중앙값 36개월) 월별 S1로 '평소'를 학습한 예측 모델: 등록 판정 **no_gain** (도움 seed 0/3, 강한 기준선 대비 0/3). 822타일·24사건(홍수 365 / 원래 물 105 / 건조 352). T1: 학습 모델 .821(3 seed 평균 지도) vs **같은 영상의 단순 변화 .853**, 평년 같은 달 비교 .846, 손 보정 .742, SAR .725, AlphaEarth .745. 학습 모델 − max(손 보정, 평년) −.025 [−.093, .039]. T2(80 m): 학습 모델 .814 ≈ 평년 .815, SAR .958(−.144 [−.19, −.095]). → **3년치로 '평소'를 학습해도 단순 전·후 변화보다 낫지 않다**
+
+사전등록 `config/n1_learned_normal_prereg_v0.json`(de4e9f8), 코드 `code/n1_fetch_s1_series_v0.py`·`n1_embed_s1_v0.py`·`n1_normal_model_v0.py`(9b46a91). 노출 기록 `config/n1_smoke_exposure_note_20260927.json`(스모크 테스트 수치가 본 실행 전 보였고, 설정은 바꾸지 않음). Planetary Computer RTC, 1,061타일 받기 → 876 임베딩(토큰 발급 실패 2, 사건 전후 영상 없음 등 나머지) → AEF 공통 822. 1.78M 파라미터, 4000스텝, 사건 3분할, 학습 손실 −3.97. 로컬 `artifacts/a1b_a2_n1_20260927/n1_out_scores.json`.
+읽는 법: 같은 PC 영상에서 단순 변화(.853)가 KuroSiwo 캐시의 A1b 전체 방법(.819, 같은 타일)보다 높음 — 영상 처리·날짜 선택 차이가 보정 방법보다 크게 작용. 손 보정(.742)은 이 영상에서 오히려 해로움(직전 월 영상과의 간격이 KuroSiwo의 12일보다 김). 금지: "학습된 평소가 효과 없다"를 일반화 — 모델 하나, 설정 하나, 홍수만.
+
+## MS-168 (2026-09-27) — A2 라벨 없는 산사태(Sen12 8지역, S2): 주 분석(2018년 이후, 1,086타일) 판정 **t2_only**. T1(타일 찾기): OlmoEarth 보정 .679 vs AlphaEarth .628 (+.051, **CI [−.197, .256]로 0을 포함** → 불통과), dNDVI .384/.434(0.5 미만). T2(타일 안 위치): OlmoEarth .783 vs dNDVI 보정 .670 (+.112 [.028, .148]) 통과. 부 분석(2019년 이후, AlphaEarth 보정 포함 444타일): AlphaEarth 보정 **.842** > OlmoEarth .694 → **not_meaningful**
+
+사건별 T1(OlmoEarth 보정 / AlphaEarth / dNDVI): hiroshima .647/.761/.561, hokkaido .856/.554/.240, thrissur .562/.335/.430, itogon **.207**/.446/.548, chimanimani .854/.532/.640, kyrgyzstan2 .734/.422/.781; italy·newzealand는 T1 사건별 값 없음(한쪽 부류만 있음). 사전등록 `config/a2_landslide_prereg_v0.json`, 코드 `code/a2_landslide_v0.py`(589e5e0 선별 수정 후). 로컬 `artifacts/a1b_a2_n1_20260927/a2_scores.json`.
+읽는 법: 사건 간 편차가 매우 커서 신뢰구간이 넓다. dNDVI가 0.5 미만인 것은 구름·계절 식생 변화가 음성 타일에서 더 큰 탓으로 보이나 **육안 확인 전**. 재난 3종 중 2종 게이트: 산사태는 T1 기준 **불통과**.
+
+## MS-167 (2026-09-27) — A1b 시나리오(26사건, 995타일: 홍수 444 / 원래 물 127 / 건조 424), 라벨 없음: 판정 **t1_only**. T1: OlmoEarth 촬영일+평소 보정 **.831** vs SAR .745 (**+.086 [.034, .151]**) vs AlphaEarth .740. 보정의 기여 +.016(원 변화 .815), 20 m 확대는 T1 기여 없음(.829). T2(20 m 위치): 확대 .836 < 40 m .848 < **SAR .926** (−.090 [−.123, −.059]). 원래 물 대비 T1: .868 vs AlphaEarth .851 (+.017, CI 0 포함)
+
+사전등록 `config/a1b_scenario_prereg_v0.json`, 코드 `code/a1b_scenario_v0.py`. 채점 도중 AUC 함수를 벡터화 버전으로 교체 후 재시작(무작위 200건에서 기존과 값 동일 확인, 9b46a91). 확대 타일 비율 .299. 로컬 `artifacts/a1b_a2_n1_20260927/a1b_scores.json`.
+읽는 법: A1(7사건 +.143)의 우위가 26사건에서 **+.086으로 줄었지만 CI 하한 > 0으로 유지** — 홍수 T1 결과는 확장에서도 살아남음. 반면 시나리오의 방법 부품(보정·확대)은 거의 기여하지 않음: 효과의 대부분은 "촬영일 단위 임베딩" 자체. 위치 찾기는 여전히 SAR가 우세.
+
 ## MS-166 (2026-09-27) — R-ZOO v0 (EO 기반모델 9종 × LLM reader / mean head / attention head, 산사태 기간 존재, 시험 hiroshima·indonesia·china): **LLM reader가 가장 강한 head를 넘은 인코더 없음**, 인코더 간 차이도 작음(대부분 BA .59–.62). reader 순위 ≈ head 순위 → "판독 가능성 = 분리 가능성"의 위험이 현실화, **R-ZOO 방향 중단**
 
 사전등록 `config/rzoo_readability_prereg_v0.json` + 개정(attention head 추가, 실행 전). 로컬 `artifacts/rzoo_v0/`. 평균 BA (reader / mean head / attn head): OlmoEarth nano .606/.609/.613, tiny .668/.624/**.736**, base .566/.559/.607; Galileo nano .600/.619/.598, tiny .615/.613/.616, base .607/.615/.609; Prithvi .621/**.661**/.638; Clay .594/.574/.615, Clay16 .588/.574/.618. blind .500. china BA .54–.78.
