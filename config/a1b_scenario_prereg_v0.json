@@ -1,0 +1,26 @@
+{
+  "schema": "a1b-scenario-prereg-v0",
+  "id": "A1b",
+  "registered_at": "2026-09-27",
+  "status": "registered before tile selection, patch-2 extraction, new AlphaEarth downloads or scoring; A1 (MS-163) results are known",
+  "scenario": "docs/SCENARIO_RAPID_CHANGE_20260927.md — D+3 after a disaster, no labels, hazard unknown: which areas changed?",
+  "question": "Does the full label-free tool (per-acquisition OlmoEarth embeddings + normalisation by the location's own pre-event variability + evidence-guided 20 m zoom) beat the strongest of AlphaEarth and the classic SAR index (each in raw and normalised form) on BOTH tile detection and localisation, across all KuroSiwo flood events since 2019?",
+  "data": "KuroSiwo, all splits (label-free, no training), flood year >= 2019; per event <= 80 flood tiles, all permanent-water-only tiles, dry = max(#flood, 10); deterministic hash selection (code/a1b_scenario_v0.py select)",
+  "methods": {
+    "full_method": "T1: olmo4_norm tile mean; T2: olmo_adapt (olmo2_norm for the top 30% tiles by olmo4_norm tile score, olmo4_norm upsampled elsewhere)",
+    "ablations": ["olmo4_raw", "olmo4_norm", "olmo2_raw", "olmo2_norm"],
+    "baselines": ["aef_raw 1-cos(Y,Y-1)", "aef_norm aef_raw/(1-cos(Y-1,Y-2)+eps)", "sar_raw dB decrease pre_2->post", "sar_norm sar_raw/(|dB change pre_1->pre_2|+eps)"],
+    "eps": "median of each method's own pre-event change over all selected tiles (label-free constant)",
+    "patch2": "code/a1b_extract_s1_change_v0.py: identical preprocessing to the S1 cache, patch 2 (20 m tokens), change maps only"
+  },
+  "metrics": {"T1": "tile AUC flood vs dry+perm (primary), flood vs perm (secondary)", "T2": "token AUC at a common 20 m grid, tokens with flood fraction >= .5 vs 0 inside flood tiles", "ci": "event-clustered bootstrap (2000) of full - strongest baseline"},
+  "strongest_baseline": "per metric, the best of the four baselines on the evaluation set itself (conservative: favours the baselines)",
+  "verdict": {
+    "meaningful": "full - strongest >= 0.05 with CI lower > 0 on BOTH T1 (flood vs dry+perm) and T2",
+    "t1_only": "only T1 passes",
+    "not_meaningful": "T1 fails",
+    "invalid": "< 8 events or < 300 flood tiles scored"
+  },
+  "compute_reporting": "per-tile GPU seconds for patch 2 vs patch 4 extraction (patch 4 timed on a subset), fraction of tiles zoomed",
+  "not_claimed": ["other hazards (A2/A3)", "operational latency beyond compute", "comparison with Google Custom Satellite Embeddings (not accessible)"]
+}
