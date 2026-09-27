@@ -87,8 +87,8 @@ def select(a):
         for s in ids:
             px = int(np.load(src / "mask_u8" / f"{s}.npy").sum())
             r = rec[s]
-            if px >= 200 and r.get("post_index") is not None and not str(r["times"][r["post_index"]]).startswith(event):
-                continue                                                              # positives from another event in the region
+            if px >= 200 and (r.get("post_index") is None or not str(r["times"][r["post_index"]]).startswith(event)):
+                continue    # prereg: positives need a first post-event acquisition in the modal event month (fixed 2026-09-27 before any fetch/score)
             kept_times = [str(r["times"][i])[:10] for i in kept12(r)]
             d = choose_dates(kept_times, event_day)
             if d is None:
