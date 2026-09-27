@@ -1,0 +1,30 @@
+{
+  "schema": "n1-learned-normal-prereg-v0",
+  "id": "N1",
+  "registered_at": "2026-09-27",
+  "status": "registered before multi-year data download (2-tile probe only), embedding, training or scoring",
+  "motivation": "User (2026-09-27): learn 'normal' from multiple years instead of the hand rule. A1b's hand normalisation (divide by the pre-pair change) is the quick version; N1 tests a learned per-location normal model.",
+  "data": "A1b tiles (KuroSiwo, 26 flood events since 2019). Planetary Computer sentinel-1-rtc, dominant relative orbit per tile, one acquisition per month for 36 months before the event (history), last acquisition <= event-5 d (pre), first in [event, event+12 d] (post); 192x192 at 10 m on the tile UTM grid, VV/VH dB (code/n1_fetch_s1_series_v0.py). Labels only from KuroSiwo masks (evaluation).",
+  "embeddings": "OlmoEarth v1 Base single-date S1 embeddings, patch 4, identical preprocessing to the KuroSiwo cache; tokens stored at 24x24 (80 m) for all chips and 48x48 for pre/post",
+  "model": {
+    "name": "normal forecaster",
+    "input": "for one token location: the previous K=12 monthly embeddings (+ day-of-year and gap in days as features)",
+    "output": "predicted next embedding (mean) and a per-token log-variance",
+    "loss": "Gaussian negative log-likelihood on cosine-normalised embeddings; history months only (event window excluded); tiles split by EVENT into 3 folds, the model scoring an event never saw that event's history in training",
+    "size": "small Transformer (<= 5M parameters), 3 seeds"
+  },
+  "score": "surprise at the post acquisition = mean over dims of (post - predicted)^2 / predicted variance, given the history up to pre",
+  "methods_compared": {
+    "learned": "n1_surprise (full method)",
+    "hand": ["raw change 1-cos(post, pre) on the same PC RTC chips", "hand-normalised change (A1b rule) on the same chips"],
+    "climatology": "1-cos(post, mean of the same calendar month in the previous years)",
+    "external": ["AlphaEarth raw/normalised and SAR raw/normalised as in A1b (strongest of them)"]
+  },
+  "metrics": "T1 tile AUC flood vs dry+perm (primary), flood vs perm; T2 token AUC at 80 m; event-clustered bootstrap (2000)",
+  "verdict": {
+    "learned_normal_helps": "n1_surprise - max(hand-normalised, climatology) >= .05 on T1 with CI lower > 0 in >= 2 of 3 seeds",
+    "meaningful_vs_strongest": "n1_surprise - strongest of all compared methods >= .05 on T1 AND T2 (CI > 0)",
+    "no_gain": "otherwise (reported; the paper then stays with the hand rule / workshop route)"
+  },
+  "known_limits": ["PC RTC differs from KuroSiwo GRD processing; all methods in N1 use the same PC chips except the A1b external baselines", "flood date = KuroSiwo flood_date (T0: some dates are approximations)", "80 m tokens for T2 are coarse"]
+}
