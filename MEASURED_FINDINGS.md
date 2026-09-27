@@ -5804,7 +5804,14 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 허용 해석: (1) 사용자가 관찰한 "크기별 1−cos 스케일 차이"는 실재하며(약 3배), 이는 표현 차원(128 vs 768)과 정규화의 결과라 원시 문턱은 크기 간 이식 불가. (2) gap·season z로 보정하면 크기 간 비교가 같은 척도가 되고, 사건 쌍 안 흔적 국지화(토큰 AUC)는 nano가 base에 뒤지지 않음. (3) 캐비앗: nano 수치는 hiroshima 안에서 적합·평가(in-region)이고 base의 .871은 3지역 적합→hiroshima(LOEO)라 완전한 동일 조건이 아님. 동일 조건(base in-region, nano LOEO)은 tiny 완료 후 한 번에 계산.
 금지: "nano면 충분"의 일반화(사용자 지시로 안내 항목 제외; 여기서는 보정 척도 하의 순위 성능만 기록).
 
+## MS-171 (2026-09-27) — A2b 새 지역 라벨 5+5장 산사태(4개 대상 지역, 같은 head): **AEF 전치 수정 후** 등록 판정 K=0 **meaningful**, K=5 **not_meaningful**, K=20 not_meaningful. K=5: T1 OlmoEarth .931 vs **AlphaEarth .882** (+.049, 4곳 중 3곳, 기준 .05에 미달) vs S2 원밴드 .819; T2 .961 vs AlphaEarth .954 (+.007, 1/4). K=0(라벨 없이 옮기기): T1 .879 vs S2 원밴드 .781 / AlphaEarth .760, T2 .937 vs .853 / .847 → 통과. **부 변형 OlmoEarth+AlphaEarth 결합이 모든 K에서 최고**(K=5 T1 .940, T2 .971)
+
+사전등록 `config/a2b_fewshot_landslide_prereg_v0.json`(3e54a50), 코드 `code/a2b_fewshot_landslide_v0.py`. 수정 전 결과(AEF가 Sen12 격자에 전치된 채 비교됨, 판정 K5 meaningful)는 `artifacts/a2b_20260927/a2b_scores_v0_aef_untransposed.json`에 보존 — **그 판정은 무효**. 수정 후 `a2b_scores_v1.json`.
+읽는 법: 라벨이 조금이라도 있으면 OlmoEarth ≈ AlphaEarth(연간), 라벨이 없을 때만 OlmoEarth가 분명히 앞섬. 둘을 합치면 가장 좋음 → "촬영일 임베딩 + 연간 임베딩 보완"이 방법 후보(새 사전등록 필요). S2 원밴드는 40 m 평균이라 불리할 수 있음(A2c에서 10 m로 재검).
+
 ## MS-170 (2026-09-27) — **정정·보류: AlphaEarth 기준선 창의 위치가 타일과 맞지 않을 가능성** → MS-163·MS-167·MS-168 및 A2b의 모든 AlphaEarth 비교를 보류
+
+**[해소, 같은 날]** 원인 확정: AEF 창은 지리적으로 맞음 — KuroSiwo 영구 수역 검사(150타일) AUC가 이동 (4,0)에서 최대 .93, 48 px 이동 시 .815, 행 뒤집기 .78 (`code/aef_water_alignment_v0.py`, `artifacts/a2b_20260927/aef_water_alignment_kuro.json`) → **홍수(MS-163·167)의 AEF 비교는 유효, 보류 해제**. 문제는 **Sen12 배열이 지도 방향의 전치**라는 것: Sen12 B08 vs 같은 날 Planetary Computer B08, 전치했을 때만 NCC .90–.97 at (0,0), 16/16 타일 (`code/sen12_georef_check_v0.py`). → 산사태(A2·A2b)의 AEF만 어긋나 있었음. `aef_sen12()`로 수정 후 재채점(MS-168 정정, MS-171). 아래 NDVI R² 검사(−.81)는 64차원 좌우 외삽이 AEF에 불리한 잘못된 검사였음.
 
 발견 경위(A2b 준비·검증 중): AlphaEarth는 라벨을 줘도 T2 .52–.60. 검사 — (1) AEF 변화 지도 vs 산사태 마스크/dNDVI 상관 ±120 m 전 범위에서 ≈.02(대조 OlmoEarth .25, 이동 0에서 최대) `code/a2b_aef_alignment_check_v0.py`; (2) AEF Y−1 64차원 → 같은 타일 S2 NDVI, 좌우 반 교차 R² 중앙값 **−.81**, 대조(S2 이전 날짜 밴드 → NDVI) **+.40** `..._v1.py`·`a2b_aef_location_probe_v0.py`; (3) 행 뒤집기·파일 내 행 거울상 4가설 모두 음수(−.82~−.92) `code/aef_orientation_probe_v0.py`; (4) 육안: AEF PCA 영상이 S2 장면 구조와 대응하지 않음 `artifacts/a2b_20260927/aef_visual_check.png`. 파일 변환은 10 m, 원점 = 남쪽 끝(e>0).
 원인 미확정(경계 교차상관 탐색 진행 중, `code/aef_offset_search_v1.py`). 받기 코드는 A1(`a1_aef_vs_olmoearth_floods_v0.py`)에서 작성해 A1b·A2가 재사용 — **받기 전 육안 정렬 확인(L5)을 하지 않은 것이 실수**.
@@ -5815,7 +5822,7 @@ z=(change−μ(gap,season))/σ, 정상 쌍 z≥2 비율 .050(명목대로). LOEO
 사전등록 `config/n1_learned_normal_prereg_v0.json`(de4e9f8), 코드 `code/n1_fetch_s1_series_v0.py`·`n1_embed_s1_v0.py`·`n1_normal_model_v0.py`(9b46a91). 노출 기록 `config/n1_smoke_exposure_note_20260927.json`(스모크 테스트 수치가 본 실행 전 보였고, 설정은 바꾸지 않음). Planetary Computer RTC, 1,061타일 받기 → 876 임베딩(토큰 발급 실패 2, 사건 전후 영상 없음 등 나머지) → AEF 공통 822. 1.78M 파라미터, 4000스텝, 사건 3분할, 학습 손실 −3.97. 로컬 `artifacts/a1b_a2_n1_20260927/n1_out_scores.json`.
 읽는 법: 같은 PC 영상에서 단순 변화(.853)가 KuroSiwo 캐시의 A1b 전체 방법(.819, 같은 타일)보다 높음 — 영상 처리·날짜 선택 차이가 보정 방법보다 크게 작용. 손 보정(.742)은 이 영상에서 오히려 해로움(직전 월 영상과의 간격이 KuroSiwo의 12일보다 김). 금지: "학습된 평소가 효과 없다"를 일반화 — 모델 하나, 설정 하나, 홍수만.
 
-## MS-168 (2026-09-27) — A2 라벨 없는 산사태(Sen12 8지역, S2): 주 분석(2018년 이후, 1,086타일) 판정 **t2_only**. T1(타일 찾기): OlmoEarth 보정 .679 vs AlphaEarth .628 (+.051, **CI [−.197, .256]로 0을 포함** → 불통과), dNDVI .384/.434(0.5 미만). T2(타일 안 위치): OlmoEarth .783 vs dNDVI 보정 .670 (+.112 [.028, .148]) 통과. 부 분석(2019년 이후, AlphaEarth 보정 포함 444타일): AlphaEarth 보정 **.842** > OlmoEarth .694 → **not_meaningful**
+## MS-168 (2026-09-27) — **[정정: AEF 전치 수정 후 판정 not_meaningful — T2도 AlphaEarth .814 > OlmoEarth .783; 아래 수치는 수정 전]** A2 라벨 없는 산사태(Sen12 8지역, S2): 주 분석(2018년 이후, 1,086타일) 판정 **t2_only**. T1(타일 찾기): OlmoEarth 보정 .679 vs AlphaEarth .628 (+.051, **CI [−.197, .256]로 0을 포함** → 불통과), dNDVI .384/.434(0.5 미만). T2(타일 안 위치): OlmoEarth .783 vs dNDVI 보정 .670 (+.112 [.028, .148]) 통과. 부 분석(2019년 이후, AlphaEarth 보정 포함 444타일): AlphaEarth 보정 **.842** > OlmoEarth .694 → **not_meaningful**
 
 사건별 T1(OlmoEarth 보정 / AlphaEarth / dNDVI): hiroshima .647/.761/.561, hokkaido .856/.554/.240, thrissur .562/.335/.430, itogon **.207**/.446/.548, chimanimani .854/.532/.640, kyrgyzstan2 .734/.422/.781; italy·newzealand는 T1 사건별 값 없음(한쪽 부류만 있음). 사전등록 `config/a2_landslide_prereg_v0.json`, 코드 `code/a2_landslide_v0.py`(589e5e0 선별 수정 후). 로컬 `artifacts/a1b_a2_n1_20260927/a2_scores.json`.
 읽는 법: 사건 간 편차가 매우 커서 신뢰구간이 넓다. dNDVI가 0.5 미만인 것은 구름·계절 식생 변화가 음성 타일에서 더 큰 탓으로 보이나 **육안 확인 전**. 재난 3종 중 2종 게이트: 산사태는 T1 기준 **불통과**.

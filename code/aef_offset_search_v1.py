@@ -5,6 +5,7 @@ v0 (in-sample ridge R^2) was ~.3-.5 at every position, so it cannot localise. He
 magnitude of 4 bands B02 B03 B04 B08, pre date, z-scored) vs edge map of the AEF block (gradient magnitude summed over the
 64 dims), normalised cross-correlation via FFT. A true match gives a sharp peak; report peak NCC, its offset from the
 computed window, and peak-to-median ratio. Anchors: computed window, rows mirrored; row orders as stored and flipped.
+v1.1: env AEF_SEARCH_R (default 768) and AEF_SEARCH_ONLY_COMPUTED; also the percentile of the anchor NCC within the whole map and the offset of the local maximum within +-32 px.
 
   .venv-geobench/bin/python -B code/aef_offset_search_v1.py
 """
@@ -19,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from a1_aef_vs_olmoearth_floods_v0 import MIRROR_FROM, MIRROR_TO, dequant  # noqa: E402
 from a2b_fewshot_landslide_v0 import DEFAULT_SRC, ROOT, SRC  # noqa: E402
 
-W, R = 128, 768
+W, R = 128, int(__import__("os").environ.get("AEF_SEARCH_R", "768"))
 
 
 def edges(img):
@@ -74,7 +75,10 @@ def main():
             col, rr = ~ds.transform * (ax, ay)
             c0, r0 = int(round(col)) - W // 2, int(round(rr)) - W // 2
             H, Wd = ds.height, ds.width
-            for name, (ar, ac) in {"computed": (r0, c0), "rows_mirrored": (H - r0 - W, c0)}.items():
+            anchors = {"computed": (r0, c0), "rows_mirrored": (H - r0 - W, c0)}
+            if __import__("os").environ.get("AEF_SEARCH_ONLY_COMPUTED"):
+                anchors = {"computed": (r0, c0)}
+            for name, (ar, ac) in anchors.items():
                 br0, bc0 = max(ar - R, 0), max(ac - R, 0)
                 br1, bc1 = min(ar + W + R, H), min(ac + W + R, Wd)
                 if br1 - br0 < W or bc1 - bc0 < W:
@@ -88,7 +92,11 @@ def main():
                     top = (B.shape[1] - W - i) if order == "rows_flipped" else i
                     at = (ar - br0, ac - bc0)
                     ia = (B.shape[1] - W - at[0]) if order == "rows_flipped" else at[0]
+                    loc = m[max(ia - 32, 0):ia + 33, max(at[1] - 32, 0):at[1] + 33]
+                    li, lj = np.unravel_index(np.argmax(loc), loc.shape)
                     rec["results"][f"{name}|{order}"] = {"peak_ncc": round(float(m[i, j]), 3), "ncc_at_anchor": round(float(m[ia, at[1]]), 3),
+                                                         "anchor_percentile": round(float((m < m[ia, at[1]]).mean() * 100), 2),
+                                                         "local32_peak_offset": [int(li - min(ia, 32)), int(lj - min(at[1], 32))],
                                                          "offset_rows_cols": [int(br0 + top - ar), int(bc0 + j - ac)],
                                                          "peak_over_median": round(float(m[i, j] / (np.median(np.abs(m)) + 1e-9)), 1)}
         out.append(rec)

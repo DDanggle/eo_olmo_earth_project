@@ -20,7 +20,8 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from a1_aef_vs_olmoearth_floods_v0 import auc, cos_change, dequant, pool4  # noqa: E402
+from a1_aef_vs_olmoearth_floods_v0 import auc, cos_change, pool4  # noqa: E402
+from a2_landslide_v0 import aef_sen12  # noqa: E402  (AEF transposed onto the Sen12 grid, fixed 2026-09-27)
 
 ROOT = Path("/home/work/data/olmoearth")
 OUT = ROOT / "a2b"
@@ -75,7 +76,7 @@ def load():
         p1, p0, q = t["idx"]
         S = np.load(emb_dir / f"{t['id']}.npy").astype(np.float32)
         pre, post = S[p0], S[q]
-        eY, eB = (np.nan_to_num(pool4c(dequant(np.load(f)))) for f in (fY, fB))
+        eY, eB = (np.nan_to_num(pool4c(aef_sen12(f))) for f in (fY, fB))
         raw = np.load(src / "raw_u16" / f"{t['id']}.npy").astype(np.float32) / 10000.0
         rp, rq = raw[:, p0], raw[:, q]
         nd = lambda r: (r[B08] - r[B04]) / np.where(r[B08] + r[B04] > 0, r[B08] + r[B04], np.nan)

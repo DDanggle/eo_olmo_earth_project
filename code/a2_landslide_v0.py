@@ -47,6 +47,15 @@ def kept12(r):
     return sorted(sorted(range(15), key=lambda i: (-float(q[i]), i))[:12])
 
 
+def aef_sen12(path):
+    """AlphaEarth window (saved north-up, verified by the KuroSiwo water test) on the Sen12 array grid.
+
+    Sen12 arrays (raw, masks, embeddings) are the TRANSPOSE of map orientation: code/sen12_georef_check_v0.py matched the
+    Sen12 B08 to the same-date Planetary Computer B08 at NCC .90-.97, shift (0, 0), only after transposing (16/16 tiles).
+    Fixed 2026-09-27 after A2/A2b were first scored with untransposed AEF (MS-170/171)."""
+    return dequant(np.load(path)).transpose(0, 2, 1)
+
+
 def choose_dates(times_kept, event):
     """Indices into the kept list: (pre1, pre, post) around the event date string; None if unavailable."""
     before = [i for i, t in enumerate(times_kept) if t < event]
@@ -165,9 +174,9 @@ def score(a):
         S = np.load(emb_dir / f"{t['id']}.npy").astype(np.float32)
         raw = np.load(src / "raw_u16" / f"{t['id']}.npy")
         m = np.load(src / "mask_u8" / f"{t['id']}.npy") > 0
-        eY, eB = dequant(np.load(fY)), dequant(np.load(fB))
+        eY, eB = aef_sen12(fY), aef_sen12(fB)
         aef_post = cos_change(eY, eB)
-        aef_pre = cos_change(eB, dequant(np.load(fB2))) if fB2.exists() else None
+        aef_pre = cos_change(eB, aef_sen12(fB2)) if fB2.exists() else None
         n1, n0, nq = ndvi(raw, p1), ndvi(raw, p0), ndvi(raw, q)
         per.append({**t, "o_post": cos_change(S[q], S[p0]), "o_pre": cos_change(S[p0], S[p1]),
                     "aef_post": aef_post, "aef_pre": aef_pre, "nd_post": n0 - nq, "nd_pre": np.abs(n0 - n1), "mf": pool4(m.astype(np.float32))})
