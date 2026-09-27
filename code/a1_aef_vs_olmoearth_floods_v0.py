@@ -36,21 +36,19 @@ SEED = 20260927
 # ---------------------------------------------------------------- pure logic
 
 def auc(pos, neg):
-    """Mann-Whitney AUC with average ranks for ties."""
+    """Mann-Whitney AUC with average ranks for ties (vectorised; identical to the loop version it replaced)."""
     pos, neg = np.asarray(pos, float), np.asarray(neg, float)
     if len(pos) == 0 or len(neg) == 0:
         return None
     allv = np.concatenate([pos, neg])
     order = allv.argsort(kind="mergesort")
-    ranks = np.empty(len(allv))
     sv = allv[order]
-    i = 0
-    while i < len(sv):
-        j = i
-        while j + 1 < len(sv) and sv[j + 1] == sv[i]:
-            j += 1
-        ranks[order[i:j + 1]] = (i + j) / 2 + 1
-        i = j + 1
+    start = np.r_[True, sv[1:] != sv[:-1]]
+    gid = np.cumsum(start) - 1
+    s0 = np.flatnonzero(start)
+    s1 = np.r_[s0[1:], len(sv)] - 1
+    ranks = np.empty(len(allv))
+    ranks[order] = ((s0 + s1) / 2 + 1)[gid]
     return float((ranks[:len(pos)].sum() - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg)))
 
 

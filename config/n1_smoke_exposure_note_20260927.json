@@ -1,0 +1,9 @@
+{
+  "schema": "n1-deviation-note-v0",
+  "id": "N1",
+  "written_at": "2026-09-27",
+  "what_happened": "A smoke test of code/n1_normal_model_v0.py (30 training steps, 56 tiles from 3 events, written to n1_smoke/, marked invalid by the script: <8 events) was meant to check only that the code runs. My output filter failed and the partial AUCs were printed and seen before the full run.",
+  "seen": "56-tile subset: untrained (30-step) surprise ~.38-.42 T1; same-chip raw .969, clim .921, hand_norm .845, olmo4_norm .94, sar_raw .822, aef_raw .806.",
+  "commitment": "No change to the N1 model, features, steps (4000), folds, seeds, scoring or verdict rules after this exposure. The full run proceeds exactly as preregistered and as the code stood at the smoke test (only --out was added before it). The smoke numbers are not reported as results.",
+  "risk": "The subset hints that raw same-chip change is already strong on these tiles, so the bar for the learned model is high; this is knowledge I now have, which is why the commitment above is explicit."
+}
