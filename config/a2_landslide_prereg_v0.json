@@ -1,0 +1,19 @@
+{
+  "schema": "a2-landslide-prereg-v0",
+  "id": "A2",
+  "registered_at": "2026-09-27",
+  "status": "registered before tile selection, AlphaEarth downloads or scoring for landslides; A1 (floods) results known, A1b pending",
+  "scenario": "docs/SCENARIO_RAPID_CHANGE_20260927.md, second hazard (gate: 2 of 3 hazards must pass, docs/CVPR_SCALE_PLAN_20260927.md)",
+  "data": "Sen12Landslides regions with per-date OlmoEarth v1 Base embeddings and an event since 2018: hiroshima, hokkaido, thrissur, itogon, chimanimani, italy, kyrgyzstan2, newzealand. Positive tiles: mask >= 200 px and first post-event acquisition in the region's modal event month; negatives: empty mask. <= 100 each per region, deterministic hash.",
+  "dates": "event day = earliest first-post-event acquisition in the modal month among positives; per tile pre = last of the 12 clearest acquisitions before it, post = first at/after it, pre1 = the one before pre (same rule for positives and negatives)",
+  "methods": {
+    "full_method": "olmo_norm = (1-cos(post,pre)) / (1-cos(pre,pre1) + eps) on 40 m tokens (no 20 m zoom for S2 in v0)",
+    "ablation": "olmo_raw",
+    "baselines_primary": ["aef_raw 1-cos(AEF_Y, AEF_Y-1)", "dndvi_raw NDVI_pre - NDVI_post", "dndvi_norm dndvi_raw / (|NDVI_pre - NDVI_pre1| + eps)"],
+    "baseline_secondary": "aef_norm (events >= 2019 only: chimanimani, italy, kyrgyzstan2, newzealand)",
+    "eps": "median of each method's own pre-event change over all tiles"
+  },
+  "metrics": {"T1": "tile AUC positive vs negative (tile mean at 40 m)", "T2": "token AUC at 40 m inside positive tiles, mask fraction >= .5 vs 0", "ci": "region(=event)-clustered bootstrap 2000 of full - strongest"},
+  "verdict": {"meaningful": "full - strongest >= .05 with CI lower > 0 on T1 and T2", "t1_only": "T1 only", "t2_only": "T2 only", "not_meaningful": "neither", "invalid": "< 4 events or < 150 positive tiles scored"},
+  "known_limits": ["regions (not independent events) are the bootstrap unit, ~8 units", "S2 clouds: kept acquisitions are the clearest but not cloud-free", "italy (2023) is the only post-2021 event"]
+}
