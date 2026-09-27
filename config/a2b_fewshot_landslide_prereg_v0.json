@@ -1,0 +1,52 @@
+{
+  "schema": "a2b-fewshot-landslide-prereg-v0",
+  "id": "A2b",
+  "registered_at": "2026-09-27",
+  "status": "registered before any A2b training or scoring. A2 (label-free) results are known (MS-168); MS-96/97 (cache + decoder adaptation beats raw retraining 8/8) is known.",
+  "question": "In a NEW region with only K labelled tiles per class, do OlmoEarth per-acquisition embeddings (pre, post, difference) plus a small head beat the same head on AlphaEarth annual embeddings and on raw Sentinel-2 bands, after pre-training the head on the other regions?",
+  "scenario": "Stage 2 of the rapid tool: label-free first look (A1b/A2) -> a person marks 5 landslide and 5 non-landslide tiles in the new region (minutes) -> refined map.",
+  "data": {
+    "tiles": "A2 tiles (a2/tiles.json: Sen12Landslides, 8 regions, <=100 positive + <=100 negative per region), restricted to tiles with AlphaEarth Y and Y-1 so every method sees the same tiles",
+    "dates": "A2 dates per tile: pre = last kept acquisition before the event, post = first kept at/after it",
+    "labels": "landslide mask pooled to the 40 m token grid (32x32); token positive if fraction >= .5, negative if 0, ignored otherwise; all tokens of negative tiles negative"
+  },
+  "target_regions": {
+    "primary": ["hiroshima", "hokkaido", "thrissur", "chimanimani"],
+    "secondary": ["itogon (8 positive tiles only: K=5 leaves 3 query positives; reported, not in the verdict)"],
+    "not_targets": "italy (positives only), newzealand (negatives only), kyrgyzstan2 (1 positive) - used only as source regions",
+    "why": "A2 composition: a target needs both classes with query tiles left after the support draw"
+  },
+  "features_same_head": {
+    "olmo": "OlmoEarth v1 Base single-date S2 embeddings (existing caches): concat(pre, post, post-pre), 2304 ch at 40 m  <- full method",
+    "aef": "AlphaEarth V1 annual: concat(Y-1, Y, Y-(Y-1)), 192 ch, 10 m pooled to 40 m",
+    "s2raw": "raw Sentinel-2 10 bands reflectance at pre and post + difference + NDVI pre/post/diff, 33 ch, pooled to 40 m (standard supervised practice)",
+    "secondary_variants": ["olmo_post (post only, 768 ch): does the pair matter", "olmo_aef (olmo + aef concatenated): complementarity"]
+  },
+  "head": "per-channel standardisation (source statistics) -> 1x1 conv 128 -> GELU -> 3x3 conv 128 -> GELU -> 1x1 conv -> token logit; identical for every feature set",
+  "training": {
+    "source": "all tiles of the 7 other regions, BCE with pos_weight = min(n_neg/n_pos, 10), AdamW lr 1e-3, 1500 steps, batch 32 tiles",
+    "adapt": "continue on the target support (K positive + K negative tiles), 100 steps, lr 3e-4",
+    "K_per_class": [0, 5, 20],
+    "draws": "10 support draws per region and K (deterministic seeds); 3 source seeds; K=20 only where >= 30 positives",
+    "query": "all target tiles not in the support"
+  },
+  "scores": {
+    "T1": "tile AUC positive vs negative query tiles; tile score = 95th percentile of token probabilities",
+    "T2": "token AUC inside positive query tiles"
+  },
+  "reference_label_free": "A2 label-free olmo_norm, aef_raw, dndvi_raw on the same query tiles (context only)",
+  "verdict_primary_K5": {
+    "per_region": "AUC averaged over 10 draws x 3 seeds",
+    "strongest_baseline": "max of aef and s2raw by macro mean over the 4 primary regions, chosen per metric",
+    "meaningful": "olmo - strongest >= .05 in macro mean on T1 AND T2, and olmo > strongest in >= 3 of 4 primary regions on each",
+    "t1_only / t2_only": "the condition holds for one metric",
+    "not_meaningful": "otherwise",
+    "also_reported": "K=0 and K=20 with the same rule; secondary variants; per-draw win fraction"
+  },
+  "known_limits": [
+    "only 4 primary target regions, all events 2018-2019 (AlphaEarth Y-1 exists)",
+    "AlphaEarth annual Y mixes pre- and post-event months differently by event month (chimanimani March vs hiroshima July)",
+    "A2 tiles are capped at 100 per class per region",
+    "the pooled A2 T1 mixed regions with one class only (italy positives, newzealand negatives); A2b evaluates within each target region"
+  ]
+}
