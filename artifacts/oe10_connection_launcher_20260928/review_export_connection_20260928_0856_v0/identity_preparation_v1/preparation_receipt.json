@@ -1,0 +1,137 @@
+{
+  "created_utc": "2026-09-27T20:52:12.018314+00:00",
+  "elapsed_seconds": 15.882340345531702,
+  "status": "cpu_asset_identity_verified_pending_prereg_and_p2_end",
+  "expected_inputs_sha256": "f7f1691d8da115ca56d60080a759b28e6f5ececaf514a03cef21ad45cca20ec5",
+  "source_manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+  "script_sha256": "c6170a584ff89875adcbb2489e73fad43da0dd2680241e1c2450d550b36f3bc2",
+  "identity_manifest_sha256": "1254678033e298052e2f418e172a83d59a932c8a78aa9fded79e28ebdbfa6263",
+  "source_gate": {
+    "root": "/home/work/data/olmoearth/oe10_text_mask_identity_v2/code_snapshot/oe10_text_mask_v2",
+    "manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+    "payload_files_verified": 16,
+    "payload_bytes_verified": 119204,
+    "required_files_verified": [
+      "base_manifest.json",
+      "base_snapshot/episode_loader.py",
+      "base_snapshot/episode_model.py",
+      "base_snapshot/native_replay.py",
+      "check_connection.py",
+      "contracts.py",
+      "input_identity.py",
+      "text_mask_model.py",
+      "v0_source_manifest.json"
+    ],
+    "symlinks_allowed": false,
+    "semantic_data_read": false
+  },
+  "episode_gate": {
+    "root": "/home/work/data/olmoearth/oe10_expansion_catalog_v0/runtime_v2",
+    "manifest_sha256": "14a59caee4dc716ebdc34b74092f19a5f5ca9dcc8b6178b63c5a6cf52eeeb0f8",
+    "payload_files_verified": 232,
+    "payload_bytes_verified": 2825084,
+    "required_files_verified": [
+      "episode_contract.json",
+      "episodes_train.jsonl",
+      "scoring/scoring_train.jsonl"
+    ],
+    "symlinks_allowed": false,
+    "semantic_data_read": false
+  },
+  "prospectively_observed_normalization_sources": {
+    "olmoearth_pretrain/data/normalize.py": "1987cb6f475495a6454f80db6eea045ee982948bae4cffee8045c713747b9b26",
+    "olmoearth_pretrain/data/constants.py": "2015b2d17dc1f2f48a2b5bbc380b88fe4cf552dd4db173b25729ab65ad8670f0"
+  },
+  "reader_assets_verified": 15,
+  "reader_bytes_hashed": 17545909813,
+  "candidate_episode_id": "054338dbc857484e70310553:k1",
+  "candidate_rule": "lexicographically first train K1 episode whose positive support class is8; no query-gold or score selection",
+  "protected_before": {
+    "protected": {
+      "pilot_sen12_gp_heads.py": {
+        "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+        "mtime_ns": 1788238578452341458,
+        "bytes": 45602
+      },
+      "sen12_official_baselines.py": {
+        "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+        "mtime_ns": 1787683824644839874,
+        "bytes": 10926
+      },
+      "extract_sen12_fold_cache.py": {
+        "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+        "mtime_ns": 1787659265235748291,
+        "bytes": 10983
+      },
+      "audit_sen12_fold_cache.py": {
+        "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+        "mtime_ns": 1787668636109707291,
+        "bytes": 7314
+      }
+    },
+    "snapshot": {
+      "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+      "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+      "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+      "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+      "p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+      "run_bounded.py": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0",
+      "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+      "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+      "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+    },
+    "protocol": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3"
+  },
+  "protected_after": {
+    "protected": {
+      "pilot_sen12_gp_heads.py": {
+        "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+        "mtime_ns": 1788238578452341458,
+        "bytes": 45602
+      },
+      "sen12_official_baselines.py": {
+        "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+        "mtime_ns": 1787683824644839874,
+        "bytes": 10926
+      },
+      "extract_sen12_fold_cache.py": {
+        "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+        "mtime_ns": 1787659265235748291,
+        "bytes": 10983
+      },
+      "audit_sen12_fold_cache.py": {
+        "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+        "mtime_ns": 1787668636109707291,
+        "bytes": 7314
+      }
+    },
+    "snapshot": {
+      "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+      "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+      "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+      "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+      "p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+      "run_bounded.py": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0",
+      "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+      "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+      "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+    },
+    "protocol": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3"
+  },
+  "query_gold_arrays_opened": 0,
+  "dev_arrays_opened": 0,
+  "actual_model_loaded": false,
+  "new_gpu_seconds": 0,
+  "budget_reserved_seconds": 0,
+  "requires": [
+    "P2 ended and audited",
+    "prospective connection protocol/stop criteria/source/input identities",
+    "atomic GPU reservation and idle check",
+    "external timeout and durable actual usage receipt"
+  ],
+  "limits": [
+    "No actual OlmoEarth/Qwen path or semantic result.",
+    "Expected weights/tokenizer/runtime identities came from already verified outputs; new normalization source hashes are prospective observations.",
+    "Hashing scoring/mask files is identity verification, not image/label analysis."
+  ]
+}

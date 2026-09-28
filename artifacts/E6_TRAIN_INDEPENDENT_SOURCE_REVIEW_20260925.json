@@ -1,0 +1,38 @@
+{
+  "schema": "e6-train-independent-source-review-v0",
+  "source_file": "/private/tmp/e6_train_v0.py",
+  "source_sha256": "4c9f70925eab16f33c39561f22631a61da8896e6704ba50f26b8d088696c9a8e",
+  "review_scope": "Static source/contract review and actual frozen metadata encoding only; no model outputs, model fitting, GPU, or server access",
+  "blocking_findings": [],
+  "verified": [
+    "All 3 CPU initialization snapshots before any training",
+    "All 3 trainings complete before test inference",
+    "Only EO pair, phenomenon and ordered date vector enter head forward; source answer only enters train-only BCE target helper",
+    "Exact inherited schedule regenerated with NumPy seed per seed, 1590 updates/12702 exposures enforced",
+    "Final saved checkpoint reload and canonical tensor hash verified before evaluation; model state checked unchanged afterwards",
+    "Head full input transform includes A, B, B-A; finite inputs/delta, parameters, gradients, losses and predictions checked",
+    "Actual pinned 5989-item metadata compatibility: float32 (5989,8), all finite and strictly chronological",
+    "FD minimum3 and actual device/inode match checked; independent probe must be blocked and probe closure never unlocks inherited FD",
+    "Code snapshot must equal exact five filenames in SHA-pinned prereg; every source hash checked",
+    "Both nvidia-smi subprocess queries have timeout20seconds"
+  ],
+  "actual_metadata_items_sha256": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+  "limitations": [
+    "GPU runtime and determinism are not exercised by this source review",
+    "Completed-run provenance and outcome validity require later independent audit",
+    "This review adds no performance evidence or LLM-necessity inference",
+    "Lease check assumes the pinned cooperative launcher acquired and inherited the declared descriptors. A blocked independent probe establishes a held inode lease, not adversarial proof of its owner identity."
+  ],
+  "status": "final_source_review_complete",
+  "focused_regression": {
+    "tests": [
+      "test_inherited_locks_must_already_be_held",
+      "test_idle_guard_uuid_busy_and_command_timeout",
+      "test_budget_train_and_eval_share_per_seed_limit"
+    ],
+    "passed": 3,
+    "failed": 0,
+    "elapsed_s": 0.002,
+    "scope": "CPU synthetic locks and mocked GPU/time queries; no GPU command or training"
+  }
+}

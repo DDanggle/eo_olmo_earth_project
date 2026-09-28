@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EO 후보 판독 파일럿</title><style>
+:root{font:16px/1.5 system-ui,sans-serif;color:#e9eef5;background:#111722}body{margin:0}header,main{max-width:1300px;margin:auto;padding:18px}header{position:sticky;top:0;background:#111722f5;z-index:2;border-bottom:1px solid #445}h1{font-size:22px;margin:0 0 8px}h2{font-size:19px}.muted{color:#afbed0}.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.card{background:#1b2534;border:1px solid #3c4d65;padding:16px;border-radius:8px;margin:14px 0}button,input,select,textarea{font:inherit}button{background:#d4e9ff;color:#112336;border:0;border-radius:5px;padding:8px 13px;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}input,select,textarea{background:#111722;color:#e9eef5;border:1px solid #7791ad;border-radius:4px;padding:6px}textarea{width:calc(100% - 14px);min-height:90px}.frames{display:grid;grid-template-columns:repeat(4,minmax(140px,1fr));gap:10px}.frame{margin:0;background:#0f1722;padding:5px}.frame img{width:100%;display:block;image-rendering:pixelated;cursor:zoom-in}.frame label{display:block;font-size:14px}.choices label{display:inline-block;padding:8px 15px 8px 0}.warn{color:#ffd092}.error{color:#ff9292}.good{color:#a5efb1}nav{display:flex;gap:6px;flex-wrap:wrap}nav button{font-size:13px;padding:4px 7px}.complete{background:#a5efb1}.current{outline:2px solid #ffd092}details>summary{cursor:pointer;padding:8px}.hidden{display:none}dialog{max-width:95vw;max-height:95vh;background:#111722;color:#fff;border:1px solid #889}dialog img{width:min(78vw,768px);image-rendering:pixelated}#timer{font-variant-numeric:tabular-nums}.notice{border-left:3px solid #ffd092;padding-left:12px}@media(max-width:700px){.frames{grid-template-columns:repeat(2,minmax(120px,1fr))}header{position:static}header,main{padding:10px}}
+</style></head><body>
+<header><h1>EO 후보 판독 · 20건 시간 파일럿</h1><div class="bar">
+<label>검수자 ID <input id="annotator" maxlength="64" placeholder="이름 대신 독립 ID" autocomplete="off"></label>
+<label>배정 <select id="role"><option value="">선택</option><option>A</option><option>B</option></select></label>
+<button id="connect">내 판독 열기</button><button id="export" disabled>JSON 내보내기</button><span id="progress" class="muted"></span></div>
+<p class="muted" id="identity">A와 B는 서로 다른 사람이 각자 독립적으로 판독합니다. A/B는 모델 비교 조건이 아닙니다.</p></header>
+<main><details class="card" open><summary>과제와 표시 방법</summary>
+<p>아래 <b>흰 윤곽 후보</b>가 양성 예시와 같은 종류인지, 혼동 예시와 같은 종류인지, 둘 다 아닌지 판독하세요. 원 영상의 8개 날짜를 비교하고 판단에 사용한 날짜와 이유를 남깁니다. 기존 후보를 구별하는 과제이며 새 영역 마스크를 그리는 작업은 없습니다.</p>
+<p>자연색은 B04/B03/B02, 근적외선 합성색은 B08/B04/B03입니다. 모든 날짜에 같은 밝기 변환을 썼습니다. 보라색은 입력 누락 표시이고 <b>그 외 픽셀이 구름 없이 보인다는 뜻은 아닙니다.</b> 후보와 예시의 흰 윤곽은 기존 자료의 형상입니다. 양성·혼동 예시는 공개 라벨에서 구성했으며 전문가 검증 결과가 아닙니다.</p>
+<p>“불확실”은 보이는 영상으로도 종류를 결정하기 어렵다는 뜻입니다. “관측 불가”는 구름·해상도·시점 부족으로 필요한 내용 자체를 볼 수 없다는 뜻입니다. “둘 다 아님”은 두 예시와 다른 종류라고 판단한 경우입니다. 한 후보 판독만으로 영상 전체에 대상이 없다고 판단하지 마세요.</p>
+<p class="notice">다른 검수자의 답, 자동 정답, AI 의견과 모델 예측은 이 패키지에 들어 있지 않습니다. 독립 판독을 마칠 때까지 답을 공유하지 마세요. 누적 시간은 전경 창에서 최근 60초 내 상호작용이 있었던 시간의 추정치입니다. 오래 살펴볼 때는 “계속 관찰 중”을 눌러 주세요. 자리를 비울 때는 일시정지하세요.</p>
+</details><nav id="caseNav"></nav><section id="workspace" class="hidden">
+<div class="card"><div class="bar"><h2 id="caseTitle"></h2><button id="start">시작 / 재개</button><button id="pause" disabled>일시정지</button><button id="observing" disabled>계속 관찰 중</button><span id="timer"></span></div><p id="caseState" class="muted"></p></div>
+<div id="taskContent" class="hidden"><div class="bar"><label>표시 <select id="view"><option value="rgb">자연색 RGB</option><option value="nir">근적외선 합성색</option></select></label><span class="muted">이미지를 누르면 확대됩니다. 근거로 쓴 날짜는 체크하세요.</span></div>
+<section class="card"><h2>판독 후보</h2><div id="queryFrames" class="frames"></div></section>
+<details class="card" open><summary>양성 예시 · 이 종류를 찾습니다</summary><div id="positiveFrames" class="frames"></div></details>
+<details class="card" open><summary>혼동 예시 · 이 종류와 구별합니다</summary><div id="counterexampleFrames" class="frames"></div></details>
+<section class="card"><fieldset id="answerFields"><legend>독립 판독</legend><div id="decisionChoices" class="choices"></div>
+<p>어떤 차이와 시점이 판단에 도움이 되었나요? 관측 불가라면 무엇이 가렸거나 부족했는지 기록하세요.</p><textarea id="reason" placeholder="최소 한 가지 구체적인 근거 또는 관측 제한"></textarea>
+<p>판독 제한 / 이유 <span class="muted">복수 선택</span></p><div class="choices" id="issueChoices"></div>
+<label>확신 <select id="confidence"><option value="">선택</option><option value="low">낮음</option><option value="medium">중간</option><option value="high">높음</option></select></label>
+<p><button id="complete">이 사례 판독 완료</button> <span id="validation" class="error" role="alert"></span></p></fieldset></section></div></section>
+<p class="muted">진행 내용은 이 브라우저에 임시 저장됩니다. 작업을 끝내거나 기기를 바꾸기 전에 JSON을 내보내세요. 다른 사람의 JSON을 불러오거나 기존 답을 표시하는 기능은 없습니다.</p>
+</main><dialog id="zoom"><button id="closeZoom">닫기</button><p id="zoomDate"></p><img id="zoomImage" alt="확대 관측"></dialog>
+<script src="pilot_data.js"></script><script src="review_app.js"></script></body></html>

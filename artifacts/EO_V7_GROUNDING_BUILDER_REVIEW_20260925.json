@@ -1,0 +1,18 @@
+{
+  "schema": "eo-v7-grounding-builder-review-v0",
+  "checked_at": "2026-09-25T06:28:37.254353+00:00",
+  "tests_passed": 9,
+  "test_scope": "Synthetic exported asset bytes plus unchanged actual frozen metadata/v6 payload; not actual source raster rendering",
+  "api_function_readback_passed": true,
+  "javascript_node_check_passed": true,
+  "http_browser_checked": false,
+  "actual_export_build_performed": false,
+  "blocking_findings_resolved": [
+    "Base catalog schema guard corrected to actual v6 eo-evidence-catalog-v0.2"
+  ],
+  "sha256": {
+    "build_eo_v7_grounding_20260925.py": "a7f2632ad79b49c335ec72baf83c8258d3b4c024ad04838bc916069b4ca59a49",
+    "verify_eo_v7_grounding_20260925.py": "ca53306fc1bab0c3841488ce4e49998963e9e5888760f1e50d71f0d6c1787803",
+    "test_build_eo_v7_grounding_20260925.py": "9b6ee066f5708d3a8ec9fc6ab50c44003e73964a1ef13a1e989132032096d9b0"
+  }
+}

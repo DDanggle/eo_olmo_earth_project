@@ -1,0 +1,27 @@
+{
+  "generic": {
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "The target is defined by the positive support examples.",
+    "counterexample": "The confusing alternative is defined by the counterexample support examples."
+  },
+  "names_only": {
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine",
+    "counterexample": "leguminous fodder"
+  },
+  "matched_knowledge": {
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine. Background: Grapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage. Scope: General vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established.",
+    "counterexample": "leguminous fodder. Background: Forage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards. Scope: Broad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date."
+  },
+  "removed_knowledge_diagnostic": {
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine",
+    "counterexample": "leguminous fodder"
+  },
+  "swapped_knowledge_diagnostic": {
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine. Background: Forage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards. Scope: Broad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date.",
+    "counterexample": "leguminous fodder. Background: Grapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage. Scope: General vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established."
+  }
+}

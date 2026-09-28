@@ -1,0 +1,148 @@
+--- oe10_connection_launcher_v0/launcher.py
++++ oe10_connection_launcher_v1/launcher.py
+@@ -18,7 +18,7 @@
+ 
+ DATA = Path('/home/work/data/olmoearth')
+ ROOT = DATA / 'oe10_text_mask_identity_v2'
+-SNAP = ROOT / 'code_snapshot/oe10_connection_launcher_v0'
++SNAP = ROOT / 'code_snapshot/oe10_connection_launcher_v1'
+ RUNS = ROOT / 'connection_runs_v0'
+ LEDGER = ROOT / 'pilot_budget_ledger_v0.json'
+ P2_ROOT = DATA / 'oe10_p2_v0'
+@@ -134,13 +134,27 @@
+     require(rows and all(len(r) == 4 for r in rows), 'Malformed GPU inventory')
+     gpu = [r for r in rows if r[0] == '1']
+     require(len(gpu) == 1 and gpu[0][1] == GPU_UUID, 'Physical GPU1 UUID mismatch')
+-    require(0 <= float(gpu[0][2]) <= 256 and float(gpu[0][3]) == 0, 'GPU1 memory/utilization not idle')
++    memory = float(gpu[0][2])
++    require(math.isfinite(memory) and memory >= 0, 'Invalid GPU1 memory telemetry')
++    utilization_raw = gpu[0][3]
++    unavailable = utilization_raw in {'[Not Found]', 'N/A'}
++    if unavailable:
++        # Missing utilization is not treated as measured zero. Require the
++        # stricter zero-memory condition plus the process check below.
++        require(memory == 0, 'GPU1 unavailable utilization requires exactly zero memory')
++        utilization = None
++    else:
++        utilization = float(utilization_raw)
++        require(math.isfinite(utilization) and 0 <= memory <= 256 and utilization == 0,
++                'GPU1 memory/utilization not idle')
+     apps = [[v.strip() for v in r] for r in csv.reader(run([
+         'nvidia-smi', '--query-compute-apps=gpu_uuid,pid', '--format=csv,noheader,nounits']).splitlines())]
+     require(all(len(r) == 2 and r[1].isdigit() for r in apps), 'Malformed GPU process inventory')
+     require(not any(r[0] == GPU_UUID for r in apps), 'GPU1 occupied by a compute process')
+-    return {'index': 1, 'uuid': GPU_UUID, 'memory_mib': float(gpu[0][2]),
+-            'utilization_percent': float(gpu[0][3]), 'compute_processes': [], 'checked_utc': utc()}
++    return {'index': 1, 'uuid': GPU_UUID, 'memory_mib': memory,
++            'utilization_percent': utilization, 'utilization_raw': utilization_raw,
++            'utilization_telemetry': 'unavailable' if unavailable else 'numeric',
++            'compute_processes': [], 'checked_utc': utc()}
+ 
+ 
+ def pid_alive(pid):
+--- oe10_connection_launcher_v0/test_launcher.py
++++ oe10_connection_launcher_v1/test_launcher.py
+@@ -84,6 +84,46 @@
+                 if kind == 'parse': return 'unknown'
+                 return s
+             with self.subTest(kind=kind), self.assertRaises(ValueError): L.gpu_idle(run)
++    def telemetry_run(self, memory, utilization, occupied=False):
++        def run(args):
++            if '--query-gpu=index,uuid,memory.used,utilization.gpu' in args:
++                return f'0, GPU-other, 90000, 100\n1, {L.GPU_UUID}, {memory}, {utilization}\n'
++            return 'GPU-other, 1459700\n' + (f'{L.GPU_UUID}, 777\n' if occupied else '')
++        return run
++    def test_unavailable_utilization_zero_memory_no_gpu1_process_allowed(self):
++        for marker in ('[Not Found]', 'N/A'):
++            with self.subTest(marker=marker):
++                out = L.gpu_idle(self.telemetry_run('0', marker))
++                self.assertIsNone(out['utilization_percent'])
++                self.assertEqual(out['utilization_telemetry'], 'unavailable')
++                self.assertEqual(out['utilization_raw'], marker)
++                self.assertEqual(out['memory_mib'], 0)
++                self.assertEqual(out['compute_processes'], [])
++    def test_unavailable_utilization_nonzero_memory_or_process_refused(self):
++        for marker in ('[Not Found]', 'N/A'):
++            for memory in ('0.01', '1', '256'):
++                with self.subTest(marker=marker, memory=memory), self.assertRaises(ValueError):
++                    L.gpu_idle(self.telemetry_run(memory, marker))
++            with self.subTest(marker=marker, occupied=True), self.assertRaisesRegex(ValueError, 'compute process'):
++                L.gpu_idle(self.telemetry_run('0', marker, occupied=True))
++    def test_utilization_unknown_nonfinite_and_malformed_refused(self):
++        for utilization in ('nan', 'NaN', 'inf', '-inf', 'Infinity', 'unknown', '', '[N/A]', '[Not Supported]', 'not found', '0 percent'):
++            with self.subTest(utilization=utilization), self.assertRaises(ValueError):
++                L.gpu_idle(self.telemetry_run('0', utilization))
++    def test_memory_unknown_nonfinite_negative_refused_both_telemetry_paths(self):
++        for utilization in ('0', '[Not Found]', 'N/A'):
++            for memory in ('nan', 'NaN', 'inf', '-inf', 'Infinity', '-1', 'unknown', ''):
++                with self.subTest(memory=memory, utilization=utilization), self.assertRaises(ValueError):
++                    L.gpu_idle(self.telemetry_run(memory, utilization))
++    def test_numeric_utilization_original_memory_allowance_preserved(self):
++        for memory in ('0', '0.01', '1', '256'):
++            with self.subTest(memory=memory):
++                out = L.gpu_idle(self.telemetry_run(memory, '0'))
++                self.assertEqual(out['utilization_percent'], 0)
++                self.assertEqual(out['utilization_telemetry'], 'numeric')
++        for memory, utilization in (('256.01', '0'), ('0', '0.01'), ('0', '-1'), ('0', '101')):
++            with self.subTest(memory=memory, utilization=utilization), self.assertRaises(ValueError):
++                L.gpu_idle(self.telemetry_run(memory, utilization))
+     def test_concurrent_reservation_lock_is_exclusive(self):
+         with L.LedgerLock(self.ledger) as lock:
+             value = lock.read_or_initialize(self.initial,self.pin)
+--- oe10_connection_launcher_v0/README.md
++++ oe10_connection_launcher_v1/README.md
+@@ -1,4 +1,4 @@
+-# Frozen connection launcher v0 — engineering only
++# Frozen connection launcher v1 — engineering only
+ 
+ This stdlib launcher is prepared for the single frozen real-weight connection
+ protocol. Writing, importing and testing it neither starts a GPU job nor creates
+@@ -7,7 +7,7 @@
+ 
+ The only production code location is:
+ 
+-    /home/work/data/olmoearth/oe10_text_mask_identity_v2/code_snapshot/oe10_connection_launcher_v0
++    /home/work/data/olmoearth/oe10_text_mask_identity_v2/code_snapshot/oe10_connection_launcher_v1
+ 
+ Production execution/preflight requires Linux at that exact path. Protocol and
+ bootstrap files belong below the same oe10_text_mask_identity_v2 root, normally
+@@ -52,9 +52,12 @@
+ An honestly audited capped incomplete result may pass this engineering launch
+ prerequisite; it is still recorded incomplete, never promoted to a full P2 gate.
+ 
+-GPU1 must match the fixed UUID, have no compute processes, zero utilization and
+-at most 256 MiB driver/display memory. Other GPU work is neither rejected nor
+-terminated. GPU1 is checked again directly before spawning the owned worker.
++GPU1 must match the fixed UUID and have no compute processes. Numeric utilization
++requires finite zero utilization and finite memory from 0 through 256 MiB. If
++utilization is exactly [Not Found] or N/A, memory must instead be exactly zero.
++The unavailable reading is recorded as null with its original marker, never as
++a measured zero. Unknown/nonfinite/malformed readings are refused. Other GPU
++work is neither rejected nor terminated. GPU1 is checked again directly before spawning the owned worker.
+ 
+ ## One reserved attempt
+ 
+@@ -98,7 +101,7 @@
+ 
+ ## CPU tests
+ 
+-    python -B -m unittest discover -s code/oe10_connection_launcher_v0 -p test_launcher.py -v
++    python -B -m unittest discover -s code/oe10_connection_launcher_v1 -p test_launcher.py -v
+ 
+ Tests use fake GPU/clock/worker responses and temporary ledgers. They exercise
+ concurrent reservation locks, unknown/crashed reservation charge, no reset,
+@@ -107,3 +110,14 @@
+ read-only preflight. Linux additionally runs isolated CPU subprocess tests for
+ parent-death across ordinary exec and the expected-parent race check. No test
+ loads the real EO/Qwen weights, creates a production reservation, or uses CUDA.
++
++## v1 operational correction
++
++v0 is preserved. Only the fixed launcher source path and GPU-idle telemetry
++handling changed in production code. Actual GPU1 reported zero memory and
++[Not Found] utilization after P2 ended, while compute processes existed only on
++GPU0. This correction does not change model, protocol, budget/ledger paths,
++PID ownership, terminal-audit requirements or resource caps. CPU tests include
++unavailable telemetry, occupancy, strict zero memory, malformed/nonfinite values
++and the original numeric path. Server preflight and GPU execution remain the
++root agent's separate actions.

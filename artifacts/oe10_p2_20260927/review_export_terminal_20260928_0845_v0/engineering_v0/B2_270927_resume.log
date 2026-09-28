@@ -1,0 +1,16 @@
+{"status": "initializing", "step": 0, "seconds": 0.0022682063281536102}
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights:   0%|          | 1/750 [00:00<04:47,  2.61it/s]Loading weights:  12%|█▏        | 92/750 [00:00<00:02, 237.90it/s]Loading weights:  18%|█▊        | 138/750 [00:00<00:02, 255.69it/s]Loading weights:  23%|██▎       | 176/750 [00:00<00:02, 273.57it/s]Loading weights:  28%|██▊       | 212/750 [00:00<00:01, 281.83it/s]Loading weights:  33%|███▎      | 246/750 [00:01<00:01, 255.95it/s]Loading weights:  37%|███▋      | 279/750 [00:01<00:01, 261.23it/s]Loading weights:  42%|████▏     | 312/750 [00:01<00:01, 265.78it/s]Loading weights:  46%|████▌     | 345/750 [00:01<00:01, 264.42it/s]Loading weights:  50%|█████     | 378/750 [00:01<00:01, 267.44it/s]Loading weights:  54%|█████▍    | 406/750 [00:01<00:01, 265.60it/s]Loading weights:  67%|██████▋   | 501/750 [00:01<00:00, 403.06it/s]Loading weights:  83%|████████▎ | 621/750 [00:01<00:00, 603.95it/s]Loading weights:  97%|█████████▋| 731/750 [00:02<00:00, 710.76it/s]Loading weights: 100%|██████████| 750/750 [00:02<00:00, 368.72it/s]
+{"status": "ready", "step": 0, "seconds": 42.47606812417507}
+/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v0/p2_worker.py:164: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  pred=output['logits'].detach().float().cpu();ml=float(output['mask_loss']);ce=float(output['language_loss'])
+{"status": "cold_resume_failed", "step": 0, "seconds": 56.332616683095694}
+{"status": "failed", "step": 0, "seconds": 56.33635291457176}
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v0/p2_worker.py", line 238, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v0/p2_worker.py", line 214, in main
+    if not passed or expected['pid']==os.getpid():raise RuntimeError('cold resume failed')
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: cold resume failed

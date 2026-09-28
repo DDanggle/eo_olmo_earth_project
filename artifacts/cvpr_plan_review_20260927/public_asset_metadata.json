@@ -1,0 +1,47 @@
+{
+  "checked_utc": "2026-09-26T16:26:19.654893+00:00",
+  "status": "metadata_only_no_corpus_or_weights_downloaded",
+  "assets": [
+    {
+      "name": "official_1k_h5",
+      "url": "https://storage.googleapis.com/ai2-olmoearth-projects-public-data/pretraining_data/subset_1k/subset_1k_h5py_data.tar",
+      "method": "HEAD",
+      "status": 200,
+      "final_url": "https://storage.googleapis.com/ai2-olmoearth-projects-public-data/pretraining_data/subset_1k/subset_1k_h5py_data.tar",
+      "content_length": "17855037440",
+      "etag": "\"eb56490bacd029bd95ef532af75699e6\"",
+      "last_modified": "Fri, 06 Feb 2026 22:35:00 GMT"
+    },
+    {
+      "name": "official_1k_geo",
+      "url": "https://storage.googleapis.com/ai2-olmoearth-projects-public-data/pretraining_data/subset_1k/subset_1k.tar",
+      "method": "HEAD",
+      "status": 200,
+      "final_url": "https://storage.googleapis.com/ai2-olmoearth-projects-public-data/pretraining_data/subset_1k/subset_1k.tar",
+      "content_length": "30209955840",
+      "etag": "\"705bc22729dbb27af632f06e70e9b2dc\"",
+      "last_modified": "Fri, 06 Feb 2026 22:30:35 GMT"
+    },
+    {
+      "name": "current_base_api",
+      "url": "https://huggingface.co/api/models/allenai/OlmoEarth-v1_2-Base",
+      "method": "GET",
+      "status": 200,
+      "final_url": "https://huggingface.co/api/models/allenai/OlmoEarth-v1_2-Base",
+      "content_length": "753",
+      "etag": "W/\"2f1-ebkvar4kexCqtIX27+PozI3nat8\"",
+      "last_modified": null,
+      "model_id": "allenai/OlmoEarth-v1_2-Base",
+      "revision": "2e99a734a30e9aeb993aaa39946c6dcf554739e0",
+      "last_modified_api": "2026-09-04T15:08:25.000Z",
+      "gated": false,
+      "files": [
+        ".gitattributes",
+        "LICENSE.txt",
+        "README.md",
+        "config.json",
+        "weights.pth"
+      ]
+    }
+  ]
+}

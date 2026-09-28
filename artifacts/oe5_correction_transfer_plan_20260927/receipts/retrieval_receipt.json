@@ -1,0 +1,22 @@
+{
+  "retrieved_utc": "2026-09-27T02:53:38.237918+00:00",
+  "operation": "read_only_via_nx",
+  "remote_source_changed": false,
+  "new_training_launched": false,
+  "files": [
+    {
+      "file": "bounded_sequence_v2_status.json",
+      "sha256": "9a4d17dbc18aa1018893ebfc1181ad7275fb67684499c6c91bad7181b470ab38",
+      "status": "failed",
+      "detail": "TimeoutError('No idle GPU within 90 minutes; no jobs interrupted')",
+      "finished_utc": "2026-09-26T19:09:25.302521+00:00"
+    },
+    {
+      "file": "vlm_sequence_v1_status.json",
+      "sha256": "a6d109e9fddcc7e40b0a41b230fb1f2f0a91a9a7d8d089342c2a6cfcb89fd7dd",
+      "status": "failed",
+      "detail": "RuntimeError(\"Native sequence failed: TimeoutError('No idle GPU within 90 minutes; no jobs interrupted')\")",
+      "finished_utc": "2026-09-26T19:09:34.036502+00:00"
+    }
+  ]
+}

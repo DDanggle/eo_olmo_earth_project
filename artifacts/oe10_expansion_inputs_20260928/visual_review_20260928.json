@@ -1,0 +1,36 @@
+{
+  "created_utc": "2026-09-27T17:46:10.218672+00:00",
+  "reviewer": "assistant_visual_review_not_human_expert",
+  "figure": "audit_v0/contact_sheet.png",
+  "figure_sha256": "7440e4b8343565e24a163ea4c0d40548c74f63a37eda33a279d3041ff5c0adbd",
+  "cases": 4,
+  "parents_reviewed": [
+    "t31tfj"
+  ],
+  "selection": "lowest object_key per class and role, fixed before visual review",
+  "observations": [
+    {
+      "patch_id": "20032",
+      "notes": "20180917 clouds at left; 20181126 broad haze/colour variation."
+    },
+    {
+      "patch_id": "20052",
+      "notes": "20180917 cloud at lower left; 20191027 haze/colour variation."
+    },
+    {
+      "patch_id": "20063",
+      "notes": "20181126 cloud regions; 20190515 RGB panel fully white at fixed raw/3000 display scale. Cloud versus display saturation not independently resolved."
+    },
+    {
+      "patch_id": "20195",
+      "notes": "20180917 clouds at left; 20181126 haze/dark regions."
+    }
+  ],
+  "not_certified": [
+    "crop identity from imagery",
+    "cloud mask or fractions",
+    "acquisition-specific expert correctness",
+    "global parcel independence"
+  ],
+  "consequence": "Preserve original observations. Add explicit observation-quality review before interpreting new-class performance; no date or sample filtering applied."
+}

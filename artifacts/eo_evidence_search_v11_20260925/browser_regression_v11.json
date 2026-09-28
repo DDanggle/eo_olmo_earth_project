@@ -1,0 +1,11 @@
+{
+  "schema": "eo-v11-browser-regression-v0",
+  "checked_at": "2026-09-25T08:27:35.177961+00:00",
+  "publication_ready": false,
+  "scientific_source_data_unchanged": true,
+  "e5_five_by_three_answers_correct": true,
+  "regression": "--html used the older code template instead of inheriting the full v10 index; T0 dates and source-quality caption absent in browser.",
+  "positive_unknown43_38_visible": false,
+  "both_cases_documented_dates_visible": false,
+  "fix": "Create v12 with byte-preserved v10 HTML except the E5 renderer and single call; preserve v11 artifact as first attempt."
+}

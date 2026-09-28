@@ -1,0 +1,103 @@
+{
+  "schema_version": "oe10_text_mask_v2_source_identity_v1",
+  "created_utc": "2026-09-27T20:47:36.014193+00:00",
+  "origin": "immutable v1 copy; finite loss/gradient gate only",
+  "v1_source_manifest_sha256": "e07c13dd9e6a9598797ce108d3777bcf2649b4fe9f27085e6203cb3cf4d2d159",
+  "v0_source_manifest_sha256": "b457e213e7dadabefed15711efe0ac7f719fe4ffaf7bee0194a2c1eb16158246",
+  "unchanged_v1_files": [
+    "base_manifest.json",
+    "base_snapshot/episode_loader.py",
+    "base_snapshot/episode_model.py",
+    "base_snapshot/native_replay.py",
+    "contracts.py",
+    "input_identity.py",
+    "test_contracts.py",
+    "test_input_identity.py",
+    "test_text_mask_model.py",
+    "text_mask_model.py",
+    "v0_source_manifest.json"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 7958,
+      "sha256": "6fb524bbfaff8d8614043333e23c0b9b9e1305e9119b9493ee06b185980d9f68"
+    },
+    {
+      "path": "base_manifest.json",
+      "bytes": 379,
+      "sha256": "49bc296cbe7b3b3383fa68fa640788ba219c07d6155801cefc8720c6242d1991"
+    },
+    {
+      "path": "base_snapshot/episode_loader.py",
+      "bytes": 18297,
+      "sha256": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6"
+    },
+    {
+      "path": "base_snapshot/episode_model.py",
+      "bytes": 19395,
+      "sha256": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297"
+    },
+    {
+      "path": "base_snapshot/native_replay.py",
+      "bytes": 20836,
+      "sha256": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670"
+    },
+    {
+      "path": "check_connection.py",
+      "bytes": 9148,
+      "sha256": "8a0095fe38cf9bd0d19ec97beff3ccbde4b47ed2f3538894f345f8370b95c28c"
+    },
+    {
+      "path": "contracts.py",
+      "bytes": 2457,
+      "sha256": "4908c438bc7c06813bd26817a4f8ef35735ac00e4a9530a0c3b7c74be452ae06"
+    },
+    {
+      "path": "gradient_gate.py",
+      "bytes": 1295,
+      "sha256": "9615db6eec139a57d6f8d9cf99e75e27e3a0553f8bff8ffd3bd81bf9622d1525"
+    },
+    {
+      "path": "input_identity.py",
+      "bytes": 5814,
+      "sha256": "a3726e0b0a7692bf8dee8d4ed3edf9ad37edc96199278ff6b6b993578ad9fe7f"
+    },
+    {
+      "path": "test_contracts.py",
+      "bytes": 1423,
+      "sha256": "a885f3dcca3304a9148b33f41c2a6e13d3d3a8a3a45d911d24ee26c4c3efbb37"
+    },
+    {
+      "path": "test_gradient_gate.py",
+      "bytes": 3681,
+      "sha256": "63f96fb359a35c23da9299f4dbd89220f5c38b2f22966b444aa882897863a32a"
+    },
+    {
+      "path": "test_input_identity.py",
+      "bytes": 8676,
+      "sha256": "78b4e138ee5339eb3fabdfd59efd8161f4f9df992b77ef7f3e7c07314a6ecca1"
+    },
+    {
+      "path": "test_text_mask_model.py",
+      "bytes": 7442,
+      "sha256": "aab3f16e5bab00323e73c0dad8fba7da90aafd14d07b2dc8d5c1007f5a4e0915"
+    },
+    {
+      "path": "text_mask_model.py",
+      "bytes": 8634,
+      "sha256": "30e05f955b88de7aa114d0a6ab7d9f5c7af926b62f704e8e5e0bd18ef75e571e"
+    },
+    {
+      "path": "v0_source_manifest.json",
+      "bytes": 1060,
+      "sha256": "b457e213e7dadabefed15711efe0ac7f719fe4ffaf7bee0194a2c1eb16158246"
+    },
+    {
+      "path": "v1_source_manifest.json",
+      "bytes": 2709,
+      "sha256": "e07c13dd9e6a9598797ce108d3777bcf2649b4fe9f27085e6203cb3cf4d2d159"
+    }
+  ],
+  "scope": "CPU finite gradient contract; no actual EO/Qwen forward or GPU execution"
+}

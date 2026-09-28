@@ -1,0 +1,26 @@
+{
+  "revision": "oe8_quality_v0",
+  "created_utc": "2026-09-27T10:07:35.842547+00:00",
+  "candidate_count": 8,
+  "index_formula": "floor(i*(T-1)/7), i=0..7, require T>=8",
+  "initial_candidate_positions": [
+    2,
+    5
+  ],
+  "fixed_additional_candidate_positions": [
+    0,
+    7
+  ],
+  "date_selection_uses_labels_predictions_or_visual_clear_selection": false,
+  "nodata_rule": "raw==-10000 per band; operational missing-value convention, source semantics pending independent satellite calibration",
+  "negative_values_other_than_minus10000": "preserved_not_automatically_missing",
+  "normalization": "(native-(mean-2*std))/(4*std), cast float32 once; no clipping",
+  "invalid_pixel_rule": "any of 10 measured bands equals sentinel; normalized all12 bands set0 and validity stored",
+  "label_valid": "semantic!=19, independent of observation quality",
+  "cloud_mask": "unavailable_unknown; no cloud-based rejection",
+  "strict_no_missing_input_eligibility": "all observed pixels valid in all8 frames; cloud clearness not certified",
+  "missing_input_path": "prepared but requires missing-aware training adapter/declared policy before use",
+  "bank_assignment": "sha256(oe8-bank-v0:+patch_id) first8 per train parent before label extraction",
+  "source_bank_supervised_encoder_training_allowed": false,
+  "reserved_region_opened": false
+}

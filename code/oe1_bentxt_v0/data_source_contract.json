@@ -1,0 +1,90 @@
+{
+  "status": "primary_source_band_order_and_preprocessing_verified",
+  "sources": {
+    "generator": {
+      "commit": "d7ae6aafc18e1da1bd6efb130f0a306125ee0fef",
+      "source_url": "https://github.com/The-AI-Alliance/GEO-Bench-2/blob/d7ae6aafc18e1da1bd6efb130f0a306125ee0fef/geobench_v2/generate_benchmark/benv2.py",
+      "local_file": "/private/tmp/oe1_bentxt_v0/source_geobench_v2_generate_benchmark_benv2.py",
+      "source_file_sha256": "dd644aeaafcaa416a37de4011fcb7aa13bb35783919159a6648373d69d6464b3",
+      "snippet_start_line": 277,
+      "snippet_end_line": 337,
+      "snippet": "        s2_bands = [\n            \"B01\",\n            \"B02\",\n            \"B03\",\n            \"B04\",\n            \"B05\",\n            \"B06\",\n            \"B07\",\n            \"B08\",\n            \"B8A\",\n            \"B09\",\n            \"B11\",\n            \"B12\",\n        ]\n        s2_patch_id = row[\"patch_id\"]\n        s2_patch_dir = \"_\".join(s2_patch_id.split(\"_\")[0:-2])\n        s2_dir = os.path.join(root_dir, \"BigEarthNet-S2\", s2_patch_dir, s2_patch_id)\n\n        s2_band_paths = [\n            os.path.join(s2_dir, f\"{s2_patch_id}_{band}.tif\") for band in s2_bands\n        ]\n\n        s2_output_path = os.path.join(save_dir, \"S2\", f\"{s2_patch_id}.tif\")\n        result[\"s2_path\"] = os.path.join(\"S2\", f\"{s2_patch_id}.tif\")\n\n        with rasterio.open(s2_band_paths[0]) as src:\n            crs = src.crs\n            transform = src.transform\n\n            s2_profile = {\n                \"driver\": \"GTiff\",\n                \"height\": 120,\n                \"width\": 120,\n                \"count\": 12,  # 12 S2 bands\n                \"dtype\": src.dtypes[0],\n                \"tiled\": True,\n                \"blockxsize\": 128,\n                \"blockysize\": 128,\n                \"interleave\": \"pixel\",\n                \"compress\": \"zstd\",\n                \"zstd_level\": 13,\n                \"predictor\": 2,\n                \"crs\": crs,\n                \"transform\": transform,\n            }\n\n        s2_data = []\n        for path in s2_band_paths:\n            with rasterio.open(path) as src:\n                array = src.read(\n                    indexes=1,\n                    out_shape=(120, 120),\n                    out_dtype=\"int32\",\n                    resampling=Resampling.bilinear,\n                )\n                s2_data.append(array)\n\n        s2_data_array = np.stack(s2_data)\n\n        with rasterio.open(s2_output_path, \"w\", **s2_profile) as dst:\n            dst.write(s2_data_array)"
+    },
+    "loader": {
+      "commit": "d7ae6aafc18e1da1bd6efb130f0a306125ee0fef",
+      "source_url": "https://github.com/The-AI-Alliance/GEO-Bench-2/blob/d7ae6aafc18e1da1bd6efb130f0a306125ee0fef/geobench_v2/datasets/benv2.py",
+      "local_file": "/private/tmp/oe1_bentxt_v0/source_geobench_v2_datasets_benv2.py",
+      "source_file_sha256": "14bd0b510048492d24706fdb9c18483197b7fda1d3fa41524d1263144cde5cd7",
+      "snippet_start_line": 44,
+      "snippet_end_line": 61,
+      "snippet": "    band_default_order = {\n        \"s2\": (\n            \"B01\",\n            \"B02\",\n            \"B03\",\n            \"B04\",\n            \"B05\",\n            \"B06\",\n            \"B07\",\n            \"B08\",\n            \"B8A\",\n            \"B09\",\n            \"B11\",\n            \"B12\",\n        ),\n        \"s1\": (\"VV\", \"VH\"),\n    }\n"
+    }
+  },
+  "source_bands": [
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B8A",
+    "B09",
+    "B11",
+    "B12"
+  ],
+  "output_olmo_bands": [
+    "B02",
+    "B03",
+    "B04",
+    "B08",
+    "B05",
+    "B06",
+    "B07",
+    "B8A",
+    "B11",
+    "B12",
+    "B01",
+    "B09"
+  ],
+  "reorder_indices": [
+    1,
+    2,
+    3,
+    7,
+    4,
+    5,
+    6,
+    8,
+    10,
+    11,
+    0,
+    9
+  ],
+  "geobench_tortilla_sha256_expected": "821c2f429c3e85c158c758bbb215bf61170a2451a11284efaf0f89cef97e468a",
+  "geobench_tortilla_size_expected": 9099097346,
+  "pixel_preprocessing": {
+    "read": "original BigEarthNetv2 per-band S2 TIFFs in explicit source_bands order",
+    "resample": "rasterio bilinear to120x120, readout_dtype=int32",
+    "write": "np.stack; write to12band TIFF in firstB01 source dtype",
+    "numeric_normalization": "none in generator; no division by10000, mean/std normalization, percentile stretch, or clipping before source TIFF write",
+    "scope": "raw scaled S2L2A DN after bilinear interpolation/quantization; not original unresampled individual-band pixels",
+    "loader": "official loader readsS2 TIFF and castsfloat, then separately calls rearrange_bands and data_normalizer; our acquisition bypasses this loader, so it does not apply GEO-Bench normalization"
+  },
+  "affine_audit": {
+    "cause": "generator copies firstB01 CRS/affine, changes height/width to120, resamplespixels but does not scale affine",
+    "outer_metadata": "outer tortilla geometry is copied from modality0=S1,10m alignedpatch; acquisition uses this outer grid only",
+    "impact": "nestedS2 affine implies60m cells on120x120 pixels despite1.2km patch; must not computearea/coordinates from nestedS2 affine",
+    "pilot_action": "keepfootprintmetadataouter10m and recordinnerdiscrepancy; binarypresenceonly"
+  },
+  "limits": [
+    "Currentofficialrepositorycommit is pinned; archivedTIFFpixelagreement to independentlydownloadednativev2patch has not yet been checked.",
+    "Full9GBfileSHA verification is delegated to parent; this sourceaudit does not assert that it has already passed.",
+    "S1 generator orderVH,VV differs from currentloader VV,VH; thispilotusesS2only and doesnotreadS1pixels."
+  ],
+  "operator_notes": [
+    "Use all12present OlmoEarthbands, includingB01andB09; do not apply missing-band mask used for other datasets.",
+    "Apply OlmoEarth normalizer once to these rawDN; no earlier /10000 or GEO-Bench zscore."
+  ]
+}

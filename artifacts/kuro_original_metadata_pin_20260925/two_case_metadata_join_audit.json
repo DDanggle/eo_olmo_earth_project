@@ -1,0 +1,830 @@
+{
+  "schema": "kuro-original-source-metadata-two-case-audit-v1",
+  "checked_at": "2026-09-25T06:48:44.864686+00:00",
+  "status": "metadata_dates_recovered_pixel_slot_mapping_unverified",
+  "geometry_contract": "All 5 exported assets are 224x224,10m,EPSG:3857; four full affine raster corners exactly equal closed axis-aligned upstream WKT polygon corners; no centroid rounding/tolerance/nearest match. Grid join additionally requires exact actid/aoiid/flood_date/pcovered/pwater/pflood.",
+  "sources": [
+    {
+      "file": "KuroV2_grid_dict.gz",
+      "bytes": 8980125,
+      "sha256": "6235bf33fdf188ae23386134d48d70f57de90c2994e8fd9c33d000f9bd5420cc",
+      "github_revision": "4347ed173c4e48f5a9d578bb5fe8453706b08e5e",
+      "url": "https://raw.githubusercontent.com/Orion-AI-Lab/KuroSiwo/4347ed173c4e48f5a9d578bb5fe8453706b08e5e/pickle/KuroV2_grid_dict.gz",
+      "total_records": 31707,
+      "event_aoi_candidates": 67
+    },
+    {
+      "file": "KuroV2_grid_dict_test_0_100.gz",
+      "bytes": 18667781,
+      "sha256": "dfc6e9a752d05aaa0a38c3fd6c18ce12e090f95635e5e4709025cb8512f020ad",
+      "github_revision": "4347ed173c4e48f5a9d578bb5fe8453706b08e5e",
+      "url": "https://raw.githubusercontent.com/Orion-AI-Lab/KuroSiwo/4347ed173c4e48f5a9d578bb5fe8453706b08e5e/pickle/KuroV2_grid_dict_test_0_100.gz",
+      "total_records": 67490,
+      "event_aoi_candidates": 77
+    }
+  ],
+  "cases": {
+    "ks_06770": {
+      "source_manifest_path": "/private/tmp/fixed_case_grounding_download_20260925/fixed_case_grounding_v0_20260925/ks_06770/source_manifest.json",
+      "source_manifest_sha256": "45560b5ba1b66d30442f51d507fbb8303d43d9723428b9c6821697ae65d4dea5",
+      "source_asset_sha256": {
+        "pre_event_1": "42724dbe666a1695c67f82f6be28109013bb504c8681b721428157140d990d8d",
+        "pre_event_2": "e93e4ce7c42c300663b9488243ed25a7bcee097c87d94a6f3684ae858e095b1b",
+        "post_event": "4fc8d23036cad0019b3ee632884969737c49849d0f8361ed1bde96cb503a3f83",
+        "mask": "0e291fda3fe2828db4122f1ed3c46107bbfdf9bf65aaa52ddaad516823e41e42",
+        "invalid_data": "e8d4ccd656dac80fc816400bbaca4f81cd800ec497b92ae34b6b261e3b038b12"
+      },
+      "metadata_join_status": "unique_exact_rectangle_and_source_fields",
+      "joined_records": [
+        {
+          "source_file": "KuroV2_grid_dict.gz",
+          "candidate_count_event_aoi": 67,
+          "candidate_count_exact_geometry": 1,
+          "grid_id": "e2f98639-b3ca-5c43-8d3b-79c11b55bc5c",
+          "path": "562/13/e2f98639b3ca5c438d3b79c11b55bc5c",
+          "corners_epsg3857": [
+            [
+              15540435.0,
+              -2008105.0
+            ],
+            [
+              15540435.0,
+              -2005865.0
+            ],
+            [
+              15542675.0,
+              -2008105.0
+            ],
+            [
+              15542675.0,
+              -2005865.0
+            ]
+          ],
+          "geometry_exact": true,
+          "field_checks": {
+            "actid": {
+              "source_row": "562",
+              "catalogue": 562,
+              "equal": true
+            },
+            "aoiid": {
+              "source_row": "13",
+              "catalogue": 13,
+              "equal": true
+            },
+            "pcovered": {
+              "source_row": "100.0",
+              "catalogue": 100.0,
+              "equal": true
+            },
+            "pwater": {
+              "source_row": "6.311782525510204",
+              "catalogue": 6.311782525510204,
+              "equal": true
+            },
+            "pflood": {
+              "source_row": "23.341836734693878",
+              "catalogue": 23.341836734693878,
+              "equal": true
+            },
+            "flood_date": {
+              "source_row": "2022-01-29 07:00:00",
+              "catalogue": "2022-01-29 07:00:00",
+              "equal": true
+            }
+          },
+          "upstream_record": {
+            "path": "562/13/e2f98639b3ca5c438d3b79c11b55bc5c",
+            "info": {
+              "sources": {
+                "SL1": {
+                  "source_date": "2021-08-19",
+                  "s1_ids": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ],
+                  "master": false,
+                  "coverage": 100.0,
+                  "crank": 1
+                },
+                "SL2": {
+                  "source_date": "2021-08-07",
+                  "s1_ids": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ],
+                  "master": false,
+                  "coverage": 100.0,
+                  "crank": 2
+                },
+                "MS1": {
+                  "source_date": "2022-02-03",
+                  "s1_ids": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ],
+                  "master": true,
+                  "coverage": 100.0,
+                  "crank": 1
+                }
+              },
+              "datasets": {
+                "MS1_IVH_562_13_20220203": {
+                  "name": "MS1_IVH_562_13_20220203",
+                  "master": true,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "MS",
+                  "pname": "IVH",
+                  "rank": "1",
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "SL1_IVH_562_13_20210819": {
+                  "name": "SL1_IVH_562_13_20210819",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVH",
+                  "rank": 1,
+                  "source_date": "2021-08-19",
+                  "sources": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ]
+                },
+                "SL2_IVH_562_13_20210807": {
+                  "name": "SL2_IVH_562_13_20210807",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVH",
+                  "rank": 2,
+                  "source_date": "2021-08-07",
+                  "sources": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ]
+                },
+                "MS1_IVV_562_13_20220203": {
+                  "name": "MS1_IVV_562_13_20220203",
+                  "master": true,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "MS",
+                  "pname": "IVV",
+                  "rank": "1",
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "SL1_IVV_562_13_20210819": {
+                  "name": "SL1_IVV_562_13_20210819",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVV",
+                  "rank": 1,
+                  "source_date": "2021-08-19",
+                  "sources": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ]
+                },
+                "SL2_IVV_562_13_20210807": {
+                  "name": "SL2_IVV_562_13_20210807",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVV",
+                  "rank": 2,
+                  "source_date": "2021-08-07",
+                  "sources": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ]
+                },
+                "MK0_MNA_562_13_20220203": {
+                  "name": "MK0_MNA_562_13_20220203",
+                  "master": false,
+                  "nodata": 0,
+                  "dtype": "uint8",
+                  "ptype": "MK",
+                  "pname": "MNA",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "MK0_MLU_562_13_20220203": {
+                  "name": "MK0_MLU_562_13_20220203",
+                  "master": false,
+                  "nodata": 3,
+                  "dtype": "uint8",
+                  "ptype": "MK",
+                  "pname": "MLU",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "MK0_DEM_562_13_20220203": {
+                  "name": "MK0_DEM_562_13_20220203",
+                  "master": false,
+                  "nodata": {
+                    "upstream_nonfinite_float": "nan"
+                  },
+                  "dtype": "float32",
+                  "ptype": "MK",
+                  "pname": "DEM",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                }
+              },
+              "grid_id": "e2f98639-b3ca-5c43-8d3b-79c11b55bc5c",
+              "slavecov": 2,
+              "mastercov": 1,
+              "gvalid": true,
+              "pcovered": 100.0,
+              "pwater": 6.311782525510204,
+              "pflood": 23.341836734693878,
+              "actid": 562,
+              "flood_date": "2022-01-29 07:00:00",
+              "aoiid": 13,
+              "revision": 1,
+              "version": 2,
+              "geom": "POLYGON ((15540435 -2008105, 15540435 -2005865, 15542675 -2005865, 15542675 -2008105, 15540435 -2008105))"
+            },
+            "clz": 2,
+            "clz_name": "Arid"
+          }
+        },
+        {
+          "source_file": "KuroV2_grid_dict_test_0_100.gz",
+          "candidate_count_event_aoi": 77,
+          "candidate_count_exact_geometry": 1,
+          "grid_id": "e2f98639-b3ca-5c43-8d3b-79c11b55bc5c",
+          "path": "562/13/e2f98639b3ca5c438d3b79c11b55bc5c",
+          "corners_epsg3857": [
+            [
+              15540435.0,
+              -2008105.0
+            ],
+            [
+              15540435.0,
+              -2005865.0
+            ],
+            [
+              15542675.0,
+              -2008105.0
+            ],
+            [
+              15542675.0,
+              -2005865.0
+            ]
+          ],
+          "geometry_exact": true,
+          "field_checks": {
+            "actid": {
+              "source_row": "562",
+              "catalogue": 562,
+              "equal": true
+            },
+            "aoiid": {
+              "source_row": "13",
+              "catalogue": 13,
+              "equal": true
+            },
+            "pcovered": {
+              "source_row": "100.0",
+              "catalogue": 100.0,
+              "equal": true
+            },
+            "pwater": {
+              "source_row": "6.311782525510204",
+              "catalogue": 6.311782525510204,
+              "equal": true
+            },
+            "pflood": {
+              "source_row": "23.341836734693878",
+              "catalogue": 23.341836734693878,
+              "equal": true
+            },
+            "flood_date": {
+              "source_row": "2022-01-29 07:00:00",
+              "catalogue": "2022-01-29 07:00:00",
+              "equal": true
+            }
+          },
+          "upstream_record": {
+            "path": "562/13/e2f98639b3ca5c438d3b79c11b55bc5c",
+            "info": {
+              "sources": {
+                "SL1": {
+                  "source_date": "2021-08-19",
+                  "s1_ids": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ],
+                  "master": false,
+                  "coverage": 100.0,
+                  "crank": 1
+                },
+                "SL2": {
+                  "source_date": "2021-08-07",
+                  "s1_ids": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ],
+                  "master": false,
+                  "coverage": 100.0,
+                  "crank": 2
+                },
+                "MS1": {
+                  "source_date": "2022-02-03",
+                  "s1_ids": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ],
+                  "master": true,
+                  "coverage": 100.0,
+                  "crank": 1
+                }
+              },
+              "datasets": {
+                "MS1_IVH_562_13_20220203": {
+                  "name": "MS1_IVH_562_13_20220203",
+                  "master": true,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "MS",
+                  "pname": "IVH",
+                  "rank": "1",
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "SL1_IVH_562_13_20210819": {
+                  "name": "SL1_IVH_562_13_20210819",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVH",
+                  "rank": 1,
+                  "source_date": "2021-08-19",
+                  "sources": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ]
+                },
+                "SL2_IVH_562_13_20210807": {
+                  "name": "SL2_IVH_562_13_20210807",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVH",
+                  "rank": 2,
+                  "source_date": "2021-08-07",
+                  "sources": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ]
+                },
+                "MS1_IVV_562_13_20220203": {
+                  "name": "MS1_IVV_562_13_20220203",
+                  "master": true,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "MS",
+                  "pname": "IVV",
+                  "rank": "1",
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "SL1_IVV_562_13_20210819": {
+                  "name": "SL1_IVV_562_13_20210819",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVV",
+                  "rank": 1,
+                  "source_date": "2021-08-19",
+                  "sources": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ]
+                },
+                "SL2_IVV_562_13_20210807": {
+                  "name": "SL2_IVV_562_13_20210807",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVV",
+                  "rank": 2,
+                  "source_date": "2021-08-07",
+                  "sources": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ]
+                },
+                "MK0_MNA_562_13_20220203": {
+                  "name": "MK0_MNA_562_13_20220203",
+                  "master": false,
+                  "nodata": 0,
+                  "dtype": "uint8",
+                  "ptype": "MK",
+                  "pname": "MNA",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "MK0_MLU_562_13_20220203": {
+                  "name": "MK0_MLU_562_13_20220203",
+                  "master": false,
+                  "nodata": 3,
+                  "dtype": "uint8",
+                  "ptype": "MK",
+                  "pname": "MLU",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "MK0_DEM_562_13_20220203": {
+                  "name": "MK0_DEM_562_13_20220203",
+                  "master": false,
+                  "nodata": {
+                    "upstream_nonfinite_float": "nan"
+                  },
+                  "dtype": "float32",
+                  "ptype": "MK",
+                  "pname": "DEM",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                }
+              },
+              "grid_id": "e2f98639-b3ca-5c43-8d3b-79c11b55bc5c",
+              "slavecov": 2,
+              "mastercov": 1,
+              "gvalid": true,
+              "pcovered": 100.0,
+              "pwater": 6.311782525510204,
+              "pflood": 23.341836734693878,
+              "actid": 562,
+              "flood_date": "2022-01-29 07:00:00",
+              "aoiid": 13,
+              "revision": 1,
+              "version": 2,
+              "geom": "POLYGON ((15540435 -2008105, 15540435 -2005865, 15542675 -2005865, 15542675 -2008105, 15540435 -2008105))"
+            },
+            "clz": 2,
+            "clz_name": "Arid"
+          }
+        }
+      ],
+      "upstream_date_precision": "day",
+      "upstream_date_and_id_sources": {
+        "SL1": {
+          "source_date": "2021-08-19",
+          "s1_ids": [
+            "502f8040-709d-5c6e-b9fb-947ba4b47925"
+          ],
+          "master": false,
+          "coverage": 100.0,
+          "crank": 1
+        },
+        "SL2": {
+          "source_date": "2021-08-07",
+          "s1_ids": [
+            "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+          ],
+          "master": false,
+          "coverage": 100.0,
+          "crank": 2
+        },
+        "MS1": {
+          "source_date": "2022-02-03",
+          "s1_ids": [
+            "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+          ],
+          "master": true,
+          "coverage": 100.0,
+          "crank": 1
+        }
+      },
+      "days_to_MS1": {
+        "SL1": 168,
+        "SL2": 180,
+        "MS1": 0
+      },
+      "geobench_slot_mapping_status": "unverified",
+      "acquisition_dates_in_existing_export": {
+        "pre_1": null,
+        "pre_2": null,
+        "post": null
+      },
+      "raster_value_correspondence_to_upstream_archive": "not_verified",
+      "sentinel_product_name_and_precise_utc_time": "not_resolved_from_UUIDs"
+    },
+    "ks_05265": {
+      "source_manifest_path": "/private/tmp/fixed_case_grounding_download_20260925/fixed_case_grounding_v0_20260925/ks_05265/source_manifest.json",
+      "source_manifest_sha256": "478149e6ed282073d7c492d08a61e5a66a7834c1aeb936e7ce9fcfe48b357966",
+      "source_asset_sha256": {
+        "pre_event_1": "78e134cfd43ce442e64fa337a52897a5645ce6f7cd6d3cadfcf4b3a9a7f2dab8",
+        "pre_event_2": "e8944a4a36b372f4628623077ef78e2d85e6a42e3d77438b8e42c37417c86e85",
+        "post_event": "35e29668678713ecf7c0e01a6687380232ac94df0d52f81ad281c7aa0b27f877",
+        "mask": "82131b9eb29356238da1415dae9ce4e537783ed37c6946f5f4b2dc424ad28baf",
+        "invalid_data": "4d8ff74de0898ae243fcac983efc254390cdaab6610f0fd7779c8e905c8af8d2"
+      },
+      "metadata_join_status": "unique_exact_rectangle_and_source_fields",
+      "joined_records": [
+        {
+          "source_file": "KuroV2_grid_dict_test_0_100.gz",
+          "candidate_count_event_aoi": 77,
+          "candidate_count_exact_geometry": 1,
+          "grid_id": "d762ee26-ef58-5723-b9f7-d9d18f419bd8",
+          "path": "562/13/d762ee26ef585723b9f7d9d18f419bd8",
+          "corners_epsg3857": [
+            [
+              15526995.0,
+              -2005865.0
+            ],
+            [
+              15526995.0,
+              -2003625.0
+            ],
+            [
+              15529235.0,
+              -2005865.0
+            ],
+            [
+              15529235.0,
+              -2003625.0
+            ]
+          ],
+          "geometry_exact": true,
+          "field_checks": {
+            "actid": {
+              "source_row": "562",
+              "catalogue": 562,
+              "equal": true
+            },
+            "aoiid": {
+              "source_row": "13",
+              "catalogue": 13,
+              "equal": true
+            },
+            "pcovered": {
+              "source_row": "100.0",
+              "catalogue": 100.0,
+              "equal": true
+            },
+            "pwater": {
+              "source_row": "0.0",
+              "catalogue": 0.0,
+              "equal": true
+            },
+            "pflood": {
+              "source_row": "0.0",
+              "catalogue": 0.0,
+              "equal": true
+            },
+            "flood_date": {
+              "source_row": "2022-01-29 07:00:00",
+              "catalogue": "2022-01-29 07:00:00",
+              "equal": true
+            }
+          },
+          "upstream_record": {
+            "path": "562/13/d762ee26ef585723b9f7d9d18f419bd8",
+            "info": {
+              "sources": {
+                "SL1": {
+                  "source_date": "2021-08-19",
+                  "s1_ids": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ],
+                  "master": false,
+                  "coverage": 100.0,
+                  "crank": 1
+                },
+                "SL2": {
+                  "source_date": "2021-08-07",
+                  "s1_ids": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ],
+                  "master": false,
+                  "coverage": 100.0,
+                  "crank": 2
+                },
+                "MS1": {
+                  "source_date": "2022-02-03",
+                  "s1_ids": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ],
+                  "master": true,
+                  "coverage": 100.0,
+                  "crank": 1
+                }
+              },
+              "datasets": {
+                "MS1_IVH_562_13_20220203": {
+                  "name": "MS1_IVH_562_13_20220203",
+                  "master": true,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "MS",
+                  "pname": "IVH",
+                  "rank": "1",
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "SL1_IVH_562_13_20210819": {
+                  "name": "SL1_IVH_562_13_20210819",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVH",
+                  "rank": 1,
+                  "source_date": "2021-08-19",
+                  "sources": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ]
+                },
+                "SL2_IVH_562_13_20210807": {
+                  "name": "SL2_IVH_562_13_20210807",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVH",
+                  "rank": 2,
+                  "source_date": "2021-08-07",
+                  "sources": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ]
+                },
+                "MS1_IVV_562_13_20220203": {
+                  "name": "MS1_IVV_562_13_20220203",
+                  "master": true,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "MS",
+                  "pname": "IVV",
+                  "rank": "1",
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "SL1_IVV_562_13_20210819": {
+                  "name": "SL1_IVV_562_13_20210819",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVV",
+                  "rank": 1,
+                  "source_date": "2021-08-19",
+                  "sources": [
+                    "502f8040-709d-5c6e-b9fb-947ba4b47925"
+                  ]
+                },
+                "SL2_IVV_562_13_20210807": {
+                  "name": "SL2_IVV_562_13_20210807",
+                  "master": false,
+                  "nodata": 0.0,
+                  "dtype": "float32",
+                  "ptype": "SL",
+                  "pname": "IVV",
+                  "rank": 2,
+                  "source_date": "2021-08-07",
+                  "sources": [
+                    "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+                  ]
+                },
+                "MK0_MNA_562_13_20220203": {
+                  "name": "MK0_MNA_562_13_20220203",
+                  "master": false,
+                  "nodata": 0,
+                  "dtype": "uint8",
+                  "ptype": "MK",
+                  "pname": "MNA",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "MK0_MLU_562_13_20220203": {
+                  "name": "MK0_MLU_562_13_20220203",
+                  "master": false,
+                  "nodata": 3,
+                  "dtype": "uint8",
+                  "ptype": "MK",
+                  "pname": "MLU",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                },
+                "MK0_DEM_562_13_20220203": {
+                  "name": "MK0_DEM_562_13_20220203",
+                  "master": false,
+                  "nodata": {
+                    "upstream_nonfinite_float": "nan"
+                  },
+                  "dtype": "float32",
+                  "ptype": "MK",
+                  "pname": "DEM",
+                  "rank": 0,
+                  "source_date": "2022-02-03",
+                  "sources": [
+                    "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+                  ]
+                }
+              },
+              "grid_id": "d762ee26-ef58-5723-b9f7-d9d18f419bd8",
+              "slavecov": 2,
+              "mastercov": 1,
+              "gvalid": true,
+              "pcovered": 100.0,
+              "pwater": 0.0,
+              "pflood": 0.0,
+              "actid": 562,
+              "flood_date": "2022-01-29 07:00:00",
+              "aoiid": 13,
+              "revision": 1,
+              "version": 2,
+              "geom": "POLYGON ((15526995 -2005865, 15526995 -2003625, 15529235 -2003625, 15529235 -2005865, 15526995 -2005865))"
+            },
+            "clz": 2,
+            "clz_name": "Arid"
+          }
+        }
+      ],
+      "upstream_date_precision": "day",
+      "upstream_date_and_id_sources": {
+        "SL1": {
+          "source_date": "2021-08-19",
+          "s1_ids": [
+            "502f8040-709d-5c6e-b9fb-947ba4b47925"
+          ],
+          "master": false,
+          "coverage": 100.0,
+          "crank": 1
+        },
+        "SL2": {
+          "source_date": "2021-08-07",
+          "s1_ids": [
+            "4bd406ac-3ce2-5a04-94e3-fca64f5878d1"
+          ],
+          "master": false,
+          "coverage": 100.0,
+          "crank": 2
+        },
+        "MS1": {
+          "source_date": "2022-02-03",
+          "s1_ids": [
+            "2fa3885a-52ca-5fae-948f-60cbde7102c5"
+          ],
+          "master": true,
+          "coverage": 100.0,
+          "crank": 1
+        }
+      },
+      "days_to_MS1": {
+        "SL1": 168,
+        "SL2": 180,
+        "MS1": 0
+      },
+      "geobench_slot_mapping_status": "unverified",
+      "acquisition_dates_in_existing_export": {
+        "pre_1": null,
+        "pre_2": null,
+        "post": null
+      },
+      "raster_value_correspondence_to_upstream_archive": "not_verified",
+      "sentinel_product_name_and_precise_utc_time": "not_resolved_from_UUIDs"
+    }
+  },
+  "no_model_or_E5_outputs_read": true,
+  "existing_artifacts_unchanged": true,
+  "parser_sha256": "e7db187d984b1c75c795b9b310b44b2c6b2724112e8df262d0b080882f8c54ef",
+  "audit_script_sha256": "82477c6e864f080f10188f3a528f448932458294fcd56040927b94e763da4afc"
+}

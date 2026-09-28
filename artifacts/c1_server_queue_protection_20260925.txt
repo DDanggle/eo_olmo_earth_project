@@ -1,0 +1,22 @@
+    PID    PPID     ELAPSED STAT COMMAND
+ 955997  955143    01:06:46 S    .venv-master/bin/python -B code/run_e3_pair_when_idle_v0.py
+{
+  "status": "waiting_gpu1",
+  "at": "2026-09-25T04:40:20.914485+00:00",
+  "pid": 955997,
+  "elapsed_wait_s": 3967.229058548808
+}
+index, uuid, memory.used [MiB], memory.total [MiB]
+0, GPU-83516c9a-4344-a891-ccf3-621c862d2468, 7687 MiB, 143771 MiB
+1, GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb, 61639 MiB, 143771 MiB
+gpu_uuid, pid, used_gpu_memory [MiB]
+GPU-83516c9a-4344-a891-ccf3-621c862d2468, 971689, 7678 MiB
+GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb, 945452, 61606 MiB
+code/pilot_sen12_gp_heads.py 45602 1788238578
+code/sen12_official_baselines.py 10926 1787683824
+code/extract_sen12_fold_cache.py 10983 1787659265
+code/audit_sen12_fold_cache.py 7314 1787668636
+8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1  code/pilot_sen12_gp_heads.py
+19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b  code/sen12_official_baselines.py
+197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a  code/extract_sen12_fold_cache.py
+4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9  code/audit_sen12_fold_cache.py

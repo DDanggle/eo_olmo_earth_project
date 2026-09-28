@@ -1,0 +1,10 @@
+{"utc": "2026-09-26T17:42:29.554987+00:00", "status": "failed", "detail": "RuntimeError(\"Unhashed Python source in snapshot: ['._real_h5_provider.py', '._run_vlm_bounded.py', '._vlm_interface_smoke.py']\")"}
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v0/run_vlm_bounded.py", line 373, in <module>
+    main()
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v0/run_vlm_bounded.py", line 236, in main
+    state["source_before"] = verified_source_records()
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v0/run_vlm_bounded.py", line 104, in verified_source_records
+    raise RuntimeError(f"Unhashed Python source in snapshot: {sorted(unlisted)}")
+RuntimeError: Unhashed Python source in snapshot: ['._real_h5_provider.py', '._run_vlm_bounded.py', '._vlm_interface_smoke.py']

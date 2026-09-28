@@ -1,0 +1,93 @@
+{
+  "schema_version": "oe10_p2_execution_protocol_v1",
+  "status": "locked_before_first_development_prediction",
+  "locked_before_development_results": true,
+  "paired_seed_ids": [
+    270927,
+    270928,
+    270929
+  ],
+  "arms": [
+    "B0",
+    "B2"
+  ],
+  "comparison_axis": "matched_data_exposure",
+  "updates_per_run": 2304,
+  "minimum_updates_per_run": 2304,
+  "primary_checkpoint": "final_step_2304_not_best_development_checkpoint",
+  "training_catalog_coverage": "exactly one full2304episode cycle;48 unique training patches,12 directedclasspairs,4Kvalues",
+  "evaluation_interval_updates": 384,
+  "checkpoint_interval_updates": 384,
+  "progress_interval_updates": 24,
+  "warmup_updates": 96,
+  "base_learning_rates": {
+    "encoder": 1e-05,
+    "native_decoder": 0.0001,
+    "readouts": 0.001
+  },
+  "optimizer_lr_recipe_count": 1,
+  "optimizer": "AdamW",
+  "weight_decay": 0.01,
+  "lr_schedule": "linear_warmup96_then_cosine_to0.1_base_lr",
+  "gradient_clip_norm": 1.0,
+  "loss_weights": {
+    "native": 1.0,
+    "mask_BCE_plus_Dice": 1.0,
+    "language_CE": 0.05
+  },
+  "precision": "float32",
+  "batch_size_episodes": 1,
+  "native_batch_size": 2,
+  "query_positions": [
+    2,
+    5
+  ],
+  "support_positions": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "ks": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "connector_slots": 64,
+  "max_worker_seconds": 14400,
+  "max_sequence_seconds": 43200,
+  "compute_budget_note": "Post-profile execution allocation: each run at most4h, complete six-run sequence at most12h; partial runs cannot be compared as completed matched exposure. This replaces draft per-arm allocation before any development metrics.",
+  "engineering_results_root": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v3",
+  "source_snapshot": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3",
+  "engineering_tolerance_absolute": 1e-06,
+  "held_out_scope": "development common96 on singleparent t31tfm;3targetclasses;no independent test/no Kuro/reserve access",
+  "human_support": "synthetic public-label objects, actual human pilot responses0",
+  "language_evaluation_note": "Actual Qwen3-VL-8B supplies training CE gradients, primary evaluation is EO dense masks with_language=False; no claim of explanation quality",
+  "convergence_note": "one full catalog cycle is minimum exposure not provenconvergence; original OE9 last3window range and other gates remainbinding",
+  "B0_native_replay": "same native images and losses observed under no_grad; no trainable native params",
+  "B2_native_replay": "same official fullmodel withshared onlineencoder;trainencoder/decoder/projectors;fixedEMA1target",
+  "additional_downloads_paid_calls_or_hiring": false,
+  "locked_utc": "2026-09-27T11:42:29.811693+00:00",
+  "optimizer_epsilon": 1e-06,
+  "optimizer_foreach": false,
+  "optimizer_fused": false,
+  "gradient_clip_foreach": false,
+  "torch_global_deterministic": false,
+  "cublas_workspace_config": ":4096:8",
+  "source_manifest_sha256": "f61df65d5d31940f84c7d5b6411c9c1919365c8cb1188bd78e74e077428048dd",
+  "gate_config_sha256": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+  "pre_result_profile": {
+    "B0_K8_steady_seconds": 1.9941938780248165,
+    "B2_K8_steady_seconds": 9.065082542598248,
+    "B2_peak_allocated_gib": 52.220304012298584,
+    "B2_cold_resume_max_weight_abs_difference": 3.5762786865234375e-07,
+    "B2_cold_resume_prediction_and_loss_differences": 0.0,
+    "both_arms_strict_cold_resume_passed": true
+  },
+  "expected_runtime_note": "Multi-hour experiment; steadyK8 is upper workload, K distribution均等; whole6run completion not guaranteed inside12h cap. No convergence guarantee."
+}

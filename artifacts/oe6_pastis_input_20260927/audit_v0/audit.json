@@ -1,0 +1,114 @@
+{
+  "started_utc": "2026-09-27T07:31:04.960243+00:00",
+  "script_sha256": "2cd77331c9c197d416e3b076393a470d5818f5af8c93041edbb75b16449f4c90",
+  "loader_path": "/home/work/data/olmoearth/.venv-geobench/lib/python3.12/site-packages/geobench_v2/datasets/pastis.py",
+  "loader_sha256": "fb61c75d6897213207a475a2a3a4bb35bd70cc91e0744b7bb11d1243ae99f97c",
+  "expected": {
+    "url": "https://hf.co/datasets/aialliance/pastis/resolve/main/{}",
+    "paths": [
+      "geobench_pastis.0000.part.tortilla",
+      "geobench_pastis.0001.part.tortilla",
+      "geobench_pastis.0002.part.tortilla"
+    ],
+    "sha256str": [
+      "56b1490c6dc7345fdff79e94d9132753ee28d8504bb061d8db39d19e888f7ca3",
+      "7d0463a695a0822a1f25638598b2d54daf28f387d6a80d353be7c323069060db",
+      "22d27389b1ccee4f250f4a187d034d12dbf15c5610a5dd8d502ee8783e94c81e"
+    ],
+    "band_default_order": {
+      "s2": [
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B8A",
+        "B11",
+        "B12"
+      ],
+      "s1_asc": [
+        "VV_asc",
+        "VH_asc",
+        "VV/VH_asc"
+      ],
+      "s1_desc": [
+        "VV_desc",
+        "VH_desc",
+        "VV/VH_desc"
+      ]
+    }
+  },
+  "source_shards_unchanged": true,
+  "shards": [
+    {
+      "name": "geobench_pastis.0000.part.tortilla",
+      "expected_sha256": "56b1490c6dc7345fdff79e94d9132753ee28d8504bb061d8db39d19e888f7ca3",
+      "exists": true,
+      "bytes": 19990546644,
+      "mtime_ns": 1788655704162250000,
+      "actual_sha256": "56b1490c6dc7345fdff79e94d9132753ee28d8504bb061d8db39d19e888f7ca3",
+      "valid": true,
+      "stable_during_hash": true
+    },
+    {
+      "name": "geobench_pastis.0001.part.tortilla",
+      "expected_sha256": "7d0463a695a0822a1f25638598b2d54daf28f387d6a80d353be7c323069060db",
+      "exists": true,
+      "bytes": 19991682159,
+      "mtime_ns": 1788663476928932000,
+      "actual_sha256": "3f1e98e304bf6021fd522c0b24f80a3a028feab9bd7238db364398580baf1c2e",
+      "valid": false,
+      "stable_during_hash": true
+    },
+    {
+      "name": "geobench_pastis.0002.part.tortilla",
+      "expected_sha256": "22d27389b1ccee4f250f4a187d034d12dbf15c5610a5dd8d502ee8783e94c81e",
+      "exists": false,
+      "valid": false
+    }
+  ],
+  "prepared_native_training_inputs": 0,
+  "status": "completed_audit_native_input_contract_not_yet_passed",
+  "gpu_used": false,
+  "downloaded": false,
+  "complete_dataset_verified": false,
+  "partial_catalog": {
+    "rows": 911,
+    "columns": [
+      "internal:subfile",
+      "tortilla:id",
+      "tortilla:file_format",
+      "tortilla:data_split",
+      "tortilla:offset",
+      "tortilla:length",
+      "dates",
+      "tile",
+      "lon",
+      "lat",
+      "patch_id"
+    ],
+    "split_counts": {
+      "train": 911
+    }
+  },
+  "inspected_train_records": [
+    {
+      "record": "inspection_record_0.json",
+      "raw": "inspection_raw_0.npz"
+    },
+    {
+      "record": "inspection_record_1.json",
+      "raw": "inspection_raw_1.npz"
+    }
+  ],
+  "wall_seconds": 526.6773102283478,
+  "next_contract_checks": [
+    "original dates and parent geography",
+    "raw spectral calibration",
+    "native missing-band handling",
+    "annual crop labels and voids",
+    "RGB/label/spectral alignment"
+  ]
+}

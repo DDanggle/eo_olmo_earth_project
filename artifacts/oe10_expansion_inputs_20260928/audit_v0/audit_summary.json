@@ -1,0 +1,713 @@
+{
+  "schema": "oe10_expansion_input_audit_v1",
+  "created_utc": "2026-09-27T17:43:37.721069+00:00",
+  "prepared_packets_checked": 30,
+  "objects_checked": 294,
+  "source_hashes": {
+    "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/manifest.jsonl": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3",
+    "/home/work/data/olmoearth/oe8_pastis_prepare_v0/episodes_v0/source_objects.jsonl": "c8b6ce724eaf3acc1e1f159ab2ec46943bb88eb49cde1aa0172e12181da53e11",
+    "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/computed.json": "774e461babd2bd4cbe3591b46457d39054f8ac529cb57a052547501076ebaef7",
+    "/home/work/data/olmoearth/oe10_expansion_inputs_v0/code_v0/audit_inputs.py": "85a1a044ea3b22caf11cf70a5e073a66c44138679b87f876eb1de2fffadd5d30"
+  },
+  "coverage": [
+    {
+      "class_id": 8,
+      "name": "grapevine",
+      "train": {
+        "objects": 183,
+        "patches": 16,
+        "max2_per_patch_capacity": 32
+      },
+      "bank": {
+        "objects": 38,
+        "patches": 4,
+        "max2_per_patch_capacity": 8
+      },
+      "bank_interior_only_sensitivity_not_selection": {
+        "objects": 26,
+        "patches": 4,
+        "max2_per_patch_capacity": 8
+      },
+      "train_query_exclusion": [
+        {
+          "query_patch_id": "40411",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40451",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40020",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40474",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40163",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40102",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40177",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40255",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40008",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40555",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40201",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40466",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40115",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40308",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40518",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40529",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40527",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40333",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40130",
+          "objects": 173,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "40561",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40231",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40271",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "40465",
+          "objects": 171,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "40178",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20449",
+          "objects": 174,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20510",
+          "objects": 181,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20265",
+          "objects": 177,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20628",
+          "objects": 149,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20458",
+          "objects": 171,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20655",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20468",
+          "objects": 181,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20263",
+          "objects": 162,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20329",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20091",
+          "objects": 181,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20285",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20212",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20518",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20206",
+          "objects": 163,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20197",
+          "objects": 170,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20063",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20032",
+          "objects": 163,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20296",
+          "objects": 179,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20430",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20550",
+          "objects": 181,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20232",
+          "objects": 169,
+          "patches": 15,
+          "max2_per_patch_capacity": 30
+        },
+        {
+          "query_patch_id": "20182",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20416",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        },
+        {
+          "query_patch_id": "20647",
+          "objects": 183,
+          "patches": 16,
+          "max2_per_patch_capacity": 32
+        }
+      ],
+      "all48_train_queries_have_k8": true,
+      "parent_counts": {
+        "train_pool": {
+          "t32ulu": 22,
+          "t31tfj": 161
+        },
+        "source_bank": {
+          "t31tfj": 38
+        }
+      }
+    },
+    {
+      "class_id": 14,
+      "name": "leguminous_fodder",
+      "train": {
+        "objects": 60,
+        "patches": 15,
+        "max2_per_patch_capacity": 25
+      },
+      "bank": {
+        "objects": 13,
+        "patches": 7,
+        "max2_per_patch_capacity": 10
+      },
+      "bank_interior_only_sensitivity_not_selection": {
+        "objects": 6,
+        "patches": 6,
+        "max2_per_patch_capacity": 6
+      },
+      "train_query_exclusion": [
+        {
+          "query_patch_id": "40411",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40451",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40020",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40474",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40163",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40102",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40177",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40255",
+          "objects": 59,
+          "patches": 14,
+          "max2_per_patch_capacity": 24
+        },
+        {
+          "query_patch_id": "40008",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40555",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40201",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40466",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40115",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40308",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40518",
+          "objects": 59,
+          "patches": 14,
+          "max2_per_patch_capacity": 24
+        },
+        {
+          "query_patch_id": "40529",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40527",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40333",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40130",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40561",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40231",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40271",
+          "objects": 59,
+          "patches": 14,
+          "max2_per_patch_capacity": 24
+        },
+        {
+          "query_patch_id": "40465",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "40178",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20449",
+          "objects": 57,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20510",
+          "objects": 56,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20265",
+          "objects": 51,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20628",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20458",
+          "objects": 59,
+          "patches": 14,
+          "max2_per_patch_capacity": 24
+        },
+        {
+          "query_patch_id": "20655",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20468",
+          "objects": 55,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20263",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20329",
+          "objects": 52,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20091",
+          "objects": 55,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20285",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20212",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20518",
+          "objects": 55,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20206",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20197",
+          "objects": 55,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20063",
+          "objects": 58,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20032",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20296",
+          "objects": 51,
+          "patches": 14,
+          "max2_per_patch_capacity": 23
+        },
+        {
+          "query_patch_id": "20430",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20550",
+          "objects": 59,
+          "patches": 14,
+          "max2_per_patch_capacity": 24
+        },
+        {
+          "query_patch_id": "20232",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20182",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20416",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        },
+        {
+          "query_patch_id": "20647",
+          "objects": 60,
+          "patches": 15,
+          "max2_per_patch_capacity": 25
+        }
+      ],
+      "all48_train_queries_have_k8": true,
+      "parent_counts": {
+        "train_pool": {
+          "t32ulu": 3,
+          "t31tfj": 57
+        },
+        "source_bank": {
+          "t32ulu": 2,
+          "t31tfj": 11
+        }
+      }
+    }
+  ],
+  "development_packets_opened": 0,
+  "new_gpu_seconds": 0,
+  "source_bank_used_for_encoder_training": false,
+  "current_p2_changed": false,
+  "protection_checked": true,
+  "source_shard_reread": false,
+  "global_parcel_independence_verified": false,
+  "cloud_quality_certified": false,
+  "human_crop_or_expert_validation": false,
+  "new_evaluation_cohort_frozen": false,
+  "limitations": [
+    "Source-label consistency is not independent expert correctness.",
+    "Observation-valid is sentinel availability, not cloud-free.",
+    "Local instance IDs do not certify global parcel independence.",
+    "Only training/source-bank inspected; new-class evaluation eligibility remains open."
+  ],
+  "protected_before": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458,
+      "bytes": 45602
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874,
+      "bytes": 10926
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291,
+      "bytes": 10983
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291,
+      "bytes": 7314
+    }
+  },
+  "protected_after": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458,
+      "bytes": 45602
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874,
+      "bytes": 10926
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291,
+      "bytes": 10983
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291,
+      "bytes": 7314
+    }
+  }
+}

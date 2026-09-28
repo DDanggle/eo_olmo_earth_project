@@ -1,0 +1,140 @@
+{
+  "created_utc": "2026-09-27T19:50:24.756510+00:00",
+  "status": "cpu_preparation_verified_not_real_model_performance",
+  "source_manifests": {
+    "code/oe10_expansion_context_v0/source_manifest.json": "300a31bb27fb6caabb4ba4c48faf80f146c54452d57946b450300ce783076cb0",
+    "code/oe10_text_mask_v0/source_manifest.json": "b457e213e7dadabefed15711efe0ac7f719fe4ffaf7bee0194a2c1eb16158246"
+  },
+  "cpu_export": {
+    "files": 4,
+    "bytes": 13750,
+    "hash_errors": 0
+  },
+  "context_boundary_tests": 7,
+  "model_contract_and_toy_tests": 12,
+  "all_tests_passed": true,
+  "actual_tokenizer_used": true,
+  "actual_qwen_or_olmoearth_weights_forward": false,
+  "per_condition_tokens": {
+    "generic": {
+      "min": 58,
+      "max": 58,
+      "records": 384
+    },
+    "matched_knowledge": {
+      "min": 267,
+      "max": 267,
+      "records": 384
+    },
+    "names_only": {
+      "min": 44,
+      "max": 44,
+      "records": 384
+    },
+    "removed_knowledge_diagnostic": {
+      "min": 44,
+      "max": 44,
+      "records": 384
+    },
+    "swapped_knowledge_diagnostic": {
+      "min": 267,
+      "max": 267,
+      "records": 384
+    }
+  },
+  "unique_context_texts": 7,
+  "train_reference_rows": 384,
+  "unique_train_queries": 48,
+  "actual_human_responses": 0,
+  "new_gpu_seconds": 0,
+  "extra_pilot_total_used_seconds": 0,
+  "current_p2": {
+    "created_utc": "2026-09-27T19:39:29.635958+00:00",
+    "status": "running",
+    "controller_pid": 1419400,
+    "current_worker": "B2_270928_train",
+    "started_utc": "2026-09-27T11:42:43.962886+00:00",
+    "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+    "workers": [
+      {
+        "name": "B0_270927_train",
+        "controller_status": "completed",
+        "receipt_status": "training_completed",
+        "completed_updates_receipt": 2304,
+        "last_logged_step": 2304,
+        "pid": 1419405,
+        "elapsed_seconds": 3238.603802483529,
+        "latest_score": {
+          "file": "score_step_002304.json",
+          "target_iou_auc": 0.3009959798940199,
+          "sha256": "5a3594b674c0f1e3d84270428f6779c596a0cdb5760ec0eb7004047240910bf5"
+        },
+        "receipt_sha256": "66084a38b4c7c92e88f71fed8d1603afb1723238c62124bc3773e8d6b43f1f56"
+      },
+      {
+        "name": "B2_270927_train",
+        "controller_status": "completed",
+        "receipt_status": "training_completed",
+        "completed_updates_receipt": 2304,
+        "last_logged_step": 2304,
+        "pid": 1421757,
+        "elapsed_seconds": 12040.545632142574,
+        "latest_score": {
+          "file": "score_step_002304.json",
+          "target_iou_auc": 0.34175409764391784,
+          "sha256": "176e80bbfa0982adb382c64b44108a94d4e961ba6a049ad3826cd24df1f5cfb5"
+        },
+        "receipt_sha256": "1d875968d5da8b4a689d26a7fc133686a7c7f775fdfea32e47b617b023e55e66"
+      },
+      {
+        "name": "B0_270928_train",
+        "controller_status": "completed",
+        "receipt_status": "training_completed",
+        "completed_updates_receipt": 2304,
+        "last_logged_step": 2304,
+        "pid": 1435655,
+        "elapsed_seconds": 3442.0170584730804,
+        "latest_score": {
+          "file": "score_step_002304.json",
+          "target_iou_auc": 0.29600542064495083,
+          "sha256": "4e2babba485e59859e5361969e2abe0a408915fe1be55f27d930a81255f5630e"
+        },
+        "receipt_sha256": "c4d90b6de39749c20daf9e7e9afcca95cf01306de52919c839a4cbc60958bfa7"
+      },
+      {
+        "name": "B2_270928_train",
+        "controller_status": "running",
+        "receipt_status": "training",
+        "completed_updates_receipt": 1920,
+        "last_logged_step": 1920,
+        "pid": 1448236,
+        "elapsed_seconds": 9727.919644717127,
+        "latest_score": {
+          "file": "score_step_001536.json",
+          "target_iou_auc": 0.33693942248797654,
+          "sha256": "438f380b986859438e402a8c57c2a8a373a139b610d063c9e4762663d24e60ab"
+        },
+        "receipt_sha256": "78986cf33b1d2e78aecd8b78a401a5920247c7213fffa5bf637309b54ee9847d"
+      }
+    ],
+    "own_processes": "    PID     ELAPSED COMMAND\n1419400    07:56:45 /home/work/data/olmoearth/.venv-master/bin/python code_snapshot/oe10_p2_v3/run_bounded.py --stage training --tag training_v0 --protocol /home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json\n1448236    02:44:39 /home/work/data/olmoearth/.venv-master/bin/python /home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/p2_worker.py --mode train --arm B2 --seed 270928 --out /home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270928_train --protocol /home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json\n",
+    "protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+    "status_sha256": "83b32088475c66ede442e18b441d5aa3247286f0ccea27bad8625e099b530eb3",
+    "scope": "live monitoring only; completed results still require frozen full collector"
+  },
+  "previous_three_completed_receipts_and_scores_unchanged": true,
+  "protected_source_and_current_p2_snapshot_unchanged": true,
+  "remaining_execution_blockers": [
+    "Current P2 must end and be audited; preserve 12h cap.",
+    "Freeze concrete sample, outcomes, source and all input hashes, stop rules and actual GPU reservation before pilot.",
+    "Add independent expected hashes for episode contract/public catalog/scoring to the real-connection identity check; its present EpisodeLoader checks self-consistency only.",
+    "Verify actual EO/Qwen gradient/restore on training inputs; CPU toy tests are not this evidence.",
+    "No optimizer/RNG/fresh-process resume implemented for a training pilot yet."
+  ],
+  "scope_limits": [
+    "Only two new crop concepts and fixed summaries; cannot distinguish knowledge use from class-code effects.",
+    "Different text lengths 58/44/267 mean equal text compute is not established.",
+    "No human corrections, new-region transfer, VLM explanation evaluation or performance improvement."
+  ],
+  "final_independent_review": "artifacts/oe10_text_mask_prepare_20260928/independent_review_20260928.json"
+}

@@ -1,0 +1,16 @@
+{"status": "initializing", "step": 0, "seconds": 0.003107421100139618}
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights:   0%|          | 1/750 [00:00<03:33,  3.51it/s]Loading weights:  14%|█▎        | 103/750 [00:00<00:02, 319.44it/s]Loading weights:  20%|██        | 153/750 [00:00<00:01, 346.60it/s]Loading weights:  26%|██▋       | 198/750 [00:00<00:01, 364.57it/s]Loading weights:  32%|███▏      | 242/750 [00:00<00:01, 373.84it/s]Loading weights:  38%|███▊      | 284/750 [00:00<00:01, 374.65it/s]Loading weights:  43%|████▎     | 325/750 [00:00<00:01, 372.32it/s]Loading weights:  49%|████▉     | 367/750 [00:01<00:01, 375.53it/s]Loading weights:  54%|█████▍    | 406/750 [00:01<00:00, 351.25it/s]Loading weights:  67%|██████▋   | 506/750 [00:01<00:00, 526.63it/s]Loading weights:  89%|████████▉ | 671/750 [00:01<00:00, 838.00it/s]Loading weights: 100%|██████████| 750/750 [00:01<00:00, 483.47it/s]
+{"status": "ready", "step": 0, "seconds": 40.92819492891431}
+/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v2/p2_worker.py:169: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  pred=output['logits'].detach().float().cpu();ml=float(output['mask_loss']);ce=float(output['language_loss'])
+{"status": "cold_resume_failed", "step": 0, "seconds": 54.61973745375872}
+{"status": "failed", "step": 0, "seconds": 54.622578125447035}
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v2/p2_worker.py", line 247, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v2/p2_worker.py", line 223, in main
+    if not passed or expected['pid']==os.getpid():raise RuntimeError('cold resume failed')
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: cold resume failed

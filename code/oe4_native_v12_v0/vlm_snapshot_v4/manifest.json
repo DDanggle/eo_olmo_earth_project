@@ -1,0 +1,8 @@
+{
+  "scope": "v4 separate explicit-FP32 diagnostic with highest float32 matmul precision and TF32 disabled for cuDNN; adds inactive-hook native RGB cached/full baseline before the existing EO cache/gradient gate; all tolerances and model/gradient/parity assertions preserved; does not establish BF16 parity",
+  "files": {
+    "vlm_interface_smoke.py": "b7917b3076f1688ac8f0557377b69be419699538069538b2c12d8140a014531e",
+    "real_h5_provider.py": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+    "run_vlm_bounded.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8"
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "audit_version": 1,
+  "audited_utc": "2026-09-27T06:48:34.476455+00:00",
+  "audit_scope": "Read-only independent recomputation of artifact hashes, receipt arithmetic/counts and code invariants. No GPU replay or independent tensor recalculation. Only audit outputs written locally.",
+  "status": "PASS_all_artifact_and_engineering_consistency_checks",
+  "checks_passed": 35,
+  "checks_total": 35,
+  "checks": {
+    "four_snapshot_files_match_manifest": true,
+    "receipt_matches_controller_hash_and_bytes": true,
+    "controller_completed_returncode_zero": true,
+    "receipt_final_status_matches_controller": true,
+    "all_four_local_source_hashes_match_controller": true,
+    "worker_hash_matches_receipt": true,
+    "provider_hash_matches_receipt": true,
+    "protected_before_after_unchanged": true,
+    "source_before_after_unchanged": true,
+    "inputs_before_after_unchanged": true,
+    "physical_gpu1_uuid_binding": true,
+    "explicit_fp32": true,
+    "same_cache_criteria_as_failed_v3": true,
+    "both_cache_allclose_and_top1": true,
+    "cache_deltas_finite_below_abs_tolerance": true,
+    "cache_sequence_lengths": true,
+    "single_prefill_and_cached_bypass": true,
+    "native_image_and_three_deepstack_feature_records_equal": true,
+    "visual_positions_and_lengths_consistent": true,
+    "native_rgb_bitwise_equal_before_after_step": true,
+    "adapter_gradient_rows_match_all_counts": true,
+    "encoder_gradient_rows_match_all_counts": true,
+    "adapter_four_sampled_actual_updates_positive": true,
+    "encoder_four_sampled_actual_updates_positive": true,
+    "loss_and_feature_gradients_finite_positive": true,
+    "one_optimizer_step_and_frozen_vlm": true,
+    "generic_target_explicitly_not_gold": true,
+    "original_base_checkpoint_not_native_updated_checkpoint": true,
+    "native_completion_hash_matches_prior_native_status": true,
+    "frozen_data_manifest_hash_matches_prior_native_manifest": true,
+    "vlm_example_exactly_matches_frozen_manifest_row": true,
+    "existing_eo_cache_and_gradient_code_identical_to_v3": true,
+    "provider_source_identical_to_v3": true,
+    "no_vlm_stage_save_or_reload_claim": true,
+    "worker_log_contains_final_pass": true
+  },
+  "snapshot_files": [
+    {
+      "path": "vlm_sequence_gpu1_v4_status.json",
+      "sha256": "a830f31c37625cedde1788b63d7eec38eef323020775af5caeacc911d32b2cb0",
+      "bytes": 9660,
+      "hash_matches": true,
+      "bytes_match": true
+    },
+    {
+      "path": "vlm_controller_gpu1_v4.log",
+      "sha256": "adaf18fbf32cc8c396cb6ff2a753668b60183e5a0789f65a3f19bd5ab63dab3a",
+      "bytes": 861,
+      "hash_matches": true,
+      "bytes_match": true
+    },
+    {
+      "path": "vlm_interface_gpu1_v4.log",
+      "sha256": "32288b3a82cc59b326d299e2ed0adf3b2c59502523cd2b8dcbf7251450fd347b",
+      "bytes": 7304,
+      "hash_matches": true,
+      "bytes_match": true
+    },
+    {
+      "path": "runs/vlm_interface_gpu1_v4/receipt.json",
+      "sha256": "69f77f5fe63e17509d4389aa16d14f19a8c832f0a5605089171ac94181bc663d",
+      "bytes": 46071,
+      "hash_matches": true,
+      "bytes_match": true
+    }
+  ],
+  "source_hash_checks": {
+    "manifest.json": true,
+    "vlm_interface_smoke.py": true,
+    "real_h5_provider.py": true,
+    "run_vlm_bounded.py": true
+  },
+  "source_hashes": {
+    "manifest.json": "39dc3e5a8cc814f5c3a54915717cf00fcddb0394f8ad72154ca260ddbb817925",
+    "vlm_interface_smoke.py": "b7917b3076f1688ac8f0557377b69be419699538069538b2c12d8140a014531e",
+    "real_h5_provider.py": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+    "run_vlm_bounded.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8"
+  },
+  "run": {
+    "receipt_status": "PASS_live_encoder_adapter_vlm_gradient_contract",
+    "physical_gpu_index": 1,
+    "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+    "worker_pid": 1188499,
+    "completed_utc": "2026-09-27T06:43:42.905685+00:00",
+    "completed_kst": "2026-09-27T15:43:42.905685+09:00",
+    "receipt_wall_seconds": 89.87710439786315,
+    "controller_worker_wall_seconds": 90.95295375213027,
+    "gpu_peak_allocated_bytes": 37108215296,
+    "gpu_peak_allocated_gib": 34.5597186088562,
+    "model_parameter_count": 8767123696,
+    "precision": {
+      "requested_dtype": "float32",
+      "float32_matmul_precision": "highest",
+      "cudnn_allow_tf32": false,
+      "interpretation": "A separate precision run; an FP32 pass does not establish BF16 cache parity"
+    }
+  },
+  "cache": {
+    "native_rgb": {
+      "allclose": true,
+      "top1_equal": true,
+      "max_abs_logit_delta": 2.6702880859375e-05,
+      "mean_abs_logit_delta": 4.892061042482965e-06,
+      "atol": 0.15,
+      "rtol": 0.01,
+      "cached_sequence_length": 85,
+      "generated_token_ids": [
+        [
+          785,
+          2168
+        ]
+      ],
+      "generated_text": "The image",
+      "eo_injection_active": false,
+      "comparison": "Original RGB cached raw second logits vs same-prefix full recomputation"
+    },
+    "with_eo": {
+      "allclose": true,
+      "top1_equal": true,
+      "max_abs_logit_delta": 2.384185791015625e-05,
+      "mean_abs_logit_delta": 4.064092991029611e-06,
+      "atol": 0.15,
+      "rtol": 0.01,
+      "prefill_injections": 1,
+      "cached_decode_bypasses": 1,
+      "cached_sequence_length": 101,
+      "generated_token_ids": [
+        [
+          785,
+          2168
+        ]
+      ],
+      "generated_text": "The image",
+      "comparison": "Native generate cached raw second logits vs same-prefix full recomputation"
+    },
+    "prior_v3_bf16": {
+      "allclose": false,
+      "top1_equal": true,
+      "max_abs_logit_delta": 0.25,
+      "mean_abs_logit_delta": 0.03626061603426933,
+      "atol": 0.15,
+      "rtol": 0.01,
+      "prefill_injections": 1,
+      "cached_decode_bypasses": 1,
+      "cached_sequence_length": 101,
+      "generated_token_ids": [
+        [
+          785,
+          2168
+        ]
+      ],
+      "generated_text": "The image",
+      "comparison": "Native generate cached raw second logits vs same-prefix full recomputation"
+    }
+  },
+  "one_step": {
+    "ce_loss": 6.233630657196045,
+    "ce_target": "The image shows land cover.",
+    "ce_target_is_evaluation_gold": false,
+    "grad_norm_before_clip": 454.3175964355469,
+    "eo_feature_gradient_norm": 0.1734132021665573,
+    "eo_embedding_gradient_norm": 13.895915985107422,
+    "frozen_vlm_parameter_gradients": 0,
+    "vlm_parameters_in_optimizer": 0,
+    "encoder_update_verified": true,
+    "optimizer_steps": 1
+  },
+  "gradient_rows_recomputed": {
+    "adapter": {
+      "row_count": 4,
+      "unique_parameter_names": 4,
+      "finite_positive_norm_count": 4,
+      "nonzero_flag_count": 4,
+      "min_l2_norm": 0.33648553490638733,
+      "max_l2_norm": 453.4058837890625
+    },
+    "encoder": {
+      "row_count": 211,
+      "unique_parameter_names": 211,
+      "finite_positive_norm_count": 211,
+      "nonzero_flag_count": 211,
+      "min_l2_norm": 0.0010297377593815327,
+      "max_l2_norm": 19.747634887695312
+    }
+  },
+  "sampled_updates": {
+    "adapter": {
+      "sampled_count": 4,
+      "finite_positive_changes": 4,
+      "min_max_abs_delta": 9.998918540077284e-05,
+      "max_max_abs_delta": 0.00010001659393310547,
+      "rows": [
+        {
+          "module": "adapter",
+          "name": "0.weight",
+          "max_abs_delta": 0.00010001659393310547
+        },
+        {
+          "module": "adapter",
+          "name": "0.bias",
+          "max_abs_delta": 9.998918540077284e-05
+        },
+        {
+          "module": "adapter",
+          "name": "1.weight",
+          "max_abs_delta": 0.00010000006295740604
+        },
+        {
+          "module": "adapter",
+          "name": "1.bias",
+          "max_abs_delta": 9.999977919505909e-05
+        }
+      ]
+    },
+    "encoder": {
+      "sampled_count": 4,
+      "finite_positive_changes": 4,
+      "min_max_abs_delta": 9.98377799987793e-07,
+      "max_max_abs_delta": 1.0132789611816406e-06,
+      "rows": [
+        {
+          "module": "encoder",
+          "name": "blocks.0.norm1.weight",
+          "max_abs_delta": 1.0132789611816406e-06
+        },
+        {
+          "module": "encoder",
+          "name": "blocks.0.norm1.bias",
+          "max_abs_delta": 1.000240445137024e-06
+        },
+        {
+          "module": "encoder",
+          "name": "blocks.0.attn.rope_mixed_freqs",
+          "max_abs_delta": 1.0132789611816406e-06
+        },
+        {
+          "module": "encoder",
+          "name": "blocks.0.attn.q.weight",
+          "max_abs_delta": 9.98377799987793e-07
+        }
+      ]
+    }
+  },
+  "native_rgb_parity": {
+    "bitwise_equal": true,
+    "max_abs_logit_delta": 0.0,
+    "eo_slots_present": false,
+    "interpretation": "Installing an inactive hook must leave the original RGB prompt exactly unchanged",
+    "after_eo_step_bitwise_equal": true
+  },
+  "native_visual_feature_hash_records": {
+    "image_embeddings": {
+      "shape": [
+        64,
+        4096
+      ],
+      "dtype": "torch.float32",
+      "sha256": "8faef1e162a9ec0c33e3549d4950545ee04fb85c7bda5856af0085640c447f3d"
+    },
+    "deepstack": [
+      {
+        "shape": [
+          64,
+          4096
+        ],
+        "dtype": "torch.float32",
+        "sha256": "c3ea452c4c69519c420560a27f81295a5609ffbf485d8fff9c2d655e95449be6"
+      },
+      {
+        "shape": [
+          64,
+          4096
+        ],
+        "dtype": "torch.float32",
+        "sha256": "64c4306f192a8fe040c8d633ca908e3436f3db1a9c8979c57105d4f115797eb9"
+      },
+      {
+        "shape": [
+          64,
+          4096
+        ],
+        "dtype": "torch.float32",
+        "sha256": "a30da25eab92f5010a23a53890bc24f5571d8a4e5426b2a9b5b426d420600697"
+      }
+    ],
+    "visual_token_count": 64
+  },
+  "native_run_context": [
+    {
+      "run": "native_smoke_gpu1_v2",
+      "completed_steps": 8,
+      "unique_samples_exposed": 8,
+      "dev_before": 0.5970207005739212,
+      "dev_after": 0.5968576967716217,
+      "dev_after_minus_before": -0.0001630038022994995,
+      "saved_reload_encoder_max_abs_delta": 0.0,
+      "receipt_sha256": "13e867755e705eb0cb39cb9fb3450764e4cd02fee263e039e7741be6bd0c36c8"
+    },
+    {
+      "run": "native_development_gpu1_v2",
+      "completed_steps": 32,
+      "unique_samples_exposed": 64,
+      "dev_before": 0.4485940543856941,
+      "dev_after": 0.44880766996971033,
+      "dev_after_minus_before": 0.0002136155840162246,
+      "saved_reload_encoder_max_abs_delta": 0.0,
+      "receipt_sha256": "78aa5af2a0adefdced210d8222b0c1f62a6d9def54e33e3716be6d7b49c65105"
+    }
+  ],
+  "lineage": {
+    "vlm_input_weights_sha256": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec",
+    "uses_original_pretrained_checkpoint": true,
+    "uses_native_updated_checkpoint": false,
+    "vlm_input_modalities": [
+      "sentinel2_l2a"
+    ],
+    "native_training_modalities": [
+      "sentinel2_l2a",
+      "worldcover"
+    ],
+    "eo_shape": [
+      1,
+      128,
+      768
+    ],
+    "eo_slots": 16,
+    "raw_crop_sha256": "6aeae88eb8d3e263f11fe56a62ca5661b5606f7a6fdf1dbe0d7622e95c7fb488"
+  },
+  "limitations": [
+    "One image, batch 1, one optimizer step and two generated tokens; generic target is not evaluation gold.",
+    "VLM-stage model/optimizer saving and reload parity are not implemented or validated.",
+    "Native 8/32-step success and VLM-stage success are separate engineering checks; VLM uses the original pinned Base checkpoint.",
+    "FP32 success does not establish BF16 cache parity or isolate the v3 numerical failure cause.",
+    "No semantic accuracy, downstream improvement, native-CPT-to-VLM gain, novelty or generalization claim.",
+    "Gradient element finiteness and tensor update evidence are source-validated receipt reports, not an independent GPU tensor replay."
+  ]
+}

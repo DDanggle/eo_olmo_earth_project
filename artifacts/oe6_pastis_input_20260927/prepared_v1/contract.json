@@ -1,0 +1,787 @@
+{
+  "status": "two_native_engineering_inputs_prepared_with_declared_imputation",
+  "dataset_complete": false,
+  "native_input_cases": 2,
+  "scientific_training_ready": false,
+  "model_executed": false,
+  "classes": [
+    "background",
+    "meadow",
+    "soft_winter_wheat",
+    "corn",
+    "winter_barley",
+    "winter_rapeseed",
+    "spring_barley",
+    "sunflower",
+    "grapevine",
+    "beet",
+    "winter_triticale",
+    "winter_durum_wheat",
+    "fruits_vegetables_flowers",
+    "potatoes",
+    "leguminous_fodder",
+    "soybeans",
+    "orchard",
+    "mixed_cereal",
+    "sorghum",
+    "void_label"
+  ],
+  "input_bands": [
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B8A",
+    "B11",
+    "B12"
+  ],
+  "native_bands": [
+    "B02",
+    "B03",
+    "B04",
+    "B08",
+    "B05",
+    "B06",
+    "B07",
+    "B8A",
+    "B11",
+    "B12",
+    "B01",
+    "B09"
+  ],
+  "imputation": {
+    "B01": "B02",
+    "B09": "B8A"
+  },
+  "imputation_source": "pinned official OlmoEarth evals/datasets/pastis_processor.py impute",
+  "imputed_bands_observed": false,
+  "date_tests": [
+    {
+      "kind": "actual_image_method_and_date_branch_synthetic_fixture",
+      "image_frame_indices": [
+        0.0,
+        2.0
+      ],
+      "getitem_tail_date_indices": [
+        3,
+        4
+      ],
+      "correct_joint_indices": [
+        0,
+        2
+      ],
+      "fixed_timestamps": [
+        [
+          1,
+          0,
+          2019
+        ],
+        [
+          3,
+          0,
+          2019
+        ]
+      ],
+      "mismatch_reproduced": true
+    }
+  ],
+  "audit_sha256": "fb9f5e7819860398a9f6ed69d80f6c54282a70fc523f72679a37fd4a4b570d1b",
+  "partial_train_parent_counts": {
+    "t31tfm": 290,
+    "t31tfj": 228,
+    "t32ulu": 211,
+    "t30uxv": 182
+  },
+  "remaining": [
+    "full dataset missing/corrupt shards",
+    "original footprint not stored in this package",
+    "cloud/observation quality not labeled",
+    "independent parent train/dev/test manifest",
+    "real VLM trainer and checkpoint save/reload",
+    "two-date crop labels do not guarantee visual identifiability"
+  ],
+  "records": [
+    {
+      "case": 0,
+      "path": "case_0.npz",
+      "source_partial_train_index": 0,
+      "source_raw_npz_sha256": "a69f83861ae5b5a0a3fbded82509f208b0831041a9a3ca97a809e12a53a73ed6",
+      "source_record": {
+        "partial_train_row": 0,
+        "catalog_record": {
+          "internal:subfile": "/vsisubfile/200_19606843,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+          "tortilla:id": "sample_0",
+          "tortilla:file_format": "TORTILLA",
+          "tortilla:data_split": "train",
+          "tortilla:offset": 200,
+          "tortilla:length": 19606843,
+          "dates": "[20180917 20180922 20180927 20181012 20181022 20181111 20181211 20181216\n 20181226 20190115 20190214 20190224 20190321 20190331 20190415 20190420\n 20190425 20190515 20190525 20190530 20190604 20190619 20190624 20190629\n 20190704 20190709 20190724 20190729 20190803 20190808 20190818 20190823\n 20190828 20190902 20190912 20190917 20190922 20191012]",
+          "tile": "t32ulu",
+          "lon": 6.624771678870433,
+          "lat": 48.40688041897715,
+          "patch_id": "40188"
+        },
+        "nested_columns": [
+          "internal:subfile",
+          "tortilla:id",
+          "tortilla:file_format",
+          "tortilla:data_split",
+          "tortilla:offset",
+          "tortilla:length",
+          "dates",
+          "tile",
+          "lon",
+          "lat",
+          "patch_id"
+        ],
+        "nested_metadata": [
+          {
+            "internal:subfile": "/vsisubfile/400_9650384,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "s2",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 400,
+            "tortilla:length": 9650384,
+            "dates": "[20180917 20180922 20180927 20181012 20181022 20181111 20181211 20181216\n 20181226 20190115 20190214 20190224 20190321 20190331 20190415 20190420\n 20190425 20190515 20190525 20190530 20190604 20190619 20190624 20190629\n 20190704 20190709 20190724 20190729 20190803 20190808 20190818 20190823\n 20190828 20190902 20190912 20190917 20190922 20191012]",
+            "tile": "t32ulu",
+            "lon": 6.624771678870433,
+            "lat": 48.40688041897715,
+            "patch_id": "40188"
+          },
+          {
+            "internal:subfile": "/vsisubfile/9650784_5058906,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "s1a",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 9650784,
+            "tortilla:length": 5058906,
+            "dates": "[20181002 20181008 20181014 20181020 20181026 20181101 20181107 20181113\n 20181119 20181201 20181207 20181213 20181219 20181225 20181231 20190106\n 20190112 20190118 20190124 20190130 20190205 20190211 20190217 20190223\n 20190301 20190307 20190313 20190319 20190325 20190331 20190406 20190412\n 20190418 20190424 20190430 20190506 20190512 20190518 20190524 20190530\n 20190605 20190611 20190617 20190623 20190629 20190705 20190711 20190717\n 20190723 20190729 20190804 20190810 20190816 20190822 20190828 20190903\n 20190909 20190915 20190921 20190927 20191003 20191009 20191015 20191021\n 20191027 20191102 20191108 20191114 20191120 20191126 20191202]",
+            "tile": "t32ulu",
+            "lon": 6.624771678870433,
+            "lat": 48.40688041897715,
+            "patch_id": "40188"
+          },
+          {
+            "internal:subfile": "/vsisubfile/14709690_4860149,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "s1d",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 14709690,
+            "tortilla:length": 4860149,
+            "dates": "[20181006 20181012 20181018 20181024 20181030 20181105 20181111 20181117\n 20181123 20181129 20181205 20181211 20181217 20181223 20181229 20190104\n 20190110 20190116 20190122 20190128 20190203 20190209 20190221 20190227\n 20190305 20190311 20190317 20190323 20190329 20190404 20190410 20190416\n 20190422 20190428 20190504 20190510 20190516 20190522 20190528 20190603\n 20190609 20190615 20190621 20190627 20190703 20190709 20190715 20190721\n 20190727 20190802 20190808 20190814 20190820 20190826 20190901 20190907\n 20190913 20190919 20190925 20191001 20191007 20191013 20191019 20191025\n 20191031 20191106 20191112 20191118 20191124 20191130]",
+            "tile": "t32ulu",
+            "lon": 6.624771678870433,
+            "lat": 48.40688041897715,
+            "patch_id": "40188"
+          },
+          {
+            "internal:subfile": "/vsisubfile/19569839_15824,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "semantic",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 19569839,
+            "tortilla:length": 15824,
+            "dates": "[]",
+            "tile": "t32ulu",
+            "lon": 6.624771678870433,
+            "lat": 48.40688041897715,
+            "patch_id": "40188"
+          },
+          {
+            "internal:subfile": "/vsisubfile/19585663_14013,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "instance",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 19585663,
+            "tortilla:length": 14013,
+            "dates": "[]",
+            "tile": "t32ulu",
+            "lon": 6.624771678870433,
+            "lat": 48.40688041897715,
+            "patch_id": "40188"
+          }
+        ],
+        "payloads": [
+          {
+            "reference": "/vsisubfile/400_9650384,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "payload_sha256": "de617c017ead2174fc6ffa34756b0591bf488b0be59d342df2d3d10e05ed1762",
+            "attrs": {},
+            "name": "s2",
+            "datasets": {
+              "data": {
+                "shape": [
+                  38,
+                  10,
+                  128,
+                  128
+                ],
+                "dtype": "int16",
+                "finite": true,
+                "min": -1431.0,
+                "max": 14557.0
+              }
+            }
+          },
+          {
+            "reference": "/vsisubfile/19569839_15824,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "payload_sha256": "171abe37f912b1b9e0514e9a4152126515317f999e59bffc0c02447d80c4dec0",
+            "attrs": {},
+            "name": "semantic",
+            "datasets": {
+              "data": {
+                "shape": [
+                  3,
+                  128,
+                  128
+                ],
+                "dtype": "uint8",
+                "finite": true,
+                "min": 0.0,
+                "max": 62.0,
+                "value_counts": {
+                  "0": 13512,
+                  "1": 5249,
+                  "2": 224,
+                  "3": 9048,
+                  "4": 3228,
+                  "5": 962,
+                  "6": 120,
+                  "7": 63,
+                  "8": 114,
+                  "9": 54,
+                  "10": 2037,
+                  "11": 673,
+                  "12": 282,
+                  "13": 500,
+                  "14": 607,
+                  "15": 1163,
+                  "16": 18,
+                  "17": 1283,
+                  "18": 20,
+                  "19": 1307,
+                  "20": 507,
+                  "21": 1098,
+                  "22": 320,
+                  "23": 304,
+                  "24": 365,
+                  "25": 935,
+                  "26": 3,
+                  "27": 995,
+                  "28": 311,
+                  "29": 170,
+                  "30": 162,
+                  "32": 200,
+                  "33": 969,
+                  "34": 143,
+                  "35": 20,
+                  "36": 32,
+                  "37": 23,
+                  "38": 1,
+                  "39": 44,
+                  "40": 21,
+                  "41": 155,
+                  "42": 195,
+                  "43": 433,
+                  "44": 474,
+                  "45": 9,
+                  "46": 83,
+                  "47": 384,
+                  "59": 21,
+                  "62": 311
+                }
+              }
+            }
+          },
+          {
+            "reference": "/vsisubfile/19585663_14013,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "payload_sha256": "169594aa77311bc9ff1a8e0e31cee9125c26d1e68710266d63eb956c3c1492c0",
+            "attrs": {},
+            "name": "instance",
+            "datasets": {
+              "data": {
+                "shape": [
+                  128,
+                  128
+                ],
+                "dtype": "int64",
+                "finite": true,
+                "min": 0.0,
+                "max": 42.0,
+                "value_counts": {
+                  "0": 5064,
+                  "1": 83,
+                  "2": 63,
+                  "3": 54,
+                  "4": 1185,
+                  "5": 969,
+                  "6": 23,
+                  "7": 143,
+                  "8": 58,
+                  "9": 32,
+                  "10": 200,
+                  "11": 1,
+                  "12": 44,
+                  "13": 3,
+                  "14": 170,
+                  "15": 120,
+                  "16": 114,
+                  "17": 143,
+                  "18": 198,
+                  "19": 935,
+                  "20": 282,
+                  "21": 186,
+                  "22": 133,
+                  "23": 500,
+                  "24": 852,
+                  "25": 18,
+                  "26": 62,
+                  "27": 311,
+                  "28": 162,
+                  "29": 384,
+                  "30": 33,
+                  "31": 365,
+                  "32": 320,
+                  "33": 304,
+                  "34": 20,
+                  "35": 248,
+                  "36": 155,
+                  "37": 195,
+                  "38": 433,
+                  "39": 474,
+                  "40": 374,
+                  "41": 962,
+                  "42": 9
+                }
+              }
+            }
+          }
+        ]
+      },
+      "patch_id": "40188",
+      "parent_tile": "t32ulu",
+      "centroid_lon_lat": [
+        6.624771678870433,
+        48.40688041897715
+      ],
+      "exact_footprint_available": false,
+      "all_dates_yyyymmdd": [
+        20180917,
+        20180922,
+        20180927,
+        20181012,
+        20181022,
+        20181111,
+        20181211,
+        20181216,
+        20181226,
+        20190115,
+        20190214,
+        20190224,
+        20190321,
+        20190331,
+        20190415,
+        20190420,
+        20190425,
+        20190515,
+        20190525,
+        20190530,
+        20190604,
+        20190619,
+        20190624,
+        20190629,
+        20190704,
+        20190709,
+        20190724,
+        20190729,
+        20190803,
+        20190808,
+        20190818,
+        20190823,
+        20190828,
+        20190902,
+        20190912,
+        20190917,
+        20190922,
+        20191012
+      ],
+      "selected_indices": [
+        0,
+        19
+      ],
+      "selected_dates": [
+        20180917,
+        20190530
+      ],
+      "native_timestamps": [
+        [
+          17,
+          8,
+          2018
+        ],
+        [
+          30,
+          4,
+          2019
+        ]
+      ],
+      "legacy_loader_date_labels": [
+        20190922,
+        20191012
+      ],
+      "legacy_dates_match": false,
+      "raw_s2_shape": [
+        38,
+        10,
+        128,
+        128
+      ],
+      "normalized_s2_shape": [
+        128,
+        128,
+        2,
+        12
+      ],
+      "target_class_id": 1,
+      "target_class_name": "meadow",
+      "question": "Locate the pixels labeled as meadow in this annual crop reference.",
+      "answer_kind": "source_annual_crop_mask_not_monthly_health_or_change",
+      "target_pixel_count": 5005,
+      "void_pixel_count": 1109,
+      "normalization": "official COMPUTED once; no GeoBench ZScoreNormalizer",
+      "band_availability": "sidecar only; encoder per-band mask not implemented",
+      "cloud_validity": "not available; not inferred from crop labels",
+      "local_coordinate_contract": "same 128x128 pixel grid for source, mask, RGB; no geodesic area claim"
+    },
+    {
+      "case": 1,
+      "path": "case_1.npz",
+      "source_partial_train_index": 1,
+      "source_raw_npz_sha256": "e95d5d9df86b59db22d61e171cc1070d0c32487cb4550a36b9867eba9578d6fc",
+      "source_record": {
+        "partial_train_row": 1,
+        "catalog_record": {
+          "internal:subfile": "/vsisubfile/19607043_25905354,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+          "tortilla:id": "sample_1",
+          "tortilla:file_format": "TORTILLA",
+          "tortilla:data_split": "train",
+          "tortilla:offset": 19607043,
+          "tortilla:length": 25905354,
+          "dates": "[20180917 20180922 20180927 20181002 20181007 20181022 20181101 20181116\n 20181126 20181201 20181206 20181211 20181226 20181231 20190105 20190110\n 20190115 20190125 20190130 20190204 20190214 20190219 20190301 20190311\n 20190316 20190321 20190326 20190331 20190405 20190415 20190420 20190430\n 20190505 20190510 20190515 20190525 20190530 20190604 20190614 20190619\n 20190624 20190629 20190704 20190714 20190719 20190724 20190729 20190803\n 20190808 20190813 20190818 20190823 20190902 20190907 20190912 20190917\n 20190927 20191002 20191007 20191017 20191027]",
+          "tile": "t31tfj",
+          "lon": 5.3818901041177964,
+          "lat": 43.451613737459276,
+          "patch_id": "20451"
+        },
+        "nested_columns": [
+          "internal:subfile",
+          "tortilla:id",
+          "tortilla:file_format",
+          "tortilla:data_split",
+          "tortilla:offset",
+          "tortilla:length",
+          "dates",
+          "tile",
+          "lon",
+          "lat",
+          "patch_id"
+        ],
+        "nested_metadata": [
+          {
+            "internal:subfile": "/vsisubfile/19607243_15410696,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "s2",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 19607243,
+            "tortilla:length": 15410696,
+            "dates": "[20180917 20180922 20180927 20181002 20181007 20181022 20181101 20181116\n 20181126 20181201 20181206 20181211 20181226 20181231 20190105 20190110\n 20190115 20190125 20190130 20190204 20190214 20190219 20190301 20190311\n 20190316 20190321 20190326 20190331 20190405 20190415 20190420 20190430\n 20190505 20190510 20190515 20190525 20190530 20190604 20190614 20190619\n 20190624 20190629 20190704 20190714 20190719 20190724 20190729 20190803\n 20190808 20190813 20190818 20190823 20190902 20190907 20190912 20190917\n 20190927 20191002 20191007 20191017 20191027]",
+            "tile": "t31tfj",
+            "lon": 5.3818901041177964,
+            "lat": 43.451613737459276,
+            "patch_id": "20451"
+          },
+          {
+            "internal:subfile": "/vsisubfile/35017939_5252150,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "s1a",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 35017939,
+            "tortilla:length": 5252150,
+            "dates": "[20181001 20181007 20181013 20181019 20181025 20181031 20181106 20181112\n 20181118 20181124 20181130 20181206 20181212 20181218 20181224 20181230\n 20190105 20190111 20190117 20190123 20190129 20190204 20190210 20190216\n 20190228 20190306 20190312 20190318 20190324 20190330 20190405 20190411\n 20190417 20190423 20190429 20190505 20190511 20190517 20190523 20190529\n 20190604 20190610 20190616 20190622 20190628 20190704 20190710 20190716\n 20190722 20190728 20190803 20190809 20190815 20190821 20190827 20190902\n 20190908 20190914 20190920 20190926 20191002 20191008 20191014 20191020\n 20191026 20191101 20191107 20191113 20191119 20191125 20191201]",
+            "tile": "t31tfj",
+            "lon": 5.3818901041177964,
+            "lat": 43.451613737459276,
+            "patch_id": "20451"
+          },
+          {
+            "internal:subfile": "/vsisubfile/40270089_5209970,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "s1d",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 40270089,
+            "tortilla:length": 5209970,
+            "dates": "[20181006 20181012 20181018 20181024 20181030 20181105 20181111 20181117\n 20181123 20181129 20181205 20181211 20181217 20181223 20181229 20190104\n 20190110 20190116 20190122 20190128 20190203 20190209 20190221 20190227\n 20190305 20190311 20190317 20190323 20190329 20190404 20190410 20190416\n 20190422 20190428 20190504 20190510 20190516 20190522 20190528 20190603\n 20190609 20190615 20190621 20190627 20190703 20190709 20190715 20190721\n 20190727 20190802 20190808 20190814 20190820 20190826 20190901 20190907\n 20190913 20190919 20190925 20191001 20191007 20191013 20191019 20191025\n 20191031 20191106 20191112 20191118 20191124 20191130]",
+            "tile": "t31tfj",
+            "lon": 5.3818901041177964,
+            "lat": 43.451613737459276,
+            "patch_id": "20451"
+          },
+          {
+            "internal:subfile": "/vsisubfile/45480059_13102,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "semantic",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 45480059,
+            "tortilla:length": 13102,
+            "dates": "[]",
+            "tile": "t31tfj",
+            "lon": 5.3818901041177964,
+            "lat": 43.451613737459276,
+            "patch_id": "20451"
+          },
+          {
+            "internal:subfile": "/vsisubfile/45493161_11845,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "tortilla:id": "instance",
+            "tortilla:file_format": "HDF5",
+            "tortilla:data_split": "train",
+            "tortilla:offset": 45493161,
+            "tortilla:length": 11845,
+            "dates": "[]",
+            "tile": "t31tfj",
+            "lon": 5.3818901041177964,
+            "lat": 43.451613737459276,
+            "patch_id": "20451"
+          }
+        ],
+        "payloads": [
+          {
+            "reference": "/vsisubfile/19607243_15410696,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "payload_sha256": "2fa540e25b3b91bdb1afba770506d9e5f54714f9979d1a0ff7e0dea1d6bf8b36",
+            "attrs": {},
+            "name": "s2",
+            "datasets": {
+              "data": {
+                "shape": [
+                  61,
+                  10,
+                  128,
+                  128
+                ],
+                "dtype": "int16",
+                "finite": true,
+                "min": -10000.0,
+                "max": 15811.0
+              }
+            }
+          },
+          {
+            "reference": "/vsisubfile/45480059_13102,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "payload_sha256": "b4aee9bffa5aabea09e017cfa879791f1b3fbd2adbe7238755c0e5d64cecf0c9",
+            "attrs": {},
+            "name": "semantic",
+            "datasets": {
+              "data": {
+                "shape": [
+                  3,
+                  128,
+                  128
+                ],
+                "dtype": "uint8",
+                "finite": true,
+                "min": 0.0,
+                "max": 121.0,
+                "value_counts": {
+                  "0": 41977,
+                  "1": 598,
+                  "2": 205,
+                  "3": 136,
+                  "4": 253,
+                  "5": 103,
+                  "6": 100,
+                  "7": 695,
+                  "8": 10,
+                  "9": 231,
+                  "10": 217,
+                  "11": 1445,
+                  "12": 294,
+                  "13": 124,
+                  "14": 98,
+                  "15": 14,
+                  "16": 383,
+                  "17": 96,
+                  "18": 86,
+                  "19": 387,
+                  "47": 1359,
+                  "121": 341
+                }
+              }
+            }
+          },
+          {
+            "reference": "/vsisubfile/45493161_11845,/home/work/data/olmoearth/geobench2/pastis/geobench_pastis.0000.part.tortilla",
+            "payload_sha256": "539527c837efefd3b3eba88fec94651763140a9e008185a993c1e28c3fff8ebf",
+            "attrs": {},
+            "name": "instance",
+            "datasets": {
+              "data": {
+                "shape": [
+                  128,
+                  128
+                ],
+                "dtype": "int64",
+                "finite": true,
+                "min": 0.0,
+                "max": 18.0,
+                "value_counts": {
+                  "0": 13999,
+                  "1": 103,
+                  "2": 100,
+                  "3": 253,
+                  "4": 114,
+                  "5": 117,
+                  "6": 98,
+                  "7": 103,
+                  "8": 191,
+                  "9": 124,
+                  "10": 30,
+                  "11": 96,
+                  "12": 383,
+                  "13": 86,
+                  "14": 1,
+                  "15": 231,
+                  "16": 14,
+                  "17": 205,
+                  "18": 136
+                }
+              }
+            }
+          }
+        ]
+      },
+      "patch_id": "20451",
+      "parent_tile": "t31tfj",
+      "centroid_lon_lat": [
+        5.3818901041177964,
+        43.451613737459276
+      ],
+      "exact_footprint_available": false,
+      "all_dates_yyyymmdd": [
+        20180917,
+        20180922,
+        20180927,
+        20181002,
+        20181007,
+        20181022,
+        20181101,
+        20181116,
+        20181126,
+        20181201,
+        20181206,
+        20181211,
+        20181226,
+        20181231,
+        20190105,
+        20190110,
+        20190115,
+        20190125,
+        20190130,
+        20190204,
+        20190214,
+        20190219,
+        20190301,
+        20190311,
+        20190316,
+        20190321,
+        20190326,
+        20190331,
+        20190405,
+        20190415,
+        20190420,
+        20190430,
+        20190505,
+        20190510,
+        20190515,
+        20190525,
+        20190530,
+        20190604,
+        20190614,
+        20190619,
+        20190624,
+        20190629,
+        20190704,
+        20190714,
+        20190719,
+        20190724,
+        20190729,
+        20190803,
+        20190808,
+        20190813,
+        20190818,
+        20190823,
+        20190902,
+        20190907,
+        20190912,
+        20190917,
+        20190927,
+        20191002,
+        20191007,
+        20191017,
+        20191027
+      ],
+      "selected_indices": [
+        0,
+        30
+      ],
+      "selected_dates": [
+        20180917,
+        20190420
+      ],
+      "native_timestamps": [
+        [
+          17,
+          8,
+          2018
+        ],
+        [
+          20,
+          3,
+          2019
+        ]
+      ],
+      "legacy_loader_date_labels": [
+        20191017,
+        20191027
+      ],
+      "legacy_dates_match": false,
+      "raw_s2_shape": [
+        61,
+        10,
+        128,
+        128
+      ],
+      "normalized_s2_shape": [
+        128,
+        128,
+        2,
+        12
+      ],
+      "target_class_id": 11,
+      "target_class_name": "winter_durum_wheat",
+      "question": "Locate the pixels labeled as winter_durum_wheat in this annual crop reference.",
+      "answer_kind": "source_annual_crop_mask_not_monthly_health_or_change",
+      "target_pixel_count": 1328,
+      "void_pixel_count": 386,
+      "normalization": "official COMPUTED once; no GeoBench ZScoreNormalizer",
+      "band_availability": "sidecar only; encoder per-band mask not implemented",
+      "cloud_validity": "not available; not inferred from crop labels",
+      "local_coordinate_contract": "same 128x128 pixel grid for source, mask, RGB; no geodesic area claim"
+    }
+  ],
+  "script_sha256": "bf99987eeb42088f7c410a61731c438e2d5d354d55794cb0f6ec7695874cc710",
+  "normalization_source_sha256": "1987cb6f475495a6454f80db6eea045ee982948bae4cffee8045c713747b9b26",
+  "normalization_config_sha256": "774e461babd2bd4cbe3591b46457d39054f8ac529cb57a052547501076ebaef7",
+  "normalization_std_multiplier": 2,
+  "imputation_source_sha256": "ef439aff20e8f5ead95ae17138eb4c6a4019c5a0cdff148d73a4c8a507eba3ad"
+}

@@ -1,0 +1,183 @@
+{
+  "schema": "eo-evidence-case-previews-v0",
+  "created_date": "2026-09-25",
+  "source_npz": "artifacts/fig_kurosiwo_material.npz",
+  "source_npz_sha256": "46d3e84c7cc91e07599f772b6bd5c585160f8ae2ee32b712bd5800fa03eb239b",
+  "source_builder": "code/fig_kurosiwo_material.py",
+  "source_builder_sha256": "a381f64311df1ad6a07a3b6394de9a3367964b55b288dcc88617ac47cd1fa26c",
+  "source_cache_builder": "code/extract_kurosiwo_s1_cache.py",
+  "source_cache_builder_sha256": "317288d1c3db1ef57dccaa57d38b0cf6717f901032596b20bdb893b67d9c72e4",
+  "renderer_sha256": "b41eea476c74a5357f97710368715aef476d9784988b7d08ac0ef63bdbb25d35",
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pillow": "12.3.0",
+    "font": "/System/Library/Fonts/Supplemental/Arial.ttf"
+  },
+  "case_count": 6,
+  "case_ids": [
+    "ks_05229",
+    "ks_06412",
+    "ks_05989",
+    "ks_05983",
+    "ks_06327",
+    "ks_06507"
+  ],
+  "selection_bias": "Existing builder selected test examples with pflood > 3 and finite teacher3 features, sorted descending by pflood, at zero-based ranks [0,3,8,15,25,40]. High-flood illustrative cases, not representative accuracy results.",
+  "sar_display": {
+    "band": "Sentinel-1 VV",
+    "stored_units": "normalized clipped intensity, 0..1",
+    "display_db_range": [
+      -25,
+      0
+    ],
+    "source_formula": "clip((10*log10(clip(linear_vv, 1e-6, None)) + 25)/25, 0, 1)",
+    "auto_contrast": false,
+    "upsampling": "nearest, 2x"
+  },
+  "reference_mask": {
+    "available_classes": {
+      "1": "flood",
+      "0": "other or unknown (no-water, permanent water and no-data collapsed)"
+    },
+    "source_formula": "(remapped_mask == 3)",
+    "original_remapped_classes": {
+      "0": "no-data",
+      "1": "no water",
+      "2": "permanent water",
+      "3": "flood"
+    },
+    "validity_mask_available": false,
+    "is_model_prediction": false
+  },
+  "date_warning": "Only event dates are included. Actual SAR acquisition dates are unavailable; synthetic encoder timestamps are not used as acquisition dates.",
+  "predictions_included": false,
+  "cases": [
+    {
+      "case_id": "ks_05229",
+      "event_id": 1111007,
+      "event_date": "2019-09-17",
+      "acquisition_dates": {
+        "pre_2": null,
+        "post": null
+      },
+      "source_tile_pflood_percent": 98.88592155612245,
+      "reference_mask_flood_pixels_in_shown_crop": 36370,
+      "shown_crop_total_pixels": 36864,
+      "preview_file": "ks_05229.png",
+      "preview_sha256": "d4ca7c7fd052259bfe0ea00a0cc33bbe88ab2f4e0293e782cdbcbf5e58645504",
+      "array_keys_used": [
+        "vv_pre__ks_05229",
+        "vv_post__ks_05229",
+        "label__ks_05229"
+      ],
+      "geographic_coordinates_available": false,
+      "case_status": "illustrative_existing_test_example_not_an_unseen_evaluation"
+    },
+    {
+      "case_id": "ks_06412",
+      "event_id": 1111013,
+      "event_date": "2017-05-03",
+      "acquisition_dates": {
+        "pre_2": null,
+        "post": null
+      },
+      "source_tile_pflood_percent": 96.05986926020408,
+      "reference_mask_flood_pixels_in_shown_crop": 34977,
+      "shown_crop_total_pixels": 36864,
+      "preview_file": "ks_06412.png",
+      "preview_sha256": "e1f43541c1835720d918bb8bc0dd4bf3e1a94b145e0d71e80ea3b76e244a81f9",
+      "array_keys_used": [
+        "vv_pre__ks_06412",
+        "vv_post__ks_06412",
+        "label__ks_06412"
+      ],
+      "geographic_coordinates_available": false,
+      "case_status": "illustrative_existing_test_example_not_an_unseen_evaluation"
+    },
+    {
+      "case_id": "ks_05989",
+      "event_id": 277,
+      "event_date": "2018-03-27",
+      "acquisition_dates": {
+        "pre_2": null,
+        "post": null
+      },
+      "source_tile_pflood_percent": 82.44180484693878,
+      "reference_mask_flood_pixels_in_shown_crop": 31017,
+      "shown_crop_total_pixels": 36864,
+      "preview_file": "ks_05989.png",
+      "preview_sha256": "84c8a4d847d43195e31e733f86dc8b5d170c36c02e83560e02d91772b8378434",
+      "array_keys_used": [
+        "vv_pre__ks_05989",
+        "vv_post__ks_05989",
+        "label__ks_05989"
+      ],
+      "geographic_coordinates_available": false,
+      "case_status": "illustrative_existing_test_example_not_an_unseen_evaluation"
+    },
+    {
+      "case_id": "ks_05983",
+      "event_id": 1111007,
+      "event_date": "2019-09-17",
+      "acquisition_dates": {
+        "pre_2": null,
+        "post": null
+      },
+      "source_tile_pflood_percent": 75.43646364795919,
+      "reference_mask_flood_pixels_in_shown_crop": 28781,
+      "shown_crop_total_pixels": 36864,
+      "preview_file": "ks_05983.png",
+      "preview_sha256": "074d70abd2921c410e90e6a54653621870dda6bc39abe544ba58567e8f74505f",
+      "array_keys_used": [
+        "vv_pre__ks_05983",
+        "vv_post__ks_05983",
+        "label__ks_05983"
+      ],
+      "geographic_coordinates_available": false,
+      "case_status": "illustrative_existing_test_example_not_an_unseen_evaluation"
+    },
+    {
+      "case_id": "ks_06327",
+      "event_id": 321,
+      "event_date": "2018-10-06",
+      "acquisition_dates": {
+        "pre_2": null,
+        "post": null
+      },
+      "source_tile_pflood_percent": 62.88863201530612,
+      "reference_mask_flood_pixels_in_shown_crop": 25438,
+      "shown_crop_total_pixels": 36864,
+      "preview_file": "ks_06327.png",
+      "preview_sha256": "51f211587e8bbf468d8d55666a32c6e17ea90311af396950b692dadbf39bf6cb",
+      "array_keys_used": [
+        "vv_pre__ks_06327",
+        "vv_post__ks_06327",
+        "label__ks_06327"
+      ],
+      "geographic_coordinates_available": false,
+      "case_status": "illustrative_existing_test_example_not_an_unseen_evaluation"
+    },
+    {
+      "case_id": "ks_06507",
+      "event_id": 1111007,
+      "event_date": "2019-09-17",
+      "acquisition_dates": {
+        "pre_2": null,
+        "post": null
+      },
+      "source_tile_pflood_percent": 51.78372130102041,
+      "reference_mask_flood_pixels_in_shown_crop": 18520,
+      "shown_crop_total_pixels": 36864,
+      "preview_file": "ks_06507.png",
+      "preview_sha256": "7cab3cabb1069fc76ed3ca5f696c0a7d1e8b7550561563f6f5c62ad0daa1e471",
+      "array_keys_used": [
+        "vv_pre__ks_06507",
+        "vv_post__ks_06507",
+        "label__ks_06507"
+      ],
+      "geographic_coordinates_available": false,
+      "case_status": "illustrative_existing_test_example_not_an_unseen_evaluation"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "eo-v9-http-readback-v0",
+  "valid": true,
+  "checked_at": "2026-09-25T08:04:06.401246+00:00",
+  "url": "http://127.0.0.1:8774",
+  "snapshot": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/eo_evidence_search_v9_20260925",
+  "manifest_sha256": "e8e1750533171446a8b185c6275580a0db71b98edde0e3f7a365635f14b102a6",
+  "disk_output_hashes_checked": 46,
+  "inherited_files_byte_identical": 36,
+  "catalog_provenance_count": 7000,
+  "event_562_dates_verified_over_http": 8,
+  "cases": {
+    "ks_06770": {
+      "reader_available": true,
+      "matches_frozen_disk_case": true
+    },
+    "ks_05265": {
+      "reader_available": true,
+      "matches_frozen_disk_case": true
+    },
+    "ks_05229": {
+      "reader_available": true,
+      "matches_frozen_disk_case": true
+    },
+    "ks_00276": {
+      "reader_available": false,
+      "matches_frozen_disk_case": true
+    }
+  },
+  "preview_http_sha256": {
+    "previews/ks_05265_source_grounding_v7.png": "b4c11d786abe2017136a8bf8eda11a7aa40be823e32ae97550f5fa25e2a35e3d",
+    "previews/ks_06770_source_grounding_v7.png": "18b541a2cc61b415f0f17ce46824d017e4b8b05e1b292632058c7e296f119b40",
+    "previews/ks_05983.png": "074d70abd2921c410e90e6a54653621870dda6bc39abe544ba58567e8f74505f",
+    "previews/ks_06327.png": "51f211587e8bbf468d8d55666a32c6e17ea90311af396950b692dadbf39bf6cb",
+    "previews/ks_05229.png": "d4ca7c7fd052259bfe0ea00a0cc33bbe88ab2f4e0293e782cdbcbf5e58645504",
+    "previews/ks_06412.png": "e1f43541c1835720d918bb8bc0dd4bf3e1a94b145e0d71e80ea3b76e244a81f9",
+    "previews/ks_06507.png": "7cab3cabb1069fc76ed3ca5f696c0a7d1e8b7550561563f6f5c62ad0daa1e471",
+    "previews/ks_05989.png": "84c8a4d847d43195e31e733f86dc8b5d170c36c02e83560e02d91772b8378434",
+    "previews/ks_00276_overlap.png": "089dca6f5672c272d264b4e5ebef9868ed6868131ee09e8082a831699c545ade"
+  },
+  "research_exact": true,
+  "e5_results_included": true,
+  "e5_registered_verdict": "mixed_or_inconclusive",
+  "e5_primary_metrics_equal_independent_audit": true,
+  "e5_table_seed_count": 3,
+  "e5_table_shape": [
+    7,
+    4
+  ],
+  "e5_source_replica_sha256": {
+    "manifest.json": "e22fb584c95f2bac1916fd8d3c49234e993a156f80d38ac481140e12c3e7819f",
+    "prereg.json": "fc7866feebbf1e9fcd4e93de5154bf9ffa141f434e70dc4731390cf18dfd4696",
+    "status.json": "f672169533bb4942360903351d1d7f5bfcb9e338334fd2c637a861b9df93ac41",
+    "scores.json": "0c98060fa228e55331c9d5be8709d250bd8fc28c70142bf4ccc3cf3a65b6b7f8",
+    "training_summary.json": "c3d288041869ec876537e27b3528a93e9195c521da7587aaef38785753352261",
+    "inference_completed.json": "fdb1a1203b986956e3f32c879e974a7b2faf450cf20800400869a7f21b4f6748"
+  },
+  "e5_independent_audit_sha256": "bdf7a187e2ef82aeaa8a4c61cede65021d168c9f3e6b6ac5ddd2f6548d2c7f79",
+  "individual_e5_predictions_added": false,
+  "index_bytes_exact": true,
+  "script_sha256": "7b1327b62bc2b8c3576354292ec0cc1db62ffd564e1220c3b1901ddd2d816a11",
+  "limits": [
+    "This is fresh v9 HTTP/disk readback, not an inherited v8 pass.",
+    "Statistical outcomes are quoted from the already audited saved run; no new scientific result is estimated here.",
+    "Heavy E5 tensor/prediction bytes are not re-audited; original E2/E3/E4 cases and date uncertainty remain unchanged."
+  ]
+}

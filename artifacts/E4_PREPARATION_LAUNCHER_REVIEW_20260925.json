@@ -1,0 +1,34 @@
+{
+  "schema": "e4-preparation-launcher-review-v0",
+  "checked_at": "2026-09-25T05:28:43.440187+00:00",
+  "valid": true,
+  "test_count": 11,
+  "blocking_concerns": [],
+  "checks": [
+    "Actual209-item E3 preparation with byte-identical items/pairs and unmodified source artifacts",
+    "Prepared2508-generation coverage; both209-ID reference maps and finite transformations",
+    "Copied item mutation rejected before manifest",
+    "Wrong parent/checkpoint hashes and duplicate source reference ID rejected",
+    "Existing output, wrong launcher hash and unprepared status reject before mocked GPU query",
+    "Four original cooperative lock namespaces; inherited live file descriptors",
+    "PYTHONPATH removed; GPU0-only selection; busy wait mocked without sleeping"
+  ],
+  "execution_scope": {
+    "gpu_invocations": 0,
+    "model_loads": 0,
+    "server_operations": 0,
+    "shared_artifact_edits": 0,
+    "launcher_subprocesses": "mocked"
+  },
+  "limitations": [
+    "Static/preparation validation does not substitute for the frozen runtime real-answer reproduction and finite gates."
+  ],
+  "source_sha256": {
+    "/private/tmp/e4_delta_runner_v0.py": "311201365c1871a1bf4a69a24cb4ffa53f209877733f4ce888115914c2de1288",
+    "/private/tmp/run_e4_when_idle_v0.py": "e6086f6fd762faf3274332850f3f3b790304b12e2daef4217ef2274b9305cb67",
+    "/private/tmp/e4_delta_probe_v0.py": "1e282051908fe3194a08805bbfab33ecc0bff7a13f95ea1239e3fdaa40b49c73",
+    "/private/tmp/e4_delta_probe_prereg_v0.json": "39858be7464fa218ad67e3084919f7e36267b7b8fec9c571e9643dffe6004ceb",
+    "/private/tmp/test_e4_preparation_launcher_v0.py": "57f7403a02d7a77c7cade6c6630ee9153b00c947cb4f2e9ec4cb5a2357f4ba66"
+  },
+  "test_output": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.716s\n\nOK\n"
+}

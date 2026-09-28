@@ -1,0 +1,23 @@
+{
+  "schema": "kuro-t0-join-code-review-v0",
+  "files": {
+    "/private/tmp/audit_kuro_source_dates_t0_20260925.py": {
+      "bytes": 22055,
+      "sha256": "fb1281d77589dfccd51b81db8a819e08f8cff13ec068d8dd61045f07814b9d08"
+    },
+    "/private/tmp/test_audit_kuro_source_dates_t0_20260925.py": {
+      "bytes": 17254,
+      "sha256": "097407fffd87b0fc7453cfa34a87169b5e204920e3458291409f163688b2e7fa"
+    }
+  },
+  "independent_synthetic_tests": {
+    "passed": 17,
+    "reviewer": "h_result_audit",
+    "includes_full_7000_synthetic_rows": true,
+    "actual_7000_run_not_done": true
+  },
+  "completion_gate_bug_fixed": true,
+  "upstream_pin_manifest_sha256": "ef8d42582292ba285e7911ddd9d022bc92ee014a77f0d4b6c994006a6388695f",
+  "cli": "python3 -B audit_kuro_source_dates_t0_20260925.py --export EXPORT_DIR --export-manifest-sha256 ACTUAL_SHA --upstream PIN_PACKAGE_DIR --out NEW_OUTPUT_DIR",
+  "existing_artifacts_or_E5_modified": false
+}

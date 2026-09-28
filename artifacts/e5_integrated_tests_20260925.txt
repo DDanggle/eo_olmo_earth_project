@@ -1,0 +1,11 @@
+{"status": "waiting_gpu0", "at": "2026-09-25T06:02:28.390525+00:00", "pid": 66825, "elapsed_wait_s": 7.408298552036285e-05, "gpu_uuid": "GPU-test"}
+{"status": "wait_expired_without_launch", "at": "2026-09-25T06:02:28.390692+00:00", "pid": 66825, "elapsed_wait_s": 0.0001905420795083046}
+{"status": "waiting_gpu0", "at": "2026-09-25T06:02:28.392221+00:00", "pid": 66825, "elapsed_wait_s": 1.5333062037825584e-05, "gpu_uuid": "GPU-test"}
+{"status": "launching_frozen_snapshot", "at": "2026-09-25T06:02:28.395485+00:00", "pid": 66825, "elapsed_wait_s": 0.00011704093776643276, "gpu_uuid": "GPU-test", "gpu_index": 0, "manifest_sha256": "e72bdda6eac79b314d3987743b8735e9be5987888068b952229e7b201d486c4e"}
+{"status": "completed", "at": "2026-09-25T06:02:28.395921+00:00", "pid": 66825, "elapsed_wait_s": 0.0005542909493669868, "returncode": 0, "scientifically_valid": true}
+{"status": "launching_frozen_snapshot", "at": "2026-09-25T06:02:28.398950+00:00", "pid": 66825, "elapsed_wait_s": 0.00012270803563296795, "gpu_uuid": "GPU-test", "gpu_index": 0, "manifest_sha256": "e72bdda6eac79b314d3987743b8735e9be5987888068b952229e7b201d486c4e"}
+{"status": "failed", "at": "2026-09-25T06:02:28.399085+00:00", "pid": 66825, "elapsed_wait_s": 0.0002578330459073186, "returncode": 0, "scientifically_valid": false}
+----------------------------------------------------------------------
+Ran 28 tests in 1.761s
+
+OK

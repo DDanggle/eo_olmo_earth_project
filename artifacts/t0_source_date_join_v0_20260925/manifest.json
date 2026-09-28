@@ -1,0 +1,23 @@
+{
+  "schema": "kuro-t0-exact-source-date-join-v0",
+  "created_at": "2026-09-25T07:08:11.133794+00:00",
+  "valid": true,
+  "input_export": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/t0_metadata_export_v0_20260925",
+  "input_upstream_package": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/kuro_original_metadata_pin_20260925",
+  "export_manifest_sha256": "79d5e9b6d963229fbb28056544851884bfc633e050a38294af93dc6ea12f384e",
+  "upstream_package_manifest_sha256": "ef8d42582292ba285e7911ddd9d022bc92ee014a77f0d4b6c994006a6388695f",
+  "files_sha256": {
+    "summary.json": "9022dfd28b83131ad74f4bed517df6843070a2100501ec73e53053b824c13376",
+    "REPORT.md": "9808933d24bca4f106e56ade712b263b1a6e43446eed9585fce864973ca14af8",
+    "source.py": "fb1281d77589dfccd51b81db8a819e08f8cff13ec068d8dd61045f07814b9d08",
+    "joined_rows.jsonl": "fb26d5b7057d01035f6cc5d69b9dff35871f412aeb741ae339e8778c5ceb5832",
+    "input_audit.json": "0b8c961cfc234b655df7431e713a04fc054d319352a8809b9e11a41994675750"
+  },
+  "expected_rows": 7000,
+  "expected_splits": {
+    "train": 4000,
+    "validation": 1000,
+    "test": 2000
+  },
+  "claims": "Exact upstream grid metadata and published slot contract; historical pixel lineage unverified."
+}

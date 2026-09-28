@@ -1,0 +1,131 @@
+{
+  "schema_version": "oe9_review_execution_gates_v1",
+  "plan_version": "v6",
+  "status": "proposed_development_rules_before_P2_results_not_confirmatory_preregistration",
+  "new_v7_plan_created": false,
+  "p2": {
+    "comparison": "B2_general_joint_minus_B0_frozen_original_encoder",
+    "required_arms": ["B0", "B2"],
+    "paired_seed_count": 3,
+    "paired_seed_ids": [270927, 270928, 270929],
+    "seed_ids_must_be_locked_before_results": true,
+    "metric_name": "target_present_foreground_IoU_AUC_K1_2_4_8",
+    "ks": [1, 2, 4, 8],
+    "auc_denominator": 7,
+    "aggregation": "per_query_then_target_class_macro_then_parent_macro_on_fixed_cohort",
+    "cohort": {
+      "base_count": 96,
+      "query_patch_count": 16,
+      "target_present_base_count": 64,
+      "target_absent_base_count": 32,
+      "target_classes": [1, 2, 3],
+      "development_parent_ids": ["t31tfm"],
+      "cohort_base_ids_sha256": "6a0d5847bb46c196d602cbe20c0075d596187cecdabd6253f6a97d02fa15dcb6",
+      "cohort_hash_rule": "sha256(newline_join(sorted(unique_common_K8_base_ids)) + final_newline)",
+      "source_scoring_sha256": "69f2927b784a60c4413f71ace8450b31d2bb8406785d7122a7cbe44aefdd7a5f",
+      "lower_K_full192_must_not_be_mixed_into_AUC": true,
+      "class4_no_K8_is_not_silently_replaced": true
+    },
+    "practical_margin_absolute_auc": 0.02,
+    "gain_rule": "all_three_paired_seed_deltas_greater_than_or_equal_to_positive_margin",
+    "descriptive_tie_rule": "all_three_absolute_paired_seed_deltas_strictly_less_than_margin",
+    "harm_rule": "all_three_paired_seed_deltas_less_than_or_equal_to_negative_margin",
+    "mixed_result": "inconclusive_development_result",
+    "formal_equivalence_from_three_training_seeds": false,
+    "geographic_equivalence_from_one_parent": false,
+    "absence_guardrails": {
+      "absent_predicted_area_denominator": "source_label_valid_pixels_in_absent_query",
+      "absent_case_positive_if_predicted_valid_area_fraction_gt": 0.001,
+      "maximum_B2_minus_B0_area_fraction_increase_each_seed_and_K": 0.005,
+      "maximum_B2_minus_B0_case_rate_increase_each_seed_and_K": 0.02,
+      "scope": "same32_target_absent_bases_with_fixed_macro_aggregation",
+      "no_universal_absolute_safety_claim": true
+    },
+    "training_adequacy": {
+      "required_checks": [
+        "training_schedule_completed",
+        "optimizer_and_lr_budget_completed",
+        "save_resume_verified",
+        "finite_loss_and_gradients",
+        "nondegenerate_supervised_readout",
+        "encoder_freeze_or_update_matches_arm"
+      ],
+      "minimum_last_evaluation_windows": 3,
+      "maximum_last3_auc_range": 0.005,
+      "evaluation_spacing_must_be_locked_and_positive": true,
+      "cap_while_improving_blocks_decision": true,
+      "minimum_updates_and_hyperparameter_budget_must_be_declared_before_results": true,
+      "plateau_is_an_operational_development_gate_not_proof_of_optimality": true
+    },
+    "fairness_checks_required": [
+      "same_common_cohort",
+      "same_support_draws_and_prefixes",
+      "same_initial_encoder_checkpoint",
+      "same_reader_checkpoint_and_trainability",
+      "same_connector_and_dense_head_capacity",
+      "same_allowed_images_and_observation_access",
+      "same_label_and_question_supervision",
+      "same_predeclared_hyperparameter_search_budget",
+      "query_gold_access_blocked",
+      "source_bank_excluded_from_training_supervision",
+      "identifiers_and_class_mapping_not_model_inputs",
+      "acquisition_and_missing_input_guards_verified",
+      "all_feature_precompute_and_training_costs_recorded"
+    ],
+    "comparison_axis_allowed": ["matched_data_exposure", "matched_total_compute"],
+    "comparison_axis_must_be_chosen_before_results": true,
+    "precomputed_B0_features_are_not_free": true,
+    "tie_action": "retain_B0_and_withdraw_encoder_learning_benefit_claim_for_this_development_scope",
+    "tie_does_not_imply": "encoder_learning_cannot_help_any_EO_task_region_or_scale"
+  },
+  "review_actions": {
+    "second_independent_development_parent": {
+      "required_before_cross_geography_promotion": true,
+      "currently_prepared_parent_count": 1,
+      "next_parent_id": null,
+      "must_pass_prior_exposure_and_spatial_overlap_audit": true,
+      "reserved_t30uxv_not_automatically_opened": true,
+      "two_parents_do_not_establish_confirmatory_power": true
+    },
+    "kuro": {
+      "execution_allowed": false,
+      "required_before_execution": [
+        "event_and_prior_test_exposure_ledger",
+        "source_integrity_and_original_dates",
+        "VV_VH_units_and_preprocessing_alignment",
+        "mask_void_and_permanent_water_semantics",
+        "development_vs_fresh_evaluation_event_split"
+      ],
+      "old_observed_test_events_remain_development": true
+    },
+    "eo_evaluation": {
+      "claim_weak": "EO_noninferiority_and_benefit_reused_with_a_new_reader",
+      "claim_strong": "improvement_over_original_official_CPT_and_general_joint_on_exposure_audited_independent_EO_evaluation",
+      "evaluation_protocols": ["same_frozen_encoder_linear_probe_protocol", "same_supervised_full_finetune_protocol_and_tuning_budget"],
+      "checkpoints": ["original", "official_objective_continued_B1", "general_joint_B2"],
+      "new_proposal_checkpoint_added_only_when_real": true,
+      "adaptation_protocols_do_not_define_weak_vs_strong_claims": true,
+      "independent_dataset_overlap_audit_required": true,
+      "EO_noninferiority_margin": null,
+      "native_training_loss_is_not_independent_EO_score": true
+    },
+    "resampler": {
+      "required_explanation": "learned_queries_compress_spatiotemporal_encoder_grid_to_fixed_reader_tokens",
+      "baseline_is_sufficiently_trained_learned_resampler": true,
+      "flat16_mean_is_diagnostic_only": true,
+      "full_grid_is_costed_reference": true,
+      "resampler_alone_is_not_claimed_novel": true
+    },
+    "D1": {
+      "disposition": "archived_incomplete_historical_track",
+      "new_pass_fail_claim": null,
+      "existing_preregistration_and_observations_preserved": true,
+      "incomplete_is_not_failure_or_pass": true
+    },
+    "scope": {
+      "retain_v6": true,
+      "no_new_tokenizer_RL_physics_or_cache_method_arm": true,
+      "development_only_not_CVPR_acceptance_probability": true
+    }
+  }
+}

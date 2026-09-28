@@ -1,0 +1,71 @@
+{
+  "updated_utc": "2026-09-27T07:54:22.449415+00:00",
+  "status": "input_preparation_and_research_design_completed_comparative_training_pending",
+  "plan": "docs/OLMOEARTH_CROSSDOMAIN_LOOP_PLAN_20260927.md",
+  "progress": "docs/OE6_PASTIS_INPUT_PROGRESS_20260927.md",
+  "prior_gpu_contract": "config/oe5_execution_status_20260927.json",
+  "actual_native_engineering_cases": 2,
+  "actual_transfer_training_episodes": 0,
+  "metadata_candidates": {
+    "train": 64,
+    "development": 16,
+    "raw_prepared": false
+  },
+  "gpu_training_this_turn": false,
+  "gpu_process_launched_this_turn": false,
+  "cpu_jobs_from_this_sequence": "completed",
+  "source_dataset_downloaded_this_turn": false,
+  "paid_api_spend_this_turn": 0,
+  "source_integrity": {
+    "0000": "verified",
+    "0001": "hash_mismatch_unused",
+    "0002": "missing",
+    "complete": false
+  },
+  "verified_shard_train_rows": 911,
+  "date_alignment": {
+    "installed_source_mismatch_reproduced": true,
+    "fixed_in_separate_preparer": true,
+    "installed_package_modified": false
+  },
+  "prepared_contract": "artifacts/oe6_pastis_input_20260927/prepared_v2/contract.json",
+  "prepared_verification": "artifacts/oe6_pastis_input_20260927/prepared_verification.json",
+  "candidate_selection": "artifacts/oe6_pastis_input_20260927/development_candidates_v0/selection.json",
+  "cache_dependency_tests": {
+    "count": 10,
+    "passed": 10,
+    "actual_model_parity": false,
+    "artifact": "artifacts/oe6_crossdomain_20260927/cache_contract_tests.json"
+  },
+  "proposal_priorities": [
+    "G1_gradient_path_and_native_representation",
+    "L1_bounded_observation_selection",
+    "T1_continuous_discrete_rate_quality",
+    "M1_exact_cache_parity",
+    "physics_and_human_loop_after_input_requirements"
+  ],
+  "research_results_established": false,
+  "novelty_established": false,
+  "budget_reference": "config/eo_vlm_labeling_budget_v2_20260926.json",
+  "ready_for_comparative_gpu_training": false,
+  "next": [
+    "prepare selected80 raw arrays and source labels",
+    "declare observation quality policy",
+    "pin full Qwen weight identity and implement trainer save/reload",
+    "GPU1 trained full-grid/ordinary resampler baseline"
+  ],
+  "preserved": [
+    "historical preregistrations",
+    "original failure records",
+    "protected four server source hashes mtimes and sizes"
+  ],
+  "server_root": "/home/work/data/olmoearth/oe6_pastis_input_v0",
+  "large_scope_not_implemented": [
+    "learned correction/observation loop",
+    "EO discrete tokenizer",
+    "actual Qwen KV reuse benchmark",
+    "PROSAIL LUT",
+    "hydrodynamic simulation",
+    "RL policy training"
+  ]
+}

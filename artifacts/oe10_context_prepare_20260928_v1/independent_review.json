@@ -1,0 +1,27 @@
+{
+  "schema_version": "oe10_context_input_review_v1",
+  "reviewed_utc": "2026-09-27T16:17:00.709253+00:00",
+  "reviewers": [
+    "winter_wheat_primary_sources",
+    "expert_context_causal_review"
+  ],
+  "knowledge_source_count": 6,
+  "crop_card_count": 4,
+  "metadata_attachments": 2304,
+  "unique_train_queries": 48,
+  "review_queue_unique_train_queries": 20,
+  "expert_responses": 0,
+  "boundary_tests_passed": 6,
+  "input_and_artifact_hashes_independently_verified": true,
+  "query_gold_leak_found": false,
+  "model_integration_verified": false,
+  "new_gpu_runs": 0,
+  "limitations": [
+    "20 queries are candidates, not 20 confirmed winter-wheat positive cases",
+    "Swapped explanations diagnose conflicting context, not deep agronomic reasoning",
+    "Review images not yet packaged",
+    "source_objects input hash should be pinned before strict future training",
+    "Metadata v0 had a guessed creation timestamp; v1 removes it and uses the actual retrieval date"
+  ],
+  "frozen_training_unchanged": true
+}

@@ -1,0 +1,30 @@
+{
+  "observed_utc": "2026-09-27T13:46:59Z",
+  "controller_status": "running",
+  "current_worker": "B2_270927_train",
+  "worker_pid": 1421757,
+  "receipt_completed_updates": 792,
+  "latest_log_step": 799,
+  "completed_runs": 1,
+  "latest_score_step": 768,
+  "latest_score_auc": 0.15490909520947027,
+  "score_sha256_verified": "b20812939f2f9e9a8db364a36420f9c0cce205a81f69deb5736098dc749c3984",
+  "absent_fp_area_by_k": {
+    "1": 0.0,
+    "2": 0.0,
+    "4": 0.0,
+    "8": 0.0
+  },
+  "absent_fp_case_rate_by_k": {
+    "1": 0.0,
+    "2": 0.0,
+    "4": 0.0,
+    "8": 0.0
+  },
+  "worker_on_gpu1": true,
+  "paired_complete": false,
+  "new_failure": false,
+  "user_action_required": false,
+  "notify_user": false,
+  "scope": "Intermediate score JSON hash verification; raw masks not re-scored. Prior B0 final stability criterion remains unmet. No paired conclusion or full gate. No new jobs or changes to training/source/samples/budget."
+}

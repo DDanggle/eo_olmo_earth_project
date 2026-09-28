@@ -1,0 +1,87 @@
+{
+  "schema": "eo-pair-dependence-prereg-v0",
+  "id": "E3-PD-v0",
+  "registered_date": "2026-09-25",
+  "status": "registered before E3 transformed model outputs; E2 outputs already exposed",
+  "question": "Does the E2 reader require information from both observation slots, or can a single retained view preserve its association with the original pair labels?",
+  "scope": "Exploratory mechanism diagnosis on exposed E2 evaluation data, not new held-out confirmation or a new accuracy benchmark.",
+  "checkpoints": {
+    "1": "10137425ddca279533782c8523ccfd6394f0c9927a29f9a8f3f2076907f44869",
+    "2": "8ba9f1ea8b67ed0de93f2823c39efed378b9192df33ca07fc97998cad2d1d0aa",
+    "3": "9b64285f76892ebcac20531a4d12d03b4cd343a6d549c7e5e66c33af7b6e8c94"
+  },
+  "sampling": {
+    "population": "E2 real_all items with exactly one yes and one no for a given phenomenon/tile; excludes unpaired flood hard negatives",
+    "rank": "sha256('e3-pd-v0-20260925|' + phenomenon + '|' + cluster + '|' + tile)",
+    "flood": "take first min(8,n) paired tiles per actid, all represented test events",
+    "landslide": "take first min(16,n) paired tiles per fold, both exposed regions",
+    "selection_uses_predictions": false,
+    "incomplete_or_nonfinite_selected_input": "report invalid preparation and stop; do not silently exclude/reselect",
+    "full_E2_cache_audit": "CPU check all unique E2 evaluation caches for nonfinite values; report separately without editing E2 outputs",
+    "hard_negatives": "Add first min(8,n) unpaired hard-negative items per flood event by the same hash rank, evaluated only in real/later_only/repeat_later; descriptive specificity, not primary paired score.",
+    "primary_subset": "paired-positive-tile subset: original yes/no pair from each originally positive tile"
+  },
+  "inputs": {
+    "pair": "A and B are pooled 64x768 EO tokens using the exact E2 CPU torch avg_pool2d path",
+    "tokens": "192 tokens with types [0]*64+[1]*64+[3]*64 in every arm",
+    "prompt": "Identical source E2 prompt and date strings to isolate token interventions and permit real-arm reproduction. Flood date strings remain known imputed values, NOT verified acquisition times.",
+    "frames": "Earlier/later names refer to E2 slot order; exact flood acquisition order and spacing were not independently recovered."
+  },
+  "arms": {
+    "real": "[A,B,B-A]",
+    "earlier_only": "[A,0,0]; no hidden later view through difference tokens",
+    "later_only": "[0,B,0]; no hidden earlier view through difference tokens",
+    "repeat_earlier": "[A,A,0]",
+    "repeat_later": "[B,B,0]",
+    "no_delta": "[A,B,0]",
+    "reverse": "[B,A,A-B]; diagnostic only, original chronological text now conflicts with the intervention"
+  },
+  "validity": {
+    "real_reproduction_min": 0.99,
+    "real_reproduction_scope": "every seed and phenomenon against complete saved E2 IDs on this subset; reproduce all real arms BEFORE running any interventions",
+    "max_parse_fail": 0.01,
+    "finite": "all selected source and pooled arrays, checkpoints and projected tokens finite; generated scores contain no NaN/+Inf and at least one finite value (processor-masked -Inf permitted)",
+    "coverage": "every prereg item exactly once per seed in its allowed_arms (paired 7 arms; hard_neg real/later_only/repeat_later only), all 3 seeds; ID/input/checkpoint/source/config hashes recorded",
+    "failure": "invalid run, no scientific verdict; preserve partial output and failure reason; no threshold relaxation"
+  },
+  "metrics": {
+    "source_label_balanced_agreement": "BA against original pair labels after intervention. This is NOT accuracy against a new transformed-scene gold label.",
+    "primary_unit": "flood event macro average: each represented event equally weighted, each tile contributes its yes/no pair",
+    "uncertainty": "paired bootstrap of event means (5000 draws, numpy default_rng seed 20260925), resampling events and preserving both source items/arms; report all event values",
+    "delta": "intervention source-label BA minus real source-label BA",
+    "secondary": "answer agreement with real; yes persistence on original positives answered yes in real; repeated-frame yes rates; no_delta and reverse descriptive outcomes",
+    "landslide": "two region means and tile descriptive results only; do not treat tiles as independent unseen regions",
+    "hard_negative_specificity": "Original hard negatives are a separate source-label FPR per event and seed; not mixed with the primary equally paired event BA."
+  },
+  "flood_decision": {
+    "minimum_real_macro_BA": 0.6,
+    "single_second_view_sufficient_under_intervention": "in at least 2/3 seeds, real macro BA >=.60, later_only AND repeat_later macro BA >=.60, and BOTH paired delta CI lower bounds >=-.05 (preregistered noninferiority margin)",
+    "history_sensitive_under_intervention": "if sufficiency is not met: in at least 2/3 seeds with real macro BA >=.60, BOTH later_only AND repeat_later delta point <=-.10 and paired CI upper <0",
+    "mixed_or_inconclusive": "otherwise, or fewer than 5 represented flood events",
+    "interpretation": "Sensitivity to deletion/repetition can be caused by distribution shift and does not prove temporal reasoning. Sufficiency concerns this exposed subset and this frozen reader, not universal irrelevance of history."
+  },
+  "no_transformed_gold": "Identical or reversed embeddings do not establish that no physical event occurred. No gold=no is assigned to repeat arms. No new pseudo-labels or training are generated in E3.",
+  "known_limits": [
+    "flood pre/pre negative labels are a dataset pre-slot assumption, not independently verified event absence",
+    "two phenomena are perfectly confounded with sensor (landslide S2, flood S1); does not establish phenomenon-specific semantics",
+    "flood test events were used earlier in Kuro updater research; only disjoint from E2 VLM training",
+    "counterfactual repeats/reversal may conflict with unchanged date wording",
+    "frozen-reader ablations do not replace retraining an equal-budget single-view model",
+    "noninferiority power may be limited; inconclusive does not mean equivalence",
+    "fixed small selection may differ from the original tile-weighted full E2 evaluation",
+    "Landslide original E2 evaluation is 186 Hiroshima and only 6 Indonesia paired tiles; small second region limits interpretation."
+  ],
+  "next_step": {
+    "single_second_view_sufficient_under_intervention": "Design train-side equal-budget single-view baseline and pair-specific task with verified change labels before memory/temporal claims.",
+    "history_sensitive_under_intervention": "Disentangle genuine pair reasoning from input-distribution shift with in-distribution controls and matched single-view training.",
+    "mixed_or_inconclusive": "Report per-event/seed effects; identify whether power, low real signal or contradictory mechanisms cause ambiguity before selecting ONE follow-up. Do not repeatedly tune thresholds on these test outputs.",
+    "invalid": "Repair input/reproduction implementation with a versioned amendment before any model update."
+  },
+  "compute": {
+    "training": false,
+    "gpu": "1 only after no other process, with research lock",
+    "max_runtime_minutes": 45,
+    "expected_generations_upper_bound": 5424,
+    "outputs": "/home/work/data/olmoearth/e3_pair_dependence_v0/"
+  }
+}

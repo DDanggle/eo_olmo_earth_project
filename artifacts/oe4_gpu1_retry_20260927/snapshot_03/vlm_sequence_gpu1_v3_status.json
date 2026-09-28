@@ -1,0 +1,269 @@
+{
+  "status": "failed",
+  "started_utc": "2026-09-27T04:49:07.538743+00:00",
+  "controller_pid": 1177404,
+  "scope": "One-shot engineering interface validation, not a semantic or novelty result",
+  "maximum_native_wait_seconds": 2700,
+  "maximum_gpu_wait_seconds": 600,
+  "maximum_worker_seconds": 1100,
+  "output_directory": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/vlm_interface_gpu1_v3",
+  "protected_before": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458,
+      "bytes": 45602
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874,
+      "bytes": 10926
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291,
+      "bytes": 10983
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291,
+      "bytes": 7314
+    }
+  },
+  "source_before": {
+    "manifest.json": {
+      "sha256": "cc9a8deca8fe56d55180625f23fade3b6e4da0c55f702037b188978f89a0ea1a",
+      "mtime_ns": 1790484478000000000,
+      "bytes": 594
+    },
+    "vlm_interface_smoke.py": {
+      "sha256": "7683f96cc331fec84f93998c5a0d58d3cafdda1392a35d0c909a07d9e30a38ca",
+      "mtime_ns": 1790484478000000000,
+      "bytes": 31027
+    },
+    "real_h5_provider.py": {
+      "sha256": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+      "mtime_ns": 1790484478000000000,
+      "bytes": 5117
+    },
+    "run_vlm_bounded.py": {
+      "sha256": "500f037408bf660d291362de765b33fe2d28b3fec6b040378b2ea0fc6a78fb38",
+      "mtime_ns": 1790484478000000000,
+      "bytes": 20036
+    }
+  },
+  "inputs_before": {
+    "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/rgb.png": {
+      "sha256": "485802f824f9843bac49de9ef6a6c34eb1f3ba1b557d402b2b03afb3dfca93d7",
+      "mtime_ns": 1790443048179083000,
+      "bytes": 1179
+    },
+    "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/provider_config.json": {
+      "sha256": "a4f63a9f74f31a2d9d841d9c73b065cc39b53d1a6bed2a32859345ce1422dc7d",
+      "mtime_ns": 1790443048184915000,
+      "bytes": 358
+    },
+    "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/provenance.json": {
+      "sha256": "bc421cf7f63d4938c1b009559525959b2a7714800db406467a1c6a08d8ed5313",
+      "mtime_ns": 1790443048185976000,
+      "bytes": 1397
+    },
+    "/home/work/data/olmoearth/oe4_native_v12_v0/runs/data_prepare_v1/data_manifest.json": {
+      "sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+      "mtime_ns": 1790442928382141000,
+      "bytes": 89944
+    }
+  },
+  "detail": "RuntimeError('VLM interface worker exited with status 1; inspect its log and receipt')",
+  "updated_utc": "2026-09-27T04:50:18.748063+00:00",
+  "native_completion": {
+    "observed_utc": "2026-09-27T04:49:07.560902+00:00",
+    "status_record": {
+      "sha256": "9809445534561eb7ebdfb75b7004d8d922af2fc8fd5536399b519a49838a88f2",
+      "mtime_ns": 1790484248491009000,
+      "bytes": 5883
+    }
+  },
+  "native_wait_seconds": 0.001446399837732315,
+  "gpu_last_observations": [
+    {
+      "index": 0,
+      "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+      "memory_mib": 26571,
+      "utilization_percent": 99,
+      "utilization_unavailable": false,
+      "has_compute_pid": true
+    },
+    {
+      "index": 1,
+      "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+      "memory_mib": 0,
+      "utilization_percent": null,
+      "utilization_unavailable": true,
+      "has_compute_pid": false,
+      "idle_basis": "memory_zero_and_no_compute_PID"
+    }
+  ],
+  "gpu_idle_streak": 3,
+  "gpu_poll_count": 3,
+  "gpu_wait_seconds": 20.365939002484083,
+  "gpu_stable_observations": [
+    {
+      "observed_utc": "2026-09-27T04:49:07.681931+00:00",
+      "index": 1,
+      "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+      "memory_mib": 0,
+      "utilization_percent": null,
+      "utilization_unavailable": true,
+      "has_compute_pid": false,
+      "idle_basis": "memory_zero_and_no_compute_PID"
+    },
+    {
+      "observed_utc": "2026-09-27T04:49:17.810477+00:00",
+      "index": 1,
+      "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+      "memory_mib": 0,
+      "utilization_percent": null,
+      "utilization_unavailable": true,
+      "has_compute_pid": false,
+      "idle_basis": "memory_zero_and_no_compute_PID"
+    },
+    {
+      "observed_utc": "2026-09-27T04:49:27.922204+00:00",
+      "index": 1,
+      "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+      "memory_mib": 0,
+      "utilization_percent": null,
+      "utilization_unavailable": true,
+      "has_compute_pid": false,
+      "idle_basis": "memory_zero_and_no_compute_PID"
+    }
+  ],
+  "worker": {
+    "argv": [
+      "/home/work/data/olmoearth/.venv-master/bin/python",
+      "-u",
+      "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v3/vlm_interface_smoke.py",
+      "--model-dir",
+      "/home/work/data/olmoearth/models/Qwen3-VL-8B-Instruct",
+      "--image",
+      "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/rgb.png",
+      "--eo-provider",
+      "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v3/real_h5_provider.py:make_provider",
+      "--eo-provider-config",
+      "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/provider_config.json",
+      "--deps-root",
+      "/home/work/data/olmoearth/oe4_native_v12_v0/deps",
+      "--out-dir",
+      "/home/work/data/olmoearth/oe4_native_v12_v0/runs/vlm_interface_gpu1_v3",
+      "--device",
+      "cuda:0"
+    ],
+    "gpu_physical_index": 1,
+    "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+    "environment_overrides": {
+      "PYTHONPATH": null,
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "CUDA_VISIBLE_DEVICES": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb"
+    },
+    "pid": 1177467,
+    "started_utc": "2026-09-27T04:49:28.079492+00:00",
+    "final_idle_observations": [
+      {
+        "index": 0,
+        "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+        "memory_mib": 26571,
+        "utilization_percent": 99,
+        "utilization_unavailable": false,
+        "has_compute_pid": true
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+        "memory_mib": 0,
+        "utilization_percent": null,
+        "utilization_unavailable": true,
+        "has_compute_pid": false,
+        "idle_basis": "memory_zero_and_no_compute_PID"
+      }
+    ],
+    "returncode": 1,
+    "finished_utc": "2026-09-27T04:50:18.748019+00:00",
+    "wall_seconds": 50.64942339062691
+  },
+  "failure": {
+    "error": "RuntimeError('VLM interface worker exited with status 1; inspect its log and receipt')",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v3/run_vlm_bounded.py\", line 347, in main\n    raise RuntimeError(f\"VLM interface worker exited with status {returncode}; inspect its log and receipt\")\nRuntimeError: VLM interface worker exited with status 1; inspect its log and receipt\n",
+    "cleanup_error": null
+  },
+  "protected_after": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458,
+      "bytes": 45602
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874,
+      "bytes": 10926
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291,
+      "bytes": 10983
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291,
+      "bytes": 7314
+    }
+  },
+  "protected_unchanged": true,
+  "source_after": {
+    "manifest.json": {
+      "sha256": "cc9a8deca8fe56d55180625f23fade3b6e4da0c55f702037b188978f89a0ea1a",
+      "mtime_ns": 1790484478000000000,
+      "bytes": 594
+    },
+    "vlm_interface_smoke.py": {
+      "sha256": "7683f96cc331fec84f93998c5a0d58d3cafdda1392a35d0c909a07d9e30a38ca",
+      "mtime_ns": 1790484478000000000,
+      "bytes": 31027
+    },
+    "real_h5_provider.py": {
+      "sha256": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+      "mtime_ns": 1790484478000000000,
+      "bytes": 5117
+    },
+    "run_vlm_bounded.py": {
+      "sha256": "500f037408bf660d291362de765b33fe2d28b3fec6b040378b2ea0fc6a78fb38",
+      "mtime_ns": 1790484478000000000,
+      "bytes": 20036
+    }
+  },
+  "source_unchanged": true,
+  "inputs_after": {
+    "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/rgb.png": {
+      "sha256": "485802f824f9843bac49de9ef6a6c34eb1f3ba1b557d402b2b03afb3dfca93d7",
+      "mtime_ns": 1790443048179083000,
+      "bytes": 1179
+    },
+    "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/provider_config.json": {
+      "sha256": "a4f63a9f74f31a2d9d841d9c73b065cc39b53d1a6bed2a32859345ce1422dc7d",
+      "mtime_ns": 1790443048184915000,
+      "bytes": 358
+    },
+    "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/provenance.json": {
+      "sha256": "bc421cf7f63d4938c1b009559525959b2a7714800db406467a1c6a08d8ed5313",
+      "mtime_ns": 1790443048185976000,
+      "bytes": 1397
+    },
+    "/home/work/data/olmoearth/oe4_native_v12_v0/runs/data_prepare_v1/data_manifest.json": {
+      "sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+      "mtime_ns": 1790442928382141000,
+      "bytes": 89944
+    }
+  },
+  "inputs_unchanged": true,
+  "finished_utc": "2026-09-27T04:50:18.748047+00:00"
+}

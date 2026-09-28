@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "scope": "source diff review and local allowlist checks only; no GPU/server execution",
+  "actual_reviewed_versions": {
+    "v1": {
+      "accepted": true,
+      "actual_worker_sha256": "a05a68f8c706c551d01ef009b1912692d6f1f77b02d69cf8189ef4810e40da27"
+    },
+    "v2": {
+      "accepted": true,
+      "actual_worker_sha256": "a5dc2d2806cd87cb4719de57cad53b149f3677544d634f18219a17751ff6f01d"
+    }
+  },
+  "unreviewed_worker_rejected_even_with_matching_manifest": true,
+  "source_hashes_output_contains_actual_selected_worker_only": true,
+  "v2_reviewed_changes": [
+    "global torch deterministic algorithms disabled; cuDNN deterministic remains true and benchmark false",
+    "AdamW foreach false retained; fused false explicit",
+    "gradient clip foreach false explicit",
+    "CUDA-synchronized per-phase timing fields"
+  ],
+  "unchanged": [
+    "episode model architecture and all four fairness API boundaries",
+    "EO/native objective and reader path/freezing",
+    "Qwen and readout dimensions/capacity",
+    "observation/label/role accesses",
+    "cold resume acceptance thresholds",
+    "run_bounded source and CUBLAS workspace setting",
+    "seven fairness claim scopes"
+  ],
+  "caveat": "v1/v2 must not be mixed as one paired run group; collector exact source matching and independent strict cold-resume evidence remain required",
+  "auditor_sha256": "4f54cc8eed8789d5f69a1c8a969fa3ef0f523f10b0b938a72235b4a280a3cae3"
+}

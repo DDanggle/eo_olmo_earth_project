@@ -1,0 +1,117 @@
+{
+  "schema_version": "oe9-human-candidate-v1",
+  "package_id": "1f7f6d87da3143f309972630",
+  "status": "awaiting_two_complete_independent_reviews",
+  "actual_human_complete_records": 0,
+  "human_collection_status": "not_collected",
+  "insufficient_design_is_not_a_human_failure": true,
+  "two_independent_reviewers_procedurally_verified": false,
+  "source_reference_is_expert_gold": false,
+  "reference_availability_counts": {
+    "counterexample": 8,
+    "target": 8,
+    "neither": 4
+  },
+  "overall_agreement": {
+    "eligible_cases": 20,
+    "both_completed": 0,
+    "exact_matches": 0,
+    "exact_agreement": null,
+    "cohen_kappa": null,
+    "kappa_note": "Descriptive only; unstable at n=20 and undefined for degenerate marginals.",
+    "a_decision_counts": {},
+    "b_decision_counts": {},
+    "confusion_counts": {},
+    "both_decisive_target_or_counter": 0
+  },
+  "informative_reference_stratum_agreement": {
+    "eligible_cases": 16,
+    "both_completed": 0,
+    "exact_matches": 0,
+    "exact_agreement": null,
+    "cohen_kappa": null,
+    "kappa_note": "Descriptive only; unstable at n=20 and undefined for degenerate marginals.",
+    "a_decision_counts": {},
+    "b_decision_counts": {},
+    "confusion_counts": {},
+    "both_decisive_target_or_counter": 0
+  },
+  "by_reference_stratum": {
+    "counterexample": {
+      "eligible_cases": 8,
+      "both_completed": 0,
+      "exact_matches": 0,
+      "exact_agreement": null,
+      "cohen_kappa": null,
+      "kappa_note": "Descriptive only; unstable at n=20 and undefined for degenerate marginals.",
+      "a_decision_counts": {},
+      "b_decision_counts": {},
+      "confusion_counts": {},
+      "both_decisive_target_or_counter": 0
+    },
+    "neither": {
+      "eligible_cases": 4,
+      "both_completed": 0,
+      "exact_matches": 0,
+      "exact_agreement": null,
+      "cohen_kappa": null,
+      "kappa_note": "Descriptive only; unstable at n=20 and undefined for degenerate marginals.",
+      "a_decision_counts": {},
+      "b_decision_counts": {},
+      "confusion_counts": {},
+      "both_decisive_target_or_counter": 0
+    },
+    "target": {
+      "eligible_cases": 8,
+      "both_completed": 0,
+      "exact_matches": 0,
+      "exact_agreement": null,
+      "cohen_kappa": null,
+      "kappa_note": "Descriptive only; unstable at n=20 and undefined for degenerate marginals.",
+      "a_decision_counts": {},
+      "b_decision_counts": {},
+      "confusion_counts": {},
+      "both_decisive_target_or_counter": 0
+    }
+  },
+  "timing": {
+    "A": {
+      "complete_count": 0,
+      "total_active_seconds": 0,
+      "median_active_seconds": null,
+      "p90_active_seconds": null,
+      "started_but_incomplete": 0
+    },
+    "B": {
+      "complete_count": 0,
+      "total_active_seconds": 0,
+      "median_active_seconds": null,
+      "p90_active_seconds": null,
+      "started_but_incomplete": 0
+    }
+  },
+  "operational_gate": {
+    "provisional_unvalidated_assumptions": true,
+    "copied_from_D1": false,
+    "required_complete_per_reviewer": 20,
+    "minimum_target_reference": 3,
+    "minimum_counter_reference": 3,
+    "minimum_target_plus_counter_reference": 8,
+    "informative_decisive_fraction_minimum": 0.75,
+    "informative_exact_agreement_fraction_minimum": 0.75,
+    "median_active_seconds_maximum": 600,
+    "p90_active_seconds_maximum": 900,
+    "complete_cohort": false,
+    "coverage_sufficient": true,
+    "informative_decisions_sufficient": false,
+    "informative_agreement_sufficient": false,
+    "minimum_each_target_and_counter_response_per_reviewer_in_informative_stratum": 2,
+    "nondegenerate_decision_counts": false,
+    "timing_within_planning_limit": false,
+    "passed": false
+  },
+  "interpretation": "Candidate discrimination and labor-time feasibility only; not new full-mask annotation, corrected-model label efficiency, classification accuracy against expert gold, or CVPR evidence.",
+  "no_silent_imputation_of_absent_reviewers_or_cases": true,
+  "overall_agreement_alone_never_passes_gate": true,
+  "budget_change": null
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "eo-v7-browser-observation-v0",
+  "checked_at": "2026-09-25T06:39:14.337Z",
+  "url": "http://127.0.0.1:8774/",
+  "source": "In-app browser DOM snapshots and console error readback, observed by the root agent",
+  "event": "562",
+  "positive_case": {
+    "tile": "ks_06770",
+    "known_label_56_62_pct_visible": true,
+    "unknown_label_43_38_pct_visible": true,
+    "source_image_and_full_size_link_visible": true,
+    "c1_primary_excluded_caption_visible": true
+  },
+  "negative_case": {
+    "tile": "ks_05265",
+    "known_label_100_00_pct_visible": true,
+    "source_image_and_full_size_link_visible": true
+  },
+  "e5": {
+    "pending_status_visible": true,
+    "status_snapshot_at": "2026-09-25T06:14:07Z",
+    "snapshot_not_live_label_visible": true,
+    "scores_or_outcomes_displayed": false
+  },
+  "console_errors_returned": [],
+  "limits": "DOM and console inspection plus separate byte-level HTTP checks. Not a new model test or physical-scene annotation."
+}

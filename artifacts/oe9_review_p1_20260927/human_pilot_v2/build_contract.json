@@ -1,0 +1,60 @@
+{
+  "candidate_selection": "public annual class reference strata; >=64 pixel full instance with >=.95 purity; no visual/model quality ranking",
+  "distribute_only": "reviewer_package/",
+  "distribution_note": "Do not distribute private directory or this contract to annotators.",
+  "do_not_host_private_parent_directory": true,
+  "episode_sha256": "fadaf5edc3625a4a420babfe5b048e5752f0c824a8a44c005e5b13a6f6910293",
+  "free_form_expert_correction_learning_demonstrated": false,
+  "fullmask_annotation_task": false,
+  "generator_sha256": "69655fa63da510189052e98c8d83623c222765ea98246c27dd6667c52e16fd06",
+  "gpu_used": false,
+  "human_annotations_collected": 0,
+  "manifest_sha256": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3",
+  "package_id": "1f7f6d87da3143f309972630",
+  "paid_calls": 0,
+  "parent_counts": {
+    "t31tfj": 9,
+    "t32ulu": 11
+  },
+  "parent_stratum_counts": {
+    "t31tfj:counterexample": 2,
+    "t31tfj:neither": 3,
+    "t31tfj:target": 4,
+    "t32ulu:counterexample": 6,
+    "t32ulu:neither": 1,
+    "t32ulu:target": 4
+  },
+  "private_reference_distribution": {
+    "counterexample": 8,
+    "neither": 4,
+    "target": 8
+  },
+  "query_count": 20,
+  "query_partition": "train_pool",
+  "query_selection": {
+    "attempts": [
+      {
+        "balanced_per_stratum_parent": true,
+        "cohort": "retain_v1_twenty",
+        "matching_exists": false
+      },
+      {
+        "balanced_per_stratum_parent": false,
+        "cohort": "retain_v1_twenty",
+        "matching_exists": true
+      }
+    ],
+    "balanced_per_stratum_parent": false,
+    "chosen_cohort": "retain_v1_twenty",
+    "same_v1_query_ids_retained": true
+  },
+  "reviewers_contacted": 0,
+  "support_partition": "train_pool",
+  "v1_design_reference_distribution": {
+    "counterexample": 1,
+    "neither": 11,
+    "reference_unavailable": 6,
+    "target": 2
+  },
+  "v1_human_annotations_collected": 0
+}

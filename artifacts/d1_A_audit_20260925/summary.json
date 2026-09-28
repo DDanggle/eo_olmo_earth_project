@@ -1,0 +1,764 @@
+{
+  "scope": "single-rater descriptive audit; not H consensus, L, R, or model evaluation",
+  "source_sha256": {
+    "labeling_pack/visible_contract_v05_20260922/annotator_pack/pack.json": "7b9d554bce873870dfbb41d0150ba28b0ee23867d72cd9bcd6df4f5b96513c1f",
+    "labeling_pack/visible_contract_v05_20260922/exports/sn7v05-198e4ff03e26f004_dongdong.json": "54b3474bf6f0843ed2c4814ee6d18cd2eb7a51d33cfd86308bcb3913f7a0483f",
+    "code/sn7_visible_contract_v05.py": "b9552a8c6f65413dc600682ab4a6069a8a8489fb6ccb8ebfc03e33776e7bbac6",
+    "code/sn7_visible_pack_v05.py": "8ea3d665952e689b29d30805362f986dde50e59fa3396028179f35854d8f27be"
+  },
+  "pack_id": "sn7v05-198e4ff03e26f004",
+  "split": "exposed_development",
+  "pack_and_image_hash_integrity": "pass",
+  "annotator_id": "dongdong",
+  "episodes": 12,
+  "aois": 6,
+  "frames": 172,
+  "timeouts": 0,
+  "duplicate_or_missing_episode_ids": 0,
+  "total_seconds": 1752,
+  "total_minutes": 29.2,
+  "median_seconds": 110.0,
+  "min_seconds": 46,
+  "max_seconds": 368,
+  "seconds_per_frame_aggregate": 10.186046511627907,
+  "inferred_start_utc": "2026-09-24T15:14:21.307000+00:00",
+  "last_save_utc": "2026-09-24T15:43:32.099000+00:00",
+  "inferred_wall_seconds": 1750.792,
+  "class_counts": {
+    "change_supported": 3,
+    "insufficient_evidence": 5,
+    "no_visible_change": 4
+  },
+  "frame_state_counts": {
+    "no_visible_change": 119,
+    "visible_change": 44,
+    "ambiguous": 6,
+    "unreadable": 3
+  },
+  "raw_current_state_counts": {
+    "visible_change": 3,
+    "no_visible_change": 6,
+    "unreadable": 2,
+    "ambiguous": 1
+  },
+  "derived_current_state_counts": {
+    "visible_change": 2,
+    "no_visible_change": 5,
+    "unreadable": 2,
+    "ambiguous": 3
+  },
+  "candidate_pair_counts_A_only": {
+    "content": 3,
+    "none": 3
+  },
+  "rows": [
+    {
+      "id": "region_001",
+      "aoi": "L15-0595E-1278N_2383_3079_13",
+      "quadrant": "NE",
+      "start": "2018-01",
+      "cutoff": "2019-09",
+      "frames": 21,
+      "seconds": 368,
+      "timestamp": "2026-09-24T15:20:29.307Z",
+      "frame_state_counts": {
+        "no_visible_change": 8,
+        "visible_change": 12,
+        "ambiguous": 1
+      },
+      "target": {
+        "episode_id": "region_001",
+        "annotator_id": "dongdong",
+        "answer": "change_supported",
+        "first_change_id": "F009",
+        "first_change_date": "2018-10",
+        "last_clear_no_change_id": "F008",
+        "last_clear_no_change_date": "2018-09",
+        "evidence_ids": [
+          "F000",
+          "F009"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "visible_change",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "visible_change"
+      },
+      "uncertain_frames": [
+        {
+          "id": "F007",
+          "date": "2018-08",
+          "state": "ambiguous"
+        }
+      ],
+      "visible_frame_ids": [
+        "F009",
+        "F010",
+        "F011",
+        "F012",
+        "F013",
+        "F014",
+        "F015",
+        "F016",
+        "F017",
+        "F018",
+        "F019",
+        "F020"
+      ],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": "2018-10"
+    },
+    {
+      "id": "region_002",
+      "aoi": "L15-0595E-1278N_2383_3079_13",
+      "quadrant": "SW",
+      "start": "2018-01",
+      "cutoff": "2019-09",
+      "frames": 21,
+      "seconds": 78,
+      "timestamp": "2026-09-24T15:32:03.560Z",
+      "frame_state_counts": {
+        "ambiguous": 1,
+        "no_visible_change": 20
+      },
+      "target": {
+        "episode_id": "region_002",
+        "annotator_id": "dongdong",
+        "answer": "insufficient_evidence",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": "F019",
+        "last_clear_no_change_date": "2019-08",
+        "evidence_ids": [
+          "F000",
+          "F020"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "ambiguous",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "ambiguous"
+      },
+      "uncertain_frames": [
+        {
+          "id": "F020",
+          "date": "2019-09",
+          "state": "ambiguous"
+        }
+      ],
+      "visible_frame_ids": [],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": null
+    },
+    {
+      "id": "region_003",
+      "aoi": "L15-1049E-1370N_4196_2710_13",
+      "quadrant": "NW",
+      "start": "2018-01",
+      "cutoff": "2019-01",
+      "frames": 13,
+      "seconds": 169,
+      "timestamp": "2026-09-24T15:23:18.110Z",
+      "frame_state_counts": {
+        "no_visible_change": 2,
+        "visible_change": 11
+      },
+      "target": {
+        "episode_id": "region_003",
+        "annotator_id": "dongdong",
+        "answer": "change_supported",
+        "first_change_id": "F001",
+        "first_change_date": "2018-02",
+        "last_clear_no_change_id": "F000",
+        "last_clear_no_change_date": "2018-01",
+        "evidence_ids": [
+          "F000",
+          "F001"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "no_visible_change",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "no_visible_change"
+      },
+      "uncertain_frames": [],
+      "visible_frame_ids": [
+        "F001",
+        "F002",
+        "F003",
+        "F004",
+        "F005",
+        "F006",
+        "F007",
+        "F008",
+        "F009",
+        "F010",
+        "F011"
+      ],
+      "nochange_after_visible_ids": [
+        "F012"
+      ],
+      "first_raw_visible_date": "2018-02"
+    },
+    {
+      "id": "region_004",
+      "aoi": "L15-1049E-1370N_4196_2710_13",
+      "quadrant": "SE",
+      "start": "2018-01",
+      "cutoff": "2019-01",
+      "frames": 13,
+      "seconds": 109,
+      "timestamp": "2026-09-24T15:33:52.481Z",
+      "frame_state_counts": {
+        "no_visible_change": 13
+      },
+      "target": {
+        "episode_id": "region_004",
+        "annotator_id": "dongdong",
+        "answer": "no_visible_change",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": "F012",
+        "last_clear_no_change_date": "2019-01",
+        "evidence_ids": [
+          "F000",
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008",
+          "F009",
+          "F010",
+          "F011",
+          "F012"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "no_visible_change",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "no_visible_change"
+      },
+      "uncertain_frames": [],
+      "visible_frame_ids": [],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": null
+    },
+    {
+      "id": "region_005",
+      "aoi": "L15-0924E-1108N_3699_3757_13",
+      "quadrant": "NW",
+      "start": "2018-01",
+      "cutoff": "2019-02",
+      "frames": 13,
+      "seconds": 111,
+      "timestamp": "2026-09-24T15:25:09.456Z",
+      "frame_state_counts": {
+        "no_visible_change": 10,
+        "ambiguous": 2,
+        "unreadable": 1
+      },
+      "target": {
+        "episode_id": "region_005",
+        "annotator_id": "dongdong",
+        "answer": "insufficient_evidence",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": "F011",
+        "last_clear_no_change_date": "2019-01",
+        "evidence_ids": [
+          "F000",
+          "F007",
+          "F008",
+          "F012"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "unreadable",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "unreadable"
+      },
+      "uncertain_frames": [
+        {
+          "id": "F007",
+          "date": "2018-09",
+          "state": "ambiguous"
+        },
+        {
+          "id": "F008",
+          "date": "2018-10",
+          "state": "ambiguous"
+        },
+        {
+          "id": "F012",
+          "date": "2019-02",
+          "state": "unreadable"
+        }
+      ],
+      "visible_frame_ids": [],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": null
+    },
+    {
+      "id": "region_006",
+      "aoi": "L15-0924E-1108N_3699_3757_13",
+      "quadrant": "SE",
+      "start": "2018-01",
+      "cutoff": "2019-02",
+      "frames": 13,
+      "seconds": 46,
+      "timestamp": "2026-09-24T15:34:38.294Z",
+      "frame_state_counts": {
+        "no_visible_change": 11,
+        "unreadable": 2
+      },
+      "target": {
+        "episode_id": "region_006",
+        "annotator_id": "dongdong",
+        "answer": "insufficient_evidence",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": "F011",
+        "last_clear_no_change_date": "2019-01",
+        "evidence_ids": [
+          "F000",
+          "F006",
+          "F012"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "unreadable",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "unreadable"
+      },
+      "uncertain_frames": [
+        {
+          "id": "F006",
+          "date": "2018-07",
+          "state": "unreadable"
+        },
+        {
+          "id": "F012",
+          "date": "2019-02",
+          "state": "unreadable"
+        }
+      ],
+      "visible_frame_ids": [],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": null
+    },
+    {
+      "id": "region_007",
+      "aoi": "L15-1203E-1203N_4815_3378_13",
+      "quadrant": "NE",
+      "start": "2017-07",
+      "cutoff": "2018-08",
+      "frames": 13,
+      "seconds": 54,
+      "timestamp": "2026-09-24T15:26:03.139Z",
+      "frame_state_counts": {
+        "ambiguous": 1,
+        "no_visible_change": 3,
+        "visible_change": 9
+      },
+      "target": {
+        "episode_id": "region_007",
+        "annotator_id": "dongdong",
+        "answer": "insufficient_evidence",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": null,
+        "last_clear_no_change_date": null,
+        "evidence_ids": [
+          "F000"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "ambiguous",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "ambiguous",
+        "raw_current_state": "visible_change"
+      },
+      "uncertain_frames": [
+        {
+          "id": "F000",
+          "date": "2017-07",
+          "state": "ambiguous"
+        }
+      ],
+      "visible_frame_ids": [
+        "F004",
+        "F005",
+        "F006",
+        "F007",
+        "F008",
+        "F009",
+        "F010",
+        "F011",
+        "F012"
+      ],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": "2017-11"
+    },
+    {
+      "id": "region_008",
+      "aoi": "L15-1203E-1203N_4815_3378_13",
+      "quadrant": "SW",
+      "start": "2017-07",
+      "cutoff": "2018-08",
+      "frames": 13,
+      "seconds": 49,
+      "timestamp": "2026-09-24T15:35:27.132Z",
+      "frame_state_counts": {
+        "no_visible_change": 9,
+        "ambiguous": 1,
+        "visible_change": 3
+      },
+      "target": {
+        "episode_id": "region_008",
+        "annotator_id": "dongdong",
+        "answer": "insufficient_evidence",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": null,
+        "last_clear_no_change_date": null,
+        "evidence_ids": [
+          "F000"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "ambiguous",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "ambiguous",
+        "raw_current_state": "no_visible_change"
+      },
+      "uncertain_frames": [
+        {
+          "id": "F000",
+          "date": "2017-07",
+          "state": "ambiguous"
+        }
+      ],
+      "visible_frame_ids": [
+        "F004",
+        "F005",
+        "F008"
+      ],
+      "nochange_after_visible_ids": [
+        "F006",
+        "F007",
+        "F009",
+        "F010",
+        "F011",
+        "F012"
+      ],
+      "first_raw_visible_date": "2017-11"
+    },
+    {
+      "id": "region_009",
+      "aoi": "L15-0544E-1228N_2176_3279_13",
+      "quadrant": "NE",
+      "start": "2018-01",
+      "cutoff": "2019-01",
+      "frames": 13,
+      "seconds": 79,
+      "timestamp": "2026-09-24T15:27:22.037Z",
+      "frame_state_counts": {
+        "no_visible_change": 13
+      },
+      "target": {
+        "episode_id": "region_009",
+        "annotator_id": "dongdong",
+        "answer": "no_visible_change",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": "F012",
+        "last_clear_no_change_date": "2019-01",
+        "evidence_ids": [
+          "F000",
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008",
+          "F009",
+          "F010",
+          "F011",
+          "F012"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "no_visible_change",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "no_visible_change"
+      },
+      "uncertain_frames": [],
+      "visible_frame_ids": [],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": null
+    },
+    {
+      "id": "region_010",
+      "aoi": "L15-0544E-1228N_2176_3279_13",
+      "quadrant": "SW",
+      "start": "2018-01",
+      "cutoff": "2019-01",
+      "frames": 13,
+      "seconds": 140,
+      "timestamp": "2026-09-24T15:37:46.815Z",
+      "frame_state_counts": {
+        "no_visible_change": 13
+      },
+      "target": {
+        "episode_id": "region_010",
+        "annotator_id": "dongdong",
+        "answer": "no_visible_change",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": "F012",
+        "last_clear_no_change_date": "2019-01",
+        "evidence_ids": [
+          "F000",
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008",
+          "F009",
+          "F010",
+          "F011",
+          "F012"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "no_visible_change",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "no_visible_change"
+      },
+      "uncertain_frames": [],
+      "visible_frame_ids": [],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": null
+    },
+    {
+      "id": "region_011",
+      "aoi": "L15-0387E-1276N_1549_3087_13",
+      "quadrant": "NW",
+      "start": "2018-01",
+      "cutoff": "2019-03",
+      "frames": 13,
+      "seconds": 204,
+      "timestamp": "2026-09-24T15:30:45.825Z",
+      "frame_state_counts": {
+        "visible_change": 9,
+        "no_visible_change": 4
+      },
+      "target": {
+        "episode_id": "region_011",
+        "annotator_id": "dongdong",
+        "answer": "change_supported",
+        "first_change_id": "F004",
+        "first_change_date": "2018-05",
+        "last_clear_no_change_id": "F003",
+        "last_clear_no_change_date": "2018-04",
+        "evidence_ids": [
+          "F000",
+          "F004"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "visible_change",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "visible_change"
+      },
+      "uncertain_frames": [],
+      "visible_frame_ids": [
+        "F004",
+        "F005",
+        "F006",
+        "F007",
+        "F008",
+        "F009",
+        "F010",
+        "F011",
+        "F012"
+      ],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": "2018-05"
+    },
+    {
+      "id": "region_012",
+      "aoi": "L15-0387E-1276N_1549_3087_13",
+      "quadrant": "SE",
+      "start": "2018-01",
+      "cutoff": "2019-03",
+      "frames": 13,
+      "seconds": 345,
+      "timestamp": "2026-09-24T15:43:32.099Z",
+      "frame_state_counts": {
+        "no_visible_change": 13
+      },
+      "target": {
+        "episode_id": "region_012",
+        "annotator_id": "dongdong",
+        "answer": "no_visible_change",
+        "first_change_id": null,
+        "first_change_date": null,
+        "last_clear_no_change_id": "F012",
+        "last_clear_no_change_date": "2019-03",
+        "evidence_ids": [
+          "F000",
+          "F001",
+          "F002",
+          "F003",
+          "F004",
+          "F005",
+          "F006",
+          "F007",
+          "F008",
+          "F009",
+          "F010",
+          "F011",
+          "F012"
+        ],
+        "evidence_ids_role": "supporting_observations_not_global_or_onset_proof",
+        "current_state": "no_visible_change",
+        "label_tier": "human_visible_single",
+        "source": "annotation",
+        "reference_state": "no_visible_change",
+        "raw_current_state": "no_visible_change"
+      },
+      "uncertain_frames": [],
+      "visible_frame_ids": [],
+      "nochange_after_visible_ids": [],
+      "first_raw_visible_date": null
+    }
+  ],
+  "pairs": [
+    {
+      "aoi": "L15-0595E-1278N_2383_3079_13",
+      "episodes": [
+        "region_001",
+        "region_002"
+      ],
+      "signatures": [
+        [
+          "change_supported",
+          "2018-10"
+        ],
+        [
+          "insufficient_evidence",
+          null
+        ]
+      ],
+      "candidate_type_A_only": "content"
+    },
+    {
+      "aoi": "L15-1049E-1370N_4196_2710_13",
+      "episodes": [
+        "region_003",
+        "region_004"
+      ],
+      "signatures": [
+        [
+          "change_supported",
+          "2018-02"
+        ],
+        [
+          "no_visible_change",
+          null
+        ]
+      ],
+      "candidate_type_A_only": "content"
+    },
+    {
+      "aoi": "L15-0924E-1108N_3699_3757_13",
+      "episodes": [
+        "region_005",
+        "region_006"
+      ],
+      "signatures": [
+        [
+          "insufficient_evidence",
+          null
+        ],
+        [
+          "insufficient_evidence",
+          null
+        ]
+      ],
+      "candidate_type_A_only": "none"
+    },
+    {
+      "aoi": "L15-1203E-1203N_4815_3378_13",
+      "episodes": [
+        "region_007",
+        "region_008"
+      ],
+      "signatures": [
+        [
+          "insufficient_evidence",
+          null
+        ],
+        [
+          "insufficient_evidence",
+          null
+        ]
+      ],
+      "candidate_type_A_only": "none"
+    },
+    {
+      "aoi": "L15-0544E-1228N_2176_3279_13",
+      "episodes": [
+        "region_009",
+        "region_010"
+      ],
+      "signatures": [
+        [
+          "no_visible_change",
+          null
+        ],
+        [
+          "no_visible_change",
+          null
+        ]
+      ],
+      "candidate_type_A_only": "none"
+    },
+    {
+      "aoi": "L15-0387E-1276N_1549_3087_13",
+      "episodes": [
+        "region_011",
+        "region_012"
+      ],
+      "signatures": [
+        [
+          "change_supported",
+          "2018-05"
+        ],
+        [
+          "no_visible_change",
+          null
+        ]
+      ],
+      "candidate_type_A_only": "content"
+    }
+  ]
+}

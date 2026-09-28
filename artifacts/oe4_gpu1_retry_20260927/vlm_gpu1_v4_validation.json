@@ -1,0 +1,30 @@
+{
+  "staged_snapshot": "/private/tmp/oe4_gpu1_retry_20260927/vlm_snapshot_v4",
+  "sha256": {
+    "vlm_interface_smoke.py": "b7917b3076f1688ac8f0557377b69be419699538069538b2c12d8140a014531e",
+    "real_h5_provider.py": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+    "run_vlm_bounded.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+    "manifest.json": "39dc3e5a8cc814f5c3a54915717cf00fcddb0394f8ad72154ca260ddbb817925"
+  },
+  "checks": {
+    "all_three_python_files_compiled_and_ast_parsed": true,
+    "worker_ast_unchanged_after_removing_only_precision_config_and_native_baseline": true,
+    "existing_EO_cache_and_gradient_block_byte_identical": true,
+    "cache_criteria_unchanged": {
+      "atol": 0.15,
+      "rtol": 0.01,
+      "top1_equality_required": true
+    },
+    "provider_bytes_unchanged": true,
+    "native_dependency_remains_gpu1_v3": true,
+    "runtime_manifest_verification": true,
+    "wait_and_worker_budgets_seconds": [
+      2700,
+      600,
+      1100
+    ]
+  },
+  "execution_precision": "float32, matmul precision highest, cuDNN TF32 disabled",
+  "claim_limit": "Separate FP32 diagnostic; success would not establish BF16 parity or prove the v3 failure was solely numerical",
+  "no_real_cuda_server_or_repo_changes": true
+}

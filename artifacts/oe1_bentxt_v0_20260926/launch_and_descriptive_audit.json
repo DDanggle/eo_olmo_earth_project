@@ -1,0 +1,216 @@
+{
+  "schema": "oe1-launch-and-descriptive-summary-v0",
+  "source_snapshot_hashes_valid": true,
+  "protected_four_files_identical": true,
+  "wall_seconds_including_preflight": 325.881231,
+  "trainer_seconds": 201.99606465548277,
+  "peak_training_allocated_gib": 19.62363862991333,
+  "paired_real": {
+    "frozen": {
+      "paired_counts": {
+        "joint_False_other_False": 53,
+        "joint_True_other_True": 157,
+        "joint_True_other_False": 28,
+        "joint_False_other_True": 18
+      },
+      "by_mgrs": {
+        "T35ULB": {
+          "n": 22,
+          "joint_correct": 14,
+          "other_correct": 13
+        },
+        "T34TEN": {
+          "n": 44,
+          "joint_correct": 24,
+          "other_correct": 20
+        },
+        "T33TWM": {
+          "n": 22,
+          "joint_correct": 14,
+          "other_correct": 13
+        },
+        "T34UDG": {
+          "n": 22,
+          "joint_correct": 22,
+          "other_correct": 22
+        },
+        "T35VPJ": {
+          "n": 22,
+          "joint_correct": 19,
+          "other_correct": 15
+        },
+        "T34WFS": {
+          "n": 22,
+          "joint_correct": 19,
+          "other_correct": 21
+        },
+        "T34UEG": {
+          "n": 22,
+          "joint_correct": 14,
+          "other_correct": 16
+        },
+        "T33UXP": {
+          "n": 20,
+          "joint_correct": 13,
+          "other_correct": 13
+        },
+        "T34VER": {
+          "n": 20,
+          "joint_correct": 17,
+          "other_correct": 18
+        },
+        "T34WFU": {
+          "n": 20,
+          "joint_correct": 19,
+          "other_correct": 17
+        },
+        "T34TEP": {
+          "n": 20,
+          "joint_correct": 10,
+          "other_correct": 7
+        }
+      }
+    },
+    "blind": {
+      "paired_counts": {
+        "joint_False_other_True": 33,
+        "joint_True_other_True": 138,
+        "joint_False_other_False": 38,
+        "joint_True_other_False": 47
+      },
+      "by_mgrs": {
+        "T35ULB": {
+          "n": 22,
+          "joint_correct": 14,
+          "other_correct": 13
+        },
+        "T34TEN": {
+          "n": 44,
+          "joint_correct": 24,
+          "other_correct": 25
+        },
+        "T33TWM": {
+          "n": 22,
+          "joint_correct": 14,
+          "other_correct": 15
+        },
+        "T34UDG": {
+          "n": 22,
+          "joint_correct": 22,
+          "other_correct": 19
+        },
+        "T35VPJ": {
+          "n": 22,
+          "joint_correct": 19,
+          "other_correct": 14
+        },
+        "T34WFS": {
+          "n": 22,
+          "joint_correct": 19,
+          "other_correct": 16
+        },
+        "T34UEG": {
+          "n": 22,
+          "joint_correct": 14,
+          "other_correct": 15
+        },
+        "T33UXP": {
+          "n": 20,
+          "joint_correct": 13,
+          "other_correct": 13
+        },
+        "T34VER": {
+          "n": 20,
+          "joint_correct": 17,
+          "other_correct": 15
+        },
+        "T34WFU": {
+          "n": 20,
+          "joint_correct": 19,
+          "other_correct": 15
+        },
+        "T34TEP": {
+          "n": 20,
+          "joint_correct": 10,
+          "other_correct": 11
+        }
+      }
+    }
+  },
+  "swap_descriptive": {
+    "frozen": {
+      "n": 68,
+      "changed_response": 16,
+      "both_source_and_donor_correct": 14
+    },
+    "joint": {
+      "n": 68,
+      "changed_response": 26,
+      "both_source_and_donor_correct": 23
+    },
+    "blind": {
+      "n": 68,
+      "changed_response": 0,
+      "both_source_and_donor_correct": 0
+    }
+  },
+  "real_input_tie_audit": {
+    "frozen": {
+      "yes_no_logit_ties": 8,
+      "primary_constrained_disagreements": 8,
+      "non_tied_disagreements": 0
+    },
+    "joint": {
+      "yes_no_logit_ties": 13,
+      "primary_constrained_disagreements": 13,
+      "non_tied_disagreements": 0
+    },
+    "blind": {
+      "yes_no_logit_ties": 13,
+      "primary_constrained_disagreements": 13,
+      "non_tied_disagreements": 0
+    }
+  },
+  "raw_token_counts": {
+    "frozen/real": {
+      "no": 155,
+      "yes": 101
+    },
+    "frozen/zero": {
+      "No": 234,
+      "Yes": 22
+    },
+    "frozen/observation_swap": {
+      "no": 42,
+      "yes": 26
+    },
+    "joint/real": {
+      "no": 137,
+      "yes": 119
+    },
+    "joint/zero": {
+      "no": 170,
+      "Yes": 10,
+      "No": 63,
+      "yes": 10,
+      "**": 3
+    },
+    "joint/observation_swap": {
+      "yes": 33,
+      "no": 35
+    },
+    "blind/real": {
+      "yes": 161,
+      "no": 95
+    },
+    "blind/zero": {
+      "yes": 161,
+      "no": 95
+    },
+    "blind/observation_swap": {
+      "no": 20,
+      "yes": 48
+    }
+  },
+  "interpretation": "Post-result descriptive counts; no new decision threshold or IID significance claim."
+}

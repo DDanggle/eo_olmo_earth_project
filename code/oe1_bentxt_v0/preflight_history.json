@@ -1,0 +1,17 @@
+{
+  "earlier_smoke_attempt": {
+    "status": "stopped_before_model_load",
+    "error": "No official train images available for smoke",
+    "source": "region_language_contract_20260921 archive prefix, all 8 patches outside official train",
+    "action": "preserved old sample; selected new official train/validation subset; no test image used for training"
+  },
+  "data_prepare_result": {
+    "train_patches": 512,
+    "train_questions": 1024,
+    "dev_patches": 128,
+    "dev_questions": 256,
+    "train_mgrs": 43,
+    "dev_mgrs": 11,
+    "minimum_center_distance_km": 7.624805488473521
+  }
+}

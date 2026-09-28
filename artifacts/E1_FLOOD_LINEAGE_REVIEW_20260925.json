@@ -1,0 +1,100 @@
+{
+  "schema": "e1-flood-to-e5-lineage-audit-v0",
+  "consistent": true,
+  "checked_at": "2026-09-25T08:21:18.126125+00:00",
+  "source": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e1_flood_source_20260925",
+  "source_sha256": {
+    "items.jsonl": "7c09a6b0336290f3eb765fde5d0483dcb9c5091d8ea4244a5840264966e5255b",
+    "summary.json": "ab3893e61082990bcc0fb8639c8282c770963050c10717b644de5c3bc93663ed",
+    "code": "a1f58d53a1c5be95118aca03c6b9de83278543e3095c86cd7f49414837e2e6e3"
+  },
+  "e5_item_sha256": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+  "n_e1_items": 4851,
+  "n_e5_flood_items": 4569,
+  "validation_items_not_in_e5": 282,
+  "by_split_kind": {
+    "test|hard_neg": 457,
+    "test|neg": 457,
+    "test|pos": 457,
+    "train|hard_neg": 1066,
+    "train|neg": 1066,
+    "train|pos": 1066,
+    "validation|hard_neg": 94,
+    "validation|neg": 94,
+    "validation|pos": 94
+  },
+  "events_by_split": {
+    "test": [
+      "1111002",
+      "1111007",
+      "1111013",
+      "205",
+      "277",
+      "321",
+      "411",
+      "445",
+      "561",
+      "562"
+    ],
+    "train": [
+      "1111004",
+      "1111005",
+      "1111006",
+      "1111009",
+      "1111010",
+      "1111011",
+      "118",
+      "130",
+      "147",
+      "174",
+      "267",
+      "273",
+      "275",
+      "324",
+      "417",
+      "421",
+      "427",
+      "470",
+      "492",
+      "496",
+      "497",
+      "498",
+      "502",
+      "518",
+      "554",
+      "555",
+      "567"
+    ],
+    "validation": [
+      "1111003",
+      "1111008",
+      "279",
+      "437",
+      "520",
+      "559"
+    ]
+  },
+  "fold_overlap": {
+    "train|validation": {
+      "events": [],
+      "tiles": []
+    },
+    "train|test": {
+      "events": [],
+      "tiles": []
+    },
+    "validation|test": {
+      "events": [],
+      "tiles": []
+    }
+  },
+  "all_original_fields_equal_in_e5": true,
+  "all_source_dates_are_12_day_approximations": true,
+  "code_sha256": "52a56eb3d034b0a8303cecf8424b44c0170c31b757dec7ec44dbb5f17bf9eb53",
+  "limits": [
+    "Read-only source lineage; no model execution, mask/embedding arrays, original 7000-tile selection or physical labels revalidated.",
+    "Source pre/pre negatives remain assumptions, not independently verified temporal absence.",
+    "E1 event-disjoint splits do not mean events were previously unexposed in this research project.",
+    "This is September25 flood-question E1, not August26 context/decoder E1 factorial."
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "oe10_terminal_audit_source_v1",
+  "created_utc": "2026-09-27T23:49:16.994093+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3165,
+      "sha256": "36b3494666dcac421ba3a107434d4a18a8dd7bd2c90f224428161acd50f72b6c"
+    },
+    {
+      "path": "audit_terminal.py",
+      "bytes": 16493,
+      "sha256": "c28b84129dbc81cd7cb5195c4c9e429c22265d3fc8ed706f3095514e729a179c"
+    },
+    {
+      "path": "identity_pins.json",
+      "bytes": 2576,
+      "sha256": "2a97e0ba421c15f4134e2fb94cf1f6b58c36d2f35a88e4996bdd23389555a152"
+    },
+    {
+      "path": "test_audit_terminal.py",
+      "bytes": 9834,
+      "sha256": "6d2db16b6e01a6b548950811ad848da56a445f11eb7b2596af03a992f1aebed8"
+    }
+  ],
+  "scope": "Read-only terminal P2 integrity audit; no GPU/process control/reservation, no scientific-gate promotion",
+  "independent_review": "second_pair_audit: seven CPU tests passed, no blocking findings"
+}

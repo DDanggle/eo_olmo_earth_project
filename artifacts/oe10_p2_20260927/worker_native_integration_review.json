@@ -1,0 +1,33 @@
+{
+  "status": "no_remaining_static_blocker_for_bounded_engineering_launch",
+  "reviewed_source_sha256": {
+    "p2_worker.py": "f82f65960190ab7e78c62ae898dff9eddd5ed169c087b277d90cac2fe250f584",
+    "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+    "run_bounded.py": "4416fc383894ee851b80c0bd857d046badf810c768d28ab9f3b9b3ba645a3b32",
+    "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670"
+  },
+  "worker_metadata_tests_passed": 3,
+  "native_contract_tests_passed": 5,
+  "fixed_findings": [
+    "Evaluation now calls model.eval before evaluation cache, restores valid training cache mode.",
+    "Native cost counters separate raw4, online8, explicit-target8 patch-date instances.",
+    "Native replay identity now recorded in worker receipt.",
+    "Final controller integrity failure now forces failed status; inspection exceptions recorded.",
+    "Training launch requires same-source cold resume and engineering integrity success."
+  ],
+  "confirmed": [
+    "Same train schedule and K balance for paired seeds.",
+    "All2,304 training episodes use train_pool only, dev common96x4 uses dev_query+source_bank.",
+    "Model encoder is shared with native replay and optimizer parameter IDs are deduplicated.",
+    "B0 freezes native model; B2 preserves official fixed target.",
+    "Full native/head/connector state, optimizer and RNG are restored across separate processes.",
+    "Encoder eval mode is common to both episode pathways while B2 gradients remain enabled.",
+    "Replay masks now vary by update seed and preserve caller RNG."
+  ],
+  "remaining_empirical_checks": [
+    "Cold-process numerical parity must be observed in actual runs.",
+    "K8 memory/latency must be measured on GPU; static review cannot certify fit.",
+    "Actual native64 H5 reread and full objective forward are performed by factory at runtime."
+  ],
+  "interpretation": "Development masks are produced by EO DenseHead with with_language=False. AUC is not VLM language-grounding or explanation evidence; CE-to-encoder gradient probe is a separate engineering check."
+}

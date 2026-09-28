@@ -1,0 +1,348 @@
+{
+  "schema_version": "0.1",
+  "id": "oe2_multimodel_supervision_and_representation_v0",
+  "date": "2026-09-26",
+  "status": "design_only_not_frozen_preregistration_or_executable_job",
+  "document": "../docs/OE2_MULTIMODEL_SUPERVISION_AND_REPRESENTATION_PLAN_20260926.md",
+  "execution_enabled": false,
+  "new_training_launched": false,
+  "new_remote_transfer": false,
+  "paid_api_calls_executed": 0,
+  "api_spend_krw": 0,
+  "hypothesis": "With the same observations and supervision, preserving spatial and numerical evidence through EO token compression improves an actual VLM; improvements should survive new readers and regions if they reside in the EO encoder.",
+  "novelty_status": "candidate_method_requires_formalization_and_nearest_method_comparison",
+  "multi_teacher_orchestration_is_method_novelty": false,
+  "budget_config": "eo_vlm_labeling_budget_v2_20260926.json",
+  "api_sources_config": "openrouter_annotation_sources_20260926.json",
+  "data_sources_config": "eo_vlm_expert_sources_v0_20260926.json",
+  "episode_unit": "site_x_actual_observation_time_or_interval_x_footprint",
+  "scale_targets_unique_episodes": [
+    10000,
+    100000,
+    1000000
+  ],
+  "scale_targets_are_acquired_counts": false,
+  "primary_domains": [
+    "spatial_cover_and_area",
+    "broad_disturbance_extent"
+  ],
+  "candidate_sources": [
+    "lucas_copernicus_2022",
+    "treesatai",
+    "cems_rapid_mapping",
+    "worldfloods_v2"
+  ],
+  "source_alignment_verified": false,
+  "student_inputs": [
+    "raw_eo_observations",
+    "actual_acquisition_metadata",
+    "observation_grid_and_quality_mask",
+    "fixed_rgb_panels",
+    "question_and_common_query_roi_if_provided"
+  ],
+  "forbidden_student_inputs": [
+    "answer_mask",
+    "teacher_answer",
+    "field_report_containing_target",
+    "method_only_ground_truth_roi"
+  ],
+  "teacher_policy": {
+    "status": "proposed_ratios_before_cost_and_quality_pilot",
+    "api": "synchronous_chat_completions",
+    "initial_payload": "fixed_rgb_and_false_color_panels_url_or_base64_not_raw_multiband_geotiff",
+    "A_fraction": 1.0,
+    "B_risk_fraction": 0.2,
+    "B_random_additional_fraction_of_total": 0.05,
+    "B_random_sampling_frame": "complement_of_B_risk_set",
+    "B_total_fraction_max": 0.25,
+    "C_total_fraction_max": 0.05,
+    "basic_call_upper_count_at_10000": 13000,
+    "basic_count_excludes": [
+      "retries",
+      "cost_calibration",
+      "teacher_policy_comparisons"
+    ],
+    "independent_passes_see_other_model_answers": false,
+    "adjudication_may_see_answers_but_is_not_independent_vote": true,
+    "unreviewed_consensus_is_gold": false,
+    "full_100k_api_generation_covered_by_budget": false,
+    "candidate_ids": [
+      "qwen/qwen3-vl-30b-a3b-instruct",
+      "google/gemini-3.1-flash-lite",
+      "openai/gpt-4.1-mini"
+    ],
+    "training_output_reuse_eligibility": "not_verified_for_any_candidate",
+    "require_verified_training_output_reuse": true,
+    "provider_policy": {
+      "pin_exact_endpoint": true,
+      "allow_fallbacks": false,
+      "require_parameters": true,
+      "enforce_distillable_text": true
+    },
+    "json_schema_and_local_validation": true,
+    "batch_in_initial_budget": false,
+    "audit_fields": [
+      "model_id",
+      "provider_endpoint",
+      "model_revision_if_available",
+      "quantization",
+      "prompt_hash",
+      "image_hashes",
+      "timestamp",
+      "generation_id",
+      "raw_response",
+      "schema_status",
+      "usage_cost"
+    ],
+    "stop_before_cap_including_inflight_reservations": true,
+    "automatic_credit_topup": false
+  },
+  "label_contract": {
+    "required_fields": [
+      "episode_id",
+      "split",
+      "site_id",
+      "event_id",
+      "assets_and_hashes",
+      "sensor_bands",
+      "acquisition_time",
+      "label_validity",
+      "footprint_crs",
+      "valid_observation_mask",
+      "source_type",
+      "source_id",
+      "claims",
+      "teacher_runs",
+      "human_reviews",
+      "label_status"
+    ],
+    "claim_fields": [
+      "kind",
+      "value",
+      "unit",
+      "denominator",
+      "region_ref",
+      "observation_refs",
+      "observability",
+      "provenance"
+    ],
+    "missing_or_unsupported_value": null,
+    "provenance_types": [
+      "image_supported",
+      "field_reported",
+      "map_derived",
+      "model_proposed"
+    ],
+    "statuses": [
+      "source_validated_only",
+      "ai_draft_unreviewed",
+      "human_corrected",
+      "independent_review_finalized",
+      "unresolved"
+    ],
+    "unresolved_is_unobservable": false,
+    "detailed_chain_of_thought_required": false
+  },
+  "teacher_comparison": {
+    "policies": [
+      "strong_single_teacher",
+      "same_family_repeated_review",
+      "diverse_family_review"
+    ],
+    "equalize": [
+      "images",
+      "reference_information",
+      "output_contract",
+      "actual_api_spend_prefixes"
+    ],
+    "metrics": [
+      "fact_error",
+      "spatial_error",
+      "numeric_error",
+      "unsupported_claims",
+      "coverage",
+      "joint_error",
+      "corrections_per_human_minute"
+    ],
+    "selection_replay": [
+      "random",
+      "uncertainty",
+      "disagreement_plus_deterministic_conflicts"
+    ],
+    "human_audit_pool": "budgeted_train_dev_pool_exploratory_not_independent_gold",
+    "population_accuracy_from_disagreement_only": false,
+    "test_used_for_policy_selection": false
+  },
+  "student_arms": [
+    {
+      "id": "A",
+      "connector": "strong_conventional_spatial_resampler",
+      "objective": "answer_plus_standard_auxiliary_readout",
+      "eo_encoder": "joint"
+    },
+    {
+      "id": "B",
+      "connector": "strong_conventional_spatial_resampler",
+      "objective": "answer_plus_proposed_preservation",
+      "eo_encoder": "joint"
+    },
+    {
+      "id": "C",
+      "connector": "proposed_spatial_connector",
+      "objective": "answer_plus_standard_auxiliary_readout",
+      "eo_encoder": "joint"
+    },
+    {
+      "id": "D",
+      "connector": "proposed_spatial_connector",
+      "objective": "answer_plus_proposed_preservation",
+      "eo_encoder": "joint"
+    }
+  ],
+  "main_comparison": "D_minus_A_paired_by_episode_clustered_by_site_or_event",
+  "fairness": {
+    "freeze_shared_corpus_and_label_revision": true,
+    "same_inputs_and_total_rgb_plus_eo_tokens": true,
+    "same_initial_checkpoints_and_supervision": true,
+    "baseline_receives_spatial_numeric_labels_as_actual_losses": true,
+    "same_warmup_and_learning_exposure": true,
+    "report_compute_and_parameters": true,
+    "same_steps_implies_same_compute": false,
+    "factorial_requires_cross_compatible_modules": true
+  },
+  "encoder_attribution": {
+    "matched_frozen_contrasts": [
+      "A_joint_minus_A_frozen",
+      "D_joint_minus_D_frozen"
+    ],
+    "transfer_encoders": [
+      "original_pretrained",
+      "A_trained",
+      "D_trained"
+    ],
+    "discard": [
+      "trained_connector",
+      "vlm_lora_and_other_adaptation_state"
+    ],
+    "new_reader_initialization": "same_pretrained_vlm_checkpoint_not_random_llm",
+    "fresh_readouts": [
+      "matched_spatial_numeric_probe",
+      "fresh_connector_same_vlm",
+      "second_pretrained_vlm_family"
+    ],
+    "new_region_and_target_combinations": true,
+    "test_labels_used_for_readout_training": false
+  },
+  "core_run_plan": [
+    {
+      "n_unique_episodes": 10000,
+      "arms": [
+        "A",
+        "D"
+      ],
+      "seed_count": 3,
+      "runs": 6,
+      "conditional": false
+    },
+    {
+      "n_unique_episodes": 100000,
+      "arms": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "seed_count": 3,
+      "runs": 12,
+      "conditional": false
+    },
+    {
+      "n_unique_episodes": 1000000,
+      "arms": [
+        "A",
+        "D"
+      ],
+      "seed_count": 3,
+      "runs": 6,
+      "conditional": true
+    }
+  ],
+  "extra_frozen_runs": {
+    "n_unique_episodes": 100000,
+    "arms": [
+      "A",
+      "D"
+    ],
+    "seed_count": 3,
+    "runs": 6
+  },
+  "initial_core_plus_frozen_run_count": 24,
+  "conditional_core_plus_frozen_run_count": 30,
+  "additional_unbudgeted_runs": [
+    "fresh_readouts",
+    "eo_measurement_to_same_llm",
+    "input_matched_rgb_eo_both_training",
+    "matched_exposure_10k_repeat_vs_100k_unique",
+    "human_label_budget_ablations",
+    "development"
+  ],
+  "human_label_budget_targets": [
+    0,
+    50,
+    200
+  ],
+  "zero_human_target_still_includes_public_human_labels": true,
+  "evaluation": {
+    "large_external_holdout": true,
+    "independent_dual_human_test_target": 120,
+    "human_targets_are_guaranteed": false,
+    "target_task_families_minimum": 2,
+    "blind_to": [
+      "teacher_answers",
+      "model_identity",
+      "other_reviewer_answer"
+    ],
+    "primary_metric_candidate": "episode_joint_correctness_on_predefined_task_eligible_items",
+    "components": [
+      "state",
+      "requested_measurement",
+      "evidence_region"
+    ],
+    "secondary": [
+      "mask_iou",
+      "area_error",
+      "signed_bias",
+      "unsupported_claim_rate",
+      "observability_accuracy",
+      "answer_coverage",
+      "eo_probe_performance"
+    ],
+    "cluster_unit": "site_or_event_not_question",
+    "unresolved_reporting": [
+      "original_reviews",
+      "reason",
+      "count_and_distribution",
+      "label_resolution_rate",
+      "sensitivity_bounds"
+    ],
+    "llm_judge_is_primary": false,
+    "small_test_guarantees_3pp_power": false
+  },
+  "freeze_before_confirmatory_execution": {
+    "eo_checkpoint_revision": null,
+    "primary_vlm_revision": null,
+    "secondary_vlm_revision": null,
+    "loss_definition_and_weights": null,
+    "baseline_head_and_proposed_modules": null,
+    "trainable_layers": null,
+    "dataset_and_label_manifest_hashes": null,
+    "split_manifest_and_geo_buffer": null,
+    "task_denominators_and_metric_definition": null,
+    "spatial_and_numeric_tolerances": null,
+    "minimum_meaningful_effect": null,
+    "eo_noninferiority_margin": null,
+    "seed_values": null,
+    "compute_budget_and_tuning_policy": null,
+    "multiple_comparison_policy": null
+  }
+}

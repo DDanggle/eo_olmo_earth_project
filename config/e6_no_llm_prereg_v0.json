@@ -1,0 +1,176 @@
+{
+  "schema": "e6-no-llm-prereg-v0",
+  "id": "E6-HEAD-v0",
+  "specified_at": "2026-09-25T07:24:47.170391+00:00",
+  "scope": "Sequential exposed-development diagnostic. E5 final scores have not been read; model full/native was selected in the pre-E5-result design, never by best arm.",
+  "question": "On this fixed binary source-label task, how does the frozen-LLM system compare with one small nonlinear spatial head using the same EO tokens, source question information, and example exposure budget?",
+  "root": "/home/work/data/olmoearth",
+  "output_directory": "e6_no_llm_v0",
+  "reference": {
+    "directory": "/home/work/data/olmoearth/e5_equal_budget_v0",
+    "prepared_manifest_sha256": "e22fb584c95f2bac1916fd8d3c49234e993a156f80d38ac481140e12c3e7819f",
+    "prereg_sha256": "fc7866feebbf1e9fcd4e93de5154bf9ffa141f434e70dc4731390cf18dfd4696",
+    "independent_audit": "/home/work/data/olmoearth/e5_independent_audit_20260925.json",
+    "model_arm": "full",
+    "eval_arm": "native",
+    "gate": "Reference status completed, score valid, independent CPU tensor audit consistent=true, exact audited file hashes unchanged. No E6 training before this gate.",
+    "files_sha256": {
+      "items.jsonl": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+      "pairs.npy": "24ea523ac4342eac70fbecc5a67eacd07e3a171141343bbd6dee335a181bfd0c",
+      "ordered_ids.json": "d92bc1591bcaa64c9f721eb106bf762f49ee6a578f83633bf5b8af536b9ffb5c",
+      "batches.json": "38e411014eb25dd067d5740df15f00826cb2dd95acedea0dd386b76251b89fbe",
+      "eval_sets.json": "46da34eae3674932fe8cdf696dc47f43c4e08e61ecadefe9d17e553901ee94f4"
+    }
+  },
+  "source_files": [
+    "e6_prepare_v0.py",
+    "e6_head_model_v0.py",
+    "e6_train_v0.py",
+    "e6_scoring_v0.py",
+    "run_e6_when_idle_v0.py"
+  ],
+  "population": {
+    "n_items": 5989,
+    "n_train": 4234,
+    "n_test": 1755,
+    "n_primary": 902,
+    "primary_events": 8,
+    "primary_pos": 445,
+    "primary_hard_neg": 457,
+    "membership": "Exactly E5 prepared item bytes, order, pairs, batches and evaluation supports. No new selection, repooling, exclusion, relabeling or date correction."
+  },
+  "inputs": {
+    "pair_shape": [
+      2,
+      64,
+      768
+    ],
+    "dtype": "float32",
+    "transform": "[A,B,B-A]",
+    "token_count": 192,
+    "types": [
+      0,
+      1,
+      3
+    ],
+    "metadata": "One-hot phenomenon (flood,landslide) plus each ordered ISO date encoded as (year-2000)/100,(month-1)/11,(day-1)/30. Same source question information, different encoding from natural language.",
+    "excluded": "IDs,tile,coordinates,event,cluster,kind,slots,quality,label,cache path,C1 membership are never model inputs; answer only in training BCE target.",
+    "dates": "Retain E5 imputed dates and EO cache bytes despite T0 discovery; source-date repair would require a separate experiment, including encoder timestamps."
+  },
+  "architecture": {
+    "name": "SpatialPairHead",
+    "trainable_parameters": 367361,
+    "width": 128,
+    "heads": 4,
+    "blocks": 2,
+    "ffn": 256,
+    "dropout": 0.0,
+    "token_projection": "LN768 eps1e-5 -> Linear768,128 bias -> GELU exact -> LN128 eps1e-5",
+    "positions": "Fixed row-major8x8 sin/cos; each axis64 entries interleaved sin,cos with coordinate/10000^(k/32),k0..31; repeated identically A/B/D; Python float64 sin/cos once rounded float32.",
+    "types": "Embedding4x128 N(0,.02), indices0,1,3, additive scale1.",
+    "cls": "Learned zero-initialized128-vector plus Linear8,128(metadata); one CLS +192 EO tokens.",
+    "attention": "Two independently constructed pre-LN blocks, explicit QKV matmul/softmax noncausal, four32dim heads, residual attention and FFN with exactGELU, allbias=True,eps1e-5.",
+    "output": "CLS final LN128 -> Linear128,1; sigmoid probability; yes iff logit>=0.",
+    "initialization": "CPU scoped torch seed1/2/3, default Linear/LN initialization in exact source declaration order, typeN(.02),CLSzero. Create/save all3 initial states before any real training and reload each exact state. Matching seed does not match a different architecture initial representation."
+  },
+  "training": {
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "epochs": 3,
+    "batch_size": 8,
+    "expected_updates_per_model": 1590,
+    "expected_exposures_per_model": 12702,
+    "optimizer": "AdamW",
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "optimizer_foreach": false,
+    "optimizer_fused": false,
+    "loss": "BCEWithLogitsLoss batch mean, yes=1/no=0; no class weighting",
+    "precision": "float32 throughout, no autocast, TF32 off, deterministic algorithms enabled; CUDA CUBLAS_WORKSPACE_CONFIG=:4096:8; cuDNNbenchmark=False.",
+    "order": "Reuse exact E5 stored batches for each seed; verify sequential3 default_rng(seed).permutation(4234), batches8 final2. No other updates.",
+    "selection": "Final epoch only. No LR/architecture/seed/threshold sweep, early stopping, augmentation, warmup, class rebalance, retry or resume.",
+    "log": "Every optimizer step batch IDs, epoch/index, loss, finite checks, update/exposure counters; init/final CPU canonical tensor and file hashes; runtime and peak memory."
+  },
+  "evaluation": {
+    "n_rows": 5265,
+    "batch_size": 8,
+    "threshold_logit": 0.0,
+    "protocol": "All1755test once under final head for each3seed; no parameter updates during inference; preserve full precision logits/probability and source metadata.",
+    "row_contract": [
+      "seed",
+      "model_arm",
+      "eval_arm",
+      "id",
+      "tile",
+      "cluster",
+      "phen",
+      "kind",
+      "pair_index",
+      "source_gold",
+      "transformed_gold",
+      "logit",
+      "probability",
+      "prediction"
+    ],
+    "model_arm": "full_head",
+    "eval_arm": "native",
+    "transformed_gold": null,
+    "probability_sigmoid_absolute_tolerance": 1e-06
+  },
+  "primary_analysis": {
+    "contrast": "E5 full/native source BA minus E6 full_head/native source BA, separately for each seed.",
+    "population": "Frozen C1 902supported quality-symmetric items; same(event,dates,slots) positive/hard-negative strata, 8events.",
+    "aggregation": "Recall/specificity balanced within stratum, equal strata within event, equal events. E5 unparsed responses remain incorrect.",
+    "bootstrap": {
+      "draws": 5000,
+      "seed": 20260925,
+      "unit": "whole paired event",
+      "interval": "percentile95 NumPy linear quantile"
+    },
+    "report": "Continuous BA, signed delta, paired event95CI and all8event values for all3seeds. No new success cutoff, no seed-averaged primary interval, no best arm selection.",
+    "interpretation": "Interval location is descriptive uncertainty on exposed development events. It is not an automatic CVPR claim, equivalence test, or proof of LLM necessity."
+  },
+  "secondary_descriptive": {
+    "paired_flood": "914 pos/pre-pre negative items,10events, same event BA",
+    "hard_negative": "457items,8events; pooled/eventFPR and counts",
+    "landslide": "384items,2regions; individual region and macro BA; no bootstrap generalization claim"
+  },
+  "validity": {
+    "coverage": "Exactly3completedmodels1590updates12702exposures each;5265unique expected headrows and5265referencefull/native rows; exact original membership/gold.",
+    "finite": "Inputs,A/B/D,metadata,model/init/final tensors,loss,all trainable gradients,logits/probability finite; sigmoid(logit) consistency and prediction threshold.",
+    "provenance": "E5 audit before prepare; input/source/plan/init snapshots before training, actual frozen snapshot executes; hash rechecks after run.",
+    "failure": "Stop and retain partial files as execution-invalid; no silent rerun,resume,seed replacement,exclusions or budget changes."
+  },
+  "compute": {
+    "gpu_index": 0,
+    "max_runtime_minutes": 60,
+    "max_model_minutes": 20,
+    "queue_wait_hours": 6,
+    "lock_names": [
+      ".eo_e3_pair_dependence.lock",
+      ".eo_reader_gpu0.lock",
+      ".eo_reader_gpu1.lock",
+      ".eo_e5_equal_budget.lock",
+      ".eo_e6_no_llm.lock"
+    ],
+    "launch": "Only idle authorized GPU0, same cooperative inherited lock/UUID/manifest checks; no foreign interruption; E5 must finish and independently validate first.",
+    "timing": "Record this run walltime/train/eval/peak memory only. No direct latency ratio against historical E5 timings without matched resident-model timing protocol."
+  },
+  "limitations": [
+    "Same source inputs and example exposure do not equalize FLOPs, model size, linguistic pretraining, optimization difficulty or losses.",
+    "This is a two-system comparison; replacing the LLM also changes architecture, metadata representation, objective and output parsing.",
+    "The EO features already contain date metadata; this is not visual-only even without the explicit date vector.",
+    "Source flood labels/post masks and pre/pre absence assumptions do not establish physically verified change onset; T0 does not repair these labels.",
+    "Only8exposed development events; sensors confounded with phenomena; landslide region imbalance remains.",
+    "Head parity would challenge the need for an LLM for this fixed binary task, not for open-ended grounded EO questions. Head underperformance alone would not prove LLM necessity.",
+    "No memory-system, causal impact, current damage, fresh generalization or paper acceptance claim from this experiment alone."
+  ]
+}

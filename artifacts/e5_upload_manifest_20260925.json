@@ -1,0 +1,84 @@
+{
+  "schema": "e5-local-preupload-freeze-v0",
+  "at": "2026-09-25T06:05:19.558925+00:00",
+  "files": {
+    "chain.sh": {
+      "sha256": "8f596dd9e3894ffdc5a0afe1027e29bc2018bb164da806dfac885e8d95ef7a15",
+      "bytes": 541
+    },
+    "e5_equal_budget_prereg_v0.json": {
+      "sha256": "fc7866feebbf1e9fcd4e93de5154bf9ffa141f434e70dc4731390cf18dfd4696",
+      "bytes": 11664
+    },
+    "e5_prepare_v0.py": {
+      "sha256": "508f444a512fcbd3f6937dd51b8ae2755c1f4deb334bdaed118c98e78840fd61",
+      "bytes": 21909
+    },
+    "e5_scoring_v0.py": {
+      "sha256": "2eb0be5e7fb8ac5d6534716a25c9a07c8f046b56ea8a55c7f2912b51b7e6af7d",
+      "bytes": 16259
+    },
+    "e5_train_v0.py": {
+      "sha256": "3f33873711e6b94a8bb54d50ee4dbd5b5492da22c41d848ef4f664c0894b398b",
+      "bytes": 37473
+    },
+    "frozen_inputs/c0_manifest.json": {
+      "sha256": "5055bd2d73f1e9f162a43899a2d0f5c46cccef53137cb3a5ae31e7a2675bcb92",
+      "bytes": 1113908
+    },
+    "frozen_inputs/c1_quality.jsonl": {
+      "sha256": "8f654dfbaabc41e3b27de9a04dfe0768c1f0a748439c70acb61ddae08a17a78f",
+      "bytes": 3926705
+    },
+    "frozen_inputs/c1_quality_manifest.json": {
+      "sha256": "9e020bcd1144f0dd6d0ac7168177603f7fe04703ac6bbfebe110994b2679728b",
+      "bytes": 211030
+    },
+    "frozen_inputs/c1_results.json": {
+      "sha256": "327aab5825f95dd6689bb9a4baecf4dcf5f1e9de062f245e171d434e7a8cf13c",
+      "bytes": 576454
+    },
+    "frozen_inputs/c1_selected_ids.json": {
+      "sha256": "6596512102995f584f965d8ff0f9f734f0017bd7525641db1cff690e78e3dee2",
+      "bytes": 42861
+    },
+    "frozen_inputs/e3_items.jsonl": {
+      "sha256": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+      "bytes": 110684
+    },
+    "frozen_inputs/e4_manifest.json": {
+      "sha256": "4597bc1589ed7a23ffd7befa58d38aa9da859320cefcb728c26290015f0c71aa",
+      "bytes": 3976
+    },
+    "frozen_inputs/items.jsonl": {
+      "sha256": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+      "bytes": 2621233
+    },
+    "run_e5_when_idle_v0.py": {
+      "sha256": "4701462c818117683eb3587e83d91eea4629fcfc381d50b9341f5b12cf386eb6",
+      "bytes": 4345
+    },
+    "test_e5_launcher_v0.py": {
+      "sha256": "edf6ba5ad8ebc614dde77c83453549caadb3b38cd2aadf776f8e76fc377e3c44",
+      "bytes": 4606
+    },
+    "test_e5_scoring_v0.py": {
+      "sha256": "8a8b603050dee03af4afa9c3689104cf34fc53f970508da67e2ff265470fb084",
+      "bytes": 12407
+    },
+    "test_e5_train_v0.py": {
+      "sha256": "490c1ace3d0c83f92bb24bec0c28618c090dcc6bc24f394524f220f9ded9d3dd",
+      "bytes": 12700
+    },
+    "tests/test_e5_prepare_v0.py": {
+      "sha256": "8a7247dbcfed91894d04092bb68bf64aa002edc97c561a20364d4d027ff26e31",
+      "bytes": 11642
+    }
+  },
+  "bytes": 8740397,
+  "n_files": 18,
+  "scope": "Generated experiment code/tests/plan plus pinned derived metadata only; no raw imagery, model weights or credentials.",
+  "server_session_id": "24d4b668-d092-4c0c-a65b-b7d0e8cf5d1d",
+  "server_volume": "sp1:ainexus_data",
+  "destination": "/home/work/data/olmoearth/code/e5_bundle_v0"
+}

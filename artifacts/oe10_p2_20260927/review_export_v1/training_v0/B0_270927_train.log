@@ -1,0 +1,22 @@
+{"status": "initializing", "step": 0, "seconds": 0.002071477472782135}
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights:   0%|          | 1/750 [00:00<04:12,  2.97it/s]Loading weights:  12%|█▏        | 91/750 [00:00<00:02, 269.89it/s]Loading weights:  19%|█▉        | 145/750 [00:00<00:02, 282.77it/s]Loading weights:  25%|██▌       | 188/750 [00:00<00:01, 286.37it/s]Loading weights:  30%|███       | 226/750 [00:00<00:01, 279.51it/s]Loading weights:  35%|███▍      | 260/750 [00:01<00:01, 287.22it/s]Loading weights:  39%|███▉      | 293/750 [00:01<00:01, 290.80it/s]Loading weights:  43%|████▎     | 325/750 [00:01<00:01, 291.10it/s]Loading weights:  47%|████▋     | 356/750 [00:01<00:01, 289.07it/s]Loading weights:  52%|█████▏    | 389/750 [00:01<00:01, 293.17it/s]Loading weights:  97%|█████████▋| 725/750 [00:01<00:00, 1111.14it/s]Loading weights: 100%|██████████| 750/750 [00:01<00:00, 474.51it/s] 
+{"status": "ready", "step": 0, "seconds": 42.33675243705511}
+/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/p2_worker.py:169: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  pred=output['logits'].detach().float().cpu();ml=float(output['mask_loss']);ce=float(output['language_loss'])
+{"status": "training", "step": 24, "seconds": 68.38054743781686}
+{"status": "training", "step": 48, "seconds": 88.07892137393355}
+{"status": "training", "step": 72, "seconds": 107.51358047872782}
+{"status": "training", "step": 96, "seconds": 126.92763059958816}
+{"status": "training", "step": 120, "seconds": 146.49089016765356}
+{"status": "training", "step": 144, "seconds": 165.985266931355}
+{"status": "training", "step": 168, "seconds": 185.16012699157}
+{"status": "training", "step": 192, "seconds": 204.26164093613625}
+{"status": "training", "step": 216, "seconds": 223.68203664571047}
+{"status": "training", "step": 240, "seconds": 242.87733962014318}
+{"status": "training", "step": 264, "seconds": 262.81345153972507}
+{"status": "training", "step": 288, "seconds": 282.52811009064317}
+{"status": "training", "step": 312, "seconds": 302.24972565844655}
+{"status": "training", "step": 336, "seconds": 321.5787988267839}
+{"status": "training", "step": 360, "seconds": 340.8289158567786}
+{"status": "training", "step": 384, "seconds": 360.1212898567319}

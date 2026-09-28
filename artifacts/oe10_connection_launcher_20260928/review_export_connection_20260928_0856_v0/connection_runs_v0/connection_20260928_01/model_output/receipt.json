@@ -1,0 +1,120 @@
+{
+  "status": "actual_connection_check_passed",
+  "pid": 1461250,
+  "new_training_updates": 0,
+  "development_scoring": false,
+  "source_identity_gate": {
+    "root": "/home/work/data/olmoearth/oe10_text_mask_identity_v2/code_snapshot/oe10_text_mask_v2",
+    "manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+    "payload_files_verified": 16,
+    "payload_bytes_verified": 119204,
+    "required_files_verified": [
+      "base_manifest.json",
+      "base_snapshot/episode_loader.py",
+      "base_snapshot/episode_model.py",
+      "base_snapshot/native_replay.py",
+      "check_connection.py",
+      "contracts.py",
+      "input_identity.py",
+      "text_mask_model.py",
+      "v0_source_manifest.json"
+    ],
+    "symlinks_allowed": false,
+    "semantic_data_read": false
+  },
+  "episode_identity_gate": {
+    "root": "/home/work/data/olmoearth/oe10_expansion_catalog_v0/runtime_v2",
+    "manifest_sha256": "14a59caee4dc716ebdc34b74092f19a5f5ca9dcc8b6178b63c5a6cf52eeeb0f8",
+    "payload_files_verified": 232,
+    "payload_bytes_verified": 2825084,
+    "required_files_verified": [
+      "episode_contract.json",
+      "episodes_train.jsonl",
+      "scoring/scoring_train.jsonl"
+    ],
+    "symlinks_allowed": false,
+    "semantic_data_read": false
+  },
+  "identity_manifest_sha256": "1254678033e298052e2f418e172a83d59a932c8a78aa9fded79e28ebdbfa6263",
+  "gradient_nonzero_tensors": {
+    "encoder": 212,
+    "head": 10,
+    "qwen": 0,
+    "unused_connector": 0
+  },
+  "mask_loss_and_all_present_gradients_finite": true,
+  "text_condition_logit_max_difference_vs_names": {
+    "generic": 0.013506785035133362,
+    "matched_knowledge": 0.014231979846954346,
+    "names_only": 0.0,
+    "removed_knowledge_diagnostic": 0.0,
+    "swapped_knowledge_diagnostic": 0.020864538848400116
+  },
+  "text_token_audit": {
+    "generic": {
+      "tokens": 58,
+      "cache_hit": false,
+      "context_sha256": "ec47e771990f27b02cbb42b837d9e9f3f22ff79edb9774cdb873cf538d4b2a9b"
+    },
+    "matched_knowledge": {
+      "tokens": 267,
+      "cache_hit": false,
+      "context_sha256": "3b73d4d41ac89c3c0ca368f9cac354347e69e27abfa32e3479bc929a80dc5045"
+    },
+    "names_only": {
+      "tokens": 44,
+      "cache_hit": false,
+      "context_sha256": "6d4fecafa20117d773fe5a073ec6b9e43bf2647b9404915bdaa1098fa17f5223"
+    },
+    "removed_knowledge_diagnostic": {
+      "tokens": 44,
+      "cache_hit": false,
+      "context_sha256": "6d4fecafa20117d773fe5a073ec6b9e43bf2647b9404915bdaa1098fa17f5223"
+    },
+    "swapped_knowledge_diagnostic": {
+      "tokens": 267,
+      "cache_hit": false,
+      "context_sha256": "e4a75e5908073a8ded11b192ac5f2847a803905905ed8b46c1b9ba5d80d38b0e"
+    }
+  },
+  "same_process_restore_max_difference": 0.0,
+  "cold_resume_tested": false,
+  "reader_identity": {
+    "files": {
+      "chat_template.json": "5c72a170d2a4a1a3bc5adad2e689ae28138a9700e5b8c96c0266331e86c0acce",
+      "config.json": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+      "generation_config.json": "8469742d1fce0de951c8909b26a2c0c0d8490837ce476efb114da9e0cefc4d44",
+      "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "model.safetensors.index.json": "520b2e05079402e9468a8701d03d1154d14b2599593afb6effa7fb60c1bff070",
+      "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "tokenizer.json": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+      "tokenizer_config.json": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+      "video_preprocessor_config.json": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "model-00001-of-00004.safetensors": "d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa",
+      "model-00002-of-00004.safetensors": "8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5",
+      "model-00003-of-00004.safetensors": "83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192",
+      "model-00004-of-00004.safetensors": "0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5",
+      ".cache/huggingface/trees/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b.json": "0b69c6246b0cb01b5e2b26f2efa02fcfb5203a32f321c494fd2217ce6e2c8921"
+    }
+  },
+  "eo_identity": {
+    "files": {
+      "config.json": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+      "weights.pth": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+    },
+    "source": {
+      "olmoearth_pretrain/model_loader.py": "2ff982cda47fa53e8bb3a9f4ff3879816e4297770ed6e6c6cf49f5e323562ba7",
+      "olmoearth_pretrain/train/masking.py": "4a29589d46fd0920912dfef8e46c8cf2c614545417841325c567ca55a5e27dba",
+      "olmoearth_pretrain/train/loss.py": "7f378e156eeb65434fddaf3c63300bb0c426b4532d6b987d753365ab762997b5",
+      "scripts/official/v1_2/base.py": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee",
+      "olmoearth_pretrain/data/normalize.py": "1987cb6f475495a6454f80db6eea045ee982948bae4cffee8045c713747b9b26",
+      "olmoearth_pretrain/data/constants.py": "2015b2d17dc1f2f48a2b5bbc380b88fe4cf552dd4db173b25729ab65ad8670f0"
+    },
+    "prepared_manifest_sha256": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3",
+    "prepared_normalization": "immutable precomputed arrays; hashes checked by EpisodeLoader"
+  },
+  "actual_human_responses": 0,
+  "claim": "Wiring only; no semantic grounding, improvement, generalization or generation claim",
+  "elapsed_seconds": 39.26055799797177
+}

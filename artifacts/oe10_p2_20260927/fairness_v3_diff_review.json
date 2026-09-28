@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "scope": "exact source diff and CPU allowlist validation, no run/GPU verification",
+  "reviewed_workers": {
+    "v1": "a05a68f8c706c551d01ef009b1912692d6f1f77b02d69cf8189ef4810e40da27",
+    "v2": "a5dc2d2806cd87cb4719de57cad53b149f3677544d634f18219a17751ff6f01d",
+    "v3": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a"
+  },
+  "only_v2_to_v3_worker_change": "shared AdamW eps=1e-6 explicit in both arms",
+  "source_changed_outside_optimizer_line": false,
+  "unreviewed_worker_rejected_even_if_manifest_matches": true,
+  "seven_fairness_claim_scopes_unchanged": true,
+  "paired_runs_must_share_exact_worker_revision": true,
+  "cold_resume_threshold_not_changed_or_validated_by_this_audit": true,
+  "auditor_sha256": "cc388d1d1b49aef89e68a4b65df52a56103af21634be6c7da78b200f01e70c2a"
+}

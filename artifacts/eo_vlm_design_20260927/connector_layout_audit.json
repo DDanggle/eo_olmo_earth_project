@@ -1,0 +1,821 @@
+{
+  "status": "completed_operator_analysis_not_model_performance",
+  "receipt_sha256": "69f77f5fe63e17509d4389aa16d14f19a8c832f0a5605089171ac94181bc663d",
+  "provider_sha256": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+  "worker_sha256": "b7917b3076f1688ac8f0557377b69be419699538069538b2c12d8140a014531e",
+  "audit_script_sha256": "3f4c8db1666216428da7f74d312c1bf93418033c752830ac8f9ec88c4572f516",
+  "native_grid_h_w_t_bandset_channels": [
+    8,
+    8,
+    2,
+    1,
+    768
+  ],
+  "output_slots": 16,
+  "per_executed_bin": {
+    "input_tokens": 8,
+    "spatial_patches": 4,
+    "distinct_dates": 2
+  },
+  "pool_operator_rank_per_feature_channel": 16,
+  "pool_operator_nullity_per_feature_channel": 112,
+  "rank_interpretation": "Disjoint nonempty averaging rows: rank16 for arbitrary fixed encoder features. Not an 87.5-percent semantic-information-loss claim.",
+  "executed_bins": [
+    {
+      "slot": 0,
+      "coordinates_y_x_t": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 1,
+      "coordinates_y_x_t": [
+        [
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          4,
+          1
+        ],
+        [
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          5,
+          1
+        ],
+        [
+          0,
+          6,
+          0
+        ],
+        [
+          0,
+          6,
+          1
+        ],
+        [
+          0,
+          7,
+          0
+        ],
+        [
+          0,
+          7,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 2,
+      "coordinates_y_x_t": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          1,
+          2,
+          1
+        ],
+        [
+          1,
+          3,
+          0
+        ],
+        [
+          1,
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 3,
+      "coordinates_y_x_t": [
+        [
+          1,
+          4,
+          0
+        ],
+        [
+          1,
+          4,
+          1
+        ],
+        [
+          1,
+          5,
+          0
+        ],
+        [
+          1,
+          5,
+          1
+        ],
+        [
+          1,
+          6,
+          0
+        ],
+        [
+          1,
+          6,
+          1
+        ],
+        [
+          1,
+          7,
+          0
+        ],
+        [
+          1,
+          7,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 4,
+      "coordinates_y_x_t": [
+        [
+          2,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          1
+        ],
+        [
+          2,
+          1,
+          0
+        ],
+        [
+          2,
+          1,
+          1
+        ],
+        [
+          2,
+          2,
+          0
+        ],
+        [
+          2,
+          2,
+          1
+        ],
+        [
+          2,
+          3,
+          0
+        ],
+        [
+          2,
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 5,
+      "coordinates_y_x_t": [
+        [
+          2,
+          4,
+          0
+        ],
+        [
+          2,
+          4,
+          1
+        ],
+        [
+          2,
+          5,
+          0
+        ],
+        [
+          2,
+          5,
+          1
+        ],
+        [
+          2,
+          6,
+          0
+        ],
+        [
+          2,
+          6,
+          1
+        ],
+        [
+          2,
+          7,
+          0
+        ],
+        [
+          2,
+          7,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 6,
+      "coordinates_y_x_t": [
+        [
+          3,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          1
+        ],
+        [
+          3,
+          1,
+          0
+        ],
+        [
+          3,
+          1,
+          1
+        ],
+        [
+          3,
+          2,
+          0
+        ],
+        [
+          3,
+          2,
+          1
+        ],
+        [
+          3,
+          3,
+          0
+        ],
+        [
+          3,
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 7,
+      "coordinates_y_x_t": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          3,
+          4,
+          1
+        ],
+        [
+          3,
+          5,
+          0
+        ],
+        [
+          3,
+          5,
+          1
+        ],
+        [
+          3,
+          6,
+          0
+        ],
+        [
+          3,
+          6,
+          1
+        ],
+        [
+          3,
+          7,
+          0
+        ],
+        [
+          3,
+          7,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 8,
+      "coordinates_y_x_t": [
+        [
+          4,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          1
+        ],
+        [
+          4,
+          1,
+          0
+        ],
+        [
+          4,
+          1,
+          1
+        ],
+        [
+          4,
+          2,
+          0
+        ],
+        [
+          4,
+          2,
+          1
+        ],
+        [
+          4,
+          3,
+          0
+        ],
+        [
+          4,
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 9,
+      "coordinates_y_x_t": [
+        [
+          4,
+          4,
+          0
+        ],
+        [
+          4,
+          4,
+          1
+        ],
+        [
+          4,
+          5,
+          0
+        ],
+        [
+          4,
+          5,
+          1
+        ],
+        [
+          4,
+          6,
+          0
+        ],
+        [
+          4,
+          6,
+          1
+        ],
+        [
+          4,
+          7,
+          0
+        ],
+        [
+          4,
+          7,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 10,
+      "coordinates_y_x_t": [
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          1
+        ],
+        [
+          5,
+          1,
+          0
+        ],
+        [
+          5,
+          1,
+          1
+        ],
+        [
+          5,
+          2,
+          0
+        ],
+        [
+          5,
+          2,
+          1
+        ],
+        [
+          5,
+          3,
+          0
+        ],
+        [
+          5,
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 11,
+      "coordinates_y_x_t": [
+        [
+          5,
+          4,
+          0
+        ],
+        [
+          5,
+          4,
+          1
+        ],
+        [
+          5,
+          5,
+          0
+        ],
+        [
+          5,
+          5,
+          1
+        ],
+        [
+          5,
+          6,
+          0
+        ],
+        [
+          5,
+          6,
+          1
+        ],
+        [
+          5,
+          7,
+          0
+        ],
+        [
+          5,
+          7,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 12,
+      "coordinates_y_x_t": [
+        [
+          6,
+          0,
+          0
+        ],
+        [
+          6,
+          0,
+          1
+        ],
+        [
+          6,
+          1,
+          0
+        ],
+        [
+          6,
+          1,
+          1
+        ],
+        [
+          6,
+          2,
+          0
+        ],
+        [
+          6,
+          2,
+          1
+        ],
+        [
+          6,
+          3,
+          0
+        ],
+        [
+          6,
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 13,
+      "coordinates_y_x_t": [
+        [
+          6,
+          4,
+          0
+        ],
+        [
+          6,
+          4,
+          1
+        ],
+        [
+          6,
+          5,
+          0
+        ],
+        [
+          6,
+          5,
+          1
+        ],
+        [
+          6,
+          6,
+          0
+        ],
+        [
+          6,
+          6,
+          1
+        ],
+        [
+          6,
+          7,
+          0
+        ],
+        [
+          6,
+          7,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 14,
+      "coordinates_y_x_t": [
+        [
+          7,
+          0,
+          0
+        ],
+        [
+          7,
+          0,
+          1
+        ],
+        [
+          7,
+          1,
+          0
+        ],
+        [
+          7,
+          1,
+          1
+        ],
+        [
+          7,
+          2,
+          0
+        ],
+        [
+          7,
+          2,
+          1
+        ],
+        [
+          7,
+          3,
+          0
+        ],
+        [
+          7,
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "slot": 15,
+      "coordinates_y_x_t": [
+        [
+          7,
+          4,
+          0
+        ],
+        [
+          7,
+          4,
+          1
+        ],
+        [
+          7,
+          5,
+          0
+        ],
+        [
+          7,
+          5,
+          1
+        ],
+        [
+          7,
+          6,
+          0
+        ],
+        [
+          7,
+          6,
+          1
+        ],
+        [
+          7,
+          7,
+          0
+        ],
+        [
+          7,
+          7,
+          1
+        ]
+      ]
+    }
+  ],
+  "synthetic_cases": [
+    {
+      "synthetic_post_encoder_operation": "swap_date_at_same_patch",
+      "before_y_x_t": [
+        0,
+        0,
+        0
+      ],
+      "after_y_x_t": [
+        0,
+        0,
+        1
+      ],
+      "full_grid_differs": true,
+      "executed_flat_pool": {
+        "outputs_identical": true,
+        "max_abs_delta": 0.0
+      },
+      "fixed_budget_separate_dates": {
+        "outputs_identical": false,
+        "max_abs_delta": 0.125
+      }
+    },
+    {
+      "synthetic_post_encoder_operation": "move_one_patch_horizontally",
+      "before_y_x_t": [
+        0,
+        0,
+        0
+      ],
+      "after_y_x_t": [
+        0,
+        1,
+        0
+      ],
+      "full_grid_differs": true,
+      "executed_flat_pool": {
+        "outputs_identical": true,
+        "max_abs_delta": 0.0
+      },
+      "fixed_budget_separate_dates": {
+        "outputs_identical": true,
+        "max_abs_delta": 0.0
+      }
+    },
+    {
+      "synthetic_post_encoder_operation": "move_one_patch_vertically",
+      "before_y_x_t": [
+        0,
+        0,
+        0
+      ],
+      "after_y_x_t": [
+        1,
+        0,
+        0
+      ],
+      "full_grid_differs": true,
+      "executed_flat_pool": {
+        "outputs_identical": false,
+        "max_abs_delta": 0.125
+      },
+      "fixed_budget_separate_dates": {
+        "outputs_identical": true,
+        "max_abs_delta": 0.0
+      }
+    }
+  ],
+  "limits": [
+    "Synthetic post-encoder vectors only; no real-image accuracy or encoder deficiency measured.",
+    "Encoder tokens are contextual and may redundantly encode time/space elsewhere.",
+    "Date-preserving 16-slot pooling loses vertical distinctions in this example; no free information-preservation claim.",
+    "A dense branch retains more features but costs memory/compute and must be shared by fair baselines.",
+    "No evidence that this connection design or its repair is novel."
+  ],
+  "next_empirical_test": "Compare full-grid, flat, spatiotemporal-grid, and learned resampler on the same labeled observations; match slots, targets, tuning and compute accounting."
+}

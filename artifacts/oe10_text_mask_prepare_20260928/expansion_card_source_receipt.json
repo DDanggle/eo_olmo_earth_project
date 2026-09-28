@@ -1,0 +1,78 @@
+{
+  "schema_version": "oe10_expansion_cards_sources_v0",
+  "created_utc": "2026-09-27T19:40:24.127088+00:00",
+  "cards_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+  "cards_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+  "source_count": 6,
+  "sources_opened_in_web_tool": true,
+  "full_source_text_downloaded": false,
+  "source_content_hashes_available": false,
+  "source_trace": [
+    {
+      "id": "umd_grape_perennial",
+      "url": "https://www.extension.umd.edu/resource/growing-grapes-home-garden",
+      "evidence_locator": "About grapes, first and third bullets",
+      "supported_claim_ids": [
+        "grape_perennial"
+      ]
+    },
+    {
+      "id": "ifv_vineyard_floor",
+      "url": "https://www.vignevin.com/publications/fiches-pratiques/lenherbement-sous-le-rang/",
+      "evidence_locator": "Sections on herbicide alternatives, agronomic effects, species choice and management strategies",
+      "supported_claim_ids": [
+        "grape_floor_cover"
+      ]
+    },
+    {
+      "id": "ifv_bronner_phenology_scope",
+      "url": "https://www.vignevin.com/wp-content/uploads/2019/03/FICHE_CEPAGE_BRONNER.pdf",
+      "evidence_locator": "PDF page 2, La phenologie du Bronner B, opening paragraph and regional observations",
+      "supported_claim_ids": [
+        "grape_phenology_scope"
+      ]
+    },
+    {
+      "id": "arvalis_forage_species",
+      "url": "https://www.arvalis.fr/infos-techniques/prairies-choisir-ses-especes-selon-le-contexte-et-lutilisation-prevue",
+      "evidence_locator": "Sections Choisir dabord en fonction de la duree, contexte pedoclimatique, utilisation prevue, Melanges graminees-legumineuses",
+      "supported_claim_ids": [
+        "fodder_diversity",
+        "fodder_management",
+        "fodder_mixtures"
+      ]
+    },
+    {
+      "id": "arvalis_alfalfa_cuts",
+      "url": "https://www.arvalis.fr/infos-techniques/exploitation-des-luzernes-bien-rythmer-les-coupes-dans-une-luzerniere",
+      "evidence_locator": "Opening paragraph, Le 15 mai une date pivot, and Les repousses fonction des ressources racinaires",
+      "supported_claim_ids": [
+        "fodder_alfalfa_regrowth"
+      ]
+    },
+    {
+      "id": "arvalis_legume_grass_mix",
+      "url": "https://www.arvalis.fr/infos-techniques/lintroduction-de-legumineuses-ameliore-la-pousse-estivale-et-la-valeur-alimentaire",
+      "evidence_locator": "Legumineuses des besoins en chaleur plus eleves and Linteret des prairies multi-especes",
+      "supported_claim_ids": [
+        "fodder_mixtures",
+        "fodder_diversity"
+      ]
+    }
+  ],
+  "actual_expert_responses": 0,
+  "actual_model_or_gpu_execution": false,
+  "render_text_compatibility_test": "pass with existing renderer; synthetic dates used only for schema test, not an episode",
+  "synthetic_example_word_counts": {
+    "generic": 26,
+    "names_only": 35,
+    "matched_knowledge": 202,
+    "swapped_knowledge_diagnostic": 202
+  },
+  "source_summary_type": "AI paraphrase from directly opened primary institutional pages; not expert review",
+  "limitations": [
+    "No retrieved webpage byte snapshot; URLs and claim locators preserve retrieval trace but not immutable web content.",
+    "No new image labels or score-conditioned class selection.",
+    "Descriptive input compatibility does not establish text-to-mask dependency or performance."
+  ]
+}

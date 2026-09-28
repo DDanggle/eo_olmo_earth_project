@@ -1,0 +1,8 @@
+{"status": "initializing", "step": 0, "seconds": 0.0028560757637023926}
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights:   0%|          | 1/750 [00:00<03:25,  3.64it/s]Loading weights:  14%|█▎        | 103/750 [00:00<00:01, 334.60it/s]Loading weights:  21%|██        | 156/750 [00:00<00:01, 385.68it/s]Loading weights:  28%|██▊       | 207/750 [00:00<00:01, 381.67it/s]Loading weights:  34%|███▎      | 253/750 [00:00<00:01, 393.71it/s]Loading weights:  40%|███▉      | 298/750 [00:00<00:01, 399.32it/s]Loading weights:  46%|████▌     | 342/750 [00:00<00:01, 400.69it/s]Loading weights:  51%|█████▏    | 385/750 [00:01<00:00, 399.20it/s]Loading weights:  57%|█████▋    | 427/750 [00:01<00:00, 350.14it/s]Loading weights:  88%|████████▊ | 657/750 [00:01<00:00, 782.54it/s]Loading weights: 100%|██████████| 750/750 [00:01<00:00, 527.10it/s]
+{"status": "ready", "step": 0, "seconds": 40.87556868419051}
+/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/p2_worker.py:169: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  pred=output['logits'].detach().float().cpu();ml=float(output['mask_loss']);ce=float(output['language_loss'])
+{"status": "cold_resume_passed", "step": 0, "seconds": 54.66665146872401}
+{"status": "cold_resume_passed", "step": 0, "seconds": 54.67447850108147}

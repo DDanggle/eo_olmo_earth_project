@@ -1,0 +1,137 @@
+{
+  "created_utc": "2026-09-27T19:46:47.684451+00:00",
+  "elapsed_seconds": 12.794752456247807,
+  "status": "passed",
+  "context_records": 384,
+  "unique_context_texts": 7,
+  "real_qwen_tokenizer_verified": true,
+  "tokenizer_class": "Qwen2Tokenizer",
+  "tokenizer_files_sha256": {
+    "chat_template.json": "5c72a170d2a4a1a3bc5adad2e689ae28138a9700e5b8c96c0266331e86c0acce",
+    "config.json": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+    "generation_config.json": "8469742d1fce0de951c8909b26a2c0c0d8490837ce476efb114da9e0cefc4d44",
+    "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+    "model.safetensors.index.json": "520b2e05079402e9468a8701d03d1154d14b2599593afb6effa7fb60c1bff070",
+    "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+    "tokenizer.json": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+    "tokenizer_config.json": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+    "video_preprocessor_config.json": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+  },
+  "per_condition_tokens": {
+    "generic": {
+      "min": 58,
+      "max": 58,
+      "records": 384
+    },
+    "matched_knowledge": {
+      "min": 267,
+      "max": 267,
+      "records": 384
+    },
+    "names_only": {
+      "min": 44,
+      "max": 44,
+      "records": 384
+    },
+    "removed_knowledge_diagnostic": {
+      "min": 44,
+      "max": 44,
+      "records": 384
+    },
+    "swapped_knowledge_diagnostic": {
+      "min": 267,
+      "max": 267,
+      "records": 384
+    }
+  },
+  "max_token_cap": 1024,
+  "truncation_used": false,
+  "equal_actual_text_compute_claimed": false,
+  "text_cache_in_primary_default": false,
+  "unit_tests_exit_code": 0,
+  "unit_tests_count": 12,
+  "new_gpu_seconds": 0,
+  "real_qwen_weights_loaded": false,
+  "real_olmoearth_forward": false,
+  "query_gold_opened": false,
+  "dev_opened": false,
+  "protected_before": {
+    "protected": {
+      "pilot_sen12_gp_heads.py": {
+        "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+        "mtime_ns": 1788238578452341458,
+        "bytes": 45602
+      },
+      "sen12_official_baselines.py": {
+        "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+        "mtime_ns": 1787683824644839874,
+        "bytes": 10926
+      },
+      "extract_sen12_fold_cache.py": {
+        "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+        "mtime_ns": 1787659265235748291,
+        "bytes": 10983
+      },
+      "audit_sen12_fold_cache.py": {
+        "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+        "mtime_ns": 1787668636109707291,
+        "bytes": 7314
+      }
+    },
+    "snapshot": {
+      "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+      "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+      "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+      "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+      "p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+      "run_bounded.py": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0",
+      "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+      "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+      "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+    },
+    "protocol": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3"
+  },
+  "protected_after": {
+    "protected": {
+      "pilot_sen12_gp_heads.py": {
+        "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+        "mtime_ns": 1788238578452341458,
+        "bytes": 45602
+      },
+      "sen12_official_baselines.py": {
+        "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+        "mtime_ns": 1787683824644839874,
+        "bytes": 10926
+      },
+      "extract_sen12_fold_cache.py": {
+        "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+        "mtime_ns": 1787659265235748291,
+        "bytes": 10983
+      },
+      "audit_sen12_fold_cache.py": {
+        "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+        "mtime_ns": 1787668636109707291,
+        "bytes": 7314
+      }
+    },
+    "snapshot": {
+      "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+      "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+      "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+      "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+      "p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+      "run_bounded.py": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0",
+      "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+      "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+      "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+    },
+    "protocol": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3"
+  },
+  "actual_expert_responses": 0,
+  "limitations": [
+    "CPU toy tests do not establish real EO/Qwen gradient or semantic understanding.",
+    "Only tokenization and installed Qwen API inspected on actual pinned reader assets; weight forwards await a separately frozen pilot.",
+    "Descriptions add text tokens; actual counts differ and cannot be called equal compute."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schema": "eo-reader-case-http-verification-v0",
+  "started_at": "2026-09-25T05:20:27.782749+00:00",
+  "passed": true,
+  "checks": [
+    {
+      "name": "all_914_cases_match_frozen_sources",
+      "passed": true,
+      "n": 914,
+      "quality_eligible": 907,
+      "supported": 902,
+      "cases_with_reader_reference_disagreement": 224
+    },
+    {
+      "name": "http_pos_exact_case",
+      "passed": true,
+      "tile": "ks_05007"
+    },
+    {
+      "name": "http_hard_neg_exact_case",
+      "passed": true,
+      "tile": "ks_05018"
+    },
+    {
+      "name": "http_training_unavailable",
+      "passed": true
+    },
+    {
+      "name": "http_unknown_unavailable",
+      "passed": true
+    },
+    {
+      "name": "http_query_traversal_unavailable",
+      "passed": true
+    },
+    {
+      "name": "http_missing_param",
+      "passed": true
+    },
+    {
+      "name": "http_blank_param",
+      "passed": true
+    },
+    {
+      "name": "http_duplicate_param",
+      "passed": true
+    },
+    {
+      "name": "http_unexpected_param",
+      "passed": true
+    },
+    {
+      "name": "http_private_path_404",
+      "path": "/reader_cases.json",
+      "passed": true
+    },
+    {
+      "name": "http_private_path_404",
+      "path": "/asset_routes.private.json",
+      "passed": true
+    },
+    {
+      "name": "http_private_path_404",
+      "path": "/%2e%2e/asset_routes.private.json",
+      "passed": true
+    }
+  ],
+  "no_new_inference": true,
+  "artifact_sha256": {
+    "reader_cases": "66d9eb6bce917250f6a827a2b6f320be599ef5ddd1d25cfaca169a805216e230",
+    "items": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+    "c1_results": "327aab5825f95dd6689bb9a4baecf4dcf5f1e9de062f245e171d434e7a8cf13c",
+    "quality": "8f654dfbaabc41e3b27de9a04dfe0768c1f0a748439c70acb61ddae08a17a78f",
+    "catalog": "a23e922e09c19fe7d8ec91ad27e9a18ab5d308907065691f03b3af8cf2c114e2",
+    "reader_seed1": "b36041a82de5f8cee44c3f5971cbfd8fb40c980ddc6d62cfb08e2c9bedd23d12",
+    "reader_seed2": "0aa4b84dda0fd71aa5da49524da9203f2c7b24e996bf6453bde727eecbaed3b9",
+    "reader_seed3": "c063117b3999ee346c7b176379dff870ecb7606fcf7986ef528f69a0b664079a",
+    "blind_seed1": "a2405de8a4338709bb07950803479c703febecdb9a2f942ac3e51180d8715281",
+    "blind_seed2": "bbb5d1fbc15b9cd1c203efab9ae3a51313a344adc261adbbb7562c89b3dc25ff",
+    "blind_seed3": "cac6ad89b642f0426482ec898b09661f3443304a38d1166274df7721c1356ed1"
+  },
+  "checked_at": "2026-09-25T05:12:36.767396+00:00",
+  "http_requests": 12,
+  "source_scope": "All 914 local cases checked; two representative historical E2 cases requested over HTTP. No new inference.",
+  "finished_at": "2026-09-25T05:20:27.916005+00:00"
+}

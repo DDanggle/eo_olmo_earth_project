@@ -1,0 +1,42 @@
+{
+  "schema": "eo-two-fixed-source-cases-v0",
+  "status": "exported",
+  "case_ids": [
+    "ks_06770",
+    "ks_05265"
+  ],
+  "selection": "Two IDs fixed before E5 outcomes; illustrative already-exposed test cases from event562/AOI13. Not random, representative, new evaluation, or a C1-primary matched pair. ks_06770 fails the existing symmetric label-coverage criterion; do not replace it.",
+  "cases": [
+    {
+      "id": "ks_06770",
+      "manifest": "ks_06770/source_manifest.json",
+      "manifest_sha256": "45560b5ba1b66d30442f51d507fbb8303d43d9723428b9c6821697ae65d4dea5",
+      "preview_file": null,
+      "eligible_C1_symmetric_quality": false
+    },
+    {
+      "id": "ks_05265",
+      "manifest": "ks_05265/source_manifest.json",
+      "manifest_sha256": "478149e6ed282073d7c492d08a61e5a66a7834c1aeb936e7ce9fcfe48b357966",
+      "preview_file": null,
+      "eligible_C1_symmetric_quality": true
+    }
+  ],
+  "source_container": "/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+  "container_stat": {
+    "bytes": 7529588233,
+    "mtime_ns": 1788799420073354000,
+    "inode": 9288659302177211054
+  },
+  "container_full_sha256": null,
+  "container_hash_note": "Only selected original TIFF byte slices hashed; avoids reading the entire 7.5GB archive.",
+  "metadata_pins": {
+    "e3_items": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+    "quality": "8f654dfbaabc41e3b27de9a04dfe0768c1f0a748439c70acb61ddae08a17a78f",
+    "c0_manifest": "5055bd2d73f1e9f162a43899a2d0f5c46cccef53137cb3a5ae31e7a2675bcb92"
+  },
+  "script_sha256": "f668e506ca949bcb0e9e62a659baae789d2eedb9345682f8b0935513a1e417a6",
+  "created_at": "2026-09-25T06:26:33.423674+00:00",
+  "predictions_included": false,
+  "no_new_model_inference": true
+}

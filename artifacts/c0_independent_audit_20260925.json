@@ -1,0 +1,2741 @@
+{
+  "schema": "independent-c0-audit-v1",
+  "artifact_dir": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/c0_linear_view_probe_v1_20260925",
+  "auditor_sha256": "a7816484cf89b75eee244ac1041e28d02e08870e10290242a06335f475a35120",
+  "numpy": "2.3.5",
+  "consistent": true,
+  "errors": [],
+  "hashes_verified": {
+    "items.jsonl": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+    "prereg.json": "9664dbe590455dbae724a62d9e8b9f0cdb03fa098208386aa9de88dc339b4e43",
+    "source.py": "5bea6041184b2593407229c3ff1ae6239d878002376b08ab165511acc643c612",
+    "global_features.npz": "a6845c96933928ecfd15874980ee50b1a4ab17cef00b9628e5ce34f333cb69f5",
+    "eligibility_audit.json": "6c425290c4cfaafbf1aa46be11cd2cfe39e42c5d159d3e2080a4a7e03d6dacf3",
+    "predictions.jsonl": "5a24765457f2849c6da7dabb6a03c75b80fc72df6258a9f9d812b56fc1baf74a",
+    "manifest.json": "5055bd2d73f1e9f162a43899a2d0f5c46cccef53137cb3a5ae31e7a2675bcb92",
+    "flood_earlier.npz": "4a9a135d319ae2580676068918f4eadb5b545ce8c42f4226c07f6f1013c85064",
+    "flood_later.npz": "8af24b02be5202d9b59379edf3ae4d1752e6bc4ca96dbf6f77e06e7cf350886b",
+    "flood_pair.npz": "deffb63fe6e37198520f5fbd84f8cfddf19f6a239e0d28e4ea72b9ab490fd6ce",
+    "landslide_earlier.npz": "55805cf26fe819ec1710f2a9fb37324af84328a846d5e0caff6d31ecdc72602b",
+    "landslide_later.npz": "97002f65de63cdd25a425ce6c07b828cccb61a4308e769ee4fef4380e034926d",
+    "landslide_pair.npz": "6a3b4d4d4f7f2c4f48926ea1e403964e1f1e6401a6b6e5e0eae307c1c6270c6d"
+  },
+  "recomputed_metrics": {
+    "flood": {
+      "earlier": {
+        "event_macro_ba": 0.49353455049938494,
+        "events": {
+          "1111002": {
+            "ba": 0.6666666666666666,
+            "n": 6,
+            "pos": 3,
+            "neg": 3,
+            "recall": 0.6666666666666666,
+            "fpr": 0.3333333333333333
+          },
+          "1111007": {
+            "ba": 0.43069306930693074,
+            "n": 202,
+            "pos": 101,
+            "neg": 101,
+            "recall": 0.6633663366336634,
+            "fpr": 0.801980198019802
+          },
+          "1111013": {
+            "ba": 0.5363984674329503,
+            "n": 522,
+            "pos": 261,
+            "neg": 261,
+            "recall": 0.7432950191570882,
+            "fpr": 0.6704980842911877
+          },
+          "205": {
+            "ba": 0.5,
+            "n": 10,
+            "pos": 5,
+            "neg": 5,
+            "recall": 0.0,
+            "fpr": 0.0
+          },
+          "277": {
+            "ba": 0.5,
+            "n": 96,
+            "pos": 48,
+            "neg": 48,
+            "recall": 1.0,
+            "fpr": 1.0
+          },
+          "321": {
+            "ba": 0.5238095238095237,
+            "n": 42,
+            "pos": 21,
+            "neg": 21,
+            "recall": 0.6666666666666666,
+            "fpr": 0.6190476190476191
+          },
+          "411": {
+            "ba": 0.5,
+            "n": 2,
+            "pos": 1,
+            "neg": 1,
+            "recall": 0.0,
+            "fpr": 0.0
+          },
+          "445": {
+            "ba": 0.2777777777777778,
+            "n": 18,
+            "pos": 9,
+            "neg": 9,
+            "recall": 0.0,
+            "fpr": 0.4444444444444444
+          },
+          "561": {
+            "ba": 0.5,
+            "n": 4,
+            "pos": 2,
+            "neg": 2,
+            "recall": 1.0,
+            "fpr": 1.0
+          },
+          "562": {
+            "ba": 0.5,
+            "n": 12,
+            "pos": 6,
+            "neg": 6,
+            "recall": 0.5,
+            "fpr": 0.5
+          }
+        },
+        "hard_negative": {
+          "events": {
+            "1111007": {
+              "n": 131,
+              "fpr": 0.648854961832061
+            },
+            "1111013": {
+              "n": 215,
+              "fpr": 0.24651162790697675
+            },
+            "205": {
+              "n": 2,
+              "fpr": 0.0
+            },
+            "277": {
+              "n": 72,
+              "fpr": 0.9861111111111112
+            },
+            "321": {
+              "n": 11,
+              "fpr": 0.0
+            },
+            "411": {
+              "n": 7,
+              "fpr": 0.0
+            },
+            "445": {
+              "n": 17,
+              "fpr": 0.058823529411764705
+            },
+            "562": {
+              "n": 2,
+              "fpr": 0.0
+            }
+          },
+          "n": 457,
+          "pooled_fpr": 0.45951859956236324,
+          "event_macro_fpr": 0.2425376537827392
+        },
+        "tuple_counts": {
+          "1111002|neg|no": 3,
+          "1111002|pos|yes": 3,
+          "1111007|hard_neg|no": 131,
+          "1111007|neg|no": 101,
+          "1111007|pos|yes": 101,
+          "1111013|hard_neg|no": 215,
+          "1111013|neg|no": 261,
+          "1111013|pos|yes": 261,
+          "205|hard_neg|no": 2,
+          "205|neg|no": 5,
+          "205|pos|yes": 5,
+          "277|hard_neg|no": 72,
+          "277|neg|no": 48,
+          "277|pos|yes": 48,
+          "321|hard_neg|no": 11,
+          "321|neg|no": 21,
+          "321|pos|yes": 21,
+          "411|hard_neg|no": 7,
+          "411|neg|no": 1,
+          "411|pos|yes": 1,
+          "445|hard_neg|no": 17,
+          "445|neg|no": 9,
+          "445|pos|yes": 9,
+          "561|neg|no": 2,
+          "561|pos|yes": 2,
+          "562|hard_neg|no": 2,
+          "562|neg|no": 6,
+          "562|pos|yes": 6
+        }
+      },
+      "later": {
+        "event_macro_ba": 0.6523199348875774,
+        "events": {
+          "1111002": {
+            "ba": 0.5,
+            "n": 6,
+            "pos": 3,
+            "neg": 3,
+            "recall": 1.0,
+            "fpr": 1.0
+          },
+          "1111007": {
+            "ba": 0.6782178217821782,
+            "n": 202,
+            "pos": 101,
+            "neg": 101,
+            "recall": 0.7425742574257426,
+            "fpr": 0.38613861386138615
+          },
+          "1111013": {
+            "ba": 0.5210727969348659,
+            "n": 522,
+            "pos": 261,
+            "neg": 261,
+            "recall": 1.0,
+            "fpr": 0.9578544061302682
+          },
+          "205": {
+            "ba": 0.5,
+            "n": 10,
+            "pos": 5,
+            "neg": 5,
+            "recall": 1.0,
+            "fpr": 1.0
+          },
+          "277": {
+            "ba": 0.8437500000000001,
+            "n": 96,
+            "pos": 48,
+            "neg": 48,
+            "recall": 0.8333333333333334,
+            "fpr": 0.14583333333333334
+          },
+          "321": {
+            "ba": 0.7857142857142858,
+            "n": 42,
+            "pos": 21,
+            "neg": 21,
+            "recall": 0.8571428571428571,
+            "fpr": 0.2857142857142857
+          },
+          "411": {
+            "ba": 1.0,
+            "n": 2,
+            "pos": 1,
+            "neg": 1,
+            "recall": 1.0,
+            "fpr": 0.0
+          },
+          "445": {
+            "ba": 0.7777777777777778,
+            "n": 18,
+            "pos": 9,
+            "neg": 9,
+            "recall": 0.5555555555555556,
+            "fpr": 0.0
+          },
+          "561": {
+            "ba": 0.5,
+            "n": 4,
+            "pos": 2,
+            "neg": 2,
+            "recall": 1.0,
+            "fpr": 1.0
+          },
+          "562": {
+            "ba": 0.4166666666666666,
+            "n": 12,
+            "pos": 6,
+            "neg": 6,
+            "recall": 0.6666666666666666,
+            "fpr": 0.8333333333333334
+          }
+        },
+        "hard_negative": {
+          "events": {
+            "1111007": {
+              "n": 131,
+              "fpr": 0.030534351145038167
+            },
+            "1111013": {
+              "n": 215,
+              "fpr": 0.9813953488372092
+            },
+            "205": {
+              "n": 2,
+              "fpr": 0.5
+            },
+            "277": {
+              "n": 72,
+              "fpr": 0.05555555555555555
+            },
+            "321": {
+              "n": 11,
+              "fpr": 0.0
+            },
+            "411": {
+              "n": 7,
+              "fpr": 0.0
+            },
+            "445": {
+              "n": 17,
+              "fpr": 0.058823529411764705
+            },
+            "562": {
+              "n": 2,
+              "fpr": 0.0
+            }
+          },
+          "n": 457,
+          "pooled_fpr": 0.48358862144420134,
+          "event_macro_fpr": 0.20328859811869596
+        },
+        "tuple_counts": {
+          "1111002|neg|no": 3,
+          "1111002|pos|yes": 3,
+          "1111007|hard_neg|no": 131,
+          "1111007|neg|no": 101,
+          "1111007|pos|yes": 101,
+          "1111013|hard_neg|no": 215,
+          "1111013|neg|no": 261,
+          "1111013|pos|yes": 261,
+          "205|hard_neg|no": 2,
+          "205|neg|no": 5,
+          "205|pos|yes": 5,
+          "277|hard_neg|no": 72,
+          "277|neg|no": 48,
+          "277|pos|yes": 48,
+          "321|hard_neg|no": 11,
+          "321|neg|no": 21,
+          "321|pos|yes": 21,
+          "411|hard_neg|no": 7,
+          "411|neg|no": 1,
+          "411|pos|yes": 1,
+          "445|hard_neg|no": 17,
+          "445|neg|no": 9,
+          "445|pos|yes": 9,
+          "561|neg|no": 2,
+          "561|pos|yes": 2,
+          "562|hard_neg|no": 2,
+          "562|neg|no": 6,
+          "562|pos|yes": 6
+        }
+      },
+      "pair": {
+        "event_macro_ba": 0.5886842067827472,
+        "events": {
+          "1111002": {
+            "ba": 0.16666666666666663,
+            "n": 6,
+            "pos": 3,
+            "neg": 3,
+            "recall": 0.3333333333333333,
+            "fpr": 1.0
+          },
+          "1111007": {
+            "ba": 0.5643564356435644,
+            "n": 202,
+            "pos": 101,
+            "neg": 101,
+            "recall": 0.5445544554455446,
+            "fpr": 0.4158415841584158
+          },
+          "1111013": {
+            "ba": 0.4176245210727969,
+            "n": 522,
+            "pos": 261,
+            "neg": 261,
+            "recall": 0.07662835249042145,
+            "fpr": 0.2413793103448276
+          },
+          "205": {
+            "ba": 0.7,
+            "n": 10,
+            "pos": 5,
+            "neg": 5,
+            "recall": 0.4,
+            "fpr": 0.0
+          },
+          "277": {
+            "ba": 0.9270833333333333,
+            "n": 96,
+            "pos": 48,
+            "neg": 48,
+            "recall": 0.8541666666666666,
+            "fpr": 0.0
+          },
+          "321": {
+            "ba": 1.0,
+            "n": 42,
+            "pos": 21,
+            "neg": 21,
+            "recall": 1.0,
+            "fpr": 0.0
+          },
+          "411": {
+            "ba": 0.0,
+            "n": 2,
+            "pos": 1,
+            "neg": 1,
+            "recall": 0.0,
+            "fpr": 1.0
+          },
+          "445": {
+            "ba": 0.7777777777777778,
+            "n": 18,
+            "pos": 9,
+            "neg": 9,
+            "recall": 0.5555555555555556,
+            "fpr": 0.0
+          },
+          "561": {
+            "ba": 1.0,
+            "n": 4,
+            "pos": 2,
+            "neg": 2,
+            "recall": 1.0,
+            "fpr": 0.0
+          },
+          "562": {
+            "ba": 0.3333333333333333,
+            "n": 12,
+            "pos": 6,
+            "neg": 6,
+            "recall": 0.5,
+            "fpr": 0.8333333333333334
+          }
+        },
+        "hard_negative": {
+          "events": {
+            "1111007": {
+              "n": 131,
+              "fpr": 0.007633587786259542
+            },
+            "1111013": {
+              "n": 215,
+              "fpr": 0.0
+            },
+            "205": {
+              "n": 2,
+              "fpr": 0.0
+            },
+            "277": {
+              "n": 72,
+              "fpr": 0.027777777777777776
+            },
+            "321": {
+              "n": 11,
+              "fpr": 0.09090909090909091
+            },
+            "411": {
+              "n": 7,
+              "fpr": 0.0
+            },
+            "445": {
+              "n": 17,
+              "fpr": 0.0
+            },
+            "562": {
+              "n": 2,
+              "fpr": 0.0
+            }
+          },
+          "n": 457,
+          "pooled_fpr": 0.0087527352297593,
+          "event_macro_fpr": 0.01579005705914103
+        },
+        "tuple_counts": {
+          "1111002|neg|no": 3,
+          "1111002|pos|yes": 3,
+          "1111007|hard_neg|no": 131,
+          "1111007|neg|no": 101,
+          "1111007|pos|yes": 101,
+          "1111013|hard_neg|no": 215,
+          "1111013|neg|no": 261,
+          "1111013|pos|yes": 261,
+          "205|hard_neg|no": 2,
+          "205|neg|no": 5,
+          "205|pos|yes": 5,
+          "277|hard_neg|no": 72,
+          "277|neg|no": 48,
+          "277|pos|yes": 48,
+          "321|hard_neg|no": 11,
+          "321|neg|no": 21,
+          "321|pos|yes": 21,
+          "411|hard_neg|no": 7,
+          "411|neg|no": 1,
+          "411|pos|yes": 1,
+          "445|hard_neg|no": 17,
+          "445|neg|no": 9,
+          "445|pos|yes": 9,
+          "561|neg|no": 2,
+          "561|pos|yes": 2,
+          "562|hard_neg|no": 2,
+          "562|neg|no": 6,
+          "562|pos|yes": 6
+        }
+      },
+      "later_minus_pair": {
+        "delta": 0.0636357281048302,
+        "ci95_delta": [
+          -0.15038998357963868,
+          0.3096173710351329
+        ],
+        "event_deltas": {
+          "1111002": 0.33333333333333337,
+          "1111007": 0.11386138613861374,
+          "1111013": 0.10344827586206895,
+          "205": -0.19999999999999996,
+          "277": -0.08333333333333315,
+          "321": -0.2142857142857142,
+          "411": 1.0,
+          "445": 0.0,
+          "561": -0.5,
+          "562": 0.08333333333333326
+        },
+        "unit": "event"
+      }
+    },
+    "landslide": {
+      "earlier": {
+        "event_macro_ba": 0.3279569892473118,
+        "events": {
+          "holdout_hiroshima": {
+            "ba": 0.48924731182795694,
+            "n": 372,
+            "pos": 186,
+            "neg": 186,
+            "recall": 0.0967741935483871,
+            "fpr": 0.11827956989247312
+          },
+          "holdout_indonesia": {
+            "ba": 0.16666666666666669,
+            "n": 12,
+            "pos": 6,
+            "neg": 6,
+            "recall": 0.16666666666666666,
+            "fpr": 0.8333333333333334
+          }
+        },
+        "hard_negative": {
+          "events": {},
+          "n": 0,
+          "pooled_fpr": null,
+          "event_macro_fpr": null
+        },
+        "tuple_counts": {
+          "holdout_hiroshima|neg|no": 186,
+          "holdout_hiroshima|pos|yes": 186,
+          "holdout_indonesia|neg|no": 6,
+          "holdout_indonesia|pos|yes": 6
+        }
+      },
+      "later": {
+        "event_macro_ba": 0.5483870967741935,
+        "events": {
+          "holdout_hiroshima": {
+            "ba": 0.5134408602150538,
+            "n": 372,
+            "pos": 186,
+            "neg": 186,
+            "recall": 0.13978494623655913,
+            "fpr": 0.11290322580645161
+          },
+          "holdout_indonesia": {
+            "ba": 0.5833333333333334,
+            "n": 12,
+            "pos": 6,
+            "neg": 6,
+            "recall": 0.5,
+            "fpr": 0.3333333333333333
+          }
+        },
+        "hard_negative": {
+          "events": {},
+          "n": 0,
+          "pooled_fpr": null,
+          "event_macro_fpr": null
+        },
+        "tuple_counts": {
+          "holdout_hiroshima|neg|no": 186,
+          "holdout_hiroshima|pos|yes": 186,
+          "holdout_indonesia|neg|no": 6,
+          "holdout_indonesia|pos|yes": 6
+        }
+      },
+      "pair": {
+        "event_macro_ba": 0.5376344086021505,
+        "events": {
+          "holdout_hiroshima": {
+            "ba": 0.5752688172043011,
+            "n": 372,
+            "pos": 186,
+            "neg": 186,
+            "recall": 0.22580645161290322,
+            "fpr": 0.07526881720430108
+          },
+          "holdout_indonesia": {
+            "ba": 0.5,
+            "n": 12,
+            "pos": 6,
+            "neg": 6,
+            "recall": 0.8333333333333334,
+            "fpr": 0.8333333333333334
+          }
+        },
+        "hard_negative": {
+          "events": {},
+          "n": 0,
+          "pooled_fpr": null,
+          "event_macro_fpr": null
+        },
+        "tuple_counts": {
+          "holdout_hiroshima|neg|no": 186,
+          "holdout_hiroshima|pos|yes": 186,
+          "holdout_indonesia|neg|no": 6,
+          "holdout_indonesia|pos|yes": 6
+        }
+      },
+      "later_minus_pair": {
+        "delta": 0.010752688172043001,
+        "ci95_delta": null,
+        "event_deltas": {
+          "holdout_hiroshima": -0.06182795698924737,
+          "holdout_indonesia": 0.08333333333333337
+        },
+        "unit": "two_regions_descriptive_only"
+      }
+    }
+  },
+  "model_checks": {
+    "flood_earlier": {
+      "initial_loss": 0.6931471805599453,
+      "final_loss": 0.5656106136425033,
+      "gradient_inf": 9.841524231907033e-07,
+      "converged": true,
+      "max_abs_logit_difference": 2.6645352591003757e-15,
+      "train_n": 3198,
+      "test_n": 1371,
+      "parameter_count": 769
+    },
+    "flood_later": {
+      "initial_loss": 0.6931471805599453,
+      "final_loss": 0.26425214266597996,
+      "gradient_inf": 2.4557710080015324e-07,
+      "converged": true,
+      "max_abs_logit_difference": 2.6645352591003757e-15,
+      "train_n": 3198,
+      "test_n": 1371,
+      "parameter_count": 769
+    },
+    "flood_pair": {
+      "initial_loss": 0.6931471805599453,
+      "final_loss": 0.18844621337737769,
+      "gradient_inf": 5.886884878914965e-07,
+      "converged": true,
+      "max_abs_logit_difference": 5.329070518200751e-15,
+      "train_n": 3198,
+      "test_n": 1371,
+      "parameter_count": 1537
+    },
+    "landslide_earlier": {
+      "initial_loss": 0.6931471805599453,
+      "final_loss": 0.0924618006992921,
+      "gradient_inf": 1.2489753153981315e-07,
+      "converged": true,
+      "max_abs_logit_difference": 3.552713678800501e-15,
+      "train_n": 1036,
+      "test_n": 384,
+      "parameter_count": 769
+    },
+    "landslide_later": {
+      "initial_loss": 0.6931471805599453,
+      "final_loss": 0.08883531822099092,
+      "gradient_inf": 9.001533881171711e-08,
+      "converged": true,
+      "max_abs_logit_difference": 3.552713678800501e-15,
+      "train_n": 1036,
+      "test_n": 384,
+      "parameter_count": 769
+    },
+    "landslide_pair": {
+      "initial_loss": 0.6931471805599453,
+      "final_loss": 0.03923191980020288,
+      "gradient_inf": 1.2848329357709708e-07,
+      "converged": true,
+      "max_abs_logit_difference": 3.552713678800501e-15,
+      "train_n": 1036,
+      "test_n": 384,
+      "parameter_count": 1537
+    }
+  },
+  "scope": "Artifact arithmetic and convergence audit only; no scientific or E3 verdict.",
+  "limitations": [
+    "Historical train membership and original cache generation are not independently reconstructed."
+  ],
+  "input_results_sha256": "6001f3f29869b91ebfb10be2f8c92744fb335fe8710cf984a0f46626b779ff9a",
+  "exclusions": [
+    {
+      "id": "indonesia_s2_1299_q1_neg",
+      "tile": "indonesia_s2_1299",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_1299.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_1299_q1_pos",
+      "tile": "indonesia_s2_1299",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_1299.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_1347_q1_neg",
+      "tile": "indonesia_s2_1347",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_1347.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_1347_q1_pos",
+      "tile": "indonesia_s2_1347",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_1347.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_1443_q1_neg",
+      "tile": "indonesia_s2_1443",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_1443.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_1443_q1_pos",
+      "tile": "indonesia_s2_1443",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_1443.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_202_q1_neg",
+      "tile": "indonesia_s2_202",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_202.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_202_q1_pos",
+      "tile": "indonesia_s2_202",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_202.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_317_q1_neg",
+      "tile": "indonesia_s2_317",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_317.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_317_q1_pos",
+      "tile": "indonesia_s2_317",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_317.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_512_q1_neg",
+      "tile": "indonesia_s2_512",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_512.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_512_q1_pos",
+      "tile": "indonesia_s2_512",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_512.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_513_q1_neg",
+      "tile": "indonesia_s2_513",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_513.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_513_q1_pos",
+      "tile": "indonesia_s2_513",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_513.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_572_q1_neg",
+      "tile": "indonesia_s2_572",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_572.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_572_q1_pos",
+      "tile": "indonesia_s2_572",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_572.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_619_q1_neg",
+      "tile": "indonesia_s2_619",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_619.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_619_q1_pos",
+      "tile": "indonesia_s2_619",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_619.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_76_q1_neg",
+      "tile": "indonesia_s2_76",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_76.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_76_q1_pos",
+      "tile": "indonesia_s2_76",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_76.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_799_q1_neg",
+      "tile": "indonesia_s2_799",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_799.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "indonesia_s2_799_q1_pos",
+      "tile": "indonesia_s2_799",
+      "partition": "test",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/indonesia_s2_799.npy",
+      "source_path": "sentinel_qa_v0_1/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_342_q1_neg",
+      "tile": "itogon_s2_342",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_342.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_342_q1_pos",
+      "tile": "itogon_s2_342",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_342.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_383_q1_neg",
+      "tile": "itogon_s2_383",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_383.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_383_q1_pos",
+      "tile": "itogon_s2_383",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_383.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_463_q1_neg",
+      "tile": "itogon_s2_463",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_463.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_463_q1_pos",
+      "tile": "itogon_s2_463",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_463.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_464_q1_neg",
+      "tile": "itogon_s2_464",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_464.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_464_q1_pos",
+      "tile": "itogon_s2_464",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_464.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_465_q1_neg",
+      "tile": "itogon_s2_465",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_465.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_465_q1_pos",
+      "tile": "itogon_s2_465",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_465.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_505_q1_neg",
+      "tile": "itogon_s2_505",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_505.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_505_q1_pos",
+      "tile": "itogon_s2_505",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_505.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_542_q1_neg",
+      "tile": "itogon_s2_542",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_542.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_542_q1_pos",
+      "tile": "itogon_s2_542",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_542.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_547_q1_neg",
+      "tile": "itogon_s2_547",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_547.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_547_q1_pos",
+      "tile": "itogon_s2_547",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_547.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_584_q1_neg",
+      "tile": "itogon_s2_584",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_584.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_584_q1_pos",
+      "tile": "itogon_s2_584",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_584.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_585_q1_neg",
+      "tile": "itogon_s2_585",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_585.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_585_q1_pos",
+      "tile": "itogon_s2_585",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_585.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_586_q1_neg",
+      "tile": "itogon_s2_586",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_586.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_586_q1_pos",
+      "tile": "itogon_s2_586",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_586.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_624_q1_neg",
+      "tile": "itogon_s2_624",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_624.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_624_q1_pos",
+      "tile": "itogon_s2_624",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_624.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_664_q1_neg",
+      "tile": "itogon_s2_664",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_664.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_664_q1_pos",
+      "tile": "itogon_s2_664",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_664.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_713_q1_neg",
+      "tile": "itogon_s2_713",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_713.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_713_q1_pos",
+      "tile": "itogon_s2_713",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_713.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_738_q1_neg",
+      "tile": "itogon_s2_738",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_738.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_738_q1_pos",
+      "tile": "itogon_s2_738",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_738.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_774_q1_neg",
+      "tile": "itogon_s2_774",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_774.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_774_q1_pos",
+      "tile": "itogon_s2_774",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_774.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_776_q1_neg",
+      "tile": "itogon_s2_776",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_776.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "itogon_s2_776_q1_pos",
+      "tile": "itogon_s2_776",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_776.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1452_q1_neg",
+      "tile": "kyrgyzstan1_s2_1452",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1452.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1452_q1_pos",
+      "tile": "kyrgyzstan1_s2_1452",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1452.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1716_q1_neg",
+      "tile": "kyrgyzstan1_s2_1716",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1716.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1716_q1_pos",
+      "tile": "kyrgyzstan1_s2_1716",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1716.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1794_q1_neg",
+      "tile": "kyrgyzstan1_s2_1794",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1794.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1794_q1_pos",
+      "tile": "kyrgyzstan1_s2_1794",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1794.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1796_q1_neg",
+      "tile": "kyrgyzstan1_s2_1796",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1796.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1796_q1_pos",
+      "tile": "kyrgyzstan1_s2_1796",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1796.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1801_q1_neg",
+      "tile": "kyrgyzstan1_s2_1801",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1801.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1801_q1_pos",
+      "tile": "kyrgyzstan1_s2_1801",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1801.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1889_q1_neg",
+      "tile": "kyrgyzstan1_s2_1889",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1889.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1889_q1_pos",
+      "tile": "kyrgyzstan1_s2_1889",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1889.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1969_q1_neg",
+      "tile": "kyrgyzstan1_s2_1969",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1969.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1969_q1_pos",
+      "tile": "kyrgyzstan1_s2_1969",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1969.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1974_q1_neg",
+      "tile": "kyrgyzstan1_s2_1974",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1974.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_1974_q1_pos",
+      "tile": "kyrgyzstan1_s2_1974",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_1974.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2063_q1_neg",
+      "tile": "kyrgyzstan1_s2_2063",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2063.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2063_q1_pos",
+      "tile": "kyrgyzstan1_s2_2063",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2063.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2221_q1_neg",
+      "tile": "kyrgyzstan1_s2_2221",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2221.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2221_q1_pos",
+      "tile": "kyrgyzstan1_s2_2221",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2221.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2234_q1_neg",
+      "tile": "kyrgyzstan1_s2_2234",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2234.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2234_q1_pos",
+      "tile": "kyrgyzstan1_s2_2234",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2234.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2241_q1_neg",
+      "tile": "kyrgyzstan1_s2_2241",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2241.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2241_q1_pos",
+      "tile": "kyrgyzstan1_s2_2241",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2241.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2248_q1_neg",
+      "tile": "kyrgyzstan1_s2_2248",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2248.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2248_q1_pos",
+      "tile": "kyrgyzstan1_s2_2248",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2248.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2354_q1_neg",
+      "tile": "kyrgyzstan1_s2_2354",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2354.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2354_q1_pos",
+      "tile": "kyrgyzstan1_s2_2354",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2354.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2355_q1_neg",
+      "tile": "kyrgyzstan1_s2_2355",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2355.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2355_q1_pos",
+      "tile": "kyrgyzstan1_s2_2355",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2355.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2501_q1_neg",
+      "tile": "kyrgyzstan1_s2_2501",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2501.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2501_q1_pos",
+      "tile": "kyrgyzstan1_s2_2501",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2501.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2508_q1_neg",
+      "tile": "kyrgyzstan1_s2_2508",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2508.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2508_q1_pos",
+      "tile": "kyrgyzstan1_s2_2508",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2508.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2846_q1_neg",
+      "tile": "kyrgyzstan1_s2_2846",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2846.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2846_q1_pos",
+      "tile": "kyrgyzstan1_s2_2846",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2846.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2940_q1_neg",
+      "tile": "kyrgyzstan1_s2_2940",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2940.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_2940_q1_pos",
+      "tile": "kyrgyzstan1_s2_2940",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_2940.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3186_q1_neg",
+      "tile": "kyrgyzstan1_s2_3186",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3186.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3186_q1_pos",
+      "tile": "kyrgyzstan1_s2_3186",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3186.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3234_q1_neg",
+      "tile": "kyrgyzstan1_s2_3234",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3234.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3234_q1_pos",
+      "tile": "kyrgyzstan1_s2_3234",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3234.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3295_q1_neg",
+      "tile": "kyrgyzstan1_s2_3295",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3295.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3295_q1_pos",
+      "tile": "kyrgyzstan1_s2_3295",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3295.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3406_q1_neg",
+      "tile": "kyrgyzstan1_s2_3406",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3406.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3406_q1_pos",
+      "tile": "kyrgyzstan1_s2_3406",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3406.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3491_q1_neg",
+      "tile": "kyrgyzstan1_s2_3491",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3491.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3491_q1_pos",
+      "tile": "kyrgyzstan1_s2_3491",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3491.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3743_q1_neg",
+      "tile": "kyrgyzstan1_s2_3743",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3743.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3743_q1_pos",
+      "tile": "kyrgyzstan1_s2_3743",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3743.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3784_q1_neg",
+      "tile": "kyrgyzstan1_s2_3784",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3784.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3784_q1_pos",
+      "tile": "kyrgyzstan1_s2_3784",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3784.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3934_q1_neg",
+      "tile": "kyrgyzstan1_s2_3934",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3934.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3934_q1_pos",
+      "tile": "kyrgyzstan1_s2_3934",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3934.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3962_q1_neg",
+      "tile": "kyrgyzstan1_s2_3962",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3962.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_3962_q1_pos",
+      "tile": "kyrgyzstan1_s2_3962",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_3962.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4048_q1_neg",
+      "tile": "kyrgyzstan1_s2_4048",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4048.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4048_q1_pos",
+      "tile": "kyrgyzstan1_s2_4048",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4048.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4132_q1_neg",
+      "tile": "kyrgyzstan1_s2_4132",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4132.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4132_q1_pos",
+      "tile": "kyrgyzstan1_s2_4132",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4132.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4390_q1_neg",
+      "tile": "kyrgyzstan1_s2_4390",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4390.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4390_q1_pos",
+      "tile": "kyrgyzstan1_s2_4390",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4390.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4404_q1_neg",
+      "tile": "kyrgyzstan1_s2_4404",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4404.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4404_q1_pos",
+      "tile": "kyrgyzstan1_s2_4404",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4404.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4406_q1_neg",
+      "tile": "kyrgyzstan1_s2_4406",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4406.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4406_q1_pos",
+      "tile": "kyrgyzstan1_s2_4406",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4406.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4476_q1_neg",
+      "tile": "kyrgyzstan1_s2_4476",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4476.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4476_q1_pos",
+      "tile": "kyrgyzstan1_s2_4476",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4476.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4496_q1_neg",
+      "tile": "kyrgyzstan1_s2_4496",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4496.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4496_q1_pos",
+      "tile": "kyrgyzstan1_s2_4496",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4496.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4654_q1_neg",
+      "tile": "kyrgyzstan1_s2_4654",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4654.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4654_q1_pos",
+      "tile": "kyrgyzstan1_s2_4654",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4654.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4672_q1_neg",
+      "tile": "kyrgyzstan1_s2_4672",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4672.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4672_q1_pos",
+      "tile": "kyrgyzstan1_s2_4672",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4672.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4838_q1_neg",
+      "tile": "kyrgyzstan1_s2_4838",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4838.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_4838_q1_pos",
+      "tile": "kyrgyzstan1_s2_4838",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_4838.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5143_q1_neg",
+      "tile": "kyrgyzstan1_s2_5143",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5143.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5143_q1_pos",
+      "tile": "kyrgyzstan1_s2_5143",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5143.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5159_q1_neg",
+      "tile": "kyrgyzstan1_s2_5159",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5159.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5159_q1_pos",
+      "tile": "kyrgyzstan1_s2_5159",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5159.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5276_q1_neg",
+      "tile": "kyrgyzstan1_s2_5276",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5276.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5276_q1_pos",
+      "tile": "kyrgyzstan1_s2_5276",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5276.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5357_q1_neg",
+      "tile": "kyrgyzstan1_s2_5357",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5357.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5357_q1_pos",
+      "tile": "kyrgyzstan1_s2_5357",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5357.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5403_q1_neg",
+      "tile": "kyrgyzstan1_s2_5403",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5403.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5403_q1_pos",
+      "tile": "kyrgyzstan1_s2_5403",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5403.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5529_q1_neg",
+      "tile": "kyrgyzstan1_s2_5529",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5529.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5529_q1_pos",
+      "tile": "kyrgyzstan1_s2_5529",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5529.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5709_q1_neg",
+      "tile": "kyrgyzstan1_s2_5709",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5709.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5709_q1_pos",
+      "tile": "kyrgyzstan1_s2_5709",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5709.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5787_q1_neg",
+      "tile": "kyrgyzstan1_s2_5787",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5787.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5787_q1_pos",
+      "tile": "kyrgyzstan1_s2_5787",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5787.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5861_q1_neg",
+      "tile": "kyrgyzstan1_s2_5861",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5861.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_5861_q1_pos",
+      "tile": "kyrgyzstan1_s2_5861",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_5861.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_6094_q1_neg",
+      "tile": "kyrgyzstan1_s2_6094",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_6094.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_6094_q1_pos",
+      "tile": "kyrgyzstan1_s2_6094",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_6094.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_6181_q1_neg",
+      "tile": "kyrgyzstan1_s2_6181",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_6181.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan1_s2_6181_q1_pos",
+      "tile": "kyrgyzstan1_s2_6181",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan1_s2_6181.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_3054_q1_neg",
+      "tile": "kyrgyzstan2_s2_3054",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_3054.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_3054_q1_pos",
+      "tile": "kyrgyzstan2_s2_3054",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_3054.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_4252_q1_neg",
+      "tile": "kyrgyzstan2_s2_4252",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_4252.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_4252_q1_pos",
+      "tile": "kyrgyzstan2_s2_4252",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_4252.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_5339_q1_neg",
+      "tile": "kyrgyzstan2_s2_5339",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_5339.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_5339_q1_pos",
+      "tile": "kyrgyzstan2_s2_5339",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_5339.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_6201_q1_neg",
+      "tile": "kyrgyzstan2_s2_6201",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_6201.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_6201_q1_pos",
+      "tile": "kyrgyzstan2_s2_6201",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_6201.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_6204_q1_neg",
+      "tile": "kyrgyzstan2_s2_6204",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_6204.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_6204_q1_pos",
+      "tile": "kyrgyzstan2_s2_6204",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_6204.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_6546_q1_neg",
+      "tile": "kyrgyzstan2_s2_6546",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_6546.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_6546_q1_pos",
+      "tile": "kyrgyzstan2_s2_6546",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_6546.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_7039_q1_neg",
+      "tile": "kyrgyzstan2_s2_7039",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_7039.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_7039_q1_pos",
+      "tile": "kyrgyzstan2_s2_7039",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_7039.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_9106_q1_neg",
+      "tile": "kyrgyzstan2_s2_9106",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_9106.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    },
+    {
+      "id": "kyrgyzstan2_s2_9106_q1_pos",
+      "tile": "kyrgyzstan2_s2_9106",
+      "partition": "train",
+      "phen": "landslide",
+      "cache_path": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/kyrgyzstan2_s2_9106.npy",
+      "source_path": "sentinel_qa_train_v0/items.jsonl",
+      "eligible": false,
+      "reasons": [
+        "missing_cache"
+      ]
+    }
+  ],
+  "coverage": {
+    "population": 5989,
+    "test_items": 1755,
+    "prediction_rows": 5265,
+    "landslide_fold_support": {
+      "holdout_hiroshima": 372,
+      "holdout_indonesia": 12
+    },
+    "flood_events": 10
+  },
+  "historical_test_references_verified": true,
+  "all_six_converged": true,
+  "run_valid": true
+}

@@ -1,0 +1,52 @@
+--- vlm_snapshot_v2/vlm_interface_smoke.py
++++ vlm_snapshot_v3/vlm_interface_smoke.py
+@@ -141,6 +141,8 @@
+         if device.type == "cuda":
+             if not torch.cuda.is_available():
+                 raise RuntimeError("CUDA requested but unavailable")
++            torch.cuda.init()
++            torch.cuda.set_device(device)
+             torch.cuda.reset_peak_memory_stats(device)
+         if not a.model_dir.is_dir() or not a.image.is_file():
+             raise ValueError("The local model directory and local RGB image must exist")
+
+--- vlm_snapshot_v2/run_vlm_bounded.py
++++ vlm_snapshot_v3/run_vlm_bounded.py
+@@ -2,7 +2,7 @@
+ """One-shot bounded EO/Qwen interface launcher. Authoring/importing does not launch.
+ 
+ Run only after root has frozen local source and inputs. The source manifest is
+-ROOT/code_snapshot/vlm_v2/manifest.json with {"files": {relative_name: sha256}}
++ROOT/code_snapshot/vlm_v3/manifest.json with {"files": {relative_name: sha256}}
+ or per-file {"sha256": sha256} records. Both worker sources and this launcher
+ must appear. No downloads, retries, daemon, or external process termination.
+ """
+@@ -23,14 +23,14 @@
+ 
+ ROOT = Path("/home/work/data/olmoearth/oe4_native_v12_v0")
+ PYTHON = ROOT.parent / ".venv-master/bin/python"
+-SNAPSHOT = ROOT / "code_snapshot/vlm_v2"
++SNAPSHOT = ROOT / "code_snapshot/vlm_v3"
+ SOURCE_MANIFEST = SNAPSHOT / "manifest.json"
+ INPUTS = ROOT / "vlm_inputs_v0"
+-OUTPUT = ROOT / "runs/vlm_interface_gpu1_v2"
++OUTPUT = ROOT / "runs/vlm_interface_gpu1_v3"
+ NATIVE_STATUS = ROOT / "bounded_sequence_gpu1_v3_status.json"
+-STATUS = ROOT / "vlm_sequence_gpu1_v2_status.json"
+-LOG = ROOT / "vlm_interface_gpu1_v2.log"
+-LOCK = ROOT / "vlm_sequence_gpu1_v2.lock"
++STATUS = ROOT / "vlm_sequence_gpu1_v3_status.json"
++LOG = ROOT / "vlm_interface_gpu1_v3.log"
++LOCK = ROOT / "vlm_sequence_gpu1_v3.lock"
+ MODEL = ROOT.parent / "models/Qwen3-VL-8B-Instruct"
+ MAX_NATIVE_WAIT = 45 * 60
+ MAX_GPU_WAIT = 10 * 60
+@@ -103,7 +103,7 @@
+     if unlisted:
+         raise RuntimeError(f"Unhashed Python source in snapshot: {sorted(unlisted)}")
+     if Path(__file__).resolve() != (SNAPSHOT / "run_vlm_bounded.py").resolve():
+-        raise RuntimeError("Run the frozen launcher under code_snapshot/vlm_v2")
++        raise RuntimeError("Run the frozen launcher under code_snapshot/vlm_v3")
+     if file_record(SOURCE_MANIFEST) != manifest_record:
+         raise RuntimeError("Source manifest changed during verification")
+     return records

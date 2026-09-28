@@ -1,0 +1,80 @@
+{
+  "status": "passed_input_arithmetic_and_metadata_checks_not_model_performance",
+  "cases": [
+    {
+      "patch_id": "40188",
+      "passed": true,
+      "normalization_max_delta": 0.0,
+      "selected_dates": [
+        20190420,
+        20190823
+      ],
+      "target_pixels": 5005,
+      "selected_all_bands_minus10000": 0,
+      "raw_min": 35.0,
+      "raw_max": 6250.0,
+      "cloud_quality_certified": false,
+      "native_file_sha256": "55b6e883a1d8d1ac533eda64c3552331015e539da55c0d8e40a3f6052b0633a2"
+    },
+    {
+      "patch_id": "20451",
+      "passed": true,
+      "normalization_max_delta": 0.0,
+      "selected_dates": [
+        20190321,
+        20190823
+      ],
+      "target_pixels": 1328,
+      "selected_all_bands_minus10000": 0,
+      "raw_min": 45.0,
+      "raw_max": 6180.0,
+      "cloud_quality_certified": false,
+      "native_file_sha256": "33aeaed1d013d6c5c460ff8d1351df40ab995b40df0dd9280cbf2b01e37311d7"
+    }
+  ],
+  "candidate_split_disjoint": true,
+  "candidate_counts": {
+    "train": 64,
+    "development": 16
+  },
+  "actual_prepared_native_cases": 2,
+  "candidate_raw_prepared": false,
+  "test_opened_this_preparation": false,
+  "upstream_date_mismatch_fixture": [
+    {
+      "kind": "actual_image_method_and_date_branch_synthetic_fixture",
+      "image_frame_indices": [
+        0.0,
+        2.0
+      ],
+      "getitem_tail_date_indices": [
+        3,
+        4
+      ],
+      "correct_joint_indices": [
+        0,
+        2
+      ],
+      "fixed_timestamps": [
+        [
+          1,
+          0,
+          2019
+        ],
+        [
+          3,
+          0,
+          2019
+        ]
+      ],
+      "mismatch_reproduced": true
+    }
+  ],
+  "limits": [
+    "source calibration and geometry not independently reacquired from original satellite products",
+    "annual label does not prove two selected dates identify the class",
+    "no cloud ground truth",
+    "B01 and B09 imputed and explicitly marked",
+    "no VLM accuracy or checkpoint parity run"
+  ]
+}

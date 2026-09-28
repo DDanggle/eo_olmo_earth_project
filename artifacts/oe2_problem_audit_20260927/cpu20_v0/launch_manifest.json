@@ -1,0 +1,53 @@
+{
+  "command": [
+    "/home/work/data/olmoearth/.venv-master/bin/python",
+    "-B",
+    "/home/work/data/olmoearth/oe2_problem_audit_20260927/cpu20_v0/code_snapshot/signal_probe.py",
+    "--manifest",
+    "/home/work/data/olmoearth/oe2_problem_audit_20260927/cpu20_v0/code_snapshot/candidates20_manifest.json",
+    "--data-dir",
+    "/home/work/data/olmoearth/oe1_bentxt_v0/data",
+    "--eo-ckpt",
+    "/home/work/data/olmoearth/oe1_bentxt_v0/models/OlmoEarth-v1-Tiny",
+    "--eo-module",
+    "/home/work/data/olmoearth/oe2_problem_audit_20260927/cpu20_v0/code_snapshot/eo_model.py",
+    "--out",
+    "/home/work/data/olmoearth/oe2_problem_audit_20260927/cpu20_v0/probe",
+    "--device",
+    "cpu",
+    "--wall-seconds",
+    "540"
+  ],
+  "source_snapshot_sha256": {
+    "signal_probe.py": "afb3f6209b03eeee395b072a80d47aa60eebeb9c3391f447cdb4977612bc6ab4",
+    "launch_signal_probe.py": "5fb4317d6ddad0c73bacaa915f407475c02589bb8099cd55ce841b519e14cdeb",
+    "eo_model.py": "021674ba536c2dd5c1f51f748a8655a5caefae9c41a8a5fbee0828438a4d4f8d",
+    "candidates20_manifest.json": "07e5a535de255862477d39e7f8ebd493e2d6ac0731d973e80c5eba02934f0254",
+    "probe_plan.json": "3d94fee6408af76f1e2a90a18bfec608d584daff6a0532a3fab0b859df7ba9cf"
+  },
+  "protected_code_before": {
+    "pilot_sen12_gp_heads.py": {
+      "size": 45602,
+      "mtime_ns": 1788238578452341458,
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1"
+    },
+    "sen12_official_baselines.py": {
+      "size": 10926,
+      "mtime_ns": 1787683824644839874,
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b"
+    },
+    "extract_sen12_fold_cache.py": {
+      "size": 10983,
+      "mtime_ns": 1787659265235748291,
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a"
+    },
+    "audit_sen12_fold_cache.py": {
+      "size": 7314,
+      "mtime_ns": 1787668636109707291,
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9"
+    }
+  },
+  "device": "cpu",
+  "thread_limit": 4,
+  "classification": "exploratory development sensor-signal audit; no VLM or training"
+}

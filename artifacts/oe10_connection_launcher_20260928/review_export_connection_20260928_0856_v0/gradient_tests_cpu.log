@@ -1,0 +1,13 @@
+test_actual_cpu_backward_matches_contract (test_gradient_gate.GradientGateTests.test_actual_cpu_backward_matches_contract) ... ok
+test_finite_b2_and_b0_gradient_boundaries (test_gradient_gate.GradientGateTests.test_finite_b2_and_b0_gradient_boundaries) ... ok
+test_loss_finite_zero_and_nonzero_accepted (test_gradient_gate.GradientGateTests.test_loss_finite_zero_and_nonzero_accepted) ... ok
+test_loss_nan_and_infinities_rejected_before_backward (test_gradient_gate.GradientGateTests.test_loss_nan_and_infinities_rejected_before_backward) ... ok
+test_loss_nontensor_and_vector_rejected (test_gradient_gate.GradientGateTests.test_loss_nontensor_and_vector_rejected) ... ok
+test_nan_inf_any_present_gradient_rejected (test_gradient_gate.GradientGateTests.test_nan_inf_any_present_gradient_rejected) ... ok
+test_nonzero_frozen_gradients_fail (test_gradient_gate.GradientGateTests.test_nonzero_frozen_gradients_fail) ... ok
+test_zero_or_missing_required_gradients_fail (test_gradient_gate.GradientGateTests.test_zero_or_missing_required_gradients_fail) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.051s
+
+OK

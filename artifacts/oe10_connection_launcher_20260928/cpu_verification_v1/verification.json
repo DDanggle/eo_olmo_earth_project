@@ -1,0 +1,54 @@
+{
+  "created_utc": "2026-09-27T21:56:13.014808+00:00",
+  "status": "pass",
+  "checks": {
+    "tests_passed": true,
+    "preflight_blocked": true,
+    "live_p2_blocker_present": true,
+    "source_identity_verified": true,
+    "production_state_unchanged": true,
+    "production_state_absent": true
+  },
+  "test_returncode": 0,
+  "preflight_returncode": 2,
+  "preflight_reasons": [
+    "p2_terminal_audit: P2 still running or not durably terminal: running",
+    "gpu: GPU1 memory/utilization not idle"
+  ],
+  "source_manifest_sha256": "3bc700fb400e4d878afb1907b6061936b89b474493753c5f8f0162187090fd12",
+  "script_sha256": "553e0efcc064d39b05a6b7e3321d96f996573a052fccc988011dc66fc93c862d",
+  "command": [
+    "/home/work/data/olmoearth/.venv-geobench/bin/python",
+    "-B",
+    "/home/work/data/olmoearth/oe10_text_mask_identity_v2/code_snapshot/oe10_connection_launcher_v0/launcher.py",
+    "--preflight-only",
+    "--protocol",
+    "/home/work/data/olmoearth/oe10_text_mask_identity_v2/config/oe10_text_mask_connection_protocol_20260928.json",
+    "--initial-budget",
+    "/home/work/data/olmoearth/oe10_text_mask_identity_v2/config/oe10_pilot_budget_bootstrap_20260928.json",
+    "--initial-budget-sha",
+    "0c7a2c815fc12270a68fa5cb9e8739a36614efe52837d94dcd13bd47b094cd20",
+    "--launcher-sha",
+    "3bc700fb400e4d878afb1907b6061936b89b474493753c5f8f0162187090fd12",
+    "--job-id",
+    "prospective_connection_01",
+    "--seconds",
+    "1800"
+  ],
+  "production_before": {
+    "pilot_budget_ledger_v0.json": null,
+    "pilot_budget_ledger_v0.lock": null,
+    "pilot_budget_ledger_v0.initialized.json": null,
+    "connection_runs_v0": null
+  },
+  "production_after": {
+    "pilot_budget_ledger_v0.json": null,
+    "pilot_budget_ledger_v0.lock": null,
+    "pilot_budget_ledger_v0.initialized.json": null,
+    "connection_runs_v0": null
+  },
+  "actual_models_loaded": false,
+  "new_gpu_seconds": 0,
+  "budget_reserved_seconds": 0,
+  "scope": "CPU boundary tests and rejection while existing P2 is running; not a successful production launch or weight forward"
+}

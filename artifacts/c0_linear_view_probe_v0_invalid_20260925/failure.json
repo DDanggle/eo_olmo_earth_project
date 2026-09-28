@@ -1,0 +1,5 @@
+{
+  "phase": "prepare",
+  "error": "/home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_586.npy",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/work/data/olmoearth/code/c0_linear_view_probe_v0.py\", line 204, in main\n    if a.mode == 'prepare': prepare(a, out)\n                            ^^^^^^^^^^^^^^^\n  File \"/home/work/data/olmoearth/code/c0_linear_view_probe_v0.py\", line 149, in prepare\n    source_hashes = {rel: sha(root / rel) for rel in paths}; items = population(root, cfg)\n                                                                     ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/work/data/olmoearth/code/c0_linear_view_probe_v0.py\", line 119, in population\n    if not Path(it['cache_path']).is_file(): raise FileNotFoundError(it['cache_path'])\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: /home/work/data/olmoearth/olmo_streaming_dev/single_fp16/itogon_s2_586.npy\n"
+}

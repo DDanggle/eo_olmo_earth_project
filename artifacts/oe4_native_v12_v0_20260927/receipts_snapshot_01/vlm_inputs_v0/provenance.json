@@ -1,0 +1,71 @@
+{
+  "row": {
+    "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1229.h5",
+    "file_bytes": 3160559,
+    "crop_yxhw": [
+      48,
+      48,
+      32,
+      32
+    ],
+    "raw_crop_sha256": "6aeae88eb8d3e263f11fe56a62ca5661b5606f7a6fdf1dbe0d7622e95c7fb488",
+    "compact_timesteps": [
+      0,
+      1
+    ],
+    "timestamp_indices": [
+      1,
+      2
+    ],
+    "timestamps_day_month0_year": [
+      [
+        25,
+        4,
+        2016
+      ],
+      [
+        24,
+        5,
+        2016
+      ]
+    ],
+    "source_s2_shape": [
+      128,
+      128,
+      11,
+      12
+    ],
+    "source_worldcover_shape": [
+      128,
+      128,
+      1,
+      1
+    ],
+    "worldcover_unique_raw_values": [
+      10.0,
+      30.0,
+      40.0
+    ],
+    "normalization": {
+      "sentinel2_l2a": "computed",
+      "worldcover": "computed"
+    },
+    "latlon": [
+      56.488094329833984,
+      50.592071533203125
+    ],
+    "split": "train_diagnostic"
+  },
+  "rgb_bands": [
+    "B04",
+    "B03",
+    "B02"
+  ],
+  "rgb_timestamp": [
+    25,
+    4,
+    2016
+  ],
+  "rgb_display_stretch": "fixed raw DN 0..3000, clipped; not calibrated reflectance or cloud interpretation",
+  "scope": "engineering interface input"
+}

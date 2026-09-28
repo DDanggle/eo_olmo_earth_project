@@ -1,0 +1,32 @@
+{
+  "created_utc": "2026-09-27T21:50:44.644720+00:00",
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "code/oe10_connection_launcher_v0",
+    "-p",
+    "test_launcher.py",
+    "-v"
+  ],
+  "returncode": 0,
+  "tests_total": 17,
+  "tests_passed": 15,
+  "tests_skipped": 2,
+  "skip_reason": "Linux PR_SET_PDEATHSIG across-exec/parent-race tests require server CPU Linux; local is macOS",
+  "source_hashes_at_test": {
+    "README.md": "53841505c27c1f9646b9f6d5b4b491f1099015414736aef8f512e0e9b8eb3ff4",
+    "launcher.py": "40b5cea1dfd604d0a9f0dde1f4d9ae890977d327a32ce246e72dfe13717af72e",
+    "test_launcher.py": "6d509732189af3675188602a6f8106841d33746f05bb9e208d6815bbadab51ba",
+    "worker_entry.py": "eb61444a881840f838ee81dd4481ff93e8773c97848862203b1cdb84ff1cc6b0"
+  },
+  "source_frozen": false,
+  "new_gpu_seconds": 0,
+  "production_reservations_created": 0,
+  "server_access_by_agent": false,
+  "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+  "remaining": "Independent final review, then manifest freeze and parent-run Linux CPU tests/preflight-only; no actual launch"
+}

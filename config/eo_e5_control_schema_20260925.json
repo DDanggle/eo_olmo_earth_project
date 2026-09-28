@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Optional per-case audited E5 saved responses",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "question_id",
+    "source_role",
+    "source_gold",
+    "predictions",
+    "primary_membership",
+    "dates",
+    "slots",
+    "completed_at",
+    "source_sha256"
+  ],
+  "properties": {
+    "run_id": {
+      "const": "E5-EB-v0"
+    },
+    "question_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_role": {
+      "const": "historical_model_output"
+    },
+    "source_gold": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "predictions": {
+      "type": "object",
+      "required": [
+        "full/native",
+        "pair/native",
+        "later/native",
+        "delta/native",
+        "full/full_no_delta"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "full/native": {
+          "type": "object",
+          "required": [
+            "1",
+            "2",
+            "3"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "1": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "2": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "3": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            }
+          }
+        },
+        "pair/native": {
+          "type": "object",
+          "required": [
+            "1",
+            "2",
+            "3"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "1": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "2": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "3": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            }
+          }
+        },
+        "later/native": {
+          "type": "object",
+          "required": [
+            "1",
+            "2",
+            "3"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "1": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "2": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "3": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            }
+          }
+        },
+        "delta/native": {
+          "type": "object",
+          "required": [
+            "1",
+            "2",
+            "3"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "1": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "2": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "3": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            }
+          }
+        },
+        "full/full_no_delta": {
+          "type": "object",
+          "required": [
+            "1",
+            "2",
+            "3"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "1": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "2": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            },
+            "3": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "yes",
+                "no",
+                null
+              ]
+            }
+          }
+        }
+      }
+    },
+    "primary_membership": {
+      "type": "boolean"
+    },
+    "dates": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+      }
+    },
+    "slots": {
+      "const": [
+        "pre_2",
+        "post"
+      ]
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_sha256": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    }
+  },
+  "description": "Attachment only to existing914floodtestcases. Each condition/seed is a saved historical parsed answer, not a vote/confidence/new inference. null means saved parse failure; missing condition/seed is invalid. source_gold/question_id/dates/slots must equal the existing case and frozen source item. primary_membership must equal frozen E5 eval_sets primary_same_prompt and existing C1 supported_stratum. completed_at requires an explicit timezone. full/full_no_delta is an evaluation intervention of the trained full model. Validation also checks audited byte hashes and full26325prediction coverage; JSON Schema alone cannot establish provenance."
+}

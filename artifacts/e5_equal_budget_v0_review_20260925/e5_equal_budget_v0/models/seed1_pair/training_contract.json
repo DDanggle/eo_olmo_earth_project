@@ -1,0 +1,30 @@
+{
+  "seed": 1,
+  "model_arm": "pair",
+  "initial_file_sha256": "2cc020bba20be73ff9f1460dda6456aca74ec77ff2395853fba3f7f8aaae90a7",
+  "initial_tensor_sha256": "5fa221138f3b1f670e2ca3d1b9b5d7131228555527a0bf793012acfe5832ee28",
+  "ordered_ids_sha256": "d92bc1591bcaa64c9f721eb106bf762f49ee6a578f83633bf5b8af536b9ffb5c",
+  "batches_sha256": "38e411014eb25dd067d5740df15f00826cb2dd95acedea0dd386b76251b89fbe",
+  "optimizer_groups": [
+    {
+      "lr": 0.0001,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.01,
+      "amsgrad": false,
+      "maximize": false,
+      "foreach": null,
+      "capturable": false,
+      "differentiable": false,
+      "fused": null,
+      "decoupled_weight_decay": true
+    }
+  ],
+  "epochs": 3,
+  "batch_size": 8,
+  "expected_updates": 1590,
+  "expected_exposures": 12702
+}

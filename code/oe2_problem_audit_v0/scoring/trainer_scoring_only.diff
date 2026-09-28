@@ -1,0 +1,37 @@
+--- /Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/code/oe1_bentxt_v0/train_pilot.py
++++ /private/tmp/oe2_problem_audit_20260926/scoring/train_pilot_scoring_v1_1.py
+@@ -28,6 +28,7 @@
+ from torch.nn import functional as F
+ 
+ from eo_model import EOImageEncoder, S2_BANDS, acquisition_day, sha256_file
++from yes_no_scoring import POLICY_VERSION, binary_decision
+ 
+ ARMS = ("frozen", "joint", "blind")
+ 
+@@ -269,7 +270,7 @@
+         rows, images, partitions, data_hashes = validate_data(args.data_dir)
+         schedule = batches_for(partitions["train"], args.steps, args.seed)
+         donors = donor_map(rows, partitions["dev"])
+-        config = {"schema": "oe1-bentxt-feasibility-v0", "arms": list(ARMS), "seed": args.seed, "training_seed": args.seed, "data_selection_seed": 20260926,
++        config = {"schema": "oe1-bentxt-feasibility-v0", "scoring_policy": POLICY_VERSION, "output_revision": "scoring_v1_1", "arms": list(ARMS), "seed": args.seed, "training_seed": args.seed, "data_selection_seed": 20260926,
+                   "steps_per_arm": args.steps, "batch_size": 8, "exposures_per_arm": args.steps * 8,
+                   "projector_lr": .001, "joint_encoder_lr": .00001, "weight_decay": .01, "clip_norm": 1.,
+                   "encoder_eval_mode_in_all_arms": True, "encoder_model": "OlmoEarth-v1-Tiny",
+@@ -279,7 +280,7 @@
+                   "data_manifest_sha256": data_hashes[str(Path(args.data_dir).resolve() / "manifest.json")],
+                   "llm_dir": str(Path(args.llm_dir).resolve()), "max_wall_seconds": args.max_wall_seconds,
+                   "n_train": len(partitions["train"]), "n_dev": len(partitions["dev"]),
+-                  "data_files_sha256": data_hashes, "code_sha256": {p.name: sha256_file(p) for p in [Path(__file__), Path(__file__).with_name("eo_model.py")]}}
++                  "data_files_sha256": data_hashes, "code_sha256": {p.name: sha256_file(p) for p in [Path(__file__), Path(__file__).with_name("eo_model.py"), Path(__file__).with_name("yes_no_scoring.py")]}}
+         write(out / "run_config.json", config)
+         write(out / "batches.json", [[rows[i]["id"] for i in batch] for batch in schedule])
+         write(out / "donor_plan.json", {"mapping": {rows[i]["id"]: rows[j]["id"] for i, j in donors.items()},
+@@ -431,7 +432,7 @@
+                                 "source_gold": rows[i]["output"], "eval_gold": rows[shown]["output"], "argmax_token_id": winner, "raw_token": decoded,
+                                 "gold_basis": "same_question_donor_source_answer" if control == "observation_swap" else ("unchanged_source_label_control" if control == "zero" or arm == "blind" else "source_answer"),
+                                 "parsed": normalized if normalized in ("yes", "no") else None,
+-                                "constrained_prediction": "yes" if p_yes >= .5 else "no", "constrained_yes_probability": p_yes,
++                                "constrained_prediction": binary_decision(float(yn[j, 0]), float(yn[j, 1]), answer_ids)["prediction"], "constrained_yes_probability": p_yes,
+                                 "yes_logit": float(yn[j, 0]), "no_logit": float(yn[j, 1]), "image_tokens_used": arm != "blind" and control != "zero"}
+                             group.append(record); predictions.append(record)
+                     evaluations[arm + "/" + control] = metrics(group)

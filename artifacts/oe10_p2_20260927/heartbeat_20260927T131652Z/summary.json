@@ -1,0 +1,32 @@
+{
+  "observed_utc": "2026-09-27T13:16:52+00:00",
+  "controller_status": "running",
+  "current_worker": "B2_270927_train",
+  "completed_runs": 1,
+  "worker_pid": 1421757,
+  "receipt_updates": 456,
+  "latest_log_step": 457,
+  "last_train_loss_finite": true,
+  "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+  "gpu_memory_mib": 47198,
+  "first_B2_score_step": 384,
+  "first_B2_auc": 0.19381891219831426,
+  "score_hash_verified": "4dc878e71504130f952cc85d4df609fa5fcda9d58aa78d43cd1dec0bdf592839",
+  "absent_fp_area_by_k": {
+    "1": 0.0,
+    "2": 0.0,
+    "4": 0.0,
+    "8": 0.0
+  },
+  "absent_fp_case_rate_by_k": {
+    "1": 0.0,
+    "2": 0.0,
+    "4": 0.0,
+    "8": 0.0
+  },
+  "paired_seed_complete": false,
+  "new_failure": false,
+  "requires_action": false,
+  "notify_user": false,
+  "scope": "Intermediate single-arm score file retrieved and hash-checked, not raw-mask re-scoring or a completed paired comparison; prior B0 stability shortfall remains. No changes to source, schedule, thresholds, samples or resource cap."
+}

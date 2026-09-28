@@ -1,0 +1,559 @@
+{
+  "schema_version": "oe10_terminal_evidence_v1",
+  "audited_utc": "2026-09-27T23:50:17.600775+00:00",
+  "p2_result": "incomplete",
+  "completed_runs": 5,
+  "expected_runs": 6,
+  "p2_status": {
+    "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/status.json",
+    "bytes": 9694,
+    "sha256": "df8da2d02dfe0e86be0ba9b6d61b7763c7f3e401ea3f44125f853aba02383533"
+  },
+  "controller_error": "RuntimeError('worker timeout')",
+  "controller_elapsed_seconds": 43200.395225815475,
+  "own_pids_checked_inactive": [
+    1419400,
+    1419405,
+    1421757,
+    1435655,
+    1448236,
+    1456659,
+    1457846
+  ],
+  "no_controller_worker_command": true,
+  "protocol": {
+    "path": "/home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json",
+    "bytes": 3678,
+    "sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3"
+  },
+  "source_manifest": {
+    "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/source_manifest.json",
+    "bytes": 1258,
+    "sha256": "f61df65d5d31940f84c7d5b6411c9c1919365c8cb1188bd78e74e077428048dd"
+  },
+  "source_payloads": {
+    "native_replay.py": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/native_replay.py",
+      "bytes": 20836,
+      "sha256": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670"
+    },
+    "episode_model.py": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/episode_model.py",
+      "bytes": 19395,
+      "sha256": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297"
+    },
+    "episode_loader.py": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/episode_loader.py",
+      "bytes": 18297,
+      "sha256": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6"
+    },
+    "score_predictions.py": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/score_predictions.py",
+      "bytes": 17576,
+      "sha256": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a"
+    },
+    "p2_worker.py": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/p2_worker.py",
+      "bytes": 16250,
+      "sha256": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a"
+    },
+    "run_bounded.py": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/run_bounded.py",
+      "bytes": 5739,
+      "sha256": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0"
+    },
+    "guard_reference.py": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/guard_reference.py",
+      "bytes": 20074,
+      "sha256": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8"
+    },
+    "gate_config.json": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/gate_config.json",
+      "bytes": 6762,
+      "sha256": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5"
+    },
+    "test_episode_model.py": {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/test_episode_model.py",
+      "bytes": 7769,
+      "sha256": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+    }
+  },
+  "protected_actual": {
+    "pilot_sen12_gp_heads.py": {
+      "path": "/home/work/data/olmoearth/code/pilot_sen12_gp_heads.py",
+      "bytes": 45602,
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458
+    },
+    "sen12_official_baselines.py": {
+      "path": "/home/work/data/olmoearth/code/sen12_official_baselines.py",
+      "bytes": 10926,
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874
+    },
+    "extract_sen12_fold_cache.py": {
+      "path": "/home/work/data/olmoearth/code/extract_sen12_fold_cache.py",
+      "bytes": 10983,
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291
+    },
+    "audit_sen12_fold_cache.py": {
+      "path": "/home/work/data/olmoearth/code/audit_sen12_fold_cache.py",
+      "bytes": 7314,
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291
+    }
+  },
+  "collector_source": {
+    "path": "/home/work/data/olmoearth/oe10_p2_v0/audit_snapshot/oe10_audit_v2/summarize_runs.py",
+    "bytes": 14445,
+    "sha256": "24f845f0abcf985d16d6fc7bcec8f4df2849a9a86bf59777e7acb88036a4a5a0"
+  },
+  "collection": {
+    "path": "/home/work/data/olmoearth/oe10_p2_v0/terminal_collection_20260928_0843.json",
+    "bytes": 14581,
+    "sha256": "c180fb97d24ed0d305c8b064bfbf4c10b0f811c3a2d3e84dab9d98565335629c"
+  },
+  "collector_blockers": [
+    "B2_270929_train: run unfinished/identity mismatch",
+    "six completed workers/controller integrity not yet verified"
+  ],
+  "fairness_source_proof_checks_verified": [
+    "acquisition_and_missing_input_guards_verified",
+    "identifiers_and_class_mapping_not_model_inputs",
+    "query_gold_access_blocked",
+    "same_allowed_images_and_observation_access",
+    "same_connector_and_dense_head_capacity",
+    "same_reader_checkpoint_and_trainability",
+    "source_bank_excluded_from_training_supervision"
+  ],
+  "fairness_index": {
+    "path": "/home/work/data/olmoearth/oe10_p2_v0/fairness_audit_v3_evidence.json",
+    "bytes": 1467,
+    "sha256": "f512cddeaa191c45cd9a570b7652c817d62e01af5666492989be72bcedd2b9d9"
+  },
+  "fairness_proof": {
+    "path": "/home/work/data/olmoearth/oe10_p2_v0/fairness_audit_v3.json",
+    "bytes": 5222,
+    "sha256": "a647a774690a9ca55aed6e0678d55d424dd2996356221e14ec3de59d41d4d008"
+  },
+  "gate_config": {
+    "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/gate_config.json",
+    "bytes": 6762,
+    "sha256": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5"
+  },
+  "verified_runs": [
+    {
+      "name": "B0_270927_train",
+      "receipt": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270927_train/receipt.json",
+        "bytes": 11558,
+        "sha256": "66084a38b4c7c92e88f71fed8d1603afb1723238c62124bc3773e8d6b43f1f56"
+      },
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270927_train/final.pt",
+        "bytes": 1104210015,
+        "sha256": "594ea8a3c252e511ad716135c3d6fbf7af4c89f7890a233490181ddd05a2f915"
+      },
+      "train_log": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270927_train/train_log.jsonl",
+        "bytes": 5974554,
+        "sha256": "483ca9c3b59ff0d5d052e934c1b3891331ef9da2827c51d81044ad448024fe21"
+      },
+      "final_score": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270927_train/score_step_002304.json",
+        "bytes": 289023,
+        "sha256": "5a3594b674c0f1e3d84270428f6779c596a0cdb5760ec0eb7004047240910bf5"
+      },
+      "final_predictions_manifest": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270927_train/predictions_step_002304/predictions.jsonl",
+        "bytes": 74880,
+        "sha256": "9af99e7089a70873892a7f42b2115fcc15a4d8216845a68b9e48110db01c07c0"
+      },
+      "last3_auc_range": 0.058848018671879804,
+      "frozen_maximum_last3_auc_range": 0.005,
+      "last3_stability_passed": false,
+      "collector_training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.15434894428310303
+          },
+          {
+            "step": 768,
+            "auc": 0.10294451111032903
+          },
+          {
+            "step": 1152,
+            "auc": 0.22520108026654498
+          },
+          {
+            "step": 1536,
+            "auc": 0.24214796122214008
+          },
+          {
+            "step": 1920,
+            "auc": 0.29246216252170376
+          },
+          {
+            "step": 2304,
+            "auc": 0.3009959798940199
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      }
+    },
+    {
+      "name": "B2_270927_train",
+      "receipt": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/receipt.json",
+        "bytes": 11701,
+        "sha256": "1d875968d5da8b4a689d26a7fc133686a7c7f775fdfea32e47b617b023e55e66"
+      },
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/final.pt",
+        "bytes": 2076434322,
+        "sha256": "c4b1ede7b3291befcf658485aa8ed276717bd76013fd438422108f124aed1e1f"
+      },
+      "train_log": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/train_log.jsonl",
+        "bytes": 6150642,
+        "sha256": "397eb11f64935827c696b36f3d9b2e69164314981edf2ff9125306fcca22e6da"
+      },
+      "final_score": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/score_step_002304.json",
+        "bytes": 288426,
+        "sha256": "176e80bbfa0982adb382c64b44108a94d4e961ba6a049ad3826cd24df1f5cfb5"
+      },
+      "final_predictions_manifest": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/predictions_step_002304/predictions.jsonl",
+        "bytes": 74880,
+        "sha256": "803f11b7009ecd0e5f776f2e45aba31733fbeb719d1cddabdad0d964719b2e6c"
+      },
+      "last3_auc_range": 0.01787521971775452,
+      "frozen_maximum_last3_auc_range": 0.005,
+      "last3_stability_passed": false,
+      "collector_training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.19381891219831426
+          },
+          {
+            "step": 768,
+            "auc": 0.15490909520947027
+          },
+          {
+            "step": 1152,
+            "auc": 0.30866838806242747
+          },
+          {
+            "step": 1536,
+            "auc": 0.3238788779261633
+          },
+          {
+            "step": 1920,
+            "auc": 0.3368343094833078
+          },
+          {
+            "step": 2304,
+            "auc": 0.34175409764391784
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      }
+    },
+    {
+      "name": "B0_270928_train",
+      "receipt": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270928_train/receipt.json",
+        "bytes": 11558,
+        "sha256": "c4d90b6de39749c20daf9e7e9afcca95cf01306de52919c839a4cbc60958bfa7"
+      },
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270928_train/final.pt",
+        "bytes": 1104210015,
+        "sha256": "64414bcafbd557e6b30dc19968a80a150bb43d79fba34ad09385a027b7c61e67"
+      },
+      "train_log": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270928_train/train_log.jsonl",
+        "bytes": 5973584,
+        "sha256": "7761160a9117ecf76c3b817b8e63b69c06acc5a62946676ee8f29fa290b3243b"
+      },
+      "final_score": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270928_train/score_step_002304.json",
+        "bytes": 288944,
+        "sha256": "4e2babba485e59859e5361969e2abe0a408915fe1be55f27d930a81255f5630e"
+      },
+      "final_predictions_manifest": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270928_train/predictions_step_002304/predictions.jsonl",
+        "bytes": 74880,
+        "sha256": "700cd269ba4cf3b93f30bceefabfb8502977e61a21dc384b4d1c8af5c1597604"
+      },
+      "last3_auc_range": 0.08588244835773728,
+      "frozen_maximum_last3_auc_range": 0.005,
+      "last3_stability_passed": false,
+      "collector_training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.11145233225525024
+          },
+          {
+            "step": 768,
+            "auc": 0.0752019255834734
+          },
+          {
+            "step": 1152,
+            "auc": 0.2624101442523184
+          },
+          {
+            "step": 1536,
+            "auc": 0.22763289488452193
+          },
+          {
+            "step": 1920,
+            "auc": 0.3135153432422592
+          },
+          {
+            "step": 2304,
+            "auc": 0.29600542064495083
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      }
+    },
+    {
+      "name": "B2_270928_train",
+      "receipt": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270928_train/receipt.json",
+        "bytes": 11697,
+        "sha256": "b9a3e40e2618b9c3050d1b73790f9ec69ee30919aa14ad7fce01c5f1680929eb"
+      },
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270928_train/final.pt",
+        "bytes": 2076434258,
+        "sha256": "2f177fa30239e29f6481f7f451f7f9603c4312ab993d5b519cd20c15685a4c2a"
+      },
+      "train_log": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270928_train/train_log.jsonl",
+        "bytes": 6151285,
+        "sha256": "4f5d90260b26d8c8d83bf69a799914e1b2c040fae09319b1d8e60173af6e3b94"
+      },
+      "final_score": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270928_train/score_step_002304.json",
+        "bytes": 288814,
+        "sha256": "b306b82693287d1ac72f59adef30deaeae2bf5c609e7ab19b1fff031be2b461b"
+      },
+      "final_predictions_manifest": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270928_train/predictions_step_002304/predictions.jsonl",
+        "bytes": 74880,
+        "sha256": "98d23fa479d8ae1d2915535247c5dc435ffbd928e41b25caf722217458589657"
+      },
+      "last3_auc_range": 0.017807837298579376,
+      "frozen_maximum_last3_auc_range": 0.005,
+      "last3_stability_passed": false,
+      "collector_training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.20014203008649836
+          },
+          {
+            "step": 768,
+            "auc": 0.18901691554350303
+          },
+          {
+            "step": 1152,
+            "auc": 0.31956756839094574
+          },
+          {
+            "step": 1536,
+            "auc": 0.33693942248797654
+          },
+          {
+            "step": 1920,
+            "auc": 0.3547472597865559
+          },
+          {
+            "step": 2304,
+            "auc": 0.349704190395458
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      }
+    },
+    {
+      "name": "B0_270929_train",
+      "receipt": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270929_train/receipt.json",
+        "bytes": 11557,
+        "sha256": "d3014270122814d7a2027cda94c9b1f89ddc1e0e1fcd8454c185c20b606468f4"
+      },
+      "checkpoint": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270929_train/final.pt",
+        "bytes": 1104210079,
+        "sha256": "f4032dba25bf15b810f93c87c9f903085411f1d8016cc14dcaa826417806ac09"
+      },
+      "train_log": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270929_train/train_log.jsonl",
+        "bytes": 5974717,
+        "sha256": "2e64374d453ca7879b87a5ef021c544e2671160bf789eecb460f0b2b75fcfdce"
+      },
+      "final_score": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270929_train/score_step_002304.json",
+        "bytes": 288353,
+        "sha256": "b83211f8320326ab8a0bba0e8d810dae6c29a261f2dcbd4adeffe67674e001e6"
+      },
+      "final_predictions_manifest": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270929_train/predictions_step_002304/predictions.jsonl",
+        "bytes": 74880,
+        "sha256": "3f320e9769d07e1c82450f1c3c4ef1b071adc681b868b0a62ce17051470a414c"
+      },
+      "last3_auc_range": 0.06924408799293966,
+      "frozen_maximum_last3_auc_range": 0.005,
+      "last3_stability_passed": false,
+      "collector_training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.05414293256497712
+          },
+          {
+            "step": 768,
+            "auc": 0.10891003850789176
+          },
+          {
+            "step": 1152,
+            "auc": 0.15903407088206725
+          },
+          {
+            "step": 1536,
+            "auc": 0.2618469498059547
+          },
+          {
+            "step": 1920,
+            "auc": 0.20567975678261627
+          },
+          {
+            "step": 2304,
+            "auc": 0.2749238447755559
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      }
+    }
+  ],
+  "unfinished_runs": [
+    {
+      "name": "B2_270929_train",
+      "included_in_final_comparison": false,
+      "receipt_identity": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train/receipt.json",
+        "bytes": 10030,
+        "sha256": "4325e00ba2acc70fe8b485bad2d8c175dd5aa18406bbf164da31a692494adce0"
+      },
+      "receipt_status": "training",
+      "receipt_completed_updates": 1872,
+      "receipt_latest_checkpoint_sha256": "ce27298b4c7cea6a91fc52cc83380e96b618639a47bf47ad8cb6d0ff5c884f9f",
+      "log_identity": {
+        "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train/train_log.jsonl",
+        "bytes": 5004449,
+        "sha256": "82859db4a65a93c1cf5a14dfc600ec8c2703fa99de7963a37b546451a156260e"
+      },
+      "last_logged_step": 1876,
+      "score_steps_present": [
+        384,
+        768,
+        1152,
+        1536
+      ],
+      "score_files": [
+        {
+          "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train/score_step_000384.json",
+          "bytes": 286435,
+          "sha256": "1e3cc4b032286fc7493eb50b3ab2ce7ba2c481f87d8cc3d3536fd4d74cce5362"
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train/score_step_000768.json",
+          "bytes": 287238,
+          "sha256": "4f516b7a28de42c51edbb28f168fd3ed3a3cc067fd1f30ebe2013562673d18fb"
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train/score_step_001152.json",
+          "bytes": 288089,
+          "sha256": "1ed527f54b3ac0085442798ddeb3c0d87af96ea8c81388c8cd9757c7e957e1a7"
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train/score_step_001536.json",
+          "bytes": 288576,
+          "sha256": "05dbde6c0a3115795cfbdf77698966db0113489603e703ad16693007535c8806"
+        }
+      ],
+      "checkpoint_files": [
+        {
+          "path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train/latest.pt",
+          "bytes": 2076485163,
+          "sha256": "ce27298b4c7cea6a91fc52cc83380e96b618639a47bf47ad8cb6d0ff5c884f9f"
+        }
+      ],
+      "latest_checkpoint_matches_receipt": true,
+      "checkpoint_contents_deserialized": false,
+      "checkpoint_receipt_mismatch_policy": "If false, preserve interruption mismatch as unverified; never include this arm in the final comparison or resume it."
+    }
+  ],
+  "full_p2_decision_made": false,
+  "new_gpu_seconds": 0,
+  "limits": [
+    "Terminal evidence audit only; no scientific-gate pass claim.",
+    "Partial collector does not evaluate full 13-check comparative fairness.",
+    "Prediction file hashes were verified by the frozen collector; array shape/finite/bounds and independent export review remain external, not repeated here.",
+    "Training stability failures are retained; unfinished arm excluded from final comparison.",
+    "One development region, synthetic corrections, no human or generated-language evaluation."
+  ]
+}

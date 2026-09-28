@@ -1,0 +1,80 @@
+{
+  "checked_kst": "2026-09-27T15:39:57.665155+09:00",
+  "user_confirmation": "froze; user manually rebooted",
+  "boot_time_kst": "2026-09-27T15:26:15+09:00",
+  "local_ram_gib": 48,
+  "current_swap_used_mib": 0,
+  "current_vm_compressor_pages": 0,
+  "current_disk_available_gib": 476,
+  "interpretation": "Repeated severe local memory pressure; Python97161 largest. Script/owner unconfirmed. Recorded rpages is not a claim of exclusive uncompressed physical RAM. No automatic reboot claim.",
+  "events": [
+    {
+      "source_path": "/Library/Logs/DiagnosticReports/JetsamEvent-2026-09-27-135656.ips",
+      "source_sha256": "88b97c26d93023c8f971964cae6213fecc04e34085d169c90189bc213623af2f",
+      "time": "2026-09-27 13:56:55.46 +0900",
+      "largest_pid": 97161,
+      "largest_name": "Python",
+      "rpages_gib": 43.91383361816406,
+      "compressor_gib": 18.098648071289062,
+      "free_mib": 192.34375,
+      "compressor_shortage_recorded": true
+    },
+    {
+      "source_path": "/Library/Logs/DiagnosticReports/JetsamEvent-2026-09-27-135730.ips",
+      "source_sha256": "19fb663e93da11c2a3846f9e190492a17036bbc44c74ddf8bdc908fa3ac7c849",
+      "time": "2026-09-27 13:57:29.36 +0900",
+      "largest_pid": 97161,
+      "largest_name": "Python",
+      "rpages_gib": 43.913726806640625,
+      "compressor_gib": 17.033004760742188,
+      "free_mib": 510.296875,
+      "compressor_shortage_recorded": true
+    },
+    {
+      "source_path": "/Library/Logs/DiagnosticReports/JetsamEvent-2026-09-27-143038.ips",
+      "source_sha256": "1a8134ee8b1f0c3180f2a15ff0503f088b7040d73edbaf272efa3a6686ece283",
+      "time": "2026-09-27 14:30:37.89 +0900",
+      "largest_pid": 97161,
+      "largest_name": "Python",
+      "rpages_gib": 43.9100341796875,
+      "compressor_gib": 18.577804565429688,
+      "free_mib": 430.5,
+      "compressor_shortage_recorded": true
+    },
+    {
+      "source_path": "/Library/Logs/DiagnosticReports/JetsamEvent-2026-09-27-143621.ips",
+      "source_sha256": "ba30e7942f3837f1035a71615f8c89a1cb3816fbdcf8df8a0422f4ff4d0b094d",
+      "time": "2026-09-27 14:36:21.76 +0900",
+      "largest_pid": 97161,
+      "largest_name": "Python",
+      "rpages_gib": 43.90397644042969,
+      "compressor_gib": 21.401443481445312,
+      "free_mib": 21.265625,
+      "compressor_shortage_recorded": true
+    },
+    {
+      "source_path": "/Library/Logs/DiagnosticReports/JetsamEvent-2026-09-27-143900.ips",
+      "source_sha256": "a43b0e44706baa846f24c2cb80dfecec21131cd6ef9bd36334cb218da945f949",
+      "time": "2026-09-27 14:39:00.34 +0900",
+      "largest_pid": 97161,
+      "largest_name": "Python",
+      "rpages_gib": 41.5447998046875,
+      "compressor_gib": 16.600967407226562,
+      "free_mib": 67.78125,
+      "compressor_shortage_recorded": true
+    }
+  ],
+  "remote": {
+    "responsive": true,
+    "uptime_days": 202,
+    "gpu0_compute_processes": 0,
+    "gpu1_compute_processes": 0,
+    "native_gpu1_8_and_32_step": "completed",
+    "vlm_v3": "failed_cache_parity_before_backward",
+    "vlm_v4_archive_bytes": 18167,
+    "vlm_v4_archive_sha256": "333e6240872dcbd121807a78cd284931c7c9f2c54a5c0f9e5d7824c26ed54335",
+    "vlm_v4_at_incident_check": "uploaded_only; no extracted directory/status/process"
+  },
+  "preserved_local_snapshot_hash_checks": "snapshot_02 11 files and snapshot_03 3 files all matched independent audit",
+  "diagnostic_mutations": "No process killed, no settings changed, no problematic Python restarted"
+}

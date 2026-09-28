@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/runtime_v0/runtime_smoke.py", line 448, in <module>
+    main()
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/runtime_v0/runtime_smoke.py", line 266, in main
+    base_loss = LossConfig(loss_config=copy.deepcopy(train_config["loss_config"]["loss_config"])).build()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/source/olmoearth_pretrain/train/loss.py", line 1303, in build
+    loss_key = self.loss_config.pop("type")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'type'

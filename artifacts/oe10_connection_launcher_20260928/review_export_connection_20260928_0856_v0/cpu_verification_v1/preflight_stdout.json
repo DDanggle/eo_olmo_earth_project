@@ -1,0 +1,131 @@
+{
+  "ready": false,
+  "reasons": [
+    "p2_terminal_audit: P2 still running or not durably terminal: running",
+    "gpu: GPU1 memory/utilization not idle"
+  ],
+  "evidence": {
+    "server_scope": true,
+    "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+    "launcher_source": {
+      "manifest_sha256": "3bc700fb400e4d878afb1907b6061936b89b474493753c5f8f0162187090fd12",
+      "files_verified": 4
+    },
+    "model_source": {
+      "manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+      "files_verified": 16
+    },
+    "episodes": {
+      "manifest_sha256": "14a59caee4dc716ebdc34b74092f19a5f5ca9dcc8b6178b63c5a6cf52eeeb0f8",
+      "files_verified": 232
+    },
+    "full_reader_eo_hash_recheck_pending_reserved_child": true,
+    "ledger": {
+      "charged_seconds": 0,
+      "would_reserve_seconds": 1800,
+      "read_only": true
+    }
+  },
+  "protocol": {
+    "schema_version": "oe10_text_mask_connection_protocol_v1",
+    "created_utc": "2026-09-27T20:57:08.084463+00:00",
+    "status": "frozen_before_new_actual_model_forward_not_launch_ready",
+    "purpose": "Real-weight engineering dependency, finite-gradient and same-process restore check; not a training or efficacy experiment.",
+    "hypothesis": "The separate text-conditioned mask baseline can use Qwen text features to change an EO mask and propagate a finite mask-loss gradient to the original OlmoEarth encoder.",
+    "source": {
+      "local": "code/oe10_text_mask_v2",
+      "server": "/home/work/data/olmoearth/oe10_text_mask_identity_v2/code_snapshot/oe10_text_mask_v2",
+      "manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad"
+    },
+    "identity": {
+      "local": "artifacts/oe10_connection_identity_20260928/identity_preparation_v1/identity_manifest.json",
+      "server": "/home/work/data/olmoearth/oe10_text_mask_identity_v2/identity_preparation_v1/identity_manifest.json",
+      "sha256": "1254678033e298052e2f418e172a83d59a932c8a78aa9fded79e28ebdbfa6263",
+      "coverage": "Original EO weights/config, six selected EO source files, 14 Qwen model/tokenizer assets plus one auxiliary HF download-cache JSON, prepared manifest, contexts and complete 232-file episode export. Not the entire EO source tree or dependency environment."
+    },
+    "paths": {
+      "source": "/home/work/data/olmoearth/oe4_native_v12_v0/source",
+      "deps": "/home/work/data/olmoearth/oe4_native_v12_v0/deps",
+      "eo": "/home/work/data/olmoearth/oe4_native_v12_v0/models/OlmoEarth-v1_2-Base",
+      "qwen": "/home/work/data/olmoearth/models/Qwen3-VL-8B-Instruct",
+      "prepared": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0",
+      "episodes": "/home/work/data/olmoearth/oe10_expansion_catalog_v0/runtime_v2",
+      "contexts": "/home/work/data/olmoearth/oe10_text_mask_prepare_v0/contexts_v0/contexts.jsonl"
+    },
+    "sample": {
+      "episode_id": "054338dbc857484e70310553:k1",
+      "selection_rule": "lexicographically first train K1 episode whose positive support class is8; no query-gold or score selection",
+      "split": "train",
+      "unique_episodes": 1,
+      "k_pairs": 1,
+      "query_positions": [
+        2,
+        5
+      ],
+      "support_positions": "all 8 preselected observations per support object",
+      "query_gold_may_be_used_for": "one train-only mask loss backward; no selection or performance score"
+    },
+    "configuration": {
+      "arm": "B2",
+      "torch_seed": 280928,
+      "text_max_tokens": 1024,
+      "optimizer_updates": 0,
+      "generation": false,
+      "qwen_input": "text only; Qwen does not consume EO/RGB in this adapter",
+      "initialization": "original pinned public EO; same new head for all five conditions"
+    },
+    "conditions": [
+      "generic",
+      "names_only",
+      "matched_knowledge",
+      "removed_knowledge_diagnostic",
+      "swapped_knowledge_diagnostic"
+    ],
+    "gates": {
+      "identity": "All externally pinned source/input identities match before actual model execution.",
+      "text_dependency": "Same-input matched_knowledge versus names_only max absolute mask-logit difference > 0. This is numerical dependency only.",
+      "removal": "removed_knowledge_diagnostic versus names_only max absolute difference == 0.",
+      "loss": "One scalar finite mask loss.",
+      "gradients": "All present parameter gradients finite; nonzero tensors in EO encoder and mask head; zero nonzero-gradient tensors in frozen Qwen and unused original connector.",
+      "restore": "After no optimizer step, same-process saved trainable state reload max absolute matched-condition logit difference <= 1e-6.",
+      "diagnostics_only": [
+        "generic versus names logit difference",
+        "swapped knowledge versus names logit difference",
+        "token lengths and cache metadata"
+      ],
+      "pass_interpretation": "Engineering connection only; all gates required. No learning adequacy, semantic knowledge use, causal explanation, correction efficiency or CVPR claim."
+    },
+    "launch_requirements": [
+      "Frozen original P2 ended AND audit completed; a capped incomplete P2 is reported incomplete, not rescued.",
+      "Atomically persist a unique reservation in the cumulative pilot ledger; no prior duplicate owned job.",
+      "Check physical GPU1 is idle immediately before launch and record UUID; never stop another person process.",
+      "External process-group timeout <=1800 seconds with durable exit/actual-occupancy receipt; include retries/inference.",
+      "Record Python/Torch/Transformers/CUDA environment and actual source/config hashes.",
+      "Review launcher without changing frozen model or data; no standalone --execute invocation."
+    ],
+    "budget": {
+      "ledger": "config/oe10_hourly_research_context_20260928.json",
+      "gpu_index": 1,
+      "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+      "per_job_max_seconds": 1800,
+      "cumulative_max_seconds": 7200,
+      "reserved_seconds_at_freeze": 0,
+      "used_seconds_at_freeze": 0,
+      "retries_count": true,
+      "resets_each_hour": false
+    },
+    "stop_rules": [
+      "Fail on any identity, loss/gradient, dependency or restore gate failure; retain artifacts.",
+      "Stop at timeout or resource failure; no automatic retry outside remaining cumulative budget.",
+      "No optimizer comparison until optimizer/RNG and fresh-process resume have separately been verified."
+    ],
+    "limits": [
+      "One selected training episode, no development or final-region scoring.",
+      "Only seven unique context strings across the parent pack; agricultural understanding and class-code effects are not separated.",
+      "Public-source AI summaries are not expert corrections; human responses remain zero.",
+      "No generated-language evaluation or transfer/label-efficiency result.",
+      "This common conditional baseline is not a proposed-method novelty claim."
+    ],
+    "server_protocol_transferred": false
+  }
+}

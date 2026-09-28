@@ -1,0 +1,169 @@
+{
+  "schema": "e5-equal-budget-prereg-v0",
+  "id": "E5-EB-v0",
+  "specified_at": "2026-09-25T05:50:54.288536+00:00",
+  "status": "Pre-E5-result specification; complete source, inputs, schedules and initialization must be frozen before training/evaluation",
+  "scope": "Sequential exploratory follow-up after E3/E4 on already exposed development events. This is neither a fresh confirmatory benchmark nor a historical E2 training replay.",
+  "question": "Can training from initialization without explicit difference tokens preserve the current source-label discrimination at the same training budget, and how does it compare with removing the difference block only after full-input training?",
+  "trigger": "E3 zero-D interventions yielded all-no, including A/B retained. E4 D-only preserved much source signal but met the preregistered sufficiency rule in only one of three seeds (mixed/inconclusive). No E5 outputs existed when this plan was specified.",
+  "parents": {
+    "c0_manifest.json": "5055bd2d73f1e9f162a43899a2d0f5c46cccef53137cb3a5ae31e7a2675bcb92",
+    "items.jsonl": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+    "c1_quality.jsonl": "8f654dfbaabc41e3b27de9a04dfe0768c1f0a748439c70acb61ddae08a17a78f",
+    "c1_quality_manifest.json": "9e020bcd1144f0dd6d0ac7168177603f7fe04703ac6bbfebe110994b2679728b",
+    "c1_results.json": "327aab5825f95dd6689bb9a4baecf4dcf5f1e9de062f245e171d434e7a8cf13c",
+    "c1_selected_ids.json": "6596512102995f584f965d8ff0f9f734f0017bd7525641db1cff690e78e3dee2",
+    "e3_items.jsonl": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+    "e4_manifest.json": "4597bc1589ed7a23ffd7befa58d38aa9da859320cefcb728c26290015f0c71aa"
+  },
+  "source_files": [
+    "e5_prepare_v0.py",
+    "e5_train_v0.py",
+    "e5_scoring_v0.py",
+    "run_e5_when_idle_v0.py"
+  ],
+  "root": "/home/work/data/olmoearth",
+  "output_directory": "e5_equal_budget_v0",
+  "population": {
+    "n_items": 5989,
+    "n_train": 4234,
+    "n_test": 1755,
+    "n_unique_caches": 3756,
+    "primary_same_prompt": {
+      "n_items": 902,
+      "n_events": 8,
+      "n_pos": 445,
+      "n_hard_neg": 457,
+      "symmetric_valid_fraction_min": 0.9
+    },
+    "order": "Preserve C0-v1 items.jsonl bytes and item order. ordered_ids partitions that fixed order; row pair_index is the global zero-based item index. Do not claim this order matches historical E2.",
+    "eligibility": "Use every frozen C0 eligible item and every pinned cache. Missing, changed or nonfinite input invalidates preparation; no exclusion/reselection.",
+    "partition_checks": "No shared IDs/tiles between train and test; flood train27/test10 events and landslide train7/test2 regions disjoint."
+  },
+  "pool_reproduction": {
+    "directory": "/home/work/data/olmoearth/e4_delta_probe_v0",
+    "items_sha256": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+    "pairs_sha256": "3f9d693993ce72504a241b8ac266ab3bcf5663f50693d63c3b3b8947d126807a",
+    "expected_items": 209,
+    "comparison": "bitwise array equality of newly pooled matching item IDs against E4 frozen pairs"
+  },
+  "inputs": {
+    "pair_shape": [
+      2,
+      64,
+      768
+    ],
+    "dtype": "float32",
+    "pooling": "Exact E2 CPU torch avg_pool2d: Sentinel-1 fp16 (3,768,48,48) pooled6, Sentinel-2 fp16 (12,768,32,32) pooled4; fixed C0 indices, no global feature averaging.",
+    "token_count": 192,
+    "types": "[0]*64+[1]*64+[3]*64 in every condition",
+    "zero_blocks": "A zero EO value block still passes through projector bias, normalization and type embeddings. It is not removal of token positions.",
+    "prompt": "Same source question, sensor, phenomenon, date strings and yes/no answer tokenization in every condition. Save exact user/chat strings and prefix/suffix/answer IDs for all items.",
+    "flood_dates": "Known event-derived approximations also embedded by encoder, not independently verified acquisition timestamps."
+  },
+  "arms": {
+    "full": "[A,B,B-A]",
+    "pair": "[A,B,0]",
+    "later": "[0,B,0]",
+    "delta": "[0,0,B-A]"
+  },
+  "training": {
+    "model_arms": [
+      "full",
+      "pair",
+      "later",
+      "delta"
+    ],
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "epochs": 3,
+    "batch_size": 8,
+    "optimizer": "AdamW",
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "expected_updates_per_model": 1590,
+    "expected_exposures_per_model": 12702,
+    "n_train": 4234,
+    "model": "Frozen Olmo-3-7B-Instruct, same projector architecture as E2: 768->2048 GELU->hidden, type embedding4 initialized normalstd.02, input/output LayerNorm, scalar gain.",
+    "initialization": "For each seed, create one common projector initial state and copy it into each of the four conditions; record canonical tensor hash before every training. Fresh AdamW state for each model. No E2/E4 learned projector is used as initialization.",
+    "data_order": "Precompute exactly three sequential numpy default_rng(seed).permutation(4234) orders, batch8 with finalbatch2, store complete ID batches. All arms in a seed use identical stored schedules.",
+    "precision": "Projector float32, frozen LLM bfloat16, same E2 answer+EOS labels/right padding/attention mask; LLM eval mode but gradients flow to projected input.",
+    "fixed_budget": "No early stopping, loss-based or test-based epoch selection, rebalancing, LR sweep, extra warmup/probe updates, or result-dependent retry. Evaluate final epoch only.",
+    "log": "Record each optimizer step loss, batch identity, cumulative example exposure, finite checks and elapsed time; save model and initial-state hashes."
+  },
+  "evaluation": {
+    "n_test": 1755,
+    "n_answers": 26325,
+    "native": "All1755 test items under each of12 trained models native arm.",
+    "full_no_delta": "Each of3 newly trained full models also evaluates all1755 testitems with pair inputs, without training or new labels. This is an explicit frozen intervention, not a fifth trained model.",
+    "decode": "Greedy max_new_tokens16; same yes/no parser; record raw answers and generation validity checks.",
+    "row_contract": "seed(int),model_arm,eval_arm(native or full_no_delta),id,tile,cluster,phen,kind,pair_index(global C0 index),source_gold(original),transformed_gold(null),answer_raw,parsed(yes/no/null)",
+    "no_pseudogold": "No transformed physical-scene labels are assigned. Native results also retain explicit source_gold provenance."
+  },
+  "primary_analysis": {
+    "population": "Frozen C1 symmetric-quality, supported same(event,dates,slots) pos-versus-hard strata:445pos457hard902items8events. Rebuild from pinned quality records, not model outputs.",
+    "metric": "Balanced source-label agreement per same-prompt stratum; equal stratum mean within each event, equal event mean. Unparsed answers count incorrect.",
+    "contrast": "pair/native minus full/native (only primary contrast).",
+    "bootstrap": {
+      "draws": 5000,
+      "seed": 20260925,
+      "unit": "whole paired event, preserving all conditions within event",
+      "interval": "percentile95 NumPy linear quantile"
+    },
+    "pair_preserves_source_discrimination_at_equal_budget": "In at least2/3 same seeds, full and pair macroBA>=.60 and pair-full CI lower>=-.05; at least5 supported events.",
+    "explicit_difference_helps_at_this_budget": "If preservation not met: in at least2/3 same seeds with full macroBA>=.60, pair-full point<=-.10 and CIupper<0.",
+    "mixed_or_inconclusive": "Otherwise. Neither a null superiority test nor similar point estimates establish equivalence.",
+    "margin_rationale": "Retain the .05 noninferiority tolerance and .10 substantial-loss thresholds from the earlier exploratory E3/E4 planning, fixed before E5 outcomes. These are diagnostic operational margins, not a domain-validated decision-cost threshold.",
+    "seed_handling": "Seeds are repeated model fits on the same events, not additional independent events. Report all seeds and require same-seed conjunctions."
+  },
+  "secondary_descriptive": {
+    "comparisons": [
+      "later_minus_full",
+      "delta_minus_full",
+      "full_no_delta_minus_full",
+      "pair_minus_full_no_delta"
+    ],
+    "paired_flood": "Original457pos/457pre-pre negative source pairs over10events, equal event BA; report separately from primary902.",
+    "hard_negatives": "457 source hard-negative items, event/pooledFPR and parsecounts, kept distinct from paired negatives.",
+    "landslide": "Hiroshima186/Indonesia6 pairedtiles, region means only; no unseen-region generalization claim.",
+    "recovery": "Compare pair-trained to newly full-trained then no-delta-intervened outputs. Descriptive evidence about training-format mismatch; does not automatically establish temporal reasoning.",
+    "all_items": "All1755 predictions are retained, including primary-ineligible and unsupported items, with explicit membership."
+  },
+  "validity": {
+    "max_parse_fail": 0.01,
+    "parse_scope": "every seed,phenomenon,model_arm,eval_arm grouping",
+    "coverage": "Exactly12 completed1590-update/12702-exposure trainings, same initwithinseed and schedule; exactly26325 unique expected outputs; no train IDs in evaluation; original metadata/gold unchanged.",
+    "finite": "Selected caches/pooled/source/transform/projector/checkpoints/loss/gradients/parameters finite; generation scores have noNaN/+Inf and at leastonefinite value.",
+    "freeze": "Pin original C0/C1/E4 metadata, live source QA/cache/model bytes, prepared pairs/order/batches/evalsets/source/prereg before training. Execute the frozen source snapshot.",
+    "failure": "Stop chain and preserve partial outputs as execution-invalid. No silentresume, exclusion, budget/threshold adaptation or replacement of failed seeds."
+  },
+  "compute": {
+    "training": true,
+    "gpu_index": 0,
+    "max_runtime_minutes": 240,
+    "max_model_minutes": 45,
+    "queue_wait_hours": 6,
+    "expected_walltime": "About2–3.5hours plus CPU preparation, extrapolated from historical E2; not guaranteed.",
+    "lock_names": [
+      ".eo_e3_pair_dependence.lock",
+      ".eo_reader_gpu0.lock",
+      ".eo_reader_gpu1.lock",
+      ".eo_e5_equal_budget.lock"
+    ],
+    "launch": "Only idle authorized GPU0, inherited cooperative locks, manifestSHA/UUID/FD identity checks. No foreign job interruption. No parallel E5 variants."
+  },
+  "limits": [
+    "Already exposed development data and sequential hypothesis selection; no fresh confirmatory evidence.",
+    "Source flood labels and pre/pre absence assumptions do not supply independently verified temporal-change gold.",
+    "C1 controls prompt/date/quality strata but not all background, permanent-water or acquisition differences.",
+    "Synthetic dates remain in both prompt and encoder. Later-only success cannot establish pure visual-semantic understanding.",
+    "D=B-A contains both source observations; delta success does not mean history is unnecessary.",
+    "Input-format comparisons under a fixed learning budget measure practical learnability/discriminability, not fundamental information-theoretic necessity.",
+    "Two phenomena remain confounded with sensors, and landslide region support is highly imbalanced.",
+    "No memory-system benefit, causal impact, current damage, or CVPR-level method contribution follows automatically from any verdict."
+  ],
+  "next_step": "Use the predefined result and validity outcomes to choose one further scientific test; do not continue modifying thresholds or looking for favorable seeds. Pair preservation/recovery would motivate trustworthy grounding and verified temporal labels; failures require diagnosing learnability and evidence rather than assuming memory bottleneck."
+}

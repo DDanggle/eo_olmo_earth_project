@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "source_hashes": {
+    "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+    "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+    "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+    "p2_worker.py": "a5dc2d2806cd87cb4719de57cad53b149f3677544d634f18219a17751ff6f01d"
+  },
+  "checks_passed": [
+    "same_reader_checkpoint_and_trainability",
+    "same_connector_and_dense_head_capacity",
+    "same_allowed_images_and_observation_access",
+    "query_gold_access_blocked",
+    "source_bank_excluded_from_training_supervision",
+    "identifiers_and_class_mapping_not_model_inputs",
+    "acquisition_and_missing_input_guards_verified"
+  ],
+  "evidence": {
+    "same_reader_checkpoint_and_trainability": {
+      "basis": "Exact pinned source semantic review plus applicable executable loader/model guards",
+      "finding": "Worker uses the same fixed VLM path and hashes actual checkpoint files; EpisodeModel freezes FP32 Qwen for both arms; optimizer excludes Qwen. Actual cross-run hash equality is additionally required by summarize_runs.py."
+    },
+    "same_connector_and_dense_head_capacity": {
+      "basis": "Exact pinned source semantic review plus applicable executable loader/model guards",
+      "finding": "Both arms instantiate the same DenseHead(D) and Connector(D,QwenHD), with 64 slots, role prototypes and identical losses. Arm branches change encoder training/cache only; actual initial encoder identity is checked by collector."
+    },
+    "same_allowed_images_and_observation_access": {
+      "basis": "Exact pinned source semantic review plus applicable executable loader/model guards",
+      "finding": "Worker requests [2,5] in both arms; common loader returns copied query2/support8 packets. Native replay uses the same pinned train64 schedule for both arms; execution exposure counts are checked by collector."
+    },
+    "query_gold_access_blocked": {
+      "basis": "Exact pinned source semantic review plus applicable executable loader/model guards",
+      "finding": "Development forward consumes only loader.model_input and no target. Scorer runs after probabilities are saved. Runtime audit traps target access and label-NPZ opens during inference loading; this is API/dataflow separation, not OS isolation."
+    },
+    "source_bank_excluded_from_training_supervision": {
+      "basis": "Exact pinned source semantic review plus applicable executable loader/model guards",
+      "finding": "Every downstream training query/support is train_pool; development support is source_bank. Native replay accepts only its separately pinned train64, excluding its dev8. No claim of historical/geographic nonoverlap between datasets."
+    },
+    "identifiers_and_class_mapping_not_model_inputs": {
+      "basis": "Exact pinned source semantic review plus applicable executable loader/model guards",
+      "finding": "Loader constructs an allowlist with fixed prompt and copied arrays/masks. Model rejects extra top-level IDs, a class-bearing prompt and extra packet fields. Routing/scoring metadata remains outside that interface."
+    },
+    "acquisition_and_missing_input_guards_verified": {
+      "basis": "Exact pinned source semantic review plus applicable executable loader/model guards",
+      "finding": "Loader checks unique acquired indices including 2,5, preserves nodata flags and copies arrays. The exact pinned model validator rejects sentinel-missing acquired pixels; no cloud-quality claim."
+    }
+  },
+  "limitations": [
+    "This is reviewed source plus executable CPU API-contract evidence, not formal OS isolation or a complete runtime trace.",
+    "Same checkpoint identities, paired orders, actual training/evaluation exposures and cold resume still require completed-run collector verification.",
+    "All80 source input packets are verified; representative episodes cover every query, not every support mask in every episode.",
+    "Clouds, parcel disjointness and historical foundation-model/native-data overlap are not certified."
+  ],
+  "gpu_used": false,
+  "reviewed_runtime_revision": "v2",
+  "executable_checks": {
+    "catalog_episode_counts": {
+      "train": 2304,
+      "development": 672
+    },
+    "query_counts": {
+      "train": 48,
+      "development": 16
+    },
+    "unique_input_packets_verified": 80,
+    "invalid_acquisition_requests_rejected": 4,
+    "training_target_permission_rejections": 2,
+    "model_missing_or_extra_field_rejections": 2,
+    "model_id_or_prompt_rejections": 2,
+    "query_gold_access_during_inference": false
+  },
+  "prepared_manifest_sha256": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3",
+  "episode_contract_sha256": "e62ed2816b9d4695f74c288f6b14248ce2c4e947b45d95f095e5250bad5b027a",
+  "audit_source_sha256": "4f54cc8eed8789d5f69a1c8a969fa3ef0f523f10b0b938a72235b4a280a3cae3",
+  "review_scope": "OE10 v2 common implementation; runtime-run claims delegated to collector"
+}

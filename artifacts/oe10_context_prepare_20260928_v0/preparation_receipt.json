@@ -1,0 +1,43 @@
+{
+  "schema_version": "oe10_agronomy_context_preparation_v0",
+  "created_utc": "2026-09-27T16:13:41.453397+00:00",
+  "status": "prepared_metadata_only_not_model_connected",
+  "opened_inputs": {
+    "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/episodes/episodes_train.jsonl": "fadaf5edc3625a4a420babfe5b048e5752f0c824a8a44c005e5b13a6f6910293",
+    "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/episodes/source_objects.jsonl": "c8b6ce724eaf3acc1e1f159ab2ec46943bb88eb49cde1aa0172e12181da53e11",
+    "config/oe10_agronomy_context_cards_20260928.json": "dfca6795f362db4423acc3ae79d684e1e828803e9fbb06767cdd20bcb9bc21e9"
+  },
+  "code_sha256": "4669098167eb2b2f66e347db17c87ad1460a8360f393b463edf070cee29dee6f",
+  "attachments": 2304,
+  "unique_train_queries": 48,
+  "target_concept_episode_counts": {
+    "1": 576,
+    "3": 576,
+    "2": 576,
+    "4": 576
+  },
+  "review_queue_cases": 20,
+  "review_queue_unique_train_queries": 20,
+  "expert_responses": 0,
+  "query_gold_read": false,
+  "development_episode_or_score_read": false,
+  "cards_selected_from": "positive/counterexample support annotation only",
+  "task_change": "Named support concepts and external descriptions are new input information; B/C must share the same labels. This is not the frozen unnamed-exemplar task.",
+  "text_word_count_max_not_token_count": {
+    "generic": 26,
+    "names_only": 37,
+    "matched_knowledge": 139,
+    "swapped_knowledge_diagnostic": 139
+  },
+  "actual_token_budget_verified": false,
+  "model_integration_verified": false,
+  "mask_gradient_verified": false,
+  "gpu_runs": 0,
+  "required_before_training": [
+    "Separate text-to-mask path with content/gradient checks",
+    "Same architecture and support concepts for names-only vs descriptions",
+    "Matched acquired observations and declared token/compute budgets",
+    "Training protocol and stop criteria fixed before new results",
+    "Expert responses kept separate from sourced summaries"
+  ]
+}

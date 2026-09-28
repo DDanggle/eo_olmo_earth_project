@@ -1,0 +1,20 @@
+{
+  "verified_utc": "2026-09-27T15:22:32.315072+00:00",
+  "reviewer": "independent subagent oe10_resume_audit_readiness",
+  "export": "review_export_20260928_resume_v0",
+  "files_verified": 467,
+  "bytes_verified": 37368053,
+  "missing_size_or_hash_mismatches": 0,
+  "B0_final_prediction_npz_verified": 384,
+  "B0_prediction_manifest_score_receipt_lineage_matches": true,
+  "server_collector_verified_completed_runs": 1,
+  "server_collector_status": "partial_or_unverified",
+  "p2_decision_made": false,
+  "B0_final_auc": 0.3009959798940199,
+  "B0_stability_necessary_condition_met": false,
+  "B2_receipt_updates": 1896,
+  "B2_copied_log_last_step": 1919,
+  "B2_latest_score_step": 1536,
+  "B2_latest_auc": 0.3238788779261633,
+  "scope": "Local export hashes and B0 final NPZ lineage independently checked. Full server collector checked completed B0 checkpoint and all windows by hash; no checkpoint deserialization or new mask inference. Live export is not atomic."
+}

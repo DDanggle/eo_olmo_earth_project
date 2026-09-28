@@ -1,0 +1,85 @@
+{
+  "schema": "eo-v6-e4-case-readback-audit-v0",
+  "checked_at": "2026-09-25T05:41:12.337792+00:00",
+  "valid": true,
+  "discrepancies": [],
+  "case_count": 914,
+  "e4_control_count": 108,
+  "e4_kind_counts": {
+    "pos": 57,
+    "hard_neg": 51
+  },
+  "e4_source_items_checked": 209,
+  "e4_source_answer_rows_checked": 2508,
+  "e4_linked_prediction_values_checked": 1296,
+  "e4_real_e2_e3_values_matched": 324,
+  "v5_e2_e3_reference_and_provenance_unchanged": true,
+  "http_readback": [
+    {
+      "kind": "pos",
+      "tile": "ks_05008",
+      "status": 200,
+      "available": true,
+      "e3_arm_count": 7,
+      "e4_arm_count": 4,
+      "exact_case_match": true,
+      "reason": null
+    },
+    {
+      "kind": "hard_neg",
+      "tile": "ks_05009",
+      "status": 200,
+      "available": true,
+      "e3_arm_count": 3,
+      "e4_arm_count": 4,
+      "exact_case_match": true,
+      "reason": null
+    },
+    {
+      "kind": "E2_only",
+      "tile": "ks_05229",
+      "status": 200,
+      "available": true,
+      "e3_arm_count": 0,
+      "e4_arm_count": 0,
+      "exact_case_match": true,
+      "reason": null
+    },
+    {
+      "kind": "train",
+      "tile": "ks_00276",
+      "status": 200,
+      "available": false,
+      "e3_arm_count": 0,
+      "e4_arm_count": 0,
+      "exact_case_match": false,
+      "reason": "no_saved_case"
+    }
+  ],
+  "source_sha256": {
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/eo_evidence_search_v5_20260925/reader_cases.json": "66d9eb6bce917250f6a827a2b6f320be599ef5ddd1d25cfaca169a805216e230",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/eo_evidence_search_v6_20260925/reader_cases.json": "41ae9c6e0ca233f6bc737c98ce1dbc2ceda2a6a3a5f645ed6783cf35532e12ac",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_independent_audit_20260925.json": "f50739e6eb08d6a5da3bc1862239aa2548030f4b69c1ccd577157bce3d56df3e",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/status.json": "0ac789c9be94e1e343746b2e807c01fa028e214e239fa260b1c2d96bb835c02e",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/manifest.json": "4597bc1589ed7a23ffd7befa58d38aa9da859320cefcb728c26290015f0c71aa",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/scores.json": "cb651d8e917717795252d67f2e97755f610628c6dc02d80ec7af6100a746b89f",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/items.jsonl": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/references.json": "cc5f8aa34c88ca54dc79e5cc6a56c2b4653067d7ca20d915cd09eb8feccdee3d",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/prereg.json": "39858be7464fa218ad67e3084919f7e36267b7b8fec9c571e9643dffe6004ceb",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e3_pair_dependence_v1_20260925/items.jsonl": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed1_real.jsonl": "378e8cd3cd7b3f1898390ba0da49911a2a3d0e0e50772cca302765801ed42add",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed1_delta_only.jsonl": "7ca26d1466baf8809b6a788f786b30b086190bea62102fd00ec413d47966a2ab",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed1_delta_sign_flip.jsonl": "5c74665024926b25f3e5fc2880a6af1d0879e4769d788680cc219492e22aa7bd",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed1_delta_feature_permute.jsonl": "3b5986c50af33f17bb6444fd094c5cdbcab8274b2d39255927b69cbea0730bba",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed2_real.jsonl": "91655f3e5ea5320f84641cba76c9f0593a3d8d02db51e737235a16d6fc5d71aa",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed2_delta_only.jsonl": "19f68fd70b41f827157aaf44c16c1e33d3f258a4b23aecb0157c625cf6ba928b",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed2_delta_sign_flip.jsonl": "3429bed15f68b4f84d97f418b3875e52e13e0b2c3262f370b103a1849df5d495",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed2_delta_feature_permute.jsonl": "82238e64822b3d4705197a22942b1c0573db520cd634a00f31c8de179fa0f497",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed3_real.jsonl": "dfecfe6f8594ee84f349ba662198fdedf8a4ed53516ccc30d747856ad30b264e",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed3_delta_only.jsonl": "59cc3e81da3b22eee61114b2c1e8cc63e0cc9edbb5854adda21f6768943f1278",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed3_delta_sign_flip.jsonl": "4f048e8de2d54046afdc2943db9b9bbff162a96fd7f39ce5418286835b3deafe",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e4_delta_probe_v0_20260925/answers_seed3_delta_feature_permute.jsonl": "7d422903017a174aa7a6a752bd8e5755cfa1773649444cdaf56c5f3c623852d8"
+  },
+  "script_sha256": "bcacc10e4f67334261e94715379c4590d89038ea6fdb2060f422c6dde58c17a6",
+  "scope": "Source/readback equality and payload preservation only; no new inference, scoring, labels, or interpretation threshold."
+}

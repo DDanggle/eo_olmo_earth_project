@@ -1,0 +1,34 @@
+--- v1/check_connection.py
++++ v2/check_connection.py
+@@ -46,6 +46,7 @@
+  verify_base()
+  import torch
+  from text_mask_model import TextConditionedEpisodeModel
++ from gradient_gate import require_finite_loss,validate_gradient_contract
+  if not a.execute:
+   print(json.dumps({'status':'cpu_import_only','immutable_base_verified':True,'torch_version':torch.__version__,'source_identity_gate':source_gate,
+                     'actual_qwen_loaded':False,'actual_eo_loaded':False,'gpu_started':False}));return
+@@ -99,11 +100,10 @@
+   require(difference['removed_knowledge_diagnostic']==0,'Removed facts must equal names-only')
+   require(difference['matched_knowledge']>0,'Actual request text did not affect logits')
+   module.train();module.zero_grad(set_to_none=True)
+-  out=module(item['model_input'],contexts['matched_knowledge'],target);out['loss'].backward()
+-  gradients={name:sum(p.grad is not None and bool(p.grad.abs().max()>0) for p in obj.parameters())
+-    for name,obj in [('encoder',module.encoder),('head',module.head),('qwen',module.qwen),('unused_connector',module.connector)]}
+-  require(gradients['head']>0 and gradients['qwen']==0 and gradients['unused_connector']==0,'Gradient boundaries')
+-  require((gradients['encoder']>0)==(a.arm=='B2'),'EO arm gradient contract')
++  out=module(item['model_input'],contexts['matched_knowledge'],target)
++  require_finite_loss(out['loss']);out['loss'].backward()
++  gradients=validate_gradient_contract({name:obj for name,obj in
++    [('encoder',module.encoder),('head',module.head),('qwen',module.qwen),('unused_connector',module.connector)]},a.arm)
+   torch.save(module.trainable_state_dict(),a.out/'connection_state.pt')
+   module.load_trainable_state_dict(torch.load(a.out/'connection_state.pt',map_location='cpu',weights_only=True))
+   module.eval()
+@@ -111,6 +111,7 @@
+   restore_delta=float((restored-predictions['matched_knowledge']).abs().max())
+   require(restore_delta<=1e-6,'Same-process save/load mismatch')
+   receipt.update(status='actual_connection_check_passed',gradient_nonzero_tensors=gradients,
++    mask_loss_and_all_present_gradients_finite=True,
+     text_condition_logit_max_difference_vs_names=difference,text_token_audit=text_meta,
+     same_process_restore_max_difference=restore_delta,cold_resume_tested=False,
+     reader_identity=reader_identity,eo_identity=eo_identity,actual_human_responses=0,

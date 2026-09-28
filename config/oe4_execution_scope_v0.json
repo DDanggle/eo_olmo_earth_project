@@ -1,0 +1,46 @@
+{
+  "id": "oe4_native_v12_engineering_v0",
+  "registered_on": "2026-09-27",
+  "scope": "Development execution and interface verification; not a confirmatory method experiment",
+  "authorization": "User requested incremental implementation and GPU training in the current conversation",
+  "official_source_commit": "0497dfbb6711ded4e6bf10cf089fc1e4d58c186b",
+  "checkpoint": {
+    "name": "OlmoEarth-v1_2-Base",
+    "revision": "2e99a734a30e9aeb993aaa39946c6dcf554739e0",
+    "weights_sha256": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+  },
+  "data": {
+    "name": "official subset_1k_h5py_data",
+    "archive_sha256": "47c20e06bea4d45b0fd8090181a9cb2b91c4dda326140d1e2fe6fc77614a01f5",
+    "h5_files": 3996,
+    "independent_region_count": null,
+    "origin": "Subset of original pretraining data; not independent held-out EO evaluation",
+    "split": "Seeded filename ordering, file-disjoint engineering diagnostics only",
+    "input": "32x32 center crop; first two compact Sentinel-2 observations; static WorldCover decode target"
+  },
+  "cpu_compatibility_run": {"name": "native_cpu_contract_v0", "device": "cpu", "train_files": 2, "dev_files": 2, "steps": 1, "worker_hard_timeout_seconds": 240, "scope": "Same native runtime API precheck while GPU busy; not GPU evidence"},
+  "native_runs": [
+    {"name": "native_smoke_v0", "train_files": 8, "dev_files": 4, "steps": 8},
+    {"name": "native_development_v0", "train_files": 64, "dev_files": 8, "steps": 32}
+  ],
+  "native_optimizer": {"type": "AdamW", "learning_rate": 0.000001, "weight_decay": 0.02, "clip_grad_norm": 1.0, "batch_size": 2},
+  "native_pass": ["finite actual losses and gradients", "nonzero encoder gradient and weight update", "frozen teacher has no gradient", "saved full model reload preserves probe tokens and each dev loss"],
+  "loss_decrease_required_for_pass": false,
+  "runtime_limitations": ["S2/WorldCover subset of modalities", "FP32 single GPU", "minimal sampling and no full official trainer schedule", "torch2.13 compatibility environment, not official torch2.9 environment", "WorldCover homogeneity may yield zero base loss; positive contrastive and base steps recorded separately"],
+  "vlm_run": {
+    "name": "vlm_interface_v0",
+    "model": "Qwen3-VL-8B-Instruct",
+    "eo_init": "Original pinned Base, not the preceding native-trained checkpoint",
+    "trainable": ["OlmoEarth encoder", "EO adapter"],
+    "frozen": ["Qwen3-VL native visual and language parameters"],
+    "steps": 1,
+    "target": "The image shows land cover.",
+    "target_role": "Generic engineering loss trigger; not a semantic gold answer",
+    "eo_slots": 16,
+    "pass": ["actual VLM language loss reaches EO encoder and adapter", "actual sampled EO and adapter weights change", "native RGB and DeepStack tensors retained", "no-EO RGB logits remain bitwise equal", "cached and full-prefix generation agree within declared tolerance and argmax"],
+    "semantic_accuracy_evaluated": false
+  },
+  "resource_policy": {"gpu_priority": [1, 0], "require_no_compute_process": true, "max_gpu_memory_used_mib": 512, "max_utilization_percent": 5, "interrupt_other_jobs": false, "worker_hard_timeout_seconds": 1100},
+  "forbidden_inferences": ["novel pretraining method established", "CVPR acceptance probability", "ecological change or causal impact understood", "independent region generalization", "full official continued-pretraining comparison reproduced", "generic one-step CE gain means better VLM accuracy"],
+  "next_scientific_gate": "Independent labeled source and parent-region split, then same-supervision native baseline and actual EO-VLM comparison"
+}

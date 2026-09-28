@@ -1,0 +1,234 @@
+{
+  "status": "training",
+  "arm": "B2",
+  "seed": 270927,
+  "mode": "train",
+  "pid": 1421757,
+  "started_utc": "2026-09-27T12:36:44.390484+00:00",
+  "source_hashes": {
+    "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+    "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+    "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+    "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+    "p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+    "run_bounded.py": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0",
+    "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+    "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+    "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+  },
+  "gpu_visible": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+  "development_metrics_accessed": true,
+  "new_method_tested": false,
+  "elapsed_seconds": 2405.422669187188,
+  "protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+  "native_identity": {
+    "manifest_sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+    "source_hashes": {
+      "olmoearth_pretrain/model_loader.py": "2ff982cda47fa53e8bb3a9f4ff3879816e4297770ed6e6c6cf49f5e323562ba7",
+      "olmoearth_pretrain/train/masking.py": "4a29589d46fd0920912dfef8e46c8cf2c614545417841325c567ca55a5e27dba",
+      "olmoearth_pretrain/train/loss.py": "7f378e156eeb65434fddaf3c63300bb0c426b4532d6b987d753365ab762997b5",
+      "scripts/official/v1_2/base.py": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee"
+    },
+    "checkpoint_hashes": {
+      "config.json": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+      "weights.pth": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+    },
+    "public_loss_registry_bridge": {
+      "source_recipe_sha256": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee",
+      "checkpoint_config_sha256": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+      "changes": [
+        {
+          "path": "train_module.loss_config.loss_config.type",
+          "from": "absent",
+          "to": "modality_patch_discrimination_masked_negatives_vec",
+          "evidence": "/home/work/data/olmoearth/oe4_native_v12_v0/source/scripts/official/v1_2/base.py"
+        },
+        {
+          "path": "train_module.contrastive_config.loss_config.type",
+          "from": "absent",
+          "to": "InfoNCE",
+          "evidence": "/home/work/data/olmoearth/oe4_native_v12_v0/source/scripts/official/v1_2/base.py"
+        }
+      ],
+      "official_recipe_loss_configs": {
+        "loss_config": {
+          "type": "modality_patch_discrimination_masked_negatives_vec",
+          "tau": 0.1,
+          "same_target_threshold": 0.999,
+          "mask_negatives_for_modalities": [
+            "worldcover",
+            "srtm",
+            "openstreetmap_raster",
+            "wri_canopy_height_map",
+            "cdl",
+            "worldcereal"
+          ]
+        },
+        "contrastive_config": {
+          "type": "InfoNCE",
+          "weight": 0.05
+        }
+      },
+      "scope": "Memory-only restore of registry keys; public config and weights are not edited",
+      "cause": "Official LossConfig.build pops type before experiment serializes the built train configuration"
+    },
+    "bridge_runtime_source_sha256": "b737a7254c2d66518e3acc8b8314918c8529d21d33e04347b49be6029cac0b2c",
+    "train_files_loaded_and_raw_hash_verified": 64,
+    "dev_files_loaded": 0,
+    "normalization": "official computed once, S2 + WorldCover",
+    "samples_cpu_cached": true,
+    "cached_array_bytes": 6556672,
+    "precision": "FP32 native forward and losses; outer autocast explicitly disabled",
+    "flash_attn_disabled_modules": [],
+    "ema_decay": [
+      1,
+      1
+    ],
+    "scope": "small native replay auxiliary; not full official pretraining/CPT reproduction",
+    "geographic_independence_certified": false,
+    "pretraining_exposure_unknown": true
+  },
+  "trainable_parameters": 149688193,
+  "episode_order_sha256": "9a6550c48105be869a958229d9f556dc0fe83d80b276782a46c9ba6ade42b0d9",
+  "episode_count": 2304,
+  "vlm_identity": {
+    "config.json": {
+      "sha256": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+      "bytes": 1474
+    },
+    "model.safetensors.index.json": {
+      "sha256": "520b2e05079402e9468a8701d03d1154d14b2599593afb6effa7fb60c1bff070",
+      "bytes": 67759
+    },
+    "model-00001-of-00004.safetensors": {
+      "sha256": "d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa",
+      "bytes": 4902275944
+    },
+    "model-00002-of-00004.safetensors": {
+      "sha256": "8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5",
+      "bytes": 4915962496
+    },
+    "model-00003-of-00004.safetensors": {
+      "sha256": "83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192",
+      "bytes": 4999831048
+    },
+    "model-00004-of-00004.safetensors": {
+      "sha256": "0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5",
+      "bytes": 2716270024
+    }
+  },
+  "completed_updates": 456,
+  "last_train_step": {
+    "step": 456,
+    "episode_id": "c604830f12f379184225b1a9:k8",
+    "k": 8,
+    "mask_loss": 1.1304298639297485,
+    "language_loss": 0.18303903937339783,
+    "native_loss": 0.5941239595413208,
+    "total_loss": 1.7337057754397391,
+    "native_metrics": {
+      "total": 0.5941239595413208,
+      "base": 0.5941210389137268,
+      "contrastive": 2.914581727964105e-06,
+      "mask_counts": [
+        {
+          "sentinel2_l2a": {
+            "0": 2048,
+            "1": 2048
+          },
+          "worldcover": {
+            "2": 2048
+          }
+        },
+        {
+          "sentinel2_l2a": {
+            "0": 2048,
+            "1": 2048
+          },
+          "worldcover": {
+            "2": 2048
+          }
+        }
+      ],
+      "step": 455,
+      "seed": 271383,
+      "sample_indices": [
+        14,
+        15
+      ],
+      "files": [
+        "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_296.h5",
+        "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_360.h5"
+      ],
+      "raw_crop_sha256": [
+        "66f43d16502432c3c17f8d0c23b90ce0551d60ec28cb2811510a760df5159772",
+        "e57bb2a67520a994999121afffc5618ea4f09ba766273f53c1916862a9e33967"
+      ],
+      "native_train_samples": 2,
+      "native_dev_samples": 0,
+      "native_model_forward_calls": 2,
+      "explicit_target_forward_calls": 2,
+      "online_patch_date_instances": 8,
+      "explicit_target_patch_date_instances": 8,
+      "batch_size": 2,
+      "crop_size": 32,
+      "timesteps": 2,
+      "encoder_trainable": true,
+      "all_native_frozen": false,
+      "loss_requires_grad": true,
+      "native_encoder_update_possible": true,
+      "fixed_target_ema_decay": [
+        1,
+        1
+      ],
+      "interpretation": "native objective replay; zero components retained, not repaired"
+    },
+    "native_encoder_gradient_tensors": 214,
+    "language_encoder_anchor_gradient_norm": null,
+    "nonzero_gradients": {
+      "encoder": 214,
+      "head": 6,
+      "connector": 10
+    },
+    "grad_norm": 6.089390754699707,
+    "seconds": 9.064198434352875,
+    "phase_seconds": {
+      "native_forward_backward": 0.1399984173476696,
+      "episode_forward": 1.9959238208830357,
+      "episode_backward_and_first_language_probe": 6.042580910027027,
+      "gradient_checks_clip_optimizer": 0.03817512094974518
+    },
+    "learning_rates": {
+      "encoder": 9.422472115147382e-06,
+      "native_decoder": 9.422472115147382e-05,
+      "readouts": 0.0009422472115147381
+    },
+    "model_metrics": {
+      "k_pairs": 8,
+      "query_dates": 2,
+      "support_date_instances": 128,
+      "connector_slots": 64,
+      "language_prompt_tokens": 189,
+      "language_supervision": true,
+      "gold_in_model_input": false,
+      "costs_cumulative": {
+        "EOencoder_calls": 7763,
+        "patch_date_encodes": 56536,
+        "vlm_forward_calls": 456,
+        "cache_hits": 3239,
+        "cache_misses": 25,
+        "cache_key_bytes_hashed": 19114053888,
+        "checkpoint_recompute_calls": 3862
+      }
+    }
+  },
+  "evaluation_windows": [
+    {
+      "step": 384,
+      "auc": 0.19381891219831426,
+      "score_path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/score_step_000384.json",
+      "score_sha256": "4dc878e71504130f952cc85d4df609fa5fcda9d58aa78d43cd1dec0bdf592839"
+    }
+  ],
+  "latest_checkpoint_sha256": "81ecc364d01bbe39caa21db46a9734ff926f2ed74a6847aeae9438fb0f4f44c7"
+}

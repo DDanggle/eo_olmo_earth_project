@@ -1,0 +1,54 @@
+{
+  "created_at": "2026-09-25T07:20:35.774719+00:00",
+  "script_sha256": "ca841dd4bc3b5297c56dc5800bba06ba3b4ba1c8a2ff265b81d87e8348012a5a",
+  "input_sha256": {
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/T0_INDEPENDENT_RESULT_REVIEW_20260925.json": "9f1ac9eb5f396e7b1357e6497181d0f1815d90735adef7f5c6842673e9e3f78f",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/t0_source_date_join_v0_20260925/manifest.json": "2f1be237c796ef58e75437c6714387385f2b3e8d55a9d2e1e59663a1bcabe141",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/t0_source_date_join_v0_20260925/joined_rows.jsonl": "fb26d5b7057d01035f6cc5d69b9dff35871f412aeb741ae339e8778c5ceb5832",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/T0_E5_POPULATION_DATE_DIAGNOSTIC_20260925.json": "265aeb834036e7f40037562978e338370141763e2ad82465c7af20f8c7ba9a5c"
+  },
+  "split_statistics": {
+    "train": {
+      "n": 4000,
+      "median": 84.0,
+      "max": 360
+    },
+    "validation": {
+      "n": 1000,
+      "median": 210.0,
+      "max": 672
+    },
+    "test": {
+      "n": 2000,
+      "median": 12.0,
+      "max": 288
+    }
+  },
+  "primary_event_gap_days": {
+    "1111013": 12,
+    "1111007": 48,
+    "562": 168,
+    "445": 12,
+    "277": 210,
+    "321": 288,
+    "205": 126,
+    "411": 36
+  },
+  "primary_event_counts": {
+    "1111013": 474,
+    "1111007": 232,
+    "562": 6,
+    "445": 26,
+    "277": 120,
+    "321": 30,
+    "205": 6,
+    "411": 8
+  },
+  "caption": "Original metadata + published GEO-Bench slot mapping; 7,000 unique exact geometry/metadata joins.\nSix of the eight E5 primary events have intervals of 36\u2013288 days. Its item-weighted median is still 12 days.\nDay-level source dates; historical raster correspondence and acquisition UTC remain unverified.\nDescriptive input audit only. E5 inputs are unchanged; no model-output association or causal claim.",
+  "matplotlib": "3.10.6",
+  "numpy": "2.5.3",
+  "outputs_sha256": {
+    "source_date_intervals.png": "466e0a9638b3d216968448ef99ad284cea375a707ab8a05870ff3ba4badd14b4",
+    "source_date_intervals.pdf": "6ce6b128b8af44282ac7d20c99cc10a15c6ae524697a48435451db9b1acaa1f4"
+  }
+}

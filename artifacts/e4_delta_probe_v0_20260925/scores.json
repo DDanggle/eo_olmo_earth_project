@@ -1,0 +1,2158 @@
+{
+  "schema": "e4-delta-probe-scores-v0",
+  "valid": true,
+  "verdict": "mixed_or_inconclusive",
+  "coverage": {
+    "expected": 2508,
+    "received": 2508
+  },
+  "parse_fail_rates": {
+    "1|flood|real": 0.0,
+    "1|flood|delta_only": 0.0,
+    "1|flood|delta_sign_flip": 0.0,
+    "1|flood|delta_feature_permute": 0.0,
+    "1|landslide|real": 0.0,
+    "1|landslide|delta_only": 0.0,
+    "1|landslide|delta_sign_flip": 0.0,
+    "1|landslide|delta_feature_permute": 0.0,
+    "2|flood|real": 0.0,
+    "2|flood|delta_only": 0.0,
+    "2|flood|delta_sign_flip": 0.0,
+    "2|flood|delta_feature_permute": 0.0,
+    "2|landslide|real": 0.0,
+    "2|landslide|delta_only": 0.0,
+    "2|landslide|delta_sign_flip": 0.0,
+    "2|landslide|delta_feature_permute": 0.0,
+    "3|flood|real": 0.0,
+    "3|flood|delta_only": 0.0,
+    "3|flood|delta_sign_flip": 0.0,
+    "3|flood|delta_feature_permute": 0.0,
+    "3|landslide|real": 0.0,
+    "3|landslide|delta_only": 0.0,
+    "3|landslide|delta_sign_flip": 0.0,
+    "3|landslide|delta_feature_permute": 0.0
+  },
+  "reproduction": {
+    "1": {
+      "flood": {
+        "e2_real": {
+          "n": 165,
+          "reproduction_rate": 1.0
+        },
+        "e3_real": {
+          "n": 165,
+          "reproduction_rate": 1.0
+        }
+      },
+      "landslide": {
+        "e2_real": {
+          "n": 44,
+          "reproduction_rate": 1.0
+        },
+        "e3_real": {
+          "n": 44,
+          "reproduction_rate": 1.0
+        }
+      }
+    },
+    "2": {
+      "flood": {
+        "e2_real": {
+          "n": 165,
+          "reproduction_rate": 1.0
+        },
+        "e3_real": {
+          "n": 165,
+          "reproduction_rate": 1.0
+        }
+      },
+      "landslide": {
+        "e2_real": {
+          "n": 44,
+          "reproduction_rate": 1.0
+        },
+        "e3_real": {
+          "n": 44,
+          "reproduction_rate": 1.0
+        }
+      }
+    },
+    "3": {
+      "flood": {
+        "e2_real": {
+          "n": 165,
+          "reproduction_rate": 1.0
+        },
+        "e3_real": {
+          "n": 165,
+          "reproduction_rate": 1.0
+        }
+      },
+      "landslide": {
+        "e2_real": {
+          "n": 44,
+          "reproduction_rate": 1.0
+        },
+        "e3_real": {
+          "n": 44,
+          "reproduction_rate": 1.0
+        }
+      }
+    }
+  },
+  "metrics": {
+    "1": {
+      "flood": {
+        "paired": {
+          "real": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.9,
+                "recall": 0.8,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.9375,
+                "recall": 0.875,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.8333333333333333,
+                "recall": 0.6666666666666666,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.8795833333333334
+          },
+          "delta_only": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 0.8333333333333333,
+                "recall": 0.6666666666666666,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.8125,
+                "recall": 0.625,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.9,
+                "recall": 0.8,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.9375,
+                "recall": 0.875,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.9375,
+                "recall": 0.875,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.75,
+                "recall": 0.5,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.8420833333333334
+          },
+          "delta_sign_flip": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.625,
+                "recall": 0.25,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.375,
+                "specificity": 0.625
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.4375,
+                "recall": 0.0,
+                "specificity": 0.875
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 0.75,
+                "recall": 0.5,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.6666666666666666,
+                "recall": 0.3333333333333333,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.5979166666666667
+          },
+          "delta_feature_permute": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.5375
+          }
+        },
+        "contrasts": {
+          "real": {
+            "event_deltas": {
+              "1111002": 0.0,
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "561": 0.0,
+              "562": 0.0
+            },
+            "delta": 0.0,
+            "ci95_delta": [
+              0.0,
+              0.0
+            ]
+          },
+          "delta_only": {
+            "event_deltas": {
+              "1111002": -0.16666666666666674,
+              "1111007": 0.0,
+              "1111013": -0.0625,
+              "205": 0.0,
+              "277": 0.0,
+              "321": -0.0625,
+              "411": 0.0,
+              "445": 0.0,
+              "561": 0.0,
+              "562": -0.08333333333333326
+            },
+            "delta": -0.0375,
+            "ci95_delta": [
+              -0.07291666666666667,
+              -0.00625
+            ]
+          },
+          "delta_sign_flip": {
+            "event_deltas": {
+              "1111002": 0.0,
+              "1111007": -0.25,
+              "1111013": -0.375,
+              "205": -0.4,
+              "277": -0.375,
+              "321": -0.5625,
+              "411": 0.0,
+              "445": -0.4375,
+              "561": -0.25,
+              "562": -0.16666666666666663
+            },
+            "delta": -0.2816666666666666,
+            "ci95_delta": [
+              -0.39126041666666667,
+              -0.17124999999999999
+            ]
+          },
+          "delta_feature_permute": {
+            "event_deltas": {
+              "1111002": -0.5,
+              "1111007": -0.375,
+              "1111013": -0.375,
+              "205": -0.4,
+              "277": -0.375,
+              "321": -0.125,
+              "411": 0.0,
+              "445": -0.4375,
+              "561": -0.5,
+              "562": -0.33333333333333326
+            },
+            "delta": -0.34208333333333335,
+            "ci95_delta": [
+              -0.4270833333333333,
+              -0.24
+            ]
+          }
+        },
+        "agreement_with_real": {
+          "real": {
+            "n_items": 165,
+            "matched_valid_decisions": 165,
+            "n_both_parsed": 165,
+            "agreement_all_items": 1.0,
+            "agreement_both_parsed": 1.0,
+            "agreement_ge_0_99_descriptive_only": true,
+            "source_yes_rate": 0.2909090909090909
+          },
+          "delta_only": {
+            "n_items": 165,
+            "matched_valid_decisions": 159,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.9636363636363636,
+            "agreement_both_parsed": 0.9636363636363636,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.2545454545454545
+          },
+          "delta_sign_flip": {
+            "n_items": 165,
+            "matched_valid_decisions": 119,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.7212121212121212,
+            "agreement_both_parsed": 0.7212121212121212,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.09696969696969697
+          },
+          "delta_feature_permute": {
+            "n_items": 165,
+            "matched_valid_decisions": 121,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.7333333333333333,
+            "agreement_both_parsed": 0.7333333333333333,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.048484848484848485
+          }
+        },
+        "hard_negative": {
+          "real": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.25,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.03125,
+            "fpr_pooled": 0.0392156862745098,
+            "parse_failures": 0
+          },
+          "delta_only": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.0,
+            "fpr_pooled": 0.0,
+            "parse_failures": 0
+          },
+          "delta_sign_flip": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.5
+            },
+            "fpr_event_macro": 0.0625,
+            "fpr_pooled": 0.0196078431372549,
+            "parse_failures": 0
+          },
+          "delta_feature_permute": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.25,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.03125,
+            "fpr_pooled": 0.0392156862745098,
+            "parse_failures": 0
+          }
+        }
+      },
+      "landslide": {
+        "paired": {
+          "real": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.71875,
+                "recall": 0.75,
+                "specificity": 0.6875
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.41666666666666663,
+                "recall": 0.3333333333333333,
+                "specificity": 0.5
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.5677083333333333
+          },
+          "delta_only": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.75,
+                "recall": 0.625,
+                "specificity": 0.875
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.3333333333333333,
+                "recall": 0.16666666666666666,
+                "specificity": 0.5
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.5416666666666666
+          },
+          "delta_sign_flip": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.4375,
+                "recall": 0.0,
+                "specificity": 0.875
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.41666666666666663,
+                "recall": 0.16666666666666666,
+                "specificity": 0.6666666666666666
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.4270833333333333
+          },
+          "delta_feature_permute": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.625,
+                "recall": 0.3125,
+                "specificity": 0.9375
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.4166666666666667,
+                "recall": 0.0,
+                "specificity": 0.8333333333333334
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.5208333333333334
+          }
+        },
+        "contrasts": {
+          "real": {
+            "event_deltas": {
+              "holdout_hiroshima": 0.0,
+              "holdout_indonesia": 0.0
+            },
+            "delta": 0.0,
+            "ci95_delta": null
+          },
+          "delta_only": {
+            "event_deltas": {
+              "holdout_hiroshima": 0.03125,
+              "holdout_indonesia": -0.08333333333333331
+            },
+            "delta": -0.026041666666666657,
+            "ci95_delta": null
+          },
+          "delta_sign_flip": {
+            "event_deltas": {
+              "holdout_hiroshima": -0.28125,
+              "holdout_indonesia": 0.0
+            },
+            "delta": -0.140625,
+            "ci95_delta": null
+          },
+          "delta_feature_permute": {
+            "event_deltas": {
+              "holdout_hiroshima": -0.09375,
+              "holdout_indonesia": 5.551115123125783e-17
+            },
+            "delta": -0.04687499999999997,
+            "ci95_delta": null
+          }
+        },
+        "agreement_with_real": {
+          "real": {
+            "n_items": 44,
+            "matched_valid_decisions": 44,
+            "n_both_parsed": 44,
+            "agreement_all_items": 1.0,
+            "agreement_both_parsed": 1.0,
+            "agreement_ge_0_99_descriptive_only": true,
+            "source_yes_rate": 0.5
+          },
+          "delta_only": {
+            "n_items": 44,
+            "matched_valid_decisions": 38,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.8636363636363636,
+            "agreement_both_parsed": 0.8636363636363636,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.36363636363636365
+          },
+          "delta_sign_flip": {
+            "n_items": 44,
+            "matched_valid_decisions": 17,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.38636363636363635,
+            "agreement_both_parsed": 0.38636363636363635,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.11363636363636363
+          },
+          "delta_feature_permute": {
+            "n_items": 44,
+            "matched_valid_decisions": 25,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.5681818181818182,
+            "agreement_both_parsed": 0.5681818181818182,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.1590909090909091
+          }
+        },
+        "hard_negative": {}
+      }
+    },
+    "2": {
+      "flood": {
+        "paired": {
+          "real": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 0.8333333333333333,
+                "recall": 0.6666666666666666,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.9,
+                "recall": 0.8,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.9375,
+                "recall": 0.875,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.9375,
+                "recall": 0.875,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 0.5,
+                "recall": 1.0,
+                "specificity": 0.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5833333333333334,
+                "recall": 0.16666666666666666,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.7941666666666667
+          },
+          "delta_only": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 0.8333333333333333,
+                "recall": 0.6666666666666666,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 0.5,
+                "recall": 1.0,
+                "specificity": 0.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.6666666666666666,
+                "recall": 0.3333333333333333,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.825
+          },
+          "delta_sign_flip": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.625,
+                "recall": 0.25,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.4375,
+                "recall": 0.25,
+                "specificity": 0.625
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.4375,
+                "recall": 0.0,
+                "specificity": 0.875
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 0.75,
+                "recall": 0.5,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.75,
+                "recall": 0.5,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.6
+          },
+          "delta_feature_permute": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.75,
+                "recall": 0.5,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.525
+          }
+        },
+        "contrasts": {
+          "real": {
+            "event_deltas": {
+              "1111002": 0.0,
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "561": 0.0,
+              "562": 0.0
+            },
+            "delta": 0.0,
+            "ci95_delta": [
+              0.0,
+              0.0
+            ]
+          },
+          "delta_only": {
+            "event_deltas": {
+              "1111002": 0.0,
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.09999999999999998,
+              "277": 0.0,
+              "321": 0.0625,
+              "411": 0.0,
+              "445": 0.0625,
+              "561": 0.0,
+              "562": 0.08333333333333326
+            },
+            "delta": 0.030833333333333324,
+            "ci95_delta": [
+              0.00625,
+              0.05708333333333332
+            ]
+          },
+          "delta_sign_flip": {
+            "event_deltas": {
+              "1111002": 0.16666666666666674,
+              "1111007": -0.25,
+              "1111013": -0.4375,
+              "205": -0.4,
+              "277": -0.5625,
+              "321": -0.4375,
+              "411": 0.0,
+              "445": -0.4375,
+              "561": 0.25,
+              "562": 0.16666666666666663
+            },
+            "delta": -0.19416666666666668,
+            "ci95_delta": [
+              -0.37378124999999995,
+              -0.00874999999999999
+            ]
+          },
+          "delta_feature_permute": {
+            "event_deltas": {
+              "1111002": -0.33333333333333326,
+              "1111007": -0.375,
+              "1111013": -0.375,
+              "205": -0.4,
+              "277": -0.5,
+              "321": -0.1875,
+              "411": 0.0,
+              "445": -0.4375,
+              "561": 0.0,
+              "562": -0.08333333333333337
+            },
+            "delta": -0.26916666666666667,
+            "ci95_delta": [
+              -0.3775104166666667,
+              -0.15833333333333333
+            ]
+          }
+        },
+        "agreement_with_real": {
+          "real": {
+            "n_items": 165,
+            "matched_valid_decisions": 165,
+            "n_both_parsed": 165,
+            "agreement_all_items": 1.0,
+            "agreement_both_parsed": 1.0,
+            "agreement_ge_0_99_descriptive_only": true,
+            "source_yes_rate": 0.28484848484848485
+          },
+          "delta_only": {
+            "n_items": 165,
+            "matched_valid_decisions": 158,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.9575757575757575,
+            "agreement_both_parsed": 0.9575757575757575,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.3151515151515151
+          },
+          "delta_sign_flip": {
+            "n_items": 165,
+            "matched_valid_decisions": 110,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.6666666666666666,
+            "agreement_both_parsed": 0.6666666666666666,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.10909090909090909
+          },
+          "delta_feature_permute": {
+            "n_items": 165,
+            "matched_valid_decisions": 114,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.6909090909090909,
+            "agreement_both_parsed": 0.6909090909090909,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.06060606060606061
+          }
+        },
+        "hard_negative": {
+          "real": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.25,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.03125,
+            "fpr_pooled": 0.0392156862745098,
+            "parse_failures": 0
+          },
+          "delta_only": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.375,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.046875,
+            "fpr_pooled": 0.058823529411764705,
+            "parse_failures": 0
+          },
+          "delta_sign_flip": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.125,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 1.0
+            },
+            "fpr_event_macro": 0.140625,
+            "fpr_pooled": 0.058823529411764705,
+            "parse_failures": 0
+          },
+          "delta_feature_permute": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.75,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.09375,
+            "fpr_pooled": 0.11764705882352941,
+            "parse_failures": 0
+          }
+        }
+      },
+      "landslide": {
+        "paired": {
+          "real": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.625,
+                "recall": 0.5625,
+                "specificity": 0.6875
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5833333333333334,
+                "recall": 0.3333333333333333,
+                "specificity": 0.8333333333333334
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.6041666666666667
+          },
+          "delta_only": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.5625,
+                "recall": 0.4375,
+                "specificity": 0.6875
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5833333333333334,
+                "recall": 0.3333333333333333,
+                "specificity": 0.8333333333333334
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.5729166666666667
+          },
+          "delta_sign_flip": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.5625,
+                "recall": 0.1875,
+                "specificity": 0.9375
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.4166666666666667,
+                "recall": 0.0,
+                "specificity": 0.8333333333333334
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.48958333333333337
+          },
+          "delta_feature_permute": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.71875,
+                "recall": 0.5625,
+                "specificity": 0.875
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.609375
+          }
+        },
+        "contrasts": {
+          "real": {
+            "event_deltas": {
+              "holdout_hiroshima": 0.0,
+              "holdout_indonesia": 0.0
+            },
+            "delta": 0.0,
+            "ci95_delta": null
+          },
+          "delta_only": {
+            "event_deltas": {
+              "holdout_hiroshima": -0.0625,
+              "holdout_indonesia": 0.0
+            },
+            "delta": -0.03125,
+            "ci95_delta": null
+          },
+          "delta_sign_flip": {
+            "event_deltas": {
+              "holdout_hiroshima": -0.0625,
+              "holdout_indonesia": -0.16666666666666669
+            },
+            "delta": -0.11458333333333334,
+            "ci95_delta": null
+          },
+          "delta_feature_permute": {
+            "event_deltas": {
+              "holdout_hiroshima": 0.09375,
+              "holdout_indonesia": -0.08333333333333337
+            },
+            "delta": 0.005208333333333315,
+            "ci95_delta": null
+          }
+        },
+        "agreement_with_real": {
+          "real": {
+            "n_items": 44,
+            "matched_valid_decisions": 44,
+            "n_both_parsed": 44,
+            "agreement_all_items": 1.0,
+            "agreement_both_parsed": 1.0,
+            "agreement_ge_0_99_descriptive_only": true,
+            "source_yes_rate": 0.38636363636363635
+          },
+          "delta_only": {
+            "n_items": 44,
+            "matched_valid_decisions": 42,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.9545454545454546,
+            "agreement_both_parsed": 0.9545454545454546,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.3409090909090909
+          },
+          "delta_sign_flip": {
+            "n_items": 44,
+            "matched_valid_decisions": 24,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.5454545454545454,
+            "agreement_both_parsed": 0.5454545454545454,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.11363636363636363
+          },
+          "delta_feature_permute": {
+            "n_items": 44,
+            "matched_valid_decisions": 30,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.6818181818181818,
+            "agreement_both_parsed": 0.6818181818181818,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.25
+          }
+        },
+        "hard_negative": {}
+      }
+    },
+    "3": {
+      "flood": {
+        "paired": {
+          "real": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.8125,
+                "recall": 0.625,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.9,
+                "recall": 0.8,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.9375,
+                "recall": 0.875,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5833333333333334,
+                "recall": 0.16666666666666666,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.8483333333333334
+          },
+          "delta_only": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.8125,
+                "recall": 0.625,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.9,
+                "recall": 0.8,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.9375,
+                "recall": 0.875,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.875,
+                "recall": 0.75,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5833333333333334,
+                "recall": 0.16666666666666666,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.7858333333333334
+          },
+          "delta_sign_flip": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 1.0,
+                "recall": 1.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.625,
+                "recall": 0.25,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.375,
+                "specificity": 0.625
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 0.75,
+                "recall": 0.5,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.6666666666666666,
+                "recall": 0.3333333333333333,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.6041666666666667
+          },
+          "delta_feature_permute": {
+            "events": {
+              "1111002": {
+                "n_pos": 3,
+                "n_neg": 3,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "1111007": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "1111013": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "205": {
+                "n_pos": 5,
+                "n_neg": 5,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "277": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "321": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "411": {
+                "n_pos": 1,
+                "n_neg": 1,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "445": {
+                "n_pos": 8,
+                "n_neg": 8,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "561": {
+                "n_pos": 2,
+                "n_neg": 2,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              },
+              "562": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 10,
+            "macro_ba": 0.5
+          }
+        },
+        "contrasts": {
+          "real": {
+            "event_deltas": {
+              "1111002": 0.0,
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "561": 0.0,
+              "562": 0.0
+            },
+            "delta": 0.0,
+            "ci95_delta": [
+              0.0,
+              0.0
+            ]
+          },
+          "delta_only": {
+            "event_deltas": {
+              "1111002": -0.5,
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": -0.125,
+              "411": 0.0,
+              "445": 0.0,
+              "561": 0.0,
+              "562": 0.0
+            },
+            "delta": -0.0625,
+            "ci95_delta": [
+              -0.1625,
+              0.0
+            ]
+          },
+          "delta_sign_flip": {
+            "event_deltas": {
+              "1111002": 0.0,
+              "1111007": -0.25,
+              "1111013": -0.3125,
+              "205": -0.4,
+              "277": -0.4375,
+              "321": -0.5,
+              "411": 0.0,
+              "445": -0.375,
+              "561": -0.25,
+              "562": 0.08333333333333326
+            },
+            "delta": -0.24416666666666664,
+            "ci95_delta": [
+              -0.3587604166666667,
+              -0.11916666666666671
+            ]
+          },
+          "delta_feature_permute": {
+            "event_deltas": {
+              "1111002": -0.5,
+              "1111007": -0.375,
+              "1111013": -0.3125,
+              "205": -0.4,
+              "277": -0.4375,
+              "321": -0.5,
+              "411": 0.0,
+              "445": -0.375,
+              "561": -0.5,
+              "562": -0.08333333333333337
+            },
+            "delta": -0.34833333333333333,
+            "ci95_delta": [
+              -0.44000000000000006,
+              -0.2395520833333338
+            ]
+          }
+        },
+        "agreement_with_real": {
+          "real": {
+            "n_items": 165,
+            "matched_valid_decisions": 165,
+            "n_both_parsed": 165,
+            "agreement_all_items": 1.0,
+            "agreement_both_parsed": 1.0,
+            "agreement_ge_0_99_descriptive_only": true,
+            "source_yes_rate": 0.2606060606060606
+          },
+          "delta_only": {
+            "n_items": 165,
+            "matched_valid_decisions": 159,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.9636363636363636,
+            "agreement_both_parsed": 0.9636363636363636,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.22424242424242424
+          },
+          "delta_sign_flip": {
+            "n_items": 165,
+            "matched_valid_decisions": 119,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.7212121212121212,
+            "agreement_both_parsed": 0.7212121212121212,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.10303030303030303
+          },
+          "delta_feature_permute": {
+            "n_items": 165,
+            "matched_valid_decisions": 122,
+            "n_both_parsed": 165,
+            "agreement_all_items": 0.7393939393939394,
+            "agreement_both_parsed": 0.7393939393939394,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.0
+          }
+        },
+        "hard_negative": {
+          "real": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.125,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.015625,
+            "fpr_pooled": 0.0196078431372549,
+            "parse_failures": 0
+          },
+          "delta_only": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.0,
+            "fpr_pooled": 0.0,
+            "parse_failures": 0
+          },
+          "delta_sign_flip": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.125,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 1.0
+            },
+            "fpr_event_macro": 0.140625,
+            "fpr_pooled": 0.058823529411764705,
+            "parse_failures": 0
+          },
+          "delta_feature_permute": {
+            "n": 51,
+            "fpr_by_event": {
+              "1111007": 0.0,
+              "1111013": 0.0,
+              "205": 0.0,
+              "277": 0.0,
+              "321": 0.0,
+              "411": 0.0,
+              "445": 0.0,
+              "562": 0.0
+            },
+            "fpr_event_macro": 0.0,
+            "fpr_pooled": 0.0,
+            "parse_failures": 0
+          }
+        }
+      },
+      "landslide": {
+        "paired": {
+          "real": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.4375,
+                "recall": 0.0625,
+                "specificity": 0.8125
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.6666666666666666,
+                "recall": 0.3333333333333333,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.5520833333333333
+          },
+          "delta_only": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.5,
+                "recall": 0.125,
+                "specificity": 0.875
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5,
+                "recall": 0.0,
+                "specificity": 1.0
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.5
+          },
+          "delta_sign_flip": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.5625,
+                "recall": 0.1875,
+                "specificity": 0.9375
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.5,
+                "recall": 0.16666666666666666,
+                "specificity": 0.8333333333333334
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.53125
+          },
+          "delta_feature_permute": {
+            "events": {
+              "holdout_hiroshima": {
+                "n_pos": 16,
+                "n_neg": 16,
+                "ba": 0.5625,
+                "recall": 0.1875,
+                "specificity": 0.9375
+              },
+              "holdout_indonesia": {
+                "n_pos": 6,
+                "n_neg": 6,
+                "ba": 0.4166666666666667,
+                "recall": 0.0,
+                "specificity": 0.8333333333333334
+              }
+            },
+            "n_events": 2,
+            "macro_ba": 0.48958333333333337
+          }
+        },
+        "contrasts": {
+          "real": {
+            "event_deltas": {
+              "holdout_hiroshima": 0.0,
+              "holdout_indonesia": 0.0
+            },
+            "delta": 0.0,
+            "ci95_delta": null
+          },
+          "delta_only": {
+            "event_deltas": {
+              "holdout_hiroshima": 0.0625,
+              "holdout_indonesia": -0.16666666666666663
+            },
+            "delta": -0.052083333333333315,
+            "ci95_delta": null
+          },
+          "delta_sign_flip": {
+            "event_deltas": {
+              "holdout_hiroshima": 0.125,
+              "holdout_indonesia": -0.16666666666666663
+            },
+            "delta": -0.020833333333333315,
+            "ci95_delta": null
+          },
+          "delta_feature_permute": {
+            "event_deltas": {
+              "holdout_hiroshima": 0.125,
+              "holdout_indonesia": -0.24999999999999994
+            },
+            "delta": -0.06249999999999997,
+            "ci95_delta": null
+          }
+        },
+        "agreement_with_real": {
+          "real": {
+            "n_items": 44,
+            "matched_valid_decisions": 44,
+            "n_both_parsed": 44,
+            "agreement_all_items": 1.0,
+            "agreement_both_parsed": 1.0,
+            "agreement_ge_0_99_descriptive_only": true,
+            "source_yes_rate": 0.13636363636363635
+          },
+          "delta_only": {
+            "n_items": 44,
+            "matched_valid_decisions": 40,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.9090909090909091,
+            "agreement_both_parsed": 0.9090909090909091,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.09090909090909091
+          },
+          "delta_sign_flip": {
+            "n_items": 44,
+            "matched_valid_decisions": 34,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.7727272727272727,
+            "agreement_both_parsed": 0.7727272727272727,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.13636363636363635
+          },
+          "delta_feature_permute": {
+            "n_items": 44,
+            "matched_valid_decisions": 35,
+            "n_both_parsed": 44,
+            "agreement_all_items": 0.7954545454545454,
+            "agreement_both_parsed": 0.7954545454545454,
+            "agreement_ge_0_99_descriptive_only": false,
+            "source_yes_rate": 0.11363636363636363
+          }
+        },
+        "hard_negative": {}
+      }
+    }
+  },
+  "seed_decisions": {
+    "1": {
+      "eligible": true,
+      "delta_only_sufficient": false,
+      "delta_only_degrades": false
+    },
+    "2": {
+      "eligible": true,
+      "delta_only_sufficient": true,
+      "delta_only_degrades": false
+    },
+    "3": {
+      "eligible": true,
+      "delta_only_sufficient": false,
+      "delta_only_degrades": false
+    }
+  },
+  "sufficient_seeds": [
+    2
+  ],
+  "degraded_seeds": [],
+  "interpretation": "Post-E3 exploratory source-label agreement. D contains both observations; no history-unnecessary or physical counterfactual claim.",
+  "runtime_reproduction": {
+    "1": {
+      "landslide": {
+        "e2_real": {
+          "n": 44,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        },
+        "e3_real": {
+          "n": 44,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        }
+      },
+      "flood": {
+        "e2_real": {
+          "n": 165,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        },
+        "e3_real": {
+          "n": 165,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        }
+      }
+    },
+    "2": {
+      "landslide": {
+        "e2_real": {
+          "n": 44,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        },
+        "e3_real": {
+          "n": 44,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        }
+      },
+      "flood": {
+        "e2_real": {
+          "n": 165,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        },
+        "e3_real": {
+          "n": 165,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        }
+      }
+    },
+    "3": {
+      "landslide": {
+        "e2_real": {
+          "n": 44,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        },
+        "e3_real": {
+          "n": 44,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        }
+      },
+      "flood": {
+        "e2_real": {
+          "n": 165,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        },
+        "e3_real": {
+          "n": 165,
+          "reproduction_rate": 1.0,
+          "parse_failure_rate": 0.0
+        }
+      }
+    }
+  },
+  "manifest_sha256": "4597bc1589ed7a23ffd7befa58d38aa9da859320cefcb728c26290015f0c71aa",
+  "prereg_sha256": "39858be7464fa218ad67e3084919f7e36267b7b8fec9c571e9643dffe6004ceb",
+  "prompt_snapshot_sha256": "2f28e33479392f4b9f2752889f59b7a017cb2dae670aaef58d0b68ae989a6744",
+  "elapsed_s": 158.22689786925912
+}

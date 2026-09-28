@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oe9:human-candidate:v1:response",
+  "title": "Independent EO candidate identification and timing response",
+  "type": "object",
+  "required": ["schema_version", "package_id", "annotator_id", "assignment", "synthetic_fixture", "records", "exported_at"],
+  "properties": {
+    "schema_version": {"const": "oe9-human-candidate-v1"},
+    "package_id": {"type": "string", "minLength": 1},
+    "annotator_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+    "assignment": {"enum": ["A", "B"]},
+    "synthetic_fixture": {"type": "boolean"},
+    "exported_at": {"type": "string", "format": "date-time"},
+    "records": {"type": "array", "minItems": 20, "maxItems": 20, "items": {"$ref": "#/$defs/record"}}
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "required": ["case_id", "status", "decision", "evidence_frame_ids", "reason", "issues", "confidence", "intervals", "active_seconds", "first_started_at", "completed_at"],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^P[0-9]{3}$"},
+        "status": {"enum": ["not_started", "in_progress", "complete"]},
+        "decision": {"enum": [null, "target", "counterexample", "neither", "uncertain", "unobservable"]},
+        "evidence_frame_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "reason": {"type": "string"},
+        "issues": {"type": "array", "uniqueItems": true, "items": {"enum": ["seasonality", "spectral", "shape", "cloud", "resolution", "dates", "mixed", "examples", "other"]}},
+        "confidence": {"enum": [null, "low", "medium", "high"]},
+        "active_seconds": {"type": "number", "minimum": 0},
+        "first_started_at": {"type": ["string", "null"], "format": "date-time"},
+        "completed_at": {"type": ["string", "null"], "format": "date-time"},
+        "intervals": {"type": "array", "items": {"type": "object", "required": ["started_at", "ended_at", "elapsed_seconds", "active_seconds", "stop_reason"], "properties": {
+          "started_at": {"type": "string", "format": "date-time"},
+          "ended_at": {"type": ["string", "null"], "format": "date-time"},
+          "elapsed_seconds": {"type": ["number", "null"], "minimum": 0},
+          "active_seconds": {"type": "number", "minimum": 0},
+          "stop_reason": {"type": ["string", "null"]}
+        }}}
+      }
+    }
+  }
+}

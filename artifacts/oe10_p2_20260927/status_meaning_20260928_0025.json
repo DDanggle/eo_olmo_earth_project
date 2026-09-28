@@ -1,0 +1,463 @@
+{
+  "controller": {
+    "status": "running",
+    "controller_pid": 1419400,
+    "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+    "stage": "training",
+    "workers": [
+      {
+        "name": "B0_270927_train",
+        "status": "completed",
+        "output": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270927_train",
+        "gpu_observations": [
+          {
+            "index": 0,
+            "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+            "memory_mib": 0,
+            "utilization_percent": null,
+            "utilization_unavailable": true,
+            "has_compute_pid": false
+          },
+          {
+            "index": 1,
+            "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+            "memory_mib": 0,
+            "utilization_percent": null,
+            "utilization_unavailable": true,
+            "has_compute_pid": false,
+            "idle_basis": "memory_zero_and_no_compute_PID"
+          }
+        ],
+        "timeout_seconds": 14520,
+        "pid": 1419405,
+        "exit_code": 0,
+        "receipt_status": "training_completed"
+      },
+      {
+        "name": "B2_270927_train",
+        "status": "running",
+        "output": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train",
+        "gpu_observations": [
+          {
+            "index": 0,
+            "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+            "memory_mib": 0,
+            "utilization_percent": null,
+            "utilization_unavailable": true,
+            "has_compute_pid": false
+          },
+          {
+            "index": 1,
+            "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+            "memory_mib": 0,
+            "utilization_percent": null,
+            "utilization_unavailable": true,
+            "has_compute_pid": false,
+            "idle_basis": "memory_zero_and_no_compute_PID"
+          }
+        ],
+        "timeout_seconds": 14520,
+        "pid": 1421757
+      }
+    ],
+    "started_utc": "2026-09-27T11:42:43.962886+00:00",
+    "protected_before": {
+      "pilot_sen12_gp_heads.py": {
+        "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+        "mtime_ns": 1788238578452341500,
+        "bytes": 45602
+      },
+      "sen12_official_baselines.py": {
+        "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+        "mtime_ns": 1787683824644840000,
+        "bytes": 10926
+      },
+      "extract_sen12_fold_cache.py": {
+        "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+        "mtime_ns": 1787659265235748400,
+        "bytes": 10983
+      },
+      "audit_sen12_fold_cache.py": {
+        "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+        "mtime_ns": 1787668636109707300,
+        "bytes": 7314
+      }
+    },
+    "source_hashes": {
+      "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+      "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+      "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+      "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+      "p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+      "run_bounded.py": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0",
+      "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+      "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+      "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+    },
+    "protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+    "current_worker": "B2_270927_train"
+  },
+  "worker_receipt": {
+    "status": "training",
+    "arm": "B2",
+    "seed": 270927,
+    "mode": "train",
+    "pid": 1421757,
+    "started_utc": "2026-09-27T12:36:44.390484+00:00",
+    "source_hashes": {
+      "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+      "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+      "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+      "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+      "p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+      "run_bounded.py": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0",
+      "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+      "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+      "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+    },
+    "gpu_visible": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+    "development_metrics_accessed": true,
+    "new_method_tested": false,
+    "elapsed_seconds": 10081.507387079298,
+    "protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+    "native_identity": {
+      "manifest_sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+      "source_hashes": {
+        "olmoearth_pretrain/model_loader.py": "2ff982cda47fa53e8bb3a9f4ff3879816e4297770ed6e6c6cf49f5e323562ba7",
+        "olmoearth_pretrain/train/masking.py": "4a29589d46fd0920912dfef8e46c8cf2c614545417841325c567ca55a5e27dba",
+        "olmoearth_pretrain/train/loss.py": "7f378e156eeb65434fddaf3c63300bb0c426b4532d6b987d753365ab762997b5",
+        "scripts/official/v1_2/base.py": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee"
+      },
+      "checkpoint_hashes": {
+        "config.json": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+        "weights.pth": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+      },
+      "public_loss_registry_bridge": {
+        "source_recipe_sha256": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee",
+        "checkpoint_config_sha256": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+        "changes": [
+          {
+            "path": "train_module.loss_config.loss_config.type",
+            "from": "absent",
+            "to": "modality_patch_discrimination_masked_negatives_vec",
+            "evidence": "/home/work/data/olmoearth/oe4_native_v12_v0/source/scripts/official/v1_2/base.py"
+          },
+          {
+            "path": "train_module.contrastive_config.loss_config.type",
+            "from": "absent",
+            "to": "InfoNCE",
+            "evidence": "/home/work/data/olmoearth/oe4_native_v12_v0/source/scripts/official/v1_2/base.py"
+          }
+        ],
+        "official_recipe_loss_configs": {
+          "loss_config": {
+            "type": "modality_patch_discrimination_masked_negatives_vec",
+            "tau": 0.1,
+            "same_target_threshold": 0.999,
+            "mask_negatives_for_modalities": [
+              "worldcover",
+              "srtm",
+              "openstreetmap_raster",
+              "wri_canopy_height_map",
+              "cdl",
+              "worldcereal"
+            ]
+          },
+          "contrastive_config": {
+            "type": "InfoNCE",
+            "weight": 0.05
+          }
+        },
+        "scope": "Memory-only restore of registry keys; public config and weights are not edited",
+        "cause": "Official LossConfig.build pops type before experiment serializes the built train configuration"
+      },
+      "bridge_runtime_source_sha256": "b737a7254c2d66518e3acc8b8314918c8529d21d33e04347b49be6029cac0b2c",
+      "train_files_loaded_and_raw_hash_verified": 64,
+      "dev_files_loaded": 0,
+      "normalization": "official computed once, S2 + WorldCover",
+      "samples_cpu_cached": true,
+      "cached_array_bytes": 6556672,
+      "precision": "FP32 native forward and losses; outer autocast explicitly disabled",
+      "flash_attn_disabled_modules": [],
+      "ema_decay": [
+        1,
+        1
+      ],
+      "scope": "small native replay auxiliary; not full official pretraining/CPT reproduction",
+      "geographic_independence_certified": false,
+      "pretraining_exposure_unknown": true
+    },
+    "trainable_parameters": 149688193,
+    "episode_order_sha256": "9a6550c48105be869a958229d9f556dc0fe83d80b276782a46c9ba6ade42b0d9",
+    "episode_count": 2304,
+    "vlm_identity": {
+      "config.json": {
+        "sha256": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+        "bytes": 1474
+      },
+      "model.safetensors.index.json": {
+        "sha256": "520b2e05079402e9468a8701d03d1154d14b2599593afb6effa7fb60c1bff070",
+        "bytes": 67759
+      },
+      "model-00001-of-00004.safetensors": {
+        "sha256": "d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa",
+        "bytes": 4902275944
+      },
+      "model-00002-of-00004.safetensors": {
+        "sha256": "8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5",
+        "bytes": 4915962496
+      },
+      "model-00003-of-00004.safetensors": {
+        "sha256": "83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192",
+        "bytes": 4999831048
+      },
+      "model-00004-of-00004.safetensors": {
+        "sha256": "0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5",
+        "bytes": 2716270024
+      }
+    },
+    "completed_updates": 1944,
+    "last_train_step": {
+      "step": 1944,
+      "episode_id": "ac8105244035e72e28646b4a:k8",
+      "k": 8,
+      "mask_loss": 0.34633004665374756,
+      "language_loss": 0.2715604901313782,
+      "native_loss": 0.6378430724143982,
+      "total_loss": 0.9977511435747146,
+      "native_metrics": {
+        "total": 0.6378430724143982,
+        "base": 0.6378087997436523,
+        "contrastive": 3.427767660468817e-05,
+        "mask_counts": [
+          {
+            "sentinel2_l2a": {
+              "0": 2048,
+              "1": 2048
+            },
+            "worldcover": {
+              "2": 2048
+            }
+          },
+          {
+            "sentinel2_l2a": {
+              "0": 2048,
+              "1": 2048
+            },
+            "worldcover": {
+              "2": 2048
+            }
+          }
+        ],
+        "step": 1943,
+        "seed": 272871,
+        "sample_indices": [
+          46,
+          47
+        ],
+        "files": [
+          "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3905.h5",
+          "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1069.h5"
+        ],
+        "raw_crop_sha256": [
+          "71deeb5c1e0715dd57bb319afe0bfc09a98435e63441da415642a28b20640a00",
+          "f2813918ed57a5b5e54abcddbef63b0db39bc01fad99bc8a1608cfa883abbb60"
+        ],
+        "native_train_samples": 2,
+        "native_dev_samples": 0,
+        "native_model_forward_calls": 2,
+        "explicit_target_forward_calls": 2,
+        "online_patch_date_instances": 8,
+        "explicit_target_patch_date_instances": 8,
+        "batch_size": 2,
+        "crop_size": 32,
+        "timesteps": 2,
+        "encoder_trainable": true,
+        "all_native_frozen": false,
+        "loss_requires_grad": true,
+        "native_encoder_update_possible": true,
+        "fixed_target_ema_decay": [
+          1,
+          1
+        ],
+        "interpretation": "native objective replay; zero components retained, not repaired"
+      },
+      "native_encoder_gradient_tensors": 214,
+      "language_encoder_anchor_gradient_norm": null,
+      "nonzero_gradients": {
+        "encoder": 214,
+        "head": 6,
+        "connector": 10
+      },
+      "grad_norm": 14.979891777038574,
+      "seconds": 9.090678960084915,
+      "phase_seconds": {
+        "native_forward_backward": 0.13533127307891846,
+        "episode_forward": 2.008559964597225,
+        "episode_backward_and_first_language_probe": 6.045239247381687,
+        "gradient_checks_clip_optimizer": 0.03957302123308182
+      },
+      "learning_rates": {
+        "encoder": 1.577527884852619e-06,
+        "native_decoder": 1.577527884852619e-05,
+        "readouts": 0.00015775278848526188
+      },
+      "model_metrics": {
+        "k_pairs": 8,
+        "query_dates": 2,
+        "support_date_instances": 128,
+        "connector_slots": 64,
+        "language_prompt_tokens": 189,
+        "language_supervision": true,
+        "gold_in_model_input": false,
+        "costs_cumulative": {
+          "EOencoder_calls": 33159,
+          "patch_date_encodes": 241464,
+          "vlm_forward_calls": 1944,
+          "cache_hits": 16195,
+          "cache_misses": 125,
+          "cache_key_bytes_hashed": 95570269440,
+          "checkpoint_recompute_calls": 16510
+        }
+      }
+    },
+    "evaluation_windows": [
+      {
+        "step": 384,
+        "auc": 0.19381891219831426,
+        "score_path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/score_step_000384.json",
+        "score_sha256": "4dc878e71504130f952cc85d4df609fa5fcda9d58aa78d43cd1dec0bdf592839"
+      },
+      {
+        "step": 768,
+        "auc": 0.15490909520947027,
+        "score_path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/score_step_000768.json",
+        "score_sha256": "b20812939f2f9e9a8db364a36420f9c0cce205a81f69deb5736098dc749c3984"
+      },
+      {
+        "step": 1152,
+        "auc": 0.30866838806242747,
+        "score_path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/score_step_001152.json",
+        "score_sha256": "2a9ca494f311ade3759b2bf6eddfe92b22fb0509ebd5a6f095e9e40422c02926"
+      },
+      {
+        "step": 1536,
+        "auc": 0.3238788779261633,
+        "score_path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/score_step_001536.json",
+        "score_sha256": "314e278b9c2372a1105769c9d6deca40a7ec8e920779c905e6c3eec8a32ed510"
+      },
+      {
+        "step": 1920,
+        "auc": 0.3368343094833078,
+        "score_path": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train/score_step_001920.json",
+        "score_sha256": "026fea3daff441e9d7a27bb723777a0f0b36f85cad99aa184ee8e6c8255fcfec"
+      }
+    ],
+    "latest_checkpoint_sha256": "898625a84300f9e90a53e02ddc3aa131d0115bc85ed1aae798d989bf7fe72fcf"
+  },
+  "last_train": {
+    "step": 1951,
+    "episode_id": "be1fafbb44a68932cd699d0a:k4",
+    "k": 4,
+    "mask_loss": 0.5864764451980591,
+    "language_loss": 0.5607717633247375,
+    "native_loss": 0.6343274116516113,
+    "total_loss": 1.2488424450159072,
+    "native_metrics": {
+      "total": 0.6343274116516113,
+      "base": 0.6343199014663696,
+      "contrastive": 7.51540801502415e-06,
+      "mask_counts": [
+        {
+          "sentinel2_l2a": {
+            "0": 2048,
+            "1": 2048
+          },
+          "worldcover": {
+            "2": 2048
+          }
+        },
+        {
+          "sentinel2_l2a": {
+            "0": 2048,
+            "1": 2048
+          },
+          "worldcover": {
+            "2": 2048
+          }
+        }
+      ],
+      "step": 1950,
+      "seed": 272878,
+      "sample_indices": [
+        60,
+        61
+      ],
+      "files": [
+        "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2244.h5",
+        "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2115.h5"
+      ],
+      "raw_crop_sha256": [
+        "d8983f673d2131a9fc6f7b1e0f3e506411f73071376b2862a2fc21364f4c4fe7",
+        "b4cbd113162a4b12d786a8d1a6a0438c42d40094ef416bcc683e02bb86fb9f53"
+      ],
+      "native_train_samples": 2,
+      "native_dev_samples": 0,
+      "native_model_forward_calls": 2,
+      "explicit_target_forward_calls": 2,
+      "online_patch_date_instances": 8,
+      "explicit_target_patch_date_instances": 8,
+      "batch_size": 2,
+      "crop_size": 32,
+      "timesteps": 2,
+      "encoder_trainable": true,
+      "all_native_frozen": false,
+      "loss_requires_grad": true,
+      "native_encoder_update_possible": true,
+      "fixed_target_ema_decay": [
+        1,
+        1
+      ],
+      "interpretation": "native objective replay; zero components retained, not repaired"
+    },
+    "native_encoder_gradient_tensors": 214,
+    "language_encoder_anchor_gradient_norm": null,
+    "nonzero_gradients": {
+      "encoder": 214,
+      "head": 6,
+      "connector": 10
+    },
+    "grad_norm": 9.784339904785156,
+    "seconds": 4.812456697225571,
+    "phase_seconds": {
+      "native_forward_backward": 0.1345514990389347,
+      "episode_forward": 1.0725653506815434,
+      "episode_backward_and_first_language_probe": 3.1000134460628033,
+      "gradient_checks_clip_optimizer": 0.03933465853333473
+    },
+    "learning_rates": {
+      "encoder": 1.555756585645951e-06,
+      "native_decoder": 1.5557565856459512e-05,
+      "readouts": 0.0001555756585645951
+    },
+    "model_metrics": {
+      "k_pairs": 4,
+      "query_dates": 2,
+      "support_date_instances": 64,
+      "connector_slots": 64,
+      "language_prompt_tokens": 189,
+      "language_supervision": true,
+      "gold_in_model_input": false,
+      "costs_cumulative": {
+        "EOencoder_calls": 33269,
+        "patch_date_encodes": 242260,
+        "vlm_forward_calls": 1951,
+        "cache_hits": 16195,
+        "cache_misses": 125,
+        "cache_key_bytes_hashed": 95570269440,
+        "checkpoint_recompute_calls": 16569
+      }
+    }
+  },
+  "process_observation": "\n    PID     ELAPSED STAT\n1419400    03:42:31 Ss\n1421757    02:48:30 Rsl\n2026-09-27T15:25:15Z\n"
+}

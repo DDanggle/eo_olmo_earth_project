@@ -1,0 +1,248 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-09-27",
+  "status": "development_design_not_preregistration_or_executable_launcher",
+  "plan": "docs/OLMOEARTH_NEXT_EXPERIMENT_DESIGN_20260927.md",
+  "prior_execution_status": "config/oe6_execution_and_crossdomain_status_20260927.json",
+  "prior_idea_plan": "docs/OLMOEARTH_CROSSDOMAIN_LOOP_PLAN_20260927.md",
+  "budget_reference": "config/eo_vlm_labeling_budget_v2_20260926.json",
+  "actual_state_at_design": {
+    "engineering_inputs": 2,
+    "candidate_train": 64,
+    "candidate_dev": 16,
+    "candidate_raw_prepared": false,
+    "transfer_training_episodes": 0,
+    "new_method_effect_established": false,
+    "novelty_established": false,
+    "comparative_gpu_training_ready": false
+  },
+  "execution_this_update": {
+    "gpu_launches": 0,
+    "server_transfers": 0,
+    "dataset_downloads": 0,
+    "paid_api_calls": 0,
+    "paid_api_spend_krw": 0,
+    "people_contacted": 0
+  },
+  "data": {
+    "first_dataset": "verified_partial_PASTIS_official_train_only",
+    "source_rows": 911,
+    "usable_shards": [
+      "0000"
+    ],
+    "unusable_shards": {
+      "0001": "hash_mismatch",
+      "0002": "missing"
+    },
+    "train_parents": [
+      "t32ulu",
+      "t31tfj"
+    ],
+    "dev_parents": [
+      "t31tfm"
+    ],
+    "reserved_unopened_this_stage": [
+      "t30uxv"
+    ],
+    "historical_or_pretraining_nonexposure_proven": false,
+    "exact_footprint_contract_ready": false,
+    "labels": "annual_crop_masks_not_change_or_health_labels",
+    "second_dataset_candidate": "Kuro_Siwo_with_event_exposure_and_actual_dates_audit",
+    "target_class_selection": "training_labels_only_then_freeze_inventory",
+    "quality_policy": "pending_raw_audit_before_model_comparison"
+  },
+  "episodes": {
+    "correction_unit": "one_positive_and_one_comparison_region_pair",
+    "primary_support": "source_region_fixed_library_replay",
+    "target_support_adaptation": "separate_track_disjoint_support_query",
+    "budgets_pairs": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "zero_support": "named_target_track_only_not_exemplar_defined_AUC",
+    "nested_support_prefixes_shared_between_methods": true,
+    "query_gold_visible_to_model_or_selector_at_test": false,
+    "same_patch_or_parcel_in_support_and_query_allowed": false,
+    "primary_test_weight_updates": false,
+    "synthetic_support_equals_human_correction": false,
+    "supersedes_historical_K_schedule_for_this_development_only": true,
+    "source_evaluation_support_bank_separate_from_supervised_episode_training": true,
+    "same_query_and_class_cohort_and_weights_across_K": true
+  },
+  "models": {
+    "encoder": "OlmoEarth-v1.2-Base_pinned_existing_weights",
+    "reader": "Qwen3-VL-8B_full_weight_identity_pending",
+    "reader_trainable_initially": false,
+    "gradient_to_reader_inputs_required": true,
+    "reference_precision": "FP32_no_cache",
+    "bf16_cache_issue_resolved": false,
+    "full_grid_tokens_must_be_profiled": true,
+    "all_arms_receive_same_support_and_dense_supervision": true
+  },
+  "representation_screen": {
+    "R0": "native_replay_plus_mask_and_structured_query_losses",
+    "R1": "R0_plus_support_pair_margin_loss_known_metric_learning_hypothesis",
+    "pair_loss": "mean_softplus((m-y*(cos(u,p_plus)-cos(u,p_minus)))/tau)",
+    "starting_values_unvalidated": {
+      "margin": 0.2,
+      "temperature": 0.1,
+      "weight": 0.1
+    },
+    "same_randomized_training_date_subsets": true,
+    "same_pair_generic_contrastive_control_required": true,
+    "identical_controls_are_merged_not_double_counted": true,
+    "novel_preservation_objective": "pending_failure_diagnosis_and_distillation_controls"
+  },
+  "observation_screen": {
+    "PASTIS_candidate_max": 8,
+    "initial_reads": 2,
+    "max_additional_reads": 2,
+    "index_rule": "pending_raw_audit_then_frozen_before_comparison",
+    "S0": "fixed_metadata_defined_order",
+    "S1": "shared_supervised_selector_with_common_train_utility",
+    "unread_candidate_pixels_or_embeddings_free": false,
+    "utility_source": "cross_fitted_training_regions_only",
+    "utility_label_generation_compute_counted": true,
+    "temporal_window_reencoding_counted": true,
+    "common_final_evidence_replay_required": true,
+    "all_candidate_one_shot_cost_curve_required": true,
+    "Kuro_read_budget": "one_post_plus_up_to_two_pre_actual_observations",
+    "is_online_future_observation_or_RL_experiment": false
+  },
+  "matrix": [
+    {
+      "id": "M00",
+      "representation": "R0",
+      "selection": "S0"
+    },
+    {
+      "id": "M01",
+      "representation": "R0",
+      "selection": "S1"
+    },
+    {
+      "id": "M10",
+      "representation": "R1",
+      "selection": "S0"
+    },
+    {
+      "id": "M11",
+      "representation": "R1",
+      "selection": "S1"
+    }
+  ],
+  "matrix_is_four_evaluation_cells_not_necessarily_four_encoder_trainings": true,
+  "required_controls": [
+    "original_frozen_encoder_trained_readout",
+    "official_objective_continued_pretraining_same_downstream_adaptation",
+    "ordinary_joint_learned_resampler_dense_head",
+    "specialist_timeseries_model_tools_same_Qwen",
+    "same_pairs_generic_contrastive_or_distillation",
+    "metadata_only_and_generic_learned_selector_same_utility",
+    "same_predicted_dense_outputs_reader_attribution",
+    "query_or_metadata_only_and_support_role_controls",
+    "specialist_support_interface_matched_or_comparison_scope_restricted"
+  ],
+  "metrics": {
+    "development_primary": "positive_query_target_IoU_by_K",
+    "summary": "linear_K_trapezoidal_AUC_normalized_by_7_K_1_2_4_8",
+    "missing_K_score": "not_computable_no_zero_imputation",
+    "absent_queries": "separate_false_positive_area_and_rate",
+    "secondary": [
+      "comparison_region_false_positive",
+      "measured_compute",
+      "human_time_when_measured",
+      "grounded_evidence_audit",
+      "risk_coverage"
+    ],
+    "confirmatory_primary": null,
+    "minimum_useful_effect": null,
+    "EO_noninferiority_margin": null,
+    "confirmatory_sample_size": null,
+    "independence_unit": "geographic_parent_or_event_not_pixel_query_or_seed",
+    "current_geographic_CI_or_power_supported": false,
+    "seed_plan_starting_point": 3,
+    "seed_count_guarantees_power": false,
+    "measured_support_replay_is_direct_workflow_savings_test": false
+  },
+  "independent_EO_candidates": [
+    "sen1floods11",
+    "m_cashew_plant"
+  ],
+  "independent_EO_inputs_ready": false,
+  "human_plan": {
+    "total_krw": 1000000,
+    "annotator_hours": 60,
+    "annotator_krw": 720000,
+    "expert_hours": 4,
+    "expert_krw": 160000,
+    "api_cap_krw": 50000,
+    "contingency_krw": 70000,
+    "train_episode_target_including_pilot": 200,
+    "timed_pilot_inside_train": 20,
+    "dev_episode_target": 60,
+    "double_review_test_episode_target": 120,
+    "test120_budget_includes_120x8_new_support_pairs": false,
+    "all_volumes_pending_timed_pilot": true,
+    "ai_consensus_is_gold": false,
+    "GPU_and_engineering_costs_included": false
+  },
+  "stages": [
+    {
+      "id": "P0",
+      "deliverable": "manifest_driven_raw80_and_episode_contract",
+      "status": "pending"
+    },
+    {
+      "id": "P1",
+      "deliverable": "profile_two_case_overfit_full_checkpoint_resume",
+      "status": "pending",
+      "provisional_gpu_hour_cap": 2
+    },
+    {
+      "id": "P2",
+      "deliverable": "strong_baselines_learning_curves_failure_inventory",
+      "status": "pending",
+      "provisional_initial_total_gpu_hour_cap": 12,
+      "per_initial_arm_cap": 4
+    },
+    {
+      "id": "P3",
+      "deliverable": "representation_policy_matrix_and_attribution",
+      "status": "pending",
+      "provisional_additional_gpu_hour_cap": 16
+    },
+    {
+      "id": "P4",
+      "deliverable": "timed_human_pilot_and_confirmatory_freeze",
+      "status": "pending"
+    },
+    {
+      "id": "P5",
+      "deliverable": "independent_regions_second_domain_reader_and_EO",
+      "status": "pending"
+    }
+  ],
+  "resources": {
+    "physical_gpu": 1,
+    "previously_verified_device_family": "H200",
+    "prelaunch_idle_UUID_check_required": true,
+    "other_jobs_may_be_terminated": false,
+    "limits_are_throughput_unvalidated_proposals_not_runtime_predictions": true,
+    "undertrained_baseline_at_cap_is_method_failure": false,
+    "run_commands": null
+  },
+  "freeze_blockers": [
+    "raw_inputs_and_quality_policy",
+    "support_query_spatial_and_class_coverage",
+    "trainer_full_reader_identity_and_resume",
+    "measured_throughput_and_fair_tuning_budget",
+    "explicit_nontrivial_method_beyond_standard_pair_learning",
+    "unexposed_evaluation_geographies_and_leakage_audit",
+    "timed_human_support_and_query_workload",
+    "primary_comparison_metric_effect_margin_and_sample_size"
+  ],
+  "next_action": "implement_and_verify_manifest_driven_raw80_preparation"
+}

@@ -1,0 +1,4 @@
+1413094       00:00 13640 bash -lc ps -eo pid,etime,rss,args | grep -E "[p]repare_inputs.py|[v]erify_inputs.py|[e]pisode_builder.py" || true; sha256sum /home/work/data/olmoearth/oe8_pastis_prepare_v0/code_snapshot/oe8_pastis_prepare_v0/prepare_inputs.py /home/work/data/olmoearth/oe8_pastis_prepare_v0/code_snapshot/oe8_input_verify_v0/verify_inputs.py /home/work/data/olmoearth/oe8_pastis_prepare_v0/code_snapshot/oe8_episode_prepare_v0/episode_builder.py
+bd99e818778e5e70589740fd21c3379492c61e19b93ffd373935d1aa52d2404f  /home/work/data/olmoearth/oe8_pastis_prepare_v0/code_snapshot/oe8_pastis_prepare_v0/prepare_inputs.py
+0f6e512ea12981a30d484de5320540512242ab59fc5b4cf6e2c1b3b3b882eed1  /home/work/data/olmoearth/oe8_pastis_prepare_v0/code_snapshot/oe8_input_verify_v0/verify_inputs.py
+64c6df1fe10b40da8cc076286a6184be05ec0db261a4462af0548aaba8eff6d6  /home/work/data/olmoearth/oe8_pastis_prepare_v0/code_snapshot/oe8_episode_prepare_v0/episode_builder.py

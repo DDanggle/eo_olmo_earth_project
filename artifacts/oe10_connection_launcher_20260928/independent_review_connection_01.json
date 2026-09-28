@@ -1,0 +1,45 @@
+{
+  "schema_version": "oe10_connection_result_independent_review_v1",
+  "created_utc": "2026-09-27T23:57:35.780121+00:00",
+  "status": "pass",
+  "job_id": "connection_20260928_01",
+  "review_source_sha256": "1032ec592c68eb0ee5e2afb22c325631be19e606faec20a44390f5b357c73ba1",
+  "export_manifest_sha256": "f2e2bc18478b3c30847bfe41b362c79a1b5b1738d535bf198627d5e168ecddd6",
+  "export_files": 36,
+  "export_bytes": 96310,
+  "model_receipt_sha256": "77869afc0e0742c7a43b315dc67ff0e6374bb76e5c4a91f77b04e5a15b453da1",
+  "launcher_receipt_sha256": "271f516dbe141b1abf26a31d4265a70d36ee12f3fe1d6db9141d6ca0f9aef3df",
+  "ledger_sha256": "2c28e32b705d635b7a60e289339efb460aa007110ad613d13caa87bdf2f30c56",
+  "actual_elapsed_seconds": 47.45010853558779,
+  "charged_seconds": 48,
+  "cumulative_limit_seconds": 7200,
+  "remaining_charge_budget_seconds": 7152,
+  "all_five_contexts_match_frozen_training_input": true,
+  "gradient_nonzero_tensors": {
+    "encoder": 212,
+    "head": 10,
+    "qwen": 0,
+    "unused_connector": 0
+  },
+  "mask_loss_and_all_present_gradients_finite_reported": true,
+  "logit_differences": {
+    "generic": 0.013506785035133362,
+    "matched_knowledge": 0.014231979846954346,
+    "names_only": 0.0,
+    "removed_knowledge_diagnostic": 0.0,
+    "swapped_knowledge_diagnostic": 0.020864538848400116
+  },
+  "same_process_restore_max_difference": 0.0,
+  "optimizer_updates": 0,
+  "development_scoring": false,
+  "generation": false,
+  "actual_human_responses": 0,
+  "full_p2_decision_made": false,
+  "scope": "Real-weight numerical connection and gradient-path receipt verification only; standard text-conditioned dense head, frozen Qwen text-only prefill, original EO encoder.",
+  "limits": [
+    "This review hashes receipts, source and exported artifacts and checks frozen conditions; no model rerun or independent reconstruction from logit/gradient tensors, which were not exported.",
+    "Checkpoint weights are excluded from this export; same-process restore is a worker-reported check, not fresh-process resume.",
+    "Numerical text sensitivity does not establish semantic knowledge use, expert benefit, training improvement, label efficiency or transfer.",
+    "GPU/process absence after completion is a separate live observation by the parent; this local readback performs no remote process check."
+  ]
+}

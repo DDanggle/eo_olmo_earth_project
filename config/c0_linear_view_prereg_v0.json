@@ -1,0 +1,104 @@
+{
+  "schema": "c0-linear-view-prereg-v0",
+  "id": "C0",
+  "registered_date": "2026-09-25",
+  "status": "Specification frozen before C0 feature extraction, model fitting, or probe output inspection; E2 reader results already exposed.",
+  "question": "How linearly decodable are the existing E2 source labels from global mean embeddings of the earlier slot, later slot, or their ordered concatenation?",
+  "scope": "Independent CPU development diagnosis on exposed E2 data; not a change to E3 sampling, transformations, thresholds, or scientific verdicts. No confirmatory primary decision and no claim of temporal understanding.",
+  "expected_counts": {
+    "train|landslide|yes": 518,
+    "train|landslide|no": 518,
+    "train|flood|yes": 1066,
+    "train|flood|no": 2132,
+    "test|landslide|yes": 192,
+    "test|landslide|no": 192,
+    "test|flood|yes": 457,
+    "test|flood|no": 914
+  },
+  "expected_source_sha256": {
+    "e2_multi_reader_v0/manifest.json": "e46e4bcd7ecf9a3fb3e325358c2881ac3bbf79c8f942039351914032c60448f5",
+    "e2_multi_reader_v0/reader_seed1/answers_real_all.jsonl": "b36041a82de5f8cee44c3f5971cbfd8fb40c980ddc6d62cfb08e2c9bedd23d12",
+    "e2_multi_reader_v0/reader_seed2/answers_real_all.jsonl": "0aa4b84dda0fd71aa5da49524da9203f2c7b24e996bf6453bde727eecbaed3b9",
+    "e2_multi_reader_v0/reader_seed3/answers_real_all.jsonl": "c063117b3999ee346c7b176379dff870ecb7606fcf7986ef528f69a0b664079a"
+  },
+  "population": {
+    "landslide_train": "sentinel_qa_train_v0/items.jsonl Q1, expected 1036 items",
+    "landslide_test": "sentinel_qa_v0_1/items.jsonl Q1, expected 384 items",
+    "flood_train_test": "flood_qa_v0/items.jsonl Q1 with fold train/test, expected 3198/1371 items",
+    "contract": "sen12_gp_contract/sample_contract.jsonl; exact E2 quality-top12 of 15, chronological retained-index mapping",
+    "validation": "not used; no hyperparameter, epoch, threshold, or model selection",
+    "id_integrity": "All current source Q1 rows must be present, valid, unique and match frozen counts; no deletion for missing cache/contract/nonfinite inputs. Test item IDs and tile/phen/kind/fold/source answer must exactly match each of three historical E2 real_all files.",
+    "train_provenance_limit": "Historical E2 saved only aggregate train counts, not a train-ID manifest. C0 freezes reconstruction IDs and current source hashes at prepare; this does not independently prove historical E2 train IDs were identical.",
+    "disjointness": "No train/test tile overlap or flood event / landslide fold overlap. Complete paired pos/neg tiles checked. Original train hard negatives retained.",
+    "feature_usage": "Class labels used only for supervised fitting. No dates, item IDs, tile IDs, event/fold labels, kind, or predictions as features."
+  },
+  "features": {
+    "cache_shapes": {
+      "flood": [
+        3,
+        768,
+        48,
+        48
+      ],
+      "landslide": [
+        12,
+        768,
+        32,
+        32
+      ]
+    },
+    "reduction": "Convert each original per-date cached spatial feature frame to float32, check all values finite, then np.mean over both spatial axes with float32 accumulation. No encoder, projector, LLM, or GPU.",
+    "arms": {
+      "earlier": 768,
+      "later": 768,
+      "pair": 1536
+    },
+    "delta": "Not appended: mean(B)-mean(A) is linearly redundant with ordered [mean(A),mean(B)].",
+    "normalization": "For each phenomenon and slot, train-only population mean/std (ddof0); scale<1e-6 becomes1. Pair concatenation preserves the same slot statistics. Test statistics never used."
+  },
+  "fit": {
+    "models": "Separate fixed fit per phenomenon and arm, six total; no 3-seed duplication of a deterministic convex fit.",
+    "loss": "Mean class-balanced binary cross entropy; each sample weight N/(2*n_class), plus lambda/2 * sum(w^2); unpenalized intercept.",
+    "lambda": 0.01,
+    "dtype": "torch.float64",
+    "device": "cpu",
+    "cpu_threads": 2,
+    "initialization": "all weights and intercept zero",
+    "optimizer": "torch.optim.LBFGS",
+    "max_iter": 200,
+    "max_eval": 250,
+    "history_size": 20,
+    "lr": 1.0,
+    "line_search_fn": "strong_wolfe",
+    "tolerance_grad": 1e-07,
+    "tolerance_change": 1e-12,
+    "convergence": "Finite final model/logits/loss/gradient; final maximum absolute parameter gradient <=1e-5; final loss <=initial+1e-10. Failure marks the entire C0 run invalid; descriptive partial values may remain, no pass claim and no changed-setting retry.",
+    "prediction": "logit>=0 means yes; no threshold tuning"
+  },
+  "evaluation": {
+    "population": "Full frozen E2 test, not the smaller E3 subset.",
+    "flood": "Paired positives/negatives only, equal-event-macro BA; all event BA, recall, paired FPR, n and label counts recorded.",
+    "hard_negatives": "Separate per-event FPR, pooled FPR, equal-event-macro FPR and support; absent event support is omitted with no fake zero. Never merged into paired BA.",
+    "contrast": "later minus pair, computed within each event and then macro averaged.",
+    "uncertainty": "Paired event bootstrap 5000 draws, numpy.default_rng(20260925); same event resample carries both arms; percentile 95% CI. No seed-replica uncertainty.",
+    "landslide": "Hiroshima and Indonesia fold-specific BA and equal-fold descriptive mean only; later-pair difference descriptive, CI null.",
+    "tuple_counts": "partition/phen/source-answer population counts plus cluster/kind/source-answer support in every metric table.",
+    "primary_verdict": null
+  },
+  "provenance": {
+    "prepare": "Exclusive new output directory; copy config and code; SHA256 current source JSONL/contracts and known E2 references; freeze exact train/test sorted ID digests; hash each source embedding cache; archive ordered per-item mean feature pairs and IDs.",
+    "run": "Verify frozen code/config/items/features and original source files before fitting; predictions and every coefficients/standardizer archive SHA256 tracked. Raw embedding hashes link extracted features to sources; run consumes only the frozen feature archive, so raw caches are not reread.",
+    "failure": "Missing files, changed sources, duplicate/coverage/count/shape/date-slot mismatch, nonfinite cache/feature, split overlap, incomplete pair, or solver failure -> invalid; do not silently drop rows or repair settings after viewing outputs."
+  },
+  "limits": [
+    "Source flood pre/pre no labels are pre-slot assumptions, not independently verified absence of flooding.",
+    "Flood dates are known imputed values, not recovered acquisition timestamps; earlier/later means E2 slot order.",
+    "S1 is flood and S2 is landslide; phenomenon and sensor remain confounded.",
+    "Exposed test regions/events support exploratory diagnosis only, not fresh unseen-test confirmation.",
+    "Pair model has twice as many coefficients as single-view models; input dimensions and parameter counts must be reported.",
+    "Global averaging and a linear boundary can lose spatial/nonlinear information; a low score does not establish failure of the complete embedding.",
+    "High single-view score shows association with source labels; high pair score or pair advantage does not prove change semantics, temporal reasoning, or physical causality."
+  ],
+  "output": "/home/work/data/olmoearth/c0_linear_view_probe_v0",
+  "launch": "Main agent reviews config/code/tests before prepare/run. CPU only; no repository mutations or server jobs launched by the implementation subagent."
+}

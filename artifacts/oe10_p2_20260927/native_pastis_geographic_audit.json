@@ -1,0 +1,41 @@
+{
+  "native_manifest_sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+  "pastis_manifest_sha256": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3",
+  "native_train_points": 64,
+  "native_dev_points_used": 0,
+  "coordinate_conventions": {
+    "native": "latlon [latitude,longitude] metadata",
+    "pastis": "centroid_lon_lat [longitude,latitude]"
+  },
+  "distance": "haversine on radius6371.0088km sphere",
+  "actual_footprint_disjoint_verified": false,
+  "historical_pretraining_overlap_unknown": true,
+  "limitations": [
+    "Metadata point separation, not polygon intersection audit.",
+    "Native latlon center convention and exact footprints are not independently established.",
+    "Conditional lower bounds assume each point is the exact center of a 128x128 patch with10m pixels; never report those assumptions as verified footprint geometry."
+  ],
+  "partitions": {
+    "train_pool": {
+      "pastis_points": 48,
+      "min_center_distance_km": 78.8667011270347,
+      "nearest_native_file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1588.h5",
+      "nearest_pastis_patch": "40271",
+      "conditional_min_full_patch_edge_margin_km_if_both_exact10m_centers": 77.05650776719715
+    },
+    "source_bank": {
+      "pastis_points": 16,
+      "min_center_distance_km": 65.90339210357757,
+      "nearest_native_file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1588.h5",
+      "nearest_pastis_patch": "40140",
+      "conditional_min_full_patch_edge_margin_km_if_both_exact10m_centers": 64.09319874374002
+    },
+    "dev_query": {
+      "pastis_points": 16,
+      "min_center_distance_km": 270.4140481965237,
+      "nearest_native_file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1588.h5",
+      "nearest_pastis_patch": "30171",
+      "conditional_min_full_patch_edge_margin_km_if_both_exact10m_centers": 268.60385483668614
+    }
+  }
+}

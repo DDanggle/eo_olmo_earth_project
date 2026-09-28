@@ -1,0 +1,97 @@
+{
+  "version": "oe5_architecture_data_development_v1_20260927",
+  "status": "development_design_not_preregistered",
+  "ready_for_claim_bearing_training": false,
+  "plan": "docs/OLMOEARTH_VLM_ARCHITECTURE_DATA_PLAN_20260927.md",
+  "engineering_status": "config/oe5_execution_status_20260927.json",
+  "research_question": "Can learned use of positive and confusion-region corrections transfer a visual distinction to independent environments with fewer verified corrections, while retaining independently useful OlmoEarth representations?",
+  "novelty_established": false,
+  "implemented_proposed_architecture": false,
+  "new_gpu_run_this_update": false,
+  "new_data_download_this_update": false,
+  "new_api_spend_this_update": false,
+  "completed_evidence": {
+    "type": "synthetic_post_encoder_operator_analysis_not_model_performance",
+    "script": "code/oe5_design/audit_connector_layout_v0.py",
+    "result": "artifacts/eo_vlm_design_20260927/connector_layout_audit.json",
+    "input_grid_h_w_t_bandset_d": [8, 8, 2, 1, 768],
+    "output_slots": 16,
+    "each_current_bin_spatial_patches": 4,
+    "each_current_bin_dates": 2,
+    "proves_real_semantic_loss": false,
+    "proves_encoder_deficiency": false
+  },
+  "prior_art_review": "artifacts/eo_vlm_design_20260927/prior_art.md",
+  "data_review": "artifacts/eo_vlm_design_20260927/data.md",
+  "independent_review": "artifacts/eo_vlm_design_20260927/final_design_redteam.md",
+  "review_response": "artifacts/eo_vlm_design_20260927/review_response.md",
+  "core_datasets": [
+    {
+      "name": "PASTIS/PASTIS-R",
+      "role": "crop-confusion region transfer using dense parcel/crop labels and satellite time series",
+      "actual_supervised_episodes_prepared_for_this_plan": 0,
+      "unresolved": ["existing shard integrity", "10-band to native 12-band missing-input contract", "normalization and original acquisition dates", "parent geography split", "dataset license version"],
+      "not_supported_by_annual_labels": ["tree mortality", "crop health", "change onset", "novel ecological concept"]
+    },
+    {
+      "name": "Kuro Siwo",
+      "role": "flood versus permanent-water confusion and event transfer with two pre-event and one post-event SAR observations",
+      "existing_project_data_not_new_discovery": true,
+      "previous_test_observed": true,
+      "prior_exposure_record": "docs/STREAMING_RESEARCH_UPDATE_2026_09_09.md",
+      "previously_observed_events_development_only": true,
+      "unresolved": ["historical event/footprint exposure ledger", "genuinely unexposed confirmatory evaluation", "sigma0 to native S1 preprocessing contract", "valid masks", "version-specific license"],
+      "expert_masks_are_natural_language_correction_logs": false
+    }
+  ],
+  "extension_dataset": {
+    "name": "MADOS",
+    "status": "candidate_not_acquired_this_update",
+    "role": "marine debris versus visually similar materials",
+    "constraints": ["sparse unlabeled pixels are not negatives", "Rayleigh-corrected reflectance differs from S2 L2A", "split by parent scene", "no individual-item mass or long-term increase ground truth"]
+  },
+  "architecture_candidate": [
+    "jointly train OlmoEarth while preserving dense spatial-temporal feature grid",
+    "encode positive and verified confusion regions with the same encoder",
+    "condition region/observation selection on correction distinction and provenance-controlled environment metadata",
+    "share dense prediction head with strong generic baselines",
+    "provide bounded evidence tokens and source identifiers to the actual VLM"
+  ],
+  "learning_candidate": {
+    "common": ["mask supervision", "source-derived answer supervision", "same official native replay objective"],
+    "optional_utility": "support-induced loss change estimated only in training data with geography/year/parent cross-fitting",
+    "generic_router_gets_same_utility": true,
+    "utility_labels_are_independent_human_truth": false,
+    "evaluation_query_labels_used_to_select_support": false,
+    "account_for_full_candidate_library_and_utility_compute": true
+  },
+  "comparisons": {
+    "information_path": ["full grid reference", "flat averaging", "spatiotemporal grid averaging", "ordinary learned resampler", "larger-token simple baseline"],
+    "factorial_2x2": {
+      "architecture": ["generic episodic/prototype reader", "structured correction reader"],
+      "supervision": ["ordinary joint supervision", "same added utility or paired supervision"]
+    },
+    "extra": ["specialist segmentation plus exact operators plus same VLM", "identical cached dense outputs supplied to different readers", "encoder-only and fixed independent EO evaluation", "fresh reader evaluation"],
+    "matched_inputs": ["native EO", "RGB", "questions", "positive and confusion supports", "context", "mask labels", "replay", "dense head"],
+    "costs_to_match_or_report": ["trainable parameters", "input observations", "tokens", "FLOPs", "GPU time", "warmup", "hyperparameter search", "support and utility label costs"],
+    "tentative_eo_slots": 64,
+    "slot_sensitivity": [16, 128],
+    "recipe_frozen": false
+  },
+  "evaluation": {
+    "primary_units": "independent parent geographies/events; do not count pixels or derived questions as independent replications",
+    "primary_goal": "corrected distinction transfer at equal total expert-label cost",
+    "metrics": ["foreground IoU", "confusion false positives", "jointly correct target/question/evidence answer", "corrections required to reach a prespecified quality level"],
+    "correction_counts": [1, 5, 20],
+    "no_correction_control": "only for readers with a defined no-support path; no undefined K=0 prototype",
+    "controls": ["same versus shifted environment support", "question-only", "context-only", "observation replacement", "support replacement", "same dense outputs to both readers"],
+    "current_plan_has_confirmatory_results": false
+  },
+  "budget_reference": "config/eo_vlm_labeling_budget_v2_20260926.json",
+  "budget_total_krw": 1000000,
+  "budget_is_estimate_not_quote_or_spend": true,
+  "annotation_throughput_measured": false,
+  "reviewer_100_hour_600_episode_alternative_adopted": false,
+  "next_task": "Audit existing PASTIS raw shards and prepare at most two source-labeled native inputs; audit historical Kuro event exposure. Then freeze development recipe and actual VLM checkpoint save/reload before comparative GPU learning.",
+  "historical_preregistrations_modified": false
+}

@@ -1,0 +1,491 @@
+{
+  "schema_version": "oe10_class_expansion_audit_v1",
+  "scope": "Preparation only; no new task performance. Candidate screen uses train and source-bank support inventory only, never dev scores.",
+  "source_hashes": {
+    "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/episodes/source_objects.jsonl": "c8b6ce724eaf3acc1e1f159ab2ec46943bb88eb49cde1aa0172e12181da53e11",
+    "artifacts/oe10_p2_20260927/review_export_20260928_first_pair_v0/training_v0/B0_270927_train/score_step_002304.json": "5a3594b674c0f1e3d84270428f6779c596a0cdb5760ec0eb7004047240910bf5",
+    "artifacts/oe10_p2_20260927/review_export_20260928_first_pair_v0/training_v0/B2_270927_train/score_step_002304.json": "176e80bbfa0982adb382c64b44108a94d4e961ba6a049ad3826cd24df1f5cfb5"
+  },
+  "coverage": [
+    {
+      "class_id": 1,
+      "name": "meadow",
+      "already_in_training": true,
+      "train_pool": {
+        "eligible_objects": 338,
+        "unique_patches": 42,
+        "capped_objects_max2_per_patch": 79
+      },
+      "source_bank": {
+        "eligible_objects": 125,
+        "unique_patches": 15,
+        "capped_objects_max2_per_patch": 28
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 2,
+      "name": "soft_winter_wheat",
+      "already_in_training": true,
+      "train_pool": {
+        "eligible_objects": 150,
+        "unique_patches": 21,
+        "capped_objects_max2_per_patch": 39
+      },
+      "source_bank": {
+        "eligible_objects": 24,
+        "unique_patches": 7,
+        "capped_objects_max2_per_patch": 12
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 3,
+      "name": "corn",
+      "already_in_training": true,
+      "train_pool": {
+        "eligible_objects": 246,
+        "unique_patches": 23,
+        "capped_objects_max2_per_patch": 43
+      },
+      "source_bank": {
+        "eligible_objects": 89,
+        "unique_patches": 7,
+        "capped_objects_max2_per_patch": 13
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 4,
+      "name": "winter_barley",
+      "already_in_training": true,
+      "train_pool": {
+        "eligible_objects": 41,
+        "unique_patches": 20,
+        "capped_objects_max2_per_patch": 32
+      },
+      "source_bank": {
+        "eligible_objects": 8,
+        "unique_patches": 5,
+        "capped_objects_max2_per_patch": 7
+      },
+      "train_and_bank_k8_count_screen": false
+    },
+    {
+      "class_id": 5,
+      "name": "winter_rapeseed",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 20,
+        "unique_patches": 7,
+        "capped_objects_max2_per_patch": 11
+      },
+      "source_bank": {
+        "eligible_objects": 14,
+        "unique_patches": 6,
+        "capped_objects_max2_per_patch": 10
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 6,
+      "name": "spring_barley",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 15,
+        "unique_patches": 8,
+        "capped_objects_max2_per_patch": 11
+      },
+      "source_bank": {
+        "eligible_objects": 18,
+        "unique_patches": 4,
+        "capped_objects_max2_per_patch": 7
+      },
+      "train_and_bank_k8_count_screen": false
+    },
+    {
+      "class_id": 7,
+      "name": "sunflower",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 31,
+        "unique_patches": 7,
+        "capped_objects_max2_per_patch": 12
+      },
+      "source_bank": {
+        "eligible_objects": 13,
+        "unique_patches": 2,
+        "capped_objects_max2_per_patch": 4
+      },
+      "train_and_bank_k8_count_screen": false
+    },
+    {
+      "class_id": 8,
+      "name": "grapevine",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 183,
+        "unique_patches": 16,
+        "capped_objects_max2_per_patch": 32
+      },
+      "source_bank": {
+        "eligible_objects": 38,
+        "unique_patches": 4,
+        "capped_objects_max2_per_patch": 8
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 9,
+      "name": "beet",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 25,
+        "unique_patches": 8,
+        "capped_objects_max2_per_patch": 14
+      },
+      "source_bank": {
+        "eligible_objects": 3,
+        "unique_patches": 1,
+        "capped_objects_max2_per_patch": 2
+      },
+      "train_and_bank_k8_count_screen": false
+    },
+    {
+      "class_id": 10,
+      "name": "winter_triticale",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 19,
+        "unique_patches": 9,
+        "capped_objects_max2_per_patch": 13
+      },
+      "source_bank": {
+        "eligible_objects": 15,
+        "unique_patches": 5,
+        "capped_objects_max2_per_patch": 10
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 11,
+      "name": "winter_durum_wheat",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 51,
+        "unique_patches": 11,
+        "capped_objects_max2_per_patch": 20
+      },
+      "source_bank": {
+        "eligible_objects": 35,
+        "unique_patches": 6,
+        "capped_objects_max2_per_patch": 12
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 12,
+      "name": "fruits_vegetables_flowers",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 30,
+        "unique_patches": 12,
+        "capped_objects_max2_per_patch": 17
+      },
+      "source_bank": {
+        "eligible_objects": 41,
+        "unique_patches": 4,
+        "capped_objects_max2_per_patch": 8
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 13,
+      "name": "potatoes",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 13,
+        "unique_patches": 6,
+        "capped_objects_max2_per_patch": 9
+      },
+      "source_bank": {
+        "eligible_objects": 2,
+        "unique_patches": 2,
+        "capped_objects_max2_per_patch": 2
+      },
+      "train_and_bank_k8_count_screen": false
+    },
+    {
+      "class_id": 14,
+      "name": "leguminous_fodder",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 60,
+        "unique_patches": 15,
+        "capped_objects_max2_per_patch": 25
+      },
+      "source_bank": {
+        "eligible_objects": 13,
+        "unique_patches": 7,
+        "capped_objects_max2_per_patch": 10
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 15,
+      "name": "soybeans",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 6,
+        "unique_patches": 3,
+        "capped_objects_max2_per_patch": 5
+      },
+      "source_bank": {
+        "eligible_objects": 2,
+        "unique_patches": 2,
+        "capped_objects_max2_per_patch": 2
+      },
+      "train_and_bank_k8_count_screen": false
+    },
+    {
+      "class_id": 16,
+      "name": "orchard",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 39,
+        "unique_patches": 6,
+        "capped_objects_max2_per_patch": 11
+      },
+      "source_bank": {
+        "eligible_objects": 12,
+        "unique_patches": 5,
+        "capped_objects_max2_per_patch": 8
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 17,
+      "name": "mixed_cereal",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 8,
+        "unique_patches": 3,
+        "capped_objects_max2_per_patch": 5
+      },
+      "source_bank": {
+        "eligible_objects": 1,
+        "unique_patches": 1,
+        "capped_objects_max2_per_patch": 1
+      },
+      "train_and_bank_k8_count_screen": false
+    },
+    {
+      "class_id": 18,
+      "name": "sorghum",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 7,
+        "unique_patches": 5,
+        "capped_objects_max2_per_patch": 7
+      },
+      "source_bank": {
+        "eligible_objects": 3,
+        "unique_patches": 3,
+        "capped_objects_max2_per_patch": 3
+      },
+      "train_and_bank_k8_count_screen": false
+    }
+  ],
+  "candidates_ranked_by_training_patch_coverage": [
+    {
+      "class_id": 8,
+      "name": "grapevine",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 183,
+        "unique_patches": 16,
+        "capped_objects_max2_per_patch": 32
+      },
+      "source_bank": {
+        "eligible_objects": 38,
+        "unique_patches": 4,
+        "capped_objects_max2_per_patch": 8
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 14,
+      "name": "leguminous_fodder",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 60,
+        "unique_patches": 15,
+        "capped_objects_max2_per_patch": 25
+      },
+      "source_bank": {
+        "eligible_objects": 13,
+        "unique_patches": 7,
+        "capped_objects_max2_per_patch": 10
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 12,
+      "name": "fruits_vegetables_flowers",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 30,
+        "unique_patches": 12,
+        "capped_objects_max2_per_patch": 17
+      },
+      "source_bank": {
+        "eligible_objects": 41,
+        "unique_patches": 4,
+        "capped_objects_max2_per_patch": 8
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 11,
+      "name": "winter_durum_wheat",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 51,
+        "unique_patches": 11,
+        "capped_objects_max2_per_patch": 20
+      },
+      "source_bank": {
+        "eligible_objects": 35,
+        "unique_patches": 6,
+        "capped_objects_max2_per_patch": 12
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 10,
+      "name": "winter_triticale",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 19,
+        "unique_patches": 9,
+        "capped_objects_max2_per_patch": 13
+      },
+      "source_bank": {
+        "eligible_objects": 15,
+        "unique_patches": 5,
+        "capped_objects_max2_per_patch": 10
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 5,
+      "name": "winter_rapeseed",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 20,
+        "unique_patches": 7,
+        "capped_objects_max2_per_patch": 11
+      },
+      "source_bank": {
+        "eligible_objects": 14,
+        "unique_patches": 6,
+        "capped_objects_max2_per_patch": 10
+      },
+      "train_and_bank_k8_count_screen": true
+    },
+    {
+      "class_id": 16,
+      "name": "orchard",
+      "already_in_training": false,
+      "train_pool": {
+        "eligible_objects": 39,
+        "unique_patches": 6,
+        "capped_objects_max2_per_patch": 11
+      },
+      "source_bank": {
+        "eligible_objects": 12,
+        "unique_patches": 5,
+        "capped_objects_max2_per_patch": 8
+      },
+      "train_and_bank_k8_count_screen": true
+    }
+  ],
+  "count_screen_is_not_full_eligibility": true,
+  "unverified": [
+    "new class development coverage",
+    "second development region",
+    "cloud observability",
+    "parcel independence",
+    "task-specific label quality",
+    "training query-exclusion support capacity"
+  ],
+  "posthoc_first_seed_score_decomposition": {
+    "B0": {
+      "original_all": {
+        "curve": {
+          "1": 0.31400343770623496,
+          "2": 0.3094843045920778,
+          "4": 0.2901682535609558,
+          "8": 0.3076194614170187
+        },
+        "auc": 0.3009959798940199,
+        "posthoc": false
+      },
+      "posthoc_target_without_wheat_counter_may_be_wheat": {
+        "curve": {
+          "1": 0.447125725351244,
+          "2": 0.46065744297351385,
+          "4": 0.4260884076594156,
+          "8": 0.4507648878260617
+        },
+        "auc": 0.44204914653803756,
+        "posthoc": true
+      },
+      "posthoc_neither_role_wheat": {
+        "curve": {
+          "1": 0.4755519936557471,
+          "2": 0.46933263305591544,
+          "4": 0.4417743702693094,
+          "8": 0.45022261160023735
+        },
+        "auc": 0.4525061829171642,
+        "posthoc": true
+      }
+    },
+    "B2": {
+      "original_all": {
+        "curve": {
+          "1": 0.35926947623790495,
+          "2": 0.3418506187542943,
+          "4": 0.33873951364626254,
+          "8": 0.3418247381591217
+        },
+        "auc": 0.34175409764391784,
+        "posthoc": false
+      },
+      "posthoc_target_without_wheat_counter_may_be_wheat": {
+        "curve": {
+          "1": 0.5152072501846503,
+          "2": 0.5097225821672213,
+          "4": 0.5049639782616016,
+          "8": 0.5088145818144447
+        },
+        "auc": 0.5078155138224073,
+        "posthoc": true
+      },
+      "posthoc_neither_role_wheat": {
+        "curve": {
+          "1": 0.5317902312853595,
+          "2": 0.5164341961807203,
+          "4": 0.508771167348747,
+          "8": 0.5080954960946034
+        },
+        "auc": 0.5118644148784582,
+        "posthoc": true
+      }
+    }
+  },
+  "frozen_primary_replaced": false,
+  "new_gpu_runs": 0,
+  "interpretation": "Removing a class or replacing the evaluation set changes the estimand, not the model. Expanded evaluation must compare both arms on the same prospectively fixed cohort."
+}

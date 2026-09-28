@@ -1,0 +1,71 @@
+{
+  "schema": "e5-c1-metric-regression-v0",
+  "checked_at": "2026-09-25T06:03:09.522444+00:00",
+  "valid": true,
+  "fixture_role": "Synthetic duplication of historical E2 reader answers; NOT E5 model outcomes",
+  "no_training_or_inference": true,
+  "e5_outcome_files_read_or_created": false,
+  "fixture_rows": 26325,
+  "fixture_sha256": "4c76866176c3d0b22cbd68932b4d92d3a3e5d4b936c23a141cf842158a4d3a2e",
+  "synthetic_scorer_verdict_intentionally_omitted": true,
+  "frozen_metadata_files_verified": 8,
+  "primary_membership_count": 902,
+  "primary_counts": {
+    "pos": 445,
+    "hard_neg": 457,
+    "events": 8
+  },
+  "event_comparisons": 24,
+  "stratum_comparisons": 24,
+  "per_seed": {
+    "1": {
+      "c1_reader_macro_ba": 0.8257716325942698,
+      "e5_scorer_on_synthetic_fixture_macro_ba": 0.8257716325942698,
+      "macro_exact_float_equal": true,
+      "macro_abs_error": 0.0,
+      "max_event_or_stratum_abs_error": 1.1102230246251565e-16,
+      "n_events": 8
+    },
+    "2": {
+      "c1_reader_macro_ba": 0.7952654606388181,
+      "e5_scorer_on_synthetic_fixture_macro_ba": 0.7952654606388181,
+      "macro_exact_float_equal": true,
+      "macro_abs_error": 0.0,
+      "max_event_or_stratum_abs_error": 1.1102230246251565e-16,
+      "n_events": 8
+    },
+    "3": {
+      "c1_reader_macro_ba": 0.7894506866098205,
+      "e5_scorer_on_synthetic_fixture_macro_ba": 0.7894506866098205,
+      "macro_exact_float_equal": true,
+      "macro_abs_error": 0.0,
+      "max_event_or_stratum_abs_error": 0.0,
+      "n_events": 8
+    }
+  },
+  "all_float_statistics_exactly_equal": false,
+  "max_absolute_difference": 1.1102230246251565e-16,
+  "numeric_tolerance": 1e-15,
+  "source_sha256": {
+    "/private/tmp/e5_bundle_stage/e5_equal_budget_prereg_v0.json": "fc7866feebbf1e9fcd4e93de5154bf9ffa141f434e70dc4731390cf18dfd4696",
+    "/private/tmp/e5_bundle_stage/frozen_inputs/c0_manifest.json": "5055bd2d73f1e9f162a43899a2d0f5c46cccef53137cb3a5ae31e7a2675bcb92",
+    "/private/tmp/e5_bundle_stage/frozen_inputs/items.jsonl": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+    "/private/tmp/e5_bundle_stage/frozen_inputs/c1_quality.jsonl": "8f654dfbaabc41e3b27de9a04dfe0768c1f0a748439c70acb61ddae08a17a78f",
+    "/private/tmp/e5_bundle_stage/frozen_inputs/c1_quality_manifest.json": "9e020bcd1144f0dd6d0ac7168177603f7fe04703ac6bbfebe110994b2679728b",
+    "/private/tmp/e5_bundle_stage/frozen_inputs/c1_results.json": "327aab5825f95dd6689bb9a4baecf4dcf5f1e9de062f245e171d434e7a8cf13c",
+    "/private/tmp/e5_bundle_stage/frozen_inputs/c1_selected_ids.json": "6596512102995f584f965d8ff0f9f734f0017bd7525641db1cff690e78e3dee2",
+    "/private/tmp/e5_bundle_stage/frozen_inputs/e3_items.jsonl": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+    "/private/tmp/e5_bundle_stage/frozen_inputs/e4_manifest.json": "4597bc1589ed7a23ffd7befa58d38aa9da859320cefcb728c26290015f0c71aa",
+    "/private/tmp/e5_bundle_stage/e5_prepare_v0.py": "508f444a512fcbd3f6937dd51b8ae2755c1f4deb334bdaed118c98e78840fd61",
+    "/private/tmp/e5_bundle_stage/e5_scoring_v0.py": "2eb0be5e7fb8ac5d6534716a25c9a07c8f046b56ea8a55c7f2912b51b7e6af7d",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e2_multi_reader_v0/reader_seed1/answers_real_all.jsonl": "b36041a82de5f8cee44c3f5971cbfd8fb40c980ddc6d62cfb08e2c9bedd23d12",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e2_multi_reader_v0/reader_seed2/answers_real_all.jsonl": "0aa4b84dda0fd71aa5da49524da9203f2c7b24e996bf6453bde727eecbaed3b9",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e2_multi_reader_v0/reader_seed3/answers_real_all.jsonl": "c063117b3999ee346c7b176379dff870ecb7606fcf7986ef528f69a0b664079a"
+  },
+  "script_sha256": "e2eee5cb83c983ae531518ed2d31077218035839b8a22d646c3b2dc913474239",
+  "environment": {
+    "python": "3.12.10 (main, May 30 2025, 05:53:56) [Clang 20.1.4 ]",
+    "numpy": "2.5.3"
+  },
+  "interpretation": "This checks metric and membership regression only. Identical replicated conditions contain no evidence about E5 training or arm performance."
+}

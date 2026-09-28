@@ -1,0 +1,4436 @@
+{
+  "status": "candidate_only_not_approved_or_launched",
+  "source_manifest": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/data_prepare_v1/data_manifest.json",
+  "source_manifest_sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+  "seed": 270927,
+  "scope": "Reassign the existing selected development cohort only. Reuses previously visible data; not a sealed test set.",
+  "constraints": {
+    "same_selected_files": true,
+    "same_raw_crops": true,
+    "same_total_counts": true,
+    "train_dev_exact_coordinate_overlap": 0
+  },
+  "selection_rule": "Seed-hash order exact coordinate groups, deterministic subset sum to original dev count; no imagery or loss selection.",
+  "no_runtime_controller_changed": true,
+  "no_existing_manifest_changed": true,
+  "interpretation": "Coordinate-group-disjoint development candidate only; no independent geography or new pretraining-exposure claim.",
+  "selected": [
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1229.h5",
+      "file_bytes": 3160559,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "6aeae88eb8d3e263f11fe56a62ca5661b5606f7a6fdf1dbe0d7622e95c7fb488",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        1,
+        2
+      ],
+      "timestamps_day_month0_year": [
+        [
+          25,
+          4,
+          2016
+        ],
+        [
+          24,
+          5,
+          2016
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        11,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        56.488094329833984,
+        50.592071533203125
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 0,
+      "coordinate_group_id": "7d1fc130a22548ed2231",
+      "coordinate_key": "[56.488094329833984,50.592071533203125]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3302.h5",
+      "file_bytes": 4739288,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "d21662910eeb127a24d3b4fb872f284e34c156a6e199867bd43eae04c6ff57ba",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          17,
+          0,
+          2021
+        ],
+        [
+          16,
+          1,
+          2021
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        30.418611526489258,
+        -90.56970977783203
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 1,
+      "coordinate_group_id": "725dc6a6e1f8a7e0b2d7",
+      "coordinate_key": "[30.418611526489258,-90.56970977783203]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_464.h5",
+      "file_bytes": 4581703,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "30e9857b982677a00477eec3c7248500e71289fb9f16e3cb296297e2756a0072",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          27,
+          5,
+          2019
+        ],
+        [
+          27,
+          6,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        33.81315231323242,
+        116.94986724853516
+      ],
+      "split": "dev_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 2,
+      "coordinate_group_id": "8fd7ca43d08cc6086d12",
+      "coordinate_key": "[33.81315231323242,116.94986724853516]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3775.h5",
+      "file_bytes": 4659787,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "f8dbde2a0f2188b3b697e105d3da259dac00d9426db75edeb1f1a85b1a2eb540",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          13,
+          3,
+          2018
+        ],
+        [
+          13,
+          4,
+          2018
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        30.0,
+        50.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        43.85863494873047,
+        -100.71418762207031
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 3,
+      "coordinate_group_id": "da10d92ea388f3cb3868",
+      "coordinate_key": "[43.85863494873047,-100.71418762207031]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3378.h5",
+      "file_bytes": 4523220,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "6afff0fe409f1b977a1e60d797e992dc7f2373c46e912db5e52f922bfa661622",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          2,
+          1,
+          2019
+        ],
+        [
+          4,
+          2,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -45.54957962036133,
+        168.2512664794922
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 4,
+      "coordinate_group_id": "f6deedae0b4b16bebd9a",
+      "coordinate_key": "[-45.54957962036133,168.2512664794922]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1837.h5",
+      "file_bytes": 4659741,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "dbf86490ea825ede4c1324fd4c254c6370f40ff899db4a1631f817fea7bfd16d",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          22,
+          10,
+          2019
+        ],
+        [
+          22,
+          11,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        37.70346450805664,
+        -121.42636108398438
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 5,
+      "coordinate_group_id": "c8b62a6672f6b67cf400",
+      "coordinate_key": "[37.70346450805664,-121.42636108398438]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_38.h5",
+      "file_bytes": 4646369,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "9c820ce1da36fb8454278d97d7762633824a92308e34b9a57a99441955729cc7",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          12,
+          3,
+          2023
+        ],
+        [
+          12,
+          4,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        51.757843017578125,
+        -1.1755387783050537
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 6,
+      "coordinate_group_id": "699352b8015631f25574",
+      "coordinate_key": "[51.757843017578125,-1.1755387783050537]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_458.h5",
+      "file_bytes": 4687442,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "223763dfbfad512f6440ae476cafa977e5b32839a703a41574c3d1a4aeba7d2a",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          3,
+          0,
+          2018
+        ],
+        [
+          2,
+          1,
+          2018
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        36.09587478637695,
+        -80.19839477539062
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 7,
+      "coordinate_group_id": "e30b702917c3e8ef2dac",
+      "coordinate_key": "[36.09587478637695,-80.19839477539062]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_129.h5",
+      "file_bytes": 3328113,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "365d2afd334791579d94f479d1695c3b826bfbe0e64d24204bd9824918d25cd8",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          28,
+          11,
+          2016
+        ],
+        [
+          27,
+          0,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        40.135276794433594,
+        -75.47516632080078
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 8,
+      "coordinate_group_id": "746f39cdd6bda5ccb7c1",
+      "coordinate_key": "[40.135276794433594,-75.47516632080078]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1023.h5",
+      "file_bytes": 4723463,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "d33dbf195650ed3a062e8cb19189599eda9bbfa2ed8aed99d77781657ad33cef",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          30,
+          0,
+          2017
+        ],
+        [
+          1,
+          2,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        49.217708587646484,
+        18.756675720214844
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 9,
+      "coordinate_group_id": "dc82ee7e0384a6728f52",
+      "coordinate_key": "[49.217708587646484,18.756675720214844]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2479.h5",
+      "file_bytes": 4441830,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "cee84070893497ea4dc1cd5e7483d85daced326ebd8ff0f6ec46cca3b6ebd978",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          1,
+          3,
+          2020
+        ],
+        [
+          1,
+          4,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        60.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        45.33822250366211,
+        12.326864242553711
+      ],
+      "split": "dev_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 10,
+      "coordinate_group_id": "a610d8e1a965c15afc3a",
+      "coordinate_key": "[45.33822250366211,12.326864242553711]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_351.h5",
+      "file_bytes": 4690865,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "c9e3d349d3587126be9272680784cab00c324537c8b6f333ec98cda1aad66bf5",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          11,
+          1,
+          2016
+        ],
+        [
+          12,
+          2,
+          2016
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.02174377441406,
+        14.613595008850098
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 11,
+      "coordinate_group_id": "30ead75b9a9f4ee24bd1",
+      "coordinate_key": "[50.02174377441406,14.613595008850098]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2837.h5",
+      "file_bytes": 4691604,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "b46c9bc186b4a7c82112db0815841fe3bea67697cb842bfd511963085ee030c3",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          6,
+          1,
+          2020
+        ],
+        [
+          7,
+          2,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        37.93084716796875,
+        41.94734573364258
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 12,
+      "coordinate_group_id": "cf40e0731f664cb912f5",
+      "coordinate_key": "[37.93084716796875,41.94734573364258]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1995.h5",
+      "file_bytes": 3340396,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "e084abcda4e4135337f9b6dea4a9309eaa8ca27d0b6bd4c43426496a8b5cfeb1",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          5,
+          1,
+          2017
+        ],
+        [
+          7,
+          2,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        49.163028717041016,
+        10.305851936340332
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 13,
+      "coordinate_group_id": "fdc027bdcb5ab232bb38",
+      "coordinate_key": "[49.163028717041016,10.305851936340332]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_296.h5",
+      "file_bytes": 3261895,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "66f43d16502432c3c17f8d0c23b90ce0551d60ec28cb2811510a760df5159772",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          17,
+          4,
+          2023
+        ],
+        [
+          16,
+          5,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        53.74810028076172,
+        15.86133861541748
+      ],
+      "split": "dev_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 14,
+      "coordinate_group_id": "b6c5f48a06526794320c",
+      "coordinate_key": "[53.74810028076172,15.86133861541748]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_360.h5",
+      "file_bytes": 4615645,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "e57bb2a67520a994999121afffc5618ea4f09ba766273f53c1916862a9e33967",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          25,
+          6,
+          2021
+        ],
+        [
+          24,
+          7,
+          2021
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        30.0,
+        40.0,
+        50.0,
+        60.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        36.96029281616211,
+        100.90324401855469
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 15,
+      "coordinate_group_id": "c93e5808302b46f5e215",
+      "coordinate_key": "[36.96029281616211,100.90324401855469]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1158.h5",
+      "file_bytes": 4086422,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "0290a178df2609ac1302c8b439d43d6f929f94569f335f859fdf388ccf670751",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          1,
+          6,
+          2021
+        ],
+        [
+          31,
+          6,
+          2021
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        50.0,
+        60.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        54.969520568847656,
+        20.487634658813477
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 16,
+      "coordinate_group_id": "1488f514c40fcc60872b",
+      "coordinate_key": "[54.969520568847656,20.487634658813477]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_237.h5",
+      "file_bytes": 4671217,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "957fb28fccc075ee9984793728381c749f57b07baa372d3cf5fda62596f9eeee",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          8,
+          1,
+          2022
+        ],
+        [
+          10,
+          2,
+          2022
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        13.60459041595459,
+        123.12276458740234
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 17,
+      "coordinate_group_id": "afe31e4ab2786668a75f",
+      "coordinate_key": "[13.60459041595459,123.12276458740234]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_27.h5",
+      "file_bytes": 4567984,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "934893b1771efe248b72d06c85f2c37db7297eb5058c8c4defab87c8fecf6e16",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          4,
+          0,
+          2022
+        ],
+        [
+          3,
+          1,
+          2022
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        60.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -36.78031539916992,
+        145.0259246826172
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 18,
+      "coordinate_group_id": "39f78b5a730857d7fc77",
+      "coordinate_key": "[-36.78031539916992,145.0259246826172]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1395.h5",
+      "file_bytes": 3969119,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "d162ded9aa0ef0a128e85d0b98e6fbc0fbaf09412bca4efc0bcd6cf4a6b3674b",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        4,
+        5
+      ],
+      "timestamps_day_month0_year": [
+        [
+          19,
+          5,
+          2016
+        ],
+        [
+          19,
+          6,
+          2016
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        8,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        16.535430908203125,
+        94.89957427978516
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 19,
+      "coordinate_group_id": "fec2533afcf512a01750",
+      "coordinate_key": "[16.535430908203125,94.89957427978516]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3.h5",
+      "file_bytes": 4522437,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "e010cd70582613d25e344cb93b26b387d1cd33a7af76f25c2f9de24e97732576",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          8,
+          10,
+          2017
+        ],
+        [
+          8,
+          11,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.6800422668457,
+        22.528675079345703
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 20,
+      "coordinate_group_id": "6aaec7019aeda47d51f7",
+      "coordinate_key": "[50.6800422668457,22.528675079345703]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2426.h5",
+      "file_bytes": 4245060,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "5bf5c9c0bad2a6975019b2e4cc1d14a5a7ef9154c4cc8004413bdce455b10fd1",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          4,
+          5,
+          2023
+        ],
+        [
+          4,
+          6,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        35.279598236083984,
+        106.63792419433594
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 21,
+      "coordinate_group_id": "c08d4bd129b35925c5b2",
+      "coordinate_key": "[35.279598236083984,106.63792419433594]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3236.h5",
+      "file_bytes": 4761518,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "aec5ea7cafbffbae746b17674cba80f6bdffc41d14ce9f9e5be7cb44d60ebb13",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          15,
+          4,
+          2019
+        ],
+        [
+          14,
+          5,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        6.796039581298828,
+        -58.17713165283203
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 22,
+      "coordinate_group_id": "06af768cfbc8777313ae",
+      "coordinate_key": "[6.796039581298828,-58.17713165283203]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3034.h5",
+      "file_bytes": 4359924,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "3a99d0b6dadd1d0564884b84de751daa0d80aee45a0f7c5a8783d034ff84ac81",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          13,
+          4,
+          2016
+        ],
+        [
+          12,
+          5,
+          2016
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        30.0,
+        60.0,
+        80.0,
+        90.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        26.991043090820312,
+        -97.57622528076172
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 23,
+      "coordinate_group_id": "13e8b4988f38034c7e34",
+      "coordinate_key": "[26.991043090820312,-97.57622528076172]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1247.h5",
+      "file_bytes": 4627079,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "e0738f2562c80563fe5f051a7e6b661f0a9aaad7e6b339032a7c91f003700e5f",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          31,
+          11,
+          2016
+        ],
+        [
+          30,
+          0,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        30.0,
+        40.0,
+        50.0,
+        60.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        42.16495132446289,
+        -122.6222915649414
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 24,
+      "coordinate_group_id": "75f9e1145f3b2c201e0c",
+      "coordinate_key": "[42.16495132446289,-122.6222915649414]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2029.h5",
+      "file_bytes": 4709340,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "9ac5cdff614652d405a22b861f4696a2a6124cc652a2bdac08f4738a99060152",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          29,
+          6,
+          2020
+        ],
+        [
+          28,
+          7,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        52.27809143066406,
+        38.7443733215332
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 25,
+      "coordinate_group_id": "dc1c59c94883fa1d7b8b",
+      "coordinate_key": "[52.27809143066406,38.7443733215332]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3169.h5",
+      "file_bytes": 4583309,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "1dd79ca7abfb9f68a95fd9568a49ff60c29fc3af2965e708b8bbe20245aa1a64",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          13,
+          11,
+          2016
+        ],
+        [
+          12,
+          0,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        20.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        31.96564483642578,
+        -110.83236694335938
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 26,
+      "coordinate_group_id": "cd886f91394fa812fa19",
+      "coordinate_key": "[31.96564483642578,-110.83236694335938]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_855.h5",
+      "file_bytes": 4582817,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "4ed320d1180a6a26be3b835e5cae644dafe64d20fe2b52930445d1bb44710945",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          25,
+          11,
+          2020
+        ],
+        [
+          24,
+          0,
+          2021
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        37.884761810302734,
+        -78.05449676513672
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 27,
+      "coordinate_group_id": "d5adc3f007cba17fd8e6",
+      "coordinate_key": "[37.884761810302734,-78.05449676513672]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_542.h5",
+      "file_bytes": 4084995,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "c88409804139ea82526150c3f84efdbc7f6a2a50bbd13dbcae4a133bd67ada1b",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        3
+      ],
+      "timestamps_day_month0_year": [
+        [
+          26,
+          9,
+          2021
+        ],
+        [
+          24,
+          0,
+          2022
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        10,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        90.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        65.31298828125,
+        26.296188354492188
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 28,
+      "coordinate_group_id": "c736746185535f92579b",
+      "coordinate_key": "[65.31298828125,26.296188354492188]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1214.h5",
+      "file_bytes": 4466752,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "5f9d4c2eb4f183d80c0d54a0e3a152a18937f847f2c59aa8b39d3f9dc509174f",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          1,
+          3,
+          2020
+        ],
+        [
+          1,
+          4,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        60.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        45.13105010986328,
+        12.336565971374512
+      ],
+      "split": "dev_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 29,
+      "coordinate_group_id": "f58bc137cee0aa29be75",
+      "coordinate_key": "[45.13105010986328,12.336565971374512]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1281.h5",
+      "file_bytes": 4610876,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "b015531a6ff4e336d9fc4185298eaf53252daa8af0272eedc884009357076152",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          10,
+          7,
+          2019
+        ],
+        [
+          9,
+          8,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        54.647193908691406,
+        -6.572309494018555
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 30,
+      "coordinate_group_id": "adeec6884ce51fcf062c",
+      "coordinate_key": "[54.647193908691406,-6.572309494018555]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3410.h5",
+      "file_bytes": 4660935,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "ef031accd3c35425adbd409aff90d633096fc801802baa89925d5e8cfe12fc1c",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          18,
+          11,
+          2017
+        ],
+        [
+          17,
+          0,
+          2018
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        20.0,
+        30.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        30.176822662353516,
+        -100.64349365234375
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 31,
+      "coordinate_group_id": "ace3e3f80bdd52619a52",
+      "coordinate_key": "[30.176822662353516,-100.64349365234375]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1105.h5",
+      "file_bytes": 4656512,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "14c76ec3340ba91f15e9380bd501c3ad4215958fc59c8ba1f011296f99412ad0",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          1,
+          0,
+          2017
+        ],
+        [
+          31,
+          0,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.378883361816406,
+        4.663000106811523
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 32,
+      "coordinate_group_id": "05e874c85b78c1b9b754",
+      "coordinate_key": "[50.378883361816406,4.663000106811523]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_400.h5",
+      "file_bytes": 4623162,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "1af9eea79bffd44e183d9e0aa8fe37153965a5c41347fd2afa45b1b338846eb8",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          15,
+          2,
+          2019
+        ],
+        [
+          14,
+          3,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        40.154754638671875,
+        -79.97237396240234
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 33,
+      "coordinate_group_id": "da4f5ead08b7a695ac02",
+      "coordinate_key": "[40.154754638671875,-79.97237396240234]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_676.h5",
+      "file_bytes": 3474079,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "0c0bbebbb1ec8c1f66ba1de148fb4bd41343d0c7354a7a71de90ace4a38da7b0",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          3,
+          2,
+          2023
+        ],
+        [
+          2,
+          3,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        36.695552825927734,
+        140.14564514160156
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 34,
+      "coordinate_group_id": "aaa6de2c2ef2309465af",
+      "coordinate_key": "[36.695552825927734,140.14564514160156]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3769.h5",
+      "file_bytes": 4804901,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "c94ba14a7fb11f9894a4745d83521526d0cc5f787c68f86e7d351a04b44fe345",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          8,
+          2,
+          2017
+        ],
+        [
+          7,
+          3,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        30.0,
+        50.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        30.049795150756836,
+        -90.60531616210938
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 35,
+      "coordinate_group_id": "73c9219ba134ef1c3a04",
+      "coordinate_key": "[30.049795150756836,-90.60531616210938]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3979.h5",
+      "file_bytes": 4627260,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "f35b1f4622c773ef2484d652384ebac3696a5e816763a5f2b56f6c1c88513727",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          31,
+          0,
+          2018
+        ],
+        [
+          2,
+          2,
+          2018
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.32957458496094,
+        10.877099990844727
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 36,
+      "coordinate_group_id": "80fc5e6a6be2192de376",
+      "coordinate_key": "[50.32957458496094,10.877099990844727]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3977.h5",
+      "file_bytes": 4661872,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "dab02d0f884d2bad1b21789395d269c365590d4372041ebfc92f2b7ece3db8f2",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          31,
+          0,
+          2018
+        ],
+        [
+          2,
+          2,
+          2018
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.32957458496094,
+        10.877099990844727
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 37,
+      "coordinate_group_id": "80fc5e6a6be2192de376",
+      "coordinate_key": "[50.32957458496094,10.877099990844727]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_989.h5",
+      "file_bytes": 4566164,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "7cedd759e401b4c84ad2e8f615bc1a748215ecdbd7f89313bbe1564fd27f63f4",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          20,
+          6,
+          2023
+        ],
+        [
+          19,
+          7,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        25.16956901550293,
+        56.14104080200195
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 38,
+      "coordinate_group_id": "406590c492f6a7089517",
+      "coordinate_key": "[25.16956901550293,56.14104080200195]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1971.h5",
+      "file_bytes": 4584172,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "cf686e60071ef7937a0f02e546ff8a7d4bf5eafdc6a2f517924e9ea5633a7958",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          4,
+          5,
+          2018
+        ],
+        [
+          4,
+          6,
+          2018
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        20.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        39.13949203491211,
+        -6.447104454040527
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 39,
+      "coordinate_group_id": "eb8859b16d2cd8d559b9",
+      "coordinate_key": "[39.13949203491211,-6.447104454040527]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1162.h5",
+      "file_bytes": 4657585,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "baaed384167b6b2e92743b5de8d43a89fea2f90fc55254b1a130768057602db0",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          10,
+          1,
+          2023
+        ],
+        [
+          12,
+          2,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        10.402840614318848,
+        -84.89114379882812
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 40,
+      "coordinate_group_id": "7dc3fcf7fa5ecc3e4326",
+      "coordinate_key": "[10.402840614318848,-84.89114379882812]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3631.h5",
+      "file_bytes": 3299498,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "20a450bfeb319eb958e04185b886b640350792e9689fdbdd070398d393082fb1",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          18,
+          10,
+          2023
+        ],
+        [
+          18,
+          11,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        56.70656204223633,
+        60.038604736328125
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 41,
+      "coordinate_group_id": "4336bc39e8bb79f028b9",
+      "coordinate_key": "[56.70656204223633,60.038604736328125]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_965.h5",
+      "file_bytes": 4574373,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "031262a966d307eea90ecf6aaf4740c258a4d87e140042a85dc5d0ca443e61dc",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          8,
+          5,
+          2020
+        ],
+        [
+          8,
+          6,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        20.0,
+        30.0,
+        40.0,
+        50.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        20.493316650390625,
+        -100.59101104736328
+      ],
+      "split": "dev_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 42,
+      "coordinate_group_id": "1955d2acbd6362c7d44f",
+      "coordinate_key": "[20.493316650390625,-100.59101104736328]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3441.h5",
+      "file_bytes": 4614372,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "83a9b6ea43af8902c8d679cd522eb834dea2a4f7b2de024ff902a3fb1ca2129c",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          10,
+          2,
+          2020
+        ],
+        [
+          9,
+          3,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        59.69867706298828,
+        16.55506134033203
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 43,
+      "coordinate_group_id": "6626bb0b0b918db502be",
+      "coordinate_key": "[59.69867706298828,16.55506134033203]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3791.h5",
+      "file_bytes": 3295536,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "55eaf264be2e38f1592decf3da9a851ef4315672779e41c5532be1893e44d4f5",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          21,
+          5,
+          2023
+        ],
+        [
+          21,
+          6,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -27.882007598876953,
+        153.26495361328125
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 44,
+      "coordinate_group_id": "2d6c5fc55619adc30ade",
+      "coordinate_key": "[-27.882007598876953,153.26495361328125]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2716.h5",
+      "file_bytes": 4627855,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "fa6277373b8404d4769481b4b8dfcf84aa3edf7959311cf5420ce3c48e309d7d",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          16,
+          10,
+          2021
+        ],
+        [
+          16,
+          11,
+          2021
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        20.0,
+        30.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -44.35515213012695,
+        169.81748962402344
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 45,
+      "coordinate_group_id": "3c027bb86ec04c464480",
+      "coordinate_key": "[-44.35515213012695,169.81748962402344]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3905.h5",
+      "file_bytes": 4004126,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "71deeb5c1e0715dd57bb319afe0bfc09a98435e63441da415642a28b20640a00",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          15,
+          2,
+          2016
+        ],
+        [
+          14,
+          3,
+          2016
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        9,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0,
+        60.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        68.85327911376953,
+        18.340618133544922
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 46,
+      "coordinate_group_id": "4dcfd947f0cb7e14ee14",
+      "coordinate_key": "[68.85327911376953,18.340618133544922]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1069.h5",
+      "file_bytes": 4641235,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "f2813918ed57a5b5e54abcddbef63b0db39bc01fad99bc8a1608cfa883abbb60",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          12,
+          8,
+          2018
+        ],
+        [
+          12,
+          9,
+          2018
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        20.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        43.11800003051758,
+        12.016520500183105
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 47,
+      "coordinate_group_id": "628d362d9ccd0c957889",
+      "coordinate_key": "[43.11800003051758,12.016520500183105]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_267.h5",
+      "file_bytes": 4617509,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "7e1cbb7e65d1c0fb82f982ef9d0f53602e603341cec7130c94a0cb678ee1a322",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          23,
+          6,
+          2020
+        ],
+        [
+          22,
+          7,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        52.39755630493164,
+        11.114150047302246
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 48,
+      "coordinate_group_id": "fe16cc96247324fbc8ea",
+      "coordinate_key": "[52.39755630493164,11.114150047302246]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3867.h5",
+      "file_bytes": 4460050,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "4fa7041df1ccb009523c717196a33fd3b146e6828d9b4d66d84a1600cc1ea6f4",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        1,
+        2
+      ],
+      "timestamps_day_month0_year": [
+        [
+          19,
+          2,
+          2016
+        ],
+        [
+          18,
+          3,
+          2016
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        11,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        41.829410552978516,
+        -83.89201354980469
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 49,
+      "coordinate_group_id": "49a44ede834f49a76dc8",
+      "coordinate_key": "[41.829410552978516,-83.89201354980469]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_794.h5",
+      "file_bytes": 4680026,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "06c15974b4c97608c748842f28e4ceea141a21ec9e4e7238ee5628ef860afc57",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          25,
+          7,
+          2023
+        ],
+        [
+          24,
+          8,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        45.44354248046875,
+        11.035685539245605
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 50,
+      "coordinate_group_id": "5c74f6abcf1bcd3ca75f",
+      "coordinate_key": "[45.44354248046875,11.035685539245605]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1588.h5",
+      "file_bytes": 4662574,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "cef470e638999795a540208e51d032b4ced3e321618600c2c62f88ddc97e2804",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          7,
+          7,
+          2017
+        ],
+        [
+          6,
+          8,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        49.25791931152344,
+        6.473359107971191
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 51,
+      "coordinate_group_id": "be66cb33b51e4852d97e",
+      "coordinate_key": "[49.25791931152344,6.473359107971191]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2997.h5",
+      "file_bytes": 4580280,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "1fc908d10e412aab53126217e4f4ccb918054144880ca014604a417fe8bdd257",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          22,
+          3,
+          2021
+        ],
+        [
+          22,
+          4,
+          2021
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        20.0,
+        30.0,
+        40.0,
+        50.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -6.408257484436035,
+        -79.83824920654297
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 52,
+      "coordinate_group_id": "42f9335a68ef75150fc0",
+      "coordinate_key": "[-6.408257484436035,-79.83824920654297]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2409.h5",
+      "file_bytes": 4656964,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "93ac0d02bfa9393b9a41080b83f9bcd316442ba1cf4d835e1dff4ba75a92094c",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          19,
+          7,
+          2019
+        ],
+        [
+          18,
+          8,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.035614013671875,
+        82.50811004638672
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 53,
+      "coordinate_group_id": "125f9bb2f23fe13fd1e7",
+      "coordinate_key": "[50.035614013671875,82.50811004638672]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1412.h5",
+      "file_bytes": 3352446,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "e5056c0f64e9b6220197a3da23da895fcafb412bb516ae383d58a4ef8f25bab4",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          11,
+          9,
+          2020
+        ],
+        [
+          10,
+          10,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.83723831176758,
+        12.061721801757812
+      ],
+      "split": "dev_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 54,
+      "coordinate_group_id": "7d283a71c98abaa17427",
+      "coordinate_key": "[50.83723831176758,12.061721801757812]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3612.h5",
+      "file_bytes": 4643818,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "f9910e6a217dce2159b33b2866f38490ed2c8fa53edd54b62a5ee0627c8137ae",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          17,
+          0,
+          2017
+        ],
+        [
+          16,
+          1,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        40.64305877685547,
+        -102.66311645507812
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 55,
+      "coordinate_group_id": "338d8f25888b7b5cbc10",
+      "coordinate_key": "[40.64305877685547,-102.66311645507812]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_664.h5",
+      "file_bytes": 4542469,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "126c4a45ed6211c5bc30cb76ba288d292343913af06f030d3df21ccb5d699e84",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          23,
+          11,
+          2021
+        ],
+        [
+          22,
+          0,
+          2022
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        80.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        54.026649475097656,
+        -128.6018829345703
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 56,
+      "coordinate_group_id": "a7735963c56b62deafb6",
+      "coordinate_key": "[54.026649475097656,-128.6018829345703]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1562.h5",
+      "file_bytes": 4668774,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "2904650a22fc3e9f7abeff7d8f86bec00a7dbdaae7872ec8b2fc4d1c2176c5a7",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          7,
+          11,
+          2021
+        ],
+        [
+          6,
+          0,
+          2022
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        20.0,
+        30.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        16.576309204101562,
+        -11.41860294342041
+      ],
+      "split": "dev_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 57,
+      "coordinate_group_id": "ac1281dee34044239ca5",
+      "coordinate_key": "[16.576309204101562,-11.41860294342041]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2179.h5",
+      "file_bytes": 3197923,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "6cc6a4d7c865f5ac1a4bef124031d5817de17388db06303a806ccb07766d619b",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          19,
+          8,
+          2023
+        ],
+        [
+          19,
+          9,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        20.0,
+        30.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -17.849851608276367,
+        138.2750701904297
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 58,
+      "coordinate_group_id": "c7dbcf871bf2c66a44c4",
+      "coordinate_key": "[-17.849851608276367,138.2750701904297]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_225.h5",
+      "file_bytes": 4645761,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "0d2b6adaa546888e01da1aca7875e16cee9bba7a0da92a1148b0401538c8c6a3",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          30,
+          10,
+          2022
+        ],
+        [
+          30,
+          11,
+          2022
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.427520751953125,
+        7.5290327072143555
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 59,
+      "coordinate_group_id": "4de808f0279b08808658",
+      "coordinate_key": "[50.427520751953125,7.5290327072143555]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2244.h5",
+      "file_bytes": 3383979,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "d8983f673d2131a9fc6f7b1e0f3e506411f73071376b2862a2fc21364f4c4fe7",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          19,
+          10,
+          2021
+        ],
+        [
+          19,
+          11,
+          2021
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -20.4825496673584,
+        -44.50442886352539
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 60,
+      "coordinate_group_id": "c78a3befb747621b04c5",
+      "coordinate_key": "[-20.4825496673584,-44.50442886352539]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2115.h5",
+      "file_bytes": 4638400,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "b4cbd113162a4b12d786a8d1a6a0438c42d40094ef416bcc683e02bb86fb9f53",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          27,
+          4,
+          2023
+        ],
+        [
+          26,
+          5,
+          2023
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        48.7398681640625,
+        -1.078369379043579
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 61,
+      "coordinate_group_id": "c7bdfe110db345a0e089",
+      "coordinate_key": "[48.7398681640625,-1.078369379043579]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1374.h5",
+      "file_bytes": 4642783,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "3d55b803949a8a45940f7648d4e0d360a92a17f91323792b03f01f743d292fc6",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          9,
+          10,
+          2019
+        ],
+        [
+          9,
+          11,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        50.758148193359375,
+        23.366092681884766
+      ],
+      "split": "train_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 62,
+      "coordinate_group_id": "655d510c925e5a0a4f4d",
+      "coordinate_key": "[50.758148193359375,23.366092681884766]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3435.h5",
+      "file_bytes": 4634312,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "fde455da72301107e57a9983b8b098d2a482324a6551635e8bc3524a3335783f",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          17,
+          10,
+          2022
+        ],
+        [
+          17,
+          11,
+          2022
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        20.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        10.362195014953613,
+        38.0924072265625
+      ],
+      "split": "dev_diagnostic",
+      "original_split": "train_diagnostic",
+      "original_manifest_index": 63,
+      "coordinate_group_id": "4da00877913a480ba871",
+      "coordinate_key": "[10.362195014953613,38.0924072265625]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1267.h5",
+      "file_bytes": 4527648,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "c58179895a8432712902eee7c05e9f39ba6dc8c6a6e6228c27b525b138ecd1b3",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          18,
+          3,
+          2019
+        ],
+        [
+          18,
+          4,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        20.0,
+        30.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -39.63349151611328,
+        -69.50154876708984
+      ],
+      "split": "train_diagnostic",
+      "original_split": "dev_diagnostic",
+      "original_manifest_index": 64,
+      "coordinate_group_id": "835862d8f3e421d12996",
+      "coordinate_key": "[-39.63349151611328,-69.50154876708984]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1266.h5",
+      "file_bytes": 4517751,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "60f9a1d1e5c6f000db7ba4e466b40c7d4d1f50f91fe7cf29e366e6ee82526323",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          18,
+          3,
+          2019
+        ],
+        [
+          18,
+          4,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        20.0,
+        30.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -39.63349151611328,
+        -69.50154876708984
+      ],
+      "split": "train_diagnostic",
+      "original_split": "dev_diagnostic",
+      "original_manifest_index": 65,
+      "coordinate_group_id": "835862d8f3e421d12996",
+      "coordinate_key": "[-39.63349151611328,-69.50154876708984]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_633.h5",
+      "file_bytes": 4655706,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "f3805880efa6f655073c74d6dd3759eb60b544572afdce877746ca0162870c83",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          20,
+          2,
+          2020
+        ],
+        [
+          19,
+          3,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        -41.295833587646484,
+        173.268310546875
+      ],
+      "split": "train_diagnostic",
+      "original_split": "dev_diagnostic",
+      "original_manifest_index": 66,
+      "coordinate_group_id": "21d04a738d3e3d78d43b",
+      "coordinate_key": "[-41.295833587646484,173.268310546875]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_34.h5",
+      "file_bytes": 4719900,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "3a48008b0a571126031fa18ab638052c4add487eba5b414872f1bbca61a182a7",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          28,
+          1,
+          2020
+        ],
+        [
+          29,
+          2,
+          2020
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        30.0,
+        40.0,
+        50.0,
+        60.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        42.553489685058594,
+        -87.96082305908203
+      ],
+      "split": "train_diagnostic",
+      "original_split": "dev_diagnostic",
+      "original_manifest_index": 67,
+      "coordinate_group_id": "5dad0947105ebc1dc2b2",
+      "coordinate_key": "[42.553489685058594,-87.96082305908203]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_2858.h5",
+      "file_bytes": 4675367,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "1e32c6cfd7f85c36b1aac213aeaf4bc397af9ff3a7c0e9c223fb45842cf5ca5f",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          17,
+          6,
+          2017
+        ],
+        [
+          16,
+          7,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        42.72817611694336,
+        127.22348022460938
+      ],
+      "split": "train_diagnostic",
+      "original_split": "dev_diagnostic",
+      "original_manifest_index": 68,
+      "coordinate_group_id": "5c55268ba563f39aa655",
+      "coordinate_key": "[42.72817611694336,127.22348022460938]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3465.h5",
+      "file_bytes": 4671772,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "34ae0afa1f420a05810397e38b807387daf3bb74de4e9fda0788222fe6613c56",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          21,
+          11,
+          2017
+        ],
+        [
+          20,
+          0,
+          2018
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        30.0,
+        40.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        55.55570983886719,
+        47.97060775756836
+      ],
+      "split": "train_diagnostic",
+      "original_split": "dev_diagnostic",
+      "original_manifest_index": 69,
+      "coordinate_group_id": "33e2d1f55166a4055d54",
+      "coordinate_key": "[55.55570983886719,47.97060775756836]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1351.h5",
+      "file_bytes": 4643505,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "8ab3a3bbbe8353763ea6c32cc0a10ee0db3bbf29654305ebf574a03eb4b99e11",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          6,
+          9,
+          2017
+        ],
+        [
+          5,
+          10,
+          2017
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        49.708797454833984,
+        10.817549705505371
+      ],
+      "split": "train_diagnostic",
+      "original_split": "dev_diagnostic",
+      "original_manifest_index": 70,
+      "coordinate_group_id": "6d8dde5d0570345f6821",
+      "coordinate_key": "[49.708797454833984,10.817549705505371]"
+    },
+    {
+      "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1518.h5",
+      "file_bytes": 4669533,
+      "crop_yxhw": [
+        48,
+        48,
+        32,
+        32
+      ],
+      "raw_crop_sha256": "65d71df6492ecf560aaf9be7e0a5ea3ad77b0ead18306791f8326479c8fd0df9",
+      "compact_timesteps": [
+        0,
+        1
+      ],
+      "timestamp_indices": [
+        0,
+        1
+      ],
+      "timestamps_day_month0_year": [
+        [
+          27,
+          7,
+          2019
+        ],
+        [
+          26,
+          8,
+          2019
+        ]
+      ],
+      "source_s2_shape": [
+        128,
+        128,
+        12,
+        12
+      ],
+      "source_worldcover_shape": [
+        128,
+        128,
+        1,
+        1
+      ],
+      "worldcover_unique_raw_values": [
+        10.0,
+        30.0,
+        40.0,
+        50.0
+      ],
+      "normalization": {
+        "sentinel2_l2a": "computed",
+        "worldcover": "computed"
+      },
+      "latlon": [
+        46.188232421875,
+        6.219576358795166
+      ],
+      "split": "train_diagnostic",
+      "original_split": "dev_diagnostic",
+      "original_manifest_index": 71,
+      "coordinate_group_id": "312ca52c26b28e0202d8",
+      "coordinate_key": "[46.188232421875,6.219576358795166]"
+    }
+  ],
+  "split_counts": {
+    "train_diagnostic": 64,
+    "dev_diagnostic": 8
+  },
+  "distinct_coordinate_groups": {
+    "train_diagnostic": 62,
+    "dev_diagnostic": 8
+  },
+  "reassigned_files": 16
+}

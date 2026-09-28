@@ -1,0 +1,19 @@
+{
+  "schema_version": "oe10_pilot_budget_bootstrap_v1",
+  "created_utc": "2026-09-27T21:41:46.693867+00:00",
+  "source_context_sha256": "53c97bcbef47b0c70ff276163e8ddf69dab553c00c2a1fbf52fe8897c4d3b935",
+  "pilot_budget": {
+    "scope": "initial additional automatic pilots only, separate from frozen P2",
+    "policy_set_by": "assistant conservative initial operating limit, not a user-specified total research budget",
+    "gpu_index": 1,
+    "per_job_wall_seconds_max": 1800,
+    "total_gpu_occupancy_seconds_max": 7200,
+    "reserved_seconds": 0,
+    "used_seconds": 0,
+    "jobs": [],
+    "include_retries_and_inference": true,
+    "reset_each_heartbeat": false,
+    "action_after_exhaustion": "Continue CPU work; present measured evidence and a concrete larger training budget."
+  },
+  "scope": "Initial ledger seed only, not a reservation; retain server ledger once initialized."
+}

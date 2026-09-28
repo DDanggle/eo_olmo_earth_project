@@ -1,0 +1,258 @@
+{
+  "schema": "oe3-official-eval-inventory-v0",
+  "date": "2026-09-27",
+  "status": "source_and_parser_verified_not_runtime_ready",
+  "official_repo": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain",
+  "official_commit": "0497dfbb6711ded4e6bf10cf089fc1e4d58c186b",
+  "development_model": {
+    "id": "allenai/OlmoEarth-v1-Tiny",
+    "historical_server_hf_path": "/home/work/data/olmoearth/oe1_bentxt_v0/models/OlmoEarth-v1-Tiny",
+    "historical_server_path_rechecked_this_task": false,
+    "format": "config.json + weights.pth",
+    "official_config_module": "scripts/official/v1/tiny.py",
+    "public_weights_loader": "olmoearth_pretrain.model_loader.load_model_from_path",
+    "sweep_checkpoint_loader": "--checkpoint_path -> --trainer.load_path (distributed checkpoint)",
+    "format_compatibility_status": "No verified direct HF-bundle-to-trainer.load_path path; do not substitute the HF folder into the distributed-checkpoint template.",
+    "next_bridge_requirement": "Implement a small model-config adapter calling the official local-path loader, or export a verified distributed checkpoint, then confirm encoder tensor hashes and fixed-input output parity.",
+    "version_scope": "Development baseline only. The local source also contains v1.1/v1.2; latest-model and Base-scale runs remain follow-up work."
+  },
+  "tasks": [
+    {
+      "task_type": "segmentation",
+      "eval_mode": "linear_probe",
+      "primary_metric": "miou",
+      "patch_size": 4,
+      "pooling": "mean",
+      "preserve_spatial_grid": true,
+      "epochs": 50,
+      "probe_lr": 0.1,
+      "probe_type": "linear",
+      "head": "nn.Linear(D, num_classes * patch_size**2); rearrange to dense logits",
+      "loss": "cross_entropy",
+      "ignore_label": -1,
+      "label_fraction": 1.0,
+      "encoder_gradient": false,
+      "select_best_val": true,
+      "linear_probe_eval_interval_with_select_best_val": 5,
+      "run_on_test_for_development": false,
+      "task_id": "sen1floods11",
+      "dataset_id": "sen1floods11",
+      "modality": "sentinel1",
+      "num_classes": 2,
+      "input_hw": 64,
+      "embedding_batch_size": 128,
+      "probe_batch_size": 128,
+      "num_workers": 4,
+      "dataset_env": "FLOODS_DIR",
+      "required_layout": [
+        "flood_train_data.pt",
+        "flood_valid_data.pt",
+        "flood_test_data.pt"
+      ],
+      "tensor_contract": {
+        "s1": "[N,2,64,64]",
+        "labels": "[N,1,64,64]"
+      },
+      "registry_norm_stats_from_pretrained": true,
+      "selected_sweep_norm_stats_from_pretrained": true,
+      "normalization": "Official Normalizer(COMPUTED): (x - mean)/(4*std) + 0.5; no clipping",
+      "caveats": [
+        "The implemented loader supports S1 only, even though preprocessing can store S2.",
+        "The prepared 64x64 benchmark filters tiles with no positive labels; preserve official prepared data for comparability.",
+        "Loader removes nonfinite S1 tiles. Report actual post-filter split counts.",
+        "Loader uses a fixed placeholder acquisition date; do not claim temporal transfer."
+      ]
+    },
+    {
+      "task_type": "segmentation",
+      "eval_mode": "linear_probe",
+      "primary_metric": "miou",
+      "patch_size": 4,
+      "pooling": "mean",
+      "preserve_spatial_grid": true,
+      "epochs": 50,
+      "probe_lr": 0.1,
+      "probe_type": "linear",
+      "head": "nn.Linear(D, num_classes * patch_size**2); rearrange to dense logits",
+      "loss": "cross_entropy",
+      "ignore_label": -1,
+      "label_fraction": 1.0,
+      "encoder_gradient": false,
+      "select_best_val": true,
+      "linear_probe_eval_interval_with_select_best_val": 5,
+      "run_on_test_for_development": false,
+      "task_id": "m_cashew_plant",
+      "dataset_id": "m-cashew-plant",
+      "modality": "sentinel2_l2a",
+      "num_classes": 7,
+      "input_hw": 256,
+      "embedding_batch_size": 32,
+      "probe_batch_size": 8,
+      "num_workers": 2,
+      "dataset_env": "GEOBENCH_DIR",
+      "required_layout": [
+        "segmentation_v1.0/m-cashew-plant/ with GeoBench task specification, samples and official partitions"
+      ],
+      "splits": [
+        "train",
+        "valid",
+        "test"
+      ],
+      "registry_norm_stats_from_pretrained": false,
+      "selected_sweep_norm_stats_from_pretrained": true,
+      "normalization": "The full_eval_sweep --defaults_only path forces official pretrained COMPUTED statistics for every task; this differs from the cashew registry setting.",
+      "registry_normalization": "Dataset band_stats, NORM_NO_CLIP_2_STD",
+      "caveats": [
+        "GeoBench wrapper includes a B11-to-B10 missing-band imputation contract. Preserve its official input mapping.",
+        "Do not say registry defaults and full_eval_sweep defaults are identical.",
+        "Loader uses a fixed placeholder acquisition date; do not claim temporal transfer."
+      ]
+    }
+  ],
+  "command_templates": {
+    "cwd": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain",
+    "data_environment": {
+      "FLOODS_DIR": "/REPLACE_WITH_PREPARED_FLOODS_ROOT",
+      "GEOBENCH_DIR": "/REPLACE_WITH_GEOBENCH_ROOT"
+    },
+    "distributed_checkpoint_sweep_dry_run_argv": [
+      "python",
+      "-m",
+      "olmoearth_pretrain.internal.full_eval_sweep",
+      "--cluster=local",
+      "--checkpoint_path=/REPLACE_WITH_VERIFIED_DISTRIBUTED_CHECKPOINT",
+      "--module_path=scripts/official/v1/tiny.py",
+      "--model_name=oe3_v1tiny_original_dense",
+      "--project_name=oe3_capability_program",
+      "--task-names=sen1floods11,m_cashew_plant",
+      "--defaults_only",
+      "--select_best_val",
+      "--dry_run",
+      "--trainer.callbacks.wandb.enabled=False",
+      "--trainer.callbacks.downstream_evaluator.run_on_test=False"
+    ],
+    "distributed_checkpoint_sweep_dry_run_shell": "env -u PYTHONPATH python -m olmoearth_pretrain.internal.full_eval_sweep --cluster=local --checkpoint_path=/REPLACE_WITH_VERIFIED_DISTRIBUTED_CHECKPOINT --module_path=scripts/official/v1/tiny.py --model_name=oe3_v1tiny_original_dense --project_name=oe3_capability_program --task-names=sen1floods11,m_cashew_plant --defaults_only --select_best_val --dry_run --trainer.callbacks.wandb.enabled=False --trainer.callbacks.downstream_evaluator.run_on_test=False",
+    "notes": [
+      "Contains explicit unresolved path placeholders; not a launch-ready command.",
+      "--dry_run in this source launches a python subprocess with dry_run_evaluate to build/print configuration; it is not a dependency-free print-only path.",
+      "--defaults_only leaves registry probe LR=0.1 and epochs=50 intact, but overrides all tasks to pretrained normalization.",
+      "all_evals.py defaults run_on_test=True; the supplied development command explicitly overrides it to False.",
+      "Do not remove --dry_run until checkpoint loading, data layout, dependencies, resource/output paths and resolved config are verified."
+    ]
+  },
+  "verification": {
+    "public_argparse_ast_extracted_and_parsed": true,
+    "parsed_public_arguments": {
+      "cluster": "local",
+      "checkpoint_path": "/REPLACE_WITH_VERIFIED_DISTRIBUTED_CHECKPOINT",
+      "module_path": "scripts/official/v1/tiny.py",
+      "project_name": "oe3_capability_program",
+      "defaults_only": true,
+      "dry_run": true,
+      "model_name": "oe3_v1tiny_original_dense",
+      "model": null,
+      "all_sizes": false,
+      "lr_only": false,
+      "select_best_val": true,
+      "model_skip_names": null,
+      "task_skip_names": null,
+      "task_names": "sen1floods11,m_cashew_plant",
+      "size": null,
+      "load_eval_settings_from_json": null,
+      "quantize_embeddings": false,
+      "quantize_bits": null,
+      "quantile_config_path": null,
+      "embedding_dim": null,
+      "embedding_diagnostics_only": false,
+      "checkpoint_dir": null,
+      "steps": null,
+      "label_fraction": 1.0
+    },
+    "known_passthrough_overrides": [
+      "--trainer.callbacks.wandb.enabled=False",
+      "--trainer.callbacks.downstream_evaluator.run_on_test=False"
+    ],
+    "full_module_import_or_official_dry_run_executed": false,
+    "local_python_checked": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/.venv-nano-lab/bin/python",
+    "local_import_spec_presence": {
+      "torch": true,
+      "olmo_core": false,
+      "geobench": false,
+      "upath": true,
+      "omegaconf": false,
+      "rslearn": false,
+      "h5py": false
+    },
+    "server_checked": false,
+    "datasets_downloaded": false,
+    "model_evaluated": false
+  },
+  "retained_development_reference": "Existing BEN S2 questions/20-scene diagnostic remain historical debugging evidence; they are not the independent EO benchmark or a substitute for original-objective map targets.",
+  "fair_continued_pretraining_requirement": "Use the same fixed checkpoint, examples, sensor inputs, map targets, exposure budget and validation protocol. Original v1 includes derived-map targets and patch discrimination + InfoNCE; S2 BEN alone does not reproduce it.",
+  "sources": [
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/scripts/official/v1/tiny.py",
+      "sha256": "4ccbe2a413d132acaa92c682089ff6da657e12520dd1fa66148ed333d32ef796"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/scripts/official/v1/script.py",
+      "sha256": "db1008986de3d3ceaad9bf822caefd6398599dc873a102f02aece29700e88a00"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/model_loader.py",
+      "sha256": "2ff982cda47fa53e8bb3a9f4ff3879816e4297770ed6e6c6cf49f5e323562ba7"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/internal/full_eval_sweep.py",
+      "sha256": "3d5bd7715879d1024aa474f3f3fb7fc1d16c8db803df10b76922aa0b9aa73e7d"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/internal/all_evals.py",
+      "sha256": "1048fe907bbc57ef813e4b0cc1ddb5859ae9e9a4ca8c78791fa9d7efb50a8284"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/internal/experiment.py",
+      "sha256": "a45747d3fd16a6f86ee6914164fd267f3a1be58576476bc2cf7c8bf1cd2fee5d"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/evals/eval_wrapper.py",
+      "sha256": "eab1432f70505bb5174d981833c8403eb0f970a7b853a147897d96c415d1ea82"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/evals/embeddings.py",
+      "sha256": "805c18139c42b90225ed771e965092a8141835955b13cf2eb6ec7c0c608f63b0"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/evals/linear_probe.py",
+      "sha256": "15c95d45e3baaea704359428a11f2dff6a884202d97b52edbd259022f39e69aa"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/evals/datasets/paths.py",
+      "sha256": "962b61f177a2475bbc4f31977270db84b762c8d9f03e1259bb75fd75eb13ccb1"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/evals/datasets/configs.py",
+      "sha256": "ea929f528fccc013539642d4353bd66c5d886c4653e690ab1321ce0b870f4e91"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/evals/datasets/floods_dataset.py",
+      "sha256": "2898cd91197cf356423841bd3b24f324f5b79d42407f0db73217f90b9adaffb5"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/evals/datasets/geobench_dataset.py",
+      "sha256": "b8f999531b8d915ec850970c20a70edc5c1e393401ea4846944626703abc2b87"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/train/callbacks/evaluator_callback.py",
+      "sha256": "e32a8dababa43fcc758ad3a3f6a3b0676ca5477f3d87bacec9754c04df44da30"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/olmoearth_pretrain/data/normalize.py",
+      "sha256": "1987cb6f475495a6454f80db6eea045ee982948bae4cffee8045c713747b9b26"
+    },
+    {
+      "path": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/learning_sources/olmoearth_pretrain/pyproject.toml",
+      "sha256": "9a267ebaa9a8222729da779122815b3b644d64198a7bb374db8c18ba8d7b2029"
+    }
+  ]
+}

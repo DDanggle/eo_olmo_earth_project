@@ -1,0 +1,27 @@
+test_argv_no_shell_and_environment_cleared (test_launcher.LauncherTests.test_argv_no_shell_and_environment_cleared) ... ok
+test_concurrent_reservation_lock_is_exclusive (test_launcher.LauncherTests.test_concurrent_reservation_lock_is_exclusive) ... ok
+test_crash_reservation_fully_charged_and_blocks_next (test_launcher.LauncherTests.test_crash_reservation_fully_charged_and_blocks_next) ... ok
+test_deleted_ledger_cannot_reinitialize (test_launcher.LauncherTests.test_deleted_ledger_cannot_reinitialize) ... ok
+test_duplicate_job_id_no_retry_and_cumulative_no_reset (test_launcher.LauncherTests.test_duplicate_job_id_no_retry_and_cumulative_no_reset) ... ok
+test_elapsed_not_undercharged_and_unconfirmed_full_charge (test_launcher.LauncherTests.test_elapsed_not_undercharged_and_unconfirmed_full_charge) ... ok
+test_exception_cleanup_starts_immediately (test_launcher.LauncherTests.test_exception_cleanup_starts_immediately) ... ok
+test_gpu1_idle_other_gpu_busy_allowed (test_launcher.LauncherTests.test_gpu1_idle_other_gpu_busy_allowed) ... ok
+test_gpu_wrong_uuid_occupied_utilization_and_parse_fail_closed (test_launcher.LauncherTests.test_gpu_wrong_uuid_occupied_utilization_and_parse_fail_closed) ... ok
+test_initial_snapshot_pin_and_nonzero_refused (test_launcher.LauncherTests.test_initial_snapshot_pin_and_nonzero_refused) ... ok
+test_leader_exits_descendant_cleaned_not_success (test_launcher.LauncherTests.test_leader_exits_descendant_cleaned_not_success) ... ok
+test_local_preflight_readonly_and_server_scope_failclosed (test_launcher.LauncherTests.test_local_preflight_readonly_and_server_scope_failclosed) ... ok
+test_memory_unknown_nonfinite_negative_refused_both_telemetry_paths (test_launcher.LauncherTests.test_memory_unknown_nonfinite_negative_refused_both_telemetry_paths) ... ok
+test_numeric_utilization_original_memory_allowance_preserved (test_launcher.LauncherTests.test_numeric_utilization_original_memory_allowance_preserved) ... ok
+test_terminal_audit_allows_honest_incomplete_and_rejects_live (test_launcher.LauncherTests.test_terminal_audit_allows_honest_incomplete_and_rejects_live) ... ok
+test_timeout_grace_inside_cap_and_only_owned_group (test_launcher.LauncherTests.test_timeout_grace_inside_cap_and_only_owned_group) ... ok
+test_unavailable_utilization_nonzero_memory_or_process_refused (test_launcher.LauncherTests.test_unavailable_utilization_nonzero_memory_or_process_refused) ... ok
+test_unavailable_utilization_zero_memory_no_gpu1_process_allowed (test_launcher.LauncherTests.test_unavailable_utilization_zero_memory_no_gpu1_process_allowed) ... ok
+test_unreaped_group_stays_unconfirmed_at_deadline (test_launcher.LauncherTests.test_unreaped_group_stays_unconfirmed_at_deadline) ... ok
+test_utilization_unknown_nonfinite_and_malformed_refused (test_launcher.LauncherTests.test_utilization_unknown_nonfinite_and_malformed_refused) ... ok
+test_parent_death_survives_normal_exec (test_launcher.ParentDeathTests.test_parent_death_survives_normal_exec) ... ok
+test_parent_race_mismatch_refused (test_launcher.ParentDeathTests.test_parent_race_mismatch_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.550s
+
+OK

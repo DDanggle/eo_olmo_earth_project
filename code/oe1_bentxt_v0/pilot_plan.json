@@ -1,0 +1,69 @@
+{
+  "experiment": "OE1-BENtxt-native-S2-development-feasibility-v0",
+  "status": "development plan fixed before new OE1 model results",
+  "purpose": "Test actual raw-image encoder adaptation and frozen-language-model gradient path; not novel pretraining objective evidence",
+  "data": {
+    "text": "/home/work/data/olmoearth/region_language_contract_20260921/BigEarthNet.txt.parquet",
+    "images": "/home/work/data/olmoearth/geobench2/benv2/geobench_benv2.tortilla",
+    "selection": "exact patch ID and agreed official train/validation split, binary presence only, maximum four existing questions per unique patch",
+    "target_unique_train_patches": 512,
+    "target_unique_validation_patches": 128,
+    "test_and_manual_benchmark": "not used for adaptation or new OE1 evaluation; historical metadata-only audit is disclosed",
+    "input": "12 native S2 L2A bands resampled by official GEO-Bench2 repack, raw DN at 120 by 120; actual acquisition dates",
+    "forbidden_question_metadata": [
+      "country",
+      "season",
+      "climate zone",
+      "coordinates",
+      "reference caption",
+      "filename"
+    ],
+    "independence": "require train/development patch and image hash disjointness; select disjoint MGRS groups where available and report all actual geographic coverage",
+    "known_limitation": "GEO2 nested S2 GeoTIFF transform differs from outer index: only verified outer-index footprint is used; no physical area claim",
+    "selection_seed": 20260926
+  },
+  "compute": {
+    "gpu": 1,
+    "require_idle": true,
+    "max_training_seconds_total": 3600
+  },
+  "models": {
+    "encoder_repo": "allenai/OlmoEarth-v1-Tiny",
+    "encoder_revision": "885784437d4e2d632b7bf51b4233426c6f4479dc",
+    "encoder_weights_sha256": "66b9827af383bc444d7909a406a5b62c072bb08d6804ff47a247c2dce8fad9a4",
+    "language_model": "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct",
+    "language_model_training": "frozen; input gradients retained",
+    "visual_tokens": 16
+  },
+  "training": {
+    "arms": [
+      "frozen",
+      "joint",
+      "blind"
+    ],
+    "seed": 17,
+    "steps_per_arm": 256,
+    "batch_size": 8,
+    "projector_learning_rate": 0.001,
+    "encoder_learning_rate": 1e-05,
+    "weight_decay": 0.01,
+    "clip_grad_norm": 1.0,
+    "objective": "full-vocabulary next-token cross entropy for existing yes/no presence answer; language model frozen",
+    "matching": "same checkpoint, projector initialization, question batches, and example exposures; record unequal encoder backward compute"
+  },
+  "evaluation": {
+    "timing": "all three arms train before validation performance is computed",
+    "primary": "balanced accuracy of unconstrained next-token yes/no output; other outputs are wrong and parse failures recorded",
+    "secondary": "yes/no constrained likelihood accuracy, real/zero and exact-question opposite-answer donor controls, coverage, per-geographic-group results",
+    "donor": "same exact input question; donor ground truth is its annotation for that exact question; do not substitute answers across different questions"
+  },
+  "execution_gate": [
+    "all finite loss and gradients",
+    "frozen encoder and LLM unchanged",
+    "joint encoder has nonzero gradients and changes parameters",
+    "identical training exposure",
+    "saved checkpoint reload reproduces logits within declared numerical tolerance",
+    "no dataset or split contract violation"
+  ],
+  "interpretation": "Technical execution can succeed with no scientific improvement. One small development run is exploratory. Training loss reduction alone does not establish visual grounding; no temporal/climate/new-region/pretraining-novelty claim. Wide geographic uncertainty remains inconclusive. No repeated seed or split search for a positive result."
+}

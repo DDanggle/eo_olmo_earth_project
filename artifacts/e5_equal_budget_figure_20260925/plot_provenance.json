@@ -1,0 +1,91 @@
+{
+  "schema": "e5-verified-plot-data-v0",
+  "series": {
+    "1": {
+      "full/native": 0.7712451570132514,
+      "pair/native": 0.753308969445288,
+      "later/native": 0.7373468553098084,
+      "delta/native": 0.751422312137028,
+      "full/full_no_delta": 0.5
+    },
+    "2": {
+      "full/native": 0.828422798442898,
+      "pair/native": 0.800917889574792,
+      "later/native": 0.7968717415732292,
+      "delta/native": 0.8004147724480773,
+      "full/full_no_delta": 0.5
+    },
+    "3": {
+      "full/native": 0.9093556787401971,
+      "pair/native": 0.782076535298738,
+      "later/native": 0.8029463192672724,
+      "delta/native": 0.8080291926632907,
+      "full/full_no_delta": 0.5
+    }
+  },
+  "primary_contrast": {
+    "1": {
+      "delta": -0.01793618756796342,
+      "ci95_delta": [
+        -0.09705799777529994,
+        0.05842728622333887
+      ]
+    },
+    "2": {
+      "delta": -0.027504908868105957,
+      "ci95_delta": [
+        -0.09811197916666667,
+        0.026713574565493767
+      ]
+    },
+    "3": {
+      "delta": -0.12727914344145913,
+      "ci95_delta": [
+        -0.2695862606663395,
+        0.010254685007974454
+      ]
+    }
+  },
+  "seeds": [
+    "1",
+    "2",
+    "3"
+  ],
+  "events": [
+    "1111007",
+    "1111013",
+    "205",
+    "277",
+    "321",
+    "411",
+    "445",
+    "562"
+  ],
+  "n_items": 902,
+  "n_events": 8,
+  "verdict": "mixed_or_inconclusive",
+  "source_hashes": {
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e5_equal_budget_v0_review_20260925/e5_independent_audit_20260925.json": "bdf7a187e2ef82aeaa8a4c61cede65021d168c9f3e6b6ac5ddd2f6548d2c7f79",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e5_equal_budget_v0_review_20260925/e5_equal_budget_v0/status.json": "f672169533bb4942360903351d1d7f5bfcb9e338334fd2c637a861b9df93ac41",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e5_equal_budget_v0_review_20260925/e5_equal_budget_v0/scores.json": "0c98060fa228e55331c9d5be8709d250bd8fc28c70142bf4ccc3cf3a65b6b7f8",
+    "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e5_equal_budget_v0_review_20260925/e5_equal_budget_v0/prereg.json": "fc7866feebbf1e9fcd4e93de5154bf9ffa141f434e70dc4731390cf18dfd4696"
+  },
+  "caption": "E5: equal-budget input comparison on the frozen C1 quality-controlled, same-prompt subset (445 source-positive and 457 hard-negative items; 8 events). Left: all three seeds are shown separately for balanced agreement with source labels, averaging same-prompt strata within each event and then weighting events equally. Full, pair, later and delta are separately trained from shared initialization within each seed; full -> [A,B,0] is an inference-only intervention on the trained full model, not a fifth trained model. A and B are earlier/later observation embeddings and D=B-A. All conditions retain 192 token positions; zero input blocks still pass through the projector and type embeddings. Right: the only primary contrast, trained pair minus trained full, with seed-specific 95% paired-event percentile bootstrap intervals (5,000 draws; 8 events resampled together across conditions). The dashed -0.05 line is the preregistered operational tolerance; it is not the entire decision rule, which also requires same-seed full/pair BA >= 0.60 in at least two seeds. Seeds are repeated fits, not additional independent events. Later, delta and full_no_delta comparisons are descriptive. These are exposed development data; the results alone do not establish temporal reasoning, memory benefit or independently verified change.",
+  "audit_original_artifact_root": "/home/work/data/olmoearth/e5_equal_budget_v0",
+  "local_render_artifact_root": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/e5_equal_budget_v0_review_20260925/e5_equal_budget_v0",
+  "audited_input_lookup_hashes": {
+    "/home/work/data/olmoearth/e5_equal_budget_v0/status.json": "f672169533bb4942360903351d1d7f5bfcb9e338334fd2c637a861b9df93ac41",
+    "/home/work/data/olmoearth/e5_equal_budget_v0/scores.json": "0c98060fa228e55331c9d5be8709d250bd8fc28c70142bf4ccc3cf3a65b6b7f8",
+    "/home/work/data/olmoearth/e5_equal_budget_v0/prereg.json": "fc7866feebbf1e9fcd4e93de5154bf9ffa141f434e70dc4731390cf18dfd4696"
+  },
+  "verification_scope": "The independent audit ran at its recorded original artifact root. This plotting step verifies the local scores/status/prereg bytes against the exact original-root keys and checks plotted metrics; it does not rerun the full audit, load predictions, or recheck remote pairs/checkpoints.",
+  "checkpoint_tensors_loaded_and_checked_on_cpu": true,
+  "plot_code_sha256": "020d856cb6910bdeae592004245ed97cdec4db0e5d13344b18c7286ac1398cfb",
+  "created_at": "2026-09-25T07:56:32.590758+00:00",
+  "matplotlib_version": "3.10.6",
+  "numpy_version": "2.5.3",
+  "output_hashes": {
+    "e5_equal_budget.png": "3f6412511e74cd56a8c7d9ad7b6bd61c06345036607d79822daf6f1bd47f0a53",
+    "e5_equal_budget.pdf": "0ec5271922eb7f3ed894ab04948cb4b389292dd6023393a508a8716d63f7f60b"
+  }
+}

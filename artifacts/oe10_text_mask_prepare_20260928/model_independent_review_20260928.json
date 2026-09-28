@@ -1,0 +1,24 @@
+{
+  "scope": "Independent read-only source and context inspection; numeric and real model tests pending at review time",
+  "reviewer": "/root/text_mask_review",
+  "blocking_finding_found": "Missing frozen EO/normalization identity in checkpoint",
+  "resolution": "eo_identity is now required and included in identity equality; actual launcher must verify files",
+  "base_source_hashes_verified": 3,
+  "context_records_verified": 384,
+  "context_schema_passed": true,
+  "distinct_texts_by_condition": {
+    "generic": 1,
+    "names_only": 2,
+    "matched_knowledge": 2,
+    "removed_knowledge_diagnostic": 2,
+    "swapped_knowledge_diagnostic": 2
+  },
+  "limits": [
+    "frozen Qwen text-only conditioning baseline, not EO-conditioned Qwen generation",
+    "two fixed category descriptions cannot distinguish semantic knowledge from category code effect",
+    "actual Qwen API, numeric tests, real weight/normalization identity validation still pending at this review time",
+    "training contrasts require same initial weights/order/support/optimizer/update/cache policy and text compute reporting"
+  ],
+  "actual_human_responses": 0,
+  "new_gpu_seconds": 0
+}

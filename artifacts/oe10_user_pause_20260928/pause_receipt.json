@@ -1,0 +1,42 @@
+{
+  "created_utc": "2026-09-28T00:26:30.819001+00:00",
+  "user_request": "Stop all scheduled work for now; summarize completed research and paper/folder locations.",
+  "action": "OlmoEarth heartbeat updated through app automation tool to PAUSED; existing other two automations already PAUSED. No schedule deleted.",
+  "automation_id": "olmoearth-vlm",
+  "visible_automations": [
+    {
+      "id": "knee-h200",
+      "name": "Knee H200 실험 추적",
+      "status": "PAUSED",
+      "target_thread_id": "01a024c4-e2b2-7243-b8f7-ba95069ab5ac"
+    },
+    {
+      "id": "olmoearth-vlm",
+      "name": "OlmoEarth VLM 연구 확장",
+      "status": "PAUSED",
+      "target_thread_id": "01a0d16a-c064-7542-8d25-fd77f6cb7573"
+    },
+    {
+      "id": "t4-sam3",
+      "name": "T4 SAM3 실험 지속",
+      "status": "PAUSED",
+      "target_thread_id": "01a07608-01fc-7d12-bded-b0a293183157"
+    }
+  ],
+  "active_visible_automation_count": 0,
+  "p2_terminal_status": "failed",
+  "p2_status_sha256": "df8da2d02dfe0e86be0ba9b6d61b7763c7f3e401ea3f44125f853aba02383533",
+  "own_p2_process_rows": "    PID     ELAPSED COMMAND\n",
+  "pilot_jobs": [
+    [
+      "connection_20260928_01",
+      "completed"
+    ]
+  ],
+  "charged_pilot_seconds": 48,
+  "outstanding_reservations": 0,
+  "gpu1_compute_processes_observed": [],
+  "gpu0_other_work_untouched": true,
+  "new_gpu_experiments_this_turn": 0,
+  "resume_requires_user_request": true
+}

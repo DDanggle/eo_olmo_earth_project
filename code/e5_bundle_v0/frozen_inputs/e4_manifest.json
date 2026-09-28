@@ -1,0 +1,56 @@
+{
+  "schema": "e4-delta-prepared-v0",
+  "prepared_at": "2026-09-25T05:33:20.451507+00:00",
+  "scope": "Post-E3 exploratory mechanism diagnosis on the same exposed E2/E3 development items; not fresh confirmatory evidence",
+  "items_sha256": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+  "pairs_sha256": "3f9d693993ce72504a241b8ac266ab3bcf5663f50693d63c3b3b8947d126807a",
+  "references_sha256": "cc5f8aa34c88ca54dc79e5cc6a56c2b4653067d7ca20d915cd09eb8feccdee3d",
+  "prereg_sha256": "39858be7464fa218ad67e3084919f7e36267b7b8fec9c571e9643dffe6004ceb",
+  "input_audit_sha256": "ae3b526be097405392df163ad191bdfc54cc165b4310053d3b774b29b6298281",
+  "parent_snapshot_sha256": {
+    "manifest.json": "68d6c339e81ec9357559ff28d0a85dcb1a881d35fede99a63736b34be54e80fd",
+    "scores.json": "92988b276fbd829001cb83ce65b339fd0ade0303ef368fe2f7d99ffb5e29cde1",
+    "status.json": "46e335af02322488260688154b14c372b1f4b01884153e762247b277f6497a63",
+    "prereg.json": "0a6ee3d9f3981fc5554889440ae7cce9c383c6b59ce0eeb741a8837220cec611"
+  },
+  "models": {
+    "1": {
+      "path": "/home/work/data/olmoearth/e2_multi_reader_v0/reader_seed1/projector.pt",
+      "sha256": "10137425ddca279533782c8523ccfd6394f0c9927a29f9a8f3f2076907f44869"
+    },
+    "2": {
+      "path": "/home/work/data/olmoearth/e2_multi_reader_v0/reader_seed2/projector.pt",
+      "sha256": "8ba9f1ea8b67ed0de93f2823c39efed378b9192df33ca07fc97998cad2d1d0aa"
+    },
+    "3": {
+      "path": "/home/work/data/olmoearth/e2_multi_reader_v0/reader_seed3/projector.pt",
+      "sha256": "9b64285f76892ebcac20531a4d12d03b4cd343a6d549c7e5e66c33af7b6e8c94"
+    }
+  },
+  "llm_files_sha256": {
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/chat_template.jinja": "f5186d42d99c8a0445d37fd8a6c7ccf07fe3e24a29ce622d8bd245da9507b12b",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/config.json": "6282ae812f9e494bd212e9a3233d68dc4d5f1e2569642423d2b79a3e80373ef8",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/generation_config.json": "745e78c16cc40cbb08827f7b7c9d5a888f7cb908236d4ca0443ff47f43a9d5af",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/merges.txt": "b6fe424e334903f7fb84d3a106d9730455f4744b9fe3c21ee136d97a00e72502",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/model-00001-of-00003.safetensors": "e7bd4c8ba52177a815aee5929cb458a116a65799688d3e51402500a1cb77023c",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/model-00002-of-00003.safetensors": "ea92aa0499a2ca02400e5d87324009e172bdbfb9809f2ac501485d8224382328",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/model-00003-of-00003.safetensors": "d50f95e4f2ec5fc4fbce6217cbf54fd1d700928b05e5550c8ee08bf4ba948925",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/model.safetensors.index.json": "47a8266860f2a5f95c021fb4d7d3a469a95ee8b445742becbb6b19632cfc6e95",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/special_tokens_map.json": "78afb564e81264029b25f9caf24bda2521d5bdaeff5cd3fdbc01d3da2e8ce2f2",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/tokenizer.json": "7738a25c46a6043a0e2e605138851baa450269ce9d800af6ca9bf6192e45510c",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/tokenizer_config.json": "f7a2753a4ff30657e452c8fef02b9a99a3b900ceb4c65a1e3fbea6a3bfab07a6",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/vocab.json": "d8eb44d0d51f5e39c9b14825ca8bd10a2500f99c438ca81d4462f0263acd3b53"
+  },
+  "code_snapshot_sha256": {
+    "e4_delta_runner_v0.py": "311201365c1871a1bf4a69a24cb4ffa53f209877733f4ce888115914c2de1288",
+    "e4_delta_probe_v0.py": "1e282051908fe3194a08805bbfab33ecc0bff7a13f95ea1239e3fdaa40b49c73",
+    "run_e4_when_idle_v0.py": "e6086f6fd762faf3274332850f3f3b790304b12e2daef4217ef2274b9305cb67"
+  },
+  "n_items": 209,
+  "n_generations": 2508,
+  "gpu_index": 0,
+  "environment": {
+    "python": "3.11.15 (main, Aug  7 2026, 02:25:55) [Clang 22.1.3 ]",
+    "numpy": "2.4.6"
+  }
+}

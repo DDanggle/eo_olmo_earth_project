@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "synthetic_sampling_tests": 4,
+  "duration_seconds": 0.974,
+  "actual_human_annotations": 0,
+  "actual_server_package_generated_by_subagent": false,
+  "checks": [
+    "original cohort retained when feasible; deterministic exact unique-query quotas",
+    "fallback only on matching failure; fail without padding",
+    "source purity and original mask coordinates; reference-class consistency",
+    "public package omits source IDs, reference labels, exact quotas; private protocol separated"
+  ],
+  "unchanged_common_components": {
+    "review_ui.html": {
+      "identical_to_v1": true,
+      "sha256": "733e424103897dc2744a7bad5316b39c661702b2abb245f3b792905a8d944930"
+    },
+    "review_app.js": {
+      "identical_to_v1": true,
+      "sha256": "20a9523cf3c0061b67829e25fffa5b501af0d60964de0bf12e6c9d3e3b0cca8e"
+    },
+    "response_schema.json": {
+      "identical_to_v1": true,
+      "sha256": "be13b2b2356c679e126806dae583c151f6ba7f0fde1c061dbb2fddc7135ec1e3"
+    },
+    "score_human_pilot.py": {
+      "identical_to_v1": true,
+      "sha256": "ff02134067582db845db864db9fb2599947881fb8834fa1b7ba55368bd5250a7"
+    }
+  },
+  "source_sha256": {
+    "PRIVATE_PROTOCOL.md": "205fa387738c24fb564af2426b89d80b0105eed6d5fee06861bf9e407fde91e6",
+    "review_app.js": "20a9523cf3c0061b67829e25fffa5b501af0d60964de0bf12e6c9d3e3b0cca8e",
+    "build_human_pilot.py": "69655fa63da510189052e98c8d83623c222765ea98246c27dd6667c52e16fd06",
+    "test_sampling_v2.py": "57b9c68c78f8c80e88537edfb8655ec285950cea1d2052ea0d2c2db42255f228",
+    "review_ui.html": "733e424103897dc2744a7bad5316b39c661702b2abb245f3b792905a8d944930",
+    "response_schema.json": "be13b2b2356c679e126806dae583c151f6ba7f0fde1c061dbb2fddc7135ec1e3",
+    "score_human_pilot.py": "ff02134067582db845db864db9fb2599947881fb8834fa1b7ba55368bd5250a7",
+    "PROTOCOL.md": "5ef262bc172b7955daf33f76d33c5a79d15510a98aed9df9226d2edf1e6ab904"
+  },
+  "browser_proof_reused_from": "../human_pilot/browser_test_results.json",
+  "actual_v1_reference_distribution": {
+    "target": 2,
+    "counterexample": 1,
+    "neither": 11,
+    "reference_unavailable": 6
+  }
+}

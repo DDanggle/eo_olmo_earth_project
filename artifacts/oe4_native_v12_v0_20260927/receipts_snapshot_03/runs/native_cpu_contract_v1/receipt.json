@@ -1,0 +1,329 @@
+{
+  "status": "PASS_bounded_encoder_update",
+  "started_utc": "2026-09-26T17:37:28.628359+00:00",
+  "args": {
+    "source_root": "/home/work/data/olmoearth/oe4_native_v12_v0/source",
+    "deps_root": "/home/work/data/olmoearth/oe4_native_v12_v0/deps",
+    "checkpoint_dir": "/home/work/data/olmoearth/oe4_native_v12_v0/models/OlmoEarth-v1_2-Base",
+    "h5_root": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k",
+    "out_dir": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/native_cpu_contract_v1",
+    "device": "cpu",
+    "train_files": 2,
+    "dev_files": 2,
+    "steps": 1,
+    "batch_size": 2,
+    "crop_size": 32,
+    "timesteps": 2,
+    "patch_size": 4,
+    "lr": 1e-06,
+    "weight_decay": 0.02,
+    "seed": 270927,
+    "max_wall_seconds": 180,
+    "prepare_only": false,
+    "save_weights": true
+  },
+  "scope": "real-H5 bounded objective engineering run; not official CPT reproduction",
+  "development_split_limit": "file-disjoint only; neighboring subtiles may share parent region; no external-test claim",
+  "declared_model_revision": "2e99a734a30e9aeb993aaa39946c6dcf554739e0",
+  "package_file": "/home/work/data/olmoearth/oe4_native_v12_v0/source/olmoearth_pretrain/__init__.py",
+  "versions": {
+    "torch": "2.13.0",
+    "numpy": "2.4.6",
+    "einops": "0.8.2",
+    "h5py": "3.16.0",
+    "hdf5plugin": "6.0.0",
+    "class-registry": "2.1.2",
+    "universal-pathlib": "0.3.10"
+  },
+  "torch_declared_dependency": ">=2.9,<2.10; other installed versions require this compatibility probe",
+  "source_file_hashes": {
+    "olmoearth_pretrain/model_loader.py": "2ff982cda47fa53e8bb3a9f4ff3879816e4297770ed6e6c6cf49f5e323562ba7",
+    "olmoearth_pretrain/train/masking.py": "4a29589d46fd0920912dfef8e46c8cf2c614545417841325c567ca55a5e27dba",
+    "olmoearth_pretrain/train/loss.py": "7f378e156eeb65434fddaf3c63300bb0c426b4532d6b987d753365ab762997b5",
+    "scripts/official/v1_2/base.py": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee"
+  },
+  "checkpoint_hashes": {
+    "config.json": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+    "weights.pth": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+  },
+  "runtime_script_sha256": "b737a7254c2d66518e3acc8b8314918c8529d21d33e04347b49be6029cac0b2c",
+  "public_loss_registry_bridge": {
+    "source_recipe_sha256": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee",
+    "checkpoint_config_sha256": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+    "changes": [
+      {
+        "path": "train_module.loss_config.loss_config.type",
+        "from": "absent",
+        "to": "modality_patch_discrimination_masked_negatives_vec",
+        "evidence": "/home/work/data/olmoearth/oe4_native_v12_v0/source/scripts/official/v1_2/base.py"
+      },
+      {
+        "path": "train_module.contrastive_config.loss_config.type",
+        "from": "absent",
+        "to": "InfoNCE",
+        "evidence": "/home/work/data/olmoearth/oe4_native_v12_v0/source/scripts/official/v1_2/base.py"
+      }
+    ],
+    "official_recipe_loss_configs": {
+      "loss_config": {
+        "type": "modality_patch_discrimination_masked_negatives_vec",
+        "tau": 0.1,
+        "same_target_threshold": 0.999,
+        "mask_negatives_for_modalities": [
+          "worldcover",
+          "srtm",
+          "openstreetmap_raster",
+          "wri_canopy_height_map",
+          "cdl",
+          "worldcereal"
+        ]
+      },
+      "contrastive_config": {
+        "type": "InfoNCE",
+        "weight": 0.05
+      }
+    },
+    "scope": "Memory-only restore of registry keys; public config and weights are not edited",
+    "cause": "Official LossConfig.build pops type before experiment serializes the built train configuration"
+  },
+  "cpu_objective_constructor_validation": {
+    "base_loss_class": "olmoearth_pretrain.train.loss.ModalityPatchDiscriminationMaskedNegativesVec",
+    "contrastive_loss_class": "olmoearth_pretrain.train.loss.InfoNCELoss",
+    "mask_strategy_class": "olmoearth_pretrain.train.masking.RandomTimeWithDecodeMaskingStrategy",
+    "passed": true,
+    "tokenization_mask_shapes": "validated after loading the actual model"
+  },
+  "data_manifest_sha256": "9274fc459013dc23adca763aa2aeadd234460ddbd4996a73a4e4f336a1c36bc7",
+  "data_summary": {
+    "train_files": 2,
+    "dev_files": 2,
+    "rejected": 0
+  },
+  "objective_configs": {
+    "masking_config": {
+      "strategy_config": {
+        "type": "random_time_with_decode",
+        "encode_ratio": 0.5,
+        "decode_ratio": 0.5,
+        "random_ratio": 0.5,
+        "only_decode_modalities": [
+          "worldcover",
+          "srtm",
+          "openstreetmap_raster",
+          "wri_canopy_height_map",
+          "cdl",
+          "worldcereal"
+        ]
+      },
+      "tokenization_config": {
+        "overrides": {
+          "sentinel2_l2a": {
+            "band_groups": [
+              [
+                "B02",
+                "B03",
+                "B04",
+                "B08",
+                "B05",
+                "B06",
+                "B07",
+                "B8A",
+                "B11",
+                "B12",
+                "B01",
+                "B09"
+              ]
+            ],
+            "_CLASS_": "olmoearth_pretrain.nn.tokenization.ModalityTokenization"
+          },
+          "landsat": {
+            "band_groups": [
+              [
+                "B8",
+                "B1",
+                "B2",
+                "B3",
+                "B4",
+                "B5",
+                "B6",
+                "B7",
+                "B9",
+                "B10",
+                "B11"
+              ]
+            ],
+            "_CLASS_": "olmoearth_pretrain.nn.tokenization.ModalityTokenization"
+          }
+        },
+        "_CLASS_": "olmoearth_pretrain.nn.tokenization.TokenizationConfig"
+      },
+      "_CLASS_": "olmoearth_pretrain.train.masking.MaskingConfig"
+    },
+    "loss_config": {
+      "loss_config": {
+        "tau": 0.1,
+        "same_target_threshold": 0.999,
+        "mask_negatives_for_modalities": [
+          "worldcover",
+          "srtm",
+          "openstreetmap_raster",
+          "wri_canopy_height_map",
+          "cdl",
+          "worldcereal"
+        ],
+        "type": "modality_patch_discrimination_masked_negatives_vec"
+      },
+      "_CLASS_": "olmoearth_pretrain.train.loss.LossConfig"
+    },
+    "contrastive_config": {
+      "loss_config": {
+        "weight": 0.05,
+        "type": "InfoNCE"
+      },
+      "_CLASS_": "olmoearth_pretrain.train.loss.LossConfig"
+    },
+    "token_exit_cfg": {
+      "sentinel2_l2a": 0,
+      "sentinel1": 0,
+      "landsat": 0,
+      "worldcover": 0,
+      "srtm": 0,
+      "openstreetmap_raster": 0,
+      "wri_canopy_height_map": 0,
+      "cdl": 0,
+      "worldcereal": 0
+    },
+    "ema_decay": [
+      1.0,
+      1.0
+    ]
+  },
+  "flash_attn_disabled_modules": [],
+  "precision": "fp32 parameters/forward/loss; no autocast; no FSDP",
+  "band_dropout": {
+    "online_effective_max_rate": 0.2,
+    "online_random_rate": true,
+    "target_effective_max_rate": 0.0,
+    "enable_scope": "online encoder only, matching official trainer initializer; eval mode disables it"
+  },
+  "parameters": {
+    "encoder": 113987776,
+    "all_trainable": 143528320
+  },
+  "dev_before": {
+    "mean_total": 0.5838051438331604,
+    "mean_base": 0.5837876796722412,
+    "mean_contrastive": 1.7493852283223532e-05,
+    "base_positive_batches": 1,
+    "contrastive_positive_batches": 1,
+    "batches": [
+      {
+        "total": 0.5838051438331604,
+        "base": 0.5837876796722412,
+        "contrastive": 1.7493852283223532e-05,
+        "mask_counts": [
+          {
+            "sentinel2_l2a": {
+              "0": 2048,
+              "1": 2048
+            },
+            "worldcover": {
+              "2": 2048
+            }
+          },
+          {
+            "sentinel2_l2a": {
+              "0": 2048,
+              "1": 2048
+            },
+            "worldcover": {
+              "2": 2048
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "optimizer_seconds": 2.1186159774661064,
+  "completed_steps": 1,
+  "base_loss_positive_steps": 1,
+  "contrastive_loss_positive_steps": 1,
+  "base_loss_activity_note": "Flat WorldCover patches can have no valid contrastive negatives; zero native patch loss is retained and reported, not repaired by changing the official loss.",
+  "objective_activity_scope": "Positive native patch and InfoNCE losses were observed; this does not prove full multimodal objective coverage.",
+  "train_samples_exposed": [
+    0,
+    1
+  ],
+  "encoder_tracked_parameter_max_abs_delta": {
+    "blocks.0.norm1.weight": 1.0132789611816406e-06,
+    "blocks.0.norm1.bias": 1.000240445137024e-06,
+    "blocks.0.attn.rope_mixed_freqs": 1.0132789611816406e-06,
+    "blocks.0.attn.q.weight": 1.000240445137024e-06,
+    "blocks.0.attn.q.bias": 1.000240445137024e-06,
+    "blocks.0.attn.k.weight": 1.000240445137024e-06
+  },
+  "dev_after": {
+    "mean_total": 0.5838217735290527,
+    "mean_base": 0.5838042497634888,
+    "mean_contrastive": 1.7517686501378193e-05,
+    "base_positive_batches": 1,
+    "contrastive_positive_batches": 1,
+    "batches": [
+      {
+        "total": 0.5838217735290527,
+        "base": 0.5838042497634888,
+        "contrastive": 1.7517686501378193e-05,
+        "mask_counts": [
+          {
+            "sentinel2_l2a": {
+              "0": 2048,
+              "1": 2048
+            },
+            "worldcover": {
+              "2": 2048
+            }
+          },
+          {
+            "sentinel2_l2a": {
+              "0": 2048,
+              "1": 2048
+            },
+            "worldcover": {
+              "2": 2048
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "dev_total_delta_after_minus_before": 1.6629695892333984e-05,
+  "dev_metric_interpretation": "Paired same-mask, eval-mode file-disjoint objective diagnostic; sign is not a pass criterion or downstream result.",
+  "gpu_max_memory_allocated_bytes": null,
+  "saved_checkpoint": {
+    "path": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/native_cpu_contract_v1/checkpoint_after",
+    "weights_sha256": "8eaa7f3c463eb2364013dbaab1c411e75d9c958e2e1347cba12dd693db3a70e4",
+    "optimizer_state_saved": false,
+    "scope": "inference/loadable model snapshot, not full trainer resume"
+  },
+  "saved_checkpoint_reload_parity": {
+    "encoder_token_shape": [
+      2,
+      8,
+      8,
+      2,
+      1,
+      768
+    ],
+    "encoder_max_abs_delta": 0.0,
+    "encoder_mean_abs_delta": 0.0,
+    "encoder_allclose_atol": 1e-06,
+    "encoder_allclose_rtol": 1e-05,
+    "encoder_allclose": true,
+    "dev_objective_before_reload": 0.5838217735290527,
+    "dev_objective_after_reload": 0.5838217735290527,
+    "dev_objective_abs_delta": 0.0,
+    "dev_components_allclose": true
+  },
+  "wall_seconds": 26.94821508601308,
+  "completed_utc": "2026-09-26T17:37:55.583977+00:00"
+}

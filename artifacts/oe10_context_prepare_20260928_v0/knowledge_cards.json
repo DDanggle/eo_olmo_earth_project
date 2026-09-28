@@ -1,0 +1,126 @@
+{
+  "schema_version": "oe10_agronomy_context_cards_v0",
+  "status": "source_grounded_draft_not_expert_reviewed",
+  "created_utc": "2026-09-27T16:15:00Z",
+  "purpose": "Post-hoc development input preparation; not connected to the frozen OE10 training run.",
+  "expert_reviewed": false,
+  "patch_level_expert_annotations": 0,
+  "sources": [
+    {
+      "id": "arvalis_wheat_timing",
+      "url": "https://www.arvalis.fr/infos-techniques/date-de-semis-du-ble-differencier-levolution-des-parcelles",
+      "organization": "ARVALIS",
+      "type": "agronomic technical guidance",
+      "geography": "France; regional examples",
+      "summary": "Wheat development varies with sowing date, variety and region. Regional timing examples are not parcel-specific crop-stage labels.",
+      "eo_discrimination_validated": false
+    },
+    {
+      "id": "arvalis_vernalization",
+      "url": "https://www.arvalis.fr/infos-techniques/la-vernalisation-un-passage-oblige-pour-fleurir",
+      "organization": "ARVALIS",
+      "type": "agronomic technical guidance",
+      "published": "2019-12-18",
+      "summary": "Winter cereals commonly require juvenile cold exposure before floral development; requirements vary among varieties. The physiological process has no directly visible morphological marker.",
+      "eo_discrimination_validated": false
+    },
+    {
+      "id": "ahdb_barley",
+      "url": "https://ahdb.org.uk/knowledge-library/establishment-in-barley-germination-and-emergence-gs0-gs2",
+      "organization": "AHDB",
+      "type": "agronomic growth guide",
+      "geography": "United Kingdom; do not transfer exact sowing dates to French parcels",
+      "summary": "Winter barley also has an autumn establishment cycle. Soil conditions, temperature and sowing date affect emergence and development.",
+      "eo_discrimination_validated": false
+    },
+    {
+      "id": "arvalis_maize_2024",
+      "url": "https://www.arvalis.fr/espace-presse/estimer-la-date-de-floraison-pour-anticiper-la-recolte-du-mais-fourrage",
+      "organization": "ARVALIS",
+      "type": "technical press release",
+      "published": "2024-07-29",
+      "geography": "France",
+      "summary": "The 2024 maize season illustrates that rain can delay and spread sowing and flowering. Timing estimation requires field observations, variety and thermal conditions.",
+      "historical_2019_parcel_evidence": false
+    },
+    {
+      "id": "inrae_grassland",
+      "url": "https://www.cesbio.cnrs.fr/wp-content/uploads/2024/11/stage_prairie_fauvel_pottier.pdf",
+      "organization": "INRAE CESBIO / UREP",
+      "type": "research internship description; not an outcome paper",
+      "geography": "Temperate grasslands",
+      "summary": "A summer vegetation-index decline in grassland can reflect intrinsic phenology, water stress, mowing or grazing. Remote-sensing time series alone can leave the cause ambiguous.",
+      "eo_observation_ambiguity_discussed": true
+    },
+    {
+      "id": "jrc_calendar",
+      "url": "https://publications.jrc.ec.europa.eu/repository/handle/JRC112670",
+      "organization": "European Commission JRC",
+      "type": "technical report",
+      "published": "2018-09-06",
+      "summary": "Remote-sensing growing-season metrics are not inherently crop-specific; independent crop calendars provide additional timing information.",
+      "scope": "background for uncertainty contract, not a crop classifier or measured model gain"
+    }
+  ],
+  "common_limits": [
+    "A general agronomic description does not establish the presence of a crop in a query image.",
+    "Do not infer a parcel's sowing, flowering or harvest date from the calendar month alone.",
+    "No field temperature, local weather, crop stage, crop health or causal event is measured in this preparation.",
+    "Only dates and pixels actually acquired by the future loader may be used as image evidence.",
+    "An annual crop label is not a date-specific stage label.",
+    "These AI-written summaries of published expertise have not been reviewed by an agronomist."
+  ],
+  "cards": [
+    {
+      "card_id": "meadow_v0",
+      "class_id": 1,
+      "concept_name": "meadow",
+      "source_ids": [
+        "inrae_grassland"
+      ],
+      "claim_text": "A summer decline in vegetation indices may follow natural seasonal development, water stress, mowing or grazing. A decline alone does not identify a cereal harvest.",
+      "inspection_hypothesis": "Inspect the temporal sequence and positive/counterexample imagery before interpreting vegetation decline.",
+      "hypothesis_is_measured_effect": false,
+      "transfer_limit": "Temperate-grassland context; not a label for a particular field or event."
+    },
+    {
+      "card_id": "soft_winter_wheat_v0",
+      "class_id": 2,
+      "concept_name": "soft winter wheat",
+      "source_ids": [
+        "arvalis_wheat_timing",
+        "arvalis_vernalization",
+        "ahdb_barley"
+      ],
+      "claim_text": "Autumn establishment and later spring development are compatible with a winter-cereal cycle. Developmental timing varies with variety, sowing date and environment; winter barley can share the broad seasonal pattern.",
+      "inspection_hypothesis": "Compare the observed seasonal progression with positive and confusing examples. If distinguishing stages are unobserved, retain uncertainty rather than assigning a crop from the month.",
+      "hypothesis_is_measured_effect": false,
+      "transfer_limit": "Broad temperate-European background. Exact 2019 French parcel stages, cold exposure and harvest status are unknown."
+    },
+    {
+      "card_id": "corn_v0",
+      "class_id": 3,
+      "concept_name": "corn",
+      "source_ids": [
+        "arvalis_maize_2024"
+      ],
+      "claim_text": "Sowing and flowering dates can shift with weather, variety and establishment date. A fixed date does not uniquely specify crop stage; the delayed French 2024 season is an example of variability, not evidence about 2019.",
+      "inspection_hypothesis": "Use observed development and examples; do not assign crop identity from an assumed calendar stage.",
+      "hypothesis_is_measured_effect": false,
+      "transfer_limit": "The source concerns forage maize in France. Do not transfer its exact harvest targets to every corn label."
+    },
+    {
+      "card_id": "winter_barley_v0",
+      "class_id": 4,
+      "concept_name": "winter barley",
+      "source_ids": [
+        "ahdb_barley",
+        "arvalis_vernalization"
+      ],
+      "claim_text": "This winter cereal can establish in autumn. Emergence and development depend on sowing date, temperature and soil conditions, so winter vegetation is not unique to winter wheat.",
+      "inspection_hypothesis": "Treat broad winter-season similarity as a potential confusion and use the actual reference examples.",
+      "hypothesis_is_measured_effect": false,
+      "transfer_limit": "British establishment guidance supports a broad comparison only; exact French dates and field identity are not inferred."
+    }
+  ]
+}

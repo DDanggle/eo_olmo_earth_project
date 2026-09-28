@@ -1,0 +1,69 @@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+SHA256:mub/jQsc1JS6Eu9EPuTEHJucpJ2o8LEhljdW83JuMSo.
+Please contact your system administrator.
+Add correct host key in /Users/dongdong/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /Users/dongdong/.ssh/known_hosts:96
+Password authentication is disabled to avoid man-in-the-middle attacks.
+Keyboard-interactive authentication is disabled to avoid man-in-the-middle attacks.
+UpdateHostkeys is disabled because the host key is not trusted.
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+chain.sh: OK
+e5_equal_budget_prereg_v0.json: OK
+e5_prepare_v0.py: OK
+e5_scoring_v0.py: OK
+e5_train_v0.py: OK
+frozen_inputs/c0_manifest.json: OK
+frozen_inputs/c1_quality.jsonl: OK
+frozen_inputs/c1_quality_manifest.json: OK
+frozen_inputs/c1_results.json: OK
+frozen_inputs/c1_selected_ids.json: OK
+frozen_inputs/e3_items.jsonl: OK
+frozen_inputs/e4_manifest.json: OK
+frozen_inputs/items.jsonl: OK
+run_e5_when_idle_v0.py: OK
+test_e5_launcher_v0.py: OK
+test_e5_scoring_v0.py: OK
+test_e5_train_v0.py: OK
+tests/test_e5_prepare_v0.py: OK
+{"status": "waiting_gpu0", "at": "2026-09-25T06:06:15.790371+00:00", "pid": 983396, "elapsed_wait_s": 0.00010127201676368713, "gpu_uuid": "GPU-test"}
+{"status": "wait_expired_without_launch", "at": "2026-09-25T06:06:15.790640+00:00", "pid": 983396, "elapsed_wait_s": 0.00034073740243911743}
+{"status": "waiting_gpu0", "at": "2026-09-25T06:06:15.813438+00:00", "pid": 983396, "elapsed_wait_s": 5.615130066871643e-05, "gpu_uuid": "GPU-test"}
+{"status": "launching_frozen_snapshot", "at": "2026-09-25T06:06:15.868897+00:00", "pid": 983396, "elapsed_wait_s": 0.00030481070280075073, "gpu_uuid": "GPU-test", "gpu_index": 0, "manifest_sha256": "e72bdda6eac79b314d3987743b8735e9be5987888068b952229e7b201d486c4e"}
+{"status": "completed", "at": "2026-09-25T06:06:15.874944+00:00", "pid": 983396, "elapsed_wait_s": 0.006350059062242508, "returncode": 0, "scientifically_valid": true}
+{"status": "launching_frozen_snapshot", "at": "2026-09-25T06:06:15.923216+00:00", "pid": 983396, "elapsed_wait_s": 0.00029414892196655273, "gpu_uuid": "GPU-test", "gpu_index": 0, "manifest_sha256": "e72bdda6eac79b314d3987743b8735e9be5987888068b952229e7b201d486c4e"}
+{"status": "failed", "at": "2026-09-25T06:06:15.923758+00:00", "pid": 983396, "elapsed_wait_s": 0.0008314363658428192, "returncode": 0, "scientifically_valid": false}
+----------------------------------------------------------------------
+Ran 28 tests in 5.357s
+
+OK
+======================================================================
+ERROR: setUpClass (test_e5_prepare_v0.FrozenMetadataTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/code/e5_bundle_v0/tests/test_e5_prepare_v0.py", line 22, in setUpClass
+    cls.parents={p.name:prep.rows(p)if p.suffix=='.jsonl'else prep.read(p)for p in INPUTS.iterdir()if p.is_file()}
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/code/e5_bundle_v0/tests/test_e5_prepare_v0.py", line 22, in <dictcomp>
+    cls.parents={p.name:prep.rows(p)if p.suffix=='.jsonl'else prep.read(p)for p in INPUTS.iterdir()if p.is_file()}
+                        ^^^^^^^^^^^^
+  File "/home/work/data/olmoearth/code/e5_bundle_v0/e5_prepare_v0.py", line 36, in rows
+    def rows(path):return [json.loads(s)for s in Path(path).read_text().splitlines()if s.strip()]
+                                                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/work/data/.local/uv-python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/pathlib.py", line 1059, in read_text
+    return f.read()
+           ^^^^^^^^
+  File "<frozen codecs>", line 322, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa3 in position 45: invalid start byte
+
+----------------------------------------------------------------------
+Ran 9 tests in 3.264s
+
+FAILED (errors=1)

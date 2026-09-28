@@ -1,0 +1,22 @@
+{"status": "initializing", "elapsed_seconds": 0.0004016794264316559}
+{"status": "encoding_original_resolution_training_examples", "elapsed_seconds": 18.16983402520418}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 19.093962736427784}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 19.242346573621035}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 19.398800507187843}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 19.555423866957426}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 19.711006231606007}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 19.869093745946884}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 20.025714807212353}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 20.182683661580086}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 20.340023808181286}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 20.497267067432404}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 20.656560443341732}
+{"status": "two_case_frozen_head_fit", "elapsed_seconds": 20.814424201846123}
+{"status": "loading_frozen_qwen_for_live_encoder_continuation", "elapsed_seconds": 20.844536390155554}
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights:   0%|          | 1/750 [00:00<03:22,  3.69it/s]Loading weights:  14%|█▎        | 103/750 [00:00<00:01, 337.08it/s]Loading weights:  21%|██        | 156/750 [00:00<00:01, 384.38it/s]Loading weights:  28%|██▊       | 207/750 [00:00<00:01, 372.88it/s]Loading weights:  34%|███▎      | 252/750 [00:00<00:01, 282.36it/s]Loading weights:  38%|███▊      | 288/750 [00:01<00:02, 207.58it/s]Loading weights:  42%|████▏     | 316/750 [00:01<00:02, 145.35it/s]Loading weights:  45%|████▍     | 337/750 [00:01<00:03, 136.33it/s]Loading weights:  47%|████▋     | 355/750 [00:01<00:03, 127.29it/s]Loading weights:  49%|████▉     | 371/750 [00:02<00:03, 108.67it/s]Loading weights:  52%|█████▏    | 389/750 [00:02<00:03, 110.25it/s]Loading weights:  72%|███████▏  | 537/750 [00:02<00:00, 332.92it/s]Loading weights:  81%|████████  | 607/750 [00:02<00:00, 399.14it/s]Loading weights:  98%|█████████▊| 737/750 [00:02<00:00, 565.13it/s]Loading weights: 100%|██████████| 750/750 [00:02<00:00, 278.51it/s]
+{"status": "live_joint_step_and_checkpoint", "elapsed_seconds": 44.150868486613035}
+/home/work/data/olmoearth/oe9_review_p1_v0/code_snapshot/p1_v0/p1_worker.py:231: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  out={'loss':float(loss),'mask_loss':float(ml),'ce_loss':float(ce),'gradient':stats,'ce_encoder_gradient':ce_grad}
+{"status": "checking_identical_continuation", "elapsed_seconds": 50.644626095891}
+{"status": "completed_p1_engineering", "elapsed_seconds": 54.03397349640727}

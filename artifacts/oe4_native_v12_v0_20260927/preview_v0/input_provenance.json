@@ -1,0 +1,721 @@
+{
+  "status": "raw_observation_gallery_exported_no_model_run",
+  "created_utc": "2026-09-26T17:20:08.248334+00:00",
+  "manifest": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/data_prepare_v1/data_manifest.json",
+  "manifest_sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+  "script_sha256": "9510d26b9180227aab89758c194bcefa05fa4f349041f32800439806797e73e3",
+  "source_root": "/home/work/data/olmoearth/oe4_native_v12_v0/source",
+  "source_palette_file_sha256": "59ebcf56aa2cd5e3202134ebed69a0cfac2ab6c357eeb6d6e247c017242e2551",
+  "source_normalization_files": {
+    "computed.json": "774e461babd2bd4cbe3591b46457d39054f8ac529cb57a052547501076ebaef7",
+    "predefined.json": "848c8a7df4da040d1fd85bd7fabbb69b9e961452a4356ca439179a08f15a2f88"
+  },
+  "selection_rule": "first 2 train_diagnostic + first 2 dev_diagnostic entries in existing manifest order",
+  "rgb_projection": {
+    "band_names": [
+      "B04",
+      "B03",
+      "B02"
+    ],
+    "zero_based_indices": [
+      2,
+      1,
+      0
+    ],
+    "source_band_order": [
+      "B02",
+      "B03",
+      "B04",
+      "B08",
+      "B05",
+      "B06",
+      "B07",
+      "B8A",
+      "B11",
+      "B12",
+      "B01",
+      "B09"
+    ]
+  },
+  "rgb_display": {
+    "formula": "round(255 * clip(raw_DN / 3000, 0, 1))",
+    "gamma": 1,
+    "per_image_auto_stretch": false,
+    "radiometric_offset_or_atmospheric_correction_added": false,
+    "physical_reflectance_calibration_claimed": false
+  },
+  "spatial_display": {
+    "reprojection": false,
+    "orientation": "original H5 array order",
+    "interpolation": "nearest",
+    "crs_geotransform": "not inferred",
+    "worldcover_date": "not inferred"
+  },
+  "model_normalization": "official Normalizer with manifest strategy, separately recomputed and hashed; not used as RGB display values",
+  "palette": {
+    "10": {
+      "color": "#006400",
+      "label": "Tree cover"
+    },
+    "20": {
+      "color": "#ffbb22",
+      "label": "Shrubland"
+    },
+    "30": {
+      "color": "#ffff4c",
+      "label": "Grassland"
+    },
+    "40": {
+      "color": "#f096ff",
+      "label": "Cropland"
+    },
+    "50": {
+      "color": "#fa0000",
+      "label": "Built-up"
+    },
+    "60": {
+      "color": "#b4b4b4",
+      "label": "Bare / sparse vegetation"
+    },
+    "70": {
+      "color": "#f0f0f0",
+      "label": "Snow and ice"
+    },
+    "80": {
+      "color": "#0064c8",
+      "label": "Permanent water bodies"
+    },
+    "90": {
+      "color": "#0096a0",
+      "label": "Herbaceous wetland"
+    },
+    "95": {
+      "color": "#00cf75",
+      "label": "Mangroves"
+    },
+    "100": {
+      "color": "#fae6a0",
+      "label": "Moss and lichen"
+    }
+  },
+  "records": [
+    {
+      "manifest_entry": {
+        "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1229.h5",
+        "file_bytes": 3160559,
+        "crop_yxhw": [
+          48,
+          48,
+          32,
+          32
+        ],
+        "raw_crop_sha256": "6aeae88eb8d3e263f11fe56a62ca5661b5606f7a6fdf1dbe0d7622e95c7fb488",
+        "compact_timesteps": [
+          0,
+          1
+        ],
+        "timestamp_indices": [
+          1,
+          2
+        ],
+        "timestamps_day_month0_year": [
+          [
+            25,
+            4,
+            2016
+          ],
+          [
+            24,
+            5,
+            2016
+          ]
+        ],
+        "source_s2_shape": [
+          128,
+          128,
+          11,
+          12
+        ],
+        "source_worldcover_shape": [
+          128,
+          128,
+          1,
+          1
+        ],
+        "worldcover_unique_raw_values": [
+          10.0,
+          30.0,
+          40.0
+        ],
+        "normalization": {
+          "sentinel2_l2a": "computed",
+          "worldcover": "computed"
+        },
+        "latlon": [
+          56.488094329833984,
+          50.592071533203125
+        ],
+        "split": "train_diagnostic"
+      },
+      "verified_raw_crop_sha256": "6aeae88eb8d3e263f11fe56a62ca5661b5606f7a6fdf1dbe0d7622e95c7fb488",
+      "radiometry": [
+        {
+          "compact_timestep": 0,
+          "timestamp": [
+            25,
+            4,
+            2016
+          ],
+          "rgb_dn_min": [
+            241.0,
+            466.0,
+            210.0
+          ],
+          "rgb_dn_max": [
+            636.0,
+            699.0,
+            386.0
+          ],
+          "display_fraction_values_below_0": 0.0,
+          "display_fraction_values_above_3000": 0.0
+        },
+        {
+          "compact_timestep": 1,
+          "timestamp": [
+            24,
+            5,
+            2016
+          ],
+          "rgb_dn_min": [
+            408.0,
+            471.0,
+            259.0
+          ],
+          "rgb_dn_max": [
+            1462.0,
+            1070.0,
+            787.0
+          ],
+          "display_fraction_values_below_0": 0.0,
+          "display_fraction_values_above_3000": 0.0
+        }
+      ],
+      "worldcover_pixel_counts": {
+        "10": 1,
+        "30": 13,
+        "40": 1010
+      },
+      "worldcover_unknown_codes": [],
+      "model_input_normalization": {
+        "sentinel2_l2a": {
+          "strategy": "computed",
+          "shape": [
+            32,
+            32,
+            2,
+            12
+          ],
+          "dtype": "float32",
+          "min": 0.2915295660495758,
+          "max": 0.7308129072189331,
+          "mean": 0.4461991786956787,
+          "sha256_float32_values": "e67edcc97a91df85de839d918c2ae3c117e4c962dab511730220cfa57d4d0049"
+        },
+        "worldcover": {
+          "strategy": "computed",
+          "shape": [
+            32,
+            32,
+            1,
+            1
+          ],
+          "dtype": "float32",
+          "min": 0.2519216537475586,
+          "max": 0.5614243149757385,
+          "mean": 0.5598123073577881,
+          "sha256_float32_values": "bafdd2c613600e31c6a25e68a9421c9d413d73eddbe94ba817293a34e233920f"
+        }
+      },
+      "h5_root_attribute_names": [],
+      "h5_keys": [
+        "landsat",
+        "latlon",
+        "missing_timesteps_masks",
+        "openstreetmap_raster",
+        "sentinel2_l2a",
+        "srtm",
+        "timestamps",
+        "worldcereal",
+        "worldcover"
+      ]
+    },
+    {
+      "manifest_entry": {
+        "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3302.h5",
+        "file_bytes": 4739288,
+        "crop_yxhw": [
+          48,
+          48,
+          32,
+          32
+        ],
+        "raw_crop_sha256": "d21662910eeb127a24d3b4fb872f284e34c156a6e199867bd43eae04c6ff57ba",
+        "compact_timesteps": [
+          0,
+          1
+        ],
+        "timestamp_indices": [
+          0,
+          1
+        ],
+        "timestamps_day_month0_year": [
+          [
+            17,
+            0,
+            2021
+          ],
+          [
+            16,
+            1,
+            2021
+          ]
+        ],
+        "source_s2_shape": [
+          128,
+          128,
+          12,
+          12
+        ],
+        "source_worldcover_shape": [
+          128,
+          128,
+          1,
+          1
+        ],
+        "worldcover_unique_raw_values": [
+          10.0,
+          30.0,
+          50.0
+        ],
+        "normalization": {
+          "sentinel2_l2a": "computed",
+          "worldcover": "computed"
+        },
+        "latlon": [
+          30.418611526489258,
+          -90.56970977783203
+        ],
+        "split": "train_diagnostic"
+      },
+      "verified_raw_crop_sha256": "d21662910eeb127a24d3b4fb872f284e34c156a6e199867bd43eae04c6ff57ba",
+      "radiometry": [
+        {
+          "compact_timestep": 0,
+          "timestamp": [
+            17,
+            0,
+            2021
+          ],
+          "rgb_dn_min": [
+            271.0,
+            286.0,
+            191.0
+          ],
+          "rgb_dn_max": [
+            2392.0,
+            1836.0,
+            1554.0
+          ],
+          "display_fraction_values_below_0": 0.0,
+          "display_fraction_values_above_3000": 0.0
+        },
+        {
+          "compact_timestep": 1,
+          "timestamp": [
+            16,
+            1,
+            2021
+          ],
+          "rgb_dn_min": [
+            167.0,
+            162.0,
+            114.0
+          ],
+          "rgb_dn_max": [
+            2134.0,
+            1814.0,
+            1426.0
+          ],
+          "display_fraction_values_below_0": 0.0,
+          "display_fraction_values_above_3000": 0.0
+        }
+      ],
+      "worldcover_pixel_counts": {
+        "10": 497,
+        "30": 517,
+        "50": 10
+      },
+      "worldcover_unknown_codes": [],
+      "model_input_normalization": {
+        "sentinel2_l2a": {
+          "strategy": "computed",
+          "shape": [
+            32,
+            32,
+            2,
+            12
+          ],
+          "dtype": "float32",
+          "min": 0.12327936291694641,
+          "max": 0.8428863286972046,
+          "mean": 0.4214794933795929,
+          "sha256_float32_values": "e053cc096300c124d3d3e7cab0d919ca8cb3cb320fcf243b3c02fa3d1be6e427"
+        },
+        "worldcover": {
+          "strategy": "computed",
+          "shape": [
+            32,
+            32,
+            1,
+            1
+          ],
+          "dtype": "float32",
+          "min": 0.2519216537475586,
+          "max": 0.664591908454895,
+          "mean": 0.36012667417526245,
+          "sha256_float32_values": "50076b54353263281c1929b1625050a7ef934ac3af96a86a1271b7779aa3dfd2"
+        }
+      },
+      "h5_root_attribute_names": [],
+      "h5_keys": [
+        "cdl",
+        "landsat",
+        "latlon",
+        "missing_timesteps_masks",
+        "openstreetmap_raster",
+        "sentinel1",
+        "sentinel2_l2a",
+        "srtm",
+        "timestamps",
+        "worldcereal",
+        "worldcover",
+        "wri_canopy_height_map"
+      ]
+    },
+    {
+      "manifest_entry": {
+        "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1267.h5",
+        "file_bytes": 4527648,
+        "crop_yxhw": [
+          48,
+          48,
+          32,
+          32
+        ],
+        "raw_crop_sha256": "c58179895a8432712902eee7c05e9f39ba6dc8c6a6e6228c27b525b138ecd1b3",
+        "compact_timesteps": [
+          0,
+          1
+        ],
+        "timestamp_indices": [
+          0,
+          1
+        ],
+        "timestamps_day_month0_year": [
+          [
+            18,
+            3,
+            2019
+          ],
+          [
+            18,
+            4,
+            2019
+          ]
+        ],
+        "source_s2_shape": [
+          128,
+          128,
+          12,
+          12
+        ],
+        "source_worldcover_shape": [
+          128,
+          128,
+          1,
+          1
+        ],
+        "worldcover_unique_raw_values": [
+          20.0,
+          30.0,
+          60.0
+        ],
+        "normalization": {
+          "sentinel2_l2a": "computed",
+          "worldcover": "computed"
+        },
+        "latlon": [
+          -39.63349151611328,
+          -69.50154876708984
+        ],
+        "split": "dev_diagnostic"
+      },
+      "verified_raw_crop_sha256": "c58179895a8432712902eee7c05e9f39ba6dc8c6a6e6228c27b525b138ecd1b3",
+      "radiometry": [
+        {
+          "compact_timestep": 0,
+          "timestamp": [
+            18,
+            3,
+            2019
+          ],
+          "rgb_dn_min": [
+            1168.0,
+            772.0,
+            454.0
+          ],
+          "rgb_dn_max": [
+            2114.0,
+            1360.0,
+            912.0
+          ],
+          "display_fraction_values_below_0": 0.0,
+          "display_fraction_values_above_3000": 0.0
+        },
+        {
+          "compact_timestep": 1,
+          "timestamp": [
+            18,
+            4,
+            2019
+          ],
+          "rgb_dn_min": [
+            1023.0,
+            625.0,
+            324.0
+          ],
+          "rgb_dn_max": [
+            1980.0,
+            1224.0,
+            815.0
+          ],
+          "display_fraction_values_below_0": 0.0,
+          "display_fraction_values_above_3000": 0.0
+        }
+      ],
+      "worldcover_pixel_counts": {
+        "20": 902,
+        "30": 4,
+        "60": 118
+      },
+      "worldcover_unknown_codes": [],
+      "model_input_normalization": {
+        "sentinel2_l2a": {
+          "strategy": "computed",
+          "shape": [
+            32,
+            32,
+            2,
+            12
+          ],
+          "dtype": "float32",
+          "min": 0.3165259063243866,
+          "max": 0.6531091332435608,
+          "mean": 0.4327224791049957,
+          "sha256_float32_values": "ee165ec5274c731e2d16a22cece0a35fc943b3b9d98db22e52bbb8373833413c"
+        },
+        "worldcover": {
+          "strategy": "computed",
+          "shape": [
+            32,
+            32,
+            1,
+            1
+          ],
+          "dtype": "float32",
+          "min": 0.3550892174243927,
+          "max": 0.7677594423294067,
+          "mean": 0.40304601192474365,
+          "sha256_float32_values": "2b161ca002d59de222c75bfbad3c9fa201971d3b600fb6d5827eed012ad89a88"
+        }
+      },
+      "h5_root_attribute_names": [],
+      "h5_keys": [
+        "landsat",
+        "latlon",
+        "missing_timesteps_masks",
+        "sentinel1",
+        "sentinel2_l2a",
+        "srtm",
+        "timestamps",
+        "worldcereal",
+        "worldcover"
+      ]
+    },
+    {
+      "manifest_entry": {
+        "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1266.h5",
+        "file_bytes": 4517751,
+        "crop_yxhw": [
+          48,
+          48,
+          32,
+          32
+        ],
+        "raw_crop_sha256": "60f9a1d1e5c6f000db7ba4e466b40c7d4d1f50f91fe7cf29e366e6ee82526323",
+        "compact_timesteps": [
+          0,
+          1
+        ],
+        "timestamp_indices": [
+          0,
+          1
+        ],
+        "timestamps_day_month0_year": [
+          [
+            18,
+            3,
+            2019
+          ],
+          [
+            18,
+            4,
+            2019
+          ]
+        ],
+        "source_s2_shape": [
+          128,
+          128,
+          12,
+          12
+        ],
+        "source_worldcover_shape": [
+          128,
+          128,
+          1,
+          1
+        ],
+        "worldcover_unique_raw_values": [
+          20.0,
+          30.0,
+          60.0
+        ],
+        "normalization": {
+          "sentinel2_l2a": "computed",
+          "worldcover": "computed"
+        },
+        "latlon": [
+          -39.63349151611328,
+          -69.50154876708984
+        ],
+        "split": "dev_diagnostic"
+      },
+      "verified_raw_crop_sha256": "60f9a1d1e5c6f000db7ba4e466b40c7d4d1f50f91fe7cf29e366e6ee82526323",
+      "radiometry": [
+        {
+          "compact_timestep": 0,
+          "timestamp": [
+            18,
+            3,
+            2019
+          ],
+          "rgb_dn_min": [
+            1028.0,
+            685.0,
+            375.0
+          ],
+          "rgb_dn_max": [
+            1862.0,
+            1288.0,
+            855.0
+          ],
+          "display_fraction_values_below_0": 0.0,
+          "display_fraction_values_above_3000": 0.0
+        },
+        {
+          "compact_timestep": 1,
+          "timestamp": [
+            18,
+            4,
+            2019
+          ],
+          "rgb_dn_min": [
+            810.0,
+            504.0,
+            226.0
+          ],
+          "rgb_dn_max": [
+            1788.0,
+            1174.0,
+            819.0
+          ],
+          "display_fraction_values_below_0": 0.0,
+          "display_fraction_values_above_3000": 0.0
+        }
+      ],
+      "worldcover_pixel_counts": {
+        "20": 688,
+        "30": 237,
+        "60": 99
+      },
+      "worldcover_unknown_codes": [],
+      "model_input_normalization": {
+        "sentinel2_l2a": {
+          "strategy": "computed",
+          "shape": [
+            32,
+            32,
+            2,
+            12
+          ],
+          "dtype": "float32",
+          "min": 0.28006601333618164,
+          "max": 0.6072062253952026,
+          "mean": 0.4036997854709625,
+          "sha256_float32_values": "2ea83e8910e43faca246c35f1c29dc2318e4dd76b9cc38df03fbcf0bfe2bd62d"
+        },
+        "worldcover": {
+          "strategy": "computed",
+          "shape": [
+            32,
+            32,
+            1,
+            1
+          ],
+          "dtype": "float32",
+          "min": 0.3550892174243927,
+          "max": 0.7677594423294067,
+          "mean": 0.4188636541366577,
+          "sha256_float32_values": "85a55ca444ff16daaa92297808bc36617dd3894e872c3caa4013da3949e25292"
+        }
+      },
+      "h5_root_attribute_names": [],
+      "h5_keys": [
+        "landsat",
+        "latlon",
+        "missing_timesteps_masks",
+        "sentinel1",
+        "sentinel2_l2a",
+        "srtm",
+        "timestamps",
+        "worldcereal",
+        "worldcover"
+      ]
+    }
+  ],
+  "render": {
+    "renderer": "Pillow",
+    "version": "12.3.0",
+    "size_pixels": [
+      928,
+      1908
+    ]
+  },
+  "output_png": "/home/work/data/olmoearth/oe4_native_v12_v0/preview_v0/gallery.png",
+  "output_png_sha256": "48ede12135468b9dfb3a5d0429a93c13455407af66e2aca4d6e17b2b23fab130",
+  "versions": {
+    "numpy": "2.4.6",
+    "h5py": "3.16.0",
+    "hdf5plugin": "6.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "observed_utc": "2026-09-27T14:16:58Z",
+  "controller_status": "running",
+  "current_worker": "B2_270927_train",
+  "worker_pid": 1421757,
+  "receipt_updates": 1152,
+  "latest_log_step": 1152,
+  "completed_runs": 1,
+  "latest_score_step": 1152,
+  "latest_auc": 0.30866838806242747,
+  "score_sha256_verified": "2a9ca494f311ade3759b2bf6eddfe92b22fb0509ebd5a6f095e9e40422c02926",
+  "absent_fp_area_by_k": {
+    "1": 9.894125098149396e-05,
+    "2": 0.0,
+    "4": 0.0,
+    "8": 0.0
+  },
+  "absent_fp_case_rate_by_k": {
+    "1": 0.03125,
+    "2": 0.0,
+    "4": 0.0,
+    "8": 0.0
+  },
+  "gpu1_pid_verified": true,
+  "paired_seed_complete": false,
+  "new_failure": false,
+  "requires_action": false,
+  "notify_user": false,
+  "scope": "Verified intermediate score JSON only; raw-mask re-scoring and completed paired audit not performed. B0 final stability shortfall unchanged. No new training job or alteration of source/protocol/budget/data."
+}

@@ -1,0 +1,421 @@
+{
+  "schema_version": "oe10_partial_run_collection_v1",
+  "status": "partial_or_unverified",
+  "verified_runs": [
+    {
+      "arm": "B0",
+      "seed": 270927,
+      "checkpoint_sha256": "594ea8a3c252e511ad716135c3d6fbf7af4c89f7890a233490181ddd05a2f915",
+      "run_receipt_sha256": "66084a38b4c7c92e88f71fed8d1603afb1723238c62124bc3773e8d6b43f1f56",
+      "cohort_base_ids_sha256": "6a0d5847bb46c196d602cbe20c0075d596187cecdabd6253f6a97d02fa15dcb6",
+      "training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.15434894428310303
+          },
+          {
+            "step": 768,
+            "auc": 0.10294451111032903
+          },
+          {
+            "step": 1152,
+            "auc": 0.22520108026654498
+          },
+          {
+            "step": 1536,
+            "auc": 0.24214796122214008
+          },
+          {
+            "step": 1920,
+            "auc": 0.29246216252170376
+          },
+          {
+            "step": 2304,
+            "auc": 0.3009959798940199
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      },
+      "target_iou_by_k": {
+        "1": 0.31400343770623496,
+        "2": 0.3094843045920778,
+        "4": 0.2901682535609558,
+        "8": 0.3076194614170187
+      },
+      "absent_fp_area_by_k": {
+        "1": 0.0012368315607645948,
+        "2": 0.0002551555318925559,
+        "4": 7.942675775992251e-05,
+        "8": 6.423124733152363e-05
+      },
+      "absent_fp_case_rate_by_k": {
+        "1": 0.09375,
+        "2": 0.0625,
+        "4": 0.03125,
+        "8": 0.0
+      },
+      "costs": {
+        "total_gpu_seconds_including_feature_precompute": 3238.603802483529,
+        "training_observation_exposures": 152064,
+        "inference_gpu_seconds": 1013.7007555998862,
+        "inference_distinct_query_observations": 32,
+        "inference_query_observation_instances": 4608,
+        "inference_support_observations": 138240
+      },
+      "model_costs_cumulative": {
+        "EOencoder_calls": 702,
+        "patch_date_encodes": 3312,
+        "vlm_forward_calls": 2304,
+        "cache_hits": 38466,
+        "cache_misses": 702,
+        "cache_key_bytes_hashed": 229368646656,
+        "checkpoint_recompute_calls": 0
+      },
+      "cost_note": "worker elapsed is whole-process GPU reservation time including load/hash/cache/training/evaluation; inference time is a subset and also includes CPU I/O/scoring, not additive GPU kernel time",
+      "checkpoint_inspection": "file hash verified; checkpoint not deserialized by collector"
+    },
+    {
+      "arm": "B2",
+      "seed": 270927,
+      "checkpoint_sha256": "c4b1ede7b3291befcf658485aa8ed276717bd76013fd438422108f124aed1e1f",
+      "run_receipt_sha256": "1d875968d5da8b4a689d26a7fc133686a7c7f775fdfea32e47b617b023e55e66",
+      "cohort_base_ids_sha256": "6a0d5847bb46c196d602cbe20c0075d596187cecdabd6253f6a97d02fa15dcb6",
+      "training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.19381891219831426
+          },
+          {
+            "step": 768,
+            "auc": 0.15490909520947027
+          },
+          {
+            "step": 1152,
+            "auc": 0.30866838806242747
+          },
+          {
+            "step": 1536,
+            "auc": 0.3238788779261633
+          },
+          {
+            "step": 1920,
+            "auc": 0.3368343094833078
+          },
+          {
+            "step": 2304,
+            "auc": 0.34175409764391784
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      },
+      "target_iou_by_k": {
+        "1": 0.35926947623790495,
+        "2": 0.3418506187542943,
+        "4": 0.33873951364626254,
+        "8": 0.34182473815912173
+      },
+      "absent_fp_area_by_k": {
+        "1": 9.414784427455168e-05,
+        "2": 4.160841488582651e-06,
+        "4": 0.0,
+        "8": 0.0
+      },
+      "absent_fp_case_rate_by_k": {
+        "1": 0.03125,
+        "2": 0.0,
+        "4": 0.0,
+        "8": 0.0
+      },
+      "costs": {
+        "total_gpu_seconds_including_feature_precompute": 12040.545632142574,
+        "training_observation_exposures": 152064,
+        "inference_gpu_seconds": 1035.294258095324,
+        "inference_distinct_query_observations": 32,
+        "inference_query_observation_instances": 4608,
+        "inference_support_observations": 138240
+      },
+      "model_costs_cumulative": {
+        "EOencoder_calls": 39321,
+        "patch_date_encodes": 286338,
+        "vlm_forward_calls": 2304,
+        "cache_hits": 19434,
+        "cache_misses": 150,
+        "cache_key_bytes_hashed": 114684323328,
+        "checkpoint_recompute_calls": 19587
+      },
+      "cost_note": "worker elapsed is whole-process GPU reservation time including load/hash/cache/training/evaluation; inference time is a subset and also includes CPU I/O/scoring, not additive GPU kernel time",
+      "checkpoint_inspection": "file hash verified; checkpoint not deserialized by collector"
+    },
+    {
+      "arm": "B0",
+      "seed": 270928,
+      "checkpoint_sha256": "64414bcafbd557e6b30dc19968a80a150bb43d79fba34ad09385a027b7c61e67",
+      "run_receipt_sha256": "c4d90b6de39749c20daf9e7e9afcca95cf01306de52919c839a4cbc60958bfa7",
+      "cohort_base_ids_sha256": "6a0d5847bb46c196d602cbe20c0075d596187cecdabd6253f6a97d02fa15dcb6",
+      "training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.11145233225525024
+          },
+          {
+            "step": 768,
+            "auc": 0.0752019255834734
+          },
+          {
+            "step": 1152,
+            "auc": 0.2624101442523184
+          },
+          {
+            "step": 1536,
+            "auc": 0.22763289488452193
+          },
+          {
+            "step": 1920,
+            "auc": 0.3135153432422592
+          },
+          {
+            "step": 2304,
+            "auc": 0.29600542064495083
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      },
+      "target_iou_by_k": {
+        "1": 0.31196874034243083,
+        "2": 0.31225195099046466,
+        "4": 0.2912937053637989,
+        "8": 0.2868972658831734
+      },
+      "absent_fp_area_by_k": {
+        "1": 0.0011485848634319963,
+        "2": 0.0004859240932043031,
+        "4": 0.0001310665068903535,
+        "8": 5.617136009586579e-05
+      },
+      "absent_fp_case_rate_by_k": {
+        "1": 0.09375,
+        "2": 0.09375,
+        "4": 0.03125,
+        "8": 0.0
+      },
+      "costs": {
+        "total_gpu_seconds_including_feature_precompute": 3442.0170584730804,
+        "training_observation_exposures": 152064,
+        "inference_gpu_seconds": 1147.7209506966174,
+        "inference_distinct_query_observations": 32,
+        "inference_query_observation_instances": 4608,
+        "inference_support_observations": 138240
+      },
+      "model_costs_cumulative": {
+        "EOencoder_calls": 700,
+        "patch_date_encodes": 3296,
+        "vlm_forward_calls": 2304,
+        "cache_hits": 38468,
+        "cache_misses": 700,
+        "cache_key_bytes_hashed": 229368646656,
+        "checkpoint_recompute_calls": 0
+      },
+      "cost_note": "worker elapsed is whole-process GPU reservation time including load/hash/cache/training/evaluation; inference time is a subset and also includes CPU I/O/scoring, not additive GPU kernel time",
+      "checkpoint_inspection": "file hash verified; checkpoint not deserialized by collector"
+    },
+    {
+      "arm": "B2",
+      "seed": 270928,
+      "checkpoint_sha256": "2f177fa30239e29f6481f7f451f7f9603c4312ab993d5b519cd20c15685a4c2a",
+      "run_receipt_sha256": "b9a3e40e2618b9c3050d1b73790f9ec69ee30919aa14ad7fce01c5f1680929eb",
+      "cohort_base_ids_sha256": "6a0d5847bb46c196d602cbe20c0075d596187cecdabd6253f6a97d02fa15dcb6",
+      "training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.20014203008649836
+          },
+          {
+            "step": 768,
+            "auc": 0.18901691554350303
+          },
+          {
+            "step": 1152,
+            "auc": 0.31956756839094574
+          },
+          {
+            "step": 1536,
+            "auc": 0.33693942248797654
+          },
+          {
+            "step": 1920,
+            "auc": 0.3547472597865559
+          },
+          {
+            "step": 2304,
+            "auc": 0.349704190395458
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      },
+      "target_iou_by_k": {
+        "1": 0.3619523398176439,
+        "2": 0.35170369373409666,
+        "4": 0.3476336467024333,
+        "8": 0.3482483410754697
+      },
+      "absent_fp_area_by_k": {
+        "1": 7.75290621048437e-05,
+        "2": 5.617136009586579e-05,
+        "4": 1.872378669862193e-05,
+        "8": 4.3688835630117835e-05
+      },
+      "absent_fp_case_rate_by_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "4": 0.0,
+        "8": 0.0
+      },
+      "costs": {
+        "total_gpu_seconds_including_feature_precompute": 11942.567040897906,
+        "training_observation_exposures": 152064,
+        "inference_gpu_seconds": 1018.1175899319351,
+        "inference_distinct_query_observations": 32,
+        "inference_query_observation_instances": 4608,
+        "inference_support_observations": 138240
+      },
+      "model_costs_cumulative": {
+        "EOencoder_calls": 39321,
+        "patch_date_encodes": 286338,
+        "vlm_forward_calls": 2304,
+        "cache_hits": 19434,
+        "cache_misses": 150,
+        "cache_key_bytes_hashed": 114684323328,
+        "checkpoint_recompute_calls": 19587
+      },
+      "cost_note": "worker elapsed is whole-process GPU reservation time including load/hash/cache/training/evaluation; inference time is a subset and also includes CPU I/O/scoring, not additive GPU kernel time",
+      "checkpoint_inspection": "file hash verified; checkpoint not deserialized by collector"
+    },
+    {
+      "arm": "B0",
+      "seed": 270929,
+      "checkpoint_sha256": "f4032dba25bf15b810f93c87c9f903085411f1d8016cc14dcaa826417806ac09",
+      "run_receipt_sha256": "d3014270122814d7a2027cda94c9b1f89ddc1e0e1fcd8454c185c20b606468f4",
+      "cohort_base_ids_sha256": "6a0d5847bb46c196d602cbe20c0075d596187cecdabd6253f6a97d02fa15dcb6",
+      "training_adequacy": {
+        "training_schedule_completed": true,
+        "optimizer_and_lr_budget_completed": true,
+        "save_resume_verified": true,
+        "finite_loss_and_gradients": true,
+        "nondegenerate_supervised_readout": true,
+        "encoder_freeze_or_update_matches_arm": true,
+        "completed_updates": 2304,
+        "predeclared_minimum_updates": 2304,
+        "predeclared_eval_interval_updates": 384,
+        "last_evaluation_windows": [
+          {
+            "step": 384,
+            "auc": 0.05414293256497712
+          },
+          {
+            "step": 768,
+            "auc": 0.10891003850789176
+          },
+          {
+            "step": 1152,
+            "auc": 0.15903407088206725
+          },
+          {
+            "step": 1536,
+            "auc": 0.2618469498059547
+          },
+          {
+            "step": 1920,
+            "auc": 0.20567975678261627
+          },
+          {
+            "step": 2304,
+            "auc": 0.2749238447755559
+          }
+        ],
+        "budget_cap_reached_while_improving": true
+      },
+      "target_iou_by_k": {
+        "1": 0.29996718417604834,
+        "2": 0.29277491305079434,
+        "4": 0.25926858243727197,
+        "8": 0.27875760222643
+      },
+      "absent_fp_area_by_k": {
+        "1": 0.00014818429675845382,
+        "2": 5.6171360095865786e-05,
+        "4": 0.0,
+        "8": 1.6643365954330603e-05
+      },
+      "absent_fp_case_rate_by_k": {
+        "1": 0.03125,
+        "2": 0.03125,
+        "4": 0.0,
+        "8": 0.0
+      },
+      "costs": {
+        "total_gpu_seconds_including_feature_precompute": 3067.5358010418713,
+        "training_observation_exposures": 152064,
+        "inference_gpu_seconds": 994.0750942118466,
+        "inference_distinct_query_observations": 32,
+        "inference_query_observation_instances": 4608,
+        "inference_support_observations": 138240
+      },
+      "model_costs_cumulative": {
+        "EOencoder_calls": 701,
+        "patch_date_encodes": 3304,
+        "vlm_forward_calls": 2304,
+        "cache_hits": 38467,
+        "cache_misses": 701,
+        "cache_key_bytes_hashed": 229368646656,
+        "checkpoint_recompute_calls": 0
+      },
+      "cost_note": "worker elapsed is whole-process GPU reservation time including load/hash/cache/training/evaluation; inference time is a subset and also includes CPU I/O/scoring, not additive GPU kernel time",
+      "checkpoint_inspection": "file hash verified; checkpoint not deserialized by collector"
+    }
+  ],
+  "blockers": [
+    "B2_270929_train: run unfinished/identity mismatch",
+    "six completed workers/controller integrity not yet verified"
+  ],
+  "p2_decision_made": false
+}

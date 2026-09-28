@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "scope": "local CPU toy encoder/Qwen wiring only",
+  "tests": 5,
+  "duration_seconds": 1.145,
+  "source_sha256": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+  "test_sha256": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863",
+  "actual_EO_checkpoint_tested": false,
+  "actual_Qwen_checkpoint_tested": false,
+  "gpu_used": false,
+  "checks": [
+    "B0 K8 all-support usage and frozen encoder",
+    "B0 exact-content cache and encoder-version invalidation",
+    "B2 checkpoint vs noncheckpoint logits and encoder gradient parity",
+    "frozen language model CE gradient to connector and B2 encoder",
+    "B2 evaluation-only cache; no Qwen in trainable state"
+  ]
+}

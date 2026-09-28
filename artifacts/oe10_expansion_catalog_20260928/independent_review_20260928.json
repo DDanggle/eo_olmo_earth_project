@@ -1,0 +1,48 @@
+{
+  "reviewer": "independent_agent_expanded_catalog_review",
+  "reviewed_utc": "2026-09-27T18:55:29.549404+00:00",
+  "catalog": {
+    "episodes": 384,
+    "query_count": 48,
+    "mask_count": 221,
+    "independently_reconstructed_all_support_sequences": true,
+    "nested_k_reverse_swap_query_exclusion_pass": true,
+    "source_bank_training_references": 0
+  },
+  "runtime_v2": {
+    "files": 232,
+    "bytes": 2825084,
+    "hash_errors": 0,
+    "appledouble_files": 0,
+    "scientific_files_unchanged_from_v0": 226,
+    "query_gold_unique_files": 48,
+    "raw_unique_packets": 48,
+    "gold_purpose": "training_supervision_only",
+    "query_gold_supplied_to_model": false,
+    "omitted_appledouble_receipt_count": 229
+  },
+  "quality_review_v0": {
+    "files": 24,
+    "bytes": 12585425,
+    "hash_errors": 0,
+    "cases": 20,
+    "strata": 4,
+    "cases_per_stratum": 5,
+    "duplicate_queries": 0,
+    "image_dimensions": [
+      1476,
+      698
+    ],
+    "query_positive_counter_dates": [
+      2,
+      8,
+      8
+    ],
+    "actual_human_responses": 0
+  },
+  "limitations": [
+    "No local reexecution of all remote raw packets.",
+    "Server CPU receipts and code/hash readback verified.",
+    "No training, new evaluation or independent expert annotations."
+  ]
+}

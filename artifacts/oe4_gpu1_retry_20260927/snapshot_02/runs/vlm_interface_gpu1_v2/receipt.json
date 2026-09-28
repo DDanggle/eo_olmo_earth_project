@@ -1,0 +1,37 @@
+{
+  "status": "FAILED",
+  "started_utc": "2026-09-27T04:45:32.008090+00:00",
+  "scope": "One-step EO/VLM engineering interface only; no research or semantic accuracy result",
+  "args": {
+    "model_dir": "/home/work/data/olmoearth/models/Qwen3-VL-8B-Instruct",
+    "image": "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/rgb.png",
+    "eo_token_file": null,
+    "eo_provider": "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v2/real_h5_provider.py:make_provider",
+    "eo_provider_config": "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/provider_config.json",
+    "deps_root": "/home/work/data/olmoearth/oe4_native_v12_v0/deps",
+    "out_dir": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/vlm_interface_gpu1_v2",
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "eo_slots": 16,
+    "max_image_pixels": 262144,
+    "max_prompt_tokens": 2048,
+    "question": "Describe the visible land cover in one short sentence.",
+    "target": "The image shows land cover.",
+    "adapter_lr": 0.0001,
+    "encoder_lr": 1e-06,
+    "seed": 270927,
+    "cache_atol": 0.15,
+    "cache_rtol": 0.01
+  },
+  "script_sha256": "09d3bd38f111210069cf4ba180bcd8d2f563b7def184a70534b982dbd339b7ca",
+  "source_reference": "https://raw.githubusercontent.com/huggingface/transformers/v5.15.0/src/transformers/models/qwen3_vl/modeling_qwen3_vl.py",
+  "limitations": [
+    "Single image and batch 1 only",
+    "No beam or multi-image contract",
+    "EO slots receive text RoPE positions; no new spatial RoPE claim",
+    "A supplied generic CE target is not evaluation gold"
+  ],
+  "error": "RuntimeError: Invalid device argument ",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v2/vlm_interface_smoke.py\", line 144, in main\n    torch.cuda.reset_peak_memory_stats(device)\n  File \"/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/torch/cuda/memory.py\", line 396, in reset_peak_memory_stats\n    return torch._C._cuda_resetPeakMemoryStats(device)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Invalid device argument \n",
+  "wall_seconds": 9.334601826965809
+}

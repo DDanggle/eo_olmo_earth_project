@@ -1,0 +1,64 @@
+{
+  "schema": "e5-equal-budget-prepared-v0",
+  "prepared_at": "2026-09-25T06:12:26.788212+00:00",
+  "files_sha256": {
+    "items.jsonl": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+    "pairs.npy": "24ea523ac4342eac70fbecc5a67eacd07e3a171141343bbd6dee335a181bfd0c",
+    "ordered_ids.json": "d92bc1591bcaa64c9f721eb106bf762f49ee6a578f83633bf5b8af536b9ffb5c",
+    "batches.json": "38e411014eb25dd067d5740df15f00826cb2dd95acedea0dd386b76251b89fbe",
+    "eval_sets.json": "46da34eae3674932fe8cdf696dc47f43c4e08e61ecadefe9d17e553901ee94f4",
+    "prereg.json": "fc7866feebbf1e9fcd4e93de5154bf9ffa141f434e70dc4731390cf18dfd4696",
+    "input_audit.json": "4ee66503ce2a4356b8fd654aeb53b7a5ceb9224c8f2ccca0329b62531ad3adeb"
+  },
+  "parent_snapshot_sha256": {
+    "c0_manifest.json": "5055bd2d73f1e9f162a43899a2d0f5c46cccef53137cb3a5ae31e7a2675bcb92",
+    "items.jsonl": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+    "c1_quality.jsonl": "8f654dfbaabc41e3b27de9a04dfe0768c1f0a748439c70acb61ddae08a17a78f",
+    "c1_quality_manifest.json": "9e020bcd1144f0dd6d0ac7168177603f7fe04703ac6bbfebe110994b2679728b",
+    "c1_results.json": "327aab5825f95dd6689bb9a4baecf4dcf5f1e9de062f245e171d434e7a8cf13c",
+    "c1_selected_ids.json": "6596512102995f584f965d8ff0f9f734f0017bd7525641db1cff690e78e3dee2",
+    "e3_items.jsonl": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+    "e4_manifest.json": "4597bc1589ed7a23ffd7befa58d38aa9da859320cefcb728c26290015f0c71aa"
+  },
+  "code_snapshot_sha256": {
+    "e5_prepare_v0.py": "508f444a512fcbd3f6937dd51b8ae2755c1f4deb334bdaed118c98e78840fd61",
+    "e5_train_v0.py": "3f33873711e6b94a8bb54d50ee4dbd5b5492da22c41d848ef4f664c0894b398b",
+    "e5_scoring_v0.py": "2eb0be5e7fb8ac5d6534716a25c9a07c8f046b56ea8a55c7f2912b51b7e6af7d",
+    "run_e5_when_idle_v0.py": "4701462c818117683eb3587e83d91eea4629fcfc381d50b9341f5b12cf386eb6"
+  },
+  "llm_dir": "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct",
+  "llm_files_sha256": {
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/chat_template.jinja": "f5186d42d99c8a0445d37fd8a6c7ccf07fe3e24a29ce622d8bd245da9507b12b",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/config.json": "6282ae812f9e494bd212e9a3233d68dc4d5f1e2569642423d2b79a3e80373ef8",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/generation_config.json": "745e78c16cc40cbb08827f7b7c9d5a888f7cb908236d4ca0443ff47f43a9d5af",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/merges.txt": "b6fe424e334903f7fb84d3a106d9730455f4744b9fe3c21ee136d97a00e72502",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/model-00001-of-00003.safetensors": "e7bd4c8ba52177a815aee5929cb458a116a65799688d3e51402500a1cb77023c",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/model-00002-of-00003.safetensors": "ea92aa0499a2ca02400e5d87324009e172bdbfb9809f2ac501485d8224382328",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/model-00003-of-00003.safetensors": "d50f95e4f2ec5fc4fbce6217cbf54fd1d700928b05e5550c8ee08bf4ba948925",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/model.safetensors.index.json": "47a8266860f2a5f95c021fb4d7d3a469a95ee8b445742becbb6b19632cfc6e95",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/special_tokens_map.json": "78afb564e81264029b25f9caf24bda2521d5bdaeff5cd3fdbc01d3da2e8ce2f2",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/tokenizer.json": "7738a25c46a6043a0e2e605138851baa450269ce9d800af6ca9bf6192e45510c",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/tokenizer_config.json": "f7a2753a4ff30657e452c8fef02b9a99a3b900ceb4c65a1e3fbea6a3bfab07a6",
+    "/home/work/data/olmoearth/olmo_llm/Olmo-3-7B-Instruct/vocab.json": "d8eb44d0d51f5e39c9b14825ca8bd10a2500f99c438ca81d4462f0263acd3b53"
+  },
+  "n_items": 5989,
+  "n_train": 4234,
+  "n_test": 1755,
+  "pairs_shape": [
+    5989,
+    2,
+    64,
+    768
+  ],
+  "pairs_dtype": "float32",
+  "pair_row_order": "items.jsonl line order, unchanged from frozen C0-v1",
+  "batches_reference": "ordered_ids.train item IDs",
+  "expected_updates_per_model": 1590,
+  "expected_exposures_per_model": 12702,
+  "environment": {
+    "python": "3.11.15 (main, Aug  7 2026, 02:25:55) [Clang 22.1.3 ]",
+    "numpy": "2.4.6",
+    "torch": "2.13.0+cu130",
+    "device": "cpu"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "started_utc": "2026-09-26T17:29:28.725596+00:00",
+  "status": "waiting_for_idle_gpu",
+  "run_plan": [
+    {
+      "name": "native_smoke_v0",
+      "train": 8,
+      "dev": 4,
+      "steps": 8
+    },
+    {
+      "name": "native_development_v0",
+      "train": 64,
+      "dev": 8,
+      "steps": 32
+    }
+  ],
+  "runtime_sha256": "5a038e059364bac95375861b1b3369c4e6c8f261a10047f13803bd8f49bf3eee",
+  "maximum_gpu_wait_seconds": 5400,
+  "maximum_worker_seconds": 1100,
+  "results": [],
+  "controller_pid": 1145593,
+  "scope": "engineering_development_not_novelty_or_confirmatory_result",
+  "protected_before": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291
+    }
+  },
+  "asset_receipt_sha256": "2fb4b02cfe9cc9199dab02c10a417ced7c50879bee1c0a9580f21513d116e5d3",
+  "prepared_manifest_sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+  "revision_reason": "v0 polling failed on unknown utilization before any GPU work; unknown status is now busy",
+  "detail": "native_smoke_v0"
+}

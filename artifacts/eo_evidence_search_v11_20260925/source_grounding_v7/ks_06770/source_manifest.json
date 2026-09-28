@@ -1,0 +1,688 @@
+{
+  "id": "ks_06770",
+  "event_id": 562,
+  "aoi_id": "13",
+  "event_date": "2022-01-29",
+  "split": "test",
+  "centroid_wkt_from_source": "POINT (139.612164 -17.738688)",
+  "geometry": {
+    "whole_tile": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            139.60210282365955,
+            -17.72910522042323
+          ],
+          [
+            139.6222250860238,
+            -17.72910522042323
+          ],
+          [
+            139.6222250860238,
+            -17.748270789252782
+          ],
+          [
+            139.60210282365955,
+            -17.748270789252782
+          ],
+          [
+            139.60210282365955,
+            -17.72910522042323
+          ]
+        ]
+      ]
+    },
+    "model_crop": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            139.60354012811413,
+            -17.73047425762607
+          ],
+          [
+            139.62078778156922,
+            -17.73047425762607
+          ],
+          [
+            139.62078778156922,
+            -17.74690188806962
+          ],
+          [
+            139.60354012811413,
+            -17.74690188806962
+          ],
+          [
+            139.60354012811413,
+            -17.73047425762607
+          ]
+        ]
+      ]
+    }
+  },
+  "source_row": {
+    "internal:subfile": "/vsisubfile/7282234211_1124836,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+    "tortilla:id": "6770",
+    "tortilla:file_format": "TORTILLA",
+    "tortilla:data_split": "test",
+    "tortilla:offset": "7282234211",
+    "tortilla:length": "1124836",
+    "stac:crs": "EPSG:3857",
+    "stac:geotransform": "[ 1.5540435e+07  1.0000000e+01  0.0000000e+00 -2.0058650e+06\n  0.0000000e+00 -1.0000000e+01]",
+    "stac:raster_shape": "[224 224]",
+    "stac:time_start": "1643414400.0",
+    "stac:time_end": "1643414400.0",
+    "stac:centroid": "POINT (139.612164 -17.738688)",
+    "actid": "562",
+    "aoiid": "13",
+    "flood_date": "2022-01-29 07:00:00",
+    "pcovered": "100.0",
+    "pwater": "6.311782525510204",
+    "pflood": "23.341836734693878"
+  },
+  "assets": [
+    {
+      "index": 0,
+      "role": "pre_event_1",
+      "file": "asset_0.tif",
+      "original_embedded_bytes": {
+        "offset": 7282234411,
+        "length": 347178,
+        "sha256": "42724dbe666a1695c67f82f6be28109013bb504c8681b721428157140d990d8d"
+      },
+      "sha256": "42724dbe666a1695c67f82f6be28109013bb504c8681b721428157140d990d8d",
+      "sample_row": {
+        "internal:subfile": "/vsisubfile/7282234411_347178,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "tortilla:id": "pre_event_1",
+        "tortilla:file_format": "GTiff",
+        "tortilla:data_split": "test",
+        "tortilla:offset": "7282234411",
+        "tortilla:length": "347178",
+        "stac:crs": "EPSG:3857",
+        "stac:geotransform": "[ 1.5540435e+07  1.0000000e+01  0.0000000e+00 -2.0058650e+06\n  0.0000000e+00 -1.0000000e+01]",
+        "stac:raster_shape": "[224 224]",
+        "stac:time_start": "1643414400.0",
+        "stac:time_end": "1643414400.0",
+        "stac:centroid": "POINT (139.612164 -17.738688)",
+        "actid": "562",
+        "aoiid": "13",
+        "flood_date": "2022-01-29 07:00:00",
+        "pcovered": "100.0",
+        "pwater": "6.311782525510204",
+        "pflood": "23.341836734693878"
+      },
+      "crs": "EPSG:3857",
+      "transform": [
+        10.0,
+        0.0,
+        15540435.0,
+        0.0,
+        -10.0,
+        -2005865.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "shape": [
+        2,
+        224,
+        224
+      ],
+      "dtype": "float32",
+      "nodata": 0.0,
+      "tags": {
+        "AREA_OR_POINT": "Area"
+      },
+      "band_tags": [
+        {},
+        {}
+      ],
+      "descriptions": [
+        null,
+        null
+      ]
+    },
+    {
+      "index": 1,
+      "role": "pre_event_2",
+      "file": "asset_1.tif",
+      "original_embedded_bytes": {
+        "offset": 7282581589,
+        "length": 347160,
+        "sha256": "e93e4ce7c42c300663b9488243ed25a7bcee097c87d94a6f3684ae858e095b1b"
+      },
+      "sha256": "e93e4ce7c42c300663b9488243ed25a7bcee097c87d94a6f3684ae858e095b1b",
+      "sample_row": {
+        "internal:subfile": "/vsisubfile/7282581589_347160,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "tortilla:id": "pre_event_2",
+        "tortilla:file_format": "GTiff",
+        "tortilla:data_split": "test",
+        "tortilla:offset": "7282581589",
+        "tortilla:length": "347160",
+        "stac:crs": "EPSG:3857",
+        "stac:geotransform": "[ 1.5540435e+07  1.0000000e+01  0.0000000e+00 -2.0058650e+06\n  0.0000000e+00 -1.0000000e+01]",
+        "stac:raster_shape": "[224 224]",
+        "stac:time_start": "1643414400.0",
+        "stac:time_end": "1643414400.0",
+        "stac:centroid": "POINT (139.612164 -17.738688)",
+        "actid": "562",
+        "aoiid": "13",
+        "flood_date": "2022-01-29 07:00:00",
+        "pcovered": "100.0",
+        "pwater": "6.311782525510204",
+        "pflood": "23.341836734693878"
+      },
+      "crs": "EPSG:3857",
+      "transform": [
+        10.0,
+        0.0,
+        15540435.0,
+        0.0,
+        -10.0,
+        -2005865.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "shape": [
+        2,
+        224,
+        224
+      ],
+      "dtype": "float32",
+      "nodata": 0.0,
+      "tags": {
+        "AREA_OR_POINT": "Area"
+      },
+      "band_tags": [
+        {},
+        {}
+      ],
+      "descriptions": [
+        null,
+        null
+      ]
+    },
+    {
+      "index": 2,
+      "role": "post_event",
+      "file": "asset_2.tif",
+      "original_embedded_bytes": {
+        "offset": 7282928749,
+        "length": 348179,
+        "sha256": "4fc8d23036cad0019b3ee632884969737c49849d0f8361ed1bde96cb503a3f83"
+      },
+      "sha256": "4fc8d23036cad0019b3ee632884969737c49849d0f8361ed1bde96cb503a3f83",
+      "sample_row": {
+        "internal:subfile": "/vsisubfile/7282928749_348179,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "tortilla:id": "post_event",
+        "tortilla:file_format": "GTiff",
+        "tortilla:data_split": "test",
+        "tortilla:offset": "7282928749",
+        "tortilla:length": "348179",
+        "stac:crs": "EPSG:3857",
+        "stac:geotransform": "[ 1.5540435e+07  1.0000000e+01  0.0000000e+00 -2.0058650e+06\n  0.0000000e+00 -1.0000000e+01]",
+        "stac:raster_shape": "[224 224]",
+        "stac:time_start": "1643414400.0",
+        "stac:time_end": "1643414400.0",
+        "stac:centroid": "POINT (139.612164 -17.738688)",
+        "actid": "562",
+        "aoiid": "13",
+        "flood_date": "2022-01-29 07:00:00",
+        "pcovered": "100.0",
+        "pwater": "6.311782525510204",
+        "pflood": "23.341836734693878"
+      },
+      "crs": "EPSG:3857",
+      "transform": [
+        10.0,
+        0.0,
+        15540435.0,
+        0.0,
+        -10.0,
+        -2005865.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "shape": [
+        2,
+        224,
+        224
+      ],
+      "dtype": "float32",
+      "nodata": 0.0,
+      "tags": {
+        "AREA_OR_POINT": "Area"
+      },
+      "band_tags": [
+        {},
+        {}
+      ],
+      "descriptions": [
+        null,
+        null
+      ]
+    },
+    {
+      "index": 4,
+      "role": "mask",
+      "file": "asset_4.tif",
+      "original_embedded_bytes": {
+        "offset": 7283344902,
+        "length": 2170,
+        "sha256": "0e291fda3fe2828db4122f1ed3c46107bbfdf9bf65aaa52ddaad516823e41e42"
+      },
+      "sha256": "0e291fda3fe2828db4122f1ed3c46107bbfdf9bf65aaa52ddaad516823e41e42",
+      "sample_row": {
+        "internal:subfile": "/vsisubfile/7283344902_2170,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "tortilla:id": "mask",
+        "tortilla:file_format": "GTiff",
+        "tortilla:data_split": "test",
+        "tortilla:offset": "7283344902",
+        "tortilla:length": "2170",
+        "stac:crs": "EPSG:3857",
+        "stac:geotransform": "[ 1.5540435e+07  1.0000000e+01  0.0000000e+00 -2.0058650e+06\n  0.0000000e+00 -1.0000000e+01]",
+        "stac:raster_shape": "[224 224]",
+        "stac:time_start": "1643414400.0",
+        "stac:time_end": "1643414400.0",
+        "stac:centroid": "POINT (139.612164 -17.738688)",
+        "actid": "562",
+        "aoiid": "13",
+        "flood_date": "2022-01-29 07:00:00",
+        "pcovered": "100.0",
+        "pwater": "6.311782525510204",
+        "pflood": "23.341836734693878"
+      },
+      "crs": "EPSG:3857",
+      "transform": [
+        10.0,
+        0.0,
+        15540435.0,
+        0.0,
+        -10.0,
+        -2005865.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "shape": [
+        1,
+        224,
+        224
+      ],
+      "dtype": "uint8",
+      "nodata": 0.0,
+      "tags": {
+        "AREA_OR_POINT": "Area"
+      },
+      "band_tags": [
+        {}
+      ],
+      "descriptions": [
+        null
+      ]
+    },
+    {
+      "index": 5,
+      "role": "invalid_data",
+      "file": "asset_5.tif",
+      "original_embedded_bytes": {
+        "offset": 7283347072,
+        "length": 421,
+        "sha256": "e8d4ccd656dac80fc816400bbaca4f81cd800ec497b92ae34b6b261e3b038b12"
+      },
+      "sha256": "e8d4ccd656dac80fc816400bbaca4f81cd800ec497b92ae34b6b261e3b038b12",
+      "sample_row": {
+        "internal:subfile": "/vsisubfile/7283347072_421,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "tortilla:id": "invalid_data",
+        "tortilla:file_format": "GTiff",
+        "tortilla:data_split": "test",
+        "tortilla:offset": "7283347072",
+        "tortilla:length": "421",
+        "stac:crs": "EPSG:3857",
+        "stac:geotransform": "[ 1.5540435e+07  1.0000000e+01  0.0000000e+00 -2.0058650e+06\n  0.0000000e+00 -1.0000000e+01]",
+        "stac:raster_shape": "[224 224]",
+        "stac:time_start": "1643414400.0",
+        "stac:time_end": "1643414400.0",
+        "stac:centroid": "POINT (139.612164 -17.738688)",
+        "actid": "562",
+        "aoiid": "13",
+        "flood_date": "2022-01-29 07:00:00",
+        "pcovered": "100.0",
+        "pwater": "6.311782525510204",
+        "pflood": "23.341836734693878"
+      },
+      "crs": "EPSG:3857",
+      "transform": [
+        10.0,
+        0.0,
+        15540435.0,
+        0.0,
+        -10.0,
+        -2005865.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "shape": [
+        1,
+        224,
+        224
+      ],
+      "dtype": "uint8",
+      "nodata": 0.0,
+      "tags": {
+        "AREA_OR_POINT": "Area"
+      },
+      "band_tags": [
+        {}
+      ],
+      "descriptions": [
+        null
+      ]
+    }
+  ],
+  "npys_equal_original_tiff_values": true,
+  "npy_sha256": {
+    "raw": "ef2e97e6a54c7c8db7481d57b1aa07013327e8d595eb23e027e70d483fdeb148",
+    "mask": "5dc239a6b26a06dee81299e0515aec60c5b9c93a5beef67442bd7e4a1bf5b369",
+    "valid": "61ac977e6f0e2fad3eb680d49cbd1188ec92137b2997c9e98cca36e0426ac3ce"
+  },
+  "model_embedding_sha256": "e64779c9c22cc35557deb6651a64e73288f59406fced38dc7b41bf55b27baa6b",
+  "c1_mask_valid_hashes_verified": true,
+  "model_crop": {
+    "rows": [
+      16,
+      208
+    ],
+    "columns": [
+      16,
+      208
+    ],
+    "shape": [
+      192,
+      192
+    ]
+  },
+  "reference_summary": {
+    "total_px": 36864,
+    "raw_class_counts": {
+      "0": 9751,
+      "1": 2668,
+      "2": 8452,
+      "3": 15993
+    },
+    "source_valid_px": 36864,
+    "labelled_px": 20871,
+    "unknown_px": 15993,
+    "flood_px": 8452,
+    "labelled_fraction": 0.566162109375,
+    "flood_fraction_all_crop": 0.2292751736111111,
+    "flood_fraction_labelled": 0.40496382540367015
+  },
+  "eligible_C1_symmetric_quality": false,
+  "qa_items": [
+    {
+      "fold": "test",
+      "tile": "ks_06770",
+      "event": 562,
+      "type": "Q1",
+      "sensor": "sentinel1",
+      "flood_frac": 0.405,
+      "id": "ks_06770_q1_neg",
+      "dates": [
+        "2022-01-05",
+        "2022-01-17"
+      ],
+      "slots": [
+        "pre_1",
+        "pre_2"
+      ],
+      "answer": "no",
+      "kind": "neg",
+      "phen": "flood",
+      "cluster": "562",
+      "cache_path": "/home/work/data/olmoearth/kurosiwo_s1_cache/single_fp16/ks_06770.npy",
+      "indices": [
+        0,
+        1
+      ],
+      "pair_key": "pair_161",
+      "allowed_arms": [
+        "real",
+        "earlier_only",
+        "later_only",
+        "repeat_earlier",
+        "repeat_later",
+        "no_delta",
+        "reverse"
+      ]
+    },
+    {
+      "fold": "test",
+      "tile": "ks_06770",
+      "event": 562,
+      "type": "Q1",
+      "sensor": "sentinel1",
+      "flood_frac": 0.405,
+      "id": "ks_06770_q1_pos",
+      "dates": [
+        "2022-01-17",
+        "2022-01-29"
+      ],
+      "slots": [
+        "pre_2",
+        "post"
+      ],
+      "answer": "yes",
+      "kind": "pos",
+      "phen": "flood",
+      "cluster": "562",
+      "cache_path": "/home/work/data/olmoearth/kurosiwo_s1_cache/single_fp16/ks_06770.npy",
+      "indices": [
+        1,
+        2
+      ],
+      "pair_key": "pair_162",
+      "allowed_arms": [
+        "real",
+        "earlier_only",
+        "later_only",
+        "repeat_earlier",
+        "repeat_later",
+        "no_delta",
+        "reverse"
+      ]
+    }
+  ],
+  "source_sample_time_fields": {
+    "pre_event_1": {
+      "stac:time_start": "1643414400.0",
+      "stac:time_end": "1643414400.0",
+      "flood_date": "2022-01-29 07:00:00"
+    },
+    "pre_event_2": {
+      "stac:time_start": "1643414400.0",
+      "stac:time_end": "1643414400.0",
+      "flood_date": "2022-01-29 07:00:00"
+    },
+    "post_event": {
+      "stac:time_start": "1643414400.0",
+      "stac:time_end": "1643414400.0",
+      "flood_date": "2022-01-29 07:00:00"
+    }
+  },
+  "acquisition_dates": {
+    "pre_1": null,
+    "pre_2": null,
+    "post": null
+  },
+  "acquisition_date_status": "unverified; source sample fields and all TIFF tags retained for audit; event/stac timestamps are not promoted to acquisition dates",
+  "selection": "Two IDs fixed before E5 outcomes; illustrative already-exposed test cases from event562/AOI13. Not random, representative, new evaluation, or a C1-primary matched pair. ks_06770 fails the existing symmetric label-coverage criterion; do not replace it.",
+  "predictions_included": false,
+  "mask_contract": "raw0 no-water,1 permanent-water,2 flood,3 unknown; valid==1; ignore TIFF nodata=0 for categorical interpretation",
+  "limitations": [
+    "source_label_not_model_prediction",
+    "post_mask_does_not_verify_pre_event_absence",
+    "already_exposed_test_cases",
+    "same_event_different_geographic_tiles",
+    "no_crop_damage_or_causal_impact_measurement",
+    "current_byte_match_does_not_prove_historical_encoder_lineage"
+  ],
+  "sar_nonpositive_or_nonfinite_crop_counts": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0
+    ]
+  ],
+  "arrays_sha256": "f8d12c26d796c1ba1dea339b4d5c3d7d7421792519cc6d627a938724f0c40852",
+  "preview_file": "preview.png",
+  "preview_sha256": "18b541a2cc61b415f0f17ce46824d017e4b8b05e1b292632058c7e296f119b40",
+  "preview_layout": {
+    "canvas_size": [
+      1840,
+      1440
+    ],
+    "data_rectangles": {
+      "VV_0": [
+        42,
+        214,
+        426,
+        598
+      ],
+      "VV_1": [
+        480,
+        214,
+        864,
+        598
+      ],
+      "VV_2": [
+        918,
+        214,
+        1302,
+        598
+      ],
+      "VH_0": [
+        42,
+        780,
+        426,
+        1164
+      ],
+      "VH_1": [
+        480,
+        780,
+        864,
+        1164
+      ],
+      "VH_2": [
+        918,
+        780,
+        1302,
+        1164
+      ],
+      "reference_mask": [
+        1356,
+        214,
+        1740,
+        598
+      ],
+      "labelled_support": [
+        1356,
+        780,
+        1740,
+        1164
+      ]
+    },
+    "legend_rectangles": [
+      [
+        1356,
+        604,
+        1756,
+        629
+      ],
+      [
+        1356,
+        624,
+        1756,
+        649
+      ],
+      [
+        1356,
+        644,
+        1756,
+        669
+      ],
+      [
+        1356,
+        664,
+        1756,
+        689
+      ],
+      [
+        1356,
+        684,
+        1756,
+        709
+      ],
+      [
+        1356,
+        1185,
+        1756,
+        1210
+      ],
+      [
+        1356,
+        1214,
+        1756,
+        1239
+      ]
+    ],
+    "sar_db_range": [
+      -25,
+      0
+    ],
+    "font": "/System/Library/Fonts/Supplemental/Arial.ttf"
+  },
+  "rendering_provenance": {
+    "source_directory": "/private/tmp/fixed_case_grounding_download_20260925/fixed_case_grounding_v0_20260925",
+    "source_case_index_sha256": "903dffdc1005549d433ccc3a0b823ca1de2f67191b223216f50673b85d526e04",
+    "source_manifest_sha256": {
+      "ks_06770": "45560b5ba1b66d30442f51d507fbb8303d43d9723428b9c6821697ae65d4dea5",
+      "ks_05265": "478149e6ed282073d7c492d08a61e5a66a7834c1aeb936e7ce9fcfe48b357966"
+    },
+    "source_file_sha256": {
+      "case_index.json": "903dffdc1005549d433ccc3a0b823ca1de2f67191b223216f50673b85d526e04",
+      "ks_05265/asset_0.tif": "78e134cfd43ce442e64fa337a52897a5645ce6f7cd6d3cadfcf4b3a9a7f2dab8",
+      "ks_05265/asset_1.tif": "e8944a4a36b372f4628623077ef78e2d85e6a42e3d77438b8e42c37417c86e85",
+      "ks_05265/asset_2.tif": "35e29668678713ecf7c0e01a6687380232ac94df0d52f81ad281c7aa0b27f877",
+      "ks_05265/asset_4.tif": "82131b9eb29356238da1415dae9ce4e537783ed37c6946f5f4b2dc424ad28baf",
+      "ks_05265/asset_5.tif": "4d8ff74de0898ae243fcac983efc254390cdaab6610f0fd7779c8e905c8af8d2",
+      "ks_05265/evidence_arrays.npz": "74be8a7c5a354e286195d70e61ea4066c22a9b29039f76df814b1fbba3cb4ba0",
+      "ks_05265/source_manifest.json": "478149e6ed282073d7c492d08a61e5a66a7834c1aeb936e7ce9fcfe48b357966",
+      "ks_06770/asset_0.tif": "42724dbe666a1695c67f82f6be28109013bb504c8681b721428157140d990d8d",
+      "ks_06770/asset_1.tif": "e93e4ce7c42c300663b9488243ed25a7bcee097c87d94a6f3684ae858e095b1b",
+      "ks_06770/asset_2.tif": "4fc8d23036cad0019b3ee632884969737c49849d0f8361ed1bde96cb503a3f83",
+      "ks_06770/asset_4.tif": "0e291fda3fe2828db4122f1ed3c46107bbfdf9bf65aaa52ddaad516823e41e42",
+      "ks_06770/asset_5.tif": "e8d4ccd656dac80fc816400bbaca4f81cd800ec497b92ae34b6b261e3b038b12",
+      "ks_06770/evidence_arrays.npz": "f8d12c26d796c1ba1dea339b4d5c3d7d7421792519cc6d627a938724f0c40852",
+      "ks_06770/source_manifest.json": "45560b5ba1b66d30442f51d507fbb8303d43d9723428b9c6821697ae65d4dea5",
+      "selection.json": "3f681ea6f0213ef8aead67000c7d2f72c6d58bfa2dc56501ccdc8e2b9a7a5565"
+    },
+    "helper_sha256": "fd3d484abe8a49e1d75551b9c33e0a5cfa1d2cd21541a5c570ae35eda60d5c60",
+    "renderer_module_sha256": "f668e506ca949bcb0e9e62a659baae789d2eedb9345682f8b0935513a1e417a6",
+    "created_at": "2026-09-25T06:28:43.807905+00:00",
+    "runtime": {
+      "python": "3.12.14",
+      "numpy": "2.3.5",
+      "pillow": "12.3.0"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "eo": {
+    "checkpoint_loaded": true,
+    "checkpoint_dir": "/home/work/data/olmoearth/oe1_bentxt_v0/models/OlmoEarth-v1-Tiny",
+    "checkpoint_sha256": {
+      "config.json": "975dc2d755688c3010f9fecb662b62784d335731d701d8dda3f9ea0ccec88781",
+      "weights.pth": "66b9827af383bc444d7909a406a5b62c072bb08d6804ff47a247c2dce8fad9a4"
+    },
+    "official_source_sha256": {
+      "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/olmoearth_pretrain_minimal/model_loader.py": "1df94b0db38f78e879562d5e025a7042d6632d0de01fc8cb748a382d476cd424",
+      "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/olmoearth_pretrain_minimal/olmoearth_pretrain_v1/nn/flexi_vit.py": "5fe523d0fdde0c15536798683bbc65229ce81d7c47a82156b236a260d117c347",
+      "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/olmoearth_pretrain_minimal/olmoearth_pretrain_v1/data/normalize.py": "f3a27ea91c27ccfe0db588e186bdc29fce7ecf6ba00359bddcfbae1cadfba917"
+    },
+    "band_order": [
+      "B02",
+      "B03",
+      "B04",
+      "B08",
+      "B05",
+      "B06",
+      "B07",
+      "B8A",
+      "B11",
+      "B12",
+      "B01",
+      "B09"
+    ],
+    "input_units": "S2_L2A_DN_reflectance_times_10000",
+    "normalization": "(DN - mean) / (4 * std) + 0.5; no clipping",
+    "normalization_stats_sha256": "27299f5df38a848d7d2d536538bdee8d03d6bdf3fd9f0d5f1524e6dad05cd4e3",
+    "timestamp_encoding": "UTC calendar day, month-1, year; date-only preserves stated day precision",
+    "forward_path": "loaded_model.encoder(sample, patch_size, fast_pass=True)",
+    "stochastic_train_mode": false
+  },
+  "initial_eo_sha256": "d0dfa9366aaf154a15f41dddeb9acfe4c4f4985555b6d50e0d94f7e0035baa39",
+  "initial_projector_sha256": "18afead1c705ac709f86c703652c1463c6eaea9a7d12995ceb89a77947eb8426",
+  "llm_tensor_sha256": "6dface079cc812744ac40bf09dab281b8a8bf092ac50fee57fa3173d676b9545",
+  "llm_buffers_sha256": "a27af3c64c79080897c8f5e026ddd94c7b217333beb7346775dda1f1ff3bc570",
+  "llm_frozen_parameter_count": 7298011136
+}

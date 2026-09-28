@@ -1,0 +1,132 @@
+{
+  "scope": "synthetic design counterexamples; not actual H/L/R results",
+  "source_sha256": {
+    "code/sn7_visible_contract_v05.py": "b9552a8c6f65413dc600682ab4a6069a8a8489fb6ccb8ebfc03e33776e7bbac6",
+    "code/sn7_visible_pack_v05.py": "8ea3d665952e689b29d30805362f986dde50e59fa3396028179f35854d8f27be",
+    "code/sn7_evidence_loss_v0.py": "748fa8752be445d3b745414ee701f3b773c2ec8f2a02422d402630e23f40df2b",
+    "code/sn7_d1_reader_run_v0.py": "69b141b75bb6941c4559ef7994c22c8bff9c50c542698f1660a814bb675618b9",
+    "config/decision_experiment_d1_prereg_v0.json": "c8fa70a7a420176a7825e056d6a8ca8819a66c4bf881aba7364d9a2a8f85bc93",
+    "config/decision_experiment_d1_prereg_v0_amendment_20260924.json": "a98957c31dbcdbbe74b023927ae06a6f76ad73f4e3803591e5da46c315e5aea6"
+  },
+  "statistics": {
+    "wilson_95_iid_illustration": {
+      "7/12": [
+        0.31951131254954973,
+        0.8067396863412435
+      ],
+      "8/12": [
+        0.39062208887279953,
+        0.8618799089087867
+      ],
+      "9/12": [
+        0.46769466506643426,
+        0.9110583316059453
+      ],
+      "10/12": [
+        0.5519691377470266,
+        0.9530348578161463
+      ],
+      "11/12": [
+        0.646120088858883,
+        0.9851349055950829
+      ],
+      "12/12": [
+        0.7575059933447592,
+        1.0
+      ]
+    },
+    "agreement_rule_only_iid_P_at_least_8_of_12": {
+      "0.4": 0.05730992128000002,
+      "0.5": 0.19384765625,
+      "0.6": 0.43817822207999996,
+      "0.7": 0.7236554695299999,
+      "0.8": 0.92744450048,
+      "0.9": 0.99567065673
+    },
+    "missing_class_if_prevalence_5pct_12_iid": 0.5403600876626367,
+    "note": "IID assumptions are illustrative, not satisfied by the selected six-AOI sample; class coverage is excluded from binomial pass probabilities."
+  },
+  "perfect_agreement_clear_positive_and_negative_but_no_insufficient": {
+    "n_total": 12,
+    "n_agreed": 12,
+    "agreement_rate": 1.0,
+    "agreed_answer_counts": {
+      "change_supported": 6,
+      "no_visible_change": 6
+    },
+    "scientific_gate_passed": false,
+    "h_gate_reason": "no agreed episode in category: insufficient_evidence",
+    "diagnostic_manifest_ready": false,
+    "n_control_pairs": 6
+  },
+  "H_pass_with_one_changed_episode": {
+    "n_total": 12,
+    "n_agreed": 12,
+    "agreement_rate": 1.0,
+    "agreed_answer_counts": {
+      "change_supported": 1,
+      "insufficient_evidence": 1,
+      "no_visible_change": 10
+    },
+    "scientific_gate_passed": true,
+    "h_gate_reason": null,
+    "diagnostic_manifest_ready": true,
+    "n_control_pairs": 1
+  },
+  "same_answer_and_first_but_rejected_on_last_clear": {
+    "answers": [
+      "change_supported",
+      "change_supported"
+    ],
+    "first_ids": [
+      "F003",
+      "F003"
+    ],
+    "last_clear_ids": [
+      "F002",
+      "F001"
+    ],
+    "consensus_error": "annotators do not agree on the target"
+  },
+  "full_target_consensus_despite_one_frame_label_disagreement": {
+    "disagreed_frame": "F004",
+    "labels": [
+      "visible_change",
+      "ambiguous"
+    ],
+    "consensus_answer": "change_supported"
+  },
+  "evidence_tiers_are_not_equivalent": {
+    "derived_evidence_ids": [
+      "F000",
+      "F003"
+    ],
+    "last_clear": "F002",
+    "keep_F000_F003": {
+      "tierA_change_exists": false,
+      "tierB_first_claim": false,
+      "tierC_human_set": true
+    },
+    "keep_F002_F003": {
+      "tierA_change_exists": true,
+      "tierB_first_claim": false,
+      "tierC_human_set": false
+    },
+    "no_change_derived_evidence_count": 13,
+    "no_change_K6": {
+      "tierA_change_exists": null,
+      "tierB_first_claim": null,
+      "tierC_human_set": false
+    }
+  },
+  "one_bidirectional_pair_bootstrap": {
+    "independent_aoi_count": 1,
+    "episode_rows": 2,
+    "mean": 1.0,
+    "ci95": [
+      1.0,
+      1.0
+    ],
+    "note": "Synthetic all-success sample: nonparametric bootstrap cannot invent failures or new AOIs; this is not strong population evidence."
+  }
+}

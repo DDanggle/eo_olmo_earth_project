@@ -1,0 +1,20 @@
+test_fixed_prompt_and_nonempty (test_contracts.ContractTests.test_fixed_prompt_and_nonempty) ... ok
+test_no_answer_or_chat_control (test_contracts.ContractTests.test_no_answer_or_chat_control) ... ok
+test_only_public_roles (test_contracts.ContractTests.test_only_public_roles) ... ok
+test_pinned_base_and_tamper (test_contracts.ContractTests.test_pinned_base_and_tamper) ... ok
+test_b0_freeze_roles_and_gold_invariance (test_text_mask_model.ModelTests.test_b0_freeze_roles_and_gold_invariance) ... /home/work/data/olmoearth/oe10_text_mask_prepare_v0/code_snapshot/oe10_text_mask_v0/test_text_mask_model.py:82: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  self.assertGreater(float((a['logits']-c['logits']).abs().max()),1e-8)
+ok
+test_b2_text_changes_logits_and_eo_gradients (test_text_mask_model.ModelTests.test_b2_text_changes_logits_and_eo_gradients) ... ok
+test_b2_training_cache_rejected_and_eval_mutation_invalidates (test_text_mask_model.ModelTests.test_b2_training_cache_rejected_and_eval_mutation_invalidates) ... ok
+test_cache_content_and_reader_mutation (test_text_mask_model.ModelTests.test_cache_content_and_reader_mutation) ... ok
+test_padding_pool_reject_empty (test_text_mask_model.ModelTests.test_padding_pool_reject_empty) ... ok
+test_save_restore_and_wrong_reader_rejected (test_text_mask_model.ModelTests.test_save_restore_and_wrong_reader_rejected) ... ok
+test_token_budget_no_silent_truncation (test_text_mask_model.ModelTests.test_token_budget_no_silent_truncation) ... ok
+test_unknown_input_and_context_fields_rejected (test_text_mask_model.ModelTests.test_unknown_input_and_context_fields_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.661s
+
+OK

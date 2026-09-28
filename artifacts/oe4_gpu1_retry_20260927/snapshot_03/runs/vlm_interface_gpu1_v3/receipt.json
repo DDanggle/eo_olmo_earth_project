@@ -1,0 +1,206 @@
+{
+  "status": "FAILED",
+  "started_utc": "2026-09-27T04:49:28.155134+00:00",
+  "scope": "One-step EO/VLM engineering interface only; no research or semantic accuracy result",
+  "args": {
+    "model_dir": "/home/work/data/olmoearth/models/Qwen3-VL-8B-Instruct",
+    "image": "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/rgb.png",
+    "eo_token_file": null,
+    "eo_provider": "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v3/real_h5_provider.py:make_provider",
+    "eo_provider_config": "/home/work/data/olmoearth/oe4_native_v12_v0/vlm_inputs_v0/provider_config.json",
+    "deps_root": "/home/work/data/olmoearth/oe4_native_v12_v0/deps",
+    "out_dir": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/vlm_interface_gpu1_v3",
+    "device": "cuda:0",
+    "dtype": "bfloat16",
+    "eo_slots": 16,
+    "max_image_pixels": 262144,
+    "max_prompt_tokens": 2048,
+    "question": "Describe the visible land cover in one short sentence.",
+    "target": "The image shows land cover.",
+    "adapter_lr": 0.0001,
+    "encoder_lr": 1e-06,
+    "seed": 270927,
+    "cache_atol": 0.15,
+    "cache_rtol": 0.01
+  },
+  "script_sha256": "7683f96cc331fec84f93998c5a0d58d3cafdda1392a35d0c909a07d9e30a38ca",
+  "source_reference": "https://raw.githubusercontent.com/huggingface/transformers/v5.15.0/src/transformers/models/qwen3_vl/modeling_qwen3_vl.py",
+  "limitations": [
+    "Single image and batch 1 only",
+    "No beam or multi-image contract",
+    "EO slots receive text RoPE positions; no new spatial RoPE claim",
+    "A supplied generic CE target is not evaluation gold"
+  ],
+  "versions": {
+    "torch": "2.13.0+cu130",
+    "transformers": "5.15.0"
+  },
+  "runtime_model_source": {
+    "path": "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py",
+    "sha256": "e925233666f43299ec9e2a1c6bc2a5d16b0d6fc06aaa3ef817485a14997de327"
+  },
+  "model_config_sha256": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+  "image_sha256": "485802f824f9843bac49de9ef6a6c34eb1f3ba1b557d402b2b03afb3dfca93d7",
+  "model_parameter_count": 8767123696,
+  "frozen_vlm": true,
+  "checkpoint_commit_hint": null,
+  "rgb_image_size": [
+    32,
+    32
+  ],
+  "prompt_contract": {
+    "native_length": 84,
+    "with_eo_length": 100,
+    "eo_slot_positions": [
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94
+    ],
+    "placeholder_token_id": 87,
+    "native_image_token_count": 64,
+    "image_grid_thw": [
+      [
+        1,
+        16,
+        16
+      ]
+    ],
+    "eo_modality_type": 0,
+    "slot_location": "Before final user im_end, after native RGB tokens"
+  },
+  "eo_source": {
+    "kind": "live_encoder_provider",
+    "provider_file_sha256": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+    "config": {
+      "manifest": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/data_prepare_v1/data_manifest.json",
+      "example_index": 0,
+      "source_root": "/home/work/data/olmoearth/oe4_native_v12_v0/source",
+      "deps_root": "/home/work/data/olmoearth/oe4_native_v12_v0/deps",
+      "checkpoint_dir": "/home/work/data/olmoearth/oe4_native_v12_v0/models/OlmoEarth-v1_2-Base"
+    },
+    "metadata": {
+      "source": "official_v1_2_real_H5",
+      "checkpoint_hashes": {
+        "config.json": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+        "weights.pth": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+      },
+      "manifest": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/data_prepare_v1/data_manifest.json",
+      "row": {
+        "file": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1229.h5",
+        "file_bytes": 3160559,
+        "crop_yxhw": [
+          48,
+          48,
+          32,
+          32
+        ],
+        "raw_crop_sha256": "6aeae88eb8d3e263f11fe56a62ca5661b5606f7a6fdf1dbe0d7622e95c7fb488",
+        "compact_timesteps": [
+          0,
+          1
+        ],
+        "timestamp_indices": [
+          1,
+          2
+        ],
+        "timestamps_day_month0_year": [
+          [
+            25,
+            4,
+            2016
+          ],
+          [
+            24,
+            5,
+            2016
+          ]
+        ],
+        "source_s2_shape": [
+          128,
+          128,
+          11,
+          12
+        ],
+        "source_worldcover_shape": [
+          128,
+          128,
+          1,
+          1
+        ],
+        "worldcover_unique_raw_values": [
+          10.0,
+          30.0,
+          40.0
+        ],
+        "normalization": {
+          "sentinel2_l2a": "computed",
+          "worldcover": "computed"
+        },
+        "latlon": [
+          56.488094329833984,
+          50.592071533203125
+        ],
+        "split": "train_diagnostic"
+      },
+      "encoder_precision": "float32",
+      "normalization": "official COMPUTED once",
+      "token_layout": "flattened Hpatch,Wpatch,T,bandset(1); no band-specific output claim",
+      "mode": "eval_with_gradients",
+      "scope": "one-step interface; no semantic result",
+      "vlm_requested_dtype": "torch.bfloat16"
+    },
+    "encoder_gradient_claim": true
+  },
+  "eo_shape": [
+    1,
+    128,
+    768
+  ],
+  "adapter": {
+    "kind": "FP32 LayerNorm + Linear, cast to VLM dtype",
+    "parameters": 3151360,
+    "pooling": "adaptive average pooling over native flattened token order",
+    "slots": 16
+  },
+  "native_rgb_parity": {
+    "bitwise_equal": true,
+    "max_abs_logit_delta": 0.0,
+    "eo_slots_present": false,
+    "interpretation": "Installing an inactive hook must leave the original RGB prompt exactly unchanged"
+  },
+  "cache_contract": {
+    "allclose": false,
+    "top1_equal": true,
+    "max_abs_logit_delta": 0.25,
+    "mean_abs_logit_delta": 0.03626061603426933,
+    "atol": 0.15,
+    "rtol": 0.01,
+    "prefill_injections": 1,
+    "cached_decode_bypasses": 1,
+    "cached_sequence_length": 101,
+    "generated_token_ids": [
+      [
+        785,
+        2168
+      ]
+    ],
+    "generated_text": "The image",
+    "comparison": "Native generate cached raw second logits vs same-prefix full recomputation"
+  },
+  "error": "RuntimeError: EO cached generation disagrees with full recomputation",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v3/vlm_interface_smoke.py\", line 398, in main\n    raise RuntimeError(\"EO cached generation disagrees with full recomputation\")\nRuntimeError: EO cached generation disagrees with full recomputation\n",
+  "wall_seconds": 49.61951618641615
+}

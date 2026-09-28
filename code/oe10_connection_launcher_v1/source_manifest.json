@@ -1,0 +1,40 @@
+{
+  "schema_version": "oe10_connection_launcher_source_v1",
+  "created_utc": "2026-09-27T23:48:13.913078+00:00",
+  "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+  "model_v2_source_manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 7278,
+      "sha256": "f325ea8ccbbd2d2889c464025409247fb7929b760a2ff491788916a933446d3f"
+    },
+    {
+      "path": "changes_from_v0.patch",
+      "bytes": 8702,
+      "sha256": "f185c631a7a194885fa91625d9332a4e0793379e38dd9bea98b4d2483c906882"
+    },
+    {
+      "path": "launcher.py",
+      "bytes": 26281,
+      "sha256": "ef844bed9eed10cbabf67fe8d6019477d0d817fdf932b98eaf42e8c6fc4079b4"
+    },
+    {
+      "path": "local_repair_evidence.json",
+      "bytes": 2158,
+      "sha256": "85f35a56ff8af94b5f2dda4b15c4aae4a85e4a3ca4c29977514f74c0301da8a0"
+    },
+    {
+      "path": "test_launcher.py",
+      "bytes": 17078,
+      "sha256": "2b0681361087a1d8b373436cb0ab0502627797ff4f653c908fd574365f73a3c0"
+    },
+    {
+      "path": "worker_entry.py",
+      "bytes": 2847,
+      "sha256": "eb61444a881840f838ee81dd4481ff93e8773c97848862203b1cdb84ff1cc6b0"
+    }
+  ],
+  "scope": "Launcher telemetry repair only; production diff SNAP and gpu_idle; 20 local CPU tests passed and 2 Linux-only tests pending; independently reviewed; no server/GPU/reservation/model/protocol/budget change",
+  "previous_version_manifest_sha256": "3bc700fb400e4d878afb1907b6061936b89b474493753c5f8f0162187090fd12"
+}

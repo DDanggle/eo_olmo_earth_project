@@ -1,0 +1,34 @@
+{
+  "created_utc": "2026-09-27T19:41:20.335653+00:00",
+  "status": "train_contexts_prepared_no_model_execution",
+  "opened_input_hashes": {
+    "artifacts/oe10_expansion_catalog_20260928/oe10_expansion_catalog_v0/runtime_v2/episodes_train.jsonl": "30fe53cb935002c464c9d38b42d01e20cb724e70af8fcd2dbefddbe37bd7a377",
+    "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/episodes/source_objects.jsonl": "c8b6ce724eaf3acc1e1f159ab2ec46943bb88eb49cde1aa0172e12181da53e11",
+    "config/oe10_expansion_agronomy_cards_20260928.json": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8"
+  },
+  "code_sha256": "876e208ff9d10993a07658dc4c9ebf62a14a95ee55e79a757fdc16a7000be6b3",
+  "reference_code_sha256": "4669098167eb2b2f66e347db17c87ad1460a8360f393b463edf070cee29dee6f",
+  "episodes": 384,
+  "unique_train_queries": 48,
+  "conditions": [
+    "generic",
+    "names_only",
+    "matched_knowledge",
+    "removed_knowledge_diagnostic",
+    "swapped_knowledge_diagnostic"
+  ],
+  "trained_conditions": [],
+  "core_contrast": "matched_knowledge minus names_only with the same future architecture, images, masks and class names",
+  "query_gold_opened": false,
+  "raw_image_files_opened": 0,
+  "dev_or_heldout_opened": false,
+  "expert_responses": 0,
+  "new_gpu_seconds": 0,
+  "old_p2_task_replaced": false,
+  "actual_qwen_token_counts_verified": false,
+  "model_gradient_verified": false,
+  "model_input_projection": "Only model_context_by_condition[condition], exactly instruction/positive/counterexample; never serialize audit_only into model input",
+  "diagnostic_limits": "Removed is exactly names_only; swapped keeps names fixed but may introduce obvious contradictions and does not prove agronomic reasoning.",
+  "task_limits": "Names and sourced summaries are additional public support-label supervision, not human corrections, image evidence or a novel method.",
+  "next": "Frozen real tokenizer and separate text-mask dependency tests; full actual EO/Qwen gradient pilot only after P2 ends and is audited."
+}

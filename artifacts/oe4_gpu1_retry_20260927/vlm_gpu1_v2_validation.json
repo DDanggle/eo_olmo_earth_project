@@ -1,0 +1,196 @@
+{
+  "staged_snapshot": "/private/tmp/oe4_gpu1_retry_20260927/vlm_snapshot_v2",
+  "source_snapshot": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/code/oe4_native_v12_v0/vlm_snapshot_v1",
+  "sha256": {
+    "vlm_interface_smoke.py": "09d3bd38f111210069cf4ba180bcd8d2f563b7def184a70534b982dbd339b7ca",
+    "real_h5_provider.py": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+    "run_vlm_bounded.py": "e77b36c5e8c88beece720025346827d61b11fb466521b9e651d0aa4a730078c8",
+    "manifest.json": "4f73fd8f669b2369ee00e983fdb806226e40bf72f66e93568aebcb2707e9008b"
+  },
+  "checks": {
+    "py_compile_files": [
+      "vlm_interface_smoke.py",
+      "real_h5_provider.py",
+      "run_vlm_bounded.py"
+    ],
+    "ast_parse_files": [
+      "vlm_interface_smoke.py",
+      "real_h5_provider.py",
+      "run_vlm_bounded.py"
+    ],
+    "reverse_allowed_operational_and_gpu_parser_edits_byte_and_ast_equality": true,
+    "worker_provider_bytes_and_original_manifest_hashes_unchanged": true,
+    "runtime_source_verifier": true,
+    "gpu_selection_cases": [
+      {
+        "case": "gpu0_idle_gpu1_busy_memory",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "gpu0_idle_gpu1_busy_utilization",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "gpu0_idle_gpu1_busy_process",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "both_idle",
+        "selected_gpu_indices": [
+          1
+        ],
+        "pass": true
+      },
+      {
+        "case": "gpu1_only_idle",
+        "selected_gpu_indices": [
+          1
+        ],
+        "pass": true
+      },
+      {
+        "case": "gpu0_only_idle",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "malformed_gpu1_memory",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "malformed_process",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "known_util_at_busy_threshold",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "known_memory_at_busy_threshold",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "known_values_below_thresholds",
+        "selected_gpu_indices": [
+          1
+        ],
+        "pass": true
+      },
+      {
+        "case": "actual_gpu1_missing_telemetry_gpu0_busy",
+        "selected_gpu_indices": [
+          1
+        ],
+        "pass": true
+      },
+      {
+        "case": "missing_util_zero_memory_[Not Found]",
+        "selected_gpu_indices": [
+          1
+        ],
+        "pass": true
+      },
+      {
+        "case": "missing_util_nonzero_memory_[Not Found]",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "missing_util_compute_pid_[Not Found]",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "missing_util_memory_unknown_[Not Found]",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "gpu0_missing_util_only_[Not Found]",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "missing_util_zero_memory_N/A",
+        "selected_gpu_indices": [
+          1
+        ],
+        "pass": true
+      },
+      {
+        "case": "missing_util_nonzero_memory_N/A",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "missing_util_compute_pid_N/A",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "missing_util_memory_unknown_N/A",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "gpu0_missing_util_only_N/A",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "unsupported_util_[Unknown]",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "unsupported_util_Not Found",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "unsupported_util_n/a",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "unsupported_util_-1",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "unsupported_util_bad",
+        "selected_gpu_indices": [],
+        "pass": true
+      },
+      {
+        "case": "unsupported_util_",
+        "selected_gpu_indices": [],
+        "pass": true
+      }
+    ]
+  },
+  "budgets_seconds": {
+    "native_wait": 2700,
+    "gpu_wait": 600,
+    "worker": 1100
+  },
+  "missing_utilization_policy": {
+    "exact_sentinels": [
+      "[Not Found]",
+      "N/A"
+    ],
+    "required_memory_mib": 0,
+    "no_compute_pid_required": true,
+    "utilization_percent": null,
+    "idle_basis": "memory_zero_and_no_compute_PID",
+    "existing_three_poll_uuid_stability_and_immediate_prelaunch_recheck_unchanged": true
+  },
+  "no_server_or_gpu_calls": true
+}

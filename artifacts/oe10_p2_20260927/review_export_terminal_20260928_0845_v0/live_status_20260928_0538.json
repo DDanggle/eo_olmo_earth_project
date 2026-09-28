@@ -1,0 +1,89 @@
+{
+  "created_utc": "2026-09-27T20:38:20.472998+00:00",
+  "status": "running",
+  "controller_pid": 1419400,
+  "current_worker": "B0_270929_train",
+  "started_utc": "2026-09-27T11:42:43.962886+00:00",
+  "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+  "workers": [
+    {
+      "name": "B0_270927_train",
+      "controller_status": "completed",
+      "receipt_status": "training_completed",
+      "completed_updates_receipt": 2304,
+      "last_logged_step": 2304,
+      "pid": 1419405,
+      "elapsed_seconds": 3238.603802483529,
+      "latest_score": {
+        "file": "score_step_002304.json",
+        "target_iou_auc": 0.3009959798940199,
+        "sha256": "5a3594b674c0f1e3d84270428f6779c596a0cdb5760ec0eb7004047240910bf5"
+      },
+      "receipt_sha256": "66084a38b4c7c92e88f71fed8d1603afb1723238c62124bc3773e8d6b43f1f56"
+    },
+    {
+      "name": "B2_270927_train",
+      "controller_status": "completed",
+      "receipt_status": "training_completed",
+      "completed_updates_receipt": 2304,
+      "last_logged_step": 2304,
+      "pid": 1421757,
+      "elapsed_seconds": 12040.545632142574,
+      "latest_score": {
+        "file": "score_step_002304.json",
+        "target_iou_auc": 0.34175409764391784,
+        "sha256": "176e80bbfa0982adb382c64b44108a94d4e961ba6a049ad3826cd24df1f5cfb5"
+      },
+      "receipt_sha256": "1d875968d5da8b4a689d26a7fc133686a7c7f775fdfea32e47b617b023e55e66"
+    },
+    {
+      "name": "B0_270928_train",
+      "controller_status": "completed",
+      "receipt_status": "training_completed",
+      "completed_updates_receipt": 2304,
+      "last_logged_step": 2304,
+      "pid": 1435655,
+      "elapsed_seconds": 3442.0170584730804,
+      "latest_score": {
+        "file": "score_step_002304.json",
+        "target_iou_auc": 0.29600542064495083,
+        "sha256": "4e2babba485e59859e5361969e2abe0a408915fe1be55f27d930a81255f5630e"
+      },
+      "receipt_sha256": "c4d90b6de39749c20daf9e7e9afcca95cf01306de52919c839a4cbc60958bfa7"
+    },
+    {
+      "name": "B2_270928_train",
+      "controller_status": "completed",
+      "receipt_status": "training_completed",
+      "completed_updates_receipt": 2304,
+      "last_logged_step": 2304,
+      "pid": 1448236,
+      "elapsed_seconds": 11942.567040897906,
+      "latest_score": {
+        "file": "score_step_002304.json",
+        "target_iou_auc": 0.349704190395458,
+        "sha256": "b306b82693287d1ac72f59adef30deaeae2bf5c609e7ab19b1fff031be2b461b"
+      },
+      "receipt_sha256": "b9a3e40e2618b9c3050d1b73790f9ec69ee30919aa14ad7fce01c5f1680929eb"
+    },
+    {
+      "name": "B0_270929_train",
+      "controller_status": "running",
+      "receipt_status": "training",
+      "completed_updates_receipt": 1152,
+      "last_logged_step": 1152,
+      "pid": 1456659,
+      "elapsed_seconds": 1362.20924372226,
+      "latest_score": {
+        "file": "score_step_000768.json",
+        "target_iou_auc": 0.10891003850789176,
+        "sha256": "031ba93ac885804429ed2d847c560ec870ef2264aec671eafa4021d3327abd9b"
+      },
+      "receipt_sha256": "0737171a9bcd41bdc8d664efc1607ab21737af83fa642d5bf23464694f244831"
+    }
+  ],
+  "own_processes": "    PID     ELAPSED COMMAND\n1419400    08:55:36 /home/work/data/olmoearth/.venv-master/bin/python code_snapshot/oe10_p2_v3/run_bounded.py --stage training --tag training_v0 --protocol /home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json\n1456659       24:26 /home/work/data/olmoearth/.venv-master/bin/python /home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/p2_worker.py --mode train --arm B0 --seed 270929 --out /home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270929_train --protocol /home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json\n",
+  "protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+  "status_sha256": "9f97698a565d884f0be0c77eabe8108b7a8e0398a4ccff9c6c8d3354ee7edf97",
+  "scope": "live monitoring only; completed results still require frozen full collector"
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "oe10_launcher_telemetry_repair_evidence_v1",
+  "recorded_utc": "2026-09-27T23:47:38.507239+00:00",
+  "v0_source_manifest_sha256": "3bc700fb400e4d878afb1907b6061936b89b474493753c5f8f0162187090fd12",
+  "v0_files_sha256": {
+    "README.md": "53841505c27c1f9646b9f6d5b4b491f1099015414736aef8f512e0e9b8eb3ff4",
+    "launcher.py": "40b5cea1dfd604d0a9f0dde1f4d9ae890977d327a32ce246e72dfe13717af72e",
+    "source_manifest.json": "3bc700fb400e4d878afb1907b6061936b89b474493753c5f8f0162187090fd12",
+    "test_launcher.py": "6d509732189af3675188602a6f8106841d33746f05bb9e208d6815bbadab51ba",
+    "worker_entry.py": "eb61444a881840f838ee81dd4481ff93e8773c97848862203b1cdb84ff1cc6b0"
+  },
+  "changed_production_functions": [
+    "gpu_idle"
+  ],
+  "changed_production_constants": [
+    "SNAP"
+  ],
+  "worker_entry_identical": true,
+  "protocol_model_identity_budget_ledger_paths_caps_unchanged": true,
+  "test_command": "python3 -B -m unittest discover -s code/oe10_connection_launcher_v1 -p test_launcher.py -v",
+  "actual_local_cpu_test_result": {
+    "discovered": 22,
+    "passed": 20,
+    "skipped": 2,
+    "failed": 0,
+    "skip_reason": "Linux-only parent-death tests; local platform macOS"
+  },
+  "new_tests": [
+    "unavailable allowlisted telemetry zero memory",
+    "unavailable with positive memory or GPU1 process rejected",
+    "unknown/nonfinite utilization rejected",
+    "unknown/nonfinite/negative memory rejected",
+    "original numeric allowance preserved"
+  ],
+  "server_changes": false,
+  "gpu_started": false,
+  "production_budget_reserved": false,
+  "actual_gpu_observation_source": "root agent report only; this agent did not access server",
+  "limits": "CPU fake telemetry proves parser policy only. Server preflight and Linux-only tests remain root follow-up.",
+  "independent_review": {
+    "agent": "/root/second_pair_audit",
+    "production_diff_review": "SNAP and gpu_idle only; worker_entry identical; no budget/timeout changes",
+    "independent_tests": {
+      "passed": 20,
+      "skipped_linux_only": 2,
+      "failed": 0
+    },
+    "protocol_and_model_unchanged_verified": true,
+    "blocking_findings": 0
+  }
+}

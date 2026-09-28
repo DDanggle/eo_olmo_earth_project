@@ -1,0 +1,497 @@
+{
+  "actual_human_responses": 0,
+  "cases": 20,
+  "catalog_lineage": {
+    "catalog_export_sha256": "8b93a89c027c93ed967ed0e790321d5c83de258e3f4f62152c1f0143821afb9d",
+    "catalog_files_hash_and_size_verified": 227,
+    "preparation_receipt_sha256": "cf1a9ae3259ce03c37d28728940f765df29004840c6d5efa4d02d67455757e1c",
+    "prepared_manifest_sha256": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3",
+    "source_objects_sha256": "c8b6ce724eaf3acc1e1f159ab2ec46943bb88eb49cde1aa0172e12181da53e11"
+  },
+  "cpu_only": true,
+  "development_packets_opened": 0,
+  "new_gpu_seconds": 0,
+  "pixel_read_scope": "Raw NPZ packets contain all dates; only acquired query dates [2,5] are rendered; no features or selections use unrendered query pixels.",
+  "query_gold_opened": false,
+  "source_bank_packets_opened": 0,
+  "source_hashes": {
+    "/home/work/data/olmoearth/oe10_expansion_catalog_v0/catalog_v0/episodes_train.jsonl": "30fe53cb935002c464c9d38b42d01e20cb724e70af8fcd2dbefddbe37bd7a377",
+    "/home/work/data/olmoearth/oe10_expansion_catalog_v0/catalog_v0/export_manifest.json": "8b93a89c027c93ed967ed0e790321d5c83de258e3f4f62152c1f0143821afb9d",
+    "/home/work/data/olmoearth/oe10_expansion_catalog_v0/catalog_v0/preparation_receipt.json": "cf1a9ae3259ce03c37d28728940f765df29004840c6d5efa4d02d67455757e1c",
+    "/home/work/data/olmoearth/oe10_expansion_catalog_v0/catalog_v0/training_target_plan.jsonl": "df0290c8ddcf16939ab013a8631ddeedef1be028a59c51e6906ea409f5a8dbc6",
+    "/home/work/data/olmoearth/oe10_expansion_catalog_v0/code_snapshot/oe10_expansion_catalog_v0/render_quality_pack.py": "f7c354e5eaf37a8a6c6f02f6d92af3892b419e334e8bee0df8289f0135392065",
+    "/home/work/data/olmoearth/oe8_pastis_prepare_v0/episodes_v0/source_objects.jsonl": "c8b6ce724eaf3acc1e1f159ab2ec46943bb88eb49cde1aa0172e12181da53e11",
+    "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/manifest.jsonl": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3"
+  },
+  "status": "quality_review_package_prepared_not_reviewed",
+  "unique_query_patches": 20,
+  "verified_input_packets": 31,
+  "verified_input_references": {
+    "20032": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20032.npz",
+      "role": "train_pool",
+      "sha256": "2f85738cc6759b2ceedd9833e21f8911cbe288c5a6719452667f0cedfbcc3365"
+    },
+    "20063": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20063.npz",
+      "role": "train_pool",
+      "sha256": "95fb33bf4c4c4ae549000177fcaf96b301a9616342d1ca118a2217eff59eb954"
+    },
+    "20091": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20091.npz",
+      "role": "train_pool",
+      "sha256": "8969b66edbbf6d79df0c791f2963790e932c001624d40b69c8e954c7b5db130c"
+    },
+    "20197": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20197.npz",
+      "role": "train_pool",
+      "sha256": "0b54899fd9655e6dd0b622d9c5bcf9cf57b1fa3670febbc454035c56a2953fd4"
+    },
+    "20206": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20206.npz",
+      "role": "train_pool",
+      "sha256": "d7c5303fa2edc6ae8feab118d12e0ac66a849bd222334ad9fd82471bfe6d061e"
+    },
+    "20212": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20212.npz",
+      "role": "train_pool",
+      "sha256": "140d901f8adc407888cf2c127a001bed596c42e989f3d151ce9b23c8dca67443"
+    },
+    "20232": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20232.npz",
+      "role": "train_pool",
+      "sha256": "707f4bd4849f9e726d547215c09ef2813725842881a5e063b470307f63f13aba"
+    },
+    "20263": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20263.npz",
+      "role": "train_pool",
+      "sha256": "c6540d2e4958f44d225671aac21a78301341fe1a21e173a03ced7cdad16bbaad"
+    },
+    "20265": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20265.npz",
+      "role": "train_pool",
+      "sha256": "f6cd4f963e038cd63e7b8099bd0fec466437698add03bbb660c68a0a9ac60c31"
+    },
+    "20285": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20285.npz",
+      "role": "train_pool",
+      "sha256": "743886456cb1655f0dc2dff8dd5c3ddedfbf1a87a6b0ee8c4b614303e2d275f8"
+    },
+    "20296": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20296.npz",
+      "role": "train_pool",
+      "sha256": "f08085ffc6f204243ad1d420b43dffd3e46a05b12657704df1c9993a648a641c"
+    },
+    "20329": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20329.npz",
+      "role": "train_pool",
+      "sha256": "4367dda18ef4b3a30982f9ca36d840a3c92afb78f22375a2a02f6b1be0b24b99"
+    },
+    "20430": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20430.npz",
+      "role": "train_pool",
+      "sha256": "82645732eec893022666db47845db7d05d359e9eb0a37080d9d900b962092c57"
+    },
+    "20449": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20449.npz",
+      "role": "train_pool",
+      "sha256": "505c2ed5e0a769f5ab544a83be13846cf00c7a1ca86f1a7d97ee0625ea268fae"
+    },
+    "20468": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20468.npz",
+      "role": "train_pool",
+      "sha256": "2869a8fcb3b9da86f91f4843d38e4d7119a690a58483b97f8a48d0f87298890e"
+    },
+    "20510": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20510.npz",
+      "role": "train_pool",
+      "sha256": "dc22c3fb1c0e07ad91de3750160fdf2365fbed05941affcd7cb3ced3f709a282"
+    },
+    "20628": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20628.npz",
+      "role": "train_pool",
+      "sha256": "27b028220d45ffd955b3d92a3fb9987c0b7464f8f0dce6d7956df508f869f787"
+    },
+    "20655": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181126,
+        20190125,
+        20190321,
+        20190515,
+        20190704,
+        20190823,
+        20191027
+      ],
+      "input_npz": "inputs/20655.npz",
+      "role": "train_pool",
+      "sha256": "fceb21b7b3ba4920c349f742a5d57f5a4e5155ff4911e4239eab4aa42696bb11"
+    },
+    "40102": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40102.npz",
+      "role": "train_pool",
+      "sha256": "2e97cf8b67d909835d3cf6462d0698595d8b9eff5f9dd58905686aa025c0f44a"
+    },
+    "40115": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40115.npz",
+      "role": "train_pool",
+      "sha256": "8d912e2683443183c6f9ffa07c8eed06f13a9bcde5e82e787fb485d957260e77"
+    },
+    "40130": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40130.npz",
+      "role": "train_pool",
+      "sha256": "11cf5f995adf65e27570359648843a434589a5c091315f562ab5bc695a4ada2c"
+    },
+    "40201": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40201.npz",
+      "role": "train_pool",
+      "sha256": "54971421ea010bdc3e55b441542ed0c408730e358d2b3fd070a52331a5e3300d"
+    },
+    "40255": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40255.npz",
+      "role": "train_pool",
+      "sha256": "7a2d9646abecacb60222bac36966812f30c668e5d7a1ce6d89ca003918e88cd3"
+    },
+    "40271": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40271.npz",
+      "role": "train_pool",
+      "sha256": "7ffb3a6edc645442364632350c8d6a00e176af77ca94d48cf27e704c644e5055"
+    },
+    "40308": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40308.npz",
+      "role": "train_pool",
+      "sha256": "54061be30fed5ce39a048084ca6851e2c026c46ae9f9415b23b96ecb86df2d73"
+    },
+    "40333": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40333.npz",
+      "role": "train_pool",
+      "sha256": "3dad2cad0b8bd45616b331facbb1473d00d3cc35a566eac1aef80898c07b1140"
+    },
+    "40465": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40465.npz",
+      "role": "train_pool",
+      "sha256": "ea28d21aeef8c165bd7509df736e671a95c24f89d685a1fce2d5d1828bbc6863"
+    },
+    "40466": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40466.npz",
+      "role": "train_pool",
+      "sha256": "4b7ac3096b9a7bf997f67bfce2947102580ef3ddf4d0d49aa5dcfcab7cedfcdd"
+    },
+    "40518": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40518.npz",
+      "role": "train_pool",
+      "sha256": "f7b75eda4030e1b02fd26cdb6363c09bec84d4f4a825a02cbfc3d7f42a699fef"
+    },
+    "40555": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40555.npz",
+      "role": "train_pool",
+      "sha256": "075629bb259a4829c9d292052692ff9ae72be5fd64b57d8061f2c5bda7274d26"
+    },
+    "40561": {
+      "dates_yyyymmdd": [
+        20180917,
+        20181111,
+        20190214,
+        20190420,
+        20190619,
+        20190724,
+        20190823,
+        20191012
+      ],
+      "input_npz": "inputs/40561.npz",
+      "role": "train_pool",
+      "sha256": "721d1a8d9b62c24a8b33d6d7dc5e7649a067a13d71cd7deb19a45b5f3b51e5d2"
+    }
+  },
+  "verified_support_masks": 36
+}

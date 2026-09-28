@@ -1,0 +1,65 @@
+{
+  "job_id": "connection_20260928_01",
+  "reserved_seconds": 1800,
+  "charged_seconds": 48,
+  "status": "completed",
+  "reserved_utc": "2026-09-27T23:53:15.608262+00:00",
+  "metadata": {
+    "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+    "preflight": {
+      "server_scope": true,
+      "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+      "launcher_source": {
+        "manifest_sha256": "3f00b5fd7e9669e4149c1c933d39da64d673fa92418b3432bf9776c4cca850a4",
+        "files_verified": 6
+      },
+      "model_source": {
+        "manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+        "files_verified": 16
+      },
+      "episodes": {
+        "manifest_sha256": "14a59caee4dc716ebdc34b74092f19a5f5ca9dcc8b6178b63c5a6cf52eeeb0f8",
+        "files_verified": 232
+      },
+      "full_reader_eo_hash_recheck_pending_reserved_child": true,
+      "p2_terminal_audit": {
+        "p2_result": "incomplete",
+        "completed_runs": 5,
+        "expected_runs": 6,
+        "p2_status_sha256": "df8da2d02dfe0e86be0ba9b6d61b7763c7f3e401ea3f44125f853aba02383533",
+        "attestation_sha256": "ab387bddceb0600ac828fb2345a9df5ca488dbd25cea4533b76265348e39e3ea",
+        "audited_utc": "2026-09-27T23:50:17.600775+00:00"
+      },
+      "gpu": {
+        "index": 1,
+        "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+        "memory_mib": 0.0,
+        "utilization_percent": null,
+        "utilization_raw": "[Not Found]",
+        "utilization_telemetry": "unavailable",
+        "compute_processes": [],
+        "checked_utc": "2026-09-27T23:53:15.601233+00:00"
+      },
+      "ledger": {
+        "charged_seconds": 0,
+        "would_reserve_seconds": 1800,
+        "read_only": true
+      }
+    }
+  },
+  "gpu_immediately_before_launch": {
+    "index": 1,
+    "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+    "memory_mib": 0.0,
+    "utilization_percent": null,
+    "utilization_raw": "[Not Found]",
+    "utilization_telemetry": "unavailable",
+    "compute_processes": [],
+    "checked_utc": "2026-09-27T23:53:15.720597+00:00"
+  },
+  "child_pid": 1461250,
+  "started_utc": "2026-09-27T23:53:15.728533+00:00",
+  "exit_code": 0,
+  "actual_elapsed_seconds": 47.45010853558779,
+  "finished_utc": "2026-09-27T23:54:03.061311+00:00"
+}

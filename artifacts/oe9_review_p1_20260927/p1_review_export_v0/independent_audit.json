@@ -1,0 +1,80 @@
+{
+  "status": "passed_prediction_and_input_audit",
+  "scope": "P1 engineering audit, not P2 or independent evaluation",
+  "audit_script_sha256": "62d699f53e3cae9570fa4e8ec526a78fffd6b1fa06c507bd9ed5bdf48c0b259b",
+  "model_or_gpu_executed": false,
+  "checkpoint_torch_loaded": false,
+  "semantic_language_learning_demonstrated": false,
+  "development_scored": false,
+  "generalization_demonstrated": false,
+  "cases": [
+    {
+      "episode_id": "e91ece3d4804b5e2b57cb24b:k1",
+      "query_patch_id": "40271",
+      "original_input_sha256": "7ffb3a6edc645442364632350c8d6a00e176af77ca94d48cf27e704c644e5055",
+      "original_label_sha256": "06849d938b2298b8af32977d2251ec1e0a4a7c0ceffc38d9b4ee64fbda96b988",
+      "metrics": {
+        "iou": 0.9544817927170869,
+        "intersection": 1363,
+        "union": 1428,
+        "predicted_fraction": 0.10470535177390258,
+        "target_fraction": 0.10508117859290439,
+        "bce_from_saved_probabilities_clipped_1e_7": 0.014365093223005563,
+        "dice_loss_from_saved_probabilities": 0.04526093327105474,
+        "approximate_mask_loss_from_saved_probabilities": 0.0596260264940603,
+        "saturated_probability_pixels": 0,
+        "valid_pixels": 13304,
+        "threshold": "probability > 0.5"
+      },
+      "worker_iou": 0.9544817805290222,
+      "worker_mask_loss": 0.059625983238220215,
+      "probability_reconstructed_loss_abs_difference": 4.3255840083411545e-08
+    },
+    {
+      "episode_id": "40c837fe4ed90964ba7af6fa:k1",
+      "query_patch_id": "40255",
+      "original_input_sha256": "7a2d9646abecacb60222bac36966812f30c668e5d7a1ce6d89ca003918e88cd3",
+      "original_label_sha256": "a6058e643ca3829e297a6d019c83328e0921a00131730059c62b4e1191c55fa1",
+      "metrics": {
+        "iou": 0.861007591442374,
+        "intersection": 6238,
+        "union": 7245,
+        "predicted_fraction": 0.45631263873007333,
+        "target_fraction": 0.4505952781327773,
+        "bce_from_saved_probabilities_clipped_1e_7": 0.1719059289460346,
+        "dice_loss_from_saved_probabilities": 0.11352499858510323,
+        "approximate_mask_loss_from_saved_probabilities": 0.28543092753113786,
+        "saturated_probability_pixels": 0,
+        "valid_pixels": 14867,
+        "threshold": "probability > 0.5"
+      },
+      "worker_iou": 0.861007571220398,
+      "worker_mask_loss": 0.2854309678077698,
+      "probability_reconstructed_loss_abs_difference": 4.0276631918523265e-08
+    }
+  ],
+  "worker_status": "completed_p1_engineering",
+  "head_fit_gate_pass": true,
+  "worker_full_p1_gate_pass": true,
+  "worker_continuation": {
+    "loss_abs_difference": 0.0,
+    "mask_max_abs_difference": 0.0,
+    "vlm_logit_max_abs_difference": 0.0,
+    "all_trainable_state_max_abs_difference": 3.8743019104003906e-07,
+    "atol": 1e-06,
+    "rtol": 1e-05,
+    "pass": true
+  },
+  "continuation_independently_reexecuted": false,
+  "prediction_stage": "frozen-feature head fit before live joint encoder/VLM updates",
+  "loss_note": "BCE+dice recomputed from saved sigmoid probabilities with clipping 1e-7; not exact original-logit BCE, so loss difference is informational and not a pass/fail gate.",
+  "checkpoint_file_present": true,
+  "checkpoint_sha256_independently_verified": true,
+  "checkpoint_sha256": "ab226ee49318bf5fe0489a11a75c4c792e4e7ddfc0fe94ec334b1bab95d939ef",
+  "checkpoint_bytes": 1235902343,
+  "optional_artifacts_copied": {
+    "loader_server_audit.json": "/home/work/data/olmoearth/oe9_review_p1_v0/loader_server_audit.json",
+    "controller_status.json": "/home/work/data/olmoearth/oe9_review_p1_v0/p1_status_v0.json",
+    "p1_worker_v0.log": "/home/work/data/olmoearth/oe9_review_p1_v0/p1_worker_v0.log"
+  }
+}

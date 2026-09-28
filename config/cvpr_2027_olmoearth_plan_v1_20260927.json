@@ -1,0 +1,217 @@
+{
+  "schema": "cvpr_2027_olmoearth_research_plan_v1",
+  "date_kst": "2026-09-27",
+  "status": "reviewed_research_design_not_prereg_not_launch_config",
+  "objective": "Extend OlmoEarth into an actual EO-VLM that learns support-defined targets and reuses them for grounded natural-language tasks across held-out combinations and places.",
+  "decision": {
+    "preparation": "go",
+    "bounded_falsification_pilot": "conditional_go_after_interface_data_and_method_contracts",
+    "main_100k": "not_ready_pending_method_data_throughput",
+    "acceptance_probability": null,
+    "agent_votes_are_acceptance_probabilities": false,
+    "novel_method_established": false,
+    "launch_enabled": false
+  },
+  "models": {
+    "eo_main_candidate": {
+      "repo": "allenai/OlmoEarth-v1_2-Base",
+      "revision": "2e99a734a30e9aeb993aaa39946c6dcf554739e0",
+      "metadata_verified": true,
+      "downloaded_this_turn": false,
+      "loaded_this_turn": false,
+      "official_code_commit": "0497dfbb6711ded4e6bf10cf089fc1e4d58c186b",
+      "recipe": "scripts/official/v1_2/base.py"
+    },
+    "vlm_main_candidate": "Qwen3-VL-8B-Instruct",
+    "second_reader_candidate": "InternVL3-8B",
+    "legacy_diagnostic_only": "OlmoEarth-v1-Tiny + plain Olmo3-7B"
+  },
+  "training": {
+    "arms": [
+      "C",
+      "S",
+      "I",
+      "G",
+      "P"
+    ],
+    "seeds_per_main_arm": 3,
+    "stage_A": {
+      "encoder": "train_except_frozen_controls",
+      "vlm_body": "frozen_weights_input_gradients_preserved_when_used",
+      "C": "official_v1_2_objective_only",
+      "S": "official_plus_direct_reference_supervision",
+      "I": "official_plus_ordinary_instruction",
+      "G": "official_plus_generic_episodic_field_and_independent_tuple_supervision",
+      "P": "G_plus_listwise_support_anchor_binding_contrast_candidate_only"
+    },
+    "stage_B": {
+      "encoder": "frozen_at_each_stage_A_checkpoint",
+      "vlm_lora_and_connector_and_field": "train",
+      "connector_initialization": "common_fresh_initial_state",
+      "concept_field_initialization": "carry_stage_A_requires_fresh_readout_attribution_audit",
+      "instruction_records_and_budget": "matched_all_arms"
+    },
+    "frozen_controls": {
+      "arms": [
+        "I",
+        "P"
+      ],
+      "encoder_frozen_stages": [
+        "A",
+        "B"
+      ],
+      "seeds": 3
+    },
+    "G_P_difference": "same_records_forward_parameters_negatives; P adds listwise coupling to independent tuple losses",
+    "G_P_novelty_limit": "A generic contrastive equivalent defeats the new-method claim; no novelty certification.",
+    "loss_weights": null,
+    "learning_rates": null,
+    "token_budget": null,
+    "epochs": null,
+    "effective_batch_size": null,
+    "throughput_gpu_hours": null
+  },
+  "run_ledger": {
+    "main_stage_A_plus_B_pipelines": 15,
+    "frozen_controls_stage_A_plus_B_pipelines": 6,
+    "core_total": 21,
+    "aux_smaller_scale_pipelines": 6,
+    "aux_new_reader_adaptations": 6,
+    "aux_total": 12,
+    "baseline_probe_eval_tuning_cost": "additional_unmeasured",
+    "feasible_within_deadline": null
+  },
+  "data": {
+    "official_1k_h5": {
+      "url": "https://storage.googleapis.com/ai2-olmoearth-projects-public-data/pretraining_data/subset_1k/subset_1k_h5py_data.tar",
+      "content_length_bytes": 17855037440,
+      "etag": "eb56490bacd029bd95ef532af75699e6",
+      "status": "metadata_only_not_downloaded"
+    },
+    "native_bundle_targets": {
+      "preflight_subset": 1000,
+      "pilot_upper_target": 10000,
+      "main_upper_target": 100000
+    },
+    "instruction_record_upper_target": 1000000,
+    "targets_are_acquired_counts": false,
+    "human_gold_available_for_all_native_bundles": false,
+    "sources": {
+      "pastis": "primary_candidate_completeness_band_grid_split_audit_pending",
+      "mados": "external_sparse_label_transfer_not_whole_scene_area_or_complete_relevance",
+      "lucas": "partial_field_reference_support_not_full_scene_masks",
+      "sen1floods11": "EO_retention_source_inventory_only",
+      "m_cashew_plant": "EO_retention_source_inventory_only",
+      "dynamic_earthnet": "optional_temporal_extension_sensor_alignment_unverified"
+    },
+    "new_training_exclusions": [
+      "locked_query_footprints_and_buffer",
+      "test_support_footprints_and_buffer",
+      "linked_dates_events",
+      "derived_query_labels_in_all_forms"
+    ],
+    "concept_replay_audit": [
+      "native_aux_maps",
+      "parent_classes",
+      "negative_labels",
+      "captions"
+    ],
+    "public_base_pretraining_exposure_unknown": true,
+    "required_counts": [
+      "source_scene_count",
+      "unique_spatial_cells",
+      "observation_bundles",
+      "labeled_regions",
+      "concepts",
+      "queries",
+      "independent_eval_clusters"
+    ]
+  },
+  "evaluation": {
+    "status": "candidate_not_frozen",
+    "primary": "actual_VLM_natural_language_grounded_gallery_ranking_mAP",
+    "primary_support_k_candidate": 20,
+    "support_curve_k": [
+      0,
+      5,
+      20,
+      100
+    ],
+    "secondary": [
+      "localization_mIoU",
+      "observed_mask_area_error",
+      "evidence_grounded_explanation",
+      "EO_retention"
+    ],
+    "three_paths": [
+      "oracle_structured_query_EO_diagnostic",
+      "same_VLM_parser_specialist_pipeline",
+      "whole_EO_VLM_primary"
+    ],
+    "primary_gallery": "fixed_observation_windows_no_query_GT_target_boundaries",
+    "anchor": "user_supplied_geometry_identical_for_all_methods; detected_anchor_is_separate_condition",
+    "complete_relevance_required": true,
+    "gallery_size": null,
+    "ranking_batching": null,
+    "support_query_source_overlap_allowed": false,
+    "queries_are_independent_sample_units": false,
+    "PASTIS_four_tiles_prove_broad_region_generalization": false,
+    "cluster_population_and_power": "must_define_on_dev_before_final_prereg",
+    "candidate_primary_delta_P_minus_G": 0.03,
+    "candidate_EO_noninferiority_margin": -0.01,
+    "thresholds_are_CVPR_acceptance_rules": false,
+    "specialist_counterexample_is_main_claim_gate": true,
+    "confirmatory_order_candidate": [
+      "P_minus_G",
+      "P_minus_S",
+      "P_minus_locked_best_specialist"
+    ]
+  },
+  "human_budget_krw": {
+    "annotators": 720000,
+    "experts": 160000,
+    "api_cap": 50000,
+    "reserve": 70000,
+    "total": 1000000
+  },
+  "human_hours": {
+    "annotators": 60,
+    "experts": 4
+  },
+  "human_test_goal": {
+    "unique_cases": 120,
+    "independent_raters": 2,
+    "role": "quality_audit_not_small_effect_confirmatory_test"
+  },
+  "milestones": {
+    "runtime_data_profile_target": "2026-10-03",
+    "method_and_compute_scale_decision": "2026-10-10",
+    "main_window_conditional": [
+      "2026-10-11",
+      "2026-10-25"
+    ],
+    "analysis_target": "2026-11-05",
+    "cvpr_registration_AoE": "2026-11-10",
+    "cvpr_paper_AoE": "2026-11-16",
+    "cvpr_supplement_AoE": "2026-11-23"
+  },
+  "blockers_before_main": [
+    "G_P_mechanism_falsification",
+    "source_data_completeness",
+    "v1_2_loader_parity",
+    "actual_VLM_adapter",
+    "holdout_derivation_and_replay_audit",
+    "complete_gallery_protocol",
+    "power_and_clusters",
+    "measured_full_compute_budget",
+    "frozen_prereg"
+  ],
+  "this_turn_execution": {
+    "metadata_requests": true,
+    "new_GPU_training": false,
+    "dataset_or_weights_download": false,
+    "paid_API": false,
+    "hiring": false,
+    "remote_transfer": false
+  }
+}

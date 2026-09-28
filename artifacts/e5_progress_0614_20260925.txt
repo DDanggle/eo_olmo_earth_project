@@ -1,0 +1,39 @@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+SHA256:mub/jQsc1JS6Eu9EPuTEHJucpJ2o8LEhljdW83JuMSo.
+Please contact your system administrator.
+Add correct host key in /Users/dongdong/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /Users/dongdong/.ssh/known_hosts:96
+Password authentication is disabled to avoid man-in-the-middle attacks.
+Keyboard-interactive authentication is disabled to avoid man-in-the-middle attacks.
+UpdateHostkeys is disabled because the host key is not trusted.
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Fri Sep 25 06:14:07 UTC 2026
+    PID    PPID     ELAPSED STAT COMMAND
+ 984156       1       04:57 Ss   /home/work/data/olmoearth/.venv-master/bin/python -B /home/work/data/olmoearth/e5_equal_budget_v0/code_snapshot/run_e5_when_idle_v0.py
+ 984798  984156       01:37 Rl   /home/work/data/olmoearth/.venv-master/bin/python -B /home/work/data/olmoearth/e5_equal_budget_v0/code_snapshot/e5_train_v0.py --out /home/work/data/olmoearth/e5_equal_budget_v0
+{
+  "status": "running",
+  "phase": "training",
+  "at": "2026-09-25T06:14:06.304792+00:00",
+  "elapsed_s": 80.42758192494512,
+  "seed": 1,
+  "model_arm": "full",
+  "step": 275,
+  "exposures": 2200
+}
+E5 seed=1 arm=full step=150/1590 loss=0.022540
+E5 seed=1 arm=full step=175/1590 loss=0.104772
+E5 seed=1 arm=full step=200/1590 loss=0.420416
+E5 seed=1 arm=full step=225/1590 loss=0.055088
+E5 seed=1 arm=full step=250/1590 loss=0.014170
+E5 seed=1 arm=full step=275/1590 loss=0.554155
+984798, GPU-83516c9a-4344-a891-ccf3-621c862d2468, 31248 MiB
+945452, GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb, 61606 MiB

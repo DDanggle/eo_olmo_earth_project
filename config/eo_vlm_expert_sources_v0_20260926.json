@@ -1,0 +1,269 @@
+{
+  "schema_version": "0.1",
+  "checked_on": "2026-09-26",
+  "status": "source_documentation_review_only",
+  "new_training_launched": false,
+  "new_corpus_downloaded": false,
+  "scale_targets_unique_episodes": [
+    10000,
+    100000,
+    1000000
+  ],
+  "scale_targets_are_not_acquired_counts": true,
+  "expert_annotation_targets": {
+    "total": 5000,
+    "train": 3000,
+    "dev": 500,
+    "sealed_test": 1500,
+    "calibration_subset_of_train": 100
+  },
+  "expert_train_label_budget_targets": [
+    0,
+    300,
+    1000,
+    3000
+  ],
+  "sources": [
+    {
+      "id": "lucas_copernicus_2022",
+      "priority": "primary_land_cover",
+      "human_role": "field_survey_and_some_photo_interpretation",
+      "published_counts": {
+        "polygons": 137966
+      },
+      "native_language_evidence": false,
+      "supervision_scope": [
+        "land_cover",
+        "land_use",
+        "survey_geometry"
+      ],
+      "access": "anonymous_public_download",
+      "license_status": "European_Commission_reuse_notice_in_source_catalog",
+      "required_checks": [
+        "actual_survey_location_and_method",
+        "label_validity_date",
+        "minimum_resolvable_area",
+        "partial_label_extent",
+        "cross_year_legend_and_geometry_harmonization"
+      ],
+      "urls": [
+        "https://essd.copernicus.org/articles/16/5723/2024/",
+        "https://data.jrc.ec.europa.eu/dataset/e3fe3cd0-44db-470e-8769-172a8b9e8874"
+      ]
+    },
+    {
+      "id": "neon_vegetation_structure",
+      "product_id": "DP1.10098.001",
+      "priority": "ecological_validation",
+      "human_role": "repeated_field_measurement",
+      "published_counts": null,
+      "count_unit": "individual_by_measurement_event_not_independent_scene",
+      "native_language_evidence": false,
+      "supervision_scope": [
+        "individual_status",
+        "species",
+        "diameter",
+        "height",
+        "plot_level_aggregation"
+      ],
+      "access": "free_account_and_api_token_for_downloads_since_2026_06_30",
+      "license_status": "CC_BY_4_0_for_new_downloads_since_2026_06_30",
+      "required_checks": [
+        "release_pin",
+        "stem_and_individual_deduplication",
+        "plot_geometry",
+        "survey_interval",
+        "satellite_observability",
+        "airborne_and_satellite_date_match"
+      ],
+      "urls": [
+        "https://data.neonscience.org/data-products/DP1.10098.001/RELEASE-2024",
+        "https://www.neonscience.org/impact/observatory-blog/getting-started-what-new-users-should-know-about-neon-data"
+      ]
+    },
+    {
+      "id": "treesatai",
+      "priority": "auxiliary_forest_type",
+      "human_role": "forest_records_and_interpretation_with_manual_cleaning",
+      "published_counts": {
+        "aerial_s1_s2_triplets": 50381
+      },
+      "native_language_evidence": false,
+      "supervision_scope": [
+        "forest_type_multilabel"
+      ],
+      "access": "public_repository",
+      "license_status": "CC_BY_4_0_on_GEO_Bench_2_distribution_original_metadata_recheck_pending",
+      "required_checks": [
+        "original_license",
+        "summer_composite_interval",
+        "label_vintage",
+        "patch_level_not_individual_tree_label",
+        "native_small_spatial_grid"
+      ],
+      "urls": [
+        "https://essd.copernicus.org/articles/15/681/2023/",
+        "https://zenodo.org/records/6780578",
+        "https://huggingface.co/datasets/aialliance/treesatai"
+      ]
+    },
+    {
+      "id": "cems_rapid_mapping",
+      "priority": "primary_event_and_report_source",
+      "human_role": "professional_mapping_and_quality_control_with_mixed_manual_and_automated_methods",
+      "published_counts": null,
+      "count_unit": "activation_aoi_product_revision",
+      "native_language_evidence": true,
+      "language_evidence_scope": "situational_reports_mix_remote_sensing_and_external_sources",
+      "supervision_scope": [
+        "delineation",
+        "grading_where_resolvable",
+        "area_summary",
+        "report_claim_provenance"
+      ],
+      "access": "public_products_under_applicable_product_terms",
+      "license_status": "attribution_and_product_terms_third_party_imagery_separate",
+      "required_checks": [
+        "sensor_resolution",
+        "method_and_uncertainty",
+        "original_and_revision_timestamps",
+        "report_claim_source_type",
+        "shared_events_with_worldfloods",
+        "no_future_report_as_past_input"
+      ],
+      "urls": [
+        "https://mapping.emergency.copernicus.eu/about/rapid-mapping-portfolio/",
+        "https://mapping.emergency.copernicus.eu/about/rapid-mapping-manual/quality-control/",
+        "https://mapping.emergency.copernicus.eu/terms-and-conditions/",
+        "https://data.jrc.ec.europa.eu/dataset/15136677-25c5-5c32-8933-a7a8cb46cd91"
+      ]
+    },
+    {
+      "id": "worldfloods_v2",
+      "priority": "primary_s2_flood_supervision",
+      "human_role": "manual_inspection_and_correction_when_needed",
+      "published_counts": {
+        "flood_maps": 509,
+        "events": 144
+      },
+      "native_language_evidence": false,
+      "supervision_scope": [
+        "water_extent",
+        "cloud",
+        "aoi",
+        "permanent_water_where_available"
+      ],
+      "access": "public_download",
+      "license_status": "CC_BY_NC_4_0",
+      "required_checks": [
+        "s2_product_level_and_bands",
+        "mask_and_observation_time_alignment",
+        "event_level_split",
+        "shared_origins_with_cems",
+        "downstream_release_terms"
+      ],
+      "urls": [
+        "https://zenodo.org/records/8153514",
+        "https://huggingface.co/datasets/isp-uv-es/WorldFloodsv2"
+      ]
+    },
+    {
+      "id": "mtbs",
+      "priority": "fire_extension",
+      "human_role": "analyst_delineation_and_severity_threshold_interpretation",
+      "published_counts": null,
+      "native_language_evidence": false,
+      "supervision_scope": [
+        "burn_perimeter",
+        "burn_severity_estimate",
+        "quality_mask"
+      ],
+      "access": "public_products",
+      "license_status": "verify_selected_release_metadata_at_ingestion",
+      "required_checks": [
+        "assessment_type",
+        "prefire_and_postfire_dates",
+        "sensor_and_resolution",
+        "analyst_threshold_provenance",
+        "label_derivation_vs_independent_ecological_truth"
+      ],
+      "urls": [
+        "https://www.mtbs.gov/mapping-methods",
+        "https://burnseverity.cr.usgs.gov/products/mtbs"
+      ]
+    },
+    {
+      "id": "nasa_earth_observatory",
+      "priority": "language_and_source_attribution_candidate",
+      "human_role": "science_writers_with_researcher_quotes_and_scientific_sources",
+      "published_counts": null,
+      "native_language_evidence": true,
+      "language_evidence_scope": "science_narratives_not_pixel_aligned_expert_gold",
+      "supervision_scope": [
+        "observation_description",
+        "explicit_source_attribution"
+      ],
+      "access": "public_web_articles",
+      "license_status": "reuse_generally_allowed_except_individually_marked_copyright_material",
+      "required_checks": [
+        "per_item_credit_and_terms",
+        "image_and_text_date_match",
+        "instrument_compatibility",
+        "distinguish_image_field_and_literature_claims",
+        "no_article_answer_leakage_in_visual_evaluation"
+      ],
+      "urls": [
+        "https://science.nasa.gov/earth/earth-observatory/detecting-invisible-plant-stress-145823/",
+        "https://science.gsfc.nasa.gov/earth/projects/297/"
+      ]
+    },
+    {
+      "id": "olmoearth_pretrain_dataset",
+      "priority": "raw_observation_scaling_and_eo_replay",
+      "human_role": "not_an_expert_language_corpus",
+      "published_counts": null,
+      "count_unit": "audit_unique_site_time_episodes_not_viewer_rows",
+      "native_language_evidence": false,
+      "supervision_scope": [
+        "raw_multimodal_observations",
+        "eo_pretraining_targets"
+      ],
+      "access": "public_dataset",
+      "license_status": "CC_BY_4_0_on_dataset_card_with_source_provenance_checks",
+      "required_checks": [
+        "source_revision",
+        "deduplication",
+        "historical_model_exposure",
+        "actual_modality_availability",
+        "target_labels_not_inputs"
+      ],
+      "urls": [
+        "https://huggingface.co/datasets/allenai/olmoearth_pretrain_dataset"
+      ]
+    },
+    {
+      "id": "fia_public_coordinates",
+      "priority": "excluded_from_exact_pixel_join_without_precise_location_access",
+      "human_role": "forest_inventory_field_survey",
+      "published_counts": null,
+      "native_language_evidence": false,
+      "supervision_scope": [
+        "inventory_statistics"
+      ],
+      "access": "public_fuzzed_coordinates_precise_access_separate",
+      "license_status": "not_reviewed_for_ingestion",
+      "required_checks": [
+        "coordinate_fuzzing_and_swapping",
+        "precise_location_authorized_access_if_needed"
+      ],
+      "urls": [
+        "https://research.fs.usda.gov/programs/fia/sds"
+      ]
+    }
+  ],
+  "expert_annotation_targets_status": "historical_5000_target_superseded_by_user_budget",
+  "active_annotation_budget_config": "eo_vlm_labeling_budget_v2_20260926.json",
+  "expert_train_label_budget_targets_status": "historical_0_300_1000_3000_superseded",
+  "active_multimodel_research_plan": "oe2_multimodel_supervision_plan_v0_20260926.json",
+  "active_first_vlm_route_config": "oe2_first_vlm_route_v1_20260926.json"
+}

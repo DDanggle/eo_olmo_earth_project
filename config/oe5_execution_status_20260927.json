@@ -1,0 +1,75 @@
+{
+  "updated_utc": "2026-09-27T06:47:51.244919+00:00",
+  "plan": "oe5_correction_transfer_development_v0",
+  "scope": "execution status only; does not modify the historical development plan or preregistrations",
+  "ready_to_train_transfer_experiment": false,
+  "native_gpu_training_contract": {
+    "status": "passed",
+    "runs": [
+      "native_smoke_gpu1_v2",
+      "native_development_gpu1_v2"
+    ],
+    "steps": [
+      8,
+      32
+    ],
+    "save_reload": "passed",
+    "performance_improvement_established": false
+  },
+  "actual_vlm_gradient_contract": {
+    "status": "passed",
+    "run": "vlm_interface_gpu1_v4",
+    "physical_gpu": 1,
+    "device_name": "NVIDIA H200",
+    "dtype": "float32",
+    "completed_utc": "2026-09-27T06:43:42.905685+00:00",
+    "wall_seconds": 89.87710439786315,
+    "encoder_nonzero_gradient_tensors": 211,
+    "adapter_nonzero_gradient_tensors": 4,
+    "optimizer_steps": 1,
+    "source_checkpoint": "original pinned OlmoEarth v1.2 Base, not native smoke/development output",
+    "model": "frozen Qwen3-VL-8B-Instruct",
+    "receipt": "artifacts/oe4_gpu1_retry_20260927/snapshot_04/runs/vlm_interface_gpu1_v4/receipt.json",
+    "receipt_sha256": "69f77f5fe63e17509d4389aa16d14f19a8c832f0a5605089171ac94181bc663d"
+  },
+  "actual_vlm_checkpoint_save_reload": {
+    "status": "not_implemented_not_tested"
+  },
+  "bf16_cache_parity": {
+    "status": "failed_in_v3_unresolved",
+    "fp32_pass_resolves_bf16": false
+  },
+  "semantic_or_transfer_results": {
+    "new_results": false,
+    "actual_selected_transfer_episodes": 0,
+    "expert_label_efficiency_established": false
+  },
+  "current_gpu_jobs_from_this_sequence": 0,
+  "next_one_task": {
+    "name": "PASTIS public-label input contract and at most two supervised examples",
+    "started": false,
+    "download_new_data": false,
+    "new_gpu_training": false,
+    "required": [
+      "existing shard integrity including historic 0001 mismatch",
+      "actual acquisition dates and parent tile/footprint/mask/void contract",
+      "native missing-band and normalization handling",
+      "RGB/EO/label provenance matched",
+      "source-derived annual-crop QA not invented monthly condition labels"
+    ],
+    "outputs": [
+      "contract.json or contract_blockers.json",
+      "manifest.jsonl",
+      "preview.png",
+      "at most two prepared input bundles"
+    ]
+  },
+  "transfer_training_still_requires": [
+    "VLM checkpoint save/reload in a real trainer",
+    "pinned full reader weight identity",
+    "verified external native input and labels",
+    "actual parent region and support/query manifests",
+    "context provenance and fixed environment similarity",
+    "same-information generic baseline and proposed learning implementation"
+  ]
+}

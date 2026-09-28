@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-09-27T21:59:10.739127+00:00",
+  "status": "pass",
+  "recovery_versions": {
+    "cpu_verification_v0": {
+      "files_verified": 4,
+      "bytes": 12381,
+      "hash_errors": 0,
+      "export_manifest_sha256": "f27952002d58352051817f38ae847ab6d8e39bfafca475d2a22dc2102bf766e5",
+      "status": "fail"
+    },
+    "cpu_verification_v1": {
+      "files_verified": 4,
+      "bytes": 11457,
+      "hash_errors": 0,
+      "export_manifest_sha256": "c752df6eeae7893bd9cc3c472401b10fcfa5ecbff3b6223b1db16b4f63d975df",
+      "status": "pass"
+    }
+  },
+  "linux_cpu_tests_passed": 17,
+  "linux_skipped": 0,
+  "preflight_result": "blocked_by_running_P2_and_busy_GPU1",
+  "preflight_utc": "2026-09-27T21:56:13.014808+00:00",
+  "production_state_before_and_after_absent": true,
+  "protected_source_files": 4,
+  "unchanged_p2_snapshot_files": 9,
+  "model_source_unchanged": true,
+  "frozen_protocol_unchanged": true,
+  "new_gpu_seconds": 0,
+  "reserved_seconds": 0,
+  "launcher_manifest_sha256": "3bc700fb400e4d878afb1907b6061936b89b474493753c5f8f0162187090fd12",
+  "independent_review": "second_pair_audit independently verified returned v0/v1 hashes, 17 Linux tests, production state absence, launcher/model/protocol identities and protected-source receipt; no additional execution",
+  "limitations": [
+    "No actual model weight forward or successful production launch.",
+    "P2 still running and terminal audit attestation intentionally absent.",
+    "Engineering execution guard only; not performance or scientific evidence."
+  ],
+  "independent_readback_completed_utc": "2026-09-27T21:59:33.721039+00:00"
+}

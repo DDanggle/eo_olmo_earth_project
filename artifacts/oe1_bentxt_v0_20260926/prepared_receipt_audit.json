@@ -1,0 +1,1471 @@
+{
+  "schema": "oe1-prepared-receipt-audit-v0",
+  "valid_within_scope": true,
+  "scope": "Metadata and QA receipts only; no original parquet, tortilla, or image pixels re-read",
+  "source_hashes": {
+    "manifest.json": "dd90a82744317e35f851b4c94a8a92f3207f74843960db7a21cde33050c422a5",
+    "train.jsonl": "ce35d09f5fe59242ea936783f423814cf540b65e6eeb5fe605bf1d904aa51f26",
+    "dev.jsonl": "b76abb71e3ac1a889d7c93931bf41e7b09efbac6fc85df32d54be2c04b6bef2a"
+  },
+  "splits": {
+    "train": {
+      "questions": 1024,
+      "patches": 512,
+      "mgrs_count": 43,
+      "answers": {
+        "yes": 512,
+        "no": 512
+      },
+      "class_answer_counts": {
+        "Agro-forestry areas": {
+          "no": 51,
+          "yes": 3
+        },
+        "Arable land": {
+          "yes": 69,
+          "no": 13
+        },
+        "Broad-leaved forest": {
+          "no": 58,
+          "yes": 28
+        },
+        "Coastal wetlands": {
+          "no": 14
+        },
+        "Complex cultivation patterns": {
+          "no": 37,
+          "yes": 29
+        },
+        "Coniferous forest": {
+          "yes": 73,
+          "no": 20
+        },
+        "Industrial or commercial units": {
+          "no": 12,
+          "yes": 3
+        },
+        "Inland waters": {
+          "no": 64,
+          "yes": 25
+        },
+        "Inland wetlands": {
+          "yes": 18
+        },
+        "Marine waters": {
+          "yes": 66,
+          "no": 24
+        },
+        "Mixed forest": {
+          "yes": 51,
+          "no": 34
+        },
+        "Pastures": {
+          "no": 33,
+          "yes": 34
+        },
+        "Permanent crops": {
+          "yes": 6,
+          "no": 36
+        },
+        "Urban fabric": {
+          "no": 1,
+          "yes": 22
+        },
+        "unparsed": {
+          "yes": 85,
+          "no": 115
+        }
+      },
+      "exact_question_count": 318,
+      "single_answer_exact_questions": 179,
+      "countries_by_patch": {
+        "Finland": 190,
+        "Austria": 72,
+        "Ireland": 60,
+        "Serbia": 48,
+        "Belgium": 36,
+        "Lithuania": 46,
+        "Portugal": 36,
+        "Switzerland": 12,
+        "Luxembourg": 12
+      }
+    },
+    "dev": {
+      "questions": 256,
+      "patches": 128,
+      "mgrs_count": 11,
+      "answers": {
+        "yes": 128,
+        "no": 128
+      },
+      "class_answer_counts": {
+        "Agro-forestry areas": {
+          "no": 9
+        },
+        "Arable land": {
+          "yes": 16,
+          "no": 2
+        },
+        "Broad-leaved forest": {
+          "no": 13,
+          "yes": 17
+        },
+        "Coastal wetlands": {
+          "no": 2
+        },
+        "Complex cultivation patterns": {
+          "no": 10,
+          "yes": 15
+        },
+        "Coniferous forest": {
+          "no": 12,
+          "yes": 11
+        },
+        "Industrial or commercial units": {
+          "yes": 1,
+          "no": 5
+        },
+        "Inland waters": {
+          "no": 20,
+          "yes": 2
+        },
+        "Inland wetlands": {
+          "yes": 1
+        },
+        "Marine waters": {
+          "yes": 20,
+          "no": 1
+        },
+        "Mixed forest": {
+          "no": 8,
+          "yes": 11
+        },
+        "Pastures": {
+          "no": 6,
+          "yes": 6
+        },
+        "Permanent crops": {
+          "no": 14
+        },
+        "Urban fabric": {
+          "yes": 2
+        },
+        "unparsed": {
+          "yes": 26,
+          "no": 26
+        }
+      },
+      "exact_question_count": 178,
+      "single_answer_exact_questions": 152,
+      "countries_by_patch": {
+        "Lithuania": 33,
+        "Serbia": 21,
+        "Kosovo": 11,
+        "Austria": 21,
+        "Finland": 42
+      }
+    }
+  },
+  "minimum_center_km_recomputed": 7.624805488473521,
+  "unique_declared_image_hashes": 640,
+  "unparsed_classes": {
+    "train": 200,
+    "dev": 52
+  },
+  "train_fitted_question_only_probes": {
+    "input": {
+      "tie_and_unseen_fallback": "yes",
+      "train_only_fit": true,
+      "dev": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.59765625,
+        "balanced_accuracy": 0.59765625,
+        "recall_by_label": {
+          "yes": 0.6484375,
+          "no": 0.546875
+        },
+        "invalid_count": 0
+      },
+      "training_answer_counts": {
+        "Are there regions of agro-forestry areas in the satellite image?": {
+          "no": 1
+        },
+        "Are there regions of arable land in the satellite image?": {
+          "yes": 3
+        },
+        "Are there regions of broad-leaved forest in the satellite image?": {
+          "no": 5,
+          "yes": 2
+        },
+        "Are there regions of complex cultivation patterns in the satellite image?": {
+          "yes": 1,
+          "no": 1
+        },
+        "Are there regions of coniferous forest in the satellite image?": {
+          "yes": 5,
+          "no": 1
+        },
+        "Are there regions of inland waters in the satellite image?": {
+          "no": 3
+        },
+        "Are there regions of inland wetlands in the satellite image?": {
+          "yes": 1
+        },
+        "Are there regions of land principally occupied by agriculture with significant areas of natural vegetation in the satellite image?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Are there regions of marine waters in the satellite image?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Are there regions of mixed forest in the satellite image?": {
+          "no": 3
+        },
+        "Are there regions of moors, heathland, or sclerophyllous vegetation in the satellite image?": {
+          "no": 2
+        },
+        "Are there regions of pastures in the satellite image?": {
+          "yes": 2,
+          "no": 1
+        },
+        "Are there regions of permanent crops in the satellite image?": {
+          "no": 1
+        },
+        "Are there regions of transitional woodlands or shrubs in the satellite image?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Are there regions of urban fabric in the satellite image?": {
+          "yes": 2
+        },
+        "Can agro-forestry areas be detected in the satellite image?": {
+          "no": 4
+        },
+        "Can any agro-forestry areas be observed in this image?": {
+          "no": 1
+        },
+        "Can any arable land be observed in this image?": {
+          "yes": 4,
+          "no": 1
+        },
+        "Can any broad-leaved forest be observed in this image?": {
+          "no": 2
+        },
+        "Can any coastal wetlands be observed in this image?": {
+          "no": 1
+        },
+        "Can any complex cultivation patterns be observed in this image?": {
+          "no": 1
+        },
+        "Can any coniferous forest be observed in this image?": {
+          "yes": 4,
+          "no": 1
+        },
+        "Can any inland waters be observed in this image?": {
+          "no": 4,
+          "yes": 2
+        },
+        "Can any land principally occupied by agriculture with significant areas of natural vegetation be observed in this image?": {
+          "yes": 2
+        },
+        "Can any marine waters be observed in this image?": {
+          "yes": 7
+        },
+        "Can any mixed forest be observed in this image?": {
+          "yes": 1
+        },
+        "Can any natural grasslands or sparsely vegetated areas be observed in this image?": {
+          "no": 1
+        },
+        "Can any pastures be observed in this image?": {
+          "yes": 3
+        },
+        "Can any permanent crops be observed in this image?": {
+          "no": 1
+        },
+        "Can any transitional woodlands or shrubs be observed in this image?": {
+          "yes": 2
+        },
+        "Can any urban fabric be observed in this image?": {
+          "yes": 1
+        },
+        "Can arable land be detected in the satellite image?": {
+          "yes": 2,
+          "no": 1
+        },
+        "Can broad-leaved forest be detected in the satellite image?": {
+          "no": 2
+        },
+        "Can coastal wetlands be detected in the satellite image?": {
+          "no": 1
+        },
+        "Can complex cultivation patterns be detected in the satellite image?": {
+          "yes": 3,
+          "no": 2
+        },
+        "Can coniferous forest be detected in the satellite image?": {
+          "yes": 4,
+          "no": 2
+        },
+        "Can inland waters be detected in the satellite image?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Can inland wetlands be detected in the satellite image?": {
+          "yes": 1
+        },
+        "Can land principally occupied by agriculture with significant areas of natural vegetation be detected in the satellite image?": {
+          "yes": 2,
+          "no": 3
+        },
+        "Can marine waters be detected in the satellite image?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Can mixed forest be detected in the satellite image?": {
+          "yes": 3,
+          "no": 2
+        },
+        "Can moors, heathland, or sclerophyllous vegetation be detected in the satellite image?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Can natural grasslands or sparsely vegetated areas be detected in the satellite image?": {
+          "no": 1
+        },
+        "Can pastures be detected in the satellite image?": {
+          "no": 2,
+          "yes": 3
+        },
+        "Can permanent crops be detected in the satellite image?": {
+          "no": 2
+        },
+        "Can transitional woodlands or shrubs be detected in the satellite image?": {
+          "no": 1
+        },
+        "Can urban fabric be detected in the satellite image?": {},
+        "Can you detect any agro-forestry areas in the image?": {
+          "no": 3
+        },
+        "Can you detect any arable land in the image?": {
+          "no": 1,
+          "yes": 5
+        },
+        "Can you detect any beaches, dunes, or sands in the image?": {
+          "no": 2
+        },
+        "Can you detect any broad-leaved forest in the image?": {
+          "no": 4
+        },
+        "Can you detect any coastal wetlands in the image?": {
+          "no": 2
+        },
+        "Can you detect any complex cultivation patterns in the image?": {
+          "yes": 1
+        },
+        "Can you detect any coniferous forest in the image?": {
+          "yes": 5,
+          "no": 3
+        },
+        "Can you detect any inland waters in the image?": {
+          "yes": 2,
+          "no": 3
+        },
+        "Can you detect any land principally occupied by agriculture with significant areas of natural vegetation in the image?": {
+          "no": 3
+        },
+        "Can you detect any marine waters in the image?": {
+          "yes": 4,
+          "no": 2
+        },
+        "Can you detect any mixed forest in the image?": {
+          "no": 4
+        },
+        "Can you detect any moors, heathland, or sclerophyllous vegetation in the image?": {
+          "no": 3
+        },
+        "Can you detect any pastures in the image?": {
+          "yes": 2,
+          "no": 1
+        },
+        "Can you detect any permanent crops in the image?": {},
+        "Can you detect any transitional woodlands or shrubs in the image?": {
+          "yes": 4
+        },
+        "Can you identify agro-forestry areas in the satellite image?": {
+          "no": 3
+        },
+        "Can you identify arable land in the satellite image?": {
+          "yes": 3
+        },
+        "Can you identify broad-leaved forest in the satellite image?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Can you identify coastal wetlands in the satellite image?": {
+          "no": 1
+        },
+        "Can you identify complex cultivation patterns in the satellite image?": {
+          "no": 2,
+          "yes": 4
+        },
+        "Can you identify coniferous forest in the satellite image?": {
+          "yes": 5
+        },
+        "Can you identify industrial or commercial units in the satellite image?": {
+          "no": 1
+        },
+        "Can you identify inland waters in the satellite image?": {
+          "no": 4
+        },
+        "Can you identify land principally occupied by agriculture with significant areas of natural vegetation in the satellite image?": {
+          "no": 3,
+          "yes": 2
+        },
+        "Can you identify marine waters in the satellite image?": {
+          "no": 1,
+          "yes": 5
+        },
+        "Can you identify mixed forest in the satellite image?": {
+          "no": 2,
+          "yes": 4
+        },
+        "Can you identify moors, heathland, or sclerophyllous vegetation in the satellite image?": {
+          "no": 2
+        },
+        "Can you identify natural grasslands or sparsely vegetated areas in the satellite image?": {
+          "no": 2
+        },
+        "Can you identify pastures in the satellite image?": {
+          "no": 1,
+          "yes": 2
+        },
+        "Can you identify permanent crops in the satellite image?": {
+          "yes": 1,
+          "no": 1
+        },
+        "Can you identify transitional woodlands or shrubs in the satellite image?": {
+          "yes": 2,
+          "no": 1
+        },
+        "Can you identify urban fabric in the satellite image?": {
+          "yes": 3
+        },
+        "Can you observe any agro-forestry areas in the satellite image?": {
+          "no": 5
+        },
+        "Can you observe any arable land in the satellite image?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Can you observe any broad-leaved forest in the satellite image?": {
+          "no": 4,
+          "yes": 1
+        },
+        "Can you observe any coastal wetlands in the satellite image?": {
+          "no": 1
+        },
+        "Can you observe any complex cultivation patterns in the satellite image?": {
+          "no": 1,
+          "yes": 3
+        },
+        "Can you observe any coniferous forest in the satellite image?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Can you observe any inland waters in the satellite image?": {
+          "yes": 1,
+          "no": 3
+        },
+        "Can you observe any inland wetlands in the satellite image?": {
+          "yes": 2
+        },
+        "Can you observe any land principally occupied by agriculture with significant areas of natural vegetation in the satellite image?": {
+          "no": 3,
+          "yes": 2
+        },
+        "Can you observe any marine waters in the satellite image?": {
+          "yes": 4,
+          "no": 2
+        },
+        "Can you observe any mixed forest in the satellite image?": {
+          "yes": 3
+        },
+        "Can you observe any moors, heathland, or sclerophyllous vegetation in the satellite image?": {},
+        "Can you observe any natural grasslands or sparsely vegetated areas in the satellite image?": {
+          "yes": 1,
+          "no": 3
+        },
+        "Can you observe any pastures in the satellite image?": {
+          "no": 2,
+          "yes": 2
+        },
+        "Can you observe any permanent crops in the satellite image?": {
+          "no": 1
+        },
+        "Can you observe any transitional woodlands or shrubs in the satellite image?": {
+          "yes": 2
+        },
+        "Do parts of the image correspond to agro-forestry areas?": {},
+        "Do parts of the image correspond to arable land?": {
+          "yes": 2
+        },
+        "Do parts of the image correspond to broad-leaved forest?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Do parts of the image correspond to coastal wetlands?": {
+          "no": 1
+        },
+        "Do parts of the image correspond to complex cultivation patterns?": {
+          "no": 3,
+          "yes": 2
+        },
+        "Do parts of the image correspond to coniferous forest?": {
+          "yes": 4,
+          "no": 1
+        },
+        "Do parts of the image correspond to industrial or commercial units?": {
+          "no": 2
+        },
+        "Do parts of the image correspond to inland waters?": {
+          "no": 5,
+          "yes": 3
+        },
+        "Do parts of the image correspond to inland wetlands?": {
+          "yes": 2
+        },
+        "Do parts of the image correspond to land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Do parts of the image correspond to marine waters?": {
+          "yes": 7,
+          "no": 1
+        },
+        "Do parts of the image correspond to mixed forest?": {
+          "no": 3
+        },
+        "Do parts of the image correspond to moors, heathland, or sclerophyllous vegetation?": {
+          "no": 1
+        },
+        "Do parts of the image correspond to natural grasslands or sparsely vegetated areas?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Do parts of the image correspond to pastures?": {
+          "no": 4
+        },
+        "Do parts of the image correspond to permanent crops?": {
+          "no": 2
+        },
+        "Do parts of the image correspond to transitional woodlands or shrubs?": {
+          "yes": 2
+        },
+        "Do parts of the image correspond to urban fabric?": {
+          "yes": 1
+        },
+        "Does the image capture agro-forestry areas?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Does the image capture arable land?": {
+          "yes": 6,
+          "no": 1
+        },
+        "Does the image capture broad-leaved forest?": {
+          "yes": 2,
+          "no": 2
+        },
+        "Does the image capture coastal wetlands?": {
+          "no": 1
+        },
+        "Does the image capture complex cultivation patterns?": {
+          "yes": 1
+        },
+        "Does the image capture coniferous forest?": {
+          "yes": 5
+        },
+        "Does the image capture industrial or commercial units?": {
+          "no": 1
+        },
+        "Does the image capture inland waters?": {
+          "yes": 2,
+          "no": 6
+        },
+        "Does the image capture inland wetlands?": {
+          "yes": 1
+        },
+        "Does the image capture land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "yes": 3,
+          "no": 4
+        },
+        "Does the image capture marine waters?": {
+          "no": 1
+        },
+        "Does the image capture mixed forest?": {
+          "no": 2,
+          "yes": 3
+        },
+        "Does the image capture moors, heathland, or sclerophyllous vegetation?": {
+          "no": 2
+        },
+        "Does the image capture natural grasslands or sparsely vegetated areas?": {
+          "no": 1
+        },
+        "Does the image capture pastures?": {
+          "no": 4,
+          "yes": 2
+        },
+        "Does the image capture permanent crops?": {
+          "no": 2
+        },
+        "Does the image capture transitional woodlands or shrubs?": {
+          "yes": 3
+        },
+        "Does the image depict agro-forestry areas?": {
+          "no": 4
+        },
+        "Does the image depict arable land?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Does the image depict broad-leaved forest?": {
+          "yes": 2,
+          "no": 3
+        },
+        "Does the image depict coastal wetlands?": {
+          "no": 1
+        },
+        "Does the image depict complex cultivation patterns?": {
+          "no": 4
+        },
+        "Does the image depict coniferous forest?": {
+          "yes": 5,
+          "no": 1
+        },
+        "Does the image depict industrial or commercial units?": {},
+        "Does the image depict inland waters?": {
+          "no": 2
+        },
+        "Does the image depict inland wetlands?": {
+          "yes": 2
+        },
+        "Does the image depict land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "yes": 1,
+          "no": 2
+        },
+        "Does the image depict marine waters?": {
+          "yes": 4,
+          "no": 3
+        },
+        "Does the image depict mixed forest?": {
+          "no": 4,
+          "yes": 5
+        },
+        "Does the image depict moors, heathland, or sclerophyllous vegetation?": {
+          "no": 1
+        },
+        "Does the image depict natural grasslands or sparsely vegetated areas?": {},
+        "Does the image depict pastures?": {
+          "yes": 1,
+          "no": 2
+        },
+        "Does the image depict permanent crops?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Does the image depict transitional woodlands or shrubs?": {
+          "yes": 3
+        },
+        "Does the image show agro-forestry areas?": {
+          "no": 3
+        },
+        "Does the image show arable land?": {
+          "no": 2,
+          "yes": 3
+        },
+        "Does the image show broad-leaved forest?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Does the image show complex cultivation patterns?": {
+          "no": 8
+        },
+        "Does the image show coniferous forest?": {
+          "no": 2,
+          "yes": 2
+        },
+        "Does the image show inland waters?": {
+          "no": 5
+        },
+        "Does the image show land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "yes": 1
+        },
+        "Does the image show marine waters?": {
+          "yes": 2,
+          "no": 1
+        },
+        "Does the image show mixed forest?": {
+          "no": 2
+        },
+        "Does the image show moors, heathland, or sclerophyllous vegetation?": {
+          "yes": 2,
+          "no": 4
+        },
+        "Does the image show natural grasslands or sparsely vegetated areas?": {
+          "no": 3
+        },
+        "Does the image show pastures?": {
+          "yes": 1
+        },
+        "Does the image show permanent crops?": {
+          "no": 2
+        },
+        "Does the image show transitional woodlands or shrubs?": {
+          "yes": 2
+        },
+        "Does the image show urban fabric?": {
+          "no": 1,
+          "yes": 2
+        },
+        "Does the satellite image contain agro-forestry areas?": {
+          "no": 2
+        },
+        "Does the satellite image contain arable land?": {
+          "yes": 4,
+          "no": 2
+        },
+        "Does the satellite image contain beaches, dunes, or sands?": {},
+        "Does the satellite image contain broad-leaved forest?": {
+          "yes": 1,
+          "no": 2
+        },
+        "Does the satellite image contain coastal wetlands?": {
+          "no": 1
+        },
+        "Does the satellite image contain complex cultivation patterns?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Does the satellite image contain coniferous forest?": {
+          "no": 1,
+          "yes": 2
+        },
+        "Does the satellite image contain industrial or commercial units?": {
+          "no": 2
+        },
+        "Does the satellite image contain inland waters?": {
+          "no": 4
+        },
+        "Does the satellite image contain land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "yes": 2,
+          "no": 3
+        },
+        "Does the satellite image contain marine waters?": {
+          "no": 1,
+          "yes": 2
+        },
+        "Does the satellite image contain mixed forest?": {
+          "yes": 2
+        },
+        "Does the satellite image contain moors, heathland, or sclerophyllous vegetation?": {
+          "no": 4
+        },
+        "Does the satellite image contain natural grasslands or sparsely vegetated areas?": {
+          "no": 2
+        },
+        "Does the satellite image contain pastures?": {},
+        "Does the satellite image contain permanent crops?": {
+          "yes": 1,
+          "no": 2
+        },
+        "Does the satellite image contain transitional woodlands or shrubs?": {
+          "yes": 3
+        },
+        "Does the satellite image contain urban fabric?": {
+          "yes": 1
+        },
+        "Does the satellite image display agro-forestry areas?": {
+          "yes": 1,
+          "no": 2
+        },
+        "Does the satellite image display arable land?": {
+          "yes": 4
+        },
+        "Does the satellite image display broad-leaved forest?": {
+          "no": 4,
+          "yes": 4
+        },
+        "Does the satellite image display complex cultivation patterns?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Does the satellite image display coniferous forest?": {
+          "no": 2,
+          "yes": 2
+        },
+        "Does the satellite image display industrial or commercial units?": {
+          "yes": 2
+        },
+        "Does the satellite image display inland waters?": {
+          "yes": 4
+        },
+        "Does the satellite image display inland wetlands?": {
+          "yes": 1
+        },
+        "Does the satellite image display land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "no": 2,
+          "yes": 2
+        },
+        "Does the satellite image display marine waters?": {
+          "yes": 5
+        },
+        "Does the satellite image display mixed forest?": {
+          "yes": 3,
+          "no": 4
+        },
+        "Does the satellite image display moors, heathland, or sclerophyllous vegetation?": {
+          "no": 1
+        },
+        "Does the satellite image display natural grasslands or sparsely vegetated areas?": {},
+        "Does the satellite image display pastures?": {
+          "no": 1,
+          "yes": 2
+        },
+        "Does the satellite image display permanent crops?": {
+          "no": 2
+        },
+        "Does the satellite image display transitional woodlands or shrubs?": {
+          "yes": 4,
+          "no": 1
+        },
+        "Does the satellite view capture arable land?": {
+          "yes": 1,
+          "no": 1
+        },
+        "Does the satellite view capture broad-leaved forest?": {
+          "no": 4,
+          "yes": 2
+        },
+        "Does the satellite view capture complex cultivation patterns?": {
+          "yes": 2
+        },
+        "Does the satellite view capture coniferous forest?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Does the satellite view capture industrial or commercial units?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Does the satellite view capture inland waters?": {
+          "no": 5,
+          "yes": 1
+        },
+        "Does the satellite view capture inland wetlands?": {
+          "yes": 1
+        },
+        "Does the satellite view capture land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Does the satellite view capture marine waters?": {
+          "yes": 4,
+          "no": 1
+        },
+        "Does the satellite view capture mixed forest?": {
+          "yes": 2,
+          "no": 1
+        },
+        "Does the satellite view capture moors, heathland, or sclerophyllous vegetation?": {
+          "no": 1
+        },
+        "Does the satellite view capture natural grasslands or sparsely vegetated areas?": {
+          "yes": 1
+        },
+        "Does the satellite view capture pastures?": {
+          "yes": 4
+        },
+        "Does the satellite view capture permanent crops?": {
+          "no": 2
+        },
+        "Does the satellite view capture transitional woodlands or shrubs?": {
+          "yes": 1
+        },
+        "Does the satellite view capture urban fabric?": {
+          "yes": 1
+        },
+        "Does this satellite image include arable land?": {
+          "yes": 2
+        },
+        "Does this satellite image include broad-leaved forest?": {
+          "yes": 1,
+          "no": 1
+        },
+        "Does this satellite image include coastal wetlands?": {
+          "no": 1
+        },
+        "Does this satellite image include complex cultivation patterns?": {
+          "yes": 2
+        },
+        "Does this satellite image include coniferous forest?": {
+          "yes": 2
+        },
+        "Does this satellite image include industrial or commercial units?": {},
+        "Does this satellite image include inland waters?": {
+          "yes": 1,
+          "no": 2
+        },
+        "Does this satellite image include inland wetlands?": {},
+        "Does this satellite image include land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "no": 3
+        },
+        "Does this satellite image include marine waters?": {
+          "yes": 3
+        },
+        "Does this satellite image include mixed forest?": {
+          "yes": 4,
+          "no": 1
+        },
+        "Does this satellite image include moors, heathland, or sclerophyllous vegetation?": {
+          "no": 3
+        },
+        "Does this satellite image include natural grasslands or sparsely vegetated areas?": {
+          "no": 3
+        },
+        "Does this satellite image include pastures?": {
+          "no": 2
+        },
+        "Does this satellite image include permanent crops?": {
+          "no": 4
+        },
+        "Does this satellite image include transitional woodlands or shrubs?": {
+          "yes": 1,
+          "no": 1
+        },
+        "Does this satellite image include urban fabric?": {
+          "yes": 1
+        },
+        "Does this scene feature agro-forestry areas?": {
+          "no": 4
+        },
+        "Does this scene feature arable land?": {
+          "yes": 7
+        },
+        "Does this scene feature beaches, dunes, or sands?": {
+          "no": 1
+        },
+        "Does this scene feature broad-leaved forest?": {
+          "yes": 3,
+          "no": 3
+        },
+        "Does this scene feature complex cultivation patterns?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Does this scene feature coniferous forest?": {
+          "yes": 4
+        },
+        "Does this scene feature industrial or commercial units?": {
+          "no": 1
+        },
+        "Does this scene feature inland waters?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Does this scene feature inland wetlands?": {
+          "yes": 3
+        },
+        "Does this scene feature land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "no": 1
+        },
+        "Does this scene feature marine waters?": {
+          "yes": 1
+        },
+        "Does this scene feature mixed forest?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Does this scene feature moors, heathland, or sclerophyllous vegetation?": {
+          "no": 3
+        },
+        "Does this scene feature natural grasslands or sparsely vegetated areas?": {
+          "no": 3
+        },
+        "Does this scene feature pastures?": {
+          "no": 3
+        },
+        "Does this scene feature permanent crops?": {
+          "yes": 1
+        },
+        "Is any portion of the image covered by agro-forestry areas?": {
+          "no": 4,
+          "yes": 1
+        },
+        "Is any portion of the image covered by arable land?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Is any portion of the image covered by broad-leaved forest?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Is any portion of the image covered by coastal wetlands?": {
+          "no": 1
+        },
+        "Is any portion of the image covered by complex cultivation patterns?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Is any portion of the image covered by coniferous forest?": {
+          "yes": 2,
+          "no": 2
+        },
+        "Is any portion of the image covered by industrial or commercial units?": {},
+        "Is any portion of the image covered by inland waters?": {
+          "no": 2
+        },
+        "Is any portion of the image covered by inland wetlands?": {
+          "yes": 1
+        },
+        "Is any portion of the image covered by land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "yes": 2,
+          "no": 1
+        },
+        "Is any portion of the image covered by marine waters?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Is any portion of the image covered by mixed forest?": {
+          "no": 1,
+          "yes": 3
+        },
+        "Is any portion of the image covered by moors, heathland, or sclerophyllous vegetation?": {
+          "no": 1
+        },
+        "Is any portion of the image covered by natural grasslands or sparsely vegetated areas?": {
+          "yes": 1
+        },
+        "Is any portion of the image covered by pastures?": {
+          "yes": 1
+        },
+        "Is any portion of the image covered by permanent crops?": {
+          "no": 1
+        },
+        "Is any portion of the image covered by transitional woodlands or shrubs?": {
+          "yes": 1
+        },
+        "Is any portion of the image covered by urban fabric?": {
+          "yes": 1
+        },
+        "Is the land cover type agro-forestry areas present in the satellite image?": {
+          "no": 1
+        },
+        "Is the land cover type arable land present in the satellite image?": {
+          "yes": 2,
+          "no": 1
+        },
+        "Is the land cover type broad-leaved forest present in the satellite image?": {
+          "yes": 2,
+          "no": 2
+        },
+        "Is the land cover type coastal wetlands present in the satellite image?": {
+          "no": 1
+        },
+        "Is the land cover type complex cultivation patterns present in the satellite image?": {
+          "yes": 1,
+          "no": 2
+        },
+        "Is the land cover type coniferous forest present in the satellite image?": {
+          "yes": 6,
+          "no": 1
+        },
+        "Is the land cover type inland waters present in the satellite image?": {
+          "no": 5,
+          "yes": 3
+        },
+        "Is the land cover type inland wetlands present in the satellite image?": {
+          "yes": 1
+        },
+        "Is the land cover type land principally occupied by agriculture with significant areas of natural vegetation present in the satellite image?": {
+          "yes": 3
+        },
+        "Is the land cover type marine waters present in the satellite image?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Is the land cover type mixed forest present in the satellite image?": {
+          "yes": 3,
+          "no": 2
+        },
+        "Is the land cover type moors, heathland, or sclerophyllous vegetation present in the satellite image?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Is the land cover type natural grasslands or sparsely vegetated areas present in the satellite image?": {
+          "no": 1,
+          "yes": 1
+        },
+        "Is the land cover type pastures present in the satellite image?": {
+          "yes": 4,
+          "no": 1
+        },
+        "Is the land cover type permanent crops present in the satellite image?": {
+          "no": 2
+        },
+        "Is the land cover type transitional woodlands or shrubs present in the satellite image?": {
+          "yes": 1
+        },
+        "Is the land cover type urban fabric present in the satellite image?": {
+          "yes": 1
+        },
+        "Is there evidence of agro-forestry areas in the image?": {
+          "no": 5
+        },
+        "Is there evidence of arable land in the image?": {
+          "yes": 2
+        },
+        "Is there evidence of broad-leaved forest in the image?": {
+          "no": 6,
+          "yes": 3
+        },
+        "Is there evidence of coastal wetlands in the image?": {
+          "no": 1
+        },
+        "Is there evidence of complex cultivation patterns in the image?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Is there evidence of coniferous forest in the image?": {
+          "yes": 4,
+          "no": 1
+        },
+        "Is there evidence of inland waters in the image?": {
+          "no": 4,
+          "yes": 1
+        },
+        "Is there evidence of inland wetlands in the image?": {
+          "yes": 1
+        },
+        "Is there evidence of land principally occupied by agriculture with significant areas of natural vegetation in the image?": {
+          "no": 5,
+          "yes": 1
+        },
+        "Is there evidence of marine waters in the image?": {
+          "yes": 6,
+          "no": 1
+        },
+        "Is there evidence of mixed forest in the image?": {
+          "yes": 1
+        },
+        "Is there evidence of moors, heathland, or sclerophyllous vegetation in the image?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Is there evidence of natural grasslands or sparsely vegetated areas in the image?": {
+          "no": 2
+        },
+        "Is there evidence of pastures in the image?": {
+          "no": 3,
+          "yes": 2
+        },
+        "Is there evidence of permanent crops in the image?": {
+          "no": 2
+        },
+        "Is there evidence of transitional woodlands or shrubs in the image?": {
+          "yes": 3
+        },
+        "Is there evidence of urban fabric in the image?": {
+          "yes": 4
+        },
+        "Would you classify part of this image as agro-forestry areas?": {
+          "no": 4
+        },
+        "Would you classify part of this image as arable land?": {
+          "yes": 3
+        },
+        "Would you classify part of this image as beaches, dunes, or sands?": {
+          "no": 1
+        },
+        "Would you classify part of this image as broad-leaved forest?": {
+          "no": 2,
+          "yes": 1
+        },
+        "Would you classify part of this image as coastal wetlands?": {},
+        "Would you classify part of this image as complex cultivation patterns?": {
+          "no": 2,
+          "yes": 2
+        },
+        "Would you classify part of this image as coniferous forest?": {
+          "yes": 4
+        },
+        "Would you classify part of this image as industrial or commercial units?": {
+          "no": 1
+        },
+        "Would you classify part of this image as inland waters?": {
+          "yes": 3,
+          "no": 2
+        },
+        "Would you classify part of this image as land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Would you classify part of this image as marine waters?": {
+          "no": 1,
+          "yes": 2
+        },
+        "Would you classify part of this image as mixed forest?": {
+          "yes": 5
+        },
+        "Would you classify part of this image as natural grasslands or sparsely vegetated areas?": {
+          "no": 2
+        },
+        "Would you classify part of this image as pastures?": {
+          "no": 3,
+          "yes": 1
+        },
+        "Would you classify part of this image as permanent crops?": {
+          "yes": 2,
+          "no": 2
+        },
+        "Would you classify part of this image as transitional woodlands or shrubs?": {
+          "yes": 3,
+          "no": 1
+        },
+        "Would you classify part of this image as urban fabric?": {
+          "yes": 1
+        },
+        "Would you say the satellite image shows agro-forestry areas?": {
+          "no": 4
+        },
+        "Would you say the satellite image shows arable land?": {
+          "yes": 7
+        },
+        "Would you say the satellite image shows beaches, dunes, or sands?": {
+          "yes": 1
+        },
+        "Would you say the satellite image shows broad-leaved forest?": {},
+        "Would you say the satellite image shows complex cultivation patterns?": {
+          "no": 1,
+          "yes": 2
+        },
+        "Would you say the satellite image shows coniferous forest?": {
+          "yes": 4
+        },
+        "Would you say the satellite image shows industrial or commercial units?": {
+          "no": 2
+        },
+        "Would you say the satellite image shows inland waters?": {
+          "no": 2
+        },
+        "Would you say the satellite image shows inland wetlands?": {
+          "yes": 1
+        },
+        "Would you say the satellite image shows land principally occupied by agriculture with significant areas of natural vegetation?": {
+          "yes": 3,
+          "no": 2
+        },
+        "Would you say the satellite image shows marine waters?": {
+          "no": 3,
+          "yes": 2
+        },
+        "Would you say the satellite image shows mixed forest?": {
+          "no": 2,
+          "yes": 6
+        },
+        "Would you say the satellite image shows moors, heathland, or sclerophyllous vegetation?": {
+          "no": 1
+        },
+        "Would you say the satellite image shows natural grasslands or sparsely vegetated areas?": {
+          "no": 2
+        },
+        "Would you say the satellite image shows pastures?": {
+          "no": 3,
+          "yes": 2
+        },
+        "Would you say the satellite image shows permanent crops?": {
+          "no": 6
+        },
+        "Would you say the satellite image shows transitional woodlands or shrubs?": {
+          "yes": 2
+        },
+        "Would you say the satellite image shows urban fabric?": {
+          "yes": 3
+        }
+      }
+    },
+    "query_class": {
+      "tie_and_unseen_fallback": "yes",
+      "train_only_fit": true,
+      "dev": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.6484375,
+        "balanced_accuracy": 0.6484375,
+        "recall_by_label": {
+          "yes": 0.5234375,
+          "no": 0.7734375
+        },
+        "invalid_count": 0
+      },
+      "training_answer_counts": {
+        "Agro-forestry areas": {
+          "no": 51,
+          "yes": 3
+        },
+        "Arable land": {
+          "yes": 69,
+          "no": 13
+        },
+        "Broad-leaved forest": {
+          "no": 58,
+          "yes": 28
+        },
+        "Coastal wetlands": {
+          "no": 14
+        },
+        "Complex cultivation patterns": {
+          "no": 37,
+          "yes": 29
+        },
+        "Coniferous forest": {
+          "yes": 73,
+          "no": 20
+        },
+        "Industrial or commercial units": {
+          "no": 12,
+          "yes": 3
+        },
+        "Inland waters": {
+          "no": 64,
+          "yes": 25
+        },
+        "Inland wetlands": {
+          "yes": 18
+        },
+        "Marine waters": {
+          "yes": 66,
+          "no": 24
+        },
+        "Mixed forest": {
+          "yes": 51,
+          "no": 34
+        },
+        "Pastures": {
+          "no": 33,
+          "yes": 34
+        },
+        "Permanent crops": {
+          "yes": 6,
+          "no": 36
+        },
+        "Urban fabric": {
+          "no": 1,
+          "yes": 22
+        },
+        "unparsed": {
+          "yes": 85,
+          "no": 115
+        }
+      }
+    }
+  },
+  "donors": {
+    "eligible": 68,
+    "of": 256,
+    "distinct_presented_patches": 48,
+    "source_answer_counts": {
+      "no": 35,
+      "yes": 33
+    },
+    "presented_answer_counts": {
+      "yes": 35,
+      "no": 33
+    },
+    "mapping": {
+      "5780387": "2379202",
+      "2437386": "5020015",
+      "2371227": "5793681",
+      "9046168": "8874599",
+      "9046169": "5853375",
+      "4411002": "5280483",
+      "6128737": "5828074",
+      "1761660": "6127827",
+      "155001": "8014173",
+      "3751433": "2465052",
+      "2465051": "112801",
+      "2465052": "3751433",
+      "9037060": "5795514",
+      "9037061": "9072521",
+      "8874598": "9049352",
+      "8874599": "9046168",
+      "2993099": "5795514",
+      "84056": "3700961",
+      "3765127": "5853376",
+      "8122804": "6127827",
+      "5828074": "5287709",
+      "4464539": "2369591",
+      "1767614": "5795514",
+      "1767615": "1773215",
+      "112801": "2465051",
+      "3700961": "84056",
+      "5280483": "4411002",
+      "6127827": "1761660",
+      "127425": "4700015",
+      "5899566": "5780966",
+      "2369591": "4464539",
+      "2377233": "2433851",
+      "2377234": "2456997",
+      "5287709": "5828074",
+      "9072521": "9037061",
+      "9072522": "5780966",
+      "2379202": "5780387",
+      "9030427": "5853375",
+      "8937881": "8014173",
+      "8937882": "2467751",
+      "1758168": "2928395",
+      "5020015": "2437386",
+      "5793681": "2371227",
+      "2456997": "2377234",
+      "9049352": "752664",
+      "3735904": "2467751",
+      "6739095": "3751433",
+      "5780966": "5899566",
+      "2433851": "2377233",
+      "752664": "9049352",
+      "9084162": "127425",
+      "2928395": "1758168",
+      "1773215": "1767615",
+      "8049769": "136047",
+      "5853375": "9030427",
+      "5853376": "3765127",
+      "2467751": "3735904",
+      "2396565": "2375200",
+      "9045764": "5780966",
+      "136047": "8049769",
+      "8014173": "155001",
+      "5781254": "2369591",
+      "9038638": "1761660",
+      "9038639": "5853375",
+      "4700015": "127425",
+      "87898": "9049352",
+      "5795514": "1767614",
+      "2375200": "2396565"
+    }
+  },
+  "limitations": [
+    "Original BENtxt answer correctness and full source SHA are not independently verified here.",
+    "Patch-level answer balance does not imply question/class balance.",
+    "Declared image uniqueness is not a local pixel rehash.",
+    "Development split only; public pretraining exposure remains unknown."
+  ]
+}

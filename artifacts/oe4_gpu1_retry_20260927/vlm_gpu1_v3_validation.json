@@ -1,0 +1,29 @@
+{
+  "staged_snapshot": "/private/tmp/oe4_gpu1_retry_20260927/vlm_snapshot_v3",
+  "sha256": {
+    "vlm_interface_smoke.py": "7683f96cc331fec84f93998c5a0d58d3cafdda1392a35d0c909a07d9e30a38ca",
+    "real_h5_provider.py": "79721ed854b08a7b2334fb2a34353c31af1e281d2709edcb05f0b4587dfd1803",
+    "run_vlm_bounded.py": "500f037408bf660d291362de765b33fe2d28b3fec6b040378b2ea0fc6a78fb38",
+    "manifest.json": "cc9a8deca8fe56d55180625f23fade3b6e4da0c55f702037b188978f89a0ea1a"
+  },
+  "checks": {
+    "all_three_python_files_compiled_and_ast_parsed": true,
+    "worker_ast_unchanged_except_two_cuda_initialization_calls": true,
+    "provider_bytes_unchanged": true,
+    "launcher_unchanged_except_unique_v3_vlm_paths": true,
+    "native_dependency_remains_gpu1_v3": true,
+    "runtime_manifest_verification": true,
+    "mocked_cuda_initialization_call_order": [
+      "is_available",
+      "init",
+      "set_device",
+      "reset_peak_memory_stats"
+    ],
+    "wait_and_worker_budgets_seconds": [
+      2700,
+      600,
+      1100
+    ]
+  },
+  "no_real_cuda_server_or_repo_changes": true
+}

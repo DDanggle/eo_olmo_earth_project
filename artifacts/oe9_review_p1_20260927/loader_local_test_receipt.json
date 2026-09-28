@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "tests_passed": 11,
+  "actual_catalog_metadata_checked": {
+    "train": 2304,
+    "development": 672,
+    "prepared_manifest": 80
+  },
+  "actual_input_packets_checked": [
+    "40411",
+    "40139",
+    "30031"
+  ],
+  "actual_query_targets_checked": [
+    "40411",
+    "30031"
+  ],
+  "full_actual_episode_load_checked": false,
+  "full_actual_episode_load_limitation": "Only three raw packets local; support set for any complete real episode unavailable locally. Full loads checked with synthetic fixtures, all real metadata checked independently. CLI ready for server audit.",
+  "model_or_gpu_executed": false,
+  "inference_load_without_labels_or_scoring_tested": true,
+  "boundary": "Python API trust boundary, not OS sandbox; audit and loader internals must not be passed to model.",
+  "loader_sha256": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+  "tests_sha256": "ae442e1d0e85317c38ebccef5f00ceffb730fe2bae694aca1141fa3168e3f21e"
+}

@@ -1,0 +1,15 @@
+{"utc": "2026-09-26T17:15:12.622827+00:00", "status": "waiting_for_assets", "detail": null}
+{"utc": "2026-09-26T17:16:02.668196+00:00", "status": "preparing_real_data", "detail": null}
+{"utc": "2026-09-26T17:16:28.949690+00:00", "status": "waiting_for_idle_gpu", "detail": "native_smoke_v0"}
+{"utc": "2026-09-26T17:24:15.308607+00:00", "status": "failed", "detail": "ValueError(\"invalid literal for int() with base 10: '[Not Found]'\")"}
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/controller_v0/run_bounded.py", line 96, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/controller_v0/run_bounded.py", line 70, in main
+    choices=idle();current=choices[0] if choices else None
+            ^^^^^^
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/controller_v0/run_bounded.py", line 41, in idle
+    if uuid.strip() not in busy and int(mem.strip())<512 and int(util.strip())<5:free.append(int(idx))
+                                                             ^^^^^^^^^^^^^^^^^
+ValueError: invalid literal for int() with base 10: '[Not Found]'

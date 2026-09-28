@@ -1,0 +1,23 @@
+{
+  "revision": "oe8_input_layout_v0",
+  "status": "description_of_verified_prepared_arrays_not_a_model_adapter",
+  "model_input_npz": {
+    "raw_selected_s2": {"axes": ["candidate_date", "measured_band", "y", "x"], "shape": [8, 10, 128, 128], "dtype": "int16"},
+    "normalized_s2": {"axes": ["y", "x", "candidate_date", "native_band"], "shape": [128, 128, 8, 12], "dtype": "float32"},
+    "observation_valid": {"axes": ["candidate_date", "y", "x"], "shape": [8, 128, 128], "dtype": "bool"},
+    "nodata_observed": {"axes": ["candidate_date", "measured_band", "y", "x"], "shape": [8, 10, 128, 128], "dtype": "bool"},
+    "band_observed": {"axes": ["native_band"], "shape": [12], "dtype": "bool", "meaning": "10 measured plus 2 imputed, not per-pixel mask"},
+    "timestamps": {"axes": ["candidate_date", "date_component"], "shape": [8, 3], "dtype": "int64", "components": ["day", "zero_based_month", "year"]}
+  },
+  "separate_label_npz": {
+    "semantic": "int64[y,x], original semantic stack plane0",
+    "instances": "int64[y,x], local instance IDs, not global parcel identifiers",
+    "label_valid": "bool[y,x], semantic!=19",
+    "crop_label_valid": "bool[y,x], 1<=semantic<=18"
+  },
+  "authoritative_training_partition": "train_pool_only",
+  "legacy_role_is_provenance_not_training_permission": true,
+  "support_bank_supervised_training_forbidden": true,
+  "cloud_clear_certification": false,
+  "future_model_loader_must_guard_candidate_access_and_exclude_query_labels": true
+}

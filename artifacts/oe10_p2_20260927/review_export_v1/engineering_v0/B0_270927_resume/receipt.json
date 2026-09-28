@@ -1,0 +1,156 @@
+{
+  "status": "cold_resume_passed",
+  "arm": "B0",
+  "seed": 270927,
+  "mode": "resume",
+  "pid": 1416429,
+  "started_utc": "2026-09-27T11:15:26.832945+00:00",
+  "source_hashes": {
+    "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+    "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+    "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+    "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+    "p2_worker.py": "f82f65960190ab7e78c62ae898dff9eddd5ed169c087b277d90cac2fe250f584",
+    "run_bounded.py": "4416fc383894ee851b80c0bd857d046badf810c768d28ab9f3b9b3ba645a3b32",
+    "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+    "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+    "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+  },
+  "gpu_visible": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+  "development_metrics_accessed": false,
+  "new_method_tested": false,
+  "elapsed_seconds": 48.08927349373698,
+  "protocol_sha256": null,
+  "native_identity": {
+    "manifest_sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+    "source_hashes": {
+      "olmoearth_pretrain/model_loader.py": "2ff982cda47fa53e8bb3a9f4ff3879816e4297770ed6e6c6cf49f5e323562ba7",
+      "olmoearth_pretrain/train/masking.py": "4a29589d46fd0920912dfef8e46c8cf2c614545417841325c567ca55a5e27dba",
+      "olmoearth_pretrain/train/loss.py": "7f378e156eeb65434fddaf3c63300bb0c426b4532d6b987d753365ab762997b5",
+      "scripts/official/v1_2/base.py": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee"
+    },
+    "checkpoint_hashes": {
+      "config.json": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+      "weights.pth": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+    },
+    "public_loss_registry_bridge": {
+      "source_recipe_sha256": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee",
+      "checkpoint_config_sha256": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+      "changes": [
+        {
+          "path": "train_module.loss_config.loss_config.type",
+          "from": "absent",
+          "to": "modality_patch_discrimination_masked_negatives_vec",
+          "evidence": "/home/work/data/olmoearth/oe4_native_v12_v0/source/scripts/official/v1_2/base.py"
+        },
+        {
+          "path": "train_module.contrastive_config.loss_config.type",
+          "from": "absent",
+          "to": "InfoNCE",
+          "evidence": "/home/work/data/olmoearth/oe4_native_v12_v0/source/scripts/official/v1_2/base.py"
+        }
+      ],
+      "official_recipe_loss_configs": {
+        "loss_config": {
+          "type": "modality_patch_discrimination_masked_negatives_vec",
+          "tau": 0.1,
+          "same_target_threshold": 0.999,
+          "mask_negatives_for_modalities": [
+            "worldcover",
+            "srtm",
+            "openstreetmap_raster",
+            "wri_canopy_height_map",
+            "cdl",
+            "worldcereal"
+          ]
+        },
+        "contrastive_config": {
+          "type": "InfoNCE",
+          "weight": 0.05
+        }
+      },
+      "scope": "Memory-only restore of registry keys; public config and weights are not edited",
+      "cause": "Official LossConfig.build pops type before experiment serializes the built train configuration"
+    },
+    "bridge_runtime_source_sha256": "b737a7254c2d66518e3acc8b8314918c8529d21d33e04347b49be6029cac0b2c",
+    "train_files_loaded_and_raw_hash_verified": 64,
+    "dev_files_loaded": 0,
+    "normalization": "official computed once, S2 + WorldCover",
+    "samples_cpu_cached": true,
+    "cached_array_bytes": 6556672,
+    "precision": "FP32 native forward and losses; outer autocast explicitly disabled",
+    "flash_attn_disabled_modules": [],
+    "ema_decay": [
+      1.0,
+      1.0
+    ],
+    "scope": "small native replay auxiliary; not full official pretraining/CPT reproduction",
+    "geographic_independence_certified": false,
+    "pretraining_exposure_unknown": true
+  },
+  "trainable_parameters": 6157569,
+  "episode_order_sha256": "5a32ebabdfa18bdda91079c060d3e391b04df7ebb6342486427a01f2668b1a6a",
+  "episode_count": 2,
+  "vlm_identity": {
+    "config.json": {
+      "sha256": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+      "bytes": 1474
+    },
+    "model.safetensors.index.json": {
+      "sha256": "520b2e05079402e9468a8701d03d1154d14b2599593afb6effa7fb60c1bff070",
+      "bytes": 67759
+    },
+    "model-00001-of-00004.safetensors": {
+      "sha256": "d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa",
+      "bytes": 4902275944
+    },
+    "model-00002-of-00004.safetensors": {
+      "sha256": "8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5",
+      "bytes": 4915962496
+    },
+    "model-00003-of-00004.safetensors": {
+      "sha256": "83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192",
+      "bytes": 4999831048
+    },
+    "model-00004-of-00004.safetensors": {
+      "sha256": "0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5",
+      "bytes": 2716270024
+    }
+  },
+  "fresh_process_resume": true,
+  "reference_pid": 1416292,
+  "current_pid": 1416429,
+  "state_max_abs_differences": {
+    "native": 0.0,
+    "head": 1.1175870895385742e-08,
+    "connector": 1.0244548320770264e-08
+  },
+  "prediction_max_abs_difference": 0.0,
+  "total_loss_abs_difference": 0.0,
+  "pass_result": true,
+  "encoder_anchor_max_abs_deltas": {
+    "composite_encodings.per_modality_channel_embeddings.sentinel2_l2a": 0.0,
+    "patch_embeddings.per_modality_embeddings.sentinel2_l2a.sentinel2_l2a__0.pixel_proj.0.weight": 0.0,
+    "patch_embeddings.per_modality_embeddings.sentinel2_l2a.sentinel2_l2a__0.proj.weight": 0.0
+  },
+  "costs": {
+    "training_observation_exposures": 130,
+    "native_raw_patch_date_instances": 4,
+    "native_online_patch_date_instances": 8,
+    "native_explicit_target_patch_date_instances": 8,
+    "training_seconds": 3.9312693923711777,
+    "evaluation_seconds": 0.0
+  },
+  "model_costs": {
+    "EOencoder_calls": 12,
+    "patch_date_encodes": 90,
+    "vlm_forward_calls": 1,
+    "cache_hits": 5,
+    "cache_misses": 12,
+    "cache_key_bytes_hashed": 104369404,
+    "checkpoint_recompute_calls": 0
+  },
+  "peak_allocated_gib": 36.13467359542847,
+  "peak_reserved_gib": 36.47265625,
+  "finished_utc": "2026-09-27T11:16:14.922186+00:00"
+}

@@ -1,0 +1,212 @@
+{
+  "schema_version": "oe10_hourly_research_context_v1",
+  "created_utc": "2026-09-27T16:35:44Z",
+  "automation_id": "olmoearth-vlm",
+  "cadence_minutes": 60,
+  "objective": "지역 지식과 소수 전문가 교정으로 새 대상·새 지역에 적응하는 OlmoEarth 기반 VLM. 라벨 효율·전이·재사용 가능한 EO 표현의 이점을 실측한다.",
+  "current_phase": "paused_by_user",
+  "frozen_protocol": "config/oe10_p2_execution_protocol_20260927.json",
+  "frozen_protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+  "queue": [
+    {
+      "id": "p2_audit",
+      "state": "terminal_audited_incomplete_no_resume",
+      "artifact": "docs/OE10_P2_EXECUTION_20260927.md",
+      "exit": "Original sequence closed at cap; preserve five finals and one incomplete arm. No automatic resume or full P2 gate.",
+      "verified_completed_runs": 5,
+      "latest_export": "artifacts/oe10_p2_20260927/review_export_terminal_20260928_0845_v0",
+      "terminal_result": "incomplete",
+      "full_p2_gate_executed": false
+    },
+    {
+      "id": "expansion_inputs",
+      "state": "training_runtime_and_quality_pack_ready",
+      "candidate_class_ids": [
+        8,
+        14
+      ],
+      "next": "Input preparation completed for the additional two-class train pack. Keep new evaluation cohort unopened/unfrozen until a prospective protocol; no further repeated preparation without a concrete failure.",
+      "artifact": "artifacts/oe10_expansion_catalog_20260928/oe10_expansion_catalog_v0/runtime_v2",
+      "server_runtime": "/home/work/data/olmoearth/oe10_expansion_catalog_v0/runtime_v2",
+      "quality_review": "artifacts/oe10_expansion_catalog_20260928/oe10_expansion_catalog_v0/quality_review_v0"
+    },
+    {
+      "id": "context_integration",
+      "state": "actual_one_case_connection_verified_no_learning",
+      "artifact": "artifacts/oe10_text_mask_prepare_20260928",
+      "next": "Real EO/Qwen forward, text dependency, finite EO/head gradients and same-process restore verified. Do not repeat input/connection preparation without a new defect.",
+      "model_code": "code/oe10_text_mask_v2",
+      "server_root": "/home/work/data/olmoearth/oe10_text_mask_identity_v2",
+      "identity_preparation": "artifacts/oe10_connection_identity_20260928/identity_preparation_v1",
+      "protocol": "config/oe10_text_mask_connection_protocol_20260928.json",
+      "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+      "protocol_server": "/home/work/data/olmoearth/oe10_text_mask_identity_v2/config/oe10_text_mask_connection_protocol_20260928.json",
+      "launcher_code": "code/oe10_connection_launcher_v1",
+      "launcher_manifest_sha256": "3f00b5fd7e9669e4149c1c933d39da64d673fa92418b3432bf9776c4cca850a4",
+      "connection_result": "artifacts/oe10_connection_launcher_20260928/review_export_connection_20260928_0856_v0/connection_runs_v0/connection_20260928_01/model_output/receipt.json"
+    },
+    {
+      "id": "bounded_pilot",
+      "state": "connection_01_completed_training_pilot_preparation_next",
+      "requires": [
+        "existing_p2_ended_and_audited",
+        "new_protocol_frozen",
+        "source_reader_eo_and_complete_episode_input_identities_verified",
+        "persisted_gpu_budget_reservation",
+        "gpu1_available_and_no_duplicate_owned_job"
+      ],
+      "next": "Prepare one bounded trainer/optimizer-RNG fresh-process resume check in a separate version, with prospective source/input/conditions/budget. Then compare generic, names-only and sourced-knowledge training under the same structure; knowledge benefit must beat names-only and survive removal/swap diagnostics. Do not repeat connection_20260928_01 or restart capped P2; no new evaluation cohort/final region is opened.",
+      "launcher_code": "code/oe10_connection_launcher_v1",
+      "verification": "artifacts/oe10_connection_launcher_20260928/connection_01_recovery_verification.json",
+      "attestation_exists": true,
+      "attestation_review": "artifacts/oe10_terminal_audit_20260928/independent_review_20260928.json",
+      "job_id": "connection_20260928_01",
+      "execution_hold": "User stopped scheduled research on 2026-09-28; do not execute next step until requested again."
+    }
+  ],
+  "pilot_budget": {
+    "scope": "initial additional automatic pilots only, separate from frozen P2",
+    "policy_set_by": "assistant conservative initial operating limit, not a user-specified total research budget",
+    "gpu_index": 1,
+    "per_job_wall_seconds_max": 1800,
+    "total_gpu_occupancy_seconds_max": 7200,
+    "reserved_seconds": 0,
+    "used_seconds": 48,
+    "jobs": [
+      {
+        "actual_elapsed_seconds": 47.45010853558779,
+        "charged_seconds": 48,
+        "child_pid": 1461250,
+        "exit_code": 0,
+        "finished_utc": "2026-09-27T23:54:03.061311+00:00",
+        "gpu_immediately_before_launch": {
+          "checked_utc": "2026-09-27T23:53:15.720597+00:00",
+          "compute_processes": [],
+          "index": 1,
+          "memory_mib": 0.0,
+          "utilization_percent": null,
+          "utilization_raw": "[Not Found]",
+          "utilization_telemetry": "unavailable",
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb"
+        },
+        "job_id": "connection_20260928_01",
+        "metadata": {
+          "preflight": {
+            "episodes": {
+              "files_verified": 232,
+              "manifest_sha256": "14a59caee4dc716ebdc34b74092f19a5f5ca9dcc8b6178b63c5a6cf52eeeb0f8"
+            },
+            "full_reader_eo_hash_recheck_pending_reserved_child": true,
+            "gpu": {
+              "checked_utc": "2026-09-27T23:53:15.601233+00:00",
+              "compute_processes": [],
+              "index": 1,
+              "memory_mib": 0.0,
+              "utilization_percent": null,
+              "utilization_raw": "[Not Found]",
+              "utilization_telemetry": "unavailable",
+              "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb"
+            },
+            "launcher_source": {
+              "files_verified": 6,
+              "manifest_sha256": "3f00b5fd7e9669e4149c1c933d39da64d673fa92418b3432bf9776c4cca850a4"
+            },
+            "ledger": {
+              "charged_seconds": 0,
+              "read_only": true,
+              "would_reserve_seconds": 1800
+            },
+            "model_source": {
+              "files_verified": 16,
+              "manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad"
+            },
+            "p2_terminal_audit": {
+              "attestation_sha256": "ab387bddceb0600ac828fb2345a9df5ca488dbd25cea4533b76265348e39e3ea",
+              "audited_utc": "2026-09-27T23:50:17.600775+00:00",
+              "completed_runs": 5,
+              "expected_runs": 6,
+              "p2_result": "incomplete",
+              "p2_status_sha256": "df8da2d02dfe0e86be0ba9b6d61b7763c7f3e401ea3f44125f853aba02383533"
+            },
+            "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+            "server_scope": true
+          },
+          "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778"
+        },
+        "reserved_seconds": 1800,
+        "reserved_utc": "2026-09-27T23:53:15.608262+00:00",
+        "started_utc": "2026-09-27T23:53:15.728533+00:00",
+        "status": "completed"
+      }
+    ],
+    "include_retries_and_inference": true,
+    "reset_each_heartbeat": false,
+    "action_after_exhaustion": "Continue CPU work; present measured evidence and a concrete larger training budget.",
+    "remaining_seconds": 7152,
+    "actual_occupancy_seconds_total": 47.45010853558779
+  },
+  "reporting": {
+    "preserve_original_winter_wheat_primary": true,
+    "expanded_average_is_not_same_cohort_improvement": true,
+    "actual_human_responses": 0,
+    "unopened_final_regions_remain_sealed": true
+  },
+  "independent_scope_review": "hourly_research_scope_review: preserve old cap, freeze new cohort, concrete artifacts and cumulative budget.",
+  "automation_update_state": "paused_by_user",
+  "automation_prompt": "OlmoEarth 연구를 이 대화의 맥락을 이어서 한 시간마다 한 단계씩 진행한다. 큰 목표는 지역·계절 지식과 소수 전문가 교정으로 새로운 대상과 지역에 적응하고, 영상의 공간·분광·시간 정보를 사용해 위치·측정·근거를 설명하는 OlmoEarth 기반 VLM이다. 라벨 효율, 새 지역 전이, 다른 reader에서도 남는 EO 표현의 이점을 검증한다. 평균 점수를 올리기 위한 대상 교체나 매회 새 설계 문서 작성 대신 실제 입력·코드·검증·실측을 우선한다.\n\n실제 저장소는 /Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project 이다. CLAUDE.md, RESTART_HERE.md, GOAL.md, docs/OE10_P2_EXECUTION_20260927.md, config/oe10_hourly_research_context_20260928.json을 먼저 읽고 최신 사용자 지시와 실행 장부를 따른다. 서버는 이 저장소의 ./bin/nx로만 접근한다. 로컬에 분석·실행 코드를 먼저 저장하고 서버에서는 env -u PYTHONPATH를 사용한다. 실행 중인 소스와 입력을 수정하지 않는다.\n\n현재 B0/B2 비교를 먼저 추적한다. 서버 /home/work/data/olmoearth/oe10_p2_v0/training_v0/status.json, worker receipt·train_log·score와 자체 프로세스를 대조한다. code_snapshot/oe10_p2_v3, engineering_v3, 동결 protocol의 B0/B2×3seed×2304update·평가384·전체12시간 상한을 유지한다. 다른 사람 작업을 종료하지 않는다. 기존 실행이 끝나거나 상한에 도달할 때까지 추가 GPU 작업은 시작하지 않고 CPU 준비를 진행한다. 완료한 실행은 최신 감사본 audit_snapshot/oe10_audit_v2의 summarize_runs.py로 checkpoint·예측·로그와 fairness_audit_v3_evidence.json을 검산한다. 기록에 후속 감사본이 있으면 그것을 따른다. 6개 검증 완료일 때 기존 gate_config.json/evaluate_p2_gate.py로 판정하고, 미완료·상한 종료이면 미완료로 보고한다. export_review.py --include-final-predictions의 새 export를 nx pull로 회수해 해시를 검증한다. 시간 상한이나 실패를 재시작으로 우회하지 않는다.\n\n확장 작업은 다음 순서에서 현재 필요한 하나를 완성한다. 첫째, 기존 train/support 가용성 감사에서 선정한 포도밭과 사료용 콩과의 실제 입력·관측 품질·필지 독립성·support 수를 확인하고 재현 가능한 준비 묶음을 만든다. 후보를 성능으로 골라내지 않는다. 기존 겨울밀 포함 주평가와 실패표를 유지하고 신규 대상·가중치는 신규 평가 전에 고정한다. 이미 본 dev는 개발용으로 표시하며 미개봉 최종 지역과 평가 정답을 자동으로 열지 않는다. Kuro는 노출 감사 전 실행하지 않는다.\n\n둘째, artifacts/oe10_context_prepare_20260928_v1과 농업 지식카드를 바탕으로 훈련 입력과 모델 경로를 연결한다. 현재 mask는 Qwen 출력 전에 계산되어 설명이 직접 mask를 바꾸지 못한다. 별도 버전에서 텍스트 입력→위치 예측 및 OlmoEarth 기울기 경로를 실제 확인한다. 같은 구조에서 일반 문구, 작물명만, 작물명+출처 있는 설명을 비교할 수 있게 준비하고 설명의 추가 효과는 작물명만 조건과 비교한다. 설명 제거·교환 진단을 준비한다. 공개 자료 요약은 실제 전문가 교정으로 세지 않고 사람 응답은 현재 0임을 유지한다. 20개 사람 검수 후보의 영상 패키지를 준비할 수 있지만 채용·외부 연락·유료 API 호출은 하지 않는다.\n\n셋째, 기존 비교의 종료·감사 이후 새 가설·표본·대조군·지표·중단 기준·소스 hash를 결과 전에 기록한 작은 연결/학습 pilot을 GPU1에서 순차 실행한다. 초기 자동 pilot 예산은 회당 최대30분, 모든 재시도·추론을 합친 누적 GPU 점유 최대2시간으로 운영하고 영구 장부에 예약·실제 사용량을 기록한다. 이 초기 상한을 매시간 재설정하지 않는다. 짧은 pilot은 실행 가능성 확인이며 충분히 학습한 성능 비교로 주장하지 않는다. 상한 이후에는 CPU 분석·입력 준비를 계속하고, 더 큰 학습은 측정에 근거한 구체적 후속 예산을 사용자에게 제시한다. 자동 중복 실행을 막고 본인 소유 작업만 관리한다.\n\n각 회차 GOAL과 실행 기록에 실제 완료 작업, 실패·한계, 검증 결과, 다음 한 단계, 추가 GPU 누적 사용량을 남긴다. 유의미한 준비 완료·측정 변화·실패·사용자 결정이 생기면 근거와 함께 간단히 알린다. 상태가 그대로라면 반복 보고하지 않는다. 전체 목표와 대비해 한 지역·합성 교정·언어 설명 평가 부재·학습 부족을 명시하며 논문 성공이나 성능 상승을 가정하지 않는다. 기존 6회 비교 감사 완료만으로 이 확장 추적을 종료하지 않는다. 사용자가 중단을 요청하면 중지하고, 사람이 필요한 조건 때문에 더 진행할 수 없으면 필요한 입력을 구체적으로 알려 불필요한 반복을 멈춘다.",
+  "replaced_missing_automation_id": "oe10-b0-b2",
+  "automation_receipt": "artifacts/oe10_p2_20260927/hourly_automation_setup_20260928.json",
+  "updated_utc": "2026-09-28T00:26:30.819001+00:00",
+  "automation_prompt_sha256": "6d80791e21b6e506d7c14d614a425d3b65f625bf5a027deb2164a39749f98145",
+  "first_scheduled_run_observed_utc": "2026-09-27T17:37:14.548Z",
+  "latest_hourly_result": {
+    "at_utc": "2026-09-27T23:58:10.676691+00:00",
+    "p2_terminal_result": "incomplete",
+    "verified_completed_p2_runs": 5,
+    "paired_seeds": 2,
+    "full_p2_gate_executed": false,
+    "all_five_completed_runs_stability_failed": true,
+    "p2_elapsed_seconds": 43200.395225815475,
+    "last_incomplete_worker_logged_updates": 1876,
+    "p2_final_predictions_recovered": 1920,
+    "p2_export_files_verified": 2056,
+    "connection_job": "connection_20260928_01",
+    "actual_qwen_eo_weights_forward": true,
+    "connection_status": "actual_connection_check_passed",
+    "connection_optimizer_updates": 0,
+    "actual_elapsed_seconds": 47.45010853558779,
+    "cumulative_pilot_charged_seconds": 48,
+    "human_responses": 0
+  },
+  "connection_note": "2026-09-28: nx status showed RUNNING while standalone nx sh/tunnel attempts failed. Restarted only local tunnel. Running nx tunnel up and dependent push/sh/pull within the same exec shell restored access. Preserve remote training; do not infer training failure from a stale local tunnel. 06:55 KST a stale local tunnel again refused upload; nx tunnel down/up in one shell restored it, without touching remote GPU jobs.",
+  "budget_runtime": {
+    "authoritative_server_ledger": "/home/work/data/olmoearth/oe10_text_mask_identity_v2/pilot_budget_ledger_v0.json",
+    "local_budget_is_mirror": true,
+    "ledger_created": true,
+    "bootstrap": "config/oe10_pilot_budget_bootstrap_20260928.json",
+    "bootstrap_sha256": "0c7a2c815fc12270a68fa5cb9e8739a36614efe52837d94dcd13bd47b094cd20",
+    "rule": "Initialize only once from the pinned zero snapshot at actual authorized launch; existing server ledger and witness take precedence. Recover/hash and mirror every attempt, including failed or interrupted occupancy.",
+    "latest_ledger_snapshot": "artifacts/oe10_user_pause_20260928/pilot_budget_ledger_v0.json"
+  },
+  "latest_heartbeat_check": {
+    "at_utc": "2026-09-27T23:43:30.756486+00:00",
+    "artifact": "artifacts/oe10_p2_20260927/terminal_live_20260928_0843.json",
+    "completed_runs": 5,
+    "controller_status": "failed",
+    "finished_utc": "2026-09-27T23:42:44.360103+00:00",
+    "elapsed_seconds": 43200.395225815475,
+    "final_worker_receipt_updates": 1872,
+    "final_worker_logged_step": 1876,
+    "controller_and_worker_stopped": true,
+    "new_gpu_seconds": 47.45010853558779,
+    "actual_connection_job": "connection_20260928_01",
+    "connection_completed": true,
+    "user_notification": "P2 capped incomplete with final audit; separate actual connection check passed."
+  },
+  "latest_connection_independent_review": "artifacts/oe10_connection_launcher_20260928/independent_review_connection_01.json",
+  "phase_before_user_pause": "p2_capped_incomplete_audited_actual_connection_passed",
+  "automation_status": "PAUSED",
+  "automatic_progression_enabled": false,
+  "resume_requires_user_request": true,
+  "user_pause_receipt": "artifacts/oe10_user_pause_20260928/pause_receipt.json"
+}

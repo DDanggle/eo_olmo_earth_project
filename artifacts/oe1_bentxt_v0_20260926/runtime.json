@@ -1,0 +1,54 @@
+{
+  "python": "3.11.15 (main, Aug  7 2026, 02:25:55) [Clang 22.1.3 ]",
+  "executable": "/home/work/data/olmoearth/.venv-master/bin/python",
+  "packages": {
+    "torch": "2.13.0",
+    "transformers": "5.15.0",
+    "olmoearth-pretrain-minimal": "0.0.6",
+    "rslearn": "0.1.13",
+    "rasterio": "1.4.4",
+    "pyarrow": "19.0.1",
+    "zstandard": "0.25.0",
+    "huggingface-hub": "1.27.0",
+    "safetensors": "0.8.0"
+  },
+  "files": {
+    "region_language_contract_20260921/BigEarthNet.txt.parquet": {
+      "exists": true,
+      "bytes": 466819745
+    },
+    "geobench2/benv2/geobench_benv2.tortilla": {
+      "exists": true,
+      "bytes": 9099097346
+    },
+    "olmo_llm/Olmo-3-7B-Instruct/config.json": {
+      "exists": true,
+      "bytes": 1625
+    }
+  },
+  "minimal_path": "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/olmoearth_pretrain_minimal/__init__.py",
+  "cuda_available": true,
+  "devices": [
+    "NVIDIA H200",
+    "NVIDIA H200"
+  ],
+  "model": {
+    "repo": "allenai/OlmoEarth-v1-Tiny",
+    "revision": "885784437d4e2d632b7bf51b4233426c6f4479dc",
+    "path": "/home/work/data/olmoearth/oe1_bentxt_v0/models/OlmoEarth-v1-Tiny",
+    "files": {
+      "config.json": {
+        "bytes": 13319,
+        "sha256": "975dc2d755688c3010f9fecb662b62784d335731d701d8dda3f9ea0ccec88781"
+      },
+      "weights-66b9827af383bc444d7909a406a5b62c072bb08d6804ff47a247c2dce8fad9a4.pth": {
+        "bytes": 57268875,
+        "sha256": "66b9827af383bc444d7909a406a5b62c072bb08d6804ff47a247c2dce8fad9a4"
+      },
+      "weights.pth": {
+        "bytes": 57268875,
+        "sha256": "66b9827af383bc444d7909a406a5b62c072bb08d6804ff47a247c2dce8fad9a4"
+      }
+    }
+  }
+}

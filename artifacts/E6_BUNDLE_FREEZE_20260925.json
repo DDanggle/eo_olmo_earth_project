@@ -1,0 +1,34 @@
+{
+  "at": "2026-09-25T07:41:26.302180+00:00",
+  "status": "frozen_before_E6_training_and_E5_final_score_read",
+  "plan_sha256": "66f820db8bc6a3d03c07d66676adcbe6170c012649a824e83b02a94d03194840",
+  "source_sha256": {
+    "e6_prepare_v0.py": "e8f3e63d4f2f4a852fc336cc20c00ec6a5ed0553f261991ccddf05b98d3ff6b0",
+    "e6_head_model_v0.py": "8cb61fafb4ed73b395678cbe10d6d81fee8c0a9c77b575aaf5498ce1d6b033f6",
+    "e6_train_v0.py": "4c9f70925eab16f33c39561f22631a61da8896e6704ba50f26b8d088696c9a8e",
+    "e6_scoring_v0.py": "987a37cc072049e9616ce83ba441eb382a881439e734b126332c1f602b7416f4",
+    "run_e6_when_idle_v0.py": "6c0fee1e92a272b85d9510f30160ff8b0c2424204f991256ad137b62d3d5d306"
+  },
+  "payload_files": {
+    "e6_train_v0.py": "4c9f70925eab16f33c39561f22631a61da8896e6704ba50f26b8d088696c9a8e",
+    "test_e6_prepare_launcher_v0.py": "65c51cfe5a49b446450eb0c9191348430d36753a7a8403b946b1a8adf3fa1654",
+    "e6_no_llm_prereg_v0.json": "66f820db8bc6a3d03c07d66676adcbe6170c012649a824e83b02a94d03194840",
+    "e6_prepare_v0.py": "e8f3e63d4f2f4a852fc336cc20c00ec6a5ed0553f261991ccddf05b98d3ff6b0",
+    "test_e6_train_v0.py": "3f363a5279cb96563f4595a08a88d765224b2142e6fe5db6c5379f09e17356ff",
+    "e6_head_model_v0.py": "8cb61fafb4ed73b395678cbe10d6d81fee8c0a9c77b575aaf5498ce1d6b033f6",
+    "run_e6_when_idle_v0.py": "6c0fee1e92a272b85d9510f30160ff8b0c2424204f991256ad137b62d3d5d306",
+    "test_e6_head_model_v0.py": "d32b1573f143269dedcf0783c66a84e3fef8e81f3ffa975e1e56e2e1bd557ea7",
+    "test_e6_scoring_v0.py": "ab68bca5fc3823df77ee52e2aeb66ab35fe6b35197773a9da8ae1602ae528315",
+    "e6_scoring_v0.py": "987a37cc072049e9616ce83ba441eb382a881439e734b126332c1f602b7416f4"
+  },
+  "local_synthetic_tests": {
+    "head": 9,
+    "train": 14,
+    "scoring": 20,
+    "prepare_launcher": 14,
+    "total": 57,
+    "status": "PASS"
+  },
+  "test_path_portability_change": "One local-prereg path replaced with exact local/bundle fixture lookup; science code and plan unchanged; relevant contract test PASS.",
+  "expected_E5_audit_gate": "E5 completed/valid and independently consistent with CPU checkpoint tensors; no E6 real training before this."
+}

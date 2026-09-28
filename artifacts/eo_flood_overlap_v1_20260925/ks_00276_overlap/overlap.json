@@ -1,0 +1,433 @@
+{
+  "schema": "eo-flood-landcover-overlap-v0",
+  "status": "measured",
+  "id": "ks_00276",
+  "event_id": "1111009",
+  "event_date": "2022-09-10",
+  "split": "train",
+  "computed_at": "2026-09-24T16:35:03.433105+00:00",
+  "baseline": {
+    "dataset": "ESA WorldCover 2020 v100",
+    "reference_start": "2020-01-01",
+    "reference_end": "2020-12-31",
+    "product_publication_date": "2021-10-20",
+    "current_object_last_modified": "Tue, 25 Oct 2022 13:33:35 GMT",
+    "historical_byte_identity_verified": false,
+    "retrospective_analysis": true
+  },
+  "source_grid": {
+    "crs": "EPSG:3857",
+    "transform": [
+      10.0,
+      0.0,
+      7534615.0,
+      0.0,
+      -10.0,
+      3244315.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "shape": [
+      224,
+      224
+    ]
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          67.68459814456207,
+          27.96304176238919
+        ],
+        [
+          67.70472040692636,
+          27.96304176238919
+        ],
+        [
+          67.70472040692636,
+          27.945267306149756
+        ],
+        [
+          67.68459814456207,
+          27.945267306149756
+        ],
+        [
+          67.68459814456207,
+          27.96304176238919
+        ]
+      ]
+    ]
+  },
+  "acquisition_dates": {
+    "pre_event_1": null,
+    "pre_event_2": null,
+    "post_event": null
+  },
+  "acquisition_audit": "All three tortilla sample rows repeat the event timestamp; original TIFF tags have no acquisition timestamps. No -24/-12-day imputation.",
+  "area_method": "sum of WGS84 ellipsoidal geodesic four-corner pixel areas; EPSG3857 projected area is NOT ground area",
+  "naive_projected_footprint_m2": 5017600.0,
+  "resampling": "nearest neighbor; original flood grid retained",
+  "mask_contract": "raw 0 nonwater,1 permanent water,2 flood,3 nodata; valid asset5==1; TIFF mask nodata=0 ignored because class0 is semantic nonwater",
+  "provenance": {
+    "flood_source_manifest_sha256": "15cfb571529d76460adcef3332a0b27f162232a33c9a0b462c3fa7d1dcbdc4e3",
+    "flood_assets": [
+      {
+        "index": 0,
+        "path": "asset_0.tif",
+        "source_locator": "/vsisubfile/297622854_342393,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "sha256": "ea353028897cf047c1090ef324b2fd691da521cbfe2b7058dd6f37a3a51bb68c",
+        "crs": "EPSG:3857",
+        "transform": [
+          10.0,
+          0.0,
+          7534615.0,
+          0.0,
+          -10.0,
+          3244315.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          7534615.0,
+          3242075.0,
+          7536855.0,
+          3244315.0
+        ],
+        "shape": [
+          2,
+          224,
+          224
+        ],
+        "dtype": "float32",
+        "nodata": 0.0,
+        "tags": {
+          "AREA_OR_POINT": "Area"
+        },
+        "band_tags": [
+          {},
+          {}
+        ],
+        "descriptions": [
+          null,
+          null
+        ],
+        "counts": {}
+      },
+      {
+        "index": 1,
+        "path": "asset_1.tif",
+        "source_locator": "/vsisubfile/297965247_342618,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "sha256": "8193fa390002748ca6af2899d7568599b41048c937df9a26a347c04a03ffcf56",
+        "crs": "EPSG:3857",
+        "transform": [
+          10.0,
+          0.0,
+          7534615.0,
+          0.0,
+          -10.0,
+          3244315.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          7534615.0,
+          3242075.0,
+          7536855.0,
+          3244315.0
+        ],
+        "shape": [
+          2,
+          224,
+          224
+        ],
+        "dtype": "float32",
+        "nodata": 0.0,
+        "tags": {
+          "AREA_OR_POINT": "Area"
+        },
+        "band_tags": [
+          {},
+          {}
+        ],
+        "descriptions": [
+          null,
+          null
+        ],
+        "counts": {}
+      },
+      {
+        "index": 2,
+        "path": "asset_2.tif",
+        "source_locator": "/vsisubfile/298307865_353820,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "sha256": "40af5f9cecddcf8f333cb8a5d6954f0e3d2246c7e85c17361b41f1525e09dbaa",
+        "crs": "EPSG:3857",
+        "transform": [
+          10.0,
+          0.0,
+          7534615.0,
+          0.0,
+          -10.0,
+          3244315.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          7534615.0,
+          3242075.0,
+          7536855.0,
+          3244315.0
+        ],
+        "shape": [
+          2,
+          224,
+          224
+        ],
+        "dtype": "float32",
+        "nodata": 0.0,
+        "tags": {
+          "AREA_OR_POINT": "Area"
+        },
+        "band_tags": [
+          {},
+          {}
+        ],
+        "descriptions": [
+          null,
+          null
+        ],
+        "counts": {}
+      },
+      {
+        "index": 3,
+        "path": "asset_3.tif",
+        "source_locator": "/vsisubfile/298661685_39544,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "sha256": "4ab0b02a929735fb3d2bb73aa97d45b3dcc3686780a11271b4a765a06bc4f394",
+        "crs": "EPSG:3857",
+        "transform": [
+          10.0,
+          0.0,
+          7534615.0,
+          0.0,
+          -10.0,
+          3244315.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          7534615.0,
+          3242075.0,
+          7536855.0,
+          3244315.0
+        ],
+        "shape": [
+          1,
+          224,
+          224
+        ],
+        "dtype": "float32",
+        "nodata": 0.0,
+        "tags": {
+          "AREA_OR_POINT": "Area"
+        },
+        "band_tags": [
+          {}
+        ],
+        "descriptions": [
+          null
+        ],
+        "counts": {}
+      },
+      {
+        "index": 4,
+        "path": "asset_4.tif",
+        "source_locator": "/vsisubfile/298701229_1393,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "sha256": "83b8060214d35fa35844e8b405d05b57fa945d955516f3844dd1e5b6af56b857",
+        "crs": "EPSG:3857",
+        "transform": [
+          10.0,
+          0.0,
+          7534615.0,
+          0.0,
+          -10.0,
+          3244315.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          7534615.0,
+          3242075.0,
+          7536855.0,
+          3244315.0
+        ],
+        "shape": [
+          1,
+          224,
+          224
+        ],
+        "dtype": "uint8",
+        "nodata": 0.0,
+        "tags": {
+          "AREA_OR_POINT": "Area"
+        },
+        "band_tags": [
+          {}
+        ],
+        "descriptions": [
+          null
+        ],
+        "counts": {
+          "0": 1608,
+          "1": 32,
+          "2": 48536
+        }
+      },
+      {
+        "index": 5,
+        "path": "asset_5.tif",
+        "source_locator": "/vsisubfile/298702622_421,/home/work/data/olmoearth/geobench2/kurosiwo/kurosiwo/geobench_kuro_siwo.tortilla",
+        "sha256": "3043fa17fa00aa373d5eefd1fbfab708601fbd9fbab3d6339fec31a95a5584c2",
+        "crs": "EPSG:3857",
+        "transform": [
+          10.0,
+          0.0,
+          7534615.0,
+          0.0,
+          -10.0,
+          3244315.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          7534615.0,
+          3242075.0,
+          7536855.0,
+          3244315.0
+        ],
+        "shape": [
+          1,
+          224,
+          224
+        ],
+        "dtype": "uint8",
+        "nodata": 0.0,
+        "tags": {
+          "AREA_OR_POINT": "Area"
+        },
+        "band_tags": [
+          {}
+        ],
+        "descriptions": [
+          null
+        ],
+        "counts": {
+          "1": 50176
+        }
+      }
+    ],
+    "worldcover_url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v100/2020/map/ESA_WorldCover_10m_2020_v100_N27E066_Map.tif",
+    "worldcover_http_headers": {
+      "x-amz-id-2": "AL10Bfwj8ggPaSipXAkIwUI8eVlIZlkYehHNGN/VniexOw5eDo2BB+NV0Bu4SvzFX3UNk/PLtD3L02Abn9L8fiIhzUX+X8Bi",
+      "x-amz-request-id": "VPCS9V7855YCH5FZ",
+      "date": "Thu, 24 Sep 2026 16:34:59 GMT",
+      "last-modified": "Tue, 25 Oct 2022 13:33:35 GMT",
+      "etag": "\"628ca9380a525d0aec278159e9e9b0b8-9\"",
+      "x-amz-server-side-encryption": "AES256",
+      "accept-ranges": "bytes",
+      "content-type": "image/tiff",
+      "content-length": "72238755",
+      "server": "AmazonS3",
+      "connection": "close"
+    },
+    "worldcover_source_metadata": {
+      "crs": "EPSG:4326",
+      "transform": [
+        8.333333333333333e-05,
+        0.0,
+        66.0,
+        0.0,
+        -8.333333333333333e-05,
+        30.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "width": 36000,
+      "height": 36000,
+      "nodata": 0.0,
+      "tags": {
+        "algorithm_version": "V1.0.0",
+        "copyright": "ESA WorldCover project 2020 / Contains modified Copernicus Sentinel data (2020) processed by ESA WorldCover consortium",
+        "creation_time": "2021-10-12 16:51:26.705020",
+        "legend": "10  Tree cover\n    20  Shrubland\n    30  Grassland\n    40  Cropland\n    50  Built-up\n    60  Bare/sparse vegetation\n    70  Snow and ice\n    80  Permanent water bodies\n    90  Herbaceous wetland\n    95  Mangroves\n    100 Moss and lichen\n    ",
+        "license": "CC-BY 4.0 - https://creativecommons.org/licenses/by/4.0/",
+        "OVR_RESAMPLING_ALG": "MODE",
+        "product_crs": "EPSG:4326",
+        "product_grid": "3x3 degree tiling grid",
+        "product_tile": "N27E066",
+        "product_type": "LandCover Map",
+        "product_version": "V1.0.0",
+        "reference": "https://esa-worldcover.org",
+        "time_end": "2020-12-31T23:59:59Z",
+        "time_start": "2020-01-01T00:00:00Z",
+        "title": "ESA WorldCover product at 10m resolution for year 2020",
+        "AREA_OR_POINT": "Area"
+      }
+    },
+    "worldcover_aligned_sha256": "e35d65c446e99806ec9aa8595501969b52f1dcb767ca8e567522bcf17c905b31",
+    "arrays_sha256": "26c35a9fc6971743cdd603ae6864fb2bc761b4b94cd4e14c51b32889ae5b9eba",
+    "analysis_code_sha256": "d4c4bef819a3f50aced8e7b05ff06dd5f9cb73043497de7b2c35cc1bdfa8f28b",
+    "source_selection": "single known positive train development case; not representative evaluation",
+    "references": [
+      "https://esa-worldcover.org/en/data-access",
+      "https://eo4society.esa.int/2022/11/11/2021-worldcover-product/"
+    ],
+    "attribution": "© ESA WorldCover project 2020 / Contains modified Copernicus Sentinel data (2020) processed by ESA WorldCover consortium"
+  },
+  "limitations": [
+    "single_selected_positive_train_case_not_model_evaluation",
+    "two_year_old_landcover_may_be_stale",
+    "class40_excludes_woody_crops_and_greenhouses",
+    "spatial_label_overlap_not_crop_loss_or_causal_damage",
+    "actual_SAR_acquisition_timestamps_unavailable",
+    "current_COG_historical_byte_identity_unverified",
+    "no_area_accuracy_confidence_interval",
+    "near_boundary_resampling_uncertainty_not_quantified"
+  ],
+  "joint_valid_area_m2": 3900287.500758767,
+  "unknown_area_m2": 0.0,
+  "footprint_area_m2": 3900287.500758767,
+  "flood_valid_area_m2": 3900287.500758767,
+  "reference_flood_area_m2": 3772803.7005377077,
+  "flood_unknown_landcover_area_m2": 0.0,
+  "flood_valid_pixels": 50176,
+  "joint_valid_pixels": 50176,
+  "unknown_pixels": 0,
+  "classes": {
+    "cropland": {
+      "class_code": 40,
+      "source_class_name": "Cropland (annual herbaceous)",
+      "flood_overlap_m2": 3665141.6010337174,
+      "observed_class_area_m2": 3756479.0057557747,
+      "overlap_pixels": 47151,
+      "observed_class_pixels": 48326,
+      "flood_share_of_observed_class": 0.9756853679783362
+    },
+    "forest": {
+      "class_code": 10,
+      "source_class_name": "Tree cover",
+      "flood_overlap_m2": 0.0,
+      "observed_class_area_m2": 0.0,
+      "overlap_pixels": 0,
+      "observed_class_pixels": 0,
+      "flood_share_of_observed_class": null
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "e3-gpu-operational-amendment-v1",
+  "at": "2026-09-25T04:59:55.780197+00:00",
+  "parent_out": "/home/work/data/olmoearth/e3_pair_dependence_v0",
+  "output": "/home/work/data/olmoearth/e3_pair_dependence_v1",
+  "parent_manifest_sha256": "ac71805461a087fbc6fb81fd552977b7197c4e1b2c6f6d2ec07e6643948897a5",
+  "parent_prereg_sha256": "c2d6102990bc7549f88fc1334c232a8966d9d52dddfe8898f7b48e38e6b53cc6",
+  "reason": "GPU0 became idle while GPU1 remained occupied by unrelated work; pre-inference operational relocation",
+  "changed_fields": [
+    "compute.gpu",
+    "compute.outputs",
+    "runner.final_gpu_guard"
+  ],
+  "scientific_rules_unchanged": true,
+  "selection_recomputed": false,
+  "parent_inference_outputs_absent": true,
+  "old_waiter_and_runner_absent_checked": true,
+  "handoff_sha256": "cee136825633772bcc28a476987cf08ae52d459eb040ed7a2929ba97dd9dc871",
+  "launcher_sha256": "7172b988f66222ac48476beb37b1e49641bcae7c11960324a9be910b066021d2",
+  "prepare_helper_sha256": "dcc11eee2f1fb36439098087c5c0c583a3d4c4777eb0adc4d11d14b7100e4368",
+  "parent_input_audit_sha256": "6cc9feb4e2c80d945a55c901728fdd4e4dd61c0668f924573d97716ac62d311e",
+  "parent_code_snapshot_sha256": {
+    "e3_pair_dependence_v0.py": "0336a62dfb99c1cd53fea8014d0da8ce2e26e913c35e0d253bed81ee45096aa1",
+    "e3_pair_transforms_v0.py": "d051a0a872bb998bcc9dce40d0b0da49fac6994fb32133025a74e7ec5267d346",
+    "e3_pair_scoring.py": "59861d43601fbaa0e29f4d9e6998350cfb493feb397f9d0fe5363963b2dca38b"
+  }
+}

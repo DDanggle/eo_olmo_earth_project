@@ -1,0 +1,13 @@
+{
+  "schema": "e6-component-local-verification-v0",
+  "status": "synthetic_component_only_pass",
+  "tests_passed": 9,
+  "runtime": "/Users/dongdong/DongDong/ai_projects/earth_paper/olmoearth/.venv-nano-lab/bin/python",
+  "command": "PYTHONPATH=code python -B -m unittest discover -s tests -p test_e6_head_model_v0.py -v",
+  "source_sha256": {
+    "code/e6_head_model_v0.py": "8cb61fafb4ed73b395678cbe10d6d81fee8c0a9c77b575aaf5498ce1d6b033f6",
+    "tests/test_e6_head_model_v0.py": "d32b1573f143269dedcf0783c66a84e3fef8e81f3ffa975e1e56e2e1bd557ea7"
+  },
+  "parameters": 367361,
+  "note": "Recorded from the main-agent tool execution, 9 tests in 1.350s. A fixed synthetic 8-example fit decreased BCE 1.101766 to 0.001691 and reversed all 8 decisions under frame swap. This is not real EO performance, a training run, or preregistration."
+}

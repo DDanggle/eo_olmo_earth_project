@@ -1,0 +1,112 @@
+{
+  "observed_date": "2026-09-26",
+  "purpose": "Public official-source research only; no inference API calls or account inspection",
+  "budget": {
+    "total_project_krw": 1000000,
+    "annotation_human_krw": 880000,
+    "api_hard_cap_krw": 50000,
+    "reserve_krw": 70000,
+    "spent_by_this_research_krw": 0
+  },
+  "price_unit": "USD per 1 million tokens, standard synchronous endpoint; excludes currency conversion and account funding charges",
+  "candidates": [
+    {
+      "id": "qwen/qwen3-vl-30b-a3b-instruct",
+      "input_usd_per_million": 0.13,
+      "output_usd_per_million": 0.52,
+      "provider": "Alibaba",
+      "endpoint_tag": "alibaba",
+      "quantization": "unknown",
+      "image_input": true,
+      "structured_outputs": true,
+      "seed_parameter": true,
+      "source": "https://openrouter.ai/api/v1/models/qwen/qwen3-vl-30b-a3b-instruct/endpoints",
+      "image_cost_note": "Endpoint exposes prompt/completion token prices and no separate image price. This does not imply images are free; measure actual usage.cost.",
+      "alternative_endpoint": {
+        "tag": "deepinfra/fp8",
+        "quantization": "fp8",
+        "input_usd_per_million": 0.15,
+        "output_usd_per_million": 0.6
+      },
+      "distillable_eligibility": "NOT_VERIFIED",
+      "training_label_execution_status": "CANDIDATE_NOT_APPROVED_BY_TERMS_CHECK"
+    },
+    {
+      "id": "google/gemini-3.1-flash-lite",
+      "input_usd_per_million": 0.25,
+      "output_usd_per_million": 1.5,
+      "provider": "Google AI Studio or default Google Vertex standard endpoint",
+      "endpoint_tag": "NOT_YET_PINNED",
+      "image_input": true,
+      "structured_outputs": "JSON schema in response_format advertised on model page; recheck exact endpoint before execution",
+      "source": "https://openrouter.ai/google/gemini-3.1-flash-lite",
+      "image_cost_note": "Model page lists image input at USD 0.25 per million image tokens, not per image. Regional and Flex endpoints have different prices.",
+      "distillable_eligibility": "NOT_VERIFIED",
+      "training_label_execution_status": "CANDIDATE_NOT_APPROVED_BY_TERMS_CHECK"
+    },
+    {
+      "id": "openai/gpt-4.1-mini",
+      "input_usd_per_million": 0.4,
+      "output_usd_per_million": 1.6,
+      "provider": "OpenAI or Azure",
+      "endpoint_tag": "NOT_YET_PINNED",
+      "image_input": true,
+      "structured_outputs": "JSON schema in response_format advertised on model page; recheck exact endpoint before execution",
+      "source": "https://openrouter.ai/openai/gpt-4.1-mini",
+      "image_cost_note": "Do not assume a fixed price per image; resolution, preprocessing, provider token accounting and completion length affect the request cost.",
+      "distillable_eligibility": "NOT_VERIFIED",
+      "training_label_execution_status": "CANDIDATE_NOT_APPROVED_BY_TERMS_CHECK"
+    }
+  ],
+  "implementation_sources": {
+    "image_input": "https://openrouter.ai/docs/guides/overview/multimodal/image-understanding",
+    "structured_outputs": "https://openrouter.ai/docs/guides/features/structured-outputs",
+    "provider_routing_and_distillable_text": "https://openrouter.ai/docs/guides/routing/provider-selection",
+    "zero_data_retention": "https://openrouter.ai/blog/insights/zero-data-retention/",
+    "input_output_logging": "https://openrouter.ai/docs/guides/features/input-output-logging",
+    "usage_accounting": "https://openrouter.ai/docs/cookbook/administration/usage-accounting",
+    "limits": "https://openrouter.ai/docs/api_reference/limits",
+    "batch": "https://openrouter.ai/docs/batch-quickstart"
+  },
+  "execution_contract_recommendation": {
+    "initial_api": "synchronous /api/v1/chat/completions with local rendered images as base64; not raw 12-band GeoTIFF",
+    "provider": {
+      "only": [
+        "EXACT_VERIFIED_ENDPOINT_TAG"
+      ],
+      "allow_fallbacks": false,
+      "require_parameters": true,
+      "data_collection": "deny",
+      "zdr": true,
+      "enforce_distillable_text": true
+    },
+    "provider_policy_note": "This combination is a proposed strict eligibility filter, not evidence that any candidate has an eligible endpoint. Fail closed if no permitted endpoint exists. Verify underlying provider/model terms separately for intended training use.",
+    "response": "JSON schema strict true plus local JSONSchema validation; record invalid/missing answers rather than silently repairing",
+    "audit": [
+      "model ID",
+      "exact endpoint/provider and quantization",
+      "request/response timestamp",
+      "prompt and image hashes",
+      "generation ID",
+      "raw response",
+      "schema validation status",
+      "all usage fields including cost"
+    ],
+    "cost": "Use actual usage.cost in each response and generation lookup for reconciliation. Measure a small fixed calibration set before projecting volume. Keep an API-key credit cap and local KRW cap, including exchange-rate/fees margin; no automatic top-up.",
+    "limits": "Do not infer guaranteed concurrency from model selection. Honor Retry-After and upstream errors; account/key/in-flight spending limits can yield 402 even with positive balance.",
+    "privacy": "ZDR and data_collection policies are distinct. Disable optional full prompt/response observability and separate data-sharing settings if retained prompts are inappropriate; maintain local provenance instead. No account settings were read or changed. Privacy options are candidate policies, not an assertion of an available compatible endpoint."
+  },
+  "batch_appendix": {
+    "launch_date": "2026-09-22",
+    "source": "https://openrouter.ai/blog/announcements/batch-api/",
+    "documentation": "https://openrouter.ai/docs/batch-quickstart",
+    "limitations": [
+      "Public HTTP(S) image URLs required; base64/data URLs rejected",
+      "Current image batch provider list includes OpenAI, Anthropic, xAI and DeepInfra chat-completions; not Google Vertex or Google AI Studio",
+      "Only provider.only is accepted as a batch provider routing preference; synchronous policies cannot simply be copied",
+      "A supported batch endpoint must be verified per candidate",
+      "Typical 50 percent token discount does not establish every model/image request price",
+      "Do not assume synchronous ZDR/no-storage behavior for stored batch requests/results"
+    ]
+  }
+}

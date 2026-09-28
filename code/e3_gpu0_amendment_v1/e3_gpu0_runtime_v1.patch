@@ -1,0 +1,16 @@
+--- v0/code_snapshot/e3_pair_dependence_v0.py
++++ v1/code_snapshot/e3_pair_dependence_v0.py
+@@ -123,10 +123,10 @@
+  for path,hsh in m['llm_files_sha256'].items():
+   if sha(path)!=hsh:raise ValueError('Frozen LLM/tokenizer file changed: '+path)
+  # The launcher also checks; keep a final guard immediately before allocation.
+- uuid=subprocess.check_output(['nvidia-smi','-i','1','--query-gpu=uuid','--format=csv,noheader'],text=True).strip()
++ uuid=subprocess.check_output(['nvidia-smi','-i','0','--query-gpu=uuid','--format=csv,noheader'],text=True).strip()
+  busy=subprocess.check_output(['nvidia-smi','--query-compute-apps=gpu_uuid','--format=csv,noheader'],text=True)
+- if uuid in busy:raise RuntimeError('GPU1 occupied; do not allocate')
+- if os.environ.get('CUDA_VISIBLE_DEVICES')!='1':raise RuntimeError('Explicit GPU1 mapping required')
++ if uuid in busy:raise RuntimeError('GPU0 occupied; do not allocate')
++ if os.environ.get('CUDA_VISIBLE_DEVICES')!='0':raise RuntimeError('Explicit GPU0 mapping required')
+  items=lines(out/'items.jsonl');data=np.load(out/'pairs.npz');saved=read(out/'saved_e2_real.json');start=time.perf_counter();rows=[];validity={}
+  def emit_status(status,**kw):write(out/'status.json',{'status':status,'at':now(),'elapsed_s':time.perf_counter()-start,**kw})
+  emit_status('running',stage='load_model');dev=torch.device('cuda');torch.manual_seed(0)

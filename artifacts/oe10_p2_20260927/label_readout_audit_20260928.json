@@ -1,0 +1,242 @@
+{
+  "schema_version": "oe10_posthoc_label_readout_audit_v1",
+  "source_hashes": {
+    "manifest": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3",
+    "scoring_train": "69426c3deb5893cdc476e1c2f5bf2e8e4680460eb8a575c1eca161a42ebd391b",
+    "score": "026fea3daff441e9d7a27bb723777a0f0b36f85cad99aa184ee8e6c8255fcfec"
+  },
+  "dataset_partition_counts": {
+    "train_pool": {
+      "unique_patches": 48,
+      "classes": {
+        "1": {
+          "present_unique_patches": 47,
+          "total_class_pixels": 108250,
+          "mean_fraction_among_present_patches": 0.16999685630689892
+        },
+        "2": {
+          "present_unique_patches": 22,
+          "total_class_pixels": 35076,
+          "mean_fraction_among_present_patches": 0.10665918907039298
+        },
+        "3": {
+          "present_unique_patches": 23,
+          "total_class_pixels": 75716,
+          "mean_fraction_among_present_patches": 0.21964937362867168
+        },
+        "4": {
+          "present_unique_patches": 21,
+          "total_class_pixels": 13148,
+          "mean_fraction_among_present_patches": 0.045391229731214525
+        }
+      },
+      "query_date_pairs_if_positions_2_5": {
+        "[20190125, 20190704]": 24,
+        "[20190214, 20190724]": 24
+      }
+    },
+    "source_bank": {
+      "unique_patches": 16,
+      "classes": {
+        "1": {
+          "present_unique_patches": 15,
+          "total_class_pixels": 42196,
+          "mean_fraction_among_present_patches": 0.18985146560634375
+        },
+        "2": {
+          "present_unique_patches": 7,
+          "total_class_pixels": 7242,
+          "mean_fraction_among_present_patches": 0.06790788608039496
+        },
+        "3": {
+          "present_unique_patches": 7,
+          "total_class_pixels": 22959,
+          "mean_fraction_among_present_patches": 0.22074284210493178
+        },
+        "4": {
+          "present_unique_patches": 6,
+          "total_class_pixels": 2038,
+          "mean_fraction_among_present_patches": 0.02459065378122594
+        }
+      },
+      "query_date_pairs_if_positions_2_5": {
+        "[20190125, 20190704]": 8,
+        "[20190214, 20190724]": 8
+      }
+    },
+    "dev_query": {
+      "unique_patches": 16,
+      "classes": {
+        "1": {
+          "present_unique_patches": 16,
+          "total_class_pixels": 83276,
+          "mean_fraction_among_present_patches": 0.3400726598927719
+        },
+        "2": {
+          "present_unique_patches": 8,
+          "total_class_pixels": 7063,
+          "mean_fraction_among_present_patches": 0.060559013983815475
+        },
+        "3": {
+          "present_unique_patches": 8,
+          "total_class_pixels": 15685,
+          "mean_fraction_among_present_patches": 0.13037913303194126
+        },
+        "4": {
+          "present_unique_patches": 5,
+          "total_class_pixels": 2700,
+          "mean_fraction_among_present_patches": 0.03667019361653735
+        }
+      },
+      "query_date_pairs_if_positions_2_5": {
+        "[20190128, 20190712]": 16
+      }
+    }
+  },
+  "training_target_distribution": {
+    "1": {
+      "episodes": 576,
+      "target_present_episodes": 564,
+      "present_query_patches": 47,
+      "target_absent_episodes": 12
+    },
+    "2": {
+      "episodes": 576,
+      "target_present_episodes": 264,
+      "present_query_patches": 22,
+      "target_absent_episodes": 312
+    },
+    "3": {
+      "episodes": 576,
+      "target_present_episodes": 276,
+      "present_query_patches": 23,
+      "target_absent_episodes": 300
+    },
+    "4": {
+      "episodes": 576,
+      "target_present_episodes": 252,
+      "present_query_patches": 21,
+      "target_absent_episodes": 324
+    }
+  },
+  "current_readout_by_k_class": {
+    "1": {
+      "1": {
+        "target_present_episode_rows": 32,
+        "unique_query_patches": 16,
+        "mean_episode_iou": 0.5862779993009586,
+        "zero_predicted_area_episode_rows": 0,
+        "sum_target_pixels_repeated_over_counterexamples": 166552,
+        "predicted_over_true_area_ratio": 0.9652360824247082,
+        "pooled_foreground_recall": 0.7760098948076276
+      },
+      "2": {
+        "target_present_episode_rows": 16,
+        "unique_query_patches": 8,
+        "mean_episode_iou": 0.021440274736102438,
+        "zero_predicted_area_episode_rows": 14,
+        "sum_target_pixels_repeated_over_counterexamples": 14126,
+        "predicted_over_true_area_ratio": 0.11574401812261079,
+        "pooled_foreground_recall": 0.04636839869743735
+      },
+      "3": {
+        "target_present_episode_rows": 16,
+        "unique_query_patches": 8,
+        "mean_episode_iou": 0.43461317627871704,
+        "zero_predicted_area_episode_rows": 0,
+        "sum_target_pixels_repeated_over_counterexamples": 31370,
+        "predicted_over_true_area_ratio": 0.6011157156518967,
+        "pooled_foreground_recall": 0.5464456487089576
+      }
+    },
+    "2": {
+      "1": {
+        "target_present_episode_rows": 32,
+        "unique_query_patches": 16,
+        "mean_episode_iou": 0.5825814659048015,
+        "zero_predicted_area_episode_rows": 0,
+        "sum_target_pixels_repeated_over_counterexamples": 166552,
+        "predicted_over_true_area_ratio": 0.9458067150199337,
+        "pooled_foreground_recall": 0.764938277534944
+      },
+      "2": {
+        "target_present_episode_rows": 16,
+        "unique_query_patches": 8,
+        "mean_episode_iou": 0.001239237759487626,
+        "zero_predicted_area_episode_rows": 14,
+        "sum_target_pixels_repeated_over_counterexamples": 14126,
+        "predicted_over_true_area_ratio": 0.010052385671810845,
+        "pooled_foreground_recall": 0.0020529520033979896
+      },
+      "3": {
+        "target_present_episode_rows": 16,
+        "unique_query_patches": 8,
+        "mean_episode_iou": 0.43303771594768564,
+        "zero_predicted_area_episode_rows": 0,
+        "sum_target_pixels_repeated_over_counterexamples": 31370,
+        "predicted_over_true_area_ratio": 0.58737647433854,
+        "pooled_foreground_recall": 0.5388906598661142
+      }
+    },
+    "4": {
+      "1": {
+        "target_present_episode_rows": 32,
+        "unique_query_patches": 16,
+        "mean_episode_iou": 0.5889649499975039,
+        "zero_predicted_area_episode_rows": 0,
+        "sum_target_pixels_repeated_over_counterexamples": 166552,
+        "predicted_over_true_area_ratio": 0.9836867765022336,
+        "pooled_foreground_recall": 0.7858506652576973
+      },
+      "2": {
+        "target_present_episode_rows": 16,
+        "unique_query_patches": 8,
+        "mean_episode_iou": 0.0011232456610242125,
+        "zero_predicted_area_episode_rows": 14,
+        "sum_target_pixels_repeated_over_counterexamples": 14126,
+        "predicted_over_true_area_ratio": 0.007645476426447685,
+        "pooled_foreground_recall": 0.001840577658218887
+      },
+      "3": {
+        "target_present_episode_rows": 16,
+        "unique_query_patches": 8,
+        "mean_episode_iou": 0.40807374389291373,
+        "zero_predicted_area_episode_rows": 0,
+        "sum_target_pixels_repeated_over_counterexamples": 31370,
+        "predicted_over_true_area_ratio": 0.5351609818297737,
+        "pooled_foreground_recall": 0.49815109977685684
+      }
+    },
+    "8": {
+      "1": {
+        "target_present_episode_rows": 32,
+        "unique_query_patches": 16,
+        "mean_episode_iou": 0.5833031760228603,
+        "zero_predicted_area_episode_rows": 0,
+        "sum_target_pixels_repeated_over_counterexamples": 166552,
+        "predicted_over_true_area_ratio": 0.9503278255439742,
+        "pooled_foreground_recall": 0.7679403429559537
+      },
+      "2": {
+        "target_present_episode_rows": 16,
+        "unique_query_patches": 8,
+        "mean_episode_iou": 0.0016562128340970013,
+        "zero_predicted_area_episode_rows": 14,
+        "sum_target_pixels_repeated_over_counterexamples": 14126,
+        "predicted_over_true_area_ratio": 0.011255840294492425,
+        "pooled_foreground_recall": 0.0027608664873283307
+      },
+      "3": {
+        "target_present_episode_rows": 16,
+        "unique_query_patches": 8,
+        "mean_episode_iou": 0.4313312741026855,
+        "zero_predicted_area_episode_rows": 0,
+        "sum_target_pixels_repeated_over_counterexamples": 31370,
+        "predicted_over_true_area_ratio": 0.5871852087982149,
+        "pooled_foreground_recall": 0.5387631495058973
+      }
+    }
+  },
+  "scope": "Existing metadata and scored pixel counts only. No raw input re-extraction, threshold sweep, inference or training. Pooled recall here is descriptive, not a replacement primary metric.",
+  "causal_explanations_verified": false
+}

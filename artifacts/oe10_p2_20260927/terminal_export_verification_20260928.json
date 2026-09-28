@@ -1,0 +1,158 @@
+{
+  "created_utc": "2026-09-27T23:46:43.676864+00:00",
+  "export": "artifacts/oe10_p2_20260927/review_export_terminal_20260928_0845_v0",
+  "code_sha256": "b8ff4ed3397f2e45337923e18030a749f2982a5bdcbcd882d834facc45ab806e",
+  "files": 2056,
+  "bytes": 161365609,
+  "npz_files": 1920,
+  "export_manifest_sha256": "448cdaaa29ee7cfb261ae1bc60661cea6cf1468266f79654cfab594bb8dc2953",
+  "hash_errors": 0,
+  "verified_completed_runs": 5,
+  "runs": [
+    {
+      "arm": "B0",
+      "seed": 270927,
+      "final_auc": 0.3009959798940199,
+      "last3_range": 0.058848018671879804,
+      "stability_pass": false,
+      "elapsed_seconds": 3238.603802483529,
+      "checkpoint_sha256_verified_by_server_collector": "594ea8a3c252e511ad716135c3d6fbf7af4c89f7890a233490181ddd05a2f915",
+      "checkpoint_reloaded_or_reinferred": false,
+      "last_windows": [
+        {
+          "step": 1536,
+          "auc": 0.24214796122214008
+        },
+        {
+          "step": 1920,
+          "auc": 0.29246216252170376
+        },
+        {
+          "step": 2304,
+          "auc": 0.3009959798940199
+        }
+      ]
+    },
+    {
+      "arm": "B2",
+      "seed": 270927,
+      "final_auc": 0.34175409764391784,
+      "last3_range": 0.01787521971775452,
+      "stability_pass": false,
+      "elapsed_seconds": 12040.545632142574,
+      "checkpoint_sha256_verified_by_server_collector": "c4b1ede7b3291befcf658485aa8ed276717bd76013fd438422108f124aed1e1f",
+      "checkpoint_reloaded_or_reinferred": false,
+      "last_windows": [
+        {
+          "step": 1536,
+          "auc": 0.3238788779261633
+        },
+        {
+          "step": 1920,
+          "auc": 0.3368343094833078
+        },
+        {
+          "step": 2304,
+          "auc": 0.34175409764391784
+        }
+      ]
+    },
+    {
+      "arm": "B0",
+      "seed": 270928,
+      "final_auc": 0.29600542064495083,
+      "last3_range": 0.08588244835773728,
+      "stability_pass": false,
+      "elapsed_seconds": 3442.0170584730804,
+      "checkpoint_sha256_verified_by_server_collector": "64414bcafbd557e6b30dc19968a80a150bb43d79fba34ad09385a027b7c61e67",
+      "checkpoint_reloaded_or_reinferred": false,
+      "last_windows": [
+        {
+          "step": 1536,
+          "auc": 0.22763289488452193
+        },
+        {
+          "step": 1920,
+          "auc": 0.3135153432422592
+        },
+        {
+          "step": 2304,
+          "auc": 0.29600542064495083
+        }
+      ]
+    },
+    {
+      "arm": "B2",
+      "seed": 270928,
+      "final_auc": 0.349704190395458,
+      "last3_range": 0.017807837298579376,
+      "stability_pass": false,
+      "elapsed_seconds": 11942.567040897906,
+      "checkpoint_sha256_verified_by_server_collector": "2f177fa30239e29f6481f7f451f7f9603c4312ab993d5b519cd20c15685a4c2a",
+      "checkpoint_reloaded_or_reinferred": false,
+      "last_windows": [
+        {
+          "step": 1536,
+          "auc": 0.33693942248797654
+        },
+        {
+          "step": 1920,
+          "auc": 0.3547472597865559
+        },
+        {
+          "step": 2304,
+          "auc": 0.349704190395458
+        }
+      ]
+    },
+    {
+      "arm": "B0",
+      "seed": 270929,
+      "final_auc": 0.2749238447755559,
+      "last3_range": 0.06924408799293966,
+      "stability_pass": false,
+      "elapsed_seconds": 3067.5358010418713,
+      "checkpoint_sha256_verified_by_server_collector": "f4032dba25bf15b810f93c87c9f903085411f1d8016cc14dcaa826417806ac09",
+      "checkpoint_reloaded_or_reinferred": false,
+      "last_windows": [
+        {
+          "step": 1536,
+          "auc": 0.2618469498059547
+        },
+        {
+          "step": 1920,
+          "auc": 0.20567975678261627
+        },
+        {
+          "step": 2304,
+          "auc": 0.2749238447755559
+        }
+      ]
+    }
+  ],
+  "paired": [
+    {
+      "seed": 270927,
+      "B0": 0.3009959798940199,
+      "B2": 0.34175409764391784,
+      "delta": 0.04075811774989796,
+      "both_stability_pass": false
+    },
+    {
+      "seed": 270928,
+      "B0": 0.29600542064495083,
+      "B2": 0.349704190395458,
+      "delta": 0.05369876975050719,
+      "both_stability_pass": false
+    }
+  ],
+  "paired_mean_delta_descriptive_only": 0.047228443750202576,
+  "full_p2_gate_executed": false,
+  "original_cohort_and_failures_preserved": true,
+  "new_gpu_seconds": 0,
+  "limits": [
+    "Completed checkpoint/prediction/log hashes verified by pinned server collector; checkpoints not deserialized here.",
+    "No independent region, human correction or generated-language evaluation; data exposure matched but GPU time is not.",
+    "Partial completed pairs do not establish the frozen three-seed decision or adequately trained superiority."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "oe10_first_pair_verification_v1",
+  "verified_utc": "2026-09-27T16:05:22.064571+00:00",
+  "bundle": "artifacts/oe10_p2_20260927/review_export_20260928_first_pair_v0",
+  "files": 860,
+  "bytes": 63019576,
+  "manifest_hash_failures": 0,
+  "final_raw_prediction_npz_count": 768,
+  "results": {
+    "B0": {
+      "auc": 0.3009959798940199,
+      "last_three_auc_range": 0.058848018671879804,
+      "stability_pass": false
+    },
+    "B2": {
+      "auc": 0.34175409764391784,
+      "last_three_auc_range": 0.01787521971775452,
+      "stability_pass": false
+    }
+  },
+  "delta_auc": 0.04075811774989796,
+  "independent_reviewer": "absolute_score_diagnosis",
+  "independent_checks": [
+    "860 file size and SHA",
+    "384 scored rows each: union/IoU/query-class-parent macro/K-AUC",
+    "6 score hashes and ordered 2304 log steps each",
+    "collector receipt hashes and probability-audit score/manifest hashes"
+  ],
+  "all_k_absence_B2_no_worse_than_B0": true,
+  "full_p2_gate_executed": false,
+  "training_and_gate_changes": false
+}

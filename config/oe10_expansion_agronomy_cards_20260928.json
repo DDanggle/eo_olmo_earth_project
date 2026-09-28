@@ -1,0 +1,194 @@
+{
+  "schema_version": "oe10_agronomy_context_cards_v0",
+  "status": "source_grounded_draft_not_expert_reviewed",
+  "purpose": "Separate training-input preparation for classes 8 and 14. Not connected to the frozen OE10 P2 run; no measured efficacy or new expert supervision.",
+  "expert_reviewed": false,
+  "patch_level_expert_annotations": 0,
+  "human_responses": 0,
+  "retrieved_date_utc": "2026-09-27",
+  "language": "en",
+  "sources": [
+    {
+      "id": "umd_grape_perennial",
+      "url": "https://www.extension.umd.edu/resource/growing-grapes-home-garden",
+      "organization": "University of Maryland Extension",
+      "type": "university horticulture extension guidance",
+      "published": "2024-04-12",
+      "geography": "Maryland, United States; botanical life-form only is transferred",
+      "summary": "Grapevines are woody perennials; new shoots grow in spring. Exact planting, harvest and management recommendations are not transferred to French parcels.",
+      "supports_claim_ids": [
+        "grape_perennial"
+      ],
+      "evidence_locator": "About grapes, first and third bullets",
+      "eo_discrimination_validated": false
+    },
+    {
+      "id": "ifv_vineyard_floor",
+      "url": "https://www.vignevin.com/publications/fiches-pratiques/lenherbement-sous-le-rang/",
+      "organization": "Institut Francais de la Vigne et du Vin (IFV)",
+      "type": "official applied research and technical guidance",
+      "published": null,
+      "geography": "Southwestern France vineyard experiments; not all vineyards",
+      "summary": "Vineyard floors can have vegetation between rows and under vines, with different management options. The published field experiments also discuss temporary and permanent covers.",
+      "supports_claim_ids": [
+        "grape_floor_cover"
+      ],
+      "evidence_locator": "Sections on herbicide alternatives, agronomic effects, species choice and management strategies",
+      "eo_discrimination_validated": false
+    },
+    {
+      "id": "ifv_bronner_phenology_scope",
+      "url": "https://www.vignevin.com/wp-content/uploads/2019/03/FICHE_CEPAGE_BRONNER.pdf",
+      "organization": "IFV-hosted CIVARE cultivar sheet; ICV technical-guide phenology synthesis",
+      "type": "official cultivar research and technical sheet",
+      "published": "2018-autumn",
+      "geography": "Bronner observations from Baden, Styria and Zurich; reference cultivars at Vassal, France",
+      "summary": "The sheet compares budbreak and maturity against regional cultivars and explicitly says direct transfer of observation dates between climates is uncertain.",
+      "supports_claim_ids": [
+        "grape_phenology_scope"
+      ],
+      "evidence_locator": "PDF page 2, La phenologie du Bronner B, opening paragraph and regional observations",
+      "eo_discrimination_validated": false
+    },
+    {
+      "id": "arvalis_forage_species",
+      "url": "https://www.arvalis.fr/infos-techniques/prairies-choisir-ses-especes-selon-le-contexte-et-lutilisation-prevue",
+      "organization": "ARVALIS - Institut du vegetal",
+      "type": "official agronomic technical guidance",
+      "published": "2019-08-07",
+      "geography": "France; forage selection guidance",
+      "summary": "Forage legumes include annual and perennial clovers and alfalfa; longevity, soil and climate suitability differ. Species and varieties differ in suitability for mowing and grazing. Mixed grass-legume stands are discussed.",
+      "supports_claim_ids": [
+        "fodder_diversity",
+        "fodder_management",
+        "fodder_mixtures"
+      ],
+      "evidence_locator": "Sections Choisir dabord en fonction de la duree, contexte pedoclimatique, utilisation prevue, Melanges graminees-legumineuses",
+      "eo_discrimination_validated": false
+    },
+    {
+      "id": "arvalis_alfalfa_cuts",
+      "url": "https://www.arvalis.fr/infos-techniques/exploitation-des-luzernes-bien-rythmer-les-coupes-dans-une-luzerniere",
+      "organization": "ARVALIS - Institut du vegetal",
+      "type": "official technical guidance reporting field experiments",
+      "published": "2016-05-12",
+      "geography": "France; alfalfa management example only",
+      "summary": "Alfalfa can be cut repeatedly and regrow; timing depends on development and regional conditions. This is a subtype example, not a universal schedule for leguminous fodder or a parcel event record.",
+      "supports_claim_ids": [
+        "fodder_alfalfa_regrowth"
+      ],
+      "evidence_locator": "Opening paragraph, Le 15 mai une date pivot, and Les repousses fonction des ressources racinaires",
+      "eo_discrimination_validated": false
+    },
+    {
+      "id": "arvalis_legume_grass_mix",
+      "url": "https://www.arvalis.fr/infos-techniques/lintroduction-de-legumineuses-ameliore-la-pousse-estivale-et-la-valeur-alimentaire",
+      "organization": "ARVALIS - Institut du vegetal",
+      "type": "official agronomic technical guidance",
+      "published": "2014-07-24",
+      "geography": "France; general forage systems",
+      "summary": "White clover and alfalfa are discussed alongside grass-legume mixtures; growth through the year depends on the component species and their environmental requirements.",
+      "supports_claim_ids": [
+        "fodder_mixtures",
+        "fodder_diversity"
+      ],
+      "evidence_locator": "Legumineuses des besoins en chaleur plus eleves and Linteret des prairies multi-especes",
+      "eo_discrimination_validated": false
+    }
+  ],
+  "common_limits": [
+    "Class names are additional support-label semantics shared by names-only and names-plus-facts conditions; the facts effect must be compared with names-only, not the unnamed-exemplar baseline alone.",
+    "An annual PASTIS class label is not a date-specific crop stage, species identification, parcel treatment record or event annotation.",
+    "Agronomic forage examples do not establish the exact subtype composition of the PASTIS leguminous-fodder class or of any support parcel.",
+    "Public source summaries do not establish crop presence, harvest, removal, drought, health or cause in a query image.",
+    "Only acquired image dates may be used as observation evidence; two query dates may miss intermediate cuts, regrowth and distinguishing stages.",
+    "Cloud, haze, mixed pixels and unresolved rows can limit discrimination; no EO discrimination or subpixel observability claim is validated by these agronomic sources.",
+    "These AI-written summaries have not been reviewed by an agronomist. Human corrections and patch-level expert annotations remain zero.",
+    "Source publication dates are provenance, not acquisition-year evidence. Contemporary summaries are retrospective background rather than 2019 parcel records."
+  ],
+  "cards": [
+    {
+      "card_id": "grapevine_v0",
+      "class_id": 8,
+      "concept_name": "grapevine",
+      "source_ids": [
+        "umd_grape_perennial",
+        "ifv_vineyard_floor",
+        "ifv_bronner_phenology_scope"
+      ],
+      "claim_text": "Grapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage.",
+      "inspection_hypothesis": "Compare the acquired observations and reference examples for compatible seasonal and spatial structure. Treat unresolved rows and changes in ground cover as alternative explanations; do not infer vine removal from a decline in greenery alone.",
+      "hypothesis_is_measured_effect": false,
+      "transfer_limit": "General vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established.",
+      "claim_grounding": [
+        {
+          "claim_id": "grape_perennial",
+          "source_ids": [
+            "umd_grape_perennial"
+          ],
+          "scope": "General botanical life-form, not Maryland management timing."
+        },
+        {
+          "claim_id": "grape_floor_cover",
+          "source_ids": [
+            "ifv_vineyard_floor"
+          ],
+          "scope": "Possible floor vegetation, not a universal vineyard practice or a measured EO signal."
+        },
+        {
+          "claim_id": "grape_phenology_scope",
+          "source_ids": [
+            "ifv_bronner_phenology_scope"
+          ],
+          "scope": "Regional and cultivar timing differences; do not assign Bronner identity or exact dates to the data."
+        }
+      ]
+    },
+    {
+      "card_id": "leguminous_fodder_v0",
+      "class_id": 14,
+      "concept_name": "leguminous fodder",
+      "source_ids": [
+        "arvalis_forage_species",
+        "arvalis_alfalfa_cuts",
+        "arvalis_legume_grass_mix"
+      ],
+      "claim_text": "Forage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards.",
+      "inspection_hypothesis": "Check the acquired sequence and positive and confusing examples for compatible vegetation cover and change. Missing cuts or recovery stages leave uncertainty; a drop followed by greener cover is not by itself a species label or proof of a mowing event.",
+      "hypothesis_is_measured_effect": false,
+      "transfer_limit": "Broad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date.",
+      "claim_grounding": [
+        {
+          "claim_id": "fodder_diversity",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_legume_grass_mix"
+          ],
+          "scope": "Agronomic concept is broader than alfalfa; exact dataset subtype composition unverified."
+        },
+        {
+          "claim_id": "fodder_management",
+          "source_ids": [
+            "arvalis_forage_species"
+          ],
+          "scope": "Management suitability varies among species and varieties."
+        },
+        {
+          "claim_id": "fodder_alfalfa_regrowth",
+          "source_ids": [
+            "arvalis_alfalfa_cuts"
+          ],
+          "scope": "Alfalfa subtype example only; exact calendar deliberately omitted."
+        },
+        {
+          "claim_id": "fodder_mixtures",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_legume_grass_mix"
+          ],
+          "scope": "Mixed stands occur in agronomy; does not assert their PASTIS label mapping."
+        }
+      ]
+    }
+  ]
+}

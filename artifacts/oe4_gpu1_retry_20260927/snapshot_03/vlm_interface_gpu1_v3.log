@@ -1,0 +1,12 @@
+{"utc": "2026-09-27T04:49:07.559794+00:00", "status": "waiting_for_native_sequence", "detail": "Waiting at most 45 minutes for the existing native sequence; no other jobs interrupted."}
+{"utc": "2026-09-27T04:49:07.564291+00:00", "status": "waiting_for_idle_gpu", "detail": "Physical GPU 1 only; three consecutive checks 10 seconds apart, followed by an immediate prelaunch recheck."}
+{"utc": "2026-09-27T04:49:27.951321+00:00", "status": "prelaunch_recheck", "detail": "Source and inputs unchanged; checking GPU again immediately before dispatch."}
+{"utc": "2026-09-27T04:49:28.082904+00:00", "status": "running", "detail": "One bounded VLM interface worker; hard timeout 1100 seconds."}
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights:  58%|█████▊    | 436/750 [00:00<00:00, 4299.38it/s]Loading weights: 100%|██████████| 750/750 [00:00<00:00, 4286.93it/s]
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v3/vlm_interface_smoke.py", line 499, in <module>
+    main()
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v3/vlm_interface_smoke.py", line 398, in main
+    raise RuntimeError("EO cached generation disagrees with full recomputation")
+RuntimeError: EO cached generation disagrees with full recomputation
+{"utc": "2026-09-27T04:50:18.751939+00:00", "status": "failed", "detail": "RuntimeError('VLM interface worker exited with status 1; inspect its log and receipt')"}

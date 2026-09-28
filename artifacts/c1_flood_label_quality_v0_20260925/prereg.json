@@ -1,0 +1,22 @@
+{
+  "schema": "c1-flood-label-quality-plan-v0",
+  "no_model_scores": true,
+  "scope": "Source mask quality audit for the fixed 914 C0 test flood post-pair items; descriptive exposed development data",
+  "input_directory": "c0_linear_view_probe_v1",
+  "expected_selected_counts": {"pos": 457, "hard_neg": 457},
+  "thresholds": {"flood_min": 0.02, "valid_min": 0.90, "rounded_qa_abs_tolerance": 0.00005},
+  "expected_c0": {
+    "manifest_sha256": "5055bd2d73f1e9f162a43899a2d0f5c46cccef53137cb3a5ae31e7a2675bcb92",
+    "items_sha256": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+    "code_sha256": "5bea6041184b2593407229c3ff1ae6239d878002376b08ab165511acc643c612",
+    "prereg_sha256": "9664dbe590455dbae724a62d9e8b9f0cdb03fa098208386aa9de88dc339b4e43"
+  },
+  "population": "Select partition=test, phen=flood, kind in [pos,hard_neg] from frozen items; exact source ID/kind/slots/label contracts and 457 rows per kind",
+  "quality_definition": "labelled=(valid==1)&(mask>0); valid_frac=labelled.sum()/36864; flood_px=((mask==3)&labelled).sum(); flood_frac=flood_px/max(labelled.sum(),1)",
+  "symmetric_subset": "Apply identical valid_frac>=0.90 rule to pos and hard_neg; publish all selected and excluded IDs without reading predictions or scores",
+  "raw_validation": "192x192 integer arrays; mask values in 0..3 and valid in 0..1; E1 source-label thresholds and rounded fraction agreement must hold",
+  "outputs": ["quality.jsonl", "summary.json", "symmetric_quality_ids.json", "manifest.json", "status.json", "source.py", "prereg.json"],
+  "source_audit": "Hash original cache .npy bytes before and after each read, and again at audit completion; retain class/valid cross counts and row/column labelled/flood pixel counts",
+  "failure_policy": "Exclusive output directory; abort on any invalid source, preserve partial output and error/status; no dropping invalid items or overwriting a prior run",
+  "nonclaims": ["No model evaluation, calibration, ranking or threshold search", "No independent confirmation of original flood labels", "No verified SAR acquisition dates", "No claim that the retained quality subset preserves both classes within each event/date stratum"]
+}

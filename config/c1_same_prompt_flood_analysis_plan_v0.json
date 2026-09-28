@@ -1,0 +1,59 @@
+{
+  "schema": "c1-same-prompt-flood-analysis-plan-v0",
+  "specified_at": "2026-09-25T04:26:56.820300+00:00",
+  "scope": "Post-hoc diagnostic of exposed E2 outputs, specified before the new stratified summaries. Not a new inference run, confirmatory preregistration, or held-out result.",
+  "question": "Within reconstructed identical event/date prompt/slot strata, does the fixed EO-conditioned reader distinguish post-mask flood positive tiles from hard-negative tiles better than its separately trained blind reader?",
+  "items_path": "artifacts/c0_linear_view_probe_v1_20260925/items.jsonl",
+  "inputs_sha256": {
+    "artifacts/c0_linear_view_probe_v1_20260925/items.jsonl": "e8058fd5193374a1c32968b063e6b67032d8a4f2bc0bf659e490e09816a67a3a",
+    "artifacts/e2_multi_reader_v0/reader_seed1/answers_real_all.jsonl": "b36041a82de5f8cee44c3f5971cbfd8fb40c980ddc6d62cfb08e2c9bedd23d12",
+    "artifacts/e2_multi_reader_v0/reader_seed2/answers_real_all.jsonl": "0aa4b84dda0fd71aa5da49524da9203f2c7b24e996bf6453bde727eecbaed3b9",
+    "artifacts/e2_multi_reader_v0/reader_seed3/answers_real_all.jsonl": "c063117b3999ee346c7b176379dff870ecb7606fcf7986ef528f69a0b664079a",
+    "artifacts/e2_multi_reader_v0/blind_seed1/answers_real_all.jsonl": "a2405de8a4338709bb07950803479c703febecdb9a2f942ac3e51180d8715281",
+    "artifacts/e2_multi_reader_v0/blind_seed2/answers_real_all.jsonl": "bbb5d1fbc15b9cd1c203efab9ae3a51313a344adc261adbbb7562c89b3dc25ff",
+    "artifacts/e2_multi_reader_v0/blind_seed3/answers_real_all.jsonl": "cac6ad89b642f0426482ec898b09661f3443304a38d1166274df7721c1356ed1",
+    "code/e2_multi_reader_v0.py": "64454f70a940ba591fb117e43d114546d4f90ceb47480a0bf6bbd349f43cb366",
+    "code/e1_flood_qa_v0.py": "a1f58d53a1c5be95118aca03c6b9de83278543e3095c86cd7f49414837e2e6e3",
+    "code/extract_kurosiwo_s1_cache.py": "317288d1c3db1ef57dccaa57d38b0cf6717f901032596b20bdb893b67d9c72e4"
+  },
+  "population": "E2 full test 1755 IDs verified for all six answer files. Target S1 flood pos457 + hard_neg457; pre/pre negatives and S2 are not C1 evaluation targets.",
+  "quality_audit": "CPU-only current post mask_u8/valid_u8 audit before any new answer aggregation. Freeze source hashes, source label checks and valid_frac; consume quality.jsonl only after its complete status/hash checks.",
+  "subsets": {
+    "quality_symmetric": "Primary descriptive subset: labelled-valid fraction >=.90 for both classes, matching the existing hard-negative quality threshold. No threshold search.",
+    "all_original_targets": "Secondary sensitivity summary on all original pos/hard candidates. Do not promote this to primary if the quality subset is weak."
+  },
+  "strata": "event + literal reconstructed E2 user prompt (sensor, phenomenon, ordered dates, fixed wording) + slots [pre_2,post]. All rows in strata with both source classes are retained; unsupported strata/IDs disclosed as NA. No prediction-based selection or downsampling.",
+  "weighting": "Within each stratum, BA=.5*(recall+specificity); equal stratum mean within event, then equal event mean. Unequal class counts never make a constant blind answer score above .5.",
+  "metrics": [
+    "Per-seed/arm/event/stratum BA, recall, FPR and support",
+    "Reader-minus-blind paired event delta for each seed",
+    "Mean the three paired seed deltas within each event, then bootstrap events (not seed-event replicas)"
+  ],
+  "bootstrap": {
+    "n": 5000,
+    "seed": 20260925,
+    "unit": "event; all arms and seeds travel together",
+    "interval": "percentile .025/.975",
+    "less_than_two_events": null,
+    "minimum_events_for_interpretation": 5
+  },
+  "validity": [
+    "Pinned input hashes and exact IDs/metadata must match",
+    "All historical parsed outputs must be yes/no; never count an invalid parse as no",
+    "Quality audit coverage must be exact; no missing inputs or post-hoc repairs",
+    "Blind outputs must be constant within every identical reconstructed prompt among all914 target rows, including quality-excluded/unsupported rows",
+    "Any blind inconsistency invalidates the complete C1 comparison; never drop the offending stratum"
+  ],
+  "primary_verdict": null,
+  "limits": [
+    "This is post-hoc exploration on previously evaluated events. No fresh-test or confirmatory significance claim.",
+    "Historical E2 artifacts lack prompt/date/cache-byte manifests. Exact prompt equality is reconstructed from currently frozen QA, not a proof of historical prompt bytes.",
+    "Current extraction code uses per-date imagery and common synthetic timestamps. Exact historical file generation lineage remains incomplete.",
+    "Different tiles may differ in background, valid area, acquisition conditions or permanent water. Symmetric valid>=.90 does not equalize every nuisance.",
+    "Post flood source labels establish label association, not an event onset between two dates, temporal comparison, or necessity of an earlier image.",
+    "Reader and blind are separately trained checkpoints. This contrast is not a pure within-checkpoint causal visual ablation.",
+    "BA=(1+D)/2 for decision contrast D; these and blind improvement are related summaries, not independent pieces of evidence.",
+    "No new training, threshold adjustment, GPU job, raw-data relabeling, or modification of E3 settings is part of C1."
+  ],
+  "output": "artifacts/c1_same_prompt_flood_v0_20260925"
+}

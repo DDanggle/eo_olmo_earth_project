@@ -1,0 +1,29 @@
+{
+  "schema_version": "oe10_connection_launcher_source_v1",
+  "created_utc": "2026-09-27T21:51:25.054073+00:00",
+  "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+  "model_v2_source_manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6406,
+      "sha256": "53841505c27c1f9646b9f6d5b4b491f1099015414736aef8f512e0e9b8eb3ff4"
+    },
+    {
+      "path": "launcher.py",
+      "bytes": 25586,
+      "sha256": "40b5cea1dfd604d0a9f0dde1f4d9ae890977d327a32ce246e72dfe13717af72e"
+    },
+    {
+      "path": "test_launcher.py",
+      "bytes": 14211,
+      "sha256": "6d509732189af3675188602a6f8106841d33746f05bb9e208d6815bbadab51ba"
+    },
+    {
+      "path": "worker_entry.py",
+      "bytes": 2847,
+      "sha256": "eb61444a881840f838ee81dd4481ff93e8773c97848862203b1cdb84ff1cc6b0"
+    }
+  ],
+  "scope": "Launcher only; independent review and 15 local CPU tests passed, two Linux-only tests pending; no model/data/protocol change or actual GPU reservation"
+}

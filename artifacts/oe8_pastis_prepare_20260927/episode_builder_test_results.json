@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "scope": "local synthetic fixtures only",
+  "command": "/Users/dongdong/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m unittest discover -s /private/tmp/oe8_pastis_prepare_20260927 -p test_episode_builder.py -v",
+  "tests_run": 9,
+  "failures": 0,
+  "errors": 0,
+  "reported_test_runtime_seconds": 0.035,
+  "server_access": false,
+  "gpu_used": false,
+  "actual_prepared_dataset_builder_executed_by_subagent": false,
+  "checks": [
+    "source hash partition deterministic with row permutation",
+    "nonclean training and development query cohort retained",
+    "public catalog invariant to development gold metadata changes",
+    "support K prefixes, exact reverse-role replay, two objects per patch cap",
+    "training support excludes query patch and source bank",
+    "insufficient bank is not padded or promoted to K8",
+    "training class coverage ranking and tie-break",
+    "support purity and complete-instance validity including minority pixels",
+    "manifest dates equal timestamps in day month0 year order"
+  ]
+}

@@ -1,0 +1,10 @@
+--- render_two_eo_cases_20260925.py (post-execution reconstruction, hash matches recorded execution)
++++ render_two_eo_cases_20260925.py (current guarded source)
+@@ -56,6 +56,7 @@
+                             and manifest['aoi_id'] == '13' and manifest['event_date'] == '2022-01-29', 'Case scope differs')
+         source_code.require(manifest['predictions_included'] is False, 'Predictions unexpectedly included')
+         source_code.require(manifest['eligible_C1_symmetric_quality'] is (sid == 'ks_05265'), 'Quality scope differs')
++        source_code.require(case['eligible_C1_symmetric_quality'] is manifest['eligible_C1_symmetric_quality'], 'Index and manifest quality scope differ')
+         source_code.require(set(manifest['acquisition_dates']) == {'pre_1', 'pre_2', 'post'}
+                             and all(v is None for v in manifest['acquisition_dates'].values()), 'Unverified acquisition dates promoted')
+         source_code.require(case.get('preview_file') is None and 'preview_file' not in manifest, 'Expected a raw export without previous rendering')

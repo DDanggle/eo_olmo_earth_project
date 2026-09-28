@@ -1,0 +1,42 @@
+{
+  "status": "fixed_before_this_probe_results; development diagnostic, not confirmatory preregistration",
+  "created_date_kst": "2026-09-27",
+  "candidate_manifest_sha256": "07e5a535de255862477d39e7f8ebd493e2d6ac0731d973e80c5eba02934f0254",
+  "encoder_weights_sha256": "66b9827af383bc444d7909a406a5b62c072bb08d6804ff47a247c2dce8fad9a4",
+  "device": "cpu",
+  "thread_limit": 4,
+  "hard_timeout_seconds": 540,
+  "scene_count": 20,
+  "methods": [
+    "full_native_grid_bandset_mean",
+    "4x4_pool_nearest_restore",
+    "8x8_pool_nearest_restore",
+    "coordinates",
+    "train_mean"
+  ],
+  "target": "per-cell average raw DN B08/B04 normalized difference; sensor signal only",
+  "primary_report": "mean across held-out scenes of cell MAE, all 20 scenes; report all methods and each scene",
+  "secondary_report": [
+    "scene MSE",
+    "within-scene R2",
+    "case visual inspection"
+  ],
+  "validation": "5 fixed hash folds, 16 train/4 held-out scenes; same D pointwise ridge alpha=1, fold-train-only standardization",
+  "valid_execution": [
+    "all20 raw file and array hashes match",
+    "original bands and train provenance match",
+    "encoder unchanged; no gradients",
+    "every scene evaluated once",
+    "finite metrics",
+    "protected existing scripts unchanged"
+  ],
+  "interpretation": "Report effect size and consistency without post-hoc pass/fail. Coarse-feature reconstruction differences only apply to this sensor target and this linear nearest-restored readout.",
+  "not_tested": [
+    "VLM performance",
+    "semantic localization",
+    "vegetation health",
+    "new pretraining objective",
+    "bandset-mean information loss",
+    "independent geographic or temporal generalization"
+  ]
+}

@@ -1,0 +1,31 @@
+test_argv_no_shell_and_environment_cleared (test_launcher.LauncherTests.test_argv_no_shell_and_environment_cleared) ... ok
+test_concurrent_reservation_lock_is_exclusive (test_launcher.LauncherTests.test_concurrent_reservation_lock_is_exclusive) ... ok
+test_crash_reservation_fully_charged_and_blocks_next (test_launcher.LauncherTests.test_crash_reservation_fully_charged_and_blocks_next) ... ok
+test_deleted_ledger_cannot_reinitialize (test_launcher.LauncherTests.test_deleted_ledger_cannot_reinitialize) ... ok
+test_duplicate_job_id_no_retry_and_cumulative_no_reset (test_launcher.LauncherTests.test_duplicate_job_id_no_retry_and_cumulative_no_reset) ... ok
+test_elapsed_not_undercharged_and_unconfirmed_full_charge (test_launcher.LauncherTests.test_elapsed_not_undercharged_and_unconfirmed_full_charge) ... ok
+test_exception_cleanup_starts_immediately (test_launcher.LauncherTests.test_exception_cleanup_starts_immediately) ... ok
+test_gpu1_idle_other_gpu_busy_allowed (test_launcher.LauncherTests.test_gpu1_idle_other_gpu_busy_allowed) ... ok
+test_gpu_wrong_uuid_occupied_utilization_and_parse_fail_closed (test_launcher.LauncherTests.test_gpu_wrong_uuid_occupied_utilization_and_parse_fail_closed) ... ok
+test_initial_snapshot_pin_and_nonzero_refused (test_launcher.LauncherTests.test_initial_snapshot_pin_and_nonzero_refused) ... ok
+test_leader_exits_descendant_cleaned_not_success (test_launcher.LauncherTests.test_leader_exits_descendant_cleaned_not_success) ... ok
+test_local_preflight_readonly_and_server_scope_failclosed (test_launcher.LauncherTests.test_local_preflight_readonly_and_server_scope_failclosed) ... FAIL
+test_terminal_audit_allows_honest_incomplete_and_rejects_live (test_launcher.LauncherTests.test_terminal_audit_allows_honest_incomplete_and_rejects_live) ... ok
+test_timeout_grace_inside_cap_and_only_owned_group (test_launcher.LauncherTests.test_timeout_grace_inside_cap_and_only_owned_group) ... ok
+test_unreaped_group_stays_unconfirmed_at_deadline (test_launcher.LauncherTests.test_unreaped_group_stays_unconfirmed_at_deadline) ... ok
+test_parent_death_survives_normal_exec (test_launcher.ParentDeathTests.test_parent_death_survives_normal_exec) ... ok
+test_parent_race_mismatch_refused (test_launcher.ParentDeathTests.test_parent_race_mismatch_refused) ... ok
+
+======================================================================
+FAIL: test_local_preflight_readonly_and_server_scope_failclosed (test_launcher.LauncherTests.test_local_preflight_readonly_and_server_scope_failclosed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/oe10_text_mask_identity_v2/code_snapshot/oe10_connection_launcher_v0/test_launcher.py", line 202, in test_local_preflight_readonly_and_server_scope_failclosed
+    self.assertFalse(report['ready']); self.assertIn('server_scope',report['reasons'][0])
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'server_scope' not found in 'identity: External hash mismatch: /home/work/data/olmoearth/oe10_text_mask_identity_v2/cpu_verification_v0/temporary_cpu_fixtures/tmpv_n3k050/initial.json'
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.571s
+
+FAILED (failures=1)

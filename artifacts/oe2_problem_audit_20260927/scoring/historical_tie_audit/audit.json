@@ -1,0 +1,485 @@
+{
+  "schema": "oe1-historical-tie-policy-audit-v1",
+  "created_at": "2026-09-26T15:02:22.797320+00:00",
+  "scope": "read-only retrospective scoring diagnostic; original experiment results unchanged",
+  "source_run": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/oe1_bentxt_v0_20260926/pilot_v1/training",
+  "source_files_sha256": {
+    "status.json": "9ecdc441b954530a1f491ae3a6a4d1388b639ec6c516ec9b05c5b87a740420a8",
+    "manifest.json": "385bef8757575d08e4cc05905a35ac235e17949e805eda3509899ff8d525304b",
+    "prompts.json": "1e7a2e8cb441b666c0a480cfd136f3c445827ba5a5f35f15026f7bb42702f3ac",
+    "summary.json": "96e60ff10517c4f75ca6455c49a6e09b997fd57af9e8c0058cc8774fd8191621",
+    "predictions.jsonl": "ded59be134b06d06673e1035f9aff572bd1d235b15a8fb9bc97c1a4c47249e78",
+    "items.json": "3bef4db561df6f4b9b5eabf2a76ef492e58a183707506a232b732a9fac00bbda",
+    "donor_plan.json": "cf64d43bfde7eeef35c7d23f29a69b9f67b1103753d38179b1c22467064e5802",
+    "run_config.json": "fd95d3f7fa52f99f43edf0dd166d8232641b8ef89c8ab84b69348cc1415e0837"
+  },
+  "answer_token_ids": {
+    "yes": 9891,
+    "no": 2201
+  },
+  "proposed_policy": "yes-no-direct-logit-smallest-token-id-v1",
+  "records": 1740,
+  "changed_secondary_records": 75,
+  "historical_primary_and_secondary_scores_reproduced": true,
+  "source_bytes_unchanged": true,
+  "groups": {
+    "frozen/real": {
+      "historical_primary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.68359375,
+        "balanced_accuracy": 0.68359375,
+        "recall_by_label": {
+          "yes": 0.578125,
+          "no": 0.7890625
+        },
+        "invalid_count": 0
+      },
+      "historical_secondary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.69140625,
+        "balanced_accuracy": 0.69140625,
+        "recall_by_label": {
+          "yes": 0.6171875,
+          "no": 0.765625
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.68359375,
+        "balanced_accuracy": 0.68359375,
+        "recall_by_label": {
+          "yes": 0.578125,
+          "no": 0.7890625
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 8,
+      "changed_secondary_rows": 8,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 0,
+      "correct_gains_under_prospective_rule": 3,
+      "correct_losses_under_prospective_rule": 5
+    },
+    "frozen/zero": {
+      "historical_primary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.515625,
+        "balanced_accuracy": 0.515625,
+        "recall_by_label": {
+          "yes": 0.1015625,
+          "no": 0.9296875
+        },
+        "invalid_count": 0
+      },
+      "historical_secondary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.49609375,
+        "balanced_accuracy": 0.49609375,
+        "recall_by_label": {
+          "yes": 0.21875,
+          "no": 0.7734375
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.48828125,
+        "balanced_accuracy": 0.48828125,
+        "recall_by_label": {
+          "yes": 0.1953125,
+          "no": 0.78125
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 4,
+      "changed_secondary_rows": 4,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 31,
+      "correct_gains_under_prospective_rule": 1,
+      "correct_losses_under_prospective_rule": 3
+    },
+    "frozen/observation_swap": {
+      "historical_primary_unchanged": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.5735294117647058,
+        "balanced_accuracy": 0.577056277056277,
+        "recall_by_label": {
+          "yes": 0.45714285714285713,
+          "no": 0.696969696969697
+        },
+        "invalid_count": 0
+      },
+      "historical_secondary_unchanged": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.5441176470588235,
+        "balanced_accuracy": 0.5458874458874459,
+        "recall_by_label": {
+          "yes": 0.4857142857142857,
+          "no": 0.6060606060606061
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.5735294117647058,
+        "balanced_accuracy": 0.577056277056277,
+        "recall_by_label": {
+          "yes": 0.45714285714285713,
+          "no": 0.696969696969697
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 4,
+      "changed_secondary_rows": 4,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 0,
+      "correct_gains_under_prospective_rule": 3,
+      "correct_losses_under_prospective_rule": 1
+    },
+    "joint/real": {
+      "historical_primary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.72265625,
+        "balanced_accuracy": 0.72265625,
+        "recall_by_label": {
+          "yes": 0.6875,
+          "no": 0.7578125
+        },
+        "invalid_count": 0
+      },
+      "historical_secondary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.75,
+        "balanced_accuracy": 0.75,
+        "recall_by_label": {
+          "yes": 0.765625,
+          "no": 0.734375
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.72265625,
+        "balanced_accuracy": 0.72265625,
+        "recall_by_label": {
+          "yes": 0.6875,
+          "no": 0.7578125
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 13,
+      "changed_secondary_rows": 13,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 0,
+      "correct_gains_under_prospective_rule": 3,
+      "correct_losses_under_prospective_rule": 10
+    },
+    "joint/zero": {
+      "historical_primary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.49609375,
+        "balanced_accuracy": 0.49609375,
+        "recall_by_label": {
+          "yes": 0.078125,
+          "no": 0.9140625
+        },
+        "invalid_count": 3
+      },
+      "historical_secondary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.51171875,
+        "balanced_accuracy": 0.51171875,
+        "recall_by_label": {
+          "yes": 0.1640625,
+          "no": 0.859375
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "recall_by_label": {
+          "yes": 0.109375,
+          "no": 0.890625
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 11,
+      "changed_secondary_rows": 11,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 11,
+      "correct_gains_under_prospective_rule": 4,
+      "correct_losses_under_prospective_rule": 7
+    },
+    "joint/observation_swap": {
+      "historical_primary_unchanged": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.6176470588235294,
+        "balanced_accuracy": 0.6181818181818182,
+        "recall_by_label": {
+          "yes": 0.6,
+          "no": 0.6363636363636364
+        },
+        "invalid_count": 0
+      },
+      "historical_secondary_unchanged": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.6029411764705882,
+        "balanced_accuracy": 0.6012987012987012,
+        "recall_by_label": {
+          "yes": 0.6571428571428571,
+          "no": 0.5454545454545454
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.6176470588235294,
+        "balanced_accuracy": 0.6181818181818182,
+        "recall_by_label": {
+          "yes": 0.6,
+          "no": 0.6363636363636364
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 5,
+      "changed_secondary_rows": 5,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 0,
+      "correct_gains_under_prospective_rule": 3,
+      "correct_losses_under_prospective_rule": 2
+    },
+    "blind/real": {
+      "historical_primary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.66796875,
+        "balanced_accuracy": 0.66796875,
+        "recall_by_label": {
+          "yes": 0.796875,
+          "no": 0.5390625
+        },
+        "invalid_count": 0
+      },
+      "historical_secondary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.65625,
+        "balanced_accuracy": 0.65625,
+        "recall_by_label": {
+          "yes": 0.8359375,
+          "no": 0.4765625
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.66796875,
+        "balanced_accuracy": 0.66796875,
+        "recall_by_label": {
+          "yes": 0.796875,
+          "no": 0.5390625
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 13,
+      "changed_secondary_rows": 13,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 0,
+      "correct_gains_under_prospective_rule": 8,
+      "correct_losses_under_prospective_rule": 5
+    },
+    "blind/zero": {
+      "historical_primary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.66796875,
+        "balanced_accuracy": 0.66796875,
+        "recall_by_label": {
+          "yes": 0.796875,
+          "no": 0.5390625
+        },
+        "invalid_count": 0
+      },
+      "historical_secondary_unchanged": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.65625,
+        "balanced_accuracy": 0.65625,
+        "recall_by_label": {
+          "yes": 0.8359375,
+          "no": 0.4765625
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 256,
+        "support": {
+          "yes": 128,
+          "no": 128
+        },
+        "accuracy": 0.66796875,
+        "balanced_accuracy": 0.66796875,
+        "recall_by_label": {
+          "yes": 0.796875,
+          "no": 0.5390625
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 13,
+      "changed_secondary_rows": 13,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 0,
+      "correct_gains_under_prospective_rule": 8,
+      "correct_losses_under_prospective_rule": 5
+    },
+    "blind/observation_swap": {
+      "historical_primary_unchanged": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.5147058823529411,
+        "balanced_accuracy": 0.5086580086580087,
+        "recall_by_label": {
+          "yes": 0.7142857142857143,
+          "no": 0.30303030303030304
+        },
+        "invalid_count": 0
+      },
+      "historical_secondary_unchanged": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.5147058823529411,
+        "balanced_accuracy": 0.506926406926407,
+        "recall_by_label": {
+          "yes": 0.7714285714285715,
+          "no": 0.24242424242424243
+        },
+        "invalid_count": 0
+      },
+      "prospective_rule_on_saved_logits_diagnostic_only": {
+        "n": 68,
+        "support": {
+          "yes": 35,
+          "no": 33
+        },
+        "accuracy": 0.5147058823529411,
+        "balanced_accuracy": 0.5086580086580087,
+        "recall_by_label": {
+          "yes": 0.7142857142857143,
+          "no": 0.30303030303030304
+        },
+        "invalid_count": 0
+      },
+      "exact_logit_ties": 4,
+      "changed_secondary_rows": 4,
+      "probability_half_without_exact_tie": 0,
+      "remaining_output_space_disagreements": 0,
+      "correct_gains_under_prospective_rule": 2,
+      "correct_losses_under_prospective_rule": 2
+    }
+  },
+  "limitations": [
+    "These rerule diagnostics do not replace the registered/historical primary or secondary results.",
+    "Only the saved first argmax token and canonical yes/no logits are available; full-vocabulary logits are not reconstructed.",
+    "Casting saved BF16-derived logits to float cannot recover precision lost before saving; a future precision comparison requires new inference.",
+    "Canonical yes/no decoding and case-normalized full-vocabulary decoding remain different tasks; alternate-case tokens and invalid tokens can cause legitimate residual disagreement.",
+    "A probability rounded to 0.5 is distinct from equal saved logits. The new policy compares logits directly and does not use a probability threshold.",
+    "Observation swaps replace both image and acquisition date and do not isolate pixel-only effects."
+  ]
+}

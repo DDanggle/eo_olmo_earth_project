@@ -1,0 +1,103 @@
+{
+  "observed_date": "2026-09-26",
+  "scope": "Official public checkpoint cards, metadata, configurations, source code and paper only. No model weight downloads, billable calls or server changes.",
+  "recommendation": {
+    "primary_engineering_student": "Qwen/Qwen3-VL-8B-Instruct",
+    "same_family_scale_student": "No compulsory 4B-to-8B run; use 4B only if measured runtime requires it, and keep data scaling separate.",
+    "second_priority_scientific_transfer_student": "OpenGVLab/InternVL3-8B",
+    "optional_newer_internvl_reserve": "OpenGVLab/InternVL3_5-8B-Instruct",
+    "qwen25_compatibility_arm": "Optional external baseline only. TerraScope uses InternVL3-8B, not Qwen2.5-VL-7B. Prioritize the matched InternVL3 arm over training a third Qwen generation.",
+    "initial_without_local_inventory": "4B engineering first, 8B scaling",
+    "fallback_engineering_student": "Qwen/Qwen3-VL-4B-Instruct",
+    "inventory_adjustment": "Existing server 8B config, index and four weight shards observed. Reuse the existing 8B candidate first after integrity and actual backward checks; no weights downloaded or models run in this update."
+  },
+  "candidates": [
+    {
+      "id": "Qwen/Qwen3-VL-4B-Instruct",
+      "status": "Official publicly available ungated checkpoint; not downloaded or runtime-tested here",
+      "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+      "revision_source": "https://huggingface.co/api/models/Qwen/Qwen3-VL-4B-Instruct",
+      "license_declared": "Apache-2.0",
+      "card": "https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct",
+      "configuration": "https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/raw/main/config.json",
+      "parameter_count_from_official_safetensors_metadata": 4437815808,
+      "text_hidden_size": 2560,
+      "native_image_channels": 3,
+      "deepstack_visual_encoder_layer_indexes": [
+        5,
+        11,
+        17
+      ],
+      "why": "Smaller real VLM for debugging EO adapter training and data controls, then a same-family 8B scaling experiment. Native Transformers implementation and public fine-tuning repository provide practical hooks.",
+      "integration_proposal_not_yet_implemented": "Preserve the native RGB visual encoder, merged image embeddings, image-grid position logic and DeepStack residuals. Add separately identified EO evidence slots projected to text hidden size; initial EO slots are not native image placeholders and must not enter the native RGB DeepStack mask. Carry sensor/time/validity and spatial mapping in the EO adapter contract. This is a proposed engineering route, not a verified drop-in API.",
+      "engineering_checks": [
+        "A disabled adapter reproduces native-model logits on the same token sequence",
+        "EO masks never alter RGB placeholder counts or deepstack feature counts",
+        "Position IDs, attention masks, labels and generation cache agree between training and decoding",
+        "Observation swap and EO-zero controls use identical text",
+        "Gradients reach the adapter and intended OlmoEarth parameters even if VLM parameters are frozen"
+      ],
+      "code_source": "https://raw.githubusercontent.com/huggingface/transformers/v4.57.1/src/transformers/models/qwen3_vl/modeling_qwen3_vl.py"
+    },
+    {
+      "id": "Qwen/Qwen3-VL-8B-Instruct",
+      "status": "Official public checkpoint; not downloaded or runtime-tested here",
+      "revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+      "revision_source": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct/commit/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+      "license_declared": "Apache-2.0",
+      "card": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct",
+      "checkpoint_repository_size_gb_approx": 17.5,
+      "why": "Scale the proven 4B implementation and fixed protocol without introducing an unrelated architecture. Refit projector dimensions from the actual pinned 8B configuration; a 4B-trained adapter is not automatically dimension-compatible."
+    },
+    {
+      "id": "OpenGVLab/InternVL3-8B",
+      "status": "Official public checkpoint; not downloaded or runtime-tested here",
+      "observed_revision_short": "853e3a7",
+      "revision_full": null,
+      "revision_note": "Public tree/history proves revision pinning is possible. Full SHA must be resolved and recorded before execution; this file does not claim it is already fully pinned.",
+      "revision_source": "https://huggingface.co/OpenGVLab/InternVL3-8B/tree/main",
+      "license_declared": "MIT; Qwen2.5 language component Apache-2.0",
+      "card": "https://huggingface.co/OpenGVLab/InternVL3-8B",
+      "architecture": "InternViT-300M-448px-V2_5 plus MLP plus Qwen2.5-7B language component; pixel shuffle and dynamic 448px image tiles",
+      "text_hidden_size": 3584,
+      "checkpoint_repository_size_gb_approx": 15.9,
+      "why": "Matches TerraScope's backbone and provides a second visual architecture. It is not an independent language family: its LLM is Qwen2.5. A newer Qwen3-only result cannot isolate improvement over TerraScope from backbone differences.",
+      "integration": "Official extract_feature produces projected ViT tokens; forward substitutes them at IMG_CONTEXT positions then calls language_model(inputs_embeds). Generate exposes visual_features, but the training forward does not, so a consistent wrapper/edit is necessary for EO slots and gradients. Use a dedicated EO mask and retain native RGB slots. Pin and audit trust_remote_code and its dependencies.",
+      "code_source": "https://huggingface.co/OpenGVLab/InternVL3-8B/blob/main/modeling_internvl_chat.py",
+      "configuration": "https://huggingface.co/OpenGVLab/InternVL3-8B/blob/main/config.json"
+    },
+    {
+      "id": "OpenGVLab/InternVL3_5-8B-Instruct",
+      "status": "Official ungated public SFT-stage checkpoint; reserve only",
+      "revision": "27506812aa9914804018996329e895977ee2d0c8",
+      "revision_source": "https://huggingface.co/api/models/OpenGVLab/InternVL3_5-8B-Instruct",
+      "license_declared": "Apache-2.0, including Qwen3 language component per model card",
+      "card": "https://huggingface.co/OpenGVLab/InternVL3_5-8B-Instruct",
+      "parameter_count_from_official_safetensors_metadata": 8528318464,
+      "text_hidden_size": 4096,
+      "why_not_first_transfer": "Available and practical ViT-MLP-LLM architecture, but it does not match TerraScope's backbone and also uses Qwen3. It cannot substantiate a different-language-family claim. Instruct isolates the SFT-stage variant; do not silently substitute the final Cascade-RL checkpoint with the shorter repository name.",
+      "code_source": "https://huggingface.co/OpenGVLab/InternVL3_5-8B-Instruct/blob/main/modeling_internvl_chat.py"
+    }
+  ],
+  "terrascope_comparison": {
+    "source": "https://arxiv.org/html/2603.19039v1",
+    "paper_backbone": "InternVL3-8B plus SAM2",
+    "minimum_matched_comparison": [
+      "InternVL3-8B RGB-only baseline with same downstream training examples",
+      "InternVL3-8B plus proposed EO branch with same downstream training examples",
+      "Released TerraScope for external-system comparison under compatible inputs and declared training-data differences"
+    ],
+    "isolation_warning": "Released TerraScope has different grounded pretraining and Terra-CoT instruction data. Sharing an 8B backbone alone is not a matched-training comparison. Additional multispectral/SAR observations must be reported as additional input; RGB-only comparisons isolate method effects only when input information is matched.",
+    "qwen25_baseline": "Qwen/Qwen2.5-VL-7B-Instruct exists and is Apache-2.0, but appears as a comparator in TerraScope rather than its backbone.",
+    "qwen25_source": "https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct"
+  },
+  "memory_and_staging": {
+    "status": "Analytical planning only; no GPU profiling performed",
+    "bf16_weight_floor_qwen4_decimal_gb": 8.875631616,
+    "bf16_weight_floor_internvl35_decimal_gb": 17.056636928,
+    "caveat": "Weight storage excludes OlmoEarth, adapter, activations, gradients, optimizer states, attention workspace and generation cache. A frozen decoder still needs backward activations to train an input adapter; wrapping its forward in no_grad would sever that gradient path.",
+    "full_adam_example": "With BF16 parameters and gradients, FP32 master weights and two FP32 moments, assume about 16 bytes per trainable parameter before activations. Qwen4's 4.44B parameters alone would then require about 71 GB. Actual optimizer/dtypes/sharding can differ. Do not infer training fit from inference weight size or TerraScope's inference memory table.",
+    "proposed_initial_settings": "Microbatch 1, bounded 2-4 acquisition dates, a fixed small EO token budget such as 64 or 128, explicit RGB pixel/token cap, checkpointing and BF16. First profile loss backward and one optimizer step with VLM/EO frozen and adapter trainable; then separately profile LoRA and OlmoEarth updates. These are experimental settings, not tested capacity promises.",
+    "scale_gate": "A real VLM first. Keep labels, input observations and token budget fixed while testing 4B to 8B; increase dataset size or number of dates in separate experiments."
+  }
+}

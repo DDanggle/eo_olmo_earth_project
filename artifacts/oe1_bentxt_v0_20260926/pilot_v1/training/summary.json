@@ -1,0 +1,589 @@
+{
+  "schema": "oe1-bentxt-feasibility-results-v0",
+  "valid": true,
+  "completed_at": "2026-09-26T10:48:25.258745+00:00",
+  "arms": {
+    "frozen/real": {
+      "n": 256,
+      "support": {
+        "yes": 128,
+        "no": 128
+      },
+      "parsed": {
+        "accuracy": 0.68359375,
+        "balanced_accuracy": 0.68359375,
+        "recall_by_label": {
+          "yes": 0.578125,
+          "no": 0.7890625
+        },
+        "invalid_count": 0
+      },
+      "constrained_prediction": {
+        "accuracy": 0.69140625,
+        "balanced_accuracy": 0.69140625,
+        "recall_by_label": {
+          "yes": 0.6171875,
+          "no": 0.765625
+        },
+        "invalid_count": 0
+      }
+    },
+    "frozen/zero": {
+      "n": 256,
+      "support": {
+        "yes": 128,
+        "no": 128
+      },
+      "parsed": {
+        "accuracy": 0.515625,
+        "balanced_accuracy": 0.515625,
+        "recall_by_label": {
+          "yes": 0.1015625,
+          "no": 0.9296875
+        },
+        "invalid_count": 0
+      },
+      "constrained_prediction": {
+        "accuracy": 0.49609375,
+        "balanced_accuracy": 0.49609375,
+        "recall_by_label": {
+          "yes": 0.21875,
+          "no": 0.7734375
+        },
+        "invalid_count": 0
+      }
+    },
+    "frozen/observation_swap": {
+      "n": 68,
+      "support": {
+        "yes": 35,
+        "no": 33
+      },
+      "parsed": {
+        "accuracy": 0.5735294117647058,
+        "balanced_accuracy": 0.577056277056277,
+        "recall_by_label": {
+          "yes": 0.45714285714285713,
+          "no": 0.696969696969697
+        },
+        "invalid_count": 0
+      },
+      "constrained_prediction": {
+        "accuracy": 0.5441176470588235,
+        "balanced_accuracy": 0.5458874458874459,
+        "recall_by_label": {
+          "yes": 0.4857142857142857,
+          "no": 0.6060606060606061
+        },
+        "invalid_count": 0
+      }
+    },
+    "joint/real": {
+      "n": 256,
+      "support": {
+        "yes": 128,
+        "no": 128
+      },
+      "parsed": {
+        "accuracy": 0.72265625,
+        "balanced_accuracy": 0.72265625,
+        "recall_by_label": {
+          "yes": 0.6875,
+          "no": 0.7578125
+        },
+        "invalid_count": 0
+      },
+      "constrained_prediction": {
+        "accuracy": 0.75,
+        "balanced_accuracy": 0.75,
+        "recall_by_label": {
+          "yes": 0.765625,
+          "no": 0.734375
+        },
+        "invalid_count": 0
+      }
+    },
+    "joint/zero": {
+      "n": 256,
+      "support": {
+        "yes": 128,
+        "no": 128
+      },
+      "parsed": {
+        "accuracy": 0.49609375,
+        "balanced_accuracy": 0.49609375,
+        "recall_by_label": {
+          "yes": 0.078125,
+          "no": 0.9140625
+        },
+        "invalid_count": 3
+      },
+      "constrained_prediction": {
+        "accuracy": 0.51171875,
+        "balanced_accuracy": 0.51171875,
+        "recall_by_label": {
+          "yes": 0.1640625,
+          "no": 0.859375
+        },
+        "invalid_count": 0
+      }
+    },
+    "joint/observation_swap": {
+      "n": 68,
+      "support": {
+        "yes": 35,
+        "no": 33
+      },
+      "parsed": {
+        "accuracy": 0.6176470588235294,
+        "balanced_accuracy": 0.6181818181818182,
+        "recall_by_label": {
+          "yes": 0.6,
+          "no": 0.6363636363636364
+        },
+        "invalid_count": 0
+      },
+      "constrained_prediction": {
+        "accuracy": 0.6029411764705882,
+        "balanced_accuracy": 0.6012987012987012,
+        "recall_by_label": {
+          "yes": 0.6571428571428571,
+          "no": 0.5454545454545454
+        },
+        "invalid_count": 0
+      }
+    },
+    "blind/real": {
+      "n": 256,
+      "support": {
+        "yes": 128,
+        "no": 128
+      },
+      "parsed": {
+        "accuracy": 0.66796875,
+        "balanced_accuracy": 0.66796875,
+        "recall_by_label": {
+          "yes": 0.796875,
+          "no": 0.5390625
+        },
+        "invalid_count": 0
+      },
+      "constrained_prediction": {
+        "accuracy": 0.65625,
+        "balanced_accuracy": 0.65625,
+        "recall_by_label": {
+          "yes": 0.8359375,
+          "no": 0.4765625
+        },
+        "invalid_count": 0
+      }
+    },
+    "blind/zero": {
+      "n": 256,
+      "support": {
+        "yes": 128,
+        "no": 128
+      },
+      "parsed": {
+        "accuracy": 0.66796875,
+        "balanced_accuracy": 0.66796875,
+        "recall_by_label": {
+          "yes": 0.796875,
+          "no": 0.5390625
+        },
+        "invalid_count": 0
+      },
+      "constrained_prediction": {
+        "accuracy": 0.65625,
+        "balanced_accuracy": 0.65625,
+        "recall_by_label": {
+          "yes": 0.8359375,
+          "no": 0.4765625
+        },
+        "invalid_count": 0
+      }
+    },
+    "blind/observation_swap": {
+      "n": 68,
+      "support": {
+        "yes": 35,
+        "no": 33
+      },
+      "parsed": {
+        "accuracy": 0.5147058823529411,
+        "balanced_accuracy": 0.5086580086580087,
+        "recall_by_label": {
+          "yes": 0.7142857142857143,
+          "no": 0.30303030303030304
+        },
+        "invalid_count": 0
+      },
+      "constrained_prediction": {
+        "accuracy": 0.5147058823529411,
+        "balanced_accuracy": 0.506926406926407,
+        "recall_by_label": {
+          "yes": 0.7714285714285715,
+          "no": 0.24242424242424243
+        },
+        "invalid_count": 0
+      }
+    }
+  },
+  "training": {
+    "frozen": {
+      "steps": 256,
+      "exposures": 2048,
+      "loss_first": 9.343910217285156,
+      "loss_last": 0.7129129767417908,
+      "encoder_update_audit": {
+        "trainable": false,
+        "before_sha256": "edada73fefbac8ee85b080086d66af8925442a9b92f05e0594c9412a31aeb1e7",
+        "after_sha256": "edada73fefbac8ee85b080086d66af8925442a9b92f05e0594c9412a31aeb1e7",
+        "changed_parameter_tensors": 0,
+        "changed_parameter_names": [],
+        "gradients": {
+          "parameter_tensors": 231,
+          "trainable_tensors": 0,
+          "with_grad": 0,
+          "nonzero_grad_tensors": 0,
+          "finite": true,
+          "l2_norm": 0.0
+        },
+        "counters": {
+          "optimizer_steps_observed": 1,
+          "encoder_update_steps": 0
+        },
+        "measurement_scope": "one whole-arm before/after observation; not one observation per optimizer step"
+      },
+      "elapsed_seconds": 48.112549521028996,
+      "peak_gpu_bytes": 18981035008,
+      "final_file_sha256": "de0133f895d8573805da69b99d30b7e27cbd855c8d4a28d39562cd9134feac48",
+      "final_encoder_tensor_sha256": "d0dfa9366aaf154a15f41dddeb9acfe4c4f4985555b6d50e0d94f7e0035baa39",
+      "final_projector_tensor_sha256": "afc397e55146574e374df8f9962daf2ce3667bb58f46ac354343c620bdccc636"
+    },
+    "joint": {
+      "steps": 256,
+      "exposures": 2048,
+      "loss_first": 9.343910217285156,
+      "loss_last": 0.25161731243133545,
+      "encoder_update_audit": {
+        "trainable": true,
+        "before_sha256": "edada73fefbac8ee85b080086d66af8925442a9b92f05e0594c9412a31aeb1e7",
+        "after_sha256": "9747f3ba973f6e0107421a0e460455d0e6cf529ed76fe26c6cf739406bb02723",
+        "changed_parameter_tensors": 203,
+        "changed_parameter_names": [
+          "blocks.0.norm1.weight",
+          "blocks.0.norm1.bias",
+          "blocks.0.attn.q.weight",
+          "blocks.0.attn.q.bias",
+          "blocks.0.attn.k.weight",
+          "blocks.0.attn.k.bias",
+          "blocks.0.attn.v.weight",
+          "blocks.0.attn.v.bias",
+          "blocks.0.attn.proj.weight",
+          "blocks.0.attn.proj.bias",
+          "blocks.0.norm2.weight",
+          "blocks.0.norm2.bias",
+          "blocks.0.mlp.fc1.weight",
+          "blocks.0.mlp.fc1.bias",
+          "blocks.0.mlp.fc2.weight",
+          "blocks.0.mlp.fc2.bias",
+          "blocks.1.norm1.weight",
+          "blocks.1.norm1.bias",
+          "blocks.1.attn.q.weight",
+          "blocks.1.attn.q.bias",
+          "blocks.1.attn.k.weight",
+          "blocks.1.attn.k.bias",
+          "blocks.1.attn.v.weight",
+          "blocks.1.attn.v.bias",
+          "blocks.1.attn.proj.weight",
+          "blocks.1.attn.proj.bias",
+          "blocks.1.norm2.weight",
+          "blocks.1.norm2.bias",
+          "blocks.1.mlp.fc1.weight",
+          "blocks.1.mlp.fc1.bias",
+          "blocks.1.mlp.fc2.weight",
+          "blocks.1.mlp.fc2.bias",
+          "blocks.2.norm1.weight",
+          "blocks.2.norm1.bias",
+          "blocks.2.attn.q.weight",
+          "blocks.2.attn.q.bias",
+          "blocks.2.attn.k.weight",
+          "blocks.2.attn.k.bias",
+          "blocks.2.attn.v.weight",
+          "blocks.2.attn.v.bias",
+          "blocks.2.attn.proj.weight",
+          "blocks.2.attn.proj.bias",
+          "blocks.2.norm2.weight",
+          "blocks.2.norm2.bias",
+          "blocks.2.mlp.fc1.weight",
+          "blocks.2.mlp.fc1.bias",
+          "blocks.2.mlp.fc2.weight",
+          "blocks.2.mlp.fc2.bias",
+          "blocks.3.norm1.weight",
+          "blocks.3.norm1.bias",
+          "blocks.3.attn.q.weight",
+          "blocks.3.attn.q.bias",
+          "blocks.3.attn.k.weight",
+          "blocks.3.attn.k.bias",
+          "blocks.3.attn.v.weight",
+          "blocks.3.attn.v.bias",
+          "blocks.3.attn.proj.weight",
+          "blocks.3.attn.proj.bias",
+          "blocks.3.norm2.weight",
+          "blocks.3.norm2.bias",
+          "blocks.3.mlp.fc1.weight",
+          "blocks.3.mlp.fc1.bias",
+          "blocks.3.mlp.fc2.weight",
+          "blocks.3.mlp.fc2.bias",
+          "blocks.4.norm1.weight",
+          "blocks.4.norm1.bias",
+          "blocks.4.attn.q.weight",
+          "blocks.4.attn.q.bias",
+          "blocks.4.attn.k.weight",
+          "blocks.4.attn.k.bias",
+          "blocks.4.attn.v.weight",
+          "blocks.4.attn.v.bias",
+          "blocks.4.attn.proj.weight",
+          "blocks.4.attn.proj.bias",
+          "blocks.4.norm2.weight",
+          "blocks.4.norm2.bias",
+          "blocks.4.mlp.fc1.weight",
+          "blocks.4.mlp.fc1.bias",
+          "blocks.4.mlp.fc2.weight",
+          "blocks.4.mlp.fc2.bias",
+          "blocks.5.norm1.weight",
+          "blocks.5.norm1.bias",
+          "blocks.5.attn.q.weight",
+          "blocks.5.attn.q.bias",
+          "blocks.5.attn.k.weight",
+          "blocks.5.attn.k.bias",
+          "blocks.5.attn.v.weight",
+          "blocks.5.attn.v.bias",
+          "blocks.5.attn.proj.weight",
+          "blocks.5.attn.proj.bias",
+          "blocks.5.norm2.weight",
+          "blocks.5.norm2.bias",
+          "blocks.5.mlp.fc1.weight",
+          "blocks.5.mlp.fc1.bias",
+          "blocks.5.mlp.fc2.weight",
+          "blocks.5.mlp.fc2.bias",
+          "blocks.6.norm1.weight",
+          "blocks.6.norm1.bias",
+          "blocks.6.attn.q.weight",
+          "blocks.6.attn.q.bias",
+          "blocks.6.attn.k.weight",
+          "blocks.6.attn.k.bias",
+          "blocks.6.attn.v.weight",
+          "blocks.6.attn.v.bias",
+          "blocks.6.attn.proj.weight",
+          "blocks.6.attn.proj.bias",
+          "blocks.6.norm2.weight",
+          "blocks.6.norm2.bias",
+          "blocks.6.mlp.fc1.weight",
+          "blocks.6.mlp.fc1.bias",
+          "blocks.6.mlp.fc2.weight",
+          "blocks.6.mlp.fc2.bias",
+          "blocks.7.norm1.weight",
+          "blocks.7.norm1.bias",
+          "blocks.7.attn.q.weight",
+          "blocks.7.attn.q.bias",
+          "blocks.7.attn.k.weight",
+          "blocks.7.attn.k.bias",
+          "blocks.7.attn.v.weight",
+          "blocks.7.attn.v.bias",
+          "blocks.7.attn.proj.weight",
+          "blocks.7.attn.proj.bias",
+          "blocks.7.norm2.weight",
+          "blocks.7.norm2.bias",
+          "blocks.7.mlp.fc1.weight",
+          "blocks.7.mlp.fc1.bias",
+          "blocks.7.mlp.fc2.weight",
+          "blocks.7.mlp.fc2.bias",
+          "blocks.8.norm1.weight",
+          "blocks.8.norm1.bias",
+          "blocks.8.attn.q.weight",
+          "blocks.8.attn.q.bias",
+          "blocks.8.attn.k.weight",
+          "blocks.8.attn.k.bias",
+          "blocks.8.attn.v.weight",
+          "blocks.8.attn.v.bias",
+          "blocks.8.attn.proj.weight",
+          "blocks.8.attn.proj.bias",
+          "blocks.8.norm2.weight",
+          "blocks.8.norm2.bias",
+          "blocks.8.mlp.fc1.weight",
+          "blocks.8.mlp.fc1.bias",
+          "blocks.8.mlp.fc2.weight",
+          "blocks.8.mlp.fc2.bias",
+          "blocks.9.norm1.weight",
+          "blocks.9.norm1.bias",
+          "blocks.9.attn.q.weight",
+          "blocks.9.attn.q.bias",
+          "blocks.9.attn.k.weight",
+          "blocks.9.attn.k.bias",
+          "blocks.9.attn.v.weight",
+          "blocks.9.attn.v.bias",
+          "blocks.9.attn.proj.weight",
+          "blocks.9.attn.proj.bias",
+          "blocks.9.norm2.weight",
+          "blocks.9.norm2.bias",
+          "blocks.9.mlp.fc1.weight",
+          "blocks.9.mlp.fc1.bias",
+          "blocks.9.mlp.fc2.weight",
+          "blocks.9.mlp.fc2.bias",
+          "blocks.10.norm1.weight",
+          "blocks.10.norm1.bias",
+          "blocks.10.attn.q.weight",
+          "blocks.10.attn.q.bias",
+          "blocks.10.attn.k.weight",
+          "blocks.10.attn.k.bias",
+          "blocks.10.attn.v.weight",
+          "blocks.10.attn.v.bias",
+          "blocks.10.attn.proj.weight",
+          "blocks.10.attn.proj.bias",
+          "blocks.10.norm2.weight",
+          "blocks.10.norm2.bias",
+          "blocks.10.mlp.fc1.weight",
+          "blocks.10.mlp.fc1.bias",
+          "blocks.10.mlp.fc2.weight",
+          "blocks.10.mlp.fc2.bias",
+          "blocks.11.norm1.weight",
+          "blocks.11.norm1.bias",
+          "blocks.11.attn.q.weight",
+          "blocks.11.attn.q.bias",
+          "blocks.11.attn.k.weight",
+          "blocks.11.attn.k.bias",
+          "blocks.11.attn.v.weight",
+          "blocks.11.attn.v.bias",
+          "blocks.11.attn.proj.weight",
+          "blocks.11.attn.proj.bias",
+          "blocks.11.norm2.weight",
+          "blocks.11.norm2.bias",
+          "blocks.11.mlp.fc1.weight",
+          "blocks.11.mlp.fc1.bias",
+          "blocks.11.mlp.fc2.weight",
+          "blocks.11.mlp.fc2.bias",
+          "composite_encodings.pos_embed",
+          "composite_encodings.month_embed.weight",
+          "composite_encodings.per_modality_channel_embeddings.sentinel2_l2a",
+          "patch_embeddings.per_modality_embeddings.sentinel2_l2a.sentinel2_l2a__0.proj.weight",
+          "patch_embeddings.per_modality_embeddings.sentinel2_l2a.sentinel2_l2a__0.proj.bias",
+          "patch_embeddings.per_modality_embeddings.sentinel2_l2a.sentinel2_l2a__1.proj.weight",
+          "patch_embeddings.per_modality_embeddings.sentinel2_l2a.sentinel2_l2a__1.proj.bias",
+          "patch_embeddings.per_modality_embeddings.sentinel2_l2a.sentinel2_l2a__2.proj.weight",
+          "patch_embeddings.per_modality_embeddings.sentinel2_l2a.sentinel2_l2a__2.proj.bias",
+          "norm.weight",
+          "norm.bias"
+        ],
+        "gradients": {
+          "parameter_tensors": 231,
+          "trainable_tensors": 231,
+          "with_grad": 203,
+          "nonzero_grad_tensors": 203,
+          "finite": true,
+          "l2_norm": 0.9721904184674609
+        },
+        "counters": {
+          "optimizer_steps_observed": 1,
+          "encoder_update_steps": 1
+        },
+        "measurement_scope": "one whole-arm before/after observation; not one observation per optimizer step"
+      },
+      "elapsed_seconds": 44.64744443818927,
+      "peak_gpu_bytes": 21070721536,
+      "final_file_sha256": "b9e155c47b0043fd232407b89da08faad05c79d8e42f253f8081cd0fa3add626",
+      "final_encoder_tensor_sha256": "2302d4dba293d337cea292e4f5b3593bc4b00e74892bb73c54db7b9e9d1d87b0",
+      "final_projector_tensor_sha256": "59ce8dbc28abbba7ccb7ae16f52f5fc4801e399f4b47034b9d9e8e00dd4dcb4c"
+    },
+    "blind": {
+      "steps": 256,
+      "exposures": 2048,
+      "loss_first": 9.311327934265137,
+      "loss_last": 0.4552674889564514,
+      "encoder_update_audit": {
+        "trainable": false,
+        "before_sha256": "edada73fefbac8ee85b080086d66af8925442a9b92f05e0594c9412a31aeb1e7",
+        "after_sha256": "edada73fefbac8ee85b080086d66af8925442a9b92f05e0594c9412a31aeb1e7",
+        "changed_parameter_tensors": 0,
+        "changed_parameter_names": [],
+        "gradients": {
+          "parameter_tensors": 231,
+          "trainable_tensors": 0,
+          "with_grad": 0,
+          "nonzero_grad_tensors": 0,
+          "finite": true,
+          "l2_norm": 0.0
+        },
+        "counters": {
+          "optimizer_steps_observed": 1,
+          "encoder_update_steps": 0
+        },
+        "measurement_scope": "one whole-arm before/after observation; not one observation per optimizer step"
+      },
+      "elapsed_seconds": 22.401469442993402,
+      "peak_gpu_bytes": 18994385920,
+      "final_file_sha256": "1940a69d04111c9674fecc61f241b8f0bcb8e36bb7d4f9d5ded662f955f40aeb",
+      "final_encoder_tensor_sha256": "d0dfa9366aaf154a15f41dddeb9acfe4c4f4985555b6d50e0d94f7e0035baa39",
+      "final_projector_tensor_sha256": "c54b79ed2d68c3d0031ab76098107307cfc8cd323342cafa3406fcd65986aa41"
+    }
+  },
+  "checkpoint_reload": {
+    "frozen": {
+      "trained_state_roundtrip": {
+        "split": "train",
+        "n_questions": 8,
+        "logits_bit_exact": true,
+        "logits_sha256": "20c05b426d6c321e1d3f7a9cacdf6dc4ae43789985b843afd4d392d2889d9f6b"
+      },
+      "same_checkpoint_repeatability": {
+        "split": "dev",
+        "n_questions": 8,
+        "logits_bit_exact": true,
+        "logits_sha256": "87f376f3370a83a6ec7691274657cd05395265e99478e8dafb6d5e8c007c030e"
+      }
+    },
+    "joint": {
+      "trained_state_roundtrip": {
+        "split": "train",
+        "n_questions": 8,
+        "logits_bit_exact": true,
+        "logits_sha256": "ae5d60b8594f3995957c9fa319519eaa0de1fd9b0098adfecfa6f7c3d91e1fa7"
+      },
+      "same_checkpoint_repeatability": {
+        "split": "dev",
+        "n_questions": 8,
+        "logits_bit_exact": true,
+        "logits_sha256": "31abce38263e8e75c6833af05d06b8d3aa1f98668617a33cd547e7917a8f25cc"
+      }
+    },
+    "blind": {
+      "trained_state_roundtrip": {
+        "split": "train",
+        "n_questions": 8,
+        "logits_bit_exact": true,
+        "logits_sha256": "80c4812573491e1d3b4bc1a936701d09208751d23a53778940ce2553de720853"
+      },
+      "same_checkpoint_repeatability": {
+        "split": "dev",
+        "n_questions": 8,
+        "logits_bit_exact": true,
+        "logits_sha256": "d8e8aec73a56284e61445008859ed255b371ea03023e5c8fdb98c4bf3ab7e43c"
+      }
+    }
+  },
+  "llm_frozen_tensor_hash_unchanged": true,
+  "donor_coverage": {
+    "n": 68,
+    "of": 256
+  },
+  "prediction_rows": 1740,
+  "elapsed_seconds": 201.99606465548277,
+  "limitations": [
+    "Single fixed-seed feasibility pilot; not a held-out benchmark or temporal-change claim.",
+    "Free-vocabulary first-token invalid answers count as incorrect; yes/no-constrained scores are secondary.",
+    "Zero-feature and blind scores measure source-label agreement, not accuracy for a new physical scene.",
+    "Native S2 and QA provenance are inherited from the frozen data builder; source QA correctness is not independently reannotated.",
+    "Joint encoder adaptation uses QA supervision, not a new self-supervised pretraining objective."
+  ]
+}

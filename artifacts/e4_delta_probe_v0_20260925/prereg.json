@@ -1,0 +1,109 @@
+{
+  "schema": "e4-delta-probe-prereg-v0",
+  "id": "E4-D-v0",
+  "status": "Pre-E4-result specification; freeze complete runner/source snapshots before any E4 inference",
+  "scope": "Post-E3 exploratory mechanism diagnosis on the same exposed E2/E3 development items; not fresh confirmatory evidence",
+  "trigger": "E3 observed all five zero-D arms yielding no throughout both phenomena and all three seeds (2676 saved rows), including no_delta with A and B retained. This observation generated the E4 hypothesis; it is not an E4 result.",
+  "question": "Can the unchanged D=B-A block reproduce the frozen reader without raw A/B blocks, and is the reader sensitive to D sign or coordinate arrangement beyond its scalar energy?",
+  "parent": {
+    "directory": "e3_pair_dependence_v1",
+    "manifest_sha256": "68d6c339e81ec9357559ff28d0a85dcb1a881d35fede99a63736b34be54e80fd",
+    "scores_sha256": "92988b276fbd829001cb83ce65b339fd0ade0303ef368fe2f7d99ffb5e29cde1",
+    "items_sha256": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502",
+    "pairs_sha256": "3f9d693993ce72504a241b8ac266ab3bcf5663f50693d63c3b3b8947d126807a",
+    "saved_e2_real_sha256": "928dcee211a2ed07e0bf18a8dd739e15755911d0011ec58875f7b17934b05c9c",
+    "real_answer_sha256": {
+      "1": "378e8cd3cd7b3f1898390ba0da49911a2a3d0e0e50772cca302765801ed42add",
+      "2": "91655f3e5ea5320f84641cba76c9f0593a3d8d02db51e737235a16d6fc5d71aa",
+      "3": "dfecfe6f8594ee84f349ba662198fdedf8a4ed53516ccc30d747856ad30b264e"
+    }
+  },
+  "checkpoints": {
+    "1": "10137425ddca279533782c8523ccfd6394f0c9927a29f9a8f3f2076907f44869",
+    "2": "8ba9f1ea8b67ed0de93f2823c39efed378b9192df33ca07fc97998cad2d1d0aa",
+    "3": "9b64285f76892ebcac20531a4d12d03b4cd343a6d549c7e5e66c33af7b6e8c94"
+  },
+  "population": {
+    "n_items": 209,
+    "n_generations": 2508,
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "selection": "Copy the original items.jsonl and pairs.npz bytes unchanged; no new selection, exclusion, label or training data",
+    "allowed_arms": "All four E4 arms for every retained item, including 51 hard_neg items. Original items.allowed_arms remains E3 provenance only; E4 expected coverage is explicitly 209*4*3",
+    "primary": "The unchanged 57 flood source-positive tiles with paired pos/neg items, all ten flood events; no C1 support exclusion",
+    "landslide": "Unchanged 44 source-paired items in two regions; descriptive only",
+    "hard_negative": "All 51 retained flood hard negatives, all four arms; separate descriptive FPR, never included in paired primary BA"
+  },
+  "arms": {
+    "real": "[A,B,D] with D=B-A",
+    "delta_only": "[0,0,D]; retain original D unchanged, including its information from both source observations",
+    "delta_sign_flip": "[A,B,-D]; preserve A and B and their original order; isolate difference-block sign from the E3 reverse-arm frame swap",
+    "delta_feature_permute": "[A,B,P(D)], P(D)[:,j]=D[:,(j+257)%768]; fixed coordinate permutation identical across tokens, items and seeds; no random draws or search"
+  },
+  "input_contract": {
+    "pair_shape": [
+      2,
+      64,
+      768
+    ],
+    "output_shape": [
+      192,
+      768
+    ],
+    "types": "[0]*64+[1]*64+[3]*64 for all arms",
+    "prompt": "Byte-equivalent original E2/E3 chat prompt and date strings; original flood dates remain known approximations",
+    "delta_arithmetic": "Compute B-A once in source float32, reject nonfinite; transform only the explicitly specified blocks",
+    "norm_control_check": "Fixed feature permutation preserves each token's values as a multiset; mean, variance and L2 are checked in float64 with rtol=1e-6 and atol=1e-6, not bitwise reduction equality",
+    "permutation_justification": "A deterministic nonzero permutation preserves scalar energy and feature-value distribution while disturbing coordinate-specific content. It is a descriptive control for simple nonzero/norm gating and remains out of distribution. Sign flip alone changes the feature mean, so it does not replace this control."
+  },
+  "validity": {
+    "real_reproduction_min": 0.99,
+    "reference": "Both E3 v1 saved real responses and original saved E2 real responses, separately in every seed and phenomenon",
+    "execution_order": "Generate all three real arms first and pass all reproduction/parse checks before opening any E4 intervention output file",
+    "max_parse_fail": 0.01,
+    "parse_scope": "Every seed/phenomenon/arm including retained hard negatives",
+    "finite": "All selected pair tensors, difference blocks, checkpoints and projected tokens finite; generation logits have no NaN/+Inf and at least one finite value",
+    "coverage": "Exactly 2508 unique (seed,arm,id) keys; original source_gold unchanged; transformed_gold explicitly null",
+    "failure": "Invalid run with partial outputs and reason preserved; no repair by exclusion, threshold relaxation or result-dependent permutation changes"
+  },
+  "primary_analysis": {
+    "unit": "Equal flood-event mean of original source-label balanced agreement on pos/neg pairs",
+    "contrast": "delta_only minus real on the same items within each event",
+    "bootstrap": {
+      "draws": 5000,
+      "seed": 20260925,
+      "unit": "paired whole flood event",
+      "interval": "percentile 95%, NumPy linear quantile"
+    },
+    "eligibility": "At least five represented paired flood events and real macro BA >=0.60 per seed",
+    "difference_block_sufficient_under_intervention": "In at least two of three eligible seeds, delta_only macro BA >=0.60 and paired delta CI lower >=-0.05",
+    "delta_only_degrades_source_agreement": "If sufficiency is not met: in at least two eligible seeds, delta_only delta <=-0.10 and paired CI upper <0",
+    "mixed_or_inconclusive": "Otherwise; no interpretation as equality or absence of mechanism",
+    "epsilon": 1e-12
+  },
+  "secondary_descriptive": {
+    "prediction_agreement": "Per seed/phenomenon, real-vs-delta_only matched valid yes/no decisions divided by all source items; even null/null counts as nonagreement. Report >=0.99 flag descriptively, plus parsed coverage and both-parsed agreement. This flag does not determine the primary verdict.",
+    "sign_and_permutation": "Report source-label BA, paired event deltas/CIs and decisions compared with real; no extra success threshold, arm selection or follow-up tuning",
+    "hard_negative": "Separate source-label yes FPR with unparsed counts; no transformed physical gold",
+    "landslide": "Two descriptive region means; no tile-independent confidence interval"
+  },
+  "compute": {
+    "training": false,
+    "max_runtime_minutes": 45,
+    "outputs": "/home/work/data/olmoearth/e4_delta_probe_v0/",
+    "gpu": "Use an idle authorized GPU with inherited cooperative locks; record UUID, selected index and runtime; never alter the E3 directories",
+    "runner": "New E4 runner and frozen source snapshot; reuse unchanged model/projector loading and decoding recipe from audited E3 v1"
+  },
+  "limits": [
+    "D=B-A already contains both source observations. Delta-only sufficiency cannot imply that the earlier observation or historical information is unnecessary.",
+    "Removing raw A/B blocks while retaining D tests representation routing under a frozen reader, not single-image performance.",
+    "Sign reversal and coordinate permutation create out-of-distribution embeddings; sensitivity does not prove temporal or physical change reasoning.",
+    "The E3 zero-D collapse generated this experiment; this is sequential exploration on already exposed development data, not a fresh confirmatory trial.",
+    "Original flood labels and pre/pre absence assumptions are not independently verified temporal gold; imputed prompt dates are retained.",
+    "No training, new pseudo-labels, threshold/permutation sweep, or per-item repair is allowed. Any next experiment needs a separate frozen plan.",
+    "Permutation preserves raw input D statistics only. The learned coordinate-dependent projector may change projected norms/energy, so this control cannot exclude every downstream norm or gating mechanism."
+  ]
+}

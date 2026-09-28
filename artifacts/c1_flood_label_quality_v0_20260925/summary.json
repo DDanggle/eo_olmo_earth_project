@@ -1,0 +1,165 @@
+{
+  "schema": "c1-flood-label-quality-summary-v0",
+  "n": 914,
+  "n_unique_tiles": 914,
+  "no_model_scores": true,
+  "counts": {
+    "pos": 457,
+    "hard_neg": 457
+  },
+  "thresholds": {
+    "flood_min": 0.02,
+    "valid_min": 0.9,
+    "rounded_qa_abs_tolerance": 5e-05
+  },
+  "valid_fraction_definition": "((valid==1)&(mask>0)).sum()/36864",
+  "symmetric_counts": {
+    "pos": 450,
+    "hard_neg": 457
+  },
+  "symmetric_n": 907,
+  "events": {
+    "1111002": {
+      "pos": 3,
+      "symmetric_pos": 3
+    },
+    "1111007": {
+      "pos": 101,
+      "symmetric_pos": 101,
+      "hard_neg": 131,
+      "symmetric_hard_neg": 131
+    },
+    "1111013": {
+      "pos": 261,
+      "symmetric_pos": 259,
+      "hard_neg": 215,
+      "symmetric_hard_neg": 215
+    },
+    "205": {
+      "pos": 5,
+      "symmetric_pos": 4,
+      "hard_neg": 2,
+      "symmetric_hard_neg": 2
+    },
+    "277": {
+      "hard_neg": 72,
+      "symmetric_hard_neg": 72,
+      "pos": 48,
+      "symmetric_pos": 48
+    },
+    "321": {
+      "pos": 21,
+      "symmetric_pos": 19,
+      "hard_neg": 11,
+      "symmetric_hard_neg": 11
+    },
+    "411": {
+      "hard_neg": 7,
+      "symmetric_hard_neg": 7,
+      "pos": 1,
+      "symmetric_pos": 1
+    },
+    "445": {
+      "hard_neg": 17,
+      "symmetric_hard_neg": 17,
+      "pos": 9,
+      "symmetric_pos": 9
+    },
+    "561": {
+      "pos": 2,
+      "symmetric_pos": 2
+    },
+    "562": {
+      "pos": 6,
+      "symmetric_pos": 4,
+      "hard_neg": 2,
+      "symmetric_hard_neg": 2
+    }
+  },
+  "by_kind": {
+    "pos": {
+      "valid_frac": {
+        "n": 457,
+        "mean": 0.9941806918421773,
+        "min": 0.3613552517361111,
+        "q25": 1.0,
+        "median": 1.0,
+        "q75": 1.0,
+        "max": 1.0
+      },
+      "source_valid_frac": {
+        "n": 457,
+        "mean": 0.9987101444733163,
+        "min": 0.6408962673611112,
+        "q25": 1.0,
+        "median": 1.0,
+        "q75": 1.0,
+        "max": 1.0
+      },
+      "flood_frac": {
+        "n": 457,
+        "mean": 0.19617324080200052,
+        "min": 0.020073784722222224,
+        "q25": 0.046820746527777776,
+        "median": 0.10875108506944445,
+        "q75": 0.2553439670138889,
+        "max": 0.995849609375
+      },
+      "flood_px": {
+        "n": 457,
+        "mean": 7190.960612691466,
+        "min": 345.0,
+        "q25": 1726.0,
+        "median": 3970.0,
+        "q75": 9327.0,
+        "max": 36711.0
+      }
+    },
+    "hard_neg": {
+      "valid_frac": {
+        "n": 457,
+        "mean": 0.9996256272983528,
+        "min": 0.9242892795138888,
+        "q25": 1.0,
+        "median": 1.0,
+        "q75": 1.0,
+        "max": 1.0
+      },
+      "source_valid_frac": {
+        "n": 457,
+        "mean": 0.9998290481400438,
+        "min": 0.9647623697916666,
+        "q25": 1.0,
+        "median": 1.0,
+        "q75": 1.0,
+        "max": 1.0
+      },
+      "flood_frac": {
+        "n": 457,
+        "mean": 0.0,
+        "min": 0.0,
+        "q25": 0.0,
+        "median": 0.0,
+        "q75": 0.0,
+        "max": 0.0
+      },
+      "flood_px": {
+        "n": 457,
+        "mean": 0.0,
+        "min": 0.0,
+        "q25": 0.0,
+        "median": 0.0,
+        "q75": 0.0,
+        "max": 0.0
+      }
+    }
+  },
+  "all_source_labels_verified": true,
+  "limitations": [
+    "Post-mask gold/quality audit only; no prediction or discrimination result.",
+    "The source mask is not an independently reviewed temporal event label.",
+    "Dates retain E1 event-day/-12-day approximations, not verified SAR acquisition times.",
+    "Symmetric quality selection is fixed without reading model outputs; it need not preserve class/event/date support.",
+    "Mask/valid byte hashes refer to the existing 192x192 cache crops, not untouched 224x224 original TIFFs."
+  ]
+}

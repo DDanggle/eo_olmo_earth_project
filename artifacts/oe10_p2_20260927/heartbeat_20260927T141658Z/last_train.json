@@ -1,0 +1,104 @@
+{
+  "step": 1152,
+  "episode_id": "36aaa37d1fccbb549fc23927:k8",
+  "k": 8,
+  "mask_loss": 0.36775726079940796,
+  "language_loss": 0.2870659828186035,
+  "native_loss": 0.5001116991043091,
+  "total_loss": 0.8822222590446472,
+  "native_metrics": {
+    "total": 0.5001116991043091,
+    "base": 0.5001048445701599,
+    "contrastive": 6.8719305090780836e-06,
+    "mask_counts": [
+      {
+        "sentinel2_l2a": {
+          "0": 2048,
+          "1": 2048
+        },
+        "worldcover": {
+          "2": 2048
+        }
+      },
+      {
+        "sentinel2_l2a": {
+          "0": 2048,
+          "1": 2048
+        },
+        "worldcover": {
+          "2": 2048
+        }
+      }
+    ],
+    "step": 1151,
+    "seed": 272079,
+    "sample_indices": [
+      62,
+      63
+    ],
+    "files": [
+      "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_1374.h5",
+      "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k/h5py_data_w_missing_timesteps_zstd_3_128_x_4/cdl_landsat_openstreetmap_raster_sentinel1_sentinel2_l2a_srtm_worldcereal_worldcover_wri_canopy_height_map/3996/sample_3435.h5"
+    ],
+    "raw_crop_sha256": [
+      "3d55b803949a8a45940f7648d4e0d360a92a17f91323792b03f01f743d292fc6",
+      "fde455da72301107e57a9983b8b098d2a482324a6551635e8bc3524a3335783f"
+    ],
+    "native_train_samples": 2,
+    "native_dev_samples": 0,
+    "native_model_forward_calls": 2,
+    "explicit_target_forward_calls": 2,
+    "online_patch_date_instances": 8,
+    "explicit_target_patch_date_instances": 8,
+    "batch_size": 2,
+    "crop_size": 32,
+    "timesteps": 2,
+    "encoder_trainable": true,
+    "all_native_frozen": false,
+    "loss_requires_grad": true,
+    "native_encoder_update_possible": true,
+    "fixed_target_ema_decay": [
+      1,
+      1
+    ],
+    "interpretation": "native objective replay; zero components retained, not repaired"
+  },
+  "native_encoder_gradient_tensors": 214,
+  "language_encoder_anchor_gradient_norm": null,
+  "nonzero_gradients": {
+    "encoder": 214,
+    "head": 6,
+    "connector": 10
+  },
+  "grad_norm": 25.772994995117188,
+  "seconds": 9.067562658339739,
+  "phase_seconds": {
+    "native_forward_backward": 0.13658054918050766,
+    "episode_forward": 1.9940141141414642,
+    "episode_backward_and_first_language_probe": 6.040216319262981,
+    "gradient_checks_clip_optimizer": 0.03855874761939049
+  },
+  "learning_rates": {
+    "encoder": 5.80709086014102e-06,
+    "native_decoder": 5.80709086014102e-05,
+    "readouts": 0.000580709086014102
+  },
+  "model_metrics": {
+    "k_pairs": 8,
+    "query_dates": 2,
+    "support_date_instances": 128,
+    "connector_slots": 64,
+    "language_prompt_tokens": 189,
+    "language_supervision": true,
+    "gold_in_model_input": false,
+    "costs_cumulative": {
+      "EOencoder_calls": 19620,
+      "patch_date_encodes": 142944,
+      "vlm_forward_calls": 1152,
+      "cache_hits": 6478,
+      "cache_misses": 50,
+      "cache_key_bytes_hashed": 38228107776,
+      "checkpoint_recompute_calls": 9778
+    }
+  }
+}

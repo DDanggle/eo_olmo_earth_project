@@ -1,0 +1,4284 @@
+{
+  "valid": true,
+  "global_errors": [],
+  "duplicate_current_grid_groups": [],
+  "summary": {
+    "all": {
+      "source_rows": 7000,
+      "status_counts": {
+        "matched_metadata": 7000
+      },
+      "date_triplets": {
+        "2015-06-13|2015-06-25|2015-12-10": 156,
+        "2020-10-20|2020-11-01|2020-11-13": 270,
+        "2021-01-10|2021-01-22|2021-02-03": 62,
+        "2022-06-07|2022-06-19|2022-09-11": 1542,
+        "2019-12-02|2020-01-19|2020-01-31": 57,
+        "2020-07-18|2020-07-30|2021-01-02": 26,
+        "2018-07-13|2018-08-30|2018-10-16": 47,
+        "2021-08-18|2021-08-30|2021-12-10": 204,
+        "2017-07-24|2017-08-05|2017-08-29": 404,
+        "2019-11-15|2019-11-27|2020-01-26": 126,
+        "2019-06-27|2019-07-09|2020-02-22": 431,
+        "2017-07-27|2017-08-20|2018-03-11": 17,
+        "2020-04-29|2020-05-11|2020-10-14": 75,
+        "2015-07-20|2015-08-13|2016-08-07": 8,
+        "2017-07-07|2017-08-06|2018-03-22": 106,
+        "2015-03-29|2015-04-22|2015-09-13": 27,
+        "2021-01-30|2021-02-11|2021-02-23": 137,
+        "2014-10-30|2014-11-11|2015-02-03": 17,
+        "2019-08-13|2019-08-25|2019-12-23": 44,
+        "2019-06-03|2019-06-20|2020-01-23": 17,
+        "2017-07-25|2017-08-30|2018-02-02": 40,
+        "2016-10-30|2016-11-23|2017-03-11": 36,
+        "2021-05-16|2021-05-28|2021-07-15": 85,
+        "2014-10-17|2014-10-29|2015-02-02": 20,
+        "2021-01-15|2021-01-27|2021-02-02": 22,
+        "2021-08-22|2021-09-03|2022-03-02": 6,
+        "2021-09-08|2021-09-20|2022-03-07": 6,
+        "2021-10-13|2021-10-25|2021-11-30": 10,
+        "2020-06-25|2021-01-15|2021-01-27": 2,
+        "2017-08-22|2017-09-15|2018-04-13": 397,
+        "2017-08-28|2017-09-15|2018-04-19": 214,
+        "2017-08-28|2017-09-15|2018-04-13": 219,
+        "2020-03-14|2020-04-07|2020-05-13": 66,
+        "2018-04-17|2018-10-14|2020-08-16": 53,
+        "2020-10-01|2021-06-10|2021-07-16": 29,
+        "2020-08-05|2020-08-17|2022-01-27": 16,
+        "2019-11-09|2019-11-15|2019-11-27": 6,
+        "2017-04-10|2017-04-22|2017-05-04": 1097,
+        "2019-07-20|2019-08-01|2019-09-18": 480,
+        "2021-08-07|2021-08-19|2022-02-03": 8,
+        "2020-06-02|2020-06-14|2020-06-26": 59,
+        "2017-07-30|2017-08-29|2018-03-27": 259,
+        "2021-08-23|2021-09-04|2022-01-26": 7,
+        "2017-12-11|2017-12-23|2018-10-07": 56,
+        "2017-01-12|2017-01-24|2017-05-30": 16,
+        "2019-09-02|2019-10-20|2019-11-25": 11,
+        "2020-06-23|2020-07-05|2020-09-15": 7
+      },
+      "strict_chronological_count": 7000,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 7000,
+          "min": 0,
+          "p10": 0.0,
+          "median": 1.0,
+          "p90": 4.0,
+          "max": 43,
+          "mean": 1.681857142857143,
+          "zero_count": 740,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 7000,
+          "min": 0,
+          "p10": 0.0,
+          "median": 1.0,
+          "p90": 4.0,
+          "max": 43,
+          "mean": 1.681857142857143,
+          "zero_count": 740,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 7000,
+          "min": 18,
+          "p10": 24.0,
+          "median": 96.0,
+          "p90": 240.0,
+          "max": 852,
+          "mean": 119.55371428571429,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 7000,
+          "min": 6,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 24.0,
+          "max": 252,
+          "mean": 17.311,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 7000,
+          "min": 6,
+          "p10": 12.0,
+          "median": 84.0,
+          "p90": 216.0,
+          "max": 672,
+          "mean": 102.24271428571429,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 7000,
+          "min": -827,
+          "p10": -212.0,
+          "median": -71.0,
+          "p90": 1.0,
+          "max": 7,
+          "mean": -93.87185714285714,
+          "zero_count": 196,
+          "negative_count": 5347
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 7000,
+          "min": -659,
+          "p10": -198.0,
+          "median": -71.0,
+          "p90": 1.0,
+          "max": 6,
+          "mean": -88.56085714285715,
+          "zero_count": 196,
+          "negative_count": 5288
+        }
+      }
+    },
+    "split:test": {
+      "source_rows": 2000,
+      "status_counts": {
+        "matched_metadata": 2000
+      },
+      "date_triplets": {
+        "2017-04-10|2017-04-22|2017-05-04": 1097,
+        "2019-07-20|2019-08-01|2019-09-18": 480,
+        "2021-08-07|2021-08-19|2022-02-03": 8,
+        "2020-06-02|2020-06-14|2020-06-26": 59,
+        "2017-07-30|2017-08-29|2018-03-27": 259,
+        "2021-08-23|2021-09-04|2022-01-26": 7,
+        "2017-12-11|2017-12-23|2018-10-07": 56,
+        "2017-01-12|2017-01-24|2017-05-30": 16,
+        "2019-09-02|2019-10-20|2019-11-25": 11,
+        "2020-06-23|2020-07-05|2020-09-15": 7
+      },
+      "strict_chronological_count": 2000,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 2000,
+          "min": 0,
+          "p10": 0.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 6,
+          "mean": 0.906,
+          "zero_count": 318,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 2000,
+          "min": 0,
+          "p10": 0.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 6,
+          "mean": 0.906,
+          "zero_count": 318,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 2000,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24.0,
+          "p90": 240.0,
+          "max": 300,
+          "mean": 70.878,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 2000,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 30.0,
+          "max": 48,
+          "mean": 14.529,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 2000,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 210.0,
+          "max": 288,
+          "mean": 56.349,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 2000,
+          "min": -275,
+          "p10": -216.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": -45.972,
+          "zero_count": 59,
+          "negative_count": 844
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 2000,
+          "min": -275,
+          "p10": -198.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": -43.443,
+          "zero_count": 59,
+          "negative_count": 844
+        }
+      }
+    },
+    "split:train": {
+      "source_rows": 4000,
+      "status_counts": {
+        "matched_metadata": 4000
+      },
+      "date_triplets": {
+        "2015-06-13|2015-06-25|2015-12-10": 156,
+        "2020-10-20|2020-11-01|2020-11-13": 270,
+        "2021-01-10|2021-01-22|2021-02-03": 62,
+        "2022-06-07|2022-06-19|2022-09-11": 1542,
+        "2019-12-02|2020-01-19|2020-01-31": 57,
+        "2020-07-18|2020-07-30|2021-01-02": 26,
+        "2018-07-13|2018-08-30|2018-10-16": 47,
+        "2021-08-18|2021-08-30|2021-12-10": 204,
+        "2017-07-24|2017-08-05|2017-08-29": 404,
+        "2019-11-15|2019-11-27|2020-01-26": 126,
+        "2019-06-27|2019-07-09|2020-02-22": 431,
+        "2017-07-27|2017-08-20|2018-03-11": 17,
+        "2020-04-29|2020-05-11|2020-10-14": 75,
+        "2015-07-20|2015-08-13|2016-08-07": 8,
+        "2017-07-07|2017-08-06|2018-03-22": 106,
+        "2015-03-29|2015-04-22|2015-09-13": 27,
+        "2021-01-30|2021-02-11|2021-02-23": 137,
+        "2014-10-30|2014-11-11|2015-02-03": 17,
+        "2019-08-13|2019-08-25|2019-12-23": 44,
+        "2019-06-03|2019-06-20|2020-01-23": 17,
+        "2017-07-25|2017-08-30|2018-02-02": 40,
+        "2016-10-30|2016-11-23|2017-03-11": 36,
+        "2021-05-16|2021-05-28|2021-07-15": 85,
+        "2014-10-17|2014-10-29|2015-02-02": 20,
+        "2021-01-15|2021-01-27|2021-02-02": 22,
+        "2021-08-22|2021-09-03|2022-03-02": 6,
+        "2021-09-08|2021-09-20|2022-03-07": 6,
+        "2021-10-13|2021-10-25|2021-11-30": 10,
+        "2020-06-25|2021-01-15|2021-01-27": 2
+      },
+      "strict_chronological_count": 4000,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 4000,
+          "min": 0,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 4.0,
+          "max": 43,
+          "mean": 1.8895,
+          "zero_count": 393,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 4000,
+          "min": 0,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 4.0,
+          "max": 43,
+          "mean": 1.8895,
+          "zero_count": 393,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 4000,
+          "min": 18,
+          "p10": 24.0,
+          "median": 96.0,
+          "p90": 240.0,
+          "max": 384,
+          "mean": 108.9995,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 4000,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 204,
+          "mean": 14.03425,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 4000,
+          "min": 6,
+          "p10": 12.0,
+          "median": 84.0,
+          "p90": 228.0,
+          "max": 360,
+          "mean": 94.96525,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 4000,
+          "min": -359,
+          "p10": -212.0,
+          "median": -71.0,
+          "p90": 0.0,
+          "max": 6,
+          "mean": -83.11,
+          "zero_count": 137,
+          "negative_count": 3509
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 4000,
+          "min": -347,
+          "p10": -212.0,
+          "median": -71.0,
+          "p90": 1.0,
+          "max": 6,
+          "mean": -81.07575,
+          "zero_count": 137,
+          "negative_count": 3450
+        }
+      }
+    },
+    "split:validation": {
+      "source_rows": 1000,
+      "status_counts": {
+        "matched_metadata": 1000
+      },
+      "date_triplets": {
+        "2017-08-22|2017-09-15|2018-04-13": 397,
+        "2017-08-28|2017-09-15|2018-04-19": 214,
+        "2017-08-28|2017-09-15|2018-04-13": 219,
+        "2020-03-14|2020-04-07|2020-05-13": 66,
+        "2018-04-17|2018-10-14|2020-08-16": 53,
+        "2020-10-01|2021-06-10|2021-07-16": 29,
+        "2020-08-05|2020-08-17|2022-01-27": 16,
+        "2019-11-09|2019-11-15|2019-11-27": 6
+      },
+      "strict_chronological_count": 1000,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 1000,
+          "min": 0,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 7.0,
+          "max": 7,
+          "mean": 2.403,
+          "zero_count": 29,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 1000,
+          "min": 0,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 7.0,
+          "max": 7,
+          "mean": 2.403,
+          "zero_count": 29,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 1000,
+          "min": 18,
+          "p10": 228.0,
+          "median": 234.0,
+          "p90": 234.0,
+          "max": 852,
+          "mean": 259.122,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 1000,
+          "min": 6,
+          "p10": 18.0,
+          "median": 24.0,
+          "p90": 24.0,
+          "max": 252,
+          "mean": 35.982,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 1000,
+          "min": 12,
+          "p10": 36.0,
+          "median": 210.0,
+          "p90": 216.0,
+          "max": 672,
+          "mean": 223.14,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 1000,
+          "min": -827,
+          "p10": -209.0,
+          "median": -203.0,
+          "p90": -203.0,
+          "max": 7,
+          "mean": -232.719,
+          "zero_count": 0,
+          "negative_count": 994
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 1000,
+          "min": -659,
+          "p10": -197.0,
+          "median": -197.0,
+          "p90": -24.0,
+          "max": 1,
+          "mean": -208.737,
+          "zero_count": 0,
+          "negative_count": 994
+        }
+      }
+    },
+    "event:118": {
+      "source_rows": 37,
+      "status_counts": {
+        "matched_metadata": 37
+      },
+      "date_triplets": {
+        "2014-10-30|2014-11-11|2015-02-03": 17,
+        "2014-10-17|2014-10-29|2015-02-02": 20
+      },
+      "strict_chronological_count": 37,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 37,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 0.4594594594594595,
+          "zero_count": 20,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 37,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 0.4594594594594595,
+          "zero_count": 20,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 37,
+          "min": 96,
+          "p10": 96.0,
+          "median": 108,
+          "p90": 108.0,
+          "max": 108,
+          "mean": 102.48648648648648,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 37,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 37,
+          "min": 84,
+          "p10": 84.0,
+          "median": 96,
+          "p90": 96.0,
+          "max": 96,
+          "mean": 90.48648648648648,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 37,
+          "min": -84,
+          "p10": -84.0,
+          "median": -84,
+          "p90": -71.0,
+          "max": -71,
+          "mean": -78.02702702702703,
+          "zero_count": 0,
+          "negative_count": 37
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 37,
+          "min": -84,
+          "p10": -84.0,
+          "median": -84,
+          "p90": -71.0,
+          "max": -71,
+          "mean": -78.02702702702703,
+          "zero_count": 0,
+          "negative_count": 37
+        }
+      }
+    },
+    "event:130": {
+      "source_rows": 27,
+      "status_counts": {
+        "matched_metadata": 27
+      },
+      "date_triplets": {
+        "2015-03-29|2015-04-22|2015-09-13": 27
+      },
+      "strict_chronological_count": 27,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 27,
+          "min": 43,
+          "p10": 43.0,
+          "median": 43,
+          "p90": 43.0,
+          "max": 43,
+          "mean": 43,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 27,
+          "min": 43,
+          "p10": 43.0,
+          "median": 43,
+          "p90": 43.0,
+          "max": 43,
+          "mean": 43,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 27,
+          "min": 168,
+          "p10": 168.0,
+          "median": 168,
+          "p90": 168.0,
+          "max": 168,
+          "mean": 168,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 27,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 27,
+          "min": 144,
+          "p10": 144.0,
+          "median": 144,
+          "p90": 144.0,
+          "max": 144,
+          "mean": 144,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 27,
+          "min": -101,
+          "p10": -101.0,
+          "median": -101,
+          "p90": -101.0,
+          "max": -101,
+          "mean": -101,
+          "zero_count": 0,
+          "negative_count": 27
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 27,
+          "min": -89,
+          "p10": -89.0,
+          "median": -89,
+          "p90": -89.0,
+          "max": -89,
+          "mean": -89,
+          "zero_count": 0,
+          "negative_count": 27
+        }
+      }
+    },
+    "event:147": {
+      "source_rows": 156,
+      "status_counts": {
+        "matched_metadata": 156
+      },
+      "date_triplets": {
+        "2015-06-13|2015-06-25|2015-12-10": 156
+      },
+      "strict_chronological_count": 156,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 156,
+          "min": 5,
+          "p10": 5.0,
+          "median": 5.0,
+          "p90": 5.0,
+          "max": 5,
+          "mean": 5,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 156,
+          "min": 5,
+          "p10": 5.0,
+          "median": 5.0,
+          "p90": 5.0,
+          "max": 5,
+          "mean": 5,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 156,
+          "min": 180,
+          "p10": 180.0,
+          "median": 180.0,
+          "p90": 180.0,
+          "max": 180,
+          "mean": 180,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 156,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 156,
+          "min": 168,
+          "p10": 168.0,
+          "median": 168.0,
+          "p90": 168.0,
+          "max": 168,
+          "mean": 168,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 156,
+          "min": -151,
+          "p10": -151.0,
+          "median": -151.0,
+          "p90": -151.0,
+          "max": -151,
+          "mean": -151,
+          "zero_count": 0,
+          "negative_count": 156
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 156,
+          "min": -151,
+          "p10": -151.0,
+          "median": -151.0,
+          "p90": -151.0,
+          "max": -151,
+          "mean": -151,
+          "zero_count": 0,
+          "negative_count": 156
+        }
+      }
+    },
+    "event:174": {
+      "source_rows": 8,
+      "status_counts": {
+        "matched_metadata": 8
+      },
+      "date_triplets": {
+        "2015-07-20|2015-08-13|2016-08-07": 8
+      },
+      "strict_chronological_count": 8,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 8,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 8,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 8,
+          "min": 384,
+          "p10": 384.0,
+          "median": 384.0,
+          "p90": 384.0,
+          "max": 384,
+          "mean": 384,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 8,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24.0,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 8,
+          "min": 360,
+          "p10": 360.0,
+          "median": 360.0,
+          "p90": 360.0,
+          "max": 360,
+          "mean": 360,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 8,
+          "min": -359,
+          "p10": -359.0,
+          "median": -359.0,
+          "p90": -359.0,
+          "max": -359,
+          "mean": -359,
+          "zero_count": 0,
+          "negative_count": 8
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 8,
+          "min": -347,
+          "p10": -347.0,
+          "median": -347.0,
+          "p90": -347.0,
+          "max": -347,
+          "mean": -347,
+          "zero_count": 0,
+          "negative_count": 8
+        }
+      }
+    },
+    "event:205": {
+      "source_rows": 16,
+      "status_counts": {
+        "matched_metadata": 16
+      },
+      "date_triplets": {
+        "2017-01-12|2017-01-24|2017-05-30": 16
+      },
+      "strict_chronological_count": 16,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 16,
+          "min": 6,
+          "p10": 6.0,
+          "median": 6.0,
+          "p90": 6.0,
+          "max": 6,
+          "mean": 6,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 16,
+          "min": 6,
+          "p10": 6.0,
+          "median": 6.0,
+          "p90": 6.0,
+          "max": 6,
+          "mean": 6,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 16,
+          "min": 138,
+          "p10": 138.0,
+          "median": 138.0,
+          "p90": 138.0,
+          "max": 138,
+          "mean": 138,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 16,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 16,
+          "min": 126,
+          "p10": 126.0,
+          "median": 126.0,
+          "p90": 126.0,
+          "max": 126,
+          "mean": 126,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 16,
+          "min": -108,
+          "p10": -108.0,
+          "median": -108.0,
+          "p90": -108.0,
+          "max": -108,
+          "mean": -108,
+          "zero_count": 0,
+          "negative_count": 16
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 16,
+          "min": -108,
+          "p10": -108.0,
+          "median": -108.0,
+          "p90": -108.0,
+          "max": -108,
+          "mean": -108,
+          "zero_count": 0,
+          "negative_count": 16
+        }
+      }
+    },
+    "event:267": {
+      "source_rows": 40,
+      "status_counts": {
+        "matched_metadata": 40
+      },
+      "date_triplets": {
+        "2017-07-25|2017-08-30|2018-02-02": 40
+      },
+      "strict_chronological_count": 40,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 40,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2.0,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 40,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2.0,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 40,
+          "min": 192,
+          "p10": 192.0,
+          "median": 192.0,
+          "p90": 192.0,
+          "max": 192,
+          "mean": 192,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 40,
+          "min": 36,
+          "p10": 36.0,
+          "median": 36.0,
+          "p90": 36.0,
+          "max": 36,
+          "mean": 36,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 40,
+          "min": 156,
+          "p10": 156.0,
+          "median": 156.0,
+          "p90": 156.0,
+          "max": 156,
+          "mean": 156,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 40,
+          "min": -166,
+          "p10": -166.0,
+          "median": -166.0,
+          "p90": -166.0,
+          "max": -166,
+          "mean": -166,
+          "zero_count": 0,
+          "negative_count": 40
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 40,
+          "min": -142,
+          "p10": -142.0,
+          "median": -142.0,
+          "p90": -142.0,
+          "max": -142,
+          "mean": -142,
+          "zero_count": 0,
+          "negative_count": 40
+        }
+      }
+    },
+    "event:273": {
+      "source_rows": 17,
+      "status_counts": {
+        "matched_metadata": 17
+      },
+      "date_triplets": {
+        "2017-07-27|2017-08-20|2018-03-11": 17
+      },
+      "strict_chronological_count": 17,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 17,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 17,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 17,
+          "min": 227,
+          "p10": 227.0,
+          "median": 227,
+          "p90": 227.0,
+          "max": 227,
+          "mean": 227,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 17,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 17,
+          "min": 203,
+          "p10": 203.0,
+          "median": 203,
+          "p90": 203.0,
+          "max": 203,
+          "mean": 203,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 17,
+          "min": -202,
+          "p10": -202.0,
+          "median": -202,
+          "p90": -202.0,
+          "max": -202,
+          "mean": -202,
+          "zero_count": 0,
+          "negative_count": 17
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 17,
+          "min": -190,
+          "p10": -190.0,
+          "median": -190,
+          "p90": -190.0,
+          "max": -190,
+          "mean": -190,
+          "zero_count": 0,
+          "negative_count": 17
+        }
+      }
+    },
+    "event:275": {
+      "source_rows": 106,
+      "status_counts": {
+        "matched_metadata": 106
+      },
+      "date_triplets": {
+        "2017-07-07|2017-08-06|2018-03-22": 106
+      },
+      "strict_chronological_count": 106,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 106,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 106,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 106,
+          "min": 258,
+          "p10": 258.0,
+          "median": 258.0,
+          "p90": 258.0,
+          "max": 258,
+          "mean": 258,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 106,
+          "min": 30,
+          "p10": 30.0,
+          "median": 30.0,
+          "p90": 30.0,
+          "max": 30,
+          "mean": 30,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 106,
+          "min": 228,
+          "p10": 228.0,
+          "median": 228.0,
+          "p90": 228.0,
+          "max": 228,
+          "mean": 228,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 106,
+          "min": -233,
+          "p10": -233.0,
+          "median": -233.0,
+          "p90": -233.0,
+          "max": -233,
+          "mean": -233,
+          "zero_count": 0,
+          "negative_count": 106
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 106,
+          "min": -215,
+          "p10": -215.0,
+          "median": -215.0,
+          "p90": -215.0,
+          "max": -215,
+          "mean": -215,
+          "zero_count": 0,
+          "negative_count": 106
+        }
+      }
+    },
+    "event:277": {
+      "source_rows": 259,
+      "status_counts": {
+        "matched_metadata": 259
+      },
+      "date_triplets": {
+        "2017-07-30|2017-08-29|2018-03-27": 259
+      },
+      "strict_chronological_count": 259,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 259,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 259,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 259,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 259,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 259,
+          "min": 240,
+          "p10": 240.0,
+          "median": 240,
+          "p90": 240.0,
+          "max": 240,
+          "mean": 240,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 259,
+          "min": 30,
+          "p10": 30.0,
+          "median": 30,
+          "p90": 30.0,
+          "max": 30,
+          "mean": 30,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 259,
+          "min": 210,
+          "p10": 210.0,
+          "median": 210,
+          "p90": 210.0,
+          "max": 210,
+          "mean": 210,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 259,
+          "min": -216,
+          "p10": -216.0,
+          "median": -216,
+          "p90": -216.0,
+          "max": -216,
+          "mean": -216,
+          "zero_count": 0,
+          "negative_count": 259
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 259,
+          "min": -198,
+          "p10": -198.0,
+          "median": -198,
+          "p90": -198.0,
+          "max": -198,
+          "mean": -198,
+          "zero_count": 0,
+          "negative_count": 259
+        }
+      }
+    },
+    "event:279": {
+      "source_rows": 830,
+      "status_counts": {
+        "matched_metadata": 830
+      },
+      "date_triplets": {
+        "2017-08-22|2017-09-15|2018-04-13": 397,
+        "2017-08-28|2017-09-15|2018-04-19": 214,
+        "2017-08-28|2017-09-15|2018-04-13": 219
+      },
+      "strict_chronological_count": 830,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 830,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 7.0,
+          "max": 7,
+          "mean": 2.5469879518072287,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 830,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 7.0,
+          "max": 7,
+          "mean": 2.5469879518072287,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 830,
+          "min": 228,
+          "p10": 228.0,
+          "median": 234.0,
+          "p90": 234.0,
+          "max": 234,
+          "mean": 232.41686746987952,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 830,
+          "min": 18,
+          "p10": 18.0,
+          "median": 18.0,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 20.86987951807229,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 830,
+          "min": 210,
+          "p10": 210.0,
+          "median": 210.0,
+          "p90": 216.0,
+          "max": 216,
+          "mean": 211.54698795180724,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 830,
+          "min": -209,
+          "p10": -209.0,
+          "median": -203.0,
+          "p90": -203.0,
+          "max": -203,
+          "mean": -205.86987951807228,
+          "zero_count": 0,
+          "negative_count": 830
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 830,
+          "min": -197,
+          "p10": -197.0,
+          "median": -197.0,
+          "p90": -197.0,
+          "max": -197,
+          "mean": -197,
+          "zero_count": 0,
+          "negative_count": 830
+        }
+      }
+    },
+    "event:321": {
+      "source_rows": 56,
+      "status_counts": {
+        "matched_metadata": 56
+      },
+      "date_triplets": {
+        "2017-12-11|2017-12-23|2018-10-07": 56
+      },
+      "strict_chronological_count": 56,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 56,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 56,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 56,
+          "min": 300,
+          "p10": 300.0,
+          "median": 300.0,
+          "p90": 300.0,
+          "max": 300,
+          "mean": 300,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 56,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 56,
+          "min": 288,
+          "p10": 288.0,
+          "median": 288.0,
+          "p90": 288.0,
+          "max": 288,
+          "mean": 288,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 56,
+          "min": -275,
+          "p10": -275.0,
+          "median": -275.0,
+          "p90": -275.0,
+          "max": -275,
+          "mean": -275,
+          "zero_count": 0,
+          "negative_count": 56
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 56,
+          "min": -275,
+          "p10": -275.0,
+          "median": -275.0,
+          "p90": -275.0,
+          "max": -275,
+          "mean": -275,
+          "zero_count": 0,
+          "negative_count": 56
+        }
+      }
+    },
+    "event:324": {
+      "source_rows": 47,
+      "status_counts": {
+        "matched_metadata": 47
+      },
+      "date_triplets": {
+        "2018-07-13|2018-08-30|2018-10-16": 47
+      },
+      "strict_chronological_count": 47,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 47,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 47,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 47,
+          "min": 95,
+          "p10": 95.0,
+          "median": 95,
+          "p90": 95.0,
+          "max": 95,
+          "mean": 95,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 47,
+          "min": 48,
+          "p10": 48.0,
+          "median": 48,
+          "p90": 48.0,
+          "max": 48,
+          "mean": 48,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 47,
+          "min": 47,
+          "p10": 47.0,
+          "median": 47,
+          "p90": 47.0,
+          "max": 47,
+          "mean": 47,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 47,
+          "min": -70,
+          "p10": -70.0,
+          "median": -70,
+          "p90": -70.0,
+          "max": -70,
+          "mean": -70,
+          "zero_count": 0,
+          "negative_count": 47
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 47,
+          "min": -34,
+          "p10": -34.0,
+          "median": -34,
+          "p90": -34.0,
+          "max": -34,
+          "mean": -34,
+          "zero_count": 0,
+          "negative_count": 47
+        }
+      }
+    },
+    "event:411": {
+      "source_rows": 11,
+      "status_counts": {
+        "matched_metadata": 11
+      },
+      "date_triplets": {
+        "2019-09-02|2019-10-20|2019-11-25": 11
+      },
+      "strict_chronological_count": 11,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 11,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 11,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 11,
+          "min": 84,
+          "p10": 84.0,
+          "median": 84,
+          "p90": 84.0,
+          "max": 84,
+          "mean": 84,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 11,
+          "min": 48,
+          "p10": 48.0,
+          "median": 48,
+          "p90": 48.0,
+          "max": 48,
+          "mean": 48,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 11,
+          "min": 36,
+          "p10": 36.0,
+          "median": 36,
+          "p90": 36.0,
+          "max": 36,
+          "mean": 36,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 11,
+          "min": -58,
+          "p10": -58.0,
+          "median": -58,
+          "p90": -58.0,
+          "max": -58,
+          "mean": -58,
+          "zero_count": 0,
+          "negative_count": 11
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 11,
+          "min": -22,
+          "p10": -22.0,
+          "median": -22,
+          "p90": -22.0,
+          "max": -22,
+          "mean": -22,
+          "zero_count": 0,
+          "negative_count": 11
+        }
+      }
+    },
+    "event:417": {
+      "source_rows": 44,
+      "status_counts": {
+        "matched_metadata": 44
+      },
+      "date_triplets": {
+        "2019-08-13|2019-08-25|2019-12-23": 44
+      },
+      "strict_chronological_count": 44,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 44,
+          "min": 4,
+          "p10": 4.0,
+          "median": 4.0,
+          "p90": 4.0,
+          "max": 4,
+          "mean": 4,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 44,
+          "min": 4,
+          "p10": 4.0,
+          "median": 4.0,
+          "p90": 4.0,
+          "max": 4,
+          "mean": 4,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 44,
+          "min": 132,
+          "p10": 132.0,
+          "median": 132.0,
+          "p90": 132.0,
+          "max": 132,
+          "mean": 132,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 44,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 44,
+          "min": 120,
+          "p10": 120.0,
+          "median": 120.0,
+          "p90": 120.0,
+          "max": 120,
+          "mean": 120,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 44,
+          "min": -104,
+          "p10": -104.0,
+          "median": -104.0,
+          "p90": -104.0,
+          "max": -104,
+          "mean": -104,
+          "zero_count": 0,
+          "negative_count": 44
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 44,
+          "min": -104,
+          "p10": -104.0,
+          "median": -104.0,
+          "p90": -104.0,
+          "max": -104,
+          "mean": -104,
+          "zero_count": 0,
+          "negative_count": 44
+        }
+      }
+    },
+    "event:421": {
+      "source_rows": 17,
+      "status_counts": {
+        "matched_metadata": 17
+      },
+      "date_triplets": {
+        "2019-06-03|2019-06-20|2020-01-23": 17
+      },
+      "strict_chronological_count": 17,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 17,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 17,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 17,
+          "min": 234,
+          "p10": 234.0,
+          "median": 234,
+          "p90": 234.0,
+          "max": 234,
+          "mean": 234,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 17,
+          "min": 17,
+          "p10": 17.0,
+          "median": 17,
+          "p90": 17.0,
+          "max": 17,
+          "mean": 17,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 17,
+          "min": 217,
+          "p10": 217.0,
+          "median": 217,
+          "p90": 217.0,
+          "max": 217,
+          "mean": 217,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 17,
+          "min": -209,
+          "p10": -209.0,
+          "median": -209,
+          "p90": -209.0,
+          "max": -209,
+          "mean": -209,
+          "zero_count": 0,
+          "negative_count": 17
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 17,
+          "min": -204,
+          "p10": -204.0,
+          "median": -204,
+          "p90": -204.0,
+          "max": -204,
+          "mean": -204,
+          "zero_count": 0,
+          "negative_count": 17
+        }
+      }
+    },
+    "event:427": {
+      "source_rows": 431,
+      "status_counts": {
+        "matched_metadata": 431
+      },
+      "date_triplets": {
+        "2019-06-27|2019-07-09|2020-02-22": 431
+      },
+      "strict_chronological_count": 431,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 431,
+          "min": 4,
+          "p10": 4.0,
+          "median": 4,
+          "p90": 4.0,
+          "max": 4,
+          "mean": 4,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 431,
+          "min": 4,
+          "p10": 4.0,
+          "median": 4,
+          "p90": 4.0,
+          "max": 4,
+          "mean": 4,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 431,
+          "min": 240,
+          "p10": 240.0,
+          "median": 240,
+          "p90": 240.0,
+          "max": 240,
+          "mean": 240,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 431,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 431,
+          "min": 228,
+          "p10": 228.0,
+          "median": 228,
+          "p90": 228.0,
+          "max": 228,
+          "mean": 228,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 431,
+          "min": -212,
+          "p10": -212.0,
+          "median": -212,
+          "p90": -212.0,
+          "max": -212,
+          "mean": -212,
+          "zero_count": 0,
+          "negative_count": 431
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 431,
+          "min": -212,
+          "p10": -212.0,
+          "median": -212,
+          "p90": -212.0,
+          "max": -212,
+          "mean": -212,
+          "zero_count": 0,
+          "negative_count": 431
+        }
+      }
+    },
+    "event:437": {
+      "source_rows": 66,
+      "status_counts": {
+        "matched_metadata": 66
+      },
+      "date_triplets": {
+        "2020-03-14|2020-04-07|2020-05-13": 66
+      },
+      "strict_chronological_count": 66,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 66,
+          "min": 3,
+          "p10": 3.0,
+          "median": 3.0,
+          "p90": 3.0,
+          "max": 3,
+          "mean": 3,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 66,
+          "min": 3,
+          "p10": 3.0,
+          "median": 3.0,
+          "p90": 3.0,
+          "max": 3,
+          "mean": 3,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 66,
+          "min": 60,
+          "p10": 60.0,
+          "median": 60.0,
+          "p90": 60.0,
+          "max": 60,
+          "mean": 60,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 66,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24.0,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 66,
+          "min": 36,
+          "p10": 36.0,
+          "median": 36.0,
+          "p90": 36.0,
+          "max": 36,
+          "mean": 36,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 66,
+          "min": -33,
+          "p10": -33.0,
+          "median": -33.0,
+          "p90": -33.0,
+          "max": -33,
+          "mean": -33,
+          "zero_count": 0,
+          "negative_count": 66
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 66,
+          "min": -21,
+          "p10": -21.0,
+          "median": -21.0,
+          "p90": -21.0,
+          "max": -21,
+          "mean": -21,
+          "zero_count": 0,
+          "negative_count": 66
+        }
+      }
+    },
+    "event:445": {
+      "source_rows": 59,
+      "status_counts": {
+        "matched_metadata": 59
+      },
+      "date_triplets": {
+        "2020-06-02|2020-06-14|2020-06-26": 59
+      },
+      "strict_chronological_count": 59,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 59,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 59,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 59,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 59,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 59,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 59,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 59,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 59,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 59,
+          "negative_count": 0
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 59,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 59,
+          "negative_count": 0
+        }
+      }
+    },
+    "event:470": {
+      "source_rows": 75,
+      "status_counts": {
+        "matched_metadata": 75
+      },
+      "date_triplets": {
+        "2020-04-29|2020-05-11|2020-10-14": 75
+      },
+      "strict_chronological_count": 75,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 75,
+          "min": 9,
+          "p10": 9.0,
+          "median": 9,
+          "p90": 9.0,
+          "max": 9,
+          "mean": 9,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 75,
+          "min": 9,
+          "p10": 9.0,
+          "median": 9,
+          "p90": 9.0,
+          "max": 9,
+          "mean": 9,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 75,
+          "min": 168,
+          "p10": 168.0,
+          "median": 168,
+          "p90": 168.0,
+          "max": 168,
+          "mean": 168,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 75,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 75,
+          "min": 156,
+          "p10": 156.0,
+          "median": 156,
+          "p90": 156.0,
+          "max": 156,
+          "mean": 156,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 75,
+          "min": -135,
+          "p10": -135.0,
+          "median": -135,
+          "p90": -135.0,
+          "max": -135,
+          "mean": -135,
+          "zero_count": 0,
+          "negative_count": 75
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 75,
+          "min": -135,
+          "p10": -135.0,
+          "median": -135,
+          "p90": -135.0,
+          "max": -135,
+          "mean": -135,
+          "zero_count": 0,
+          "negative_count": 75
+        }
+      }
+    },
+    "event:492": {
+      "source_rows": 26,
+      "status_counts": {
+        "matched_metadata": 26
+      },
+      "date_triplets": {
+        "2020-07-18|2020-07-30|2021-01-02": 26
+      },
+      "strict_chronological_count": 26,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 26,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 26,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 26,
+          "min": 168,
+          "p10": 168.0,
+          "median": 168.0,
+          "p90": 168.0,
+          "max": 168,
+          "mean": 168,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 26,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 26,
+          "min": 156,
+          "p10": 156.0,
+          "median": 156.0,
+          "p90": 156.0,
+          "max": 156,
+          "mean": 156,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 26,
+          "min": -143,
+          "p10": -143.0,
+          "median": -143.0,
+          "p90": -143.0,
+          "max": -143,
+          "mean": -143,
+          "zero_count": 0,
+          "negative_count": 26
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 26,
+          "min": -143,
+          "p10": -143.0,
+          "median": -143.0,
+          "p90": -143.0,
+          "max": -143,
+          "mean": -143,
+          "zero_count": 0,
+          "negative_count": 26
+        }
+      }
+    },
+    "event:496": {
+      "source_rows": 2,
+      "status_counts": {
+        "matched_metadata": 2
+      },
+      "date_triplets": {
+        "2020-06-25|2021-01-15|2021-01-27": 2
+      },
+      "strict_chronological_count": 2,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 2,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 2,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 2,
+          "min": 216,
+          "p10": 216.0,
+          "median": 216.0,
+          "p90": 216.0,
+          "max": 216,
+          "mean": 216,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 2,
+          "min": 204,
+          "p10": 204.0,
+          "median": 204.0,
+          "p90": 204.0,
+          "max": 204,
+          "mean": 204,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 2,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 2,
+          "min": -191,
+          "p10": -191.0,
+          "median": -191.0,
+          "p90": -191.0,
+          "max": -191,
+          "mean": -191,
+          "zero_count": 0,
+          "negative_count": 2
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 2,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        }
+      }
+    },
+    "event:497": {
+      "source_rows": 62,
+      "status_counts": {
+        "matched_metadata": 62
+      },
+      "date_triplets": {
+        "2021-01-10|2021-01-22|2021-02-03": 62
+      },
+      "strict_chronological_count": 62,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 62,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2.0,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 62,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2.0,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 62,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24.0,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 62,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 62,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 62,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2.0,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 62,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2.0,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        }
+      }
+    },
+    "event:498": {
+      "source_rows": 22,
+      "status_counts": {
+        "matched_metadata": 22
+      },
+      "date_triplets": {
+        "2021-01-15|2021-01-27|2021-02-02": 22
+      },
+      "strict_chronological_count": 22,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 22,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 22,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 22,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 22,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 22,
+          "min": 18,
+          "p10": 18.0,
+          "median": 18.0,
+          "p90": 18.0,
+          "max": 18,
+          "mean": 18,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 22,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 22,
+          "min": 6,
+          "p10": 6.0,
+          "median": 6.0,
+          "p90": 6.0,
+          "max": 6,
+          "mean": 6,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 22,
+          "min": 6,
+          "p10": 6.0,
+          "median": 6.0,
+          "p90": 6.0,
+          "max": 6,
+          "mean": 6,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 22,
+          "min": 6,
+          "p10": 6.0,
+          "median": 6.0,
+          "p90": 6.0,
+          "max": 6,
+          "mean": 6,
+          "zero_count": 0,
+          "negative_count": 0
+        }
+      }
+    },
+    "event:502": {
+      "source_rows": 137,
+      "status_counts": {
+        "matched_metadata": 137
+      },
+      "date_triplets": {
+        "2021-01-30|2021-02-11|2021-02-23": 137
+      },
+      "strict_chronological_count": 137,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 137,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 137,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 137,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 137,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 137,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 137,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 137,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 137,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 137,
+          "negative_count": 0
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 137,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 137,
+          "negative_count": 0
+        }
+      }
+    },
+    "event:518": {
+      "source_rows": 85,
+      "status_counts": {
+        "matched_metadata": 85
+      },
+      "date_triplets": {
+        "2021-05-16|2021-05-28|2021-07-15": 85
+      },
+      "strict_chronological_count": 85,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 85,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 85,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 85,
+          "min": 60,
+          "p10": 60.0,
+          "median": 60,
+          "p90": 60.0,
+          "max": 60,
+          "mean": 60,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 85,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 85,
+          "min": 48,
+          "p10": 48.0,
+          "median": 48,
+          "p90": 48.0,
+          "max": 48,
+          "mean": 48,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 85,
+          "min": -35,
+          "p10": -35.0,
+          "median": -35,
+          "p90": -35.0,
+          "max": -35,
+          "mean": -35,
+          "zero_count": 0,
+          "negative_count": 85
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 85,
+          "min": -35,
+          "p10": -35.0,
+          "median": -35,
+          "p90": -35.0,
+          "max": -35,
+          "mean": -35,
+          "zero_count": 0,
+          "negative_count": 85
+        }
+      }
+    },
+    "event:520": {
+      "source_rows": 29,
+      "status_counts": {
+        "matched_metadata": 29
+      },
+      "date_triplets": {
+        "2020-10-01|2021-06-10|2021-07-16": 29
+      },
+      "strict_chronological_count": 29,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 29,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 29,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 29,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 29,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 29,
+          "min": 288,
+          "p10": 288.0,
+          "median": 288,
+          "p90": 288.0,
+          "max": 288,
+          "mean": 288,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 29,
+          "min": 252,
+          "p10": 252.0,
+          "median": 252,
+          "p90": 252.0,
+          "max": 252,
+          "mean": 252,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 29,
+          "min": 36,
+          "p10": 36.0,
+          "median": 36,
+          "p90": 36.0,
+          "max": 36,
+          "mean": 36,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 29,
+          "min": -264,
+          "p10": -264.0,
+          "median": -264,
+          "p90": -264.0,
+          "max": -264,
+          "mean": -264,
+          "zero_count": 0,
+          "negative_count": 29
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 29,
+          "min": -24,
+          "p10": -24.0,
+          "median": -24,
+          "p90": -24.0,
+          "max": -24,
+          "mean": -24,
+          "zero_count": 0,
+          "negative_count": 29
+        }
+      }
+    },
+    "event:554": {
+      "source_rows": 10,
+      "status_counts": {
+        "matched_metadata": 10
+      },
+      "date_triplets": {
+        "2021-10-13|2021-10-25|2021-11-30": 10
+      },
+      "strict_chronological_count": 10,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 10,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 10,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 10,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 10,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 10,
+          "min": 48,
+          "p10": 48.0,
+          "median": 48.0,
+          "p90": 48.0,
+          "max": 48,
+          "mean": 48,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 10,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 10,
+          "min": 36,
+          "p10": 36.0,
+          "median": 36.0,
+          "p90": 36.0,
+          "max": 36,
+          "mean": 36,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 10,
+          "min": -24,
+          "p10": -24.0,
+          "median": -24.0,
+          "p90": -24.0,
+          "max": -24,
+          "mean": -24,
+          "zero_count": 0,
+          "negative_count": 10
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 10,
+          "min": -24,
+          "p10": -24.0,
+          "median": -24.0,
+          "p90": -24.0,
+          "max": -24,
+          "mean": -24,
+          "zero_count": 0,
+          "negative_count": 10
+        }
+      }
+    },
+    "event:555": {
+      "source_rows": 204,
+      "status_counts": {
+        "matched_metadata": 204
+      },
+      "date_triplets": {
+        "2021-08-18|2021-08-30|2021-12-10": 204
+      },
+      "strict_chronological_count": 204,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 204,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 204,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 204,
+          "min": 0,
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "max": 0,
+          "mean": 0,
+          "zero_count": 204,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 204,
+          "min": 114,
+          "p10": 114.0,
+          "median": 114.0,
+          "p90": 114.0,
+          "max": 114,
+          "mean": 114,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 204,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 204,
+          "min": 102,
+          "p10": 102.0,
+          "median": 102.0,
+          "p90": 102.0,
+          "max": 102,
+          "mean": 102,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 204,
+          "min": -90,
+          "p10": -90.0,
+          "median": -90.0,
+          "p90": -90.0,
+          "max": -90,
+          "mean": -90,
+          "zero_count": 0,
+          "negative_count": 204
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 204,
+          "min": -90,
+          "p10": -90.0,
+          "median": -90.0,
+          "p90": -90.0,
+          "max": -90,
+          "mean": -90,
+          "zero_count": 0,
+          "negative_count": 204
+        }
+      }
+    },
+    "event:559": {
+      "source_rows": 16,
+      "status_counts": {
+        "matched_metadata": 16
+      },
+      "date_triplets": {
+        "2020-08-05|2020-08-17|2022-01-27": 16
+      },
+      "strict_chronological_count": 16,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 16,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2.0,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 16,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2.0,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 16,
+          "min": 540,
+          "p10": 540.0,
+          "median": 540.0,
+          "p90": 540.0,
+          "max": 540,
+          "mean": 540,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 16,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 16,
+          "min": 528,
+          "p10": 528.0,
+          "median": 528.0,
+          "p90": 528.0,
+          "max": 528,
+          "mean": 528,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 16,
+          "min": -514,
+          "p10": -514.0,
+          "median": -514.0,
+          "p90": -514.0,
+          "max": -514,
+          "mean": -514,
+          "zero_count": 0,
+          "negative_count": 16
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 16,
+          "min": -514,
+          "p10": -514.0,
+          "median": -514.0,
+          "p90": -514.0,
+          "max": -514,
+          "mean": -514,
+          "zero_count": 0,
+          "negative_count": 16
+        }
+      }
+    },
+    "event:561": {
+      "source_rows": 7,
+      "status_counts": {
+        "matched_metadata": 7
+      },
+      "date_triplets": {
+        "2021-08-23|2021-09-04|2022-01-26": 7
+      },
+      "strict_chronological_count": 7,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 7,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 7,
+          "min": 2,
+          "p10": 2.0,
+          "median": 2,
+          "p90": 2.0,
+          "max": 2,
+          "mean": 2,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 7,
+          "min": 156,
+          "p10": 156.0,
+          "median": 156,
+          "p90": 156.0,
+          "max": 156,
+          "mean": 156,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 7,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 7,
+          "min": 144,
+          "p10": 144.0,
+          "median": 144,
+          "p90": 144.0,
+          "max": 144,
+          "mean": 144,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 7,
+          "min": -130,
+          "p10": -130.0,
+          "median": -130,
+          "p90": -130.0,
+          "max": -130,
+          "mean": -130,
+          "zero_count": 0,
+          "negative_count": 7
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 7,
+          "min": -130,
+          "p10": -130.0,
+          "median": -130,
+          "p90": -130.0,
+          "max": -130,
+          "mean": -130,
+          "zero_count": 0,
+          "negative_count": 7
+        }
+      }
+    },
+    "event:562": {
+      "source_rows": 8,
+      "status_counts": {
+        "matched_metadata": 8
+      },
+      "date_triplets": {
+        "2021-08-07|2021-08-19|2022-02-03": 8
+      },
+      "strict_chronological_count": 8,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 8,
+          "min": 5,
+          "p10": 5.0,
+          "median": 5.0,
+          "p90": 5.0,
+          "max": 5,
+          "mean": 5,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 8,
+          "min": 5,
+          "p10": 5.0,
+          "median": 5.0,
+          "p90": 5.0,
+          "max": 5,
+          "mean": 5,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 8,
+          "min": 180,
+          "p10": 180.0,
+          "median": 180.0,
+          "p90": 180.0,
+          "max": 180,
+          "mean": 180,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 8,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 8,
+          "min": 168,
+          "p10": 168.0,
+          "median": 168.0,
+          "p90": 168.0,
+          "max": 168,
+          "mean": 168,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 8,
+          "min": -151,
+          "p10": -151.0,
+          "median": -151.0,
+          "p90": -151.0,
+          "max": -151,
+          "mean": -151,
+          "zero_count": 0,
+          "negative_count": 8
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 8,
+          "min": -151,
+          "p10": -151.0,
+          "median": -151.0,
+          "p90": -151.0,
+          "max": -151,
+          "mean": -151,
+          "zero_count": 0,
+          "negative_count": 8
+        }
+      }
+    },
+    "event:567": {
+      "source_rows": 12,
+      "status_counts": {
+        "matched_metadata": 12
+      },
+      "date_triplets": {
+        "2021-08-22|2021-09-03|2022-03-02": 6,
+        "2021-09-08|2021-09-20|2022-03-07": 6
+      },
+      "strict_chronological_count": 12,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 12,
+          "min": 4,
+          "p10": 4.0,
+          "median": 6.5,
+          "p90": 9.0,
+          "max": 9,
+          "mean": 6.5,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 12,
+          "min": 4,
+          "p10": 4.0,
+          "median": 6.5,
+          "p90": 9.0,
+          "max": 9,
+          "mean": 6.5,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 12,
+          "min": 180,
+          "p10": 180.0,
+          "median": 186.0,
+          "p90": 192.0,
+          "max": 192,
+          "mean": 186,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 12,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 12,
+          "min": 168,
+          "p10": 168.0,
+          "median": 174.0,
+          "p90": 180.0,
+          "max": 180,
+          "mean": 174,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 12,
+          "min": -164,
+          "p10": -164.0,
+          "median": -155.5,
+          "p90": -147.0,
+          "max": -147,
+          "mean": -155.5,
+          "zero_count": 0,
+          "negative_count": 12
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 12,
+          "min": -164,
+          "p10": -164.0,
+          "median": -155.5,
+          "p90": -147.0,
+          "max": -147,
+          "mean": -155.5,
+          "zero_count": 0,
+          "negative_count": 12
+        }
+      }
+    },
+    "event:1111002": {
+      "source_rows": 7,
+      "status_counts": {
+        "matched_metadata": 7
+      },
+      "date_triplets": {
+        "2020-06-23|2020-07-05|2020-09-15": 7
+      },
+      "strict_chronological_count": 7,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 7,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 7,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 7,
+          "min": 84,
+          "p10": 84.0,
+          "median": 84,
+          "p90": 84.0,
+          "max": 84,
+          "mean": 84,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 7,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 7,
+          "min": 72,
+          "p10": 72.0,
+          "median": 72,
+          "p90": 72.0,
+          "max": 72,
+          "mean": 72,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 7,
+          "min": -59,
+          "p10": -59.0,
+          "median": -59,
+          "p90": -59.0,
+          "max": -59,
+          "mean": -59,
+          "zero_count": 0,
+          "negative_count": 7
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 7,
+          "min": -59,
+          "p10": -59.0,
+          "median": -59,
+          "p90": -59.0,
+          "max": -59,
+          "mean": -59,
+          "zero_count": 0,
+          "negative_count": 7
+        }
+      }
+    },
+    "event:1111003": {
+      "source_rows": 6,
+      "status_counts": {
+        "matched_metadata": 6
+      },
+      "date_triplets": {
+        "2019-11-09|2019-11-15|2019-11-27": 6
+      },
+      "strict_chronological_count": 6,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 6,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 6,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 6,
+          "min": 18,
+          "p10": 18.0,
+          "median": 18.0,
+          "p90": 18.0,
+          "max": 18,
+          "mean": 18,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 6,
+          "min": 6,
+          "p10": 6.0,
+          "median": 6.0,
+          "p90": 6.0,
+          "max": 6,
+          "mean": 6,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 6,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 6,
+          "min": 7,
+          "p10": 7.0,
+          "median": 7.0,
+          "p90": 7.0,
+          "max": 7,
+          "mean": 7,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 6,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        }
+      }
+    },
+    "event:1111004": {
+      "source_rows": 404,
+      "status_counts": {
+        "matched_metadata": 404
+      },
+      "date_triplets": {
+        "2017-07-24|2017-08-05|2017-08-29": 404
+      },
+      "strict_chronological_count": 404,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 404,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 404,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 404,
+          "min": 36,
+          "p10": 36.0,
+          "median": 36.0,
+          "p90": 36.0,
+          "max": 36,
+          "mean": 36,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 404,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 404,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24.0,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 404,
+          "min": -11,
+          "p10": -11.0,
+          "median": -11.0,
+          "p90": -11.0,
+          "max": -11,
+          "mean": -11,
+          "zero_count": 0,
+          "negative_count": 404
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 404,
+          "min": -11,
+          "p10": -11.0,
+          "median": -11.0,
+          "p90": -11.0,
+          "max": -11,
+          "mean": -11,
+          "zero_count": 0,
+          "negative_count": 404
+        }
+      }
+    },
+    "event:1111005": {
+      "source_rows": 126,
+      "status_counts": {
+        "matched_metadata": 126
+      },
+      "date_triplets": {
+        "2019-11-15|2019-11-27|2020-01-26": 126
+      },
+      "strict_chronological_count": 126,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 126,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 126,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 126,
+          "min": 72,
+          "p10": 72.0,
+          "median": 72.0,
+          "p90": 72.0,
+          "max": 72,
+          "mean": 72,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 126,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 126,
+          "min": 60,
+          "p10": 60.0,
+          "median": 60.0,
+          "p90": 60.0,
+          "max": 60,
+          "mean": 60,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 126,
+          "min": -47,
+          "p10": -47.0,
+          "median": -47.0,
+          "p90": -47.0,
+          "max": -47,
+          "mean": -47,
+          "zero_count": 0,
+          "negative_count": 126
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 126,
+          "min": -47,
+          "p10": -47.0,
+          "median": -47.0,
+          "p90": -47.0,
+          "max": -47,
+          "mean": -47,
+          "zero_count": 0,
+          "negative_count": 126
+        }
+      }
+    },
+    "event:1111006": {
+      "source_rows": 57,
+      "status_counts": {
+        "matched_metadata": 57
+      },
+      "date_triplets": {
+        "2019-12-02|2020-01-19|2020-01-31": 57
+      },
+      "strict_chronological_count": 57,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 57,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 57,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 57,
+          "min": 60,
+          "p10": 60.0,
+          "median": 60,
+          "p90": 60.0,
+          "max": 60,
+          "mean": 60,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 57,
+          "min": 48,
+          "p10": 48.0,
+          "median": 48,
+          "p90": 48.0,
+          "max": 48,
+          "mean": 48,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 57,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 57,
+          "min": -35,
+          "p10": -35.0,
+          "median": -35,
+          "p90": -35.0,
+          "max": -35,
+          "mean": -35,
+          "zero_count": 0,
+          "negative_count": 57
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 57,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        }
+      }
+    },
+    "event:1111007": {
+      "source_rows": 480,
+      "status_counts": {
+        "matched_metadata": 480
+      },
+      "date_triplets": {
+        "2019-07-20|2019-08-01|2019-09-18": 480
+      },
+      "strict_chronological_count": 480,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 480,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 480,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 480,
+          "min": 60,
+          "p10": 60.0,
+          "median": 60.0,
+          "p90": 60.0,
+          "max": 60,
+          "mean": 60,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 480,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 480,
+          "min": 48,
+          "p10": 48.0,
+          "median": 48.0,
+          "p90": 48.0,
+          "max": 48,
+          "mean": 48,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 480,
+          "min": -35,
+          "p10": -35.0,
+          "median": -35.0,
+          "p90": -35.0,
+          "max": -35,
+          "mean": -35,
+          "zero_count": 0,
+          "negative_count": 480
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 480,
+          "min": -35,
+          "p10": -35.0,
+          "median": -35.0,
+          "p90": -35.0,
+          "max": -35,
+          "mean": -35,
+          "zero_count": 0,
+          "negative_count": 480
+        }
+      }
+    },
+    "event:1111008": {
+      "source_rows": 53,
+      "status_counts": {
+        "matched_metadata": 53
+      },
+      "date_triplets": {
+        "2018-04-17|2018-10-14|2020-08-16": 53
+      },
+      "strict_chronological_count": 53,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 53,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 53,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 53,
+          "min": 852,
+          "p10": 852.0,
+          "median": 852,
+          "p90": 852.0,
+          "max": 852,
+          "mean": 852,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 53,
+          "min": 180,
+          "p10": 180.0,
+          "median": 180,
+          "p90": 180.0,
+          "max": 180,
+          "mean": 180,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 53,
+          "min": 672,
+          "p10": 672.0,
+          "median": 672,
+          "p90": 672.0,
+          "max": 672,
+          "mean": 672,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 53,
+          "min": -827,
+          "p10": -827.0,
+          "median": -827,
+          "p90": -827.0,
+          "max": -827,
+          "mean": -827,
+          "zero_count": 0,
+          "negative_count": 53
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 53,
+          "min": -659,
+          "p10": -659.0,
+          "median": -659,
+          "p90": -659.0,
+          "max": -659,
+          "mean": -659,
+          "zero_count": 0,
+          "negative_count": 53
+        }
+      }
+    },
+    "event:1111009": {
+      "source_rows": 1542,
+      "status_counts": {
+        "matched_metadata": 1542
+      },
+      "date_triplets": {
+        "2022-06-07|2022-06-19|2022-09-11": 1542
+      },
+      "strict_chronological_count": 1542,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 1542,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 1542,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 1542,
+          "min": 96,
+          "p10": 96.0,
+          "median": 96.0,
+          "p90": 96.0,
+          "max": 96,
+          "mean": 96,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 1542,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 1542,
+          "min": 84,
+          "p10": 84.0,
+          "median": 84.0,
+          "p90": 84.0,
+          "max": 84,
+          "mean": 84,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 1542,
+          "min": -71,
+          "p10": -71.0,
+          "median": -71.0,
+          "p90": -71.0,
+          "max": -71,
+          "mean": -71,
+          "zero_count": 0,
+          "negative_count": 1542
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 1542,
+          "min": -71,
+          "p10": -71.0,
+          "median": -71.0,
+          "p90": -71.0,
+          "max": -71,
+          "mean": -71,
+          "zero_count": 0,
+          "negative_count": 1542
+        }
+      }
+    },
+    "event:1111010": {
+      "source_rows": 36,
+      "status_counts": {
+        "matched_metadata": 36
+      },
+      "date_triplets": {
+        "2016-10-30|2016-11-23|2017-03-11": 36
+      },
+      "strict_chronological_count": 36,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 36,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 36,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 36,
+          "min": 132,
+          "p10": 132.0,
+          "median": 132.0,
+          "p90": 132.0,
+          "max": 132,
+          "mean": 132,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 36,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24.0,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 36,
+          "min": 108,
+          "p10": 108.0,
+          "median": 108.0,
+          "p90": 108.0,
+          "max": 108,
+          "mean": 108,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 36,
+          "min": -107,
+          "p10": -107.0,
+          "median": -107.0,
+          "p90": -107.0,
+          "max": -107,
+          "mean": -107,
+          "zero_count": 0,
+          "negative_count": 36
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 36,
+          "min": -95,
+          "p10": -95.0,
+          "median": -95.0,
+          "p90": -95.0,
+          "max": -95,
+          "mean": -95,
+          "zero_count": 0,
+          "negative_count": 36
+        }
+      }
+    },
+    "event:1111011": {
+      "source_rows": 270,
+      "status_counts": {
+        "matched_metadata": 270
+      },
+      "date_triplets": {
+        "2020-10-20|2020-11-01|2020-11-13": 270
+      },
+      "strict_chronological_count": 270,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 270,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 270,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 270,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24.0,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 270,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 270,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12.0,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 270,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 270,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        }
+      }
+    },
+    "event:1111013": {
+      "source_rows": 1097,
+      "status_counts": {
+        "matched_metadata": 1097
+      },
+      "date_triplets": {
+        "2017-04-10|2017-04-22|2017-05-04": 1097
+      },
+      "strict_chronological_count": 1097,
+      "interval_distributions": {
+        "event_to_post_days": {
+          "n": 1097,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "post_source_minus_synthetic_days": {
+          "n": 1097,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_post_days": {
+          "n": 1097,
+          "min": 24,
+          "p10": 24.0,
+          "median": 24,
+          "p90": 24.0,
+          "max": 24,
+          "mean": 24,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre1_to_pre2_days": {
+          "n": 1097,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre2_to_post_days": {
+          "n": 1097,
+          "min": 12,
+          "p10": 12.0,
+          "median": 12,
+          "p90": 12.0,
+          "max": 12,
+          "mean": 12,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_1_source_minus_synthetic_days": {
+          "n": 1097,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        },
+        "pre_2_source_minus_synthetic_days": {
+          "n": 1097,
+          "min": 1,
+          "p10": 1.0,
+          "median": 1,
+          "p90": 1.0,
+          "max": 1,
+          "mean": 1,
+          "zero_count": 0,
+          "negative_count": 0
+        }
+      }
+    }
+  }
+}

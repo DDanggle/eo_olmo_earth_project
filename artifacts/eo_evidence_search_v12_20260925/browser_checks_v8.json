@@ -1,0 +1,20 @@
+{
+  "schema": "eo-v8-browser-observation-v0",
+  "checked_at": "2026-09-25T07:37:27.509885+00:00",
+  "url": "http://127.0.0.1:8774/",
+  "positive": "ks_06770",
+  "negative": "ks_05265",
+  "observations": {
+    "positiveDateTable": true,
+    "positiveUnknownFraction43_38": true,
+    "negativeDateTable": true,
+    "negativeKnownFraction100": true,
+    "t0ResearchCard": true,
+    "t0Median84": true,
+    "e5HistoricalPending06_14_07": true,
+    "unverifiedUtcVisible": true
+  },
+  "console_errors": [],
+  "evidence": "Main browser DOM checks: both date tables 2021-08-07/19 and2022-02-03 vs assumed2022-01-05/17/29;168day interval;explicit UTC and historical raster limitations;T0 card;E5 still historical pending. No model inference.",
+  "manifest_sha256": "3b5bb190ac62d80501ba209d7a9d86b493a42803da9ff14373bdc90fc58e079d"
+}

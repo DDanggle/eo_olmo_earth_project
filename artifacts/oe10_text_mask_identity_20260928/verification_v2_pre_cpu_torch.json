@@ -1,0 +1,29 @@
+{
+  "created_utc": "2026-09-27T20:48:09.027501+00:00",
+  "source_root": "code/oe10_text_mask_v2",
+  "source_manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+  "v1_source_manifest_sha256": "e07c13dd9e6a9598797ce108d3777bcf2649b4fe9f27085e6203cb3cf4d2d159",
+  "payload_files": 16,
+  "unchanged_v1_files": {
+    "base_manifest.json": true,
+    "base_snapshot/episode_loader.py": true,
+    "base_snapshot/episode_model.py": true,
+    "base_snapshot/native_replay.py": true,
+    "contracts.py": true,
+    "input_identity.py": true,
+    "test_contracts.py": true,
+    "test_input_identity.py": true,
+    "test_text_mask_model.py": true,
+    "text_mask_model.py": true,
+    "v0_source_manifest.json": true
+  },
+  "stdlib_identity_tests_passed": 13,
+  "stdlib_contract_tests_passed": 4,
+  "gradient_torch_tests_count": 8,
+  "gradient_torch_tests_status": "prepared_not_run_here; parent will run server CPU torch subset",
+  "finite_loss_checked_before_backward": true,
+  "finite_gradients_checked_before_nonzero_counts": true,
+  "unchanged_original_gradient_boundary": true,
+  "gpu_seconds": 0,
+  "server_access": false
+}

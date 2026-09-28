@@ -1,0 +1,17 @@
+{
+  "reviewer": "evaluation_expansion_review",
+  "audit_sha256": "86ca3786daabb42599a5227ebcd3b55a924759d5d871e5894e5fc1d45d1fc7df",
+  "read_only": true,
+  "source_hashes_verified": 3,
+  "classes_recomputed": 18,
+  "candidate_classes_recomputed": 7,
+  "auc_values_recomputed": 6,
+  "max_tolerance": 1e-12,
+  "result": "pass",
+  "scope": "Inventory feasibility and descriptive score decomposition, not new model performance",
+  "caveats": [
+    "bank capacity 8 has no spare examples if later quality checks remove one",
+    "training support excludes the training query; development queries are disjoint from source-bank patches",
+    "mixed fruits/vegetables/flowers is a heterogeneous label"
+  ]
+}

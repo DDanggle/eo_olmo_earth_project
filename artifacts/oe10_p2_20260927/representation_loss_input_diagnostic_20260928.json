@@ -1,0 +1,54 @@
+{
+  "reviewed_utc": "2026-09-27T15:44:03.126931+00:00",
+  "scope": "Post-hoc source, metadata and saved-score/log diagnosis only. No new GPU evaluation, training change or causal proof.",
+  "reviewers": [
+    "root",
+    "oe10_loss_path_diagnostic",
+    "oe10_support_representation_diagnostic"
+  ],
+  "source_sha256": {
+    "code/oe10_p2_v3/episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+    "code/oe10_p2_v3/p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+    "code/oe10_diagnostics_v0/label_readout_audit.py": "5000c269bc362c5529e95ae68bdce844360add92bc6dab6e45baa32c68802d0c",
+    "artifacts/oe10_p2_20260927/label_readout_audit_20260928.json": "696efb0b88e942ede0f1ffc1d818cde9ca0a04bf8bc4b4b1c1e9c3dbb91c97f1"
+  },
+  "confirmed_facts": {
+    "mask_head_uses_role_mean_of_k_prototypes": true,
+    "individual_support_tokens_reach_language_connector": true,
+    "main_mask_evaluation_bypasses_qwen": true,
+    "eo_encoder_sees_dates_before_time_average": true,
+    "query_observations": 2,
+    "support_observations": 8,
+    "dev_query_dates": [
+      20190128,
+      20190712
+    ],
+    "annual_crop_labels_not_per_date_observability_gold": true,
+    "common96_k_support_prefixes_verified": 96,
+    "class2_train_present_unique_patches": 22,
+    "class3_train_present_unique_patches": 23,
+    "class2_dev_present_unique_patches": 8,
+    "class2_zero_area_prediction_episode_rows_per_k": 14,
+    "class2_present_episode_rows_per_k": 16,
+    "class2_episode_rows_reuse_8_unique_patches": true,
+    "rounded_zero_percent_language_targets": 996,
+    "all_train_episodes": 2304,
+    "actually_absent_train_targets": 948,
+    "small_positive_rounded_to_zero": 48,
+    "language_template": "Target cover: {integer percentage} percent. Reference: region_1.",
+    "B2_initial_language_to_EO_anchor_grad_norm": 0.0336508,
+    "B2_present_gradient_clipped_percent_in_export": 99.29,
+    "B2_present_preclip_global_gradient_norm_median": 12.54,
+    "single_checkpoint_encode_call_in_source": true
+  },
+  "interpretation": [
+    "Observed joint-training gain is not absent.",
+    "Current small baseline does not exercise rich expert corrections, regional knowledge or free-form grounded explanation.",
+    "Role averaging and two-date crop observability are candidate constraints, not established causes of low scores.",
+    "Similar class2/class3 positive patch counts mean positive patch count alone does not explain the class2 failure.",
+    "Clipping statistics do not identify which loss dominates or prove harmful interference.",
+    "Actual finite gradients and verified loss summation rule out a simple disconnected-training explanation in checked logs."
+  ],
+  "training_or_gate_modified": false,
+  "new_gpu_runs": 0
+}

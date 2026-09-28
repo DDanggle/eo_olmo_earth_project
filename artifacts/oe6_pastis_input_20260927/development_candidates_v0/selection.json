@@ -1,0 +1,42 @@
+{
+  "status": "metadata_candidates_selected_raw_inputs_and_labels_not_prepared",
+  "candidate_train": 64,
+  "candidate_development": 16,
+  "candidate_heldout_opened": 0,
+  "parent_assignment": {
+    "t32ulu": "train",
+    "t31tfj": "train",
+    "t31tfm": "development",
+    "t30uxv": "reserved_unopened_this_step"
+  },
+  "available_parent_counts": {
+    "t31tfm": 290,
+    "t31tfj": 228,
+    "t32ulu": 211,
+    "t30uxv": 182
+  },
+  "selection_rule": "sha256 of fixed namespace plus patch ID within each parent, no labels read",
+  "manifest_sha256": "d0bfc58d11cbac0c6b270c5739a3f6b5c34f1f5de2510ab9635fd1bab7d1aef0",
+  "source_shard_hashes": {
+    "geobench_pastis.0000.part.tortilla": "56b1490c6dc7345fdff79e94d9132753ee28d8504bb061d8db39d19e888f7ca3"
+  },
+  "prior_visual_inspection": {
+    "t32ulu": [
+      "40188"
+    ],
+    "t31tfj": [
+      "20451"
+    ]
+  },
+  "reserved_is_new_scientifically_unexposed_test": false,
+  "reserved_warning": "Unopened in this preparation step only; historical usage/pretraining exposure must be audited.",
+  "training_ready": false,
+  "gpu_used": false,
+  "remaining": [
+    "raw/label extraction and source hash checks",
+    "observation quality policy",
+    "pixel/label/parent contracts",
+    "full reader weight identity",
+    "trained baseline recipe and checkpoint save/reload"
+  ]
+}

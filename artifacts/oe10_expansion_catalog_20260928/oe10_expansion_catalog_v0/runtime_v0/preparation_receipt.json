@@ -1,0 +1,41 @@
+{
+  "actual_array_loader_runtime_checked": true,
+  "created_utc": "2026-09-27T18:42:13.229471+00:00",
+  "directed_class_pairs": 2,
+  "episodes": 384,
+  "knowledge_cards_for_classes8_14_available": false,
+  "metadata_loader_validation_pass": true,
+  "new_gpu_seconds": 0,
+  "pinned_sources": {
+    "builder": {
+      "path": "code/oe8_episode_prepare_v0/episode_builder.py",
+      "sha256": "64c6df1fe10b40da8cc076286a6184be05ec0db261a4462af0548aaba8eff6d6"
+    },
+    "loader": {
+      "path": "code/oe10_p2_v3/episode_loader.py",
+      "sha256": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6"
+    },
+    "manifest": {
+      "path": "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/manifest.jsonl",
+      "sha256": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3"
+    },
+    "objects": {
+      "path": "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/episodes/source_objects.jsonl",
+      "sha256": "c8b6ce724eaf3acc1e1f159ab2ec46943bb88eb49cde1aa0172e12181da53e11"
+    },
+    "quality": {
+      "path": "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/quality_policy.json",
+      "sha256": "5c62127b4304eb310b83360f2ebf53c31428c5189984926061d846d445a2a6a1"
+    }
+  },
+  "public_sha256": "30fe53cb935002c464c9d38b42d01e20cb724e70af8fcd2dbefddbe37bd7a377",
+  "query_count": 48,
+  "query_gold_files_opened": 0,
+  "raw_packets_opened": 0,
+  "scope": "Additional two-class training reference pack; 384 rows are 48 query images with directed/K variants, not independent observations or human corrections. No expanded evaluation or performance result.",
+  "script_sha256": "7a1008602a752b3d883ce65fa7f8b754460aed43823b3bb704ba6e9ec826d057",
+  "source_bank_training_references": 0,
+  "support_mask_reference_root": "/home/work/data/olmoearth/oe10_expansion_catalog_v0/runtime_v0",
+  "training_targets_materialized": true,
+  "unique_support_objects_copied": 221
+}

@@ -1,0 +1,37 @@
+{
+  "reviewed_utc": "2026-09-27T15:28:46.223053+00:00",
+  "reviewer": "root plus independent agent oe10_current_meaning_audit",
+  "latest_score_sha256_verified": "026fea3daff441e9d7a27bb723777a0f0b36f85cad99aa184ee8e6c8255fcfec",
+  "matched_step": 1920,
+  "B0_auc": 0.29246216252170376,
+  "B2_auc": 0.3368343094833078,
+  "delta_auc": 0.04437214696160402,
+  "earlier_step1536_delta_auc": 0.08173091670402324,
+  "class2_iou_approx_by_k": {
+    "1": 0.02144,
+    "2": 0.00124,
+    "4": 0.00112,
+    "8": 0.00166
+  },
+  "B2_iou_by_k": {
+    "1": 0.347443816771926,
+    "2": 0.3389528065373249,
+    "4": 0.3327206465171473,
+    "8": 0.338763554319881
+  },
+  "interpretation": "Single-seed interim EO joint-training benefit remains plausible; VLM-specific contribution and expert-correction efficiency unproven. B0 fixed-schedule stability failed. Increasing support count does not currently improve the metric. No method/gate/data/budget changes.",
+  "architecture_findings": [
+    "Dense mask readout branches from EO features and pooled support.",
+    "Primary evaluation with_language=False bypasses Qwen/connector.",
+    "Language-supervision template is area percent plus fixed reference; no language-free B2 control exists in this comparison."
+  ],
+  "automation_check": {
+    "view_returned_card_only": true,
+    "matching_legacy_local_automation_row_found": false,
+    "interpretation": "Legacy local file/database absence is not evidence that a thread heartbeat is stopped. Scheduler active/duplicate state not independently established by the returned card. Prior six observed heartbeat deliveries were 30 minutes apart.",
+    "official_docs": "https://learn.chatgpt.com/docs/automations?surface=app",
+    "server_training_alive": true,
+    "duplicate_gpu_training_observed": false,
+    "schedules_modified": false
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "e5-cpu-preparation-review-v0",
+  "checked_at": "2026-09-25T05:59:51.493944+00:00",
+  "unit_tests_passed": 17,
+  "blocking_concerns": [],
+  "source_sha256": {
+    "/private/tmp/e5_bundle_stage/e5_prepare_v0.py": "508f444a512fcbd3f6937dd51b8ae2755c1f4deb334bdaed118c98e78840fd61",
+    "/private/tmp/test_e5_prepare_v0.py": "374ffedefaf6012fd4c5b515a42554e096e30c3e691c8b4564d32bdcf1cbe365",
+    "/private/tmp/e5_bundle_stage/e5_equal_budget_prereg_v0.json": "fc7866feebbf1e9fcd4e93de5154bf9ffa141f434e70dc4731390cf18dfd4696"
+  },
+  "actual_metadata_validation": {
+    "n_items": 5989,
+    "n_train": 4234,
+    "n_test": 1755,
+    "cache_manifest_count": 3756,
+    "primary_same_prompt": 902,
+    "primary_pos": 445,
+    "primary_hard_neg": 457,
+    "primary_events": 8,
+    "updates_per_model": 1590,
+    "exposures_per_model": 12702
+  },
+  "bounded_pooling_tests": "Analytical float16 block-constant S1(3,768,48,48)/S2(12,768,32,32) caches; verify 6x6/4x4 float32 CPU pooling, global row order, SHA/stat/NaN/shape/missing-cache rejection; small reference archive checks exact ID-based equality.",
+  "not_executed": [
+    "Server/cache access",
+    "Full5989-row2.19GiB preparation",
+    "209-item actual E4 pooling reproduction",
+    "LLM/model/GPU execution"
+  ],
+  "server_preparation_required_gates": [
+    "All3756 current cache SHA/stat checks before/after pooling and final stat check",
+    "Current frozen QA/contracts and LLM/tokenizer SHA checks",
+    "Exact209-row E4 bitwise pooling reproduction",
+    "Unchanged code/config/input hashes and preserved failure output"
+  ],
+  "shared_repository_mutations": 0
+}

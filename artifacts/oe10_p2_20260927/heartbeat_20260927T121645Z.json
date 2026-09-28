@@ -1,0 +1,40 @@
+{
+  "observed_utc": "2026-09-27T12:16:45+00:00",
+  "source": "nx read of training_v0/status.json, B0_270927_train/receipt.json, recent train_log and live process/GPU queries",
+  "controller_status": "running",
+  "controller_pid": 1419400,
+  "current_worker": "B0_270927_train",
+  "worker_status": "training",
+  "worker_pid": 1419405,
+  "completed_updates": 1536,
+  "planned_updates": 2304,
+  "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+  "gpu_process_memory_mib": 38094,
+  "protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+  "source_revision": "oe10_p2_v3",
+  "receipt_evaluation_windows": [
+    {
+      "step": 384,
+      "auc": 0.15434894428310303
+    },
+    {
+      "step": 768,
+      "auc": 0.10294451111032903
+    },
+    {
+      "step": 1152,
+      "auc": 0.22520108026654498
+    },
+    {
+      "step": 1536,
+      "auc": 0.24214796122214008
+    }
+  ],
+  "new_failure": false,
+  "first_paired_seed_complete": false,
+  "all_six_complete": false,
+  "requires_action": false,
+  "notify_user": false,
+  "interpretation": "Ongoing single-arm intermediate evaluations only; no comparison, convergence, or generalization claim. Raw prediction audit not repeated at this heartbeat.",
+  "mutations": "Local monitoring records only; no server source/protocol/budget changes or new jobs."
+}

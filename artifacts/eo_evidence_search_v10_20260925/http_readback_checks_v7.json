@@ -1,0 +1,39 @@
+{
+  "schema": "eo-v7-http-readback-v0",
+  "valid": true,
+  "checked_at": "2026-09-25T06:40:47.352595+00:00",
+  "url": "http://127.0.0.1:8774",
+  "snapshot": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/artifacts/eo_evidence_search_v7_20260925",
+  "preview_count": 9,
+  "cases": {
+    "ks_06770": {
+      "reader_available": true,
+      "exact_reader_match": true,
+      "preview_sha256": "18b541a2cc61b415f0f17ce46824d017e4b8b05e1b292632058c7e296f119b40",
+      "png_http_verified": true
+    },
+    "ks_05265": {
+      "reader_available": true,
+      "exact_reader_match": true,
+      "preview_sha256": "b4c11d786abe2017136a8bf8eda11a7aa40be823e32ae97550f5fa25e2a35e3d",
+      "png_http_verified": true
+    },
+    "ks_05229": {
+      "reader_available": true,
+      "exact_reader_match": true
+    },
+    "ks_00276": {
+      "reader_available": false,
+      "exact_reader_match": false
+    }
+  },
+  "event_562_count": 8,
+  "event_562_grounded_cases": [
+    "ks_05265",
+    "ks_06770"
+  ],
+  "research_runs_exact": true,
+  "e5_outcomes_included": false,
+  "index_bytes_exact": true,
+  "script_sha256": "0ca73fb2ef6b1ecd7070941f4009ed1f50cad42c8b37f594ee06419e61bc4532"
+}

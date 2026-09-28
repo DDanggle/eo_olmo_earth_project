@@ -1,0 +1,116 @@
+{"status": "initializing", "step": 0, "seconds": 0.0026923418045043945}
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights:   0%|          | 1/750 [00:00<03:33,  3.51it/s]Loading weights:  14%|█▎        | 103/750 [00:00<00:01, 329.68it/s]Loading weights:  21%|██        | 157/750 [00:00<00:01, 381.21it/s]Loading weights:  28%|██▊       | 209/750 [00:00<00:01, 378.94it/s]Loading weights:  34%|███▍      | 255/750 [00:00<00:01, 388.61it/s]Loading weights:  40%|████      | 300/750 [00:00<00:01, 393.12it/s]Loading weights:  46%|████▌     | 343/750 [00:00<00:01, 391.91it/s]Loading weights:  51%|█████▏    | 385/750 [00:01<00:00, 387.92it/s]Loading weights:  89%|████████▉ | 671/750 [00:01<00:00, 1075.90it/s]Loading weights: 100%|██████████| 750/750 [00:01<00:00, 609.79it/s] 
+{"status": "ready", "step": 0, "seconds": 40.689137510955334}
+/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/p2_worker.py:169: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  pred=output['logits'].detach().float().cpu();ml=float(output['mask_loss']);ce=float(output['language_loss'])
+{"status": "training", "step": 24, "seconds": 66.68359971791506}
+{"status": "training", "step": 48, "seconds": 87.10603361949325}
+{"status": "training", "step": 72, "seconds": 106.84665817394853}
+{"status": "training", "step": 96, "seconds": 126.32313399389386}
+{"status": "training", "step": 120, "seconds": 146.18010118603706}
+{"status": "training", "step": 144, "seconds": 165.8440444022417}
+{"status": "training", "step": 168, "seconds": 185.24104152992368}
+{"status": "training", "step": 192, "seconds": 205.0198443196714}
+{"status": "training", "step": 216, "seconds": 224.61417492106557}
+{"status": "training", "step": 240, "seconds": 244.2788846567273}
+{"status": "training", "step": 264, "seconds": 263.77636905014515}
+{"status": "training", "step": 288, "seconds": 283.49223870411515}
+{"status": "training", "step": 312, "seconds": 302.72460835054517}
+{"status": "training", "step": 336, "seconds": 322.399802044034}
+{"status": "training", "step": 360, "seconds": 341.79421677440405}
+{"status": "training", "step": 384, "seconds": 361.3949668519199}
+{"status": "training", "step": 384, "seconds": 529.4869854338467}
+{"status": "training", "step": 384, "seconds": 547.5386629700661}
+{"status": "training", "step": 408, "seconds": 571.4738643243909}
+{"status": "training", "step": 432, "seconds": 591.3211045637727}
+{"status": "training", "step": 456, "seconds": 610.9744077958167}
+{"status": "training", "step": 480, "seconds": 630.1854669116437}
+{"status": "training", "step": 504, "seconds": 649.598218459636}
+{"status": "training", "step": 528, "seconds": 669.3428064659238}
+{"status": "training", "step": 552, "seconds": 688.6007420308888}
+{"status": "training", "step": 576, "seconds": 708.1466484665871}
+{"status": "training", "step": 600, "seconds": 727.565216768533}
+{"status": "training", "step": 624, "seconds": 747.3287310861051}
+{"status": "training", "step": 648, "seconds": 766.8285400979221}
+{"status": "training", "step": 672, "seconds": 786.1738471463323}
+{"status": "training", "step": 696, "seconds": 805.6524619497359}
+{"status": "training", "step": 720, "seconds": 825.3666473589838}
+{"status": "training", "step": 744, "seconds": 844.3172905258834}
+{"status": "training", "step": 768, "seconds": 863.3439415618777}
+{"status": "training", "step": 768, "seconds": 1028.06561216712}
+{"status": "training", "step": 768, "seconds": 1043.8925707116723}
+{"status": "training", "step": 792, "seconds": 1068.1922768503428}
+{"status": "training", "step": 816, "seconds": 1087.784775748849}
+{"status": "training", "step": 840, "seconds": 1107.3410734683275}
+{"status": "training", "step": 864, "seconds": 1126.7497277483344}
+{"status": "training", "step": 888, "seconds": 1146.4171105362475}
+{"status": "training", "step": 912, "seconds": 1165.8353014066815}
+{"status": "training", "step": 936, "seconds": 1185.6306730173528}
+{"status": "training", "step": 960, "seconds": 1205.18521470204}
+{"status": "training", "step": 984, "seconds": 1224.8018897995353}
+{"status": "training", "step": 1008, "seconds": 1244.2844608277082}
+{"status": "training", "step": 1032, "seconds": 1263.6098920628428}
+{"status": "training", "step": 1056, "seconds": 1283.8612591847777}
+{"status": "training", "step": 1080, "seconds": 1303.6391439847648}
+{"status": "training", "step": 1104, "seconds": 1323.2244338691235}
+{"status": "training", "step": 1128, "seconds": 1342.6071352884173}
+{"status": "training", "step": 1152, "seconds": 1362.20924372226}
+{"status": "training", "step": 1152, "seconds": 1528.074558623135}
+{"status": "training", "step": 1152, "seconds": 1545.4155916310847}
+{"status": "training", "step": 1176, "seconds": 1569.6830916777253}
+{"status": "training", "step": 1200, "seconds": 1589.9282291419804}
+{"status": "training", "step": 1224, "seconds": 1609.4538749940693}
+{"status": "training", "step": 1248, "seconds": 1628.990016169846}
+{"status": "training", "step": 1272, "seconds": 1648.481983087957}
+{"status": "training", "step": 1296, "seconds": 1667.8843568079174}
+{"status": "training", "step": 1320, "seconds": 1687.111018318683}
+{"status": "training", "step": 1344, "seconds": 1707.014798168093}
+{"status": "training", "step": 1368, "seconds": 1726.679067850113}
+{"status": "training", "step": 1392, "seconds": 1746.3687948435545}
+{"status": "training", "step": 1416, "seconds": 1766.0747173167765}
+{"status": "training", "step": 1440, "seconds": 1785.4744044095278}
+{"status": "training", "step": 1464, "seconds": 1805.1770187318325}
+{"status": "training", "step": 1488, "seconds": 1824.48707851395}
+{"status": "training", "step": 1512, "seconds": 1844.0646915063262}
+{"status": "training", "step": 1536, "seconds": 1863.5595550648868}
+{"status": "training", "step": 1536, "seconds": 2029.4823080860078}
+{"status": "training", "step": 1536, "seconds": 2047.260469134897}
+{"status": "training", "step": 1560, "seconds": 2070.824132155627}
+{"status": "training", "step": 1584, "seconds": 2091.1137014850974}
+{"status": "training", "step": 1608, "seconds": 2111.089123673737}
+{"status": "training", "step": 1632, "seconds": 2130.810835529119}
+{"status": "training", "step": 1656, "seconds": 2150.1638605073094}
+{"status": "training", "step": 1680, "seconds": 2170.1007879301906}
+{"status": "training", "step": 1704, "seconds": 2189.8559793569148}
+{"status": "training", "step": 1728, "seconds": 2209.5250965692103}
+{"status": "training", "step": 1752, "seconds": 2228.9262215197086}
+{"status": "training", "step": 1776, "seconds": 2248.580850057304}
+{"status": "training", "step": 1800, "seconds": 2267.7523078247905}
+{"status": "training", "step": 1824, "seconds": 2286.7663887888193}
+{"status": "training", "step": 1848, "seconds": 2305.740014053881}
+{"status": "training", "step": 1872, "seconds": 2324.942817594856}
+{"status": "training", "step": 1896, "seconds": 2344.6018739044666}
+{"status": "training", "step": 1920, "seconds": 2363.832368902862}
+{"status": "training", "step": 1920, "seconds": 2528.6064879000187}
+{"status": "training", "step": 1920, "seconds": 2546.731229811907}
+{"status": "training", "step": 1944, "seconds": 2570.4951118305326}
+{"status": "training", "step": 1968, "seconds": 2590.0981230139732}
+{"status": "training", "step": 1992, "seconds": 2609.7164193615317}
+{"status": "training", "step": 2016, "seconds": 2629.556063942611}
+{"status": "training", "step": 2040, "seconds": 2649.483164411038}
+{"status": "training", "step": 2064, "seconds": 2669.5235663987696}
+{"status": "training", "step": 2088, "seconds": 2689.487720813602}
+{"status": "training", "step": 2112, "seconds": 2708.94809352234}
+{"status": "training", "step": 2136, "seconds": 2728.813706059009}
+{"status": "training", "step": 2160, "seconds": 2749.0195413418114}
+{"status": "training", "step": 2184, "seconds": 2769.3051990754902}
+{"status": "training", "step": 2208, "seconds": 2788.687276210636}
+{"status": "training", "step": 2232, "seconds": 2808.7656099051237}
+{"status": "training", "step": 2256, "seconds": 2827.991454385221}
+{"status": "training", "step": 2280, "seconds": 2847.3062340319157}
+{"status": "training", "step": 2304, "seconds": 2866.7001797556877}
+{"status": "training", "step": 2304, "seconds": 3031.413679808378}
+{"status": "training", "step": 2304, "seconds": 3049.518812444061}
+{"status": "training_completed", "step": 2304, "seconds": 3067.5225558020175}
+{"status": "training_completed", "step": 2304, "seconds": 3067.5358010418713}

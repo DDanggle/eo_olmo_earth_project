@@ -1,0 +1,47 @@
+{
+  "schema_version": "oe10_p2_terminal_audit_attestation_v1",
+  "audit_complete": true,
+  "p2_status_sha256": "df8da2d02dfe0e86be0ba9b6d61b7763c7f3e401ea3f44125f853aba02383533",
+  "p2_terminal_status": "failed",
+  "completed_runs": 5,
+  "expected_runs": 6,
+  "p2_result": "incomplete",
+  "audited_utc": "2026-09-27T23:50:17.600775+00:00",
+  "audit_files": [
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/terminal_collection_20260928_0843.json",
+      "sha256": "c180fb97d24ed0d305c8b064bfbf4c10b0f811c3a2d3e84dab9d98565335629c"
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/audit_snapshot/oe10_audit_v2/summarize_runs.py",
+      "sha256": "24f845f0abcf985d16d6fc7bcec8f4df2849a9a86bf59777e7acb88036a4a5a0"
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/source_manifest.json",
+      "sha256": "f61df65d5d31940f84c7d5b6411c9c1919365c8cb1188bd78e74e077428048dd"
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json",
+      "sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3"
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/gate_config.json",
+      "sha256": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5"
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/fairness_audit_v3_evidence.json",
+      "sha256": "f512cddeaa191c45cd9a570b7652c817d62e01af5666492989be72bcedd2b9d9"
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/fairness_audit_v3.json",
+      "sha256": "a647a774690a9ca55aed6e0678d55d424dd2996356221e14ec3de59d41d4d008"
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/terminal_audit_20260928_v0/terminal_evidence.json",
+      "sha256": "11e54c0fa63c46534719f128362d6906fed578dc22f77299c3660c13e4691a3e"
+    }
+  ],
+  "full_p2_decision_made": false,
+  "requires_independent_review_before_use": true,
+  "scope": "Terminal integrity audit complete; full P2 scientific gate is a separate result."
+}

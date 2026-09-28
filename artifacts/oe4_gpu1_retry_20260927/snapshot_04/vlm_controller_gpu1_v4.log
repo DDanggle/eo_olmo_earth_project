@@ -1,0 +1,5 @@
+{"utc": "2026-09-27T06:41:52.489862+00:00", "status": "waiting_for_native_sequence", "detail": "Waiting at most 45 minutes for the existing native sequence; no other jobs interrupted."}
+{"utc": "2026-09-27T06:41:52.493075+00:00", "status": "waiting_for_idle_gpu", "detail": "Physical GPU 1 only; three consecutive checks 10 seconds apart, followed by an immediate prelaunch recheck."}
+{"utc": "2026-09-27T06:42:12.869406+00:00", "status": "prelaunch_recheck", "detail": "Source and inputs unchanged; checking GPU again immediately before dispatch."}
+{"utc": "2026-09-27T06:42:12.962093+00:00", "status": "running", "detail": "One bounded VLM interface worker; hard timeout 1100 seconds."}
+{"utc": "2026-09-27T06:43:43.929928+00:00", "status": "completed", "detail": "Live encoder/adapter/VLM interface contract passed; this is not a semantic research result."}

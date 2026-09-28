@@ -1,0 +1,17 @@
+{
+  "schema_version": "oe10_probability_audit_independent_review_v1",
+  "reviewer": "absolute_score_diagnosis",
+  "scope": "Read-only local code review and independent toy numerical tests; no server calls by reviewer",
+  "test_cases": 1140,
+  "roc_max_absolute_error": 1.11e-16,
+  "ap_max_absolute_error": 0,
+  "query_aggregation_matches_existing_scorer": true,
+  "report_sha256": "8029dc0d08e90b37a725d646e0c08a1e60996ac3c50af516ce2d9939b585162d",
+  "code_sha256": "13d3ca77196b963aca8d1a82516f8ea5e40c51ae2cb1400b7d9e2b6b872025a0",
+  "interpretation": "Useful within-query ranking exists; this is not proof of calibration failure, generalization, or an improved method. Query-macro of medians is not the pooled pixel median.",
+  "followups": [
+    "Check counter-class-only ranking if overall ranking is misleading",
+    "Explicitly recheck cached-label hash and valid bool dtype on every episode in future reusable audit version"
+  ],
+  "current_result_invalidating_bug_found": false
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "oe9_p2_gate_tests_retrospective_receipt_v1",
+  "recorded_utc": "2026-09-27T10:41:52.065943+00:00",
+  "kind": "retrospective_record_from_observed_command_tool_output_not_new_test_run",
+  "command": "python3 -m unittest -v test_evaluate_p2_gate.py",
+  "cwd": "/private/tmp/oe9_review_p1_20260927",
+  "latest_observed_exit_code": 0,
+  "tests_run": 18,
+  "tests_passed": 18,
+  "failures": 0,
+  "errors": 0,
+  "unittest_reported_duration_seconds": 0.003,
+  "execution_timestamp_utc": null,
+  "execution_timestamp_note": "Exact execution clock was not captured; no timestamp inferred from file mtime. This receipt records the previously observed test run.",
+  "test_names": [
+    "test_absent_area_at_limit_allowed_and_just_over_blocked",
+    "test_absent_case_regression_blocks_even_when_area_does_not",
+    "test_changed_absent_case_definition_is_rejected",
+    "test_duplicate_arm_seed_is_rejected",
+    "test_exact_negative_margin_is_practical_harm",
+    "test_exact_positive_margin_all_seeds_is_development_gain_not_novelty",
+    "test_full192_cannot_replace_common96",
+    "test_inside_band_is_descriptive_tie_and_not_global_eo_impossibility",
+    "test_missing_seed_cannot_be_called_three_seed_replication",
+    "test_nan_is_rejected",
+    "test_nonuniform_k_spacing_uses_trapezoid_not_mean",
+    "test_old_plateau_cannot_hide_unassessed_later_training",
+    "test_one_seed_gain_others_tie_is_not_repeated_gain",
+    "test_positive_average_with_one_negative_seed_is_inconclusive",
+    "test_same_support_guard_false_blocks",
+    "test_undertrained_baseline_blocks_apparent_gain",
+    "test_unstable_last_windows_are_not_convergence",
+    "test_wrong_config_hash_is_rejected"
+  ],
+  "tested_files_sha256_now": {
+    "review_execution_gates.json": {
+      "path": "/private/tmp/oe9_review_p1_20260927/review_execution_gates.json",
+      "sha256": "02f3e3a0b0021c2f8553a388d900a8be720d600e1eaa631b2b127eb944e73045"
+    },
+    "evaluate_p2_gate.py": {
+      "path": "/private/tmp/oe9_review_p1_20260927/evaluate_p2_gate.py",
+      "sha256": "e2d1688e158b312e1486b11dcead4835337d0b1d13f7918e4c5375fcd7a9ae8f"
+    },
+    "test_evaluate_p2_gate.py": {
+      "path": "/private/tmp/oe9_review_p1_20260927/test_evaluate_p2_gate.py",
+      "sha256": "51444d1b0d046bbead5bfff16012b09b0f33f6a6ceab10909d9812cfe85a8170"
+    }
+  },
+  "config_status": "proposed_development_rules_before_P2_results_not_confirmatory_preregistration",
+  "scope": [
+    "synthetic scorer fixtures only",
+    "common96 identity and aggregation contract",
+    "three fixed seed practical gain/tie/harm/inconclusive",
+    "absent false-positive thresholds",
+    "training adequacy and fairness blocks",
+    "malformed/missing/NaN/changed-cohort inputs"
+  ],
+  "actual_P2_model_predictions_tested": false,
+  "P1_GPU_run_tested_by_this_suite": false,
+  "new_test_execution_for_this_receipt": false,
+  "current_local_P1_source_hashes_verified_against_manifest": {
+    "p1_worker.py": "936d844e83a082655d71cf37b37cfe01c907a6e789aea056a0b103ec92eded7d",
+    "run_p1_bounded.py": "eab4f32d2639f28ed43785ef66680aca85ca2c9da0948849a1a35c7cab94e9ca"
+  }
+}

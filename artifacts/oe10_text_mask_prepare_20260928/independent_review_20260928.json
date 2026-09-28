@@ -1,0 +1,110 @@
+{
+  "created_utc": "2026-09-27T19:48:57.986981+00:00",
+  "reviewer": "independent /root/text_mask_review",
+  "status": "cpu_preparation_review_passed_with_actual_execution_gates_remaining",
+  "review_scope": "Read-only independent code/source review plus rehashed returned CPU artifacts; no server call or actual model forward by this reviewer.",
+  "artifact_verification": {
+    "manifest_sha256": "970539dc04439a8d8538609ba49c21970794d27ddb35e13bbb44b1d18e1f6848",
+    "files": 4,
+    "bytes": 13750,
+    "sha256_or_size_errors": []
+  },
+  "source_verification": {
+    "manifest_sha256": "b457e213e7dadabefed15711efe0ac7f719fe4ffaf7bee0194a2c1eb16158246",
+    "files": 10,
+    "sha256_errors": []
+  },
+  "reported_cpu_tests": {
+    "count": 12,
+    "log_pass_verified": true,
+    "independent_local_numerical_rerun": false,
+    "scope": "Toy EO encoder and toy text reader wiring, not real checkpoint semantics"
+  },
+  "installed_qwen_api": {
+    "status": "source_level_checked_not_actual_weight_forward",
+    "source_file_reported": "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/transformers/models/qwen3_vl/modeling_qwen3_vl.py",
+    "installed_module_sha256_reported": "e925233666f43299ec9e2a1c6bc2a5d16b0d6fc06aaa3ef817485a14997de327",
+    "returned_api_artifact_sha256": "436646c6f21128d1ea11a6cc26b4a1b6134a42626fe2fc87c9315ad86ac7158d",
+    "signature_accepts_input_ids_attention_mask": true,
+    "extra_kwargs_forwarded_to_language_model": true,
+    "returns_language_model_outputs_in_Qwen3VLModelOutputWithPast": true,
+    "previous_pending_api_inspection": "resolved at source level only",
+    "unverified": "Actual checkpoint forward, dynamic position IDs, returned hidden tensor shape/dtype and actual EO gradient still require the reserved connection pilot."
+  },
+  "checkpoint_identity": {
+    "initial_frozen_eo_identity_omission_fixed": true,
+    "reader_eo_identity_checkpoint_comparison": true,
+    "cli_has_actual_reader_eo_config_weights_and_source_hash_checks": true,
+    "prepared_manifest_and_context_hash_checks": true,
+    "checks_executed_with_actual_weights": false,
+    "followup_required": "Anchor episode_contract.json, episodes_train.jsonl and scoring/scoring_train.jsonl SHA to the preregistered runtime export or identity manifest before actual execution. Loader checks internal contract/catalog consistency and label hashes, not an externally pinned whole scoring/catalog runtime."
+  },
+  "input_boundary": {
+    "context_records_independently_checked": 384,
+    "unique_episode_ids": 384,
+    "context_key_contract_pass": true,
+    "distinct_contexts_by_condition": {
+      "generic": 1,
+      "names_only": 2,
+      "matched_knowledge": 2,
+      "removed_knowledge_diagnostic": 2,
+      "swapped_knowledge_diagnostic": 2
+    },
+    "target_is_read_only_after_logits": true
+  },
+  "tokenizer_receipt": {
+    "actual_tokenizer_verified_by_server_run": true,
+    "unique_texts": 7,
+    "per_condition_tokens": {
+      "generic": {
+        "min": 58,
+        "max": 58,
+        "records": 384
+      },
+      "matched_knowledge": {
+        "min": 267,
+        "max": 267,
+        "records": 384
+      },
+      "names_only": {
+        "min": 44,
+        "max": 44,
+        "records": 384
+      },
+      "removed_knowledge_diagnostic": {
+        "min": 44,
+        "max": 44,
+        "records": 384
+      },
+      "swapped_knowledge_diagnostic": {
+        "min": 267,
+        "max": 267,
+        "records": 384
+      }
+    },
+    "max_tokens": 1024,
+    "truncation_used": false,
+    "independent_local_tokenizer_rerun": false
+  },
+  "counterfactual_test_review": [
+    "Changing supervised target preserves logits while changing loss",
+    "Changing query/support roles/text changes logits in toy setup",
+    "Mask-only B2 gradient versus frozen B0/reader",
+    "EO/text cache invalidation under normal tensor updates",
+    "Checkpoint identity mismatch rejection"
+  ],
+  "fairness_gates": [
+    "Keep A/B/C initialization, episode order, support/K, optimizer, update count and loss identical",
+    "Use identical cache policy; report actual text-prefill cost because description tokens exceed name-only tokens",
+    "Do not compare this changed baseline directly against P2 to infer language effects"
+  ],
+  "remaining_limits": [
+    "Only one shared request vector conditions the EO head; Qwen does not receive EO images or generate explanations in this baseline",
+    "Each non-generic condition has only two distinct role-direction strings, so performance cannot distinguish agronomic knowledge use from fixed class-code effects",
+    "No actual EO/Qwen forward, actual gradient, fresh-process resume, training-effectiveness, new-region transfer or expert agreement evidence",
+    "Atomic durable GPU reservation, P2 audit verification and external timeout belong to the future launcher; this CLI is not the scheduler"
+  ],
+  "protected_p2_receipt_before_after_equal": true,
+  "new_gpu_seconds": 0,
+  "human_responses": 0
+}

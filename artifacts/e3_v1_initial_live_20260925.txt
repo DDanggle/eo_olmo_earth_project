@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-09-25T04:59:55.198708+00:00",
+  "script_sha256": "ac6e225c309f06e14b2b63eaed408796df19183c445b2cd8491b4d6ce7e1541f",
+  "pid": 955997,
+  "start_ticks": 1728957463,
+  "status": "stopped_waiter_before_inference",
+  "gpu0_uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+  "original_manifest_sha256": "ac71805461a087fbc6fb81fd552977b7197c4e1b2c6f6d2ec07e6643948897a5",
+  "original_queue": {
+    "status": "waiting_gpu1",
+    "at": "2026-09-25T04:59:52.450136+00:00",
+    "pid": 955997,
+    "elapsed_wait_s": 5138.764711584896
+  },
+  "original_status": {
+    "status": "prepared",
+    "at": "2026-09-25T03:34:13.137921+00:00"
+  },
+  "original_process": {
+    "pid": 955997,
+    "state": "S",
+    "start_ticks": 1728957463,
+    "argv": [
+      ".venv-master/bin/python",
+      "-B",
+      "code/run_e3_pair_when_idle_v0.py"
+    ],
+    "uid": 1100,
+    "cwd": "/home/work/data/olmoearth",
+    "children": []
+  },
+  "quiesced_process": {
+    "pid": 955997,
+    "state": "T",
+    "start_ticks": 1728957463,
+    "argv": [
+      ".venv-master/bin/python",
+      "-B",
+      "code/run_e3_pair_when_idle_v0.py"
+    ],
+    "uid": 1100,
+    "cwd": "/home/work/data/olmoearth",
+    "children": []
+  },
+  "completed_at": "2026-09-25T04:59:55.410111+00:00",
+  "no_child_or_model_stopped": true
+}
+{"started_at": "2026-09-25T04:59:55.198708+00:00", "script_sha256": "ac6e225c309f06e14b2b63eaed408796df19183c445b2cd8491b4d6ce7e1541f", "pid": 955997, "start_ticks": 1728957463, "status": "stopped_waiter_before_inference", "gpu0_uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468", "original_manifest_sha256": "ac71805461a087fbc6fb81fd552977b7197c4e1b2c6f6d2ec07e6643948897a5", "original_queue": {"status": "waiting_gpu1", "at": "2026-09-25T04:59:52.450136+00:00", "pid": 955997, "elapsed_wait_s": 5138.764711584896}, "original_status": {"status": "prepared", "at": "2026-09-25T03:34:13.137921+00:00"}, "original_process": {"pid": 955997, "state": "S", "start_ticks": 1728957463, "argv": [".venv-master/bin/python", "-B", "code/run_e3_pair_when_idle_v0.py"], "uid": 1100, "cwd": "/home/work/data/olmoearth", "children": []}, "quiesced_process": {"pid": 955997, "state": "T", "start_ticks": 1728957463, "argv": [".venv-master/bin/python", "-B", "code/run_e3_pair_when_idle_v0.py"], "uid": 1100, "cwd": "/home/work/data/olmoearth", "children": []}, "completed_at": "2026-09-25T04:59:55.410111+00:00", "no_child_or_model_stopped": true}
+{"n_items": 209, "n_generations": 3777, "items_sha256": "f3ae0abc245b3e800f1a39b4ca5a250b36f4cf503fe364f3003a556c7f907502", "pairs_sha256": "3f9d693993ce72504a241b8ac266ab3bcf5663f50693d63c3b3b8947d126807a"}
+{"status": "launching_frozen_snapshot", "at": "2026-09-25T04:59:56.058620+00:00", "pid": 975227, "elapsed_wait_s": 0.07842390239238739, "gpu_uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468"}
+{
+  "status": "launching_frozen_snapshot",
+  "at": "2026-09-25T04:59:56.058620+00:00",
+  "pid": 975227,
+  "elapsed_wait_s": 0.07842390239238739,
+  "gpu_uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468"
+}
+{
+  "status": "running",
+  "at": "2026-09-25T05:00:46.572733+00:00",
+  "elapsed_s": 23.622616481035948,
+  "seed": 1,
+  "arm": "real",
+  "completed": 160,
+  "total": 209
+}
+seed1 real 40/209 16s
+seed1 real 80/209 19s
+seed1 real 120/209 21s
+seed1 real 160/209 24s
+gpu_uuid, pid, used_gpu_memory [MiB]
+GPU-83516c9a-4344-a891-ccf3-621c862d2468, 975256, 17748 MiB
+GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb, 945452, 61606 MiB

@@ -1,0 +1,26 @@
+{
+  "schema": "oe2-scoring-audit-staging-package-v1",
+  "status": "prepared_not_executed",
+  "files_sha256": {
+    "SCORING_AUDIT_README.md": "72be5ff6240713b740d2d89851f77fa7cb3e4a89dd590f4b6a0e88192a0be451",
+    "audit_oe1_scoring.py": "685832e39d7ec3ec557f6dd11dce4d0e9e731e6c45e09f5b79b074fcf3f02c41",
+    "eo_model.py": "021674ba536c2dd5c1f51f748a8655a5caefae9c41a8a5fbee0828438a4d4f8d",
+    "historical_tie_audit/audit.json": "6aca423e8b1c5e805d14be4c2ffdce6de1eeae3e273b963768771d4c1e1b1276",
+    "historical_tie_audit/audit_manifest.json": "d8325c8077b15793e653de3aef25563b5774a819bfac8770ef9b951aca3f4a9a",
+    "historical_tie_audit/changed_secondary_rows.jsonl": "a2f8b398806b462efb3f92251079207c8023014da0c4f14125b1edfe0e9f6d47",
+    "historical_tie_audit/remaining_output_space_disagreements.jsonl": "4cd0c1419a1c07b59458310ec7cd99820530181693ecbe7a607d25a2935e4550",
+    "test_yes_no_scoring.py": "e2700b1286e0ec6ade0b9aea9b2517bdbf7595545a862d6add7cfd35f27c2a2c",
+    "train_pilot_scoring_v1_1.py": "7d59edc2dd80feca64891b46a66b6030e4d93c017184d6719029bc7d4561d592",
+    "trainer_copy_manifest.json": "609ec1ea9c22ef5b26e8297fba824fa256022e9f9a5a0ff0b894d89170cedbc0",
+    "trainer_scoring_only.diff": "6cd4cf7381bcce85ac69ceec867b7f26fd4c4008e3b8cfa272f0e5bc4000f558",
+    "yes_no_scoring.py": "33aba54f18adc1f7a869d717f3e9eb2df8ce244ce0ebcba78fdb668f94bc1a8f"
+  },
+  "tests": {
+    "scoring_regressions": 21,
+    "existing_checkpoint_regressions": 3,
+    "passed": true
+  },
+  "historical_prediction_count": 1740,
+  "changed_secondary_rows": 75,
+  "historical_source_bytes_unchanged": true
+}

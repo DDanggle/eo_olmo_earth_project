@@ -1,0 +1,36 @@
+{
+  "reviewer": "independent_agent_expansion_input_independence_review",
+  "reviewed_utc": "2026-09-27T17:48:43.750275+00:00",
+  "scope": "CPU source inventory, raw packet audit readback, export hashes, B0 seed270928 score reaggregation",
+  "input_packets": 30,
+  "input_objects": 294,
+  "expansion_export": {
+    "files": 5,
+    "bytes": 1252217,
+    "sha_size_errors": 0
+  },
+  "p2_export": {
+    "files": 1256,
+    "bytes": 95206251,
+    "sha_size_errors": 0
+  },
+  "B0_270928": {
+    "score_rows_reaggregated": 384,
+    "predictions_hash_verified": 384,
+    "auc": 0.29600542064495083,
+    "last3_auc": [
+      0.22763289488452193,
+      0.3135153432422592,
+      0.29600542064495083
+    ],
+    "last3_range": 0.08588244835773728,
+    "stability_pass": false
+  },
+  "source_metadata_and_capacity_agree": true,
+  "limitations": [
+    "No independent expert truth verification.",
+    "No cloud mask certification.",
+    "No global parcel independence certification.",
+    "Final prediction pixels hash-verified; IoU reaggregated from saved intersection/union rows, not rederived against raw dev masks locally."
+  ]
+}

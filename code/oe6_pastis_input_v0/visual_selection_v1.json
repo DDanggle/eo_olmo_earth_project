@@ -1,0 +1,10 @@
+{
+  "status": "assistant_visual_input_QA_not_expert_cloud_ground_truth",
+  "scope": "two engineering inputs only; not the future train/dev date-selection policy",
+  "reviewed": "eight uniformly sampled RGB dates for each of two patches, fixed DN display 0..3000",
+  "reason": "Uniform two-date sampling includes visually prominent cloud cover in both cases; choose dates where surface structure is visible at this display scale. No cloud-free certification.",
+  "cases": {
+    "40188": {"indices": [15, 31], "dates": [20190420, 20190823]},
+    "20451": {"indices": [25, 51], "dates": [20190321, 20190823]}
+  }
+}

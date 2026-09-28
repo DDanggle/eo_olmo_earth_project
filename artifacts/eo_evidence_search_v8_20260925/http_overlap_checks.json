@@ -1,0 +1,174 @@
+{
+  "scope": "HTTP integration checks, not scientific/model performance",
+  "base_url": "http://127.0.0.1:8774",
+  "checks": [
+    {
+      "name": "catalog counts",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A summary",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "spatial date query",
+      "passed": true,
+      "detail": {
+        "query": {
+          "dataset": "kurosiwo",
+          "bbox": [
+            84,
+            24,
+            87,
+            27
+          ],
+          "start": "2019-01-01",
+          "end": "2019-12-31",
+          "min_flood_pct": 10
+        },
+        "matches": 72
+      }
+    },
+    {
+      "name": "evidence association",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "event date not acquisition",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "preview image integrity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A change_supported",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A no_visible_change",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A insufficient_evidence",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "month precision is interval",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "validation split",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "partial cropland scope",
+      "passed": true,
+      "detail": {
+        "scope_count": 7000,
+        "assessed_count": 1,
+        "unassessed_count": 6999,
+        "matched_count": 1,
+        "observed_zero_count": 0,
+        "fully_observed_zero_count": 0,
+        "partial_pixel_count": 0,
+        "unassessed_reasons": {
+          "not_computed": 6999
+        }
+      }
+    },
+    {
+      "name": "selected train case",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "geodesic measured overlap",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "acquisition remains unknown",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "baseline and availability limits",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "spatial preview integrity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "partial forest scope",
+      "passed": true,
+      "detail": {
+        "scope_count": 7000,
+        "assessed_count": 1,
+        "unassessed_count": 6999,
+        "matched_count": 0,
+        "observed_zero_count": 1,
+        "fully_observed_zero_count": 1,
+        "partial_pixel_count": 0,
+        "unassessed_reasons": {
+          "not_computed": 6999
+        }
+      }
+    },
+    {
+      "name": "observed tree zero not general absence",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "filtered coverage before display limit",
+      "passed": true,
+      "detail": {
+        "scope_count": 423,
+        "assessed_count": 1,
+        "unassessed_count": 422,
+        "matched_count": 1,
+        "observed_zero_count": 0,
+        "fully_observed_zero_count": 0,
+        "partial_pixel_count": 0,
+        "unassessed_reasons": {
+          "not_computed": 422
+        }
+      }
+    },
+    {
+      "name": "different event unavailable",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject /api/search?q=%7B%22min_flood_pct%22%3A+-1%7D",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject /asset_routes.private.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject /previews/%2e%2e/asset_routes.private.json",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed": 24
+}

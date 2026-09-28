@@ -1,0 +1,150 @@
+{
+  "schema": "olmoearth-capability-program-v0",
+  "date": "2026-09-27",
+  "status": "scope_and_preparation_updated_not_trained_not_frozen_preregistration",
+  "document": "../docs/OLMOEARTH_CAPABILITY_PROGRAM_20260927.md",
+  "user_priority": "Increase the practical capability and reuse of an OlmoEarth-based model; encoder-only evaluation is a supporting attribution test, not the entire research objective.",
+  "accepted_start": [
+    "original EO validation baseline",
+    "faithful continued EO training and matched comparison data path"
+  ],
+  "previous_route": "oe2_first_vlm_route_v2_20260927.json",
+  "deliverables": [
+    "native-EO and pretrained-VLM model",
+    "multi-task region/attribute/measurement learning recipe",
+    "few-example new-concept adaptation procedure",
+    "whole-model and EO retention/transfer evaluation"
+  ],
+  "capabilities": [
+    "find and localize",
+    "measure",
+    "compare supported observations or regions",
+    "explain with observation references"
+  ],
+  "training_stages": [
+    {
+      "id": "A",
+      "purpose": "continued EO learning with aligned region/language/numeric supervision",
+      "retain_original_objective": true,
+      "algorithm_and_loss_status": "not_formalized_or_frozen"
+    },
+    {
+      "id": "B",
+      "purpose": "actual pretrained VLM instruction adaptation using native EO and RGB",
+      "status": "not_implemented",
+      "encoder_state_before_and_after_saved": true
+    }
+  ],
+  "evaluation_roles": {
+    "primary": "whole-model task capability and transfer to new regions/concept-task combinations under matched adaptation labels",
+    "supporting": [
+      "encoder-only fresh-head transfer",
+      "EO capability retention",
+      "new VLM transfer",
+      "token/compute efficiency"
+    ],
+    "encoder_only_gain_is_required_for_all_system_value_claims": false,
+    "encoder_only_gain_required_for_broad_encoder_improvement_claim": true,
+    "claim_if_only_joint_system_improves": "system co-adaptation, not general encoder improvement",
+    "separate_unseen_concepts_from_unseen_task_combinations": true,
+    "taskwise_metrics": [
+      "retrieval recall",
+      "region IoU",
+      "numeric error",
+      "unsupported statements",
+      "label-efficiency curves"
+    ],
+    "minimum_effects_and_margins": "freeze after development before held-out evaluation"
+  },
+  "comparisons": {
+    "main": [
+      "original",
+      "original objective continued",
+      "same-evidence conventional spatial/language joint learning",
+      "proposed"
+    ],
+    "when_claiming_language_specific_gain": "include direct region/numeric supervision from identical evidence without language",
+    "system_controls": [
+      "actual RGB VLM",
+      "multispectral rendered views",
+      "EO measurement pipeline plus same LLM",
+      "independently adapted per-task systems"
+    ],
+    "match": [
+      "observations",
+      "label facts and valid support",
+      "split",
+      "tokens",
+      "initial weights",
+      "exposure",
+      "tuning opportunity"
+    ],
+    "report": [
+      "parameter count",
+      "compute and actual GPU time",
+      "data quantity and modality availability"
+    ],
+    "forbid": [
+      "extra labels as method gain",
+      "more tokens as encoder-objective gain",
+      "scene presence as area ground truth"
+    ]
+  },
+  "development_baselines": {
+    "official_commit": "0497dfbb6711ded4e6bf10cf089fc1e4d58c186b",
+    "checkpoint": "allenai/OlmoEarth-v1-Tiny",
+    "checkpoint_sha256": {
+      "config.json": "975dc2d755688c3010f9fecb662b62784d335731d701d8dda3f9ea0ccec88781",
+      "weights.pth": "66b9827af383bc444d7909a406a5b62c072bb08d6804ff47a247c2dce8fad9a4"
+    },
+    "tasks": [
+      "sen1floods11",
+      "m_cashew_plant"
+    ],
+    "run_on_test": false,
+    "source_and_cli_argument_validation_complete": true,
+    "runtime_dry_run_complete": false,
+    "performance_results_available": false,
+    "readiness_evidence": "../artifacts/oe3_capability_program_20260927/official_eval_inventory.json",
+    "blockers": [
+      "public HF bundle to official evaluation loader parity",
+      "full training/evaluation dependencies in isolated environment",
+      "prepared evaluation dataset contracts and paths"
+    ],
+    "task_scope": "S1 and S2 dense validation references; not the full application benchmark"
+  },
+  "continued_pretraining_readiness": {
+    "verified_official_subset_available": false,
+    "negative_search_scope": "26 related expected paths and installed distribution metadata only; not exhaustive server search",
+    "existing_ben_qa_can_reproduce_full_original_objective": false,
+    "needs": [
+      "actual native observations",
+      "aligned available map targets",
+      "original missingness and masking contracts",
+      "pinned version",
+      "correct checkpoint load and optimizer setup"
+    ],
+    "resume_optimizer_equivalence_to_original_full_training_claimed": false
+  },
+  "sequence": [
+    "isolate environment and bridge loader; verify baseline data",
+    "run original validation baselines",
+    "audit bounded official pretraining subset and original objective step",
+    "define multi-task method and matched control; implement actual VLM path",
+    "scale and hold out concept-task combinations"
+  ],
+  "budget": {
+    "human_and_api_plan": "eo_vlm_labeling_budget_v2_20260926.json",
+    "paid_spend_this_update_krw": 0,
+    "gpu_cost_separate": true
+  },
+  "this_update": {
+    "server_metadata_inventory_completed": true,
+    "related_paths_checked": 26,
+    "new_model_inference": 0,
+    "new_model_training": 0,
+    "large_downloads": 0,
+    "protected_existing_code_unchanged": true,
+    "git_push": false
+  }
+}

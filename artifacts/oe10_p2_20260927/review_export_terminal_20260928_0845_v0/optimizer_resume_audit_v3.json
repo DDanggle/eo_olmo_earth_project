@@ -1,0 +1,1255 @@
+{
+  "status": "failed",
+  "created_utc": "2026-09-27T11:44:55.021214+00:00",
+  "engineering_root": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v3",
+  "cpu_only": true,
+  "scope": "Independent saved epsilon, optimizer parameter order, and actual encoder/RoPE weight changes; train-only engineering, not P2 efficacy.",
+  "limitations": [
+    "No new backward or cold-resume rerun.",
+    "Resume parity is receipt-reported; resume worker does not save its final weights.",
+    "Moment statistics do not establish the cause of nondeterminism.",
+    "No raw pre-clipping gradients saved."
+  ],
+  "arms": {
+    "B0": {
+      "step1_sha256": "7404f6e67f0f010a51bf42c3bed80f144f2312970f3752ccc0f52e861dfaa5a4",
+      "saved_optimizer_groups": [
+        {
+          "lr": 0.001,
+          "role": "readouts",
+          "base_lr": 0.001,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-06,
+          "weight_decay": 0.01,
+          "amsgrad": false,
+          "maximize": false,
+          "foreach": false,
+          "capturable": false,
+          "differentiable": false,
+          "fused": false,
+          "decoupled_weight_decay": true,
+          "parameter_count": 16
+        }
+      ],
+      "rope": {
+        "encoder.blocks.0.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.8240869045257568,
+            "max": 0.7588451504707336,
+            "mean": 0.01583658707057283,
+            "std": 0.19408864032846782,
+            "abs_max": 0.8240869045257568,
+            "abs_median": 0.06539066135883331,
+            "l2": 6.60947954527253,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.8240869045257568,
+            "max": 0.7588451504707336,
+            "mean": 0.01583658707057283,
+            "std": 0.19408864032846782,
+            "abs_max": 0.8240869045257568,
+            "abs_median": 0.06539066135883331,
+            "l2": 6.60947954527253,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.8240869045257568,
+            "max": 0.7588451504707336,
+            "mean": 0.01583658707057283,
+            "std": 0.19408864032846782,
+            "abs_max": 0.8240869045257568,
+            "abs_median": 0.06539066135883331,
+            "l2": 6.60947954527253,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.1.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.7874411344528198,
+            "max": 0.8847021460533142,
+            "mean": -0.0024466787707437573,
+            "std": 0.19357729228692291,
+            "abs_max": 0.8847021460533142,
+            "abs_median": 0.043060360476374626,
+            "l2": 6.57075595222634,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.7874411344528198,
+            "max": 0.8847021460533142,
+            "mean": -0.0024466787707437573,
+            "std": 0.19357729228692291,
+            "abs_max": 0.8847021460533142,
+            "abs_median": 0.043060360476374626,
+            "l2": 6.57075595222634,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.7874411344528198,
+            "max": 0.8847021460533142,
+            "mean": -0.0024466787707437573,
+            "std": 0.19357729228692291,
+            "abs_max": 0.8847021460533142,
+            "abs_median": 0.043060360476374626,
+            "l2": 6.57075595222634,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.2.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0264334678649902,
+            "max": 0.987179160118103,
+            "mean": 0.014857090879768324,
+            "std": 0.21074943219332679,
+            "abs_max": 1.0264334678649902,
+            "abs_median": 0.061079444363713264,
+            "l2": 7.170825397382137,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0264334678649902,
+            "max": 0.987179160118103,
+            "mean": 0.014857090879768324,
+            "std": 0.21074943219332679,
+            "abs_max": 1.0264334678649902,
+            "abs_median": 0.061079444363713264,
+            "l2": 7.170825397382137,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0264334678649902,
+            "max": 0.987179160118103,
+            "mean": 0.014857090879768324,
+            "std": 0.21074943219332679,
+            "abs_max": 1.0264334678649902,
+            "abs_median": 0.061079444363713264,
+            "l2": 7.170825397382137,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.3.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.017150640487671,
+            "max": 0.8514198064804077,
+            "mean": -0.04258528979852253,
+            "std": 0.20815850591505608,
+            "abs_max": 1.017150640487671,
+            "abs_median": 0.05107605829834938,
+            "l2": 7.211468505567955,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.017150640487671,
+            "max": 0.8514198064804077,
+            "mean": -0.04258528979852253,
+            "std": 0.20815850591505608,
+            "abs_max": 1.017150640487671,
+            "abs_median": 0.05107605829834938,
+            "l2": 7.211468505567955,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.017150640487671,
+            "max": 0.8514198064804077,
+            "mean": -0.04258528979852253,
+            "std": 0.20815850591505608,
+            "abs_max": 1.017150640487671,
+            "abs_median": 0.05107605829834938,
+            "l2": 7.211468505567955,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.4.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0431691408157349,
+            "max": 0.9629523158073425,
+            "mean": 0.0095685928288655,
+            "std": 0.21880342952497428,
+            "abs_max": 1.0431691408157349,
+            "abs_median": 0.06095409579575062,
+            "l2": 7.43353257537683,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0431691408157349,
+            "max": 0.9629523158073425,
+            "mean": 0.0095685928288655,
+            "std": 0.21880342952497428,
+            "abs_max": 1.0431691408157349,
+            "abs_median": 0.06095409579575062,
+            "l2": 7.43353257537683,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0431691408157349,
+            "max": 0.9629523158073425,
+            "mean": 0.0095685928288655,
+            "std": 0.21880342952497428,
+            "abs_max": 1.0431691408157349,
+            "abs_median": 0.06095409579575062,
+            "l2": 7.43353257537683,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.5.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9228159785270691,
+            "max": 1.0592716932296753,
+            "mean": 0.0016477813608588576,
+            "std": 0.22515815007301995,
+            "abs_max": 1.0592716932296753,
+            "abs_median": 0.052684880793094635,
+            "l2": 7.642325673663146,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9228159785270691,
+            "max": 1.0592716932296753,
+            "mean": 0.0016477813608588576,
+            "std": 0.22515815007301995,
+            "abs_max": 1.0592716932296753,
+            "abs_median": 0.052684880793094635,
+            "l2": 7.642325673663146,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9228159785270691,
+            "max": 1.0592716932296753,
+            "mean": 0.0016477813608588576,
+            "std": 0.22515815007301995,
+            "abs_max": 1.0592716932296753,
+            "abs_median": 0.052684880793094635,
+            "l2": 7.642325673663146,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.6.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0428909063339233,
+            "max": 1.1327310800552368,
+            "mean": -0.021809126954235265,
+            "std": 0.21172693125865535,
+            "abs_max": 1.1327310800552368,
+            "abs_median": 0.04215969145298004,
+            "l2": 7.224273597905726,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0428909063339233,
+            "max": 1.1327310800552368,
+            "mean": -0.021809126954235265,
+            "std": 0.21172693125865535,
+            "abs_max": 1.1327310800552368,
+            "abs_median": 0.04215969145298004,
+            "l2": 7.224273597905726,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0428909063339233,
+            "max": 1.1327310800552368,
+            "mean": -0.021809126954235265,
+            "std": 0.21172693125865535,
+            "abs_max": 1.1327310800552368,
+            "abs_median": 0.04215969145298004,
+            "l2": 7.224273597905726,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.7.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0101004838943481,
+            "max": 0.9878110885620117,
+            "mean": 0.010210585038324874,
+            "std": 0.2021567649985375,
+            "abs_max": 1.0101004838943481,
+            "abs_median": 0.04231510870158672,
+            "l2": 6.870174594658173,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0101004838943481,
+            "max": 0.9878110885620117,
+            "mean": 0.010210585038324874,
+            "std": 0.2021567649985375,
+            "abs_max": 1.0101004838943481,
+            "abs_median": 0.04231510870158672,
+            "l2": 6.870174594658173,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.0101004838943481,
+            "max": 0.9878110885620117,
+            "mean": 0.010210585038324874,
+            "std": 0.2021567649985375,
+            "abs_max": 1.0101004838943481,
+            "abs_median": 0.04231510870158672,
+            "l2": 6.870174594658173,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.8.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9921043515205383,
+            "max": 0.9241364002227783,
+            "mean": 0.01889749769180317,
+            "std": 0.19808139360729313,
+            "abs_max": 0.9921043515205383,
+            "abs_median": 0.04659343138337135,
+            "l2": 6.753631890109706,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9921043515205383,
+            "max": 0.9241364002227783,
+            "mean": 0.01889749769180317,
+            "std": 0.19808139360729313,
+            "abs_max": 0.9921043515205383,
+            "abs_median": 0.04659343138337135,
+            "l2": 6.753631890109706,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9921043515205383,
+            "max": 0.9241364002227783,
+            "mean": 0.01889749769180317,
+            "std": 0.19808139360729313,
+            "abs_max": 0.9921043515205383,
+            "abs_median": 0.04659343138337135,
+            "l2": 6.753631890109706,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.9.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9078348875045776,
+            "max": 1.1041052341461182,
+            "mean": -0.019559856921221,
+            "std": 0.18960493207068124,
+            "abs_max": 1.1041052341461182,
+            "abs_median": 0.04087199084460735,
+            "l2": 6.469557654514631,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9078348875045776,
+            "max": 1.1041052341461182,
+            "mean": -0.019559856921221,
+            "std": 0.18960493207068124,
+            "abs_max": 1.1041052341461182,
+            "abs_median": 0.04087199084460735,
+            "l2": 6.469557654514631,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9078348875045776,
+            "max": 1.1041052341461182,
+            "mean": -0.019559856921221,
+            "std": 0.18960493207068124,
+            "abs_max": 1.1041052341461182,
+            "abs_median": 0.04087199084460735,
+            "l2": 6.469557654514631,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.10.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9929256439208984,
+            "max": 0.8547094464302063,
+            "mean": 0.0147758934786941,
+            "std": 0.1895219636530158,
+            "abs_max": 0.9929256439208984,
+            "abs_median": 0.04750608094036579,
+            "l2": 6.452109019437525,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9929256439208984,
+            "max": 0.8547094464302063,
+            "mean": 0.0147758934786941,
+            "std": 0.1895219636530158,
+            "abs_max": 0.9929256439208984,
+            "abs_median": 0.04750608094036579,
+            "l2": 6.452109019437525,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -0.9929256439208984,
+            "max": 0.8547094464302063,
+            "mean": 0.0147758934786941,
+            "std": 0.1895219636530158,
+            "abs_max": 0.9929256439208984,
+            "abs_median": 0.04750608094036579,
+            "l2": 6.452109019437525,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        },
+        "encoder.blocks.11.attn.rope_mixed_freqs": {
+          "original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.084751844406128,
+            "max": 0.8544832468032837,
+            "mean": 0.002457355281729671,
+            "std": 0.19251920007572335,
+            "abs_max": 1.084751844406128,
+            "abs_median": 0.04036618769168854,
+            "l2": 6.534850610662737,
+            "nonzero_count": 1152
+          },
+          "step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.084751844406128,
+            "max": 0.8544832468032837,
+            "mean": 0.002457355281729671,
+            "std": 0.19251920007572335,
+            "abs_max": 1.084751844406128,
+            "abs_median": 0.04036618769168854,
+            "l2": 6.534850610662737,
+            "nonzero_count": 1152
+          },
+          "step1_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": -1.084751844406128,
+            "max": 0.8544832468032837,
+            "mean": 0.002457355281729671,
+            "std": 0.19251920007572335,
+            "abs_max": 1.084751844406128,
+            "abs_median": 0.04036618769168854,
+            "l2": 6.534850610662737,
+            "nonzero_count": 1152
+          },
+          "step2_minus_original": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          },
+          "step2_minus_step1": {
+            "shape": [
+              3,
+              12,
+              32
+            ],
+            "numel": 1152,
+            "min": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "std": 0.0,
+            "abs_max": 0.0,
+            "abs_median": 0.0,
+            "l2": 0.0,
+            "nonzero_count": 0
+          }
+        }
+      },
+      "resume_receipt": {
+        "pass_result": true,
+        "state_max_abs_differences": {
+          "native": 0.0,
+          "head": 1.1920928955078125e-07,
+          "connector": 7.450580596923828e-09
+        },
+        "prediction_max_abs_difference": 0.0,
+        "total_loss_abs_difference": 0.0
+      },
+      "step1_all_encoder_max_abs_delta": 0.0,
+      "step2_all_encoder_max_abs_delta": 0.0
+    }
+  },
+  "files_read": [
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v3/B0_270927_reference/step1.pt",
+      "bytes": 1104209951
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v3/B0_270927_reference/expected_step2.pt",
+      "bytes": 1055035357
+    },
+    {
+      "path": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v3/B2_270927_reference/step1.pt",
+      "bytes": 2076434258
+    }
+  ],
+  "versions": {
+    "torch": "2.13.0+cu130",
+    "numpy": "2.4.6"
+  },
+  "original_checkpoint": {
+    "config_sha256": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+    "weights_path": "/home/work/data/olmoearth/oe4_native_v12_v0/models/OlmoEarth-v1_2-Base/weights.pth",
+    "weights_sha256": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+  },
+  "encoder_parameter_count": 254,
+  "optimizer_order_method": "Filter official full model.named_parameters() by identity in model.encoder.parameters() and requires_grad, matching the worker deduplication/group order; validate every saved parameter and moment shape.",
+  "error": "ValueError('encoder optimizer length/order cannot be mapped')"
+}

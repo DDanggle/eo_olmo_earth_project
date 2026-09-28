@@ -1,0 +1,56 @@
+{
+  "physical_gpu": 1,
+  "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+  "command": [
+    "/home/work/data/olmoearth/.venv-master/bin/python",
+    "-B",
+    "/home/work/data/olmoearth/oe1_bentxt_v0/runs/pilot_v1/code_snapshot/train_pilot.py",
+    "--data-dir",
+    "/home/work/data/olmoearth/oe1_bentxt_v0/data",
+    "--out",
+    "/home/work/data/olmoearth/oe1_bentxt_v0/runs/pilot_v1/training",
+    "--model-dir",
+    "/home/work/data/olmoearth/oe1_bentxt_v0/models/OlmoEarth-v1-Tiny",
+    "--steps",
+    "256",
+    "--seed",
+    "17",
+    "--max-wall-seconds",
+    "3600"
+  ],
+  "source_snapshot_sha256": {
+    "train_pilot.py": "0fa1cabde4ce61bbd6d8f7c090290d5c8c8968b98e7073d08401bc297b57fcad",
+    "eo_model.py": "021674ba536c2dd5c1f51f748a8655a5caefae9c41a8a5fbee0828438a4d4f8d",
+    "pilot_plan.json": "c5d42cb6b23f72b6fc7a344d1deb9cbe906295631cb6efc30f43904fafdee517",
+    "data_source_contract.json": "1213450521f1f63ec8f4bf18ed8ed6c6253919cecd911d2b0741ab0f5f3406ee",
+    "launch_pilot.py": "d9261ada6404255f4d1105b454ecbe8f8cb54ea1c727cac7bb4f686d7ca7e0c3"
+  },
+  "data_manifest_sha256": "dd90a82744317e35f851b4c94a8a92f3207f74843960db7a21cde33050c422a5",
+  "public_source_sha256": {
+    "tortilla": "821c2f429c3e85c158c758bbb215bf61170a2451a11284efaf0f89cef97e468a",
+    "text": "d3b97f999456016bb13c2a8e94b8f47825654f07a0394a6b266a38b750ca1554"
+  },
+  "protected_code_before": {
+    "pilot_sen12_gp_heads.py": {
+      "bytes": 45602,
+      "mtime": 1788238578,
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1"
+    },
+    "sen12_official_baselines.py": {
+      "bytes": 10926,
+      "mtime": 1787683824,
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b"
+    },
+    "extract_sen12_fold_cache.py": {
+      "bytes": 10983,
+      "mtime": 1787659265,
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a"
+    },
+    "audit_sen12_fold_cache.py": {
+      "bytes": 7314,
+      "mtime": 1787668636,
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9"
+    }
+  },
+  "classification": "development feasibility; no final benchmark claim"
+}

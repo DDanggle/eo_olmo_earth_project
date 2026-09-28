@@ -1,0 +1,237 @@
+{
+  "schema_version": "0.2",
+  "id": "oe2_first_vlm_route_v2_20260927",
+  "date": "2026-09-27",
+  "status": "revised_after_development_audit_not_frozen_or_training",
+  "execution_enabled": false,
+  "parent_design": "oe2_multimodel_supervision_plan_v0_20260926.json",
+  "update_scope": "Actual scoring fixes, retrospective question-prior audit, spatial-label contract and completed frozen-EO CPU sensor probe. Original result/preregistration artifacts immutable.",
+  "document": "../docs/OE2_PROBLEM_AUDIT_AND_FIXES_20260927.md",
+  "model_sources": "oe2_vlm_candidates_20260926.json",
+  "budget": "eo_vlm_labeling_budget_v2_20260926.json",
+  "candidate_manifest": "../artifacts/oe2_startup_v0_20260926/candidates20_manifest.json",
+  "builder": "../code/oe2_build_candidates20_v0.py",
+  "primary_vlm": {
+    "id": "Qwen/Qwen3-VL-8B-Instruct",
+    "official_revision_observed": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "server_matches_revision": null,
+    "runtime_tested_this_update": false
+  },
+  "fallback_vlm": {
+    "id": "Qwen/Qwen3-VL-4B-Instruct",
+    "trigger": "actual_8b_backward_or_integration_profile_requires_smaller_model",
+    "required_parallel_training": false
+  },
+  "transfer_vlm": {
+    "id": "OpenGVLab/InternVL3-8B",
+    "full_revision": null,
+    "independent_language_family_claim": false,
+    "comparison_purpose": [
+      "different_vlm_architecture",
+      "terrascope_backbone_control"
+    ]
+  },
+  "optional_transfer": "allenai/Molmo2-O-7B; full weights, revision, architecture integration and training compatibility require separate verification",
+  "eo": {
+    "wiring_candidate": "existing_OlmoEarth_v1_Tiny",
+    "research_candidate": "OlmoEarth_v1_Base",
+    "research_revision": null,
+    "keep_eo_initial_state_same_across_arms": true
+  },
+  "adapter": {
+    "status": "proposal_not_implemented",
+    "route": "native_RGB_DeepStack_preserved_plus_dedicated_EO_slots",
+    "replace_native_rgb_image_tokens": false,
+    "gradient_through_frozen_vlm_required": true,
+    "initial_development_EO_tokens": 64,
+    "token_budget_candidates_later_separate_runs": [
+      16,
+      64,
+      256
+    ],
+    "confirmatory_token_budget": null,
+    "final_answers_scored_directly_without_corrective_readout": true,
+    "initial_token_choice_not_validated_by_sensor_probe": true
+  },
+  "p0_checks": [
+    "raw_checksum_and_sensor_contract",
+    "native_path_without_EO_slots_matches_original_logits",
+    "native_rgb_mask_and_deepstack_counts_unchanged",
+    "EO_slots_attention_position_labels_generation_cache_consistent",
+    "frozen_EO_unchanged",
+    "joint_EO_nonzero_grad_and_parameter_change",
+    "save_restore_equivalence",
+    "padding_and_batch_equivalence",
+    "actual_forward_backward_optimizer_peak_memory",
+    "common_direct_logit_tie_policy_and_invalid_answers",
+    "canonical_query_class_present_or_explicit_unknown",
+    "question_class_label_support_reported_before_evaluation"
+  ],
+  "pilot_labels": {
+    "scope": "scene_presence",
+    "dense_masks_available": false,
+    "new_test_set": false,
+    "engineering_only": true,
+    "infer_area_or_change_ground_truth_from_presence": false,
+    "measurement_contract": "../code/oe2_problem_audit_v0/measurement/measurement_contract.py",
+    "measurement_eligible_current640": 0
+  },
+  "purpose_conditions": [
+    {
+      "id": "F",
+      "encoder": "original_frozen",
+      "reader": "same_connector_and_reader_adaptation",
+      "role": "reference"
+    },
+    {
+      "id": "R",
+      "encoder": "continued_original_EO_objective_then_frozen",
+      "reader": "same_connector_and_reader_adaptation",
+      "role": "additional_EO_training_reference_total_exposure_and_compute_reported"
+    },
+    {
+      "id": "L",
+      "encoder": "joint_with_standard_language_and_spatial_auxiliary_supervision",
+      "reader": "same_connector_and_reader",
+      "role": "strong_primary_control"
+    },
+    {
+      "id": "P",
+      "encoder": "joint_with_proposed_preservation_same_labels",
+      "reader": "same_connector_and_reader",
+      "role": "proposed_primary"
+    }
+  ],
+  "primary_contrast": "P_minus_L",
+  "primary_match": [
+    "raw_observations",
+    "spatial_and_numeric_supervision",
+    "valid_label_support",
+    "EO_replay",
+    "connector",
+    "pretrained_VLM",
+    "initial_EO",
+    "parameter_budget",
+    "sample_exposure",
+    "tuning_opportunities"
+  ],
+  "causal_objective_claim_from_F_or_R_difference_alone": false,
+  "strong_system_controls": [
+    "RGB_only_actual_VLM",
+    "multispectral_rendered_views_actual_VLM",
+    "EO_measurement_calculator_same_LLM",
+    "released_TerraScope_external_system",
+    "same_InternVL3_and_training_data_internal_control"
+  ],
+  "novelty_excluded": [
+    "EO_plus_language_first",
+    "multispectral_input_alone",
+    "encoder_unfreezing_alone",
+    "grounded_masks_or_area_alone",
+    "multi_AI_labels_alone",
+    "temporal_input_alone",
+    "replacing_backbone_with_OlmoEarth_alone"
+  ],
+  "claim_requirements": [
+    "same_input_supervision_improved_target_readout",
+    "fresh_connector_new_reader_transfer",
+    "independent_existing_EO_task_noninferiority",
+    "new_method_defined_against_closest_prior_art"
+  ],
+  "contribution_proven": false,
+  "novel_method_formalization_complete": false,
+  "stages": [
+    {
+      "id": "P0",
+      "unit": "20_train_cases_40_existing_questions",
+      "purpose": "wiring_and_runtime",
+      "status": "20server_raw_and_frozenEO_verified; actual_VLM_adapter_not_implemented"
+    },
+    {
+      "id": "P1",
+      "unit": "audited_spatial_label_development_set",
+      "purpose": "locate_target_information_loss_and_freeze_recipe",
+      "status": "sensor_probe_completed; semantic_spatial_label_alignment_and_objective_pending"
+    },
+    {
+      "id": "P2",
+      "unique_episode_target": 10000,
+      "purpose": "fixed_student_P_vs_L_and_strong_controls",
+      "status": "planned_not_acquired"
+    },
+    {
+      "id": "P3",
+      "unique_episode_target": 100000,
+      "purpose": "multiple_seeds_region_task_reader_transfer_plus_connector_ablation",
+      "status": "conditional_on_P1_design_and_compute"
+    },
+    {
+      "id": "P4",
+      "unique_episode_target": 1000000,
+      "purpose": "optional_data_or_long_sequence_extension",
+      "status": "conditional_not_auto_launch"
+    }
+  ],
+  "old_v0_run_counts_are_immediate_queue": false,
+  "new_total_run_count": null,
+  "new_total_run_count_reason": "Must reconcile reused frozen arms and added EO-replay/rendering/readout costs after P1; do not keep quoting 24 or 30 as inclusive totals.",
+  "freeze_before_training": [
+    "loss_formula",
+    "baseline_heads",
+    "model_and_data_revision",
+    "split_and_geo_buffer",
+    "numeric_spatial_tolerances",
+    "noninferiority_margin",
+    "minimum_effect",
+    "seed_values",
+    "run_matrix_and_GPU_budget"
+  ],
+  "gpu_inference_runs_this_update": 0,
+  "new_training_runs_this_update": 0,
+  "paid_api_spend_this_update_krw": 0,
+  "remote_actions_this_update": "new isolated CPU diagnostic and renderer uploaded and completed; small artifacts pulled",
+  "external_uploads_this_update": 0,
+  "previous_route": "oe2_first_vlm_route_v1_20260926.json",
+  "parent_route_sha256": "87723775527a3028d4b4864ad6673b3a100c0d7e3c0e6008e844b4ebec689ea4",
+  "external_uploads_definition": "third-party publication or AI service; own research server transfer listed separately",
+  "cpu_encoder_inference_runs_this_update": 1,
+  "diagnostic_linear_ridge_fits_this_update": 20,
+  "scoring": {
+    "canonical_binary_policy": "yes-no-direct-logit-smallest-token-id-v1",
+    "module": "../code/oe2_problem_audit_v0/scoring/yes_no_scoring.py",
+    "successor_oe1_trainer": "../code/oe2_problem_audit_v0/scoring/train_pilot_scoring_v1_1.py",
+    "original_unconstrained_primary_unchanged": true,
+    "actual_vlm_free_generation_parser": "must be specified for actual task before training; do not impose OE1 first-token parser on all future explanations"
+  },
+  "question_bias_controls": {
+    "training_only_prior": [
+      "exact_question_majority",
+      "canonical_class_majority"
+    ],
+    "unseen_or_tied_prior": "fixed_no",
+    "prospective_design": "freeze region and season groups and yes/no support per question/class before training; report coverage",
+    "report": [
+      "pooled_BA",
+      "class_conditional_macro_BA_with_support",
+      "same_question_mixed_answer_macro_BA_with_support",
+      "invalid_rate",
+      "same_ID_control_contrasts"
+    ],
+    "date_vs_pixels": "matched acquisition-date or separately declared date-control experiment; original date encoding is not pixel-only evidence",
+    "retrospective_68_cases_are_confirmatory_test": false
+  },
+  "spatial_preservation_diagnostic": {
+    "completed_sensor_probe": "../artifacts/oe2_problem_audit_20260927/cpu20_v0/probe/summary.json",
+    "result": "full-grid .124504 MAE; 16-nearest .155270; 64-nearest .145783; full lower on16/20 each",
+    "semantic_or_vlm_capability_proven": false,
+    "next": "fixed-encoder spatial-label readout comparison, then same-token/same-connector/same-supervision P-vs-L",
+    "forbidden_interpretation": "More tokens or auxiliary label advantage alone is not new encoder objective evidence"
+  },
+  "next_run_requirements": {
+    "wiring": "actual RGB-native VLM path plus separate EO slots; no-EO equivalence and actual backward check",
+    "data": "spatial mask provenance and labeled support, affine/units/alignment audited; no presence-to-area conversion",
+    "encoder_comparison": "shared connector alignment checkpoint then frozen/joint or explicit factorial; no unequal warm-up",
+    "research_contrast": "same token budget and same supervision P-minus-L; fresh-connector reader transfer and EO retention still required",
+    "automatic_large_training": false
+  }
+}

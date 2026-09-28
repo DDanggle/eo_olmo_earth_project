@@ -1,0 +1,182 @@
+{
+  "status": "failed",
+  "controller_pid": 1416287,
+  "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+  "stage": "engineering",
+  "workers": [
+    {
+      "name": "B0_270927_reference",
+      "status": "completed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v0/B0_270927_reference",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 1800,
+      "pid": 1416292,
+      "exit_code": 0,
+      "receipt_status": "reference_completed"
+    },
+    {
+      "name": "B0_270927_resume",
+      "status": "completed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v0/B0_270927_resume",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 1800,
+      "pid": 1416429,
+      "exit_code": 0,
+      "receipt_status": "cold_resume_passed"
+    },
+    {
+      "name": "B2_270927_reference",
+      "status": "completed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v0/B2_270927_reference",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 1800,
+      "pid": 1416524,
+      "exit_code": 0,
+      "receipt_status": "reference_completed"
+    },
+    {
+      "name": "B2_270927_resume",
+      "status": "failed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/engineering_v0/B2_270927_resume",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 1800,
+      "pid": 1416709,
+      "exit_code": 1,
+      "receipt_status": "failed"
+    }
+  ],
+  "started_utc": "2026-09-27T11:14:16.072200+00:00",
+  "protected_before": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458,
+      "bytes": 45602
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874,
+      "bytes": 10926
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291,
+      "bytes": 10983
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291,
+      "bytes": 7314
+    }
+  },
+  "source_hashes": {
+    "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+    "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+    "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+    "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+    "p2_worker.py": "f82f65960190ab7e78c62ae898dff9eddd5ed169c087b277d90cac2fe250f584",
+    "run_bounded.py": "4416fc383894ee851b80c0bd857d046badf810c768d28ab9f3b9b3ba645a3b32",
+    "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+    "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+    "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+  },
+  "current_worker": "B2_270927_resume",
+  "error": "RuntimeError('worker failed B2_270927_resume')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v0/run_bounded.py\", line 91, in main\n    if code!=0:raise RuntimeError('worker failed '+name)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: worker failed B2_270927_resume\n",
+  "protected_after": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458,
+      "bytes": 45602
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874,
+      "bytes": 10926
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291,
+      "bytes": 10983
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291,
+      "bytes": 7314
+    }
+  },
+  "protected_and_snapshot_unchanged": true,
+  "elapsed_seconds": 279.6491969972849,
+  "finished_utc": "2026-09-27T11:18:55.723302+00:00"
+}

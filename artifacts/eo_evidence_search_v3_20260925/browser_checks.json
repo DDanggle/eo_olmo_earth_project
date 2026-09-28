@@ -1,0 +1,18 @@
+{
+  "scope": "Local browser/HTTP evidence wiring, not model performance",
+  "checks": {
+    "source_catalog_unchanged": true,
+    "source_meta_unchanged": true,
+    "source_asset_routes_unchanged": true,
+    "c1_summary_and_limits_visible": true,
+    "ks_05229_saved_reader_yes_blind_no_all_three_seeds": true,
+    "ks_00276_training_case_stays_unknown": true,
+    "browser_console_errors": 0
+  },
+  "evidence": "Codex browser DOM snapshots and console logs inspected in this task; HTTP reports stored separately",
+  "source_sha256": {
+    "index.html": "b1a78574641eb9ad47e9a60ae4d017b3928f4194b3fd0a4c10f07cf1cc0c1c97",
+    "reader_cases.json": "22cbcbd91ca8bf6acf36e2460af923947756a6fa0a8039e2df8aa8737d1f1c32",
+    "research_runs.json": "25195be6ceee0e052fbfd1120aa9b44481b9bce485ae1cbc3b0785b506234fff"
+  }
+}

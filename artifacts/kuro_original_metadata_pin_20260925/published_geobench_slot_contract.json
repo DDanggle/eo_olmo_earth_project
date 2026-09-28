@@ -1,0 +1,51 @@
+{
+  "schema": "kuro-published-geobench-slot-contract-v1",
+  "revision": "d7ae6aafc18e1da1bd6efb130f0a306125ee0fef",
+  "historical_current_tortilla_generated_by_exact_revision": "unverified",
+  "published_mapping": {
+    "pre_event_1": {
+      "upstream_key": "SL2",
+      "source_date": "2021-08-07"
+    },
+    "pre_event_2": {
+      "upstream_key": "SL1",
+      "source_date": "2021-08-19"
+    },
+    "post_event": {
+      "upstream_key": "MS1",
+      "source_date": "2022-02-03"
+    }
+  },
+  "sources": [
+    {
+      "local": "/private/tmp/geobench2_kuro_generate_20260925.py",
+      "upstream_url": "https://github.com/The-AI-Alliance/GEO-Bench-2/blob/d7ae6aafc18e1da1bd6efb130f0a306125ee0fef/geobench_v2/generate_benchmark/kuro_siwo.py",
+      "bytes": 23860,
+      "sha256": "57a89a697219539d1949de6a5999101c90b8ed65cbdcd094f59b0e55720cbcb1",
+      "github_blob_sha1": "7cb4a1e19f1de8e7db4e42c9a440cfa8a6ce491c",
+      "blob_matches_revision_tree": true,
+      "relevant_lines": [
+        37,
+        40,
+        517,
+        520,
+        548,
+        575
+      ]
+    },
+    {
+      "local": "/private/tmp/geobench2_kuro_dataset_20260925.py",
+      "upstream_url": "https://github.com/The-AI-Alliance/GEO-Bench-2/blob/d7ae6aafc18e1da1bd6efb130f0a306125ee0fef/geobench_v2/datasets/kuro_siwo.py",
+      "bytes": 7931,
+      "sha256": "18583f750490cb37d8228d00170c6d3b0bf103b8ab815e7440b3a556488f3521",
+      "github_blob_sha1": "75194daebbc80f903ce51f405a24f18776dbb8ee",
+      "blob_matches_revision_tree": true,
+      "relevant_lines": [
+        124,
+        126,
+        160,
+        165
+      ]
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "selection": "train only, K1, target fraction .10-.50, fixed salted hash, unique patches",
+  "rows": [
+    {
+      "all_eight_observation_valid_filter_applied_to_query_gold": false,
+      "base_id": "e91ece3d4804b5e2b57cb24b",
+      "counter_class": 3,
+      "counter_pixels": 562,
+      "counter_present": true,
+      "episode_id": "e91ece3d4804b5e2b57cb24b:k1",
+      "expected_query_label_sha256": "06849d938b2298b8af32977d2251ec1e0a4a7c0ceffc38d9b4ee64fbda96b988",
+      "k8_auc_cohort": true,
+      "k_pairs": 1,
+      "label_valid_pixels": 13304,
+      "mask_rule": "semantic == target_class AND label_valid",
+      "observability_not_inferred_from_labels": true,
+      "pair_id": "719f5eba41c0f33ddbd9",
+      "query_label_npz": "labels/40271.npz",
+      "query_label_sha256": "06849d938b2298b8af32977d2251ec1e0a4a7c0ceffc38d9b4ee64fbda96b988",
+      "query_patch_id": "40271",
+      "target_class": 2,
+      "target_pixels": 1398,
+      "target_present": true
+    },
+    {
+      "all_eight_observation_valid_filter_applied_to_query_gold": false,
+      "base_id": "40c837fe4ed90964ba7af6fa",
+      "counter_class": 4,
+      "counter_pixels": 123,
+      "counter_present": true,
+      "episode_id": "40c837fe4ed90964ba7af6fa:k1",
+      "expected_query_label_sha256": "a6058e643ca3829e297a6d019c83328e0921a00131730059c62b4e1191c55fa1",
+      "k8_auc_cohort": true,
+      "k_pairs": 1,
+      "label_valid_pixels": 14867,
+      "mask_rule": "semantic == target_class AND label_valid",
+      "observability_not_inferred_from_labels": true,
+      "pair_id": "dc87d09f261a011f4ed9",
+      "query_label_npz": "labels/40255.npz",
+      "query_label_sha256": "a6058e643ca3829e297a6d019c83328e0921a00131730059c62b4e1191c55fa1",
+      "query_patch_id": "40255",
+      "target_class": 1,
+      "target_pixels": 6699,
+      "target_present": true
+    }
+  ],
+  "audits": [
+    {
+      "episode_id": "e91ece3d4804b5e2b57cb24b:k1",
+      "split": "train",
+      "query_patch_id": "40271",
+      "support_patch_ids": [
+        "40201",
+        "40231"
+      ],
+      "acquired_query_positions": [
+        2,
+        5
+      ],
+      "acquired_query_observation_ids": [
+        "40271:obs:2",
+        "40271:obs:5"
+      ],
+      "returned_query_observations": 2,
+      "returned_support_observation_instances": 16,
+      "unique_support_patch_observations": 16,
+      "cpu_decoded_observations": 24,
+      "input_file_reads": [
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/inputs/40271.npz",
+          "compressed_bytes": 6789841,
+          "decoded_array_bytes": 10354892,
+          "cpu_decoded_observations": 8
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/inputs/40201.npz",
+          "compressed_bytes": 6653228,
+          "decoded_array_bytes": 10354892,
+          "cpu_decoded_observations": 8
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/inputs/40231.npz",
+          "compressed_bytes": 6945266,
+          "decoded_array_bytes": 10354892,
+          "cpu_decoded_observations": 8
+        }
+      ],
+      "support_mask_reads": [
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/episodes_v0/support_masks/40201_26.npz",
+          "compressed_bytes": 291,
+          "decoded_array_bytes": 16384
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/episodes_v0/support_masks/40231_23.npz",
+          "compressed_bytes": 350,
+          "decoded_array_bytes": 16384
+        }
+      ],
+      "npz_bytes_read_for_decode": 20388976,
+      "hash_bytes_read": 20388976,
+      "decoded_array_bytes": 31097444,
+      "spatial_shape": [
+        128,
+        128
+      ],
+      "downsampling_applied": false,
+      "query_gold_read": false,
+      "cpu_io_note": "Every referenced input NPZ is fully read and decoded at all 8 dates; hashing reads the compressed bytes again. Counts describe logical reads, not OS disk I/O. Unique input packets reused only inside this load; no cross-call cache."
+    },
+    {
+      "episode_id": "40c837fe4ed90964ba7af6fa:k1",
+      "split": "train",
+      "query_patch_id": "40255",
+      "support_patch_ids": [
+        "20296",
+        "40008"
+      ],
+      "acquired_query_positions": [
+        2,
+        5
+      ],
+      "acquired_query_observation_ids": [
+        "40255:obs:2",
+        "40255:obs:5"
+      ],
+      "returned_query_observations": 2,
+      "returned_support_observation_instances": 16,
+      "unique_support_patch_observations": 16,
+      "cpu_decoded_observations": 24,
+      "input_file_reads": [
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/inputs/40255.npz",
+          "compressed_bytes": 6742275,
+          "decoded_array_bytes": 10354892,
+          "cpu_decoded_observations": 8
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/inputs/20296.npz",
+          "compressed_bytes": 7164373,
+          "decoded_array_bytes": 10354892,
+          "cpu_decoded_observations": 8
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0/inputs/40008.npz",
+          "compressed_bytes": 6705270,
+          "decoded_array_bytes": 10354892,
+          "cpu_decoded_observations": 8
+        }
+      ],
+      "support_mask_reads": [
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/episodes_v0/support_masks/20296_4.npz",
+          "compressed_bytes": 323,
+          "decoded_array_bytes": 16384
+        },
+        {
+          "path": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/episodes_v0/support_masks/40008_23.npz",
+          "compressed_bytes": 295,
+          "decoded_array_bytes": 16384
+        }
+      ],
+      "npz_bytes_read_for_decode": 20612536,
+      "hash_bytes_read": 20612536,
+      "decoded_array_bytes": 31097444,
+      "spatial_shape": [
+        128,
+        128
+      ],
+      "downsampling_applied": false,
+      "query_gold_read": false,
+      "cpu_io_note": "Every referenced input NPZ is fully read and decoded at all 8 dates; hashing reads the compressed bytes again. Counts describe logical reads, not OS disk I/O. Unique input packets reused only inside this load; no cross-call cache."
+    }
+  ]
+}

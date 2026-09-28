@@ -1,0 +1,113 @@
+{
+  "record_date": "2026-09-27",
+  "stage": "P0_inputs_and_episode_catalog_prepared_and_independently_checked",
+  "plan": "docs/OLMOEARTH_NEXT_EXPERIMENT_DESIGN_20260927.md",
+  "report": "docs/OE8_PASTIS_INPUT_PREPARATION_20260927.md",
+  "input_patch_count": 80,
+  "dates_per_patch": 8,
+  "patch_date_count": 640,
+  "partitions": {
+    "train_pool": 48,
+    "source_bank": 16,
+    "dev_query": 16
+  },
+  "dev_parent_count": 1,
+  "source_parent_ids": [
+    "t32ulu",
+    "t31tfj"
+  ],
+  "dev_parent_ids": [
+    "t31tfm"
+  ],
+  "source_payloads_reread_and_verified": 240,
+  "source_verification_cases_passed": 80,
+  "fresh_whole_20GB_source_hash_this_run": false,
+  "selected_sentinel_minus_10000_count": 0,
+  "cloud_quality_certified": false,
+  "visual_qa_patch_count": 32,
+  "visual_qa_date_count": 256,
+  "visual_qa_pages": [
+    0,
+    4,
+    8,
+    9
+  ],
+  "selected_class_ids": [
+    1,
+    3,
+    2,
+    4
+  ],
+  "selected_class_names": [
+    "meadow",
+    "corn",
+    "soft_winter_wheat",
+    "winter_barley"
+  ],
+  "train_episode_count": 2304,
+  "development_episode_count": 672,
+  "development_episode_count_is_independent_sample_count": false,
+  "dev_episode_counts_by_k": {
+    "1": 192,
+    "2": 192,
+    "4": 192,
+    "8": 96
+  },
+  "k_reporting": {
+    "all_four_classes": {
+      "ks": [
+        1,
+        2,
+        4
+      ],
+      "query_pair_base_count": 192
+    },
+    "complete_cohort": {
+      "ks": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "query_pair_base_count": 96,
+      "class_ids": [
+        1,
+        3,
+        2
+      ],
+      "present": 64,
+      "absent": 32
+    },
+    "mixing_cohorts_for_k_curve_allowed": false,
+    "winter_barley_source_bank_objects": 8,
+    "winter_barley_capacity_after_patch_class_cap": 7,
+    "patch_class_support_object_cap": 2
+  },
+  "support_label_origin": "synthetic_examples_from_public_annual_crop_masks",
+  "real_expert_correction_reliability_measured": false,
+  "cross_patch_parcel_disjointness_verified": false,
+  "runtime_model_input_gold_id_and_acquisition_guard_verified": false,
+  "ready_for_trainer_engineering": true,
+  "ready_for_comparative_training": false,
+  "novel_method_gpu_training_runs_this_stage": 0,
+  "paid_api_calls_this_stage": 0,
+  "novelty_established": false,
+  "server_run_root": "/home/work/data/olmoearth/oe8_pastis_prepare_v0",
+  "server_prepared_du_mebibytes_display": 546,
+  "local_export_payload_bytes_excluding_manifest": 59416566,
+  "local_export_internal_files_sha256_verified": 1777,
+  "local_raw_sample_packets": [
+    "40411",
+    "40139",
+    "30031"
+  ],
+  "our_preparation_cpu_jobs_finished": true,
+  "independent_episode_audit": "artifacts/oe8_pastis_prepare_20260927/episode_independent_audit.json",
+  "next_step": "P1 actual role/acquisition-safe loader, checkpoint identity and save/restore; then GPU1 profile and two-case overfit before strong baselines",
+  "research_gates": [
+    "Keep common K cohorts fixed; do not pad winter barley K8 or select support bank by model scores.",
+    "Measure real human correction consistency and time before expert-efficiency claims.",
+    "Use additional independent regions and stronger ordinary baselines before transfer or method claims.",
+    "Do not expand architecture plan before the first sufficiently trained baseline result."
+  ]
+}

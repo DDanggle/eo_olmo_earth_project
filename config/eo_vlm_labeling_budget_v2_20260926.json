@@ -1,0 +1,79 @@
+{
+  "schema_version": "0.2",
+  "status": "planning_assumptions_not_quotes_or_acquired_labels",
+  "date": "2026-09-26",
+  "currency": "KRW",
+  "total_budget": 1000000,
+  "scope": "human_annotation_plus_proposed_api_cap_and_contingency",
+  "gpu_and_engineering_costs_included": false,
+  "verified_minimum_hourly_wage_2026": 10320,
+  "wage_source": "https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=18144",
+  "budget_items": [
+    {
+      "role": "trained_annotators",
+      "people": 2,
+      "total_person_hours": 60,
+      "assumed_hourly_rate": 12000,
+      "amount": 720000
+    },
+    {
+      "role": "domain_reviewer",
+      "people": 1,
+      "total_person_hours": 4,
+      "assumed_hourly_rate": 40000,
+      "amount": 160000
+    },
+    {
+      "role": "openrouter_api_cap_including_fees_fx_and_retries",
+      "amount": 50000
+    },
+    {
+      "role": "remaining_contingency_and_fees",
+      "amount": 70000
+    }
+  ],
+  "annotator_work_hours": {
+    "onboarding_and_train_pilot": 8,
+    "test_dual_review": 32,
+    "train_draft_review": 12,
+    "dev_draft_review": 4,
+    "quality_and_rework_buffer": 4
+  },
+  "targets": {
+    "train_pilot": 20,
+    "train_additional": 180,
+    "dev": 60,
+    "test_independent_dual_review": 120
+  },
+  "time_assumptions_minutes": {
+    "test_each_reviewer": 8,
+    "train_draft_review": 4,
+    "dev_draft_review": 4
+  },
+  "expert_work_hours": {
+    "guidelines": 1,
+    "calibration": 1,
+    "adjudication": 2
+  },
+  "additional_human_label_budget_targets": [
+    0,
+    50,
+    200
+  ],
+  "all_targets_require_timed_pilot_confirmation": true,
+  "raw_observation_scale_plan_unchanged": [
+    10000,
+    100000,
+    1000000
+  ],
+  "confirmed_quotes": [],
+  "people_contacted": [],
+  "paid_orders_placed": [],
+  "new_training_launched": false,
+  "ai_consensus_is_gold": false,
+  "supersedes": "eo_vlm_labeling_budget_v1_20260926.json",
+  "api_allocation_is_proposal_not_spending_or_volume_commitment": true,
+  "paid_api_calls_executed_this_update": 0,
+  "api_spend_krw_this_update": 0,
+  "active_research_plan": "oe2_multimodel_supervision_plan_v0_20260926.json"
+}

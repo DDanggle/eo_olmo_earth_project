@@ -1,0 +1,112 @@
+{
+  "created_utc": "2026-09-27T18:54:51.151763+00:00",
+  "exports": {
+    "runtime_v2": {
+      "files": 232,
+      "bytes": 2825084,
+      "hash_errors": 0,
+      "manifest_sha256": "14a59caee4dc716ebdc34b74092f19a5f5ca9dcc8b6178b63c5a6cf52eeeb0f8"
+    },
+    "quality_review_v0": {
+      "files": 24,
+      "bytes": 12585425,
+      "hash_errors": 0,
+      "manifest_sha256": "0082611e757c27ba9f4a0f60acb1840e879af361bed9d741b4079c78acc54980"
+    }
+  },
+  "new_gpu_seconds": 0,
+  "builder_boundary_tests": 5,
+  "public_catalog_sha256": "30fe53cb935002c464c9d38b42d01e20cb724e70af8fcd2dbefddbe37bd7a377",
+  "source_snapshot_hashes_match": true,
+  "visual_qa": {
+    "cases": [
+      "quality_01",
+      "quality_06",
+      "quality_11",
+      "quality_16"
+    ],
+    "reviewer": "assistant, not an agronomy expert",
+    "query_and_support_dates_and_masks_legible": true,
+    "clouds_and_haze_visible_in_some_support_dates": true,
+    "reviewer_responses_filled": 0
+  },
+  "superseded_runtime_versions": {
+    "v0": "stale reference-stage metadata and nonportable AppleDouble manifest",
+    "v1": "metadata corrected but AppleDouble still present"
+  },
+  "canonical_runtime": "oe10_expansion_catalog_v0/runtime_v2",
+  "current_p2": {
+    "created_utc": "2026-09-27T18:48:13.958248+00:00",
+    "status": "running",
+    "controller_pid": 1419400,
+    "current_worker": "B2_270928_train",
+    "started_utc": "2026-09-27T11:42:43.962886+00:00",
+    "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+    "workers": [
+      {
+        "name": "B0_270927_train",
+        "controller_status": "completed",
+        "receipt_status": "training_completed",
+        "completed_updates_receipt": 2304,
+        "last_logged_step": 2304,
+        "pid": 1419405,
+        "elapsed_seconds": 3238.603802483529,
+        "latest_score": {
+          "file": "score_step_002304.json",
+          "target_iou_auc": 0.3009959798940199,
+          "sha256": "5a3594b674c0f1e3d84270428f6779c596a0cdb5760ec0eb7004047240910bf5"
+        },
+        "receipt_sha256": "66084a38b4c7c92e88f71fed8d1603afb1723238c62124bc3773e8d6b43f1f56"
+      },
+      {
+        "name": "B2_270927_train",
+        "controller_status": "completed",
+        "receipt_status": "training_completed",
+        "completed_updates_receipt": 2304,
+        "last_logged_step": 2304,
+        "pid": 1421757,
+        "elapsed_seconds": 12040.545632142574,
+        "latest_score": {
+          "file": "score_step_002304.json",
+          "target_iou_auc": 0.34175409764391784,
+          "sha256": "176e80bbfa0982adb382c64b44108a94d4e961ba6a049ad3826cd24df1f5cfb5"
+        },
+        "receipt_sha256": "1d875968d5da8b4a689d26a7fc133686a7c7f775fdfea32e47b617b023e55e66"
+      },
+      {
+        "name": "B0_270928_train",
+        "controller_status": "completed",
+        "receipt_status": "training_completed",
+        "completed_updates_receipt": 2304,
+        "last_logged_step": 2304,
+        "pid": 1435655,
+        "elapsed_seconds": 3442.0170584730804,
+        "latest_score": {
+          "file": "score_step_002304.json",
+          "target_iou_auc": 0.29600542064495083,
+          "sha256": "4e2babba485e59859e5361969e2abe0a408915fe1be55f27d930a81255f5630e"
+        },
+        "receipt_sha256": "c4d90b6de39749c20daf9e7e9afcca95cf01306de52919c839a4cbc60958bfa7"
+      },
+      {
+        "name": "B2_270928_train",
+        "controller_status": "running",
+        "receipt_status": "training",
+        "completed_updates_receipt": 1320,
+        "last_logged_step": 1333,
+        "pid": 1448236,
+        "elapsed_seconds": 6746.242532569915,
+        "latest_score": {
+          "file": "score_step_001152.json",
+          "target_iou_auc": 0.31956756839094574,
+          "sha256": "2c55ab9071d5787b8a002039ef79689df429c7018cfd385fbf6d8e972ed9ea15"
+        },
+        "receipt_sha256": "a5217d008aca892a40910a7a4b6aa9aa1cadefc20b1c50e87d385019c4fc2dc3"
+      }
+    ],
+    "own_processes": "    PID     ELAPSED COMMAND\n1419400    07:05:30 /home/work/data/olmoearth/.venv-master/bin/python code_snapshot/oe10_p2_v3/run_bounded.py --stage training --tag training_v0 --protocol /home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json\n1448236    01:53:24 /home/work/data/olmoearth/.venv-master/bin/python /home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/p2_worker.py --mode train --arm B2 --seed 270928 --out /home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270928_train --protocol /home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json\n",
+    "protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+    "status_sha256": "83b32088475c66ede442e18b441d5aa3247286f0ccea27bad8625e099b530eb3",
+    "scope": "live monitoring only; completed results still require frozen full collector"
+  }
+}

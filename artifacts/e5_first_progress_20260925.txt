@@ -1,0 +1,21 @@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+SHA256:mub/jQsc1JS6Eu9EPuTEHJucpJ2o8LEhljdW83JuMSo.
+Please contact your system administrator.
+Add correct host key in /Users/dongdong/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /Users/dongdong/.ssh/known_hosts:96
+Password authentication is disabled to avoid man-in-the-middle attacks.
+Keyboard-interactive authentication is disabled to avoid man-in-the-middle attacks.
+UpdateHostkeys is disabled because the host key is not trusted.
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Fri Sep 25 06:09:28 UTC 2026
+    PID    PPID     ELAPSED STAT COMMAND
+ 984156       1       00:18 Ss   bash code/e5_bundle_v0/chain.sh
+984173 /home/work/data/olmoearth/.venv-master/bin/python -B /home/work/data/olmoearth/code/e5_bundle_v0/e5_prepare_v0.py --config /home/work/data/olmoearth/code/e5_bundle_v0/e5_equal_budget_prereg_v0.json --inputs /home/work/data/olmoearth/code/e5_bundle_v0/frozen_inputs --source-dir /home/work/data/olmoearth/code/e5_bundle_v0

@@ -1,0 +1,25 @@
+{
+  "schema": "oe1-scoring-only-source-copy-v1",
+  "original_source": {
+    "path": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/code/oe1_bentxt_v0/train_pilot.py",
+    "sha256": "0fa1cabde4ce61bbd6d8f7c090290d5c8c8968b98e7073d08401bc297b57fcad"
+  },
+  "trainer_copy_sha256": "7d59edc2dd80feca64891b46a66b6030e4d93c017184d6719029bc7d4561d592",
+  "eo_model_original": {
+    "path": "/Users/dongdong/DongDong/ai_projects/eo_olmo_earth_project/code/oe1_bentxt_v0/eo_model.py",
+    "sha256": "021674ba536c2dd5c1f51f748a8655a5caefae9c41a8a5fbee0828438a4d4f8d"
+  },
+  "eo_model_copy_sha256": "021674ba536c2dd5c1f51f748a8655a5caefae9c41a8a5fbee0828438a4d4f8d",
+  "changes": [
+    "Import shared constrained-decoding helper",
+    "Record scoring policy and output revision",
+    "Pin helper source SHA in run_config",
+    "Select constrained label by direct logits and smallest canonical token ID on exact ties"
+  ],
+  "preserved": [
+    "full-vocabulary argmax and parsed primary",
+    "original source files",
+    "model, optimizer, data, seed, schedule, training loop, evaluation population"
+  ],
+  "execution": "Not executed. Existing exclusive output-directory creation remains; caller must supply a fresh path. No original experiment output is copied or modified."
+}

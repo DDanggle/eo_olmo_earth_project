@@ -1,0 +1,366 @@
+{
+  "all_eight_candidate_arrays_in_npz_require_loader_acquisition_guard": true,
+  "all_eight_support_observations_must_be_counted_in_cost_ledger": true,
+  "all_prepared_queries_retained_before_support_availability": true,
+  "analysis_or_scoring_only": [
+    "roles.jsonl",
+    "source_objects.jsonl",
+    "pair_catalog.json",
+    "scoring/",
+    "prepared manifest class_pixel_counts and labels/"
+  ],
+  "bank_labels_used_for_encoder_training": false,
+  "candidate_count": 80,
+  "development_query_clean_flag_required": false,
+  "eligible_source_objects": {
+    "source_bank": 456,
+    "train_pool": 1282
+  },
+  "fixed_additional_candidate_positions": [
+    0,
+    7
+  ],
+  "gpu_used": false,
+  "historical_pretraining_exposure_unknown": true,
+  "inference_loader_allowlist": [
+    "episodes_train.jsonl",
+    "episodes_development.jsonl",
+    "referenced inputs under prepared_input_reference_root",
+    "referenced support_masks"
+  ],
+  "initial_candidate_positions": [
+    2,
+    5
+  ],
+  "k8_auc_cohort_available": true,
+  "ks": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "lower_k_episodes_available": true,
+  "model_executed": false,
+  "model_visible_allowlist": [
+    "fixed generic prompt",
+    "acquired query observation pixels",
+    "acquired observation dates and validity",
+    "selected support images and object masks",
+    "support observation dates and validity"
+  ],
+  "new_class_transfer_demonstrated": false,
+  "parcel_disjoint_verified": false,
+  "partition_counts": {
+    "dev_query": 16,
+    "source_bank": 16,
+    "train_pool": 48
+  },
+  "prepared_input_reference_root": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/prepared_v0",
+  "prepared_manifest_sha256": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3",
+  "public_catalog_sha256": {
+    "development": "355e98108ab41de0fbf56f46c020135f7dc2838cea05226928f780f936280015",
+    "train": "fadaf5edc3625a4a420babfe5b048e5752f0c824a8a44c005e5b13a6f6910293"
+  },
+  "quality_policy_sha256": "5c62127b4304eb310b83360f2ebf53c31428c5189984926061d846d445a2a6a1",
+  "query_gold_validity": "source label_valid only; no all8 observation mask filtering",
+  "query_quality_flags_must_not_select_dates_or_silently_change_auc_cohort": true,
+  "remaining": [
+    "independent data/episode audit",
+    "same-parent geometry/parcel overlap audit",
+    "real trainer and checkpoint save/reload",
+    "actual comparison training"
+  ],
+  "retrieval_scoring_only_never_model_prompt": [
+    "episode_id",
+    "base_id",
+    "pair_id",
+    "patch IDs",
+    "parent tile IDs",
+    "object_key",
+    "file paths",
+    "hashes",
+    "class mapping",
+    "all-candidate aggregate eligibility flags"
+  ],
+  "scientific_training_ready": false,
+  "scoring_counts": {
+    "development": {
+      "target_absent_episodes": 275,
+      "target_present_episodes": 397
+    },
+    "train": {
+      "target_absent_episodes": 948,
+      "target_present_episodes": 1356
+    }
+  },
+  "script_sha256": "64c6df1fe10b40da8cc076286a6184be05ec0db261a4462af0548aaba8eff6d6",
+  "selected_classes": [
+    1,
+    3,
+    2,
+    4
+  ],
+  "source_object_exclusions": {
+    "20032": {
+      "fewer_than_minimum_class_pixels": 24,
+      "no_crop_class": 23
+    },
+    "20052": {
+      "fewer_than_minimum_class_pixels": 1,
+      "no_crop_class": 25
+    },
+    "20063": {
+      "fewer_than_minimum_class_pixels": 6,
+      "no_crop_class": 12
+    },
+    "20091": {
+      "fewer_than_minimum_class_pixels": 14,
+      "no_crop_class": 16
+    },
+    "20182": {
+      "fewer_than_minimum_class_pixels": 1,
+      "no_crop_class": 10
+    },
+    "20195": {
+      "fewer_than_minimum_class_pixels": 23,
+      "no_crop_class": 17
+    },
+    "20197": {
+      "fewer_than_minimum_class_pixels": 1,
+      "no_crop_class": 21
+    },
+    "20206": {
+      "fewer_than_minimum_class_pixels": 16,
+      "no_crop_class": 12
+    },
+    "20212": {
+      "fewer_than_minimum_class_pixels": 7,
+      "no_crop_class": 7
+    },
+    "20224": {
+      "fewer_than_minimum_class_pixels": 17,
+      "no_crop_class": 31
+    },
+    "20232": {
+      "fewer_than_minimum_class_pixels": 23,
+      "no_crop_class": 11
+    },
+    "20234": {
+      "fewer_than_minimum_class_pixels": 2,
+      "no_crop_class": 9
+    },
+    "20263": {
+      "fewer_than_minimum_class_pixels": 39,
+      "no_crop_class": 17
+    },
+    "20265": {
+      "fewer_than_minimum_class_pixels": 2,
+      "no_crop_class": 10
+    },
+    "20285": {
+      "no_crop_class": 7
+    },
+    "20296": {
+      "fewer_than_minimum_class_pixels": 5,
+      "no_crop_class": 16
+    },
+    "20298": {
+      "fewer_than_minimum_class_pixels": 4,
+      "no_crop_class": 7
+    },
+    "20329": {
+      "fewer_than_minimum_class_pixels": 8,
+      "no_crop_class": 16
+    },
+    "20385": {
+      "fewer_than_minimum_class_pixels": 14,
+      "no_crop_class": 12
+    },
+    "20396": {
+      "fewer_than_minimum_class_pixels": 12,
+      "no_crop_class": 11
+    },
+    "20416": {
+      "fewer_than_minimum_class_pixels": 1
+    },
+    "20430": {
+      "fewer_than_minimum_class_pixels": 3,
+      "no_crop_class": 32
+    },
+    "20449": {
+      "fewer_than_minimum_class_pixels": 9,
+      "no_crop_class": 10
+    },
+    "20458": {
+      "fewer_than_minimum_class_pixels": 18,
+      "no_crop_class": 19
+    },
+    "20468": {
+      "no_crop_class": 13
+    },
+    "20510": {
+      "fewer_than_minimum_class_pixels": 10,
+      "no_crop_class": 11
+    },
+    "20518": {
+      "fewer_than_minimum_class_pixels": 2,
+      "no_crop_class": 34
+    },
+    "20550": {
+      "fewer_than_minimum_class_pixels": 2,
+      "no_crop_class": 11
+    },
+    "20594": {
+      "fewer_than_minimum_class_pixels": 3,
+      "no_crop_class": 16
+    },
+    "20628": {
+      "fewer_than_minimum_class_pixels": 38,
+      "no_crop_class": 8
+    },
+    "20647": {
+      "fewer_than_minimum_class_pixels": 5,
+      "no_crop_class": 4
+    },
+    "20655": {},
+    "40008": {
+      "fewer_than_minimum_class_pixels": 7,
+      "no_crop_class": 17
+    },
+    "40020": {
+      "fewer_than_minimum_class_pixels": 31,
+      "no_crop_class": 13
+    },
+    "40044": {
+      "fewer_than_minimum_class_pixels": 20,
+      "no_crop_class": 13
+    },
+    "40102": {
+      "fewer_than_minimum_class_pixels": 15,
+      "no_crop_class": 13
+    },
+    "40115": {
+      "fewer_than_minimum_class_pixels": 37,
+      "no_crop_class": 34
+    },
+    "40130": {
+      "fewer_than_minimum_class_pixels": 45,
+      "no_crop_class": 30
+    },
+    "40139": {
+      "fewer_than_minimum_class_pixels": 37,
+      "no_crop_class": 6
+    },
+    "40140": {
+      "fewer_than_minimum_class_pixels": 7,
+      "no_crop_class": 15
+    },
+    "40150": {
+      "fewer_than_minimum_class_pixels": 3,
+      "no_crop_class": 11
+    },
+    "40163": {
+      "fewer_than_minimum_class_pixels": 7,
+      "no_crop_class": 18
+    },
+    "40177": {
+      "fewer_than_minimum_class_pixels": 20,
+      "no_crop_class": 19
+    },
+    "40178": {
+      "fewer_than_minimum_class_pixels": 25,
+      "no_crop_class": 24
+    },
+    "40201": {
+      "fewer_than_minimum_class_pixels": 29,
+      "no_crop_class": 26
+    },
+    "40231": {
+      "fewer_than_minimum_class_pixels": 7,
+      "no_crop_class": 23
+    },
+    "40255": {
+      "fewer_than_minimum_class_pixels": 15,
+      "no_crop_class": 16
+    },
+    "40271": {
+      "no_crop_class": 20
+    },
+    "40308": {
+      "fewer_than_minimum_class_pixels": 4,
+      "no_crop_class": 29
+    },
+    "40333": {
+      "fewer_than_minimum_class_pixels": 2,
+      "no_crop_class": 11
+    },
+    "40405": {
+      "fewer_than_minimum_class_pixels": 1,
+      "no_crop_class": 20
+    },
+    "40411": {
+      "fewer_than_minimum_class_pixels": 8,
+      "no_crop_class": 10
+    },
+    "40445": {
+      "fewer_than_minimum_class_pixels": 12,
+      "no_crop_class": 7
+    },
+    "40451": {
+      "fewer_than_minimum_class_pixels": 10,
+      "no_crop_class": 13
+    },
+    "40464": {
+      "fewer_than_minimum_class_pixels": 9,
+      "no_crop_class": 8
+    },
+    "40465": {
+      "fewer_than_minimum_class_pixels": 23,
+      "no_crop_class": 16
+    },
+    "40466": {
+      "fewer_than_minimum_class_pixels": 4,
+      "no_crop_class": 20
+    },
+    "40474": {
+      "fewer_than_minimum_class_pixels": 9,
+      "no_crop_class": 10
+    },
+    "40480": {
+      "fewer_than_minimum_class_pixels": 5,
+      "no_crop_class": 15
+    },
+    "40518": {
+      "fewer_than_minimum_class_pixels": 13,
+      "no_crop_class": 12
+    },
+    "40527": {
+      "fewer_than_minimum_class_pixels": 10,
+      "no_crop_class": 4
+    },
+    "40529": {
+      "fewer_than_minimum_class_pixels": 2,
+      "no_crop_class": 4
+    },
+    "40555": {
+      "fewer_than_minimum_class_pixels": 3,
+      "no_crop_class": 7
+    },
+    "40561": {
+      "fewer_than_minimum_class_pixels": 1,
+      "no_crop_class": 2
+    }
+  },
+  "spatial_disjointness": "patch IDs separated; cross-patch parcels and exact footprints unverified",
+  "status": "bounded_episode_catalog_prepared_not_training_completed",
+  "strict_trainer_must_hold_missing_queries_until_missing_aware_adapter_exists": true,
+  "support_is_human_correction": false,
+  "support_mask_reference_root": "/home/work/data/olmoearth/oe8_pastis_prepare_v0/episodes_v0",
+  "support_max_objects_per_patch_per_class": 2,
+  "support_min_class_purity": 0.95,
+  "support_min_pixels": 64,
+  "support_row_clean_flag_required": false,
+  "support_whole_instance_valid_in_all_eight_observations": true,
+  "training_query_clean_flag_required": false,
+  "unacquired_query_pixels_features_and_per_date_quality_forbidden": true
+}

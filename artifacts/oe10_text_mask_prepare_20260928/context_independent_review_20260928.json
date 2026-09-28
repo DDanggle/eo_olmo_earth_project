@@ -1,0 +1,45 @@
+{
+  "schema_version": "oe10_expansion_context_independent_review_v0",
+  "created_utc": "2026-09-27T19:43:01.762221+00:00",
+  "reviewer": "expansion_cards subagent; independent of context builder, author of sourced card draft",
+  "status": "context_projection_pass_model_path_not_reviewed",
+  "reviewed_source": "code/oe10_expansion_context_v0/build_contexts.py",
+  "reviewed_source_sha256": "876e208ff9d10993a07658dc4c9ebf62a14a95ee55e79a757fdc16a7000be6b3",
+  "reference_sha256": "4669098167eb2b2f66e347db17c87ad1460a8360f393b463edf070cee29dee6f",
+  "contexts_sha256": "19cb2b0254be996df416cfc00df1d2882d767a8d66c25a6ef19bb183ca6488d8",
+  "cards_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+  "checks": {
+    "episodes": 384,
+    "unique_train_queries": 48,
+    "conditions_per_episode": 5,
+    "independently_reconstructed_contexts": 1920,
+    "support_usages_checked": 2880,
+    "target_class_counts": {
+      "8": 192,
+      "14": 192
+    },
+    "source_and_export_hash_errors": 0,
+    "all_supports_train_pool_and_different_query_patch": true,
+    "support_classes_and_card_ids_reconstructed": true,
+    "all_matched_facts_from_correct_role_card": true,
+    "swapped_facts_change_only_background_and_scope_assignment": true,
+    "names_preserved_in_swapped": true,
+    "removed_exactly_names_only": true,
+    "projection_exactly_instruction_positive_counterexample": true,
+    "query_gold_raw_image_or_dev_gold_opened_by_reviewer": false,
+    "gold_fields_in_pinned_catalog": false,
+    "audit_identifiers_absent_from_model_projection": true,
+    "existing_boundary_tests_passed": 7
+  },
+  "findings": [],
+  "limits": [
+    "Support names are additional annotation and must be shared between names-only and facts conditions.",
+    "Five conditions contain four unique text conditions because removal is exactly names-only; this is a valid paired inference diagnostic, not a fifth independent training treatment.",
+    "Background text is fixed per support-class direction across all 48 queries, not scene-specific agronomic evidence.",
+    "Swapped facts may create conspicuous semantic contradictions and are not a sufficient test of agronomic reasoning.",
+    "Generic context omits names; its comparison includes extra label semantics as well as facts. Primary facts attribution remains matched minus names-only.",
+    "Actual tokenizer length, text-to-mask connection, full EO gradient and performance are not verified by this review.",
+    "Acquired dates remain audit metadata in this projector; any future model use of dates must explicitly come from acquired observation inputs.",
+    "No immutable downloaded webpage byte snapshot and no independent agronomist or human correction review."
+  ]
+}

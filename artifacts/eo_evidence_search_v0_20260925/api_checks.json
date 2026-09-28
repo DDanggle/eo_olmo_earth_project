@@ -1,0 +1,101 @@
+{
+  "scope": "HTTP integration checks, not scientific/model performance",
+  "base_url": "http://127.0.0.1:8774",
+  "checks": [
+    {
+      "name": "catalog counts",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A summary",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "spatial date query",
+      "passed": true,
+      "detail": {
+        "query": {
+          "dataset": "kurosiwo",
+          "bbox": [
+            84,
+            24,
+            87,
+            27
+          ],
+          "start": "2019-01-01",
+          "end": "2019-12-31",
+          "min_flood_pct": 10
+        },
+        "matches": 72
+      }
+    },
+    {
+      "name": "evidence association",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "event date not acquisition",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "preview image integrity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A change_supported",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A no_visible_change",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "A insufficient_evidence",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "month precision is interval",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "validation split",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "missing cropland is not negative",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "missing forest is not negative",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject /api/search?q=%7B%22min_flood_pct%22%3A+-1%7D",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject /asset_routes.private.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reject /previews/%2e%2e/asset_routes.private.json",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "passed": 16
+}

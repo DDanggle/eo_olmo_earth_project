@@ -1,0 +1,114 @@
+{
+  "schema": "oe10_context_identifiability_metadata_audit_v1",
+  "scope": "Already recovered metadata only; no NPZ, server, model, or unopened evaluation payload.",
+  "inputs": {
+    "prepared": {
+      "path": "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/manifest.jsonl",
+      "sha256": "13a8d23794d5b4a347aca975153aa41f08af6d6fae82a01868705e6cfbbcabc3"
+    },
+    "episodes": {
+      "path": "artifacts/oe10_expansion_catalog_20260928/oe10_expansion_catalog_v0/runtime_v2/episodes_train.jsonl",
+      "sha256": "30fe53cb935002c464c9d38b42d01e20cb724e70af8fcd2dbefddbe37bd7a377"
+    },
+    "contexts": {
+      "path": "artifacts/oe10_text_mask_prepare_20260928/contexts_v0/contexts.jsonl",
+      "sha256": "19cb2b0254be996df416cfc00df1d2882d767a8d66c25a6ef19bb183ca6488d8"
+    },
+    "context_renderer": {
+      "path": "code/oe10_text_mask_v2/contracts.py",
+      "sha256": "4908c438bc7c06813bd26817a4f8ef35735ac00e4a9530a0c3b7c74be452ae06"
+    },
+    "audit_script": {
+      "path": "code/audit_oe10_context_identifiability.py",
+      "sha256": "59c3ea6cdab054d10ed0d5fa261f52a07553025bc805adc72b072db9691cbbc0"
+    }
+  },
+  "prepared_role_counts": {
+    "train": 64,
+    "development": 16
+  },
+  "prepared_partition_counts": {
+    "train_pool": 48,
+    "source_bank": 16,
+    "dev_query": 16
+  },
+  "train_parent_counts": {
+    "t31tfj": 24,
+    "t32ulu": 24
+  },
+  "train_class_present_patch_counts": {
+    "t31tfj": {
+      "meadow": 23,
+      "winter_wheat": 3,
+      "corn": 3,
+      "winter_barley": 7,
+      "grapevine": 14,
+      "leguminous_fodder": 13
+    },
+    "t32ulu": {
+      "meadow": 24,
+      "winter_wheat": 19,
+      "corn": 20,
+      "winter_barley": 14,
+      "grapevine": 2,
+      "leguminous_fodder": 5
+    }
+  },
+  "expansion_episode_rows": 384,
+  "unique_query_patches": 48,
+  "k_counts": {
+    "1": 96,
+    "2": 96,
+    "4": 96,
+    "8": 96
+  },
+  "distinct_rendered_strings_by_condition": {
+    "generic": 1,
+    "matched_knowledge": 2,
+    "names_only": 2,
+    "removed_knowledge_diagnostic": 2,
+    "swapped_knowledge_diagnostic": 2
+  },
+  "distinct_rendered_strings_total": 7,
+  "query_dates_by_parent": {
+    "t31tfj": [
+      [
+        20190125,
+        20190704
+      ]
+    ],
+    "t32ulu": [
+      [
+        20190214,
+        20190724
+      ]
+    ]
+  },
+  "date_pair_identifies_source_parent_in_this_pack": true,
+  "query_grapevine_fodder_presence": {
+    "both": 9,
+    "fodder_only": 9,
+    "grapevine_only": 7,
+    "neither": 23
+  },
+  "directed_target_presence_over_all_k": {
+    "absent": 248,
+    "present": 136
+  },
+  "support_parent_k1": {
+    "positive": {
+      "t31tfj": 83,
+      "t32ulu": 13
+    },
+    "counterexample": {
+      "t31tfj": 83,
+      "t32ulu": 13
+    }
+  },
+  "interpretation": [
+    "Seven deterministic frozen-text vectors may be cached; this is not proof that language semantics are useless.",
+    "Class, parent, and date schedules are confounded; model reliance has not been measured.",
+    "Repeated K/role rows are not independent imagery or independent regions.",
+    "Annual masks do not label temporal state, observed evidence, or human correction validity."
+  ]
+}

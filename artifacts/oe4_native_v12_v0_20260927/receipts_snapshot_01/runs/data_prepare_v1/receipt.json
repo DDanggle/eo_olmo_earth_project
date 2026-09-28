@@ -1,0 +1,153 @@
+{
+  "status": "data_prepared_not_gpu_validated",
+  "started_utc": "2026-09-26T17:16:02.798263+00:00",
+  "args": {
+    "source_root": "/home/work/data/olmoearth/oe4_native_v12_v0/source",
+    "deps_root": "/home/work/data/olmoearth/oe4_native_v12_v0/deps",
+    "checkpoint_dir": "/home/work/data/olmoearth/oe4_native_v12_v0/models/OlmoEarth-v1_2-Base",
+    "h5_root": "/home/work/data/olmoearth/oe4_native_v12_v0/data/official_subset_1k",
+    "out_dir": "/home/work/data/olmoearth/oe4_native_v12_v0/runs/data_prepare_v1",
+    "device": "cuda:0",
+    "train_files": 64,
+    "dev_files": 8,
+    "steps": 32,
+    "batch_size": 2,
+    "crop_size": 32,
+    "timesteps": 2,
+    "patch_size": 4,
+    "lr": 1e-06,
+    "weight_decay": 0.02,
+    "seed": 270927,
+    "max_wall_seconds": 900,
+    "prepare_only": true,
+    "save_weights": false
+  },
+  "scope": "real-H5 bounded objective engineering run; not official CPT reproduction",
+  "development_split_limit": "file-disjoint only; neighboring subtiles may share parent region; no external-test claim",
+  "declared_model_revision": "2e99a734a30e9aeb993aaa39946c6dcf554739e0",
+  "package_file": "/home/work/data/olmoearth/oe4_native_v12_v0/source/olmoearth_pretrain/__init__.py",
+  "versions": {
+    "torch": "2.13.0",
+    "numpy": "2.4.6",
+    "einops": "0.8.2",
+    "h5py": "3.16.0",
+    "hdf5plugin": "6.0.0",
+    "class-registry": "2.1.2",
+    "universal-pathlib": "0.3.10"
+  },
+  "torch_declared_dependency": ">=2.9,<2.10; other installed versions require this compatibility probe",
+  "source_file_hashes": {
+    "olmoearth_pretrain/model_loader.py": "2ff982cda47fa53e8bb3a9f4ff3879816e4297770ed6e6c6cf49f5e323562ba7",
+    "olmoearth_pretrain/train/masking.py": "4a29589d46fd0920912dfef8e46c8cf2c614545417841325c567ca55a5e27dba",
+    "olmoearth_pretrain/train/loss.py": "7f378e156eeb65434fddaf3c63300bb0c426b4532d6b987d753365ab762997b5",
+    "scripts/official/v1_2/base.py": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee"
+  },
+  "checkpoint_hashes": {
+    "config.json": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+    "weights.pth": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+  },
+  "runtime_script_sha256": "5a038e059364bac95375861b1b3369c4e6c8f261a10047f13803bd8f49bf3eee",
+  "data_manifest_sha256": "54d12227d7319aec7aa0eefccc3d65e07039b6784134fe47d27f69b6b1b25e4e",
+  "data_summary": {
+    "train_files": 64,
+    "dev_files": 8,
+    "rejected": 0
+  },
+  "objective_configs": {
+    "masking_config": {
+      "strategy_config": {
+        "type": "random_time_with_decode",
+        "encode_ratio": 0.5,
+        "decode_ratio": 0.5,
+        "random_ratio": 0.5,
+        "only_decode_modalities": [
+          "worldcover",
+          "srtm",
+          "openstreetmap_raster",
+          "wri_canopy_height_map",
+          "cdl",
+          "worldcereal"
+        ]
+      },
+      "tokenization_config": {
+        "overrides": {
+          "sentinel2_l2a": {
+            "band_groups": [
+              [
+                "B02",
+                "B03",
+                "B04",
+                "B08",
+                "B05",
+                "B06",
+                "B07",
+                "B8A",
+                "B11",
+                "B12",
+                "B01",
+                "B09"
+              ]
+            ],
+            "_CLASS_": "olmoearth_pretrain.nn.tokenization.ModalityTokenization"
+          },
+          "landsat": {
+            "band_groups": [
+              [
+                "B8",
+                "B1",
+                "B2",
+                "B3",
+                "B4",
+                "B5",
+                "B6",
+                "B7",
+                "B9",
+                "B10",
+                "B11"
+              ]
+            ],
+            "_CLASS_": "olmoearth_pretrain.nn.tokenization.ModalityTokenization"
+          }
+        },
+        "_CLASS_": "olmoearth_pretrain.nn.tokenization.TokenizationConfig"
+      },
+      "_CLASS_": "olmoearth_pretrain.train.masking.MaskingConfig"
+    },
+    "loss_config": {
+      "loss_config": {
+        "tau": 0.1,
+        "same_target_threshold": 0.999,
+        "mask_negatives_for_modalities": [
+          "worldcover",
+          "srtm",
+          "openstreetmap_raster",
+          "wri_canopy_height_map",
+          "cdl",
+          "worldcereal"
+        ]
+      },
+      "_CLASS_": "olmoearth_pretrain.train.loss.LossConfig"
+    },
+    "contrastive_config": {
+      "loss_config": {
+        "weight": 0.05
+      },
+      "_CLASS_": "olmoearth_pretrain.train.loss.LossConfig"
+    },
+    "token_exit_cfg": {
+      "sentinel2_l2a": 0,
+      "sentinel1": 0,
+      "landsat": 0,
+      "worldcover": 0,
+      "srtm": 0,
+      "openstreetmap_raster": 0,
+      "wri_canopy_height_map": 0,
+      "cdl": 0,
+      "worldcereal": 0
+    },
+    "ema_decay": [
+      1.0,
+      1.0
+    ]
+  }
+}

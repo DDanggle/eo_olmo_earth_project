@@ -1,0 +1,119 @@
+--- vlm_snapshot_v3/vlm_interface_smoke.py
++++ vlm_snapshot_v4/vlm_interface_smoke.py
+@@ -138,6 +138,16 @@
+         np.random.seed(a.seed)
+         device = torch.device(a.device)
+         dtype = getattr(torch, a.dtype)
++        if dtype == torch.float32:
++            # Separate FP32 diagnostic; preserve the failed BF16 result and gate.
++            torch.set_float32_matmul_precision("highest")
++            torch.backends.cudnn.allow_tf32 = False
++        receipt["precision_contract"] = {
++            "requested_dtype": a.dtype,
++            "float32_matmul_precision": torch.get_float32_matmul_precision(),
++            "cudnn_allow_tf32": torch.backends.cudnn.allow_tf32,
++            "interpretation": "A separate precision run; an FP32 pass does not establish BF16 cache parity",
++        }
+         if device.type == "cuda":
+             if not torch.cuda.is_available():
+                 raise RuntimeError("CUDA requested but unavailable")
+@@ -360,6 +370,48 @@
+             generation_config.temperature = 1.0
+             generation_config.top_p = 1.0
+             generation_config.top_k = 50
++            # Establish the same cached/full gate on the original RGB prompt with
++            # EO injection inactive, before evaluating the EO-augmented prompt.
++            state["active"] = False
++            native_cache_capture_start = len(visual_captures)
++            native_generation = model.generate(**native, generation_config=copy.deepcopy(generation_config))
++            if len(native_generation.logits) != 2 or native_generation.past_key_values is None:
++                raise RuntimeError("Native RGB baseline did not return two logits and a cache")
++            native_cache_visual = check_fresh_visual_capture(
++                visual_captures, native_cache_capture_start, list(native["input_ids"].shape),
++                image_mask.nonzero().tolist(), expected_deepstack,
++                model.config.text_config.hidden_size, "native RGB cached baseline")
++            if native_cache_visual != baseline_visual:
++                raise RuntimeError("Native RGB cached baseline changed original visual features")
++            native_cache_length = int(native_generation.past_key_values.get_seq_length())
++            if native_cache_length != native_len + 1:
++                raise RuntimeError(f"Unexpected native RGB cached sequence length {native_cache_length}")
++            native_first_token = native_generation.sequences[:, native_len:native_len + 1]
++            native_reference = model(**append_tokens(native, native_first_token), use_cache=False,
++                                     logits_to_keep=1).logits[:, -1].float().cpu()
++            native_cached = native_generation.logits[1].float().cpu()
++            native_cache_close = bool(torch.allclose(native_cached, native_reference,
++                                                    atol=a.cache_atol, rtol=a.cache_rtol))
++            native_same_top1 = bool(torch.equal(native_cached.argmax(-1), native_reference.argmax(-1)))
++            receipt["native_cache_contract"] = {
++                "allclose": native_cache_close, "top1_equal": native_same_top1,
++                "max_abs_logit_delta": float((native_cached - native_reference).abs().max()),
++                "mean_abs_logit_delta": float((native_cached - native_reference).abs().mean()),
++                "atol": a.cache_atol, "rtol": a.cache_rtol,
++                "cached_sequence_length": native_cache_length,
++                "generated_token_ids": native_generation.sequences[:, native_len:].tolist(),
++                "generated_text": processor.tokenizer.decode(
++                    native_generation.sequences[0, native_len:], skip_special_tokens=True),
++                "eo_injection_active": False,
++                "comparison": "Original RGB cached raw second logits vs same-prefix full recomputation",
++            }
++            write_json(receipt_path, receipt)
++            if not native_cache_close or not native_same_top1:
++                raise RuntimeError("Original native RGB cached generation disagrees with full recomputation")
++            if state["injections"] != 0 or state["decode_bypasses"] != 0:
++                raise RuntimeError("Inactive EO hook altered native RGB cache baseline counters")
++            del native_generation, native_reference, native_cached
++            state["active"] = True
+             generation_capture_start = len(visual_captures)
+             generation = model.generate(**prefix, generation_config=generation_config)
+             if len(generation.logits) != 2:
+
+--- vlm_snapshot_v3/run_vlm_bounded.py
++++ vlm_snapshot_v4/run_vlm_bounded.py
+@@ -2,7 +2,7 @@
+ """One-shot bounded EO/Qwen interface launcher. Authoring/importing does not launch.
+ 
+ Run only after root has frozen local source and inputs. The source manifest is
+-ROOT/code_snapshot/vlm_v3/manifest.json with {"files": {relative_name: sha256}}
++ROOT/code_snapshot/vlm_v4/manifest.json with {"files": {relative_name: sha256}}
+ or per-file {"sha256": sha256} records. Both worker sources and this launcher
+ must appear. No downloads, retries, daemon, or external process termination.
+ """
+@@ -23,14 +23,14 @@
+ 
+ ROOT = Path("/home/work/data/olmoearth/oe4_native_v12_v0")
+ PYTHON = ROOT.parent / ".venv-master/bin/python"
+-SNAPSHOT = ROOT / "code_snapshot/vlm_v3"
++SNAPSHOT = ROOT / "code_snapshot/vlm_v4"
+ SOURCE_MANIFEST = SNAPSHOT / "manifest.json"
+ INPUTS = ROOT / "vlm_inputs_v0"
+-OUTPUT = ROOT / "runs/vlm_interface_gpu1_v3"
++OUTPUT = ROOT / "runs/vlm_interface_gpu1_v4"
+ NATIVE_STATUS = ROOT / "bounded_sequence_gpu1_v3_status.json"
+-STATUS = ROOT / "vlm_sequence_gpu1_v3_status.json"
+-LOG = ROOT / "vlm_interface_gpu1_v3.log"
+-LOCK = ROOT / "vlm_sequence_gpu1_v3.lock"
++STATUS = ROOT / "vlm_sequence_gpu1_v4_status.json"
++LOG = ROOT / "vlm_interface_gpu1_v4.log"
++LOCK = ROOT / "vlm_sequence_gpu1_v4.lock"
+ MODEL = ROOT.parent / "models/Qwen3-VL-8B-Instruct"
+ MAX_NATIVE_WAIT = 45 * 60
+ MAX_GPU_WAIT = 10 * 60
+@@ -103,7 +103,7 @@
+     if unlisted:
+         raise RuntimeError(f"Unhashed Python source in snapshot: {sorted(unlisted)}")
+     if Path(__file__).resolve() != (SNAPSHOT / "run_vlm_bounded.py").resolve():
+-        raise RuntimeError("Run the frozen launcher under code_snapshot/vlm_v3")
++        raise RuntimeError("Run the frozen launcher under code_snapshot/vlm_v4")
+     if file_record(SOURCE_MANIFEST) != manifest_record:
+         raise RuntimeError("Source manifest changed during verification")
+     return records
+@@ -274,7 +274,8 @@
+                 "--model-dir", str(MODEL), "--image", str(INPUTS / "rgb.png"),
+                 "--eo-provider", f"{SNAPSHOT / 'real_h5_provider.py'}:make_provider",
+                 "--eo-provider-config", str(INPUTS / "provider_config.json"),
+-                "--deps-root", str(ROOT / "deps"), "--out-dir", str(OUTPUT), "--device", "cuda:0"]
++                "--deps-root", str(ROOT / "deps"), "--out-dir", str(OUTPUT), "--device", "cuda:0",
++                "--dtype", "float32"]
+         env = dict(os.environ)
+         env.pop("PYTHONPATH", None)  # Equivalent to env -u PYTHONPATH.
+         env["OMP_NUM_THREADS"] = "2"

@@ -1,0 +1,43 @@
+{
+  "recorded_at_utc": "2026-09-26T14:53:08.779482+00:00",
+  "scope": "Summary of read-only nx tool observations in this turn; no model load/training or remote file mutation",
+  "nx_status": "h200-dev RUNNING",
+  "gpu_snapshot": [
+    {
+      "index": 0,
+      "name": "NVIDIA H200",
+      "memory_total_mib": 143771,
+      "memory_used_mib": 0,
+      "utilization": "Not Found"
+    },
+    {
+      "index": 1,
+      "name": "NVIDIA H200",
+      "memory_total_mib": 143771,
+      "memory_used_mib": 0,
+      "utilization": "Not Found"
+    }
+  ],
+  "gpu_snapshot_is_future_availability_guarantee": false,
+  "qwen_root": "/home/work/data/olmoearth/models/Qwen3-VL-8B-Instruct",
+  "qwen_files_observed": [
+    "config.json",
+    "model.safetensors.index.json",
+    "model-00001-of-00004.safetensors",
+    "model-00002-of-00004.safetensors",
+    "model-00003-of-00004.safetensors",
+    "model-00004-of-00004.safetensors"
+  ],
+  "qwen_displayed_shard_sizes": [
+    "4.6G",
+    "4.6G",
+    "4.7G",
+    "2.6G"
+  ],
+  "weights_integrity_or_official_revision_verified": false,
+  "molmo_config_observed": "/home/work/data/olmoearth/models/Molmo2-O-7B/config.json",
+  "raw_data_check_note": "A listing used data/manifest.jsonl and returned no such file. The local receipt names manifest.json; no inference of missing raw data is made from that wrong filename.",
+  "ssh_host_key_changed_warning": true,
+  "ssh_trust_settings_changed": false,
+  "remote_model_inference_or_training_started": false
+}

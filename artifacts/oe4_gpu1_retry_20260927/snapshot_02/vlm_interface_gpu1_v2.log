@@ -1,0 +1,14 @@
+{"utc": "2026-09-27T04:43:41.446776+00:00", "status": "waiting_for_native_sequence", "detail": "Waiting at most 45 minutes for the existing native sequence; no other jobs interrupted."}
+{"utc": "2026-09-27T04:45:11.469743+00:00", "status": "waiting_for_idle_gpu", "detail": "Physical GPU 1 only; three consecutive checks 10 seconds apart, followed by an immediate prelaunch recheck."}
+{"utc": "2026-09-27T04:45:31.832260+00:00", "status": "prelaunch_recheck", "detail": "Source and inputs unchanged; checking GPU again immediately before dispatch."}
+{"utc": "2026-09-27T04:45:31.927445+00:00", "status": "running", "detail": "One bounded VLM interface worker; hard timeout 1100 seconds."}
+Traceback (most recent call last):
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v2/vlm_interface_smoke.py", line 497, in <module>
+    main()
+  File "/home/work/data/olmoearth/oe4_native_v12_v0/code_snapshot/vlm_v2/vlm_interface_smoke.py", line 144, in main
+    torch.cuda.reset_peak_memory_stats(device)
+  File "/home/work/data/olmoearth/.venv-master/lib/python3.11/site-packages/torch/cuda/memory.py", line 396, in reset_peak_memory_stats
+    return torch._C._cuda_resetPeakMemoryStats(device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Invalid device argument 
+{"utc": "2026-09-27T04:45:42.140081+00:00", "status": "failed", "detail": "RuntimeError('VLM interface worker exited with status 1; inspect its log and receipt')"}
