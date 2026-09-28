@@ -1,0 +1,187 @@
+{
+  "schema": "oe11_training_pilot_v0",
+  "backend": "actual",
+  "frozen_at_utc": "2026-09-28T16:27:08.296986+00:00",
+  "purpose": "Actual mask-only optimization and fresh-process resume engineering, before any comparative efficacy run",
+  "seed": 290929,
+  "total_steps": 48,
+  "split_step": 24,
+  "max_stage_seconds": 1800,
+  "resume_tolerance": 1e-06,
+  "max_text_tokens": 1024,
+  "max_text_cache_entries": 32,
+  "optimizer": {
+    "encoder_lr": 1e-05,
+    "head_lr": 0.001,
+    "weight_decay": 0.01,
+    "eps": 1e-06,
+    "clip_grad_norm": 1.0
+  },
+  "optimizer_policy": "Fixed LR; AdamW foreach=false,fused=false; no old96-step warmup copied into48 steps.",
+  "allowed_arms": [
+    "B0",
+    "B2"
+  ],
+  "allowed_conditions": [
+    "names_only",
+    "matched_knowledge"
+  ],
+  "execution": {
+    "arm": "B2",
+    "condition": "matched_knowledge",
+    "stages": [
+      "uninterrupted",
+      "split",
+      "resume"
+    ],
+    "gpu_preference": [
+      1,
+      0
+    ],
+    "occupied_gpu_policy": "Refuse both-busy state without reservation or queued execution."
+  },
+  "paths": {
+    "worker": "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/worker.py",
+    "matching_code": "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0",
+    "loader_code": "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0",
+    "text_mask_code": "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2",
+    "contexts": "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_context_v0/contexts.json",
+    "cases": "/home/work/data/olmoearth/oe11_training_pilot_v0/config/train_pilot_cases_v1.json",
+    "case_preflight": "/home/work/data/olmoearth/oe11_training_pilot_v0/actual_input_preflight_v0.json",
+    "token_audit": "/home/work/data/olmoearth/oe11_training_pilot_v0/token_audit_v0.json",
+    "eo_source": "/home/work/data/olmoearth/oe4_native_v12_v0/source",
+    "deps": "/home/work/data/olmoearth/oe4_native_v12_v0/deps",
+    "eo_weights": "/home/work/data/olmoearth/oe4_native_v12_v0/models/OlmoEarth-v1_2-Base",
+    "qwen_weights": "/home/work/data/olmoearth/models/Qwen3-VL-8B-Instruct",
+    "prepared": "/home/work/data/olmoearth/oe11_source_expand_v0/prepared_v0",
+    "episodes": "/home/work/data/olmoearth/oe11_source_expand_v0/catalog_pooled_v0",
+    "model_identity": "/home/work/data/olmoearth/oe10_text_mask_identity_v2/identity_preparation_v1/identity_manifest.json"
+  },
+  "file_sha256": {
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/README.md": "6fb524bbfaff8d8614043333e23c0b9b9e1305e9119b9493ee06b185980d9f68",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/base_manifest.json": "49bc296cbe7b3b3383fa68fa640788ba219c07d6155801cefc8720c6242d1991",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/base_snapshot/episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/base_snapshot/episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/base_snapshot/native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/check_connection.py": "8a0095fe38cf9bd0d19ec97beff3ccbde4b47ed2f3538894f345f8370b95c28c",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/contracts.py": "4908c438bc7c06813bd26817a4f8ef35735ac00e4a9530a0c3b7c74be452ae06",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/gradient_gate.py": "9615db6eec139a57d6f8d9cf99e75e27e3a0553f8bff8ffd3bd81bf9622d1525",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/input_identity.py": "a3726e0b0a7692bf8dee8d4ed3edf9ad37edc96199278ff6b6b993578ad9fe7f",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/source_manifest.json": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/test_contracts.py": "a885f3dcca3304a9148b33f41c2a6e13d3d3a8a3a45d911d24ee26c4c3efbb37",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/test_gradient_gate.py": "63f96fb359a35c23da9299f4dbd89220f5c38b2f22966b444aa882897863a32a",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/test_input_identity.py": "78b4e138ee5339eb3fabdfd59efd8161f4f9df992b77ef7f3e7c07314a6ecca1",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/test_text_mask_model.py": "aab3f16e5bab00323e73c0dad8fba7da90aafd14d07b2dc8d5c1007f5a4e0915",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/text_mask_model.py": "30e05f955b88de7aa114d0a6ab7d9f5c7af926b62f704e8e5e0bd18ef75e571e",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/v0_source_manifest.json": "b457e213e7dadabefed15711efe0ac7f719fe4ffaf7bee0194a2c1eb16158246",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe10_text_mask_v2/v1_source_manifest.json": "e07c13dd9e6a9598797ce108d3777bcf2649b4fe9f27085e6203cb3cf4d2d159",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_context_v0/README.md": "bd63a4c4b7d530704ff3429ffae50395e7fd24173f31230cc822a8bc96ecc2a2",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_context_v0/build_contexts.py": "76232e10bb283d7e28d410164ab79f8e80e6c26171e46ed182577218bf3ff150",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_context_v0/bundle_manifest.json": "c8cf0adc23232927d22c4beb5697db8f17bfd66b184cdfcf0e42ccc18f08acc0",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_context_v0/contexts.json": "3103522b20eecad9939df8595faa2d4ff9973d6e753582204a9d7a192043a955",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_context_v0/provenance.json": "82db1d6aea2ae957b9c6c1d9be2d9a4f964b7ec10d0dc990b26af6bf56fd4468",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_context_v0/verification.json": "57954f4f009c556c8191a139f7c3fa20cd7cb3e3550c9d0b08efbbb21e91e4df",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0/README.md": "7796be62e4b833ea58045e59fcccb0f5b6c49094d8e350c39983851c72f3d08c",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0/cpu_test_receipt.json": "7615606e9fac23b21a87f4f5f9f6f0a14a07153ddc513a791fe8e398b17aeb00",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0/deployment_manifest.json": "94eb636e216143c265758b0a9628e6a3aab6ff1dac770f678fb0c16190d8fcae",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0/frozen_episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0/loader_adapter.py": "9a18891cab35d48c0065d79c35a243a6be54bb310e3807e2b34b502f2aa2a527",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0/smoke_packets.py": "dd8f27cc27efa83e1ae342f1a4b10ccfaae8a7594834579172f184d88cea3aca",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0/source_manifest.json": "edcbb61365008e5111a70519ac385d2e6f826939f40a4e0b7246c03dd39a998e",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_loader_v0/test_loader_adapter.py": "eb8f380fd1c43d5c9754a6af4727e2f49f8add67fcdd81d8bf5982663e7431a7",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0/README.md": "3a9dcc2debf0f8ef2e6da00c0d9ca3ee158e26ee7be0a7264ad08e6792bc16fa",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0/cpu_test_receipt.json": "269535b030b5fa7abeb85db8504ed629cbbbe40533c5d47f9e44a6bf4518b761",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0/cpu_test_receipt_v0_failed.json": "d9f9ff84b0177a85abf2a589e4abbc2385f119b82b09960898b96d63abd9f6f7",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0/episode_adapter.py": "9f767f3a2d5eed1435b9fca2010585a5c26e0818cae1d77ba95dbb3deedf1333",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0/matching_head.py": "6c5a0b32c15ef63ad30cf063e25d08417d55b5366f3dc7aaf2ea695ae76f4b38",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0/run_cpu_tests_local.py": "6e384bd4d30451d609d66e1f85d1a94b395888deb9ed9f0055e8ec2b88e697eb",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0/source_manifest.json": "5dd2f291e861fc263b5e77d2ff20fa2c0f6469b0c584e8df3b32780bc04ca740",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_matching_v0/test_matching.py": "a297d2cffa3b176d360bbc966e844c9699c9f58da0dd32d7c40af76388000f66",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_pilot_input_preflight_v0/preflight_inputs.py": "587512af91b10e58e186835c260d528a341a9e8abf8a816c5ec19afa42f302db",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/README.md": "a96df829a59ae7f879fcfdcb6866ee08ac6b48cd413e26918a7870e9c483251c",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/actual_backend.py": "9657457dd5cdca234a9d5747bef8d1c03486d227a581d38ddb361d52cedba180",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/cpu_fresh_process_receipt.json": "b5570a2c474e5e0091b720e1426d501dda6f4a8445b2ff42d29b0cc53e4a4aa5",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/cpu_fresh_process_stdout.json": "b5570a2c474e5e0091b720e1426d501dda6f4a8445b2ff42d29b0cc53e4a4aa5",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/source_manifest.json": "1467958c050edb4971dca2fefcc291bcbb3fd582d870e50c2557452a406c9f07",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/test_fresh_process.py": "ef61ba88f47ce467c70427ce125f02ae1c823927f7d8fdb87e7fb7a30825f769",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/tiny_backend.py": "e8d8c027d0b489fc34aa0fda333244597ef06845d5aafb9ad8985db2ee18052e",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/training_core.py": "855bad78787ee6e17da1aa8b829b93057526d3b6467fb260851557791ced4af5",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/snapshot/oe11_training_worker_v0/worker.py": "99f89da1d2440eabd3fadb4ecfe24ca1ffa1caee81625e1af353bc415c37dec0",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/config/train_pilot_cases_v1.json": "01852785be84837bb9a1d556a846c152d86e16800b3ca2e0b036644faf4a328c",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/actual_input_preflight_v0.json": "31ec426b8820fe647396ec3ae1d190b89ee644f669aeb67e473d83085a2cee81",
+    "/home/work/data/olmoearth/oe11_training_pilot_v0/token_audit_v0.json": "87ea94ff9161125e5384aef1539d4d4918f1681de91c3bd309a1d547c205965e",
+    "/home/work/data/olmoearth/oe10_text_mask_identity_v2/identity_preparation_v1/identity_manifest.json": "1254678033e298052e2f418e172a83d59a932c8a78aa9fded79e28ebdbfa6263",
+    "/home/work/data/olmoearth/oe11_source_expand_v0/prepared_v0/manifest.jsonl": "5df5fa6697af9be6e3ea87a8800ca928282b60ad4eaa9bf9bf0877422a9e57a5",
+    "/home/work/data/olmoearth/oe11_source_expand_v0/catalog_pooled_v0/episodes_train.jsonl": "345397400fa7bf7be4f4dcbc91f83037950e98f9ad635577b568f69a958fbb56",
+    "/home/work/data/olmoearth/oe11_source_expand_v0/catalog_pooled_v0/scoring/scoring_train.jsonl": "556a532b873a32384bdde7c52872e10781e496c631ba122ca376bcc9f2ce6103",
+    "/home/work/data/olmoearth/oe11_source_expand_v0/catalog_pooled_v0/episode_contract.json": "fece1e017ef9c1f1de8cae7387887f49e38a77fd48a39750b1174b050c73932f"
+  },
+  "sample": {
+    "base_queries": 12,
+    "source_regions": 3,
+    "targets": [
+      1,
+      3,
+      8,
+      14
+    ],
+    "strata": [
+      "target_present",
+      "confuser_only",
+      "neither"
+    ],
+    "training_K": [
+      1,
+      8
+    ],
+    "training_episodes": 24,
+    "fit_diagnostic_K": 1,
+    "fit_diagnostic_cases": 12,
+    "order": "Two precomputed seed290929 permutations of all24 identities; no score-based change",
+    "observations": {
+      "query": [
+        2,
+        5
+      ],
+      "support": "all8 per object"
+    },
+    "split": "train_only"
+  },
+  "budget": {
+    "ledger": "/home/work/data/olmoearth/oe10_text_mask_identity_v2/pilot_budget_ledger_v0.json",
+    "maximum_cumulative_seconds": 7200,
+    "prior_charged_seconds_at_preparation": 48,
+    "job_seconds": 1800,
+    "all_three_stages_share_one_job_cap": true,
+    "all_retries_and_inference_count": true,
+    "job_id": "oe11_b2_facts_resume_01",
+    "total_optimizer_updates_across_three_processes": 96,
+    "automatic_retry": false,
+    "automatic_scheduler_enabled": false
+  },
+  "computational_gates": [
+    "All loss, gradients, post-update parameters and optimizer moments finite.",
+    "B2 encoder and head actually change; B0 encoder and reader/unused connector remain frozen.",
+    "At least one K8 training step establishes query-key/object-key/text-key gradients; K1 zero selection gradient is expected.",
+    "Model/AdamW/RNG exact restoration at split; fresh-process next-step and final model, optimizer, logits/loss match within1e-6, integer/RNG states exactly.",
+    "Actual CUDA UUID equals prechecked physical0/1; other jobs never terminated.",
+    "Original source/input hashes unchanged and total timeout honored."
+  ],
+  "learning_diagnostic_signals": {
+    "not_computational_pass_criteria": true,
+    "relative_train_loss_drop": 0.05,
+    "mean_present_train_iou_increase": 0.02,
+    "present_class_non_decrease_count": 3,
+    "max_absent_train_positive_fraction_increase": 0.02,
+    "interpretation": "Descriptive signal on12K1 training cases only. Missing signal means trainability not established within this short budget, not method falsification."
+  },
+  "text_diagnostics": "Name/fact/removal/wrong-fact swap sensitivity on fixed train input; no semantic-knowledge proof.",
+  "limits": [
+    "No development/final-region image or label payloads or model predictions used; shared prepared manifest metadata is read. No performance superiority or transfer claim.",
+    "Mask-only training: no official native replay, language CE or generated explanation evaluation.",
+    "Public agronomy cards and synthetic supports are not human expert corrections.",
+    "The source cohort includes former development region; final-region and external-region claims require separate evaluation.",
+    "K8 is trained and gradient-checked, but before/after fit diagnostics here useK1 only.",
+    "Passing this48-step engineering run does not establish sufficiently trained E0-E3 baselines."
+  ]
+}

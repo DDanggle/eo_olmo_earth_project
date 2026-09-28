@@ -1,0 +1,223 @@
+{
+  "status": "passed",
+  "scope": "tiny synthetic CPU + actual matching head; no actual EO/Qwen/GPU",
+  "output_root": "/var/folders/3m/v4m2q2ks69vd8f8pwv7r4cgm0000gn/T/oe11_train_fresh_cpu_qwqy6ja5",
+  "GPU_used": false,
+  "actual_model_wiring_verified": false,
+  "stages_successful": 6,
+  "deliberate_wrong_rng_failures": 2,
+  "receipts": {
+    "B2": {
+      "condition": "matched_knowledge",
+      "pid_triplet": [
+        65954,
+        65980,
+        66006
+      ],
+      "status": "resume_passed",
+      "immediate_restore_exact": {
+        "model": {
+          "passed": true,
+          "max_abs_difference": 0.0,
+          "tensor_count": 17,
+          "failures": []
+        },
+        "optimizer": {
+          "passed": true,
+          "max_abs_difference": 0.0,
+          "tensor_count": 51,
+          "failures": []
+        },
+        "rng": {
+          "passed": true,
+          "max_abs_difference": 0.0,
+          "tensor_count": 1,
+          "failures": []
+        }
+      },
+      "resume_checks": {
+        "next_step": {
+          "model": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 17,
+            "failures": []
+          },
+          "optimizer": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 51,
+            "failures": []
+          },
+          "rng": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "logits": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "post_update_logits": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "mask_loss_abs_difference": 0.0,
+          "passed": true
+        },
+        "final": {
+          "model": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 17,
+            "failures": []
+          },
+          "optimizer": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 51,
+            "failures": []
+          },
+          "rng": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "logits": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "post_update_logits": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "mask_loss_abs_difference": 0.0,
+          "passed": true
+        }
+      },
+      "attention_gradient_seen": {
+        "query_key": true,
+        "object_key": true,
+        "text_key": true
+      },
+      "wrong_rng_resume_rejected": true
+    },
+    "B0": {
+      "condition": "names_only",
+      "pid_triplet": [
+        66032,
+        66060,
+        66064
+      ],
+      "status": "resume_passed",
+      "immediate_restore_exact": {
+        "model": {
+          "passed": true,
+          "max_abs_difference": 0.0,
+          "tensor_count": 15,
+          "failures": []
+        },
+        "optimizer": {
+          "passed": true,
+          "max_abs_difference": 0.0,
+          "tensor_count": 45,
+          "failures": []
+        },
+        "rng": {
+          "passed": true,
+          "max_abs_difference": 0.0,
+          "tensor_count": 1,
+          "failures": []
+        }
+      },
+      "resume_checks": {
+        "next_step": {
+          "model": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 15,
+            "failures": []
+          },
+          "optimizer": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 45,
+            "failures": []
+          },
+          "rng": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "logits": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "post_update_logits": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "mask_loss_abs_difference": 0.0,
+          "passed": true
+        },
+        "final": {
+          "model": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 15,
+            "failures": []
+          },
+          "optimizer": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 45,
+            "failures": []
+          },
+          "rng": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "logits": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "post_update_logits": {
+            "passed": true,
+            "max_abs_difference": 0.0,
+            "tensor_count": 1,
+            "failures": []
+          },
+          "mask_loss_abs_difference": 0.0,
+          "passed": true
+        }
+      },
+      "attention_gradient_seen": {
+        "query_key": true,
+        "object_key": true,
+        "text_key": true
+      },
+      "wrong_rng_resume_rejected": true
+    }
+  },
+  "python": "/Users/dongdong/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/bin/python3",
+  "torch_version": "2.9.1"
+}

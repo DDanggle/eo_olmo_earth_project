@@ -1,0 +1,1250 @@
+{
+  "GPU_used": false,
+  "classes": [
+    1,
+    3,
+    8,
+    14
+  ],
+  "common_limits": [
+    "A general agronomic description does not establish the presence of a crop in a query image.",
+    "Do not infer a parcel's sowing, flowering or harvest date from the calendar month alone.",
+    "No field temperature, local weather, crop stage, crop health or causal event is measured in this preparation.",
+    "Only dates and pixels actually acquired by the future loader may be used as image evidence.",
+    "An annual crop label is not a date-specific stage label.",
+    "These AI-written summaries of published expertise have not been reviewed by an agronomist.",
+    "Class names are additional support-label semantics shared by names-only and names-plus-facts conditions; the facts effect must be compared with names-only, not the unnamed-exemplar baseline alone.",
+    "An annual PASTIS class label is not a date-specific crop stage, species identification, parcel treatment record or event annotation.",
+    "Agronomic forage examples do not establish the exact subtype composition of the PASTIS leguminous-fodder class or of any support parcel.",
+    "Public source summaries do not establish crop presence, harvest, removal, drought, health or cause in a query image.",
+    "Only acquired image dates may be used as observation evidence; two query dates may miss intermediate cuts, regrowth and distinguishing stages.",
+    "Cloud, haze, mixed pixels and unresolved rows can limit discrimination; no EO discrimination or subpixel observability claim is validated by these agronomic sources.",
+    "These AI-written summaries have not been reviewed by an agronomist. Human corrections and patch-level expert annotations remain zero.",
+    "Source publication dates are provenance, not acquisition-year evidence. Contemporary summaries are retrospective background rather than 2019 parcel records."
+  ],
+  "conditions": [
+    "names_only",
+    "matched_knowledge"
+  ],
+  "context_id_format": "pair_id:condition",
+  "expert_reviewed": false,
+  "human_responses": 0,
+  "input_sha256": {
+    "code/oe10_expansion_catalog_v0/episode_builder_reference.py": "64c6df1fe10b40da8cc076286a6184be05ec0db261a4462af0548aaba8eff6d6",
+    "code/oe10_text_mask_v2/contracts.py": "4908c438bc7c06813bd26817a4f8ef35735ac00e4a9530a0c3b7c74be452ae06",
+    "config/oe10_agronomy_context_cards_20260928.json": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+    "config/oe10_expansion_agronomy_cards_20260928.json": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8"
+  },
+  "limitations": [
+    "Fixed four-class role texts can function as class codes; this bundle does not establish semantic or regional reasoning.",
+    "Class names are public request/support semantics, not inferred from query gold.",
+    "Facts were copied from existing AI-written, source-grounded cards; no new source verification or factual claims were added.",
+    "No parcel-specific climate, local weather, crop stage, treatment, event, health, or acquisition-year facts are supplied.",
+    "matched_knowledge must be compared with names_only under matched architecture, images, supports and training budget.",
+    "Source publication dates are provenance, not evidence of conditions in 2019 observations."
+  ],
+  "pair_catalog": [
+    {
+      "counterexample_class_id": 3,
+      "pair_id": "30c4695ce6872dac3258",
+      "positive_class_id": 1
+    },
+    {
+      "counterexample_class_id": 8,
+      "pair_id": "96d6c6c9692ac6065e7c",
+      "positive_class_id": 1
+    },
+    {
+      "counterexample_class_id": 14,
+      "pair_id": "3b420a79dd50c7fbfba7",
+      "positive_class_id": 1
+    },
+    {
+      "counterexample_class_id": 1,
+      "pair_id": "97c6e7330a82d4a0ea85",
+      "positive_class_id": 3
+    },
+    {
+      "counterexample_class_id": 8,
+      "pair_id": "21466439bca0bf0f1802",
+      "positive_class_id": 3
+    },
+    {
+      "counterexample_class_id": 14,
+      "pair_id": "17aa02fc3b4c61578da2",
+      "positive_class_id": 3
+    },
+    {
+      "counterexample_class_id": 1,
+      "pair_id": "8474dad7bac78a84bdfd",
+      "positive_class_id": 8
+    },
+    {
+      "counterexample_class_id": 3,
+      "pair_id": "580041af104d507e4057",
+      "positive_class_id": 8
+    },
+    {
+      "counterexample_class_id": 14,
+      "pair_id": "6393409ffd951bf9f09b",
+      "positive_class_id": 8
+    },
+    {
+      "counterexample_class_id": 1,
+      "pair_id": "67c539613203f40fef0f",
+      "positive_class_id": 14
+    },
+    {
+      "counterexample_class_id": 3,
+      "pair_id": "be1e61809630b1eb2cf6",
+      "positive_class_id": 14
+    },
+    {
+      "counterexample_class_id": 8,
+      "pair_id": "c14ed41ce228b819e66d",
+      "positive_class_id": 14
+    }
+  ],
+  "pair_id_format": "sha256(namespace:positive_class:counterexample_class)[:20]",
+  "pair_namespace": "oe8-directed-pair-v0",
+  "parcel_level_regional_facts": false,
+  "patch_level_expert_annotations": 0,
+  "query_gold_read": false,
+  "records": [
+    {
+      "condition": "names_only",
+      "context_id": "30c4695ce6872dac3258:names_only",
+      "context_sha256": "4cd17c127378f1f4151887f6ee6f6d60b59bd5e0bdec8fc3389011b113bf45d2",
+      "pair_id": "30c4695ce6872dac3258",
+      "roles": {
+        "counterexample": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "63b0490d4736e740f26ea9483d55c254abe032845b70ba84ea463ca6582d106f",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        },
+        "positive": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "6d02f7d61e02d070944a9a37856f43d78fb89f8adea6150cd2fdcb53d2a4cc4a",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "30c4695ce6872dac3258:matched_knowledge",
+      "context_sha256": "206451d7e696f4b2c58e6e29db103d13b52ae9309f7a8849313b021109489b4d",
+      "pair_id": "30c4695ce6872dac3258",
+      "roles": {
+        "counterexample": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "d8e26befb3435abef4d65da51cb1ce14c258ad73e33da2e69d0d66ce37025f30",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        },
+        "positive": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "bf02290efde66ece4734bd6d126f1832d96d30cf52c006f3bbe14d1b6eaac896",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "96d6c6c9692ac6065e7c:names_only",
+      "context_sha256": "5f19c978dd7eccf6b13a99a15408e804eacf7bb35b10bab4ebe2f41b14624565",
+      "pair_id": "96d6c6c9692ac6065e7c",
+      "roles": {
+        "counterexample": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "22bd790e02a80f579142023a64a22890438dccfde7e99d174a48b51fbf4663e2",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        },
+        "positive": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "6d02f7d61e02d070944a9a37856f43d78fb89f8adea6150cd2fdcb53d2a4cc4a",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "96d6c6c9692ac6065e7c:matched_knowledge",
+      "context_sha256": "5c503b15361198c099f61d6b2d7720527eaefb02dcd2654811b0b79084826ab0",
+      "pair_id": "96d6c6c9692ac6065e7c",
+      "roles": {
+        "counterexample": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "6949378ee4a626a7666b554738be88b2d4fc444072f3d89ba7fe15ed4749eb46",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        },
+        "positive": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "bf02290efde66ece4734bd6d126f1832d96d30cf52c006f3bbe14d1b6eaac896",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "3b420a79dd50c7fbfba7:names_only",
+      "context_sha256": "84531d5653d2dfecc0106e465008119e39cc57612a3910ffb9f87f214842852f",
+      "pair_id": "3b420a79dd50c7fbfba7",
+      "roles": {
+        "counterexample": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "30afdb3900df9aa07955430d969c4b746c4a1abbe9ed2568ead3511ba3c05817",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        },
+        "positive": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "6d02f7d61e02d070944a9a37856f43d78fb89f8adea6150cd2fdcb53d2a4cc4a",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "3b420a79dd50c7fbfba7:matched_knowledge",
+      "context_sha256": "7bf20376bd55d6bd47131217ba1f812acf44c39bf0acb2115badf11115aeb2b5",
+      "pair_id": "3b420a79dd50c7fbfba7",
+      "roles": {
+        "counterexample": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "cfbdb447f6b579f284341f4dd542b1c88d5e6b2d7fd28f341e36ba1d96a62d00",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        },
+        "positive": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "bf02290efde66ece4734bd6d126f1832d96d30cf52c006f3bbe14d1b6eaac896",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "97c6e7330a82d4a0ea85:names_only",
+      "context_sha256": "0d8aca6923b88cff5d70ff6ee37b41fb6cbc71794e809133d6b667ca787c4750",
+      "pair_id": "97c6e7330a82d4a0ea85",
+      "roles": {
+        "counterexample": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "6d02f7d61e02d070944a9a37856f43d78fb89f8adea6150cd2fdcb53d2a4cc4a",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        },
+        "positive": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "63b0490d4736e740f26ea9483d55c254abe032845b70ba84ea463ca6582d106f",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "97c6e7330a82d4a0ea85:matched_knowledge",
+      "context_sha256": "a62c5a21008d21856edd1a3de287c5e0f553808b98e7477bd3d02dc7af5ea520",
+      "pair_id": "97c6e7330a82d4a0ea85",
+      "roles": {
+        "counterexample": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "bf02290efde66ece4734bd6d126f1832d96d30cf52c006f3bbe14d1b6eaac896",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        },
+        "positive": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "d8e26befb3435abef4d65da51cb1ce14c258ad73e33da2e69d0d66ce37025f30",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "21466439bca0bf0f1802:names_only",
+      "context_sha256": "034038ca21da2041707f8a164f2c71981c7e3ef916a5de25b74f9c7599391ca3",
+      "pair_id": "21466439bca0bf0f1802",
+      "roles": {
+        "counterexample": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "22bd790e02a80f579142023a64a22890438dccfde7e99d174a48b51fbf4663e2",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        },
+        "positive": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "63b0490d4736e740f26ea9483d55c254abe032845b70ba84ea463ca6582d106f",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "21466439bca0bf0f1802:matched_knowledge",
+      "context_sha256": "8e0712a36db883cea24518650fafe37d39a8eb460797ba30cbba61f13af5d3f6",
+      "pair_id": "21466439bca0bf0f1802",
+      "roles": {
+        "counterexample": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "6949378ee4a626a7666b554738be88b2d4fc444072f3d89ba7fe15ed4749eb46",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        },
+        "positive": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "d8e26befb3435abef4d65da51cb1ce14c258ad73e33da2e69d0d66ce37025f30",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "17aa02fc3b4c61578da2:names_only",
+      "context_sha256": "223904656d192d483e80b3e5b331930aa8a4f3befcbbe4ca64cff89acf75ed4e",
+      "pair_id": "17aa02fc3b4c61578da2",
+      "roles": {
+        "counterexample": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "30afdb3900df9aa07955430d969c4b746c4a1abbe9ed2568ead3511ba3c05817",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        },
+        "positive": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "63b0490d4736e740f26ea9483d55c254abe032845b70ba84ea463ca6582d106f",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "17aa02fc3b4c61578da2:matched_knowledge",
+      "context_sha256": "76754e0ecb28e2eb3fb7bcf7353f357cc5bb28de470706bbc2697e445a24b5ab",
+      "pair_id": "17aa02fc3b4c61578da2",
+      "roles": {
+        "counterexample": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "cfbdb447f6b579f284341f4dd542b1c88d5e6b2d7fd28f341e36ba1d96a62d00",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        },
+        "positive": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "d8e26befb3435abef4d65da51cb1ce14c258ad73e33da2e69d0d66ce37025f30",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "8474dad7bac78a84bdfd:names_only",
+      "context_sha256": "e2dc769d452058a97436de7c43e6bd7fc8b04892d86876297218cb9c0a5f585e",
+      "pair_id": "8474dad7bac78a84bdfd",
+      "roles": {
+        "counterexample": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "6d02f7d61e02d070944a9a37856f43d78fb89f8adea6150cd2fdcb53d2a4cc4a",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        },
+        "positive": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "22bd790e02a80f579142023a64a22890438dccfde7e99d174a48b51fbf4663e2",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "8474dad7bac78a84bdfd:matched_knowledge",
+      "context_sha256": "c18e06559e6e96cc5bb87287b7cf379eb545c69d51b64decafedb8674b5d25b2",
+      "pair_id": "8474dad7bac78a84bdfd",
+      "roles": {
+        "counterexample": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "bf02290efde66ece4734bd6d126f1832d96d30cf52c006f3bbe14d1b6eaac896",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        },
+        "positive": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "6949378ee4a626a7666b554738be88b2d4fc444072f3d89ba7fe15ed4749eb46",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "580041af104d507e4057:names_only",
+      "context_sha256": "a69cd1a680a5076623ea45b7937eb2e0274319cc6d76407a8c12c42712514e67",
+      "pair_id": "580041af104d507e4057",
+      "roles": {
+        "counterexample": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "63b0490d4736e740f26ea9483d55c254abe032845b70ba84ea463ca6582d106f",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        },
+        "positive": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "22bd790e02a80f579142023a64a22890438dccfde7e99d174a48b51fbf4663e2",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "580041af104d507e4057:matched_knowledge",
+      "context_sha256": "14724eea518af42eab8f0109a8584cb0804e93bb45586074c7a9e759340fbc5d",
+      "pair_id": "580041af104d507e4057",
+      "roles": {
+        "counterexample": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "d8e26befb3435abef4d65da51cb1ce14c258ad73e33da2e69d0d66ce37025f30",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        },
+        "positive": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "6949378ee4a626a7666b554738be88b2d4fc444072f3d89ba7fe15ed4749eb46",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "6393409ffd951bf9f09b:names_only",
+      "context_sha256": "6d4fecafa20117d773fe5a073ec6b9e43bf2647b9404915bdaa1098fa17f5223",
+      "pair_id": "6393409ffd951bf9f09b",
+      "roles": {
+        "counterexample": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "30afdb3900df9aa07955430d969c4b746c4a1abbe9ed2568ead3511ba3c05817",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        },
+        "positive": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "22bd790e02a80f579142023a64a22890438dccfde7e99d174a48b51fbf4663e2",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "6393409ffd951bf9f09b:matched_knowledge",
+      "context_sha256": "0cb64d0268a8690f753bac3164f75ca3b39871f87083b8fd95c41501a4386314",
+      "pair_id": "6393409ffd951bf9f09b",
+      "roles": {
+        "counterexample": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "cfbdb447f6b579f284341f4dd542b1c88d5e6b2d7fd28f341e36ba1d96a62d00",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        },
+        "positive": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "6949378ee4a626a7666b554738be88b2d4fc444072f3d89ba7fe15ed4749eb46",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "67c539613203f40fef0f:names_only",
+      "context_sha256": "79bc0a90b26045de7f6686746a4ffb31396f1723a54b88b393c09ceb2ce0b011",
+      "pair_id": "67c539613203f40fef0f",
+      "roles": {
+        "counterexample": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "6d02f7d61e02d070944a9a37856f43d78fb89f8adea6150cd2fdcb53d2a4cc4a",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        },
+        "positive": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "30afdb3900df9aa07955430d969c4b746c4a1abbe9ed2568ead3511ba3c05817",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "67c539613203f40fef0f:matched_knowledge",
+      "context_sha256": "5435c3be674d055f6c9d63ba9cd37eaf21e554b42fb82b83c4ea17e038fbc133",
+      "pair_id": "67c539613203f40fef0f",
+      "roles": {
+        "counterexample": {
+          "card_id": "meadow_v0",
+          "card_sha256": "8681588848924738d31f12fa98ee59eab9d1ebeadf3136f7ee78cd50741b3db0",
+          "class_id": 1,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "bf02290efde66ece4734bd6d126f1832d96d30cf52c006f3bbe14d1b6eaac896",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "inrae_grassland"
+          ]
+        },
+        "positive": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "cfbdb447f6b579f284341f4dd542b1c88d5e6b2d7fd28f341e36ba1d96a62d00",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "be1e61809630b1eb2cf6:names_only",
+      "context_sha256": "4216e03f003cfff92c024edb19026559dee3d6bbb160658c46faf87c44181e89",
+      "pair_id": "be1e61809630b1eb2cf6",
+      "roles": {
+        "counterexample": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "63b0490d4736e740f26ea9483d55c254abe032845b70ba84ea463ca6582d106f",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        },
+        "positive": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "30afdb3900df9aa07955430d969c4b746c4a1abbe9ed2568ead3511ba3c05817",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "be1e61809630b1eb2cf6:matched_knowledge",
+      "context_sha256": "96e97e792975db5569cca195d399acdb0dbe36c5102d9c31808f58b45226c416",
+      "pair_id": "be1e61809630b1eb2cf6",
+      "roles": {
+        "counterexample": {
+          "card_id": "corn_v0",
+          "card_sha256": "59cb85cc8b0121354ae16912e176d84328036fa3e61402b6d1b73992127be492",
+          "class_id": 3,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "d8e26befb3435abef4d65da51cb1ce14c258ad73e33da2e69d0d66ce37025f30",
+          "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+          "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+          "source_ids": [
+            "arvalis_maize_2024"
+          ]
+        },
+        "positive": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "cfbdb447f6b579f284341f4dd542b1c88d5e6b2d7fd28f341e36ba1d96a62d00",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "names_only",
+      "context_id": "c14ed41ce228b819e66d:names_only",
+      "context_sha256": "f54e6d36ee20d31d3703a5bf9f4a9d1c64e27dd6b63f93d8dce09e60e1ff711b",
+      "pair_id": "c14ed41ce228b819e66d",
+      "roles": {
+        "counterexample": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "22bd790e02a80f579142023a64a22890438dccfde7e99d174a48b51fbf4663e2",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        },
+        "positive": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name"
+          ],
+          "role_text_sha256": "30afdb3900df9aa07955430d969c4b746c4a1abbe9ed2568ead3511ba3c05817",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        }
+      }
+    },
+    {
+      "condition": "matched_knowledge",
+      "context_id": "c14ed41ce228b819e66d:matched_knowledge",
+      "context_sha256": "991c5d4077b96993d9916541ab2abdcc6de3b6ad031ab29f26e58525dfc44f31",
+      "pair_id": "c14ed41ce228b819e66d",
+      "roles": {
+        "counterexample": {
+          "card_id": "grapevine_v0",
+          "card_sha256": "e924e6be866881b1122e7c0b45d4cf401043e45bc835cb45209a287e90a6ede0",
+          "class_id": 8,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "6949378ee4a626a7666b554738be88b2d4fc444072f3d89ba7fe15ed4749eb46",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "umd_grape_perennial",
+            "ifv_vineyard_floor",
+            "ifv_bronner_phenology_scope"
+          ]
+        },
+        "positive": {
+          "card_id": "leguminous_fodder_v0",
+          "card_sha256": "4a62234fa5e0da9f6c6f1b425ef894ba0012952cee915a991d541772f284f0ad",
+          "class_id": 14,
+          "copied_fields": [
+            "concept_name",
+            "claim_text",
+            "inspection_hypothesis",
+            "transfer_limit"
+          ],
+          "role_text_sha256": "cfbdb447f6b579f284341f4dd542b1c88d5e6b2d7fd28f341e36ba1d96a62d00",
+          "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+          "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+          "source_ids": [
+            "arvalis_forage_species",
+            "arvalis_alfalfa_cuts",
+            "arvalis_legume_grass_mix"
+          ]
+        }
+      }
+    }
+  ],
+  "routing_fields_are_not_model_inputs": true,
+  "runtime_dataset_read": false,
+  "schema": "oe11_fixed_request_context_provenance_v0",
+  "sources": {
+    "arvalis_alfalfa_cuts": {
+      "source": {
+        "eo_discrimination_validated": false,
+        "evidence_locator": "Opening paragraph, Le 15 mai une date pivot, and Les repousses fonction des ressources racinaires",
+        "geography": "France; alfalfa management example only",
+        "id": "arvalis_alfalfa_cuts",
+        "organization": "ARVALIS - Institut du vegetal",
+        "published": "2016-05-12",
+        "summary": "Alfalfa can be cut repeatedly and regrow; timing depends on development and regional conditions. This is a subtype example, not a universal schedule for leguminous fodder or a parcel event record.",
+        "supports_claim_ids": [
+          "fodder_alfalfa_regrowth"
+        ],
+        "type": "official technical guidance reporting field experiments",
+        "url": "https://www.arvalis.fr/infos-techniques/exploitation-des-luzernes-bien-rythmer-les-coupes-dans-une-luzerniere"
+      },
+      "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+      "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+      "source_sha256": "5dbf58b6fda27f6d2dbebb80593d5b74d2da1af974d7701f7218a9c4b83f0449"
+    },
+    "arvalis_forage_species": {
+      "source": {
+        "eo_discrimination_validated": false,
+        "evidence_locator": "Sections Choisir dabord en fonction de la duree, contexte pedoclimatique, utilisation prevue, Melanges graminees-legumineuses",
+        "geography": "France; forage selection guidance",
+        "id": "arvalis_forage_species",
+        "organization": "ARVALIS - Institut du vegetal",
+        "published": "2019-08-07",
+        "summary": "Forage legumes include annual and perennial clovers and alfalfa; longevity, soil and climate suitability differ. Species and varieties differ in suitability for mowing and grazing. Mixed grass-legume stands are discussed.",
+        "supports_claim_ids": [
+          "fodder_diversity",
+          "fodder_management",
+          "fodder_mixtures"
+        ],
+        "type": "official agronomic technical guidance",
+        "url": "https://www.arvalis.fr/infos-techniques/prairies-choisir-ses-especes-selon-le-contexte-et-lutilisation-prevue"
+      },
+      "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+      "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+      "source_sha256": "170a29620e70b21c08bbe66361446179ed302a298f8fa2875e9bf5ef5b203243"
+    },
+    "arvalis_legume_grass_mix": {
+      "source": {
+        "eo_discrimination_validated": false,
+        "evidence_locator": "Legumineuses des besoins en chaleur plus eleves and Linteret des prairies multi-especes",
+        "geography": "France; general forage systems",
+        "id": "arvalis_legume_grass_mix",
+        "organization": "ARVALIS - Institut du vegetal",
+        "published": "2014-07-24",
+        "summary": "White clover and alfalfa are discussed alongside grass-legume mixtures; growth through the year depends on the component species and their environmental requirements.",
+        "supports_claim_ids": [
+          "fodder_mixtures",
+          "fodder_diversity"
+        ],
+        "type": "official agronomic technical guidance",
+        "url": "https://www.arvalis.fr/infos-techniques/lintroduction-de-legumineuses-ameliore-la-pousse-estivale-et-la-valeur-alimentaire"
+      },
+      "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+      "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+      "source_sha256": "c08aac8cdf032ef075accffb7334224d4098b7268b957ec0b9ff33dfc262d39e"
+    },
+    "arvalis_maize_2024": {
+      "source": {
+        "geography": "France",
+        "historical_2019_parcel_evidence": false,
+        "id": "arvalis_maize_2024",
+        "organization": "ARVALIS",
+        "published": "2024-07-29",
+        "summary": "The 2024 maize season illustrates that rain can delay and spread sowing and flowering. Timing estimation requires field observations, variety and thermal conditions.",
+        "type": "technical press release",
+        "url": "https://www.arvalis.fr/espace-presse/estimer-la-date-de-floraison-pour-anticiper-la-recolte-du-mais-fourrage"
+      },
+      "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+      "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+      "source_sha256": "842f8fcd32ce8860f61cb474413973030b0738346dc2f29570e4f8d7b49a25c5"
+    },
+    "ifv_bronner_phenology_scope": {
+      "source": {
+        "eo_discrimination_validated": false,
+        "evidence_locator": "PDF page 2, La phenologie du Bronner B, opening paragraph and regional observations",
+        "geography": "Bronner observations from Baden, Styria and Zurich; reference cultivars at Vassal, France",
+        "id": "ifv_bronner_phenology_scope",
+        "organization": "IFV-hosted CIVARE cultivar sheet; ICV technical-guide phenology synthesis",
+        "published": "2018-autumn",
+        "summary": "The sheet compares budbreak and maturity against regional cultivars and explicitly says direct transfer of observation dates between climates is uncertain.",
+        "supports_claim_ids": [
+          "grape_phenology_scope"
+        ],
+        "type": "official cultivar research and technical sheet",
+        "url": "https://www.vignevin.com/wp-content/uploads/2019/03/FICHE_CEPAGE_BRONNER.pdf"
+      },
+      "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+      "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+      "source_sha256": "3b949fc63eee4f70eff3624b81d63b0c1ad1287261242a929a6b2026a86f2e40"
+    },
+    "ifv_vineyard_floor": {
+      "source": {
+        "eo_discrimination_validated": false,
+        "evidence_locator": "Sections on herbicide alternatives, agronomic effects, species choice and management strategies",
+        "geography": "Southwestern France vineyard experiments; not all vineyards",
+        "id": "ifv_vineyard_floor",
+        "organization": "Institut Francais de la Vigne et du Vin (IFV)",
+        "published": null,
+        "summary": "Vineyard floors can have vegetation between rows and under vines, with different management options. The published field experiments also discuss temporary and permanent covers.",
+        "supports_claim_ids": [
+          "grape_floor_cover"
+        ],
+        "type": "official applied research and technical guidance",
+        "url": "https://www.vignevin.com/publications/fiches-pratiques/lenherbement-sous-le-rang/"
+      },
+      "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+      "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+      "source_sha256": "59cd20b3f06f0e44c7dfb51419f711d1f4758bbce04df0829eee75bf42fb87f9"
+    },
+    "inrae_grassland": {
+      "source": {
+        "eo_observation_ambiguity_discussed": true,
+        "geography": "Temperate grasslands",
+        "id": "inrae_grassland",
+        "organization": "INRAE CESBIO / UREP",
+        "summary": "A summer vegetation-index decline in grassland can reflect intrinsic phenology, water stress, mowing or grazing. Remote-sensing time series alone can leave the cause ambiguous.",
+        "type": "research internship description; not an outcome paper",
+        "url": "https://www.cesbio.cnrs.fr/wp-content/uploads/2024/11/stage_prairie_fauvel_pottier.pdf"
+      },
+      "source_file": "config/oe10_agronomy_context_cards_20260928.json",
+      "source_file_sha256": "ce85a8768527045d3bdd6babdfb48aa9bcef99e6b5bfda497db332f928039243",
+      "source_sha256": "4a84db4ffa0f67bda45a19d068c858ae43e7dea9cf69a841bbd0e6f84ada8260"
+    },
+    "umd_grape_perennial": {
+      "source": {
+        "eo_discrimination_validated": false,
+        "evidence_locator": "About grapes, first and third bullets",
+        "geography": "Maryland, United States; botanical life-form only is transferred",
+        "id": "umd_grape_perennial",
+        "organization": "University of Maryland Extension",
+        "published": "2024-04-12",
+        "summary": "Grapevines are woody perennials; new shoots grow in spring. Exact planting, harvest and management recommendations are not transferred to French parcels.",
+        "supports_claim_ids": [
+          "grape_perennial"
+        ],
+        "type": "university horticulture extension guidance",
+        "url": "https://www.extension.umd.edu/resource/growing-grapes-home-garden"
+      },
+      "source_file": "config/oe10_expansion_agronomy_cards_20260928.json",
+      "source_file_sha256": "d9cfddbde5f2da5985c102a8623ea5a132ffc44533e3474a07d39141882809f8",
+      "source_sha256": "d0e76d49dd5ea518ec8eb60387704b57b6174e75cf52a8b341453bbfc60fd28a"
+    }
+  }
+}

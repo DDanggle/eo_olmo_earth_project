@@ -1,0 +1,16 @@
+{
+  "scope": "OE11 catalog adapter staging, CPU synthetic tests only",
+  "files": {
+    "episode_catalog.py": "7fe5d6c362d0b13458ce61b332d870bfe15fbe231d866b758574b4146479430a",
+    "test_episode_catalog.py": "b7f001cd3b8b7757c3c8b00f7f4c3eca70dfe9ec6d07018c799e47f3965b5289",
+    "README.md": "3a589b767e1970a46940d4d0f4efabd456654f5d7f81704ce84a8bfd43c1a324"
+  },
+  "base_builder_sha256": "64c6df1fe10b40da8cc076286a6184be05ec0db261a4462af0548aaba8eff6d6",
+  "synthetic_test_result": {
+    "command": "python3 -m unittest discover -s /private/tmp/oe11_episode_catalog -p test_*.py -v",
+    "tests": 8,
+    "passed": 8,
+    "elapsed_seconds": 1.224
+  },
+  "real_prepared_packet_run_by_this_agent": false
+}

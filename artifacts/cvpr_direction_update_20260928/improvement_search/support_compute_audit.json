@@ -1,0 +1,154 @@
+{
+  "schema": "oe10_support_compute_metadata_v1",
+  "catalogs": {
+    "original_train": {
+      "path": "artifacts/oe8_pastis_prepare_20260927/review_bundle_v0/episodes/episodes_train.jsonl",
+      "sha256": "fadaf5edc3625a4a420babfe5b048e5752f0c824a8a44c005e5b13a6f6910293",
+      "episodes": 2304,
+      "by_k": {
+        "1": {
+          "episodes": 576,
+          "support_calls_before": 1152,
+          "support_calls_if_shared": 1128,
+          "support_call_reduction_fraction": 0.020833333333333332,
+          "mean_unique_support_patches_per_episode": 1.9583333333333333,
+          "unique_support_patch_count_histogram": {
+            "1": 24,
+            "2": 552
+          },
+          "mean_patch_date_instances_two_query_current": 18.0,
+          "mean_patch_date_instances_two_query_shared": 17.666666666666668,
+          "mean_patch_date_instances_eight_query_shared": 23.666666666666668
+        },
+        "2": {
+          "episodes": 576,
+          "support_calls_before": 2304,
+          "support_calls_if_shared": 2152,
+          "support_call_reduction_fraction": 0.06597222222222222,
+          "mean_unique_support_patches_per_episode": 3.736111111111111,
+          "unique_support_patch_count_histogram": {
+            "2": 8,
+            "3": 136,
+            "4": 432
+          },
+          "mean_patch_date_instances_two_query_current": 34.0,
+          "mean_patch_date_instances_two_query_shared": 31.88888888888889,
+          "mean_patch_date_instances_eight_query_shared": 37.888888888888886
+        },
+        "4": {
+          "episodes": 576,
+          "support_calls_before": 4608,
+          "support_calls_if_shared": 3956,
+          "support_call_reduction_fraction": 0.14149305555555555,
+          "mean_unique_support_patches_per_episode": 6.868055555555555,
+          "unique_support_patch_count_histogram": {
+            "3": 2,
+            "4": 4,
+            "5": 28,
+            "6": 136,
+            "7": 270,
+            "8": 136
+          },
+          "mean_patch_date_instances_two_query_current": 66.0,
+          "mean_patch_date_instances_two_query_shared": 56.94444444444444,
+          "mean_patch_date_instances_eight_query_shared": 62.94444444444444
+        },
+        "8": {
+          "episodes": 576,
+          "support_calls_before": 9216,
+          "support_calls_if_shared": 6906,
+          "support_call_reduction_fraction": 0.2506510416666667,
+          "mean_unique_support_patches_per_episode": 11.989583333333334,
+          "unique_support_patch_count_histogram": {
+            "8": 6,
+            "9": 14,
+            "10": 56,
+            "11": 126,
+            "12": 158,
+            "13": 138,
+            "14": 74,
+            "15": 4
+          },
+          "mean_patch_date_instances_two_query_current": 130.0,
+          "mean_patch_date_instances_two_query_shared": 97.91666666666667,
+          "mean_patch_date_instances_eight_query_shared": 103.91666666666667
+        }
+      }
+    },
+    "expansion_train": {
+      "path": "artifacts/oe10_expansion_catalog_20260928/oe10_expansion_catalog_v0/runtime_v2/episodes_train.jsonl",
+      "sha256": "30fe53cb935002c464c9d38b42d01e20cb724e70af8fcd2dbefddbe37bd7a377",
+      "episodes": 384,
+      "by_k": {
+        "1": {
+          "episodes": 96,
+          "support_calls_before": 192,
+          "support_calls_if_shared": 192,
+          "support_call_reduction_fraction": 0.0,
+          "mean_unique_support_patches_per_episode": 2.0,
+          "unique_support_patch_count_histogram": {
+            "2": 96
+          },
+          "mean_patch_date_instances_two_query_current": 18.0,
+          "mean_patch_date_instances_two_query_shared": 18.0,
+          "mean_patch_date_instances_eight_query_shared": 24.0
+        },
+        "2": {
+          "episodes": 96,
+          "support_calls_before": 384,
+          "support_calls_if_shared": 366,
+          "support_call_reduction_fraction": 0.046875,
+          "mean_unique_support_patches_per_episode": 3.8125,
+          "unique_support_patch_count_histogram": {
+            "3": 18,
+            "4": 78
+          },
+          "mean_patch_date_instances_two_query_current": 34.0,
+          "mean_patch_date_instances_two_query_shared": 32.5,
+          "mean_patch_date_instances_eight_query_shared": 38.5
+        },
+        "4": {
+          "episodes": 96,
+          "support_calls_before": 768,
+          "support_calls_if_shared": 658,
+          "support_call_reduction_fraction": 0.14322916666666666,
+          "mean_unique_support_patches_per_episode": 6.854166666666667,
+          "unique_support_patch_count_histogram": {
+            "5": 2,
+            "6": 28,
+            "7": 48,
+            "8": 18
+          },
+          "mean_patch_date_instances_two_query_current": 66.0,
+          "mean_patch_date_instances_two_query_shared": 56.833333333333336,
+          "mean_patch_date_instances_eight_query_shared": 62.833333333333336
+        },
+        "8": {
+          "episodes": 96,
+          "support_calls_before": 1536,
+          "support_calls_if_shared": 1118,
+          "support_call_reduction_fraction": 0.2721354166666667,
+          "mean_unique_support_patches_per_episode": 11.645833333333334,
+          "unique_support_patch_count_histogram": {
+            "10": 12,
+            "11": 36,
+            "12": 24,
+            "13": 22,
+            "14": 2
+          },
+          "mean_patch_date_instances_two_query_current": 130.0,
+          "mean_patch_date_instances_two_query_shared": 95.16666666666667,
+          "mean_patch_date_instances_eight_query_shared": 101.16666666666667
+        }
+      }
+    }
+  },
+  "script_sha256": "1ec9b8d3dfb42b7114b9b4836b7f66199fccfbe7c4412301f1382aaf0af97649",
+  "limits": [
+    "Conservative same-input-file/hash/date comparison, not array equality.",
+    "Only within-forward support reuse; never cache detached trainable features across updates.",
+    "No inference, FLOPs, memory or wall-time measurement.",
+    "Native replay, backward recomputation and VLM costs are excluded.",
+    "Changing query from two to eight dates is a new observation condition, not the old P2 task."
+  ]
+}

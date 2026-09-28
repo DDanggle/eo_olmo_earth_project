@@ -1,0 +1,281 @@
+{
+  "status": "PASS",
+  "scope": "CPU actual training-packet loading and pretrained file identity; no torch/model/GPU execution",
+  "cases_sha256": "01852785be84837bb9a1d556a846c152d86e16800b3ca2e0b036644faf4a328c",
+  "contexts_sha256": "3103522b20eecad9939df8595faa2d4ff9973d6e753582204a9d7a192043a955",
+  "model_identity_sha256": "1254678033e298052e2f418e172a83d59a932c8a78aa9fded79e28ebdbfa6263",
+  "prepared_manifest_sha256": "5df5fa6697af9be6e3ea87a8800ca928282b60ad4eaa9bf9bf0877422a9e57a5",
+  "train_catalog_sha256": "345397400fa7bf7be4f4dcbc91f83037950e98f9ad635577b568f69a958fbb56",
+  "case_loads": [
+    {
+      "episode_id": "363f9848622f09bb3270eb6d:k1",
+      "parent": "t31tfm",
+      "k": 1,
+      "kind": "target_present",
+      "actual_target_pixels": 3041,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "363f9848622f09bb3270eb6d:k8",
+      "parent": "t31tfm",
+      "k": 8,
+      "kind": "target_present",
+      "actual_target_pixels": 3041,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "23d9f4e776af84e448e7b7aa:k1",
+      "parent": "t32ulu",
+      "k": 1,
+      "kind": "target_present",
+      "actual_target_pixels": 6994,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "23d9f4e776af84e448e7b7aa:k8",
+      "parent": "t32ulu",
+      "k": 8,
+      "kind": "target_present",
+      "actual_target_pixels": 6994,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "67f4ac40c83eefe292c64c6c:k1",
+      "parent": "t31tfj",
+      "k": 1,
+      "kind": "target_present",
+      "actual_target_pixels": 2731,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "67f4ac40c83eefe292c64c6c:k8",
+      "parent": "t31tfj",
+      "k": 8,
+      "kind": "target_present",
+      "actual_target_pixels": 2731,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "d3dc4ec54610f831663cdb4d:k1",
+      "parent": "t31tfm",
+      "k": 1,
+      "kind": "target_present",
+      "actual_target_pixels": 1202,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "d3dc4ec54610f831663cdb4d:k8",
+      "parent": "t31tfm",
+      "k": 8,
+      "kind": "target_present",
+      "actual_target_pixels": 1202,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "01481430a5492807d7afb6cb:k1",
+      "parent": "t31tfj",
+      "k": 1,
+      "kind": "confuser_only",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "01481430a5492807d7afb6cb:k8",
+      "parent": "t31tfj",
+      "k": 8,
+      "kind": "confuser_only",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "13ed80a0d19421ecb928324c:k1",
+      "parent": "t32ulu",
+      "k": 1,
+      "kind": "confuser_only",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "13ed80a0d19421ecb928324c:k8",
+      "parent": "t32ulu",
+      "k": 8,
+      "kind": "confuser_only",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "1fea941792b8a98b9b586443:k1",
+      "parent": "t31tfm",
+      "k": 1,
+      "kind": "confuser_only",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "1fea941792b8a98b9b586443:k8",
+      "parent": "t31tfm",
+      "k": 8,
+      "kind": "confuser_only",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "c1f5c90c5b92144366837264:k1",
+      "parent": "t31tfj",
+      "k": 1,
+      "kind": "confuser_only",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "c1f5c90c5b92144366837264:k8",
+      "parent": "t31tfj",
+      "k": 8,
+      "kind": "confuser_only",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "decb741a098e70770c54d516:k1",
+      "parent": "t32ulu",
+      "k": 1,
+      "kind": "neither",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "decb741a098e70770c54d516:k8",
+      "parent": "t32ulu",
+      "k": 8,
+      "kind": "neither",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "750b43ab61dfe3e5d8394a6d:k1",
+      "parent": "t31tfm",
+      "k": 1,
+      "kind": "neither",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "750b43ab61dfe3e5d8394a6d:k8",
+      "parent": "t31tfm",
+      "k": 8,
+      "kind": "neither",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "171ac50f3833f7d75a2641cb:k1",
+      "parent": "t32ulu",
+      "k": 1,
+      "kind": "neither",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "171ac50f3833f7d75a2641cb:k8",
+      "parent": "t32ulu",
+      "k": 8,
+      "kind": "neither",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "dd92d039c0f104bd48bf0030:k1",
+      "parent": "t31tfj",
+      "k": 1,
+      "kind": "neither",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    },
+    {
+      "episode_id": "dd92d039c0f104bd48bf0030:k8",
+      "parent": "t31tfj",
+      "k": 8,
+      "kind": "neither",
+      "actual_target_pixels": 0,
+      "query_gold_in_inference_load": false,
+      "separate_training_target_read": true
+    }
+  ],
+  "selected_case_count": 24,
+  "fit_case_count": 12,
+  "optimizer_order_count": 48,
+  "pretrained_files_verified": 23,
+  "pretrained_bytes_hashed": 18576472682,
+  "pretrained_verified": {
+    "reader_files_sha256": {
+      "chat_template.json": "5c72a170d2a4a1a3bc5adad2e689ae28138a9700e5b8c96c0266331e86c0acce",
+      "config.json": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+      "generation_config.json": "8469742d1fce0de951c8909b26a2c0c0d8490837ce476efb114da9e0cefc4d44",
+      "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "model.safetensors.index.json": "520b2e05079402e9468a8701d03d1154d14b2599593afb6effa7fb60c1bff070",
+      "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+      "tokenizer.json": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+      "tokenizer_config.json": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+      "video_preprocessor_config.json": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "model-00001-of-00004.safetensors": "d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa",
+      "model-00002-of-00004.safetensors": "8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5",
+      "model-00003-of-00004.safetensors": "83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192",
+      "model-00004-of-00004.safetensors": "0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5",
+      ".cache/huggingface/trees/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b.json": "0b69c6246b0cb01b5e2b26f2efa02fcfb5203a32f321c494fd2217ce6e2c8921"
+    },
+    "eo_files_sha256": {
+      "config.json": "0d531a67ad3e477e7011efabcceb01ed80f430aa0a0a3d344fe18cec0f229b8a",
+      "weights.pth": "57f7b66faf206db1307670673839e639d3a19c305f6ad968c62392ad3e88deec"
+    },
+    "eo_source_files_sha256": {
+      "olmoearth_pretrain/model_loader.py": "2ff982cda47fa53e8bb3a9f4ff3879816e4297770ed6e6c6cf49f5e323562ba7",
+      "olmoearth_pretrain/train/masking.py": "4a29589d46fd0920912dfef8e46c8cf2c614545417841325c567ca55a5e27dba",
+      "olmoearth_pretrain/train/loss.py": "7f378e156eeb65434fddaf3c63300bb0c426b4532d6b987d753365ab762997b5",
+      "scripts/official/v1_2/base.py": "d88b23daca3d8a5657ede3ccbe98ce7e2ea6cdbf0e7b026b24fd15e61205f9ee",
+      "olmoearth_pretrain/data/normalize.py": "1987cb6f475495a6454f80db6eea045ee982948bae4cffee8045c713747b9b26",
+      "olmoearth_pretrain/data/constants.py": "2015b2d17dc1f2f48a2b5bbc380b88fe4cf552dd4db173b25729ab65ad8670f0"
+    }
+  },
+  "GPU_used": false,
+  "model_forwards": 0,
+  "development_or_final_labels_read": false,
+  "loader_audit": {
+    "adapter": "oe11_calibration_loader_v0",
+    "base_sha256": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+    "train_support_parent_policy": "pooled",
+    "development_support_policy": "global_source_bank",
+    "validation_alias_count": 9216,
+    "manifest_sha256": "5df5fa6697af9be6e3ea87a8800ca928282b60ad4eaa9bf9bf0877422a9e57a5",
+    "catalog_sha256": "345397400fa7bf7be4f4dcbc91f83037950e98f9ad635577b568f69a958fbb56",
+    "calibration_is_unseen_geographic_region": false,
+    "scoring_loaded": true,
+    "model_acquisition_support": "Loader allows 2/4/8; existing encoder wrapper accepts 2 only"
+  },
+  "environment_imported_torch": false,
+  "seconds": 95.9955686815083,
+  "script_sha256": "587512af91b10e58e186835c260d528a341a9e8abf8a816c5ec19afa42f302db"
+}

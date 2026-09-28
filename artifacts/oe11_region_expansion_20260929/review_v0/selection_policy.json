@@ -1,0 +1,36 @@
+{
+  "schema": "oe11_source_expansion_policy_v0",
+  "status": "fixed_before_new_source_payload_reads_not_performance_preregistration",
+  "source_parents": [
+    "t31tfj",
+    "t32ulu",
+    "t31tfm"
+  ],
+  "reserved_parent": "t30uxv",
+  "former_development_parent_promoted_to_source": "t31tfm",
+  "legacy_all_80_patch_ids_excluded": true,
+  "target_classes": [
+    1,
+    3,
+    8,
+    14
+  ],
+  "winter_wheat_separate_not_required": true,
+  "block_m": 10000,
+  "minimum_cross_partition_centroid_m": 2200,
+  "split": "sha256(namespace+parent/grid10km) modulo10: calibration0..1,source_bank2..3,train4..9; remove all candidates within2200m haversine of another assigned role across all parents",
+  "caps_per_parent": {
+    "train_pool": 64,
+    "source_bank": 16,
+    "calibration": 16
+  },
+  "minimum_object_pixels": 64,
+  "minimum_object_purity": 0.95,
+  "selection": "training/support: fixed class round-robin then hash fill; calibration: hash only. Missing capacity is reported, not repaired using scores.",
+  "observations": "same OE8 8 equally indexed dates, initial query indices2/5",
+  "normalization": "same frozen OE8 transform and computed statistics",
+  "spatial_limit": "haversine centroid buffer, not exact footprint or field independence",
+  "old_development_scores": "historical only; t31tfm no longer independent geographic validation for this new model",
+  "cloud_filter": "none; uncertainty reported",
+  "gpu_allowed_by_this_policy": false
+}

@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "scope": "Independent read-only verification of recovered export hashes, metadata selection, roles, label-count summaries and spatial assignment. No original tortilla payload re-read, no GPU, no reserved-content access, no new performance result.",
+  "export_files": 18,
+  "export_bytes": 26033557,
+  "metadata_candidates": 649,
+  "buffered_candidates": 647,
+  "selected_prepared": 288,
+  "partitions": {
+    "train_pool": 192,
+    "source_bank": 48,
+    "calibration": 48
+  },
+  "legacy_overlap": 0,
+  "reserved_selected": 0,
+  "minimum_cross_partition_centroid_m": 2553.064138349073,
+  "source_policy_sha256": "cb781fe93850f9bf5f93139c21f9a530c4c6a31fe1f36ab76fc696dfd53734f8",
+  "exported_policy_sha256": "40d96a3a13f36b86b46b5f767cd126af97b1d99e6aa7b45c9e0c39391c4ac2d0",
+  "script_sha256": "96c84ca6c3d65c47cc24f6f48a093204fded13b516a33ac19e420cb10bab1d5f",
+  "manifest_sha256": "5df5fa6697af9be6e3ea87a8800ca928282b60ad4eaa9bf9bf0877422a9e57a5",
+  "export_manifest_sha256": "af73a5e71166f6b5fd21aff5e8c0541da32f754f11d2532099307570fc8d2813",
+  "fixed_spatial_assignment_and_selection_reproduced": true,
+  "prepared_role_permissions_verified": true,
+  "strict_no_missing_input_metadata_count": 288,
+  "selected_class_presence": {
+    "t31tfj/train_pool": {
+      "1": 58,
+      "3": 7,
+      "8": 34,
+      "14": 38
+    },
+    "t31tfj/source_bank": {
+      "1": 16,
+      "3": 5,
+      "8": 14,
+      "14": 10
+    },
+    "t31tfj/calibration": {
+      "1": 16,
+      "3": 1,
+      "8": 10,
+      "14": 9
+    },
+    "t32ulu/train_pool": {
+      "1": 63,
+      "3": 53,
+      "8": 14,
+      "14": 34
+    },
+    "t32ulu/source_bank": {
+      "1": 13,
+      "3": 12,
+      "8": 1,
+      "14": 5
+    },
+    "t32ulu/calibration": {
+      "1": 16,
+      "3": 13,
+      "8": 0,
+      "14": 4
+    },
+    "t31tfm/train_pool": {
+      "1": 64,
+      "3": 47,
+      "8": 18,
+      "14": 27
+    },
+    "t31tfm/source_bank": {
+      "1": 16,
+      "3": 11,
+      "8": 5,
+      "14": 5
+    },
+    "t31tfm/calibration": {
+      "1": 16,
+      "3": 12,
+      "8": 2,
+      "14": 9
+    }
+  },
+  "bank_objects_capped_two_per_patch": {
+    "t31tfj": {
+      "1": 24,
+      "3": 6,
+      "8": 24,
+      "14": 16
+    },
+    "t32ulu": {
+      "1": 24,
+      "3": 23,
+      "8": 2,
+      "14": 7
+    },
+    "t31tfm": {
+      "1": 31,
+      "3": 18,
+      "8": 7,
+      "14": 8
+    }
+  },
+  "known_limitations": [
+    "Former development parent t31tfm is now source; it is not independent geographic evaluation.",
+    "All48 calibration queries contain meadow, so meadow absent-case FPR cannot be measured there.",
+    "t32ulu calibration grapevine positives0; t31tfj corn positives1; t31tfm grapevine positives2.",
+    "Per-region K8 unavailable for t31tfj corn6, t32ulu grapevine2/fodder7, t31tfm grapevine7 eligible support objects.",
+    "Cloud-free status and exact parcel/footprint disjointness are not certified."
+  ],
+  "original_source_payloads_independently_reread": false
+}

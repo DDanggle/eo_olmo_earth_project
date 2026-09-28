@@ -1,0 +1,116 @@
+{
+  "class_roles": [
+    "target",
+    "counterexample"
+  ],
+  "class_selection_source": "fixed_OE11_scope_before_model_scoring",
+  "classes_ranked_or_filtered_by_coverage": false,
+  "development_labels_used_for_class_selection_in_this_builder": false,
+  "directed_pairs": [
+    {
+      "counter_class": 3,
+      "pair_id": "30c4695ce6872dac3258",
+      "target_class": 1
+    },
+    {
+      "counter_class": 8,
+      "pair_id": "96d6c6c9692ac6065e7c",
+      "target_class": 1
+    },
+    {
+      "counter_class": 14,
+      "pair_id": "3b420a79dd50c7fbfba7",
+      "target_class": 1
+    },
+    {
+      "counter_class": 1,
+      "pair_id": "97c6e7330a82d4a0ea85",
+      "target_class": 3
+    },
+    {
+      "counter_class": 8,
+      "pair_id": "21466439bca0bf0f1802",
+      "target_class": 3
+    },
+    {
+      "counter_class": 14,
+      "pair_id": "17aa02fc3b4c61578da2",
+      "target_class": 3
+    },
+    {
+      "counter_class": 1,
+      "pair_id": "8474dad7bac78a84bdfd",
+      "target_class": 8
+    },
+    {
+      "counter_class": 3,
+      "pair_id": "580041af104d507e4057",
+      "target_class": 8
+    },
+    {
+      "counter_class": 14,
+      "pair_id": "6393409ffd951bf9f09b",
+      "target_class": 8
+    },
+    {
+      "counter_class": 1,
+      "pair_id": "67c539613203f40fef0f",
+      "target_class": 14
+    },
+    {
+      "counter_class": 3,
+      "pair_id": "be1e61809630b1eb2cf6",
+      "target_class": 14
+    },
+    {
+      "counter_class": 8,
+      "pair_id": "c14ed41ce228b819e66d",
+      "target_class": 14
+    }
+  ],
+  "pair_id_namespace": "OE8 class-pair compatibility; scope episode IDs by catalog hash",
+  "prediction_scores_used_for_class_or_pair_selection": false,
+  "prior_cpu_label_availability_probing_occurred": true,
+  "selected_classes": [
+    1,
+    3,
+    8,
+    14
+  ],
+  "source_bank_class_coverage": {
+    "1": {
+      "eligible_objects": 378,
+      "eligible_patches": 42
+    },
+    "14": {
+      "eligible_objects": 42,
+      "eligible_patches": 20
+    },
+    "3": {
+      "eligible_objects": 201,
+      "eligible_patches": 28
+    },
+    "8": {
+      "eligible_objects": 270,
+      "eligible_patches": 19
+    }
+  },
+  "training_class_coverage": {
+    "1": {
+      "eligible_objects": 1535,
+      "eligible_patches": 182
+    },
+    "14": {
+      "eligible_objects": 251,
+      "eligible_patches": 90
+    },
+    "3": {
+      "eligible_objects": 933,
+      "eligible_patches": 105
+    },
+    "8": {
+      "eligible_objects": 709,
+      "eligible_patches": 66
+    }
+  }
+}

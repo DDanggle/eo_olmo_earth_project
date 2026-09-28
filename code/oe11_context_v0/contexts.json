@@ -1,0 +1,122 @@
+{
+  "17aa02fc3b4c61578da2:matched_knowledge": {
+    "counterexample": "leguminous fodder\nForage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards.\nCheck the acquired sequence and positive and confusing examples for compatible vegetation cover and change. Missing cuts or recovery stages leave uncertainty; a drop followed by greener cover is not by itself a species label or proof of a mowing event.\nBroad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "corn\nSowing and flowering dates can shift with weather, variety and establishment date. A fixed date does not uniquely specify crop stage; the delayed French 2024 season is an example of variability, not evidence about 2019.\nUse observed development and examples; do not assign crop identity from an assumed calendar stage.\nThe source concerns forage maize in France. Do not transfer its exact harvest targets to every corn label."
+  },
+  "17aa02fc3b4c61578da2:names_only": {
+    "counterexample": "leguminous fodder",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "corn"
+  },
+  "21466439bca0bf0f1802:matched_knowledge": {
+    "counterexample": "grapevine\nGrapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage.\nCompare the acquired observations and reference examples for compatible seasonal and spatial structure. Treat unresolved rows and changes in ground cover as alternative explanations; do not infer vine removal from a decline in greenery alone.\nGeneral vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "corn\nSowing and flowering dates can shift with weather, variety and establishment date. A fixed date does not uniquely specify crop stage; the delayed French 2024 season is an example of variability, not evidence about 2019.\nUse observed development and examples; do not assign crop identity from an assumed calendar stage.\nThe source concerns forage maize in France. Do not transfer its exact harvest targets to every corn label."
+  },
+  "21466439bca0bf0f1802:names_only": {
+    "counterexample": "grapevine",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "corn"
+  },
+  "30c4695ce6872dac3258:matched_knowledge": {
+    "counterexample": "corn\nSowing and flowering dates can shift with weather, variety and establishment date. A fixed date does not uniquely specify crop stage; the delayed French 2024 season is an example of variability, not evidence about 2019.\nUse observed development and examples; do not assign crop identity from an assumed calendar stage.\nThe source concerns forage maize in France. Do not transfer its exact harvest targets to every corn label.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "meadow\nA summer decline in vegetation indices may follow natural seasonal development, water stress, mowing or grazing. A decline alone does not identify a cereal harvest.\nInspect the temporal sequence and positive/counterexample imagery before interpreting vegetation decline.\nTemperate-grassland context; not a label for a particular field or event."
+  },
+  "30c4695ce6872dac3258:names_only": {
+    "counterexample": "corn",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "meadow"
+  },
+  "3b420a79dd50c7fbfba7:matched_knowledge": {
+    "counterexample": "leguminous fodder\nForage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards.\nCheck the acquired sequence and positive and confusing examples for compatible vegetation cover and change. Missing cuts or recovery stages leave uncertainty; a drop followed by greener cover is not by itself a species label or proof of a mowing event.\nBroad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "meadow\nA summer decline in vegetation indices may follow natural seasonal development, water stress, mowing or grazing. A decline alone does not identify a cereal harvest.\nInspect the temporal sequence and positive/counterexample imagery before interpreting vegetation decline.\nTemperate-grassland context; not a label for a particular field or event."
+  },
+  "3b420a79dd50c7fbfba7:names_only": {
+    "counterexample": "leguminous fodder",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "meadow"
+  },
+  "580041af104d507e4057:matched_knowledge": {
+    "counterexample": "corn\nSowing and flowering dates can shift with weather, variety and establishment date. A fixed date does not uniquely specify crop stage; the delayed French 2024 season is an example of variability, not evidence about 2019.\nUse observed development and examples; do not assign crop identity from an assumed calendar stage.\nThe source concerns forage maize in France. Do not transfer its exact harvest targets to every corn label.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine\nGrapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage.\nCompare the acquired observations and reference examples for compatible seasonal and spatial structure. Treat unresolved rows and changes in ground cover as alternative explanations; do not infer vine removal from a decline in greenery alone.\nGeneral vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established."
+  },
+  "580041af104d507e4057:names_only": {
+    "counterexample": "corn",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine"
+  },
+  "6393409ffd951bf9f09b:matched_knowledge": {
+    "counterexample": "leguminous fodder\nForage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards.\nCheck the acquired sequence and positive and confusing examples for compatible vegetation cover and change. Missing cuts or recovery stages leave uncertainty; a drop followed by greener cover is not by itself a species label or proof of a mowing event.\nBroad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine\nGrapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage.\nCompare the acquired observations and reference examples for compatible seasonal and spatial structure. Treat unresolved rows and changes in ground cover as alternative explanations; do not infer vine removal from a decline in greenery alone.\nGeneral vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established."
+  },
+  "6393409ffd951bf9f09b:names_only": {
+    "counterexample": "leguminous fodder",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine"
+  },
+  "67c539613203f40fef0f:matched_knowledge": {
+    "counterexample": "meadow\nA summer decline in vegetation indices may follow natural seasonal development, water stress, mowing or grazing. A decline alone does not identify a cereal harvest.\nInspect the temporal sequence and positive/counterexample imagery before interpreting vegetation decline.\nTemperate-grassland context; not a label for a particular field or event.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "leguminous fodder\nForage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards.\nCheck the acquired sequence and positive and confusing examples for compatible vegetation cover and change. Missing cuts or recovery stages leave uncertainty; a drop followed by greener cover is not by itself a species label or proof of a mowing event.\nBroad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date."
+  },
+  "67c539613203f40fef0f:names_only": {
+    "counterexample": "meadow",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "leguminous fodder"
+  },
+  "8474dad7bac78a84bdfd:matched_knowledge": {
+    "counterexample": "meadow\nA summer decline in vegetation indices may follow natural seasonal development, water stress, mowing or grazing. A decline alone does not identify a cereal harvest.\nInspect the temporal sequence and positive/counterexample imagery before interpreting vegetation decline.\nTemperate-grassland context; not a label for a particular field or event.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine\nGrapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage.\nCompare the acquired observations and reference examples for compatible seasonal and spatial structure. Treat unresolved rows and changes in ground cover as alternative explanations; do not infer vine removal from a decline in greenery alone.\nGeneral vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established."
+  },
+  "8474dad7bac78a84bdfd:names_only": {
+    "counterexample": "meadow",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "grapevine"
+  },
+  "96d6c6c9692ac6065e7c:matched_knowledge": {
+    "counterexample": "grapevine\nGrapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage.\nCompare the acquired observations and reference examples for compatible seasonal and spatial structure. Treat unresolved rows and changes in ground cover as alternative explanations; do not infer vine removal from a decline in greenery alone.\nGeneral vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "meadow\nA summer decline in vegetation indices may follow natural seasonal development, water stress, mowing or grazing. A decline alone does not identify a cereal harvest.\nInspect the temporal sequence and positive/counterexample imagery before interpreting vegetation decline.\nTemperate-grassland context; not a label for a particular field or event."
+  },
+  "96d6c6c9692ac6065e7c:names_only": {
+    "counterexample": "grapevine",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "meadow"
+  },
+  "97c6e7330a82d4a0ea85:matched_knowledge": {
+    "counterexample": "meadow\nA summer decline in vegetation indices may follow natural seasonal development, water stress, mowing or grazing. A decline alone does not identify a cereal harvest.\nInspect the temporal sequence and positive/counterexample imagery before interpreting vegetation decline.\nTemperate-grassland context; not a label for a particular field or event.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "corn\nSowing and flowering dates can shift with weather, variety and establishment date. A fixed date does not uniquely specify crop stage; the delayed French 2024 season is an example of variability, not evidence about 2019.\nUse observed development and examples; do not assign crop identity from an assumed calendar stage.\nThe source concerns forage maize in France. Do not transfer its exact harvest targets to every corn label."
+  },
+  "97c6e7330a82d4a0ea85:names_only": {
+    "counterexample": "meadow",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "corn"
+  },
+  "be1e61809630b1eb2cf6:matched_knowledge": {
+    "counterexample": "corn\nSowing and flowering dates can shift with weather, variety and establishment date. A fixed date does not uniquely specify crop stage; the delayed French 2024 season is an example of variability, not evidence about 2019.\nUse observed development and examples; do not assign crop identity from an assumed calendar stage.\nThe source concerns forage maize in France. Do not transfer its exact harvest targets to every corn label.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "leguminous fodder\nForage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards.\nCheck the acquired sequence and positive and confusing examples for compatible vegetation cover and change. Missing cuts or recovery stages leave uncertainty; a drop followed by greener cover is not by itself a species label or proof of a mowing event.\nBroad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date."
+  },
+  "be1e61809630b1eb2cf6:names_only": {
+    "counterexample": "corn",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "leguminous fodder"
+  },
+  "c14ed41ce228b819e66d:matched_knowledge": {
+    "counterexample": "grapevine\nGrapevines are woody perennials with new shoots in spring. Vineyard floor management may retain grass or temporary vegetation between rows or under vines, so vineyard plant cover is not exclusively vine leaves. Cultivar and growing region affect the timing of seasonal stages; a calendar date does not identify a parcel stage.\nCompare the acquired observations and reference examples for compatible seasonal and spatial structure. Treat unresolved rows and changes in ground cover as alternative explanations; do not infer vine removal from a decline in greenery alone.\nGeneral vine biology and French vineyard-management context. Cultivar, floor treatment and 2019 parcel stages are unknown; row visibility and species discrimination at the image resolution have not been established.",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "leguminous fodder\nForage legumes include clovers as well as alfalfa, with differing longevity and responses to soil and weather. Management can favor mowing or grazing. Alfalfa is one example that can regrow after repeated cuts; a single cutting calendar does not describe the whole category. Legumes can also occur in mixed grass-legume swards.\nCheck the acquired sequence and positive and confusing examples for compatible vegetation cover and change. Missing cuts or recovery stages leave uncertainty; a drop followed by greener cover is not by itself a species label or proof of a mowing event.\nBroad French forage context, not alfalfa-only supervision. Parcel species composition, mixture status and 2019 management events are unknown; the annual class does not identify a specific species or cut date."
+  },
+  "c14ed41ce228b819e66d:names_only": {
+    "counterexample": "grapevine",
+    "instruction": "Find regions matching the positive examples and exclude the counterexamples. Return a mask and the acquired observation dates supporting it.",
+    "positive": "leguminous fodder"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "scope": "synthetic full-NPZ CPU loader tests",
+  "tests_run": 8,
+  "errors": 0,
+  "failures": 0,
+  "skipped": 0,
+  "successful": true,
+  "actual_server_catalog_smoke_run": false,
+  "GPU_used": false,
+  "source_sha256": {
+    "loader_adapter.py": "9a18891cab35d48c0065d79c35a243a6be54bb310e3807e2b34b502f2aa2a527",
+    "smoke_packets.py": "dd8f27cc27efa83e1ae342f1a4b10ccfaae8a7594834579172f184d88cea3aca",
+    "test_loader_adapter.py": "eb8f380fd1c43d5c9754a6af4727e2f49f8add67fcdd81d8bf5982663e7431a7",
+    "README.md": "7796be62e4b833ea58045e59fcccb0f5b6c49094d8e350c39983851c72f3d08c"
+  },
+  "command": "python -m unittest discover -s /private/tmp/oe11_loader_adapter -p test_loader_adapter.py -v",
+  "fixture_catalog_code": "/private/tmp/oe11_episode_catalog/episode_catalog.py",
+  "fixture_builder_sha256": "7fe5d6c362d0b13458ce61b332d870bfe15fbe231d866b758574b4146479430a"
+}

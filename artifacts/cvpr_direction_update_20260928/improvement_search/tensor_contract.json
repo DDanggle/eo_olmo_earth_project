@@ -1,0 +1,25 @@
+{
+  "scope": "Synthetic NumPy tensor/index contracts only; no model execution, actual imagery, gradients, learning or score measured",
+  "tests": 10,
+  "failures": 0,
+  "errors": 0,
+  "script_sha256": "fa8325b298aebf9eacfaf9dfa57f3dcb15f8f81bcad601918e722e986e4636e3",
+  "query_dates": 2,
+  "support_dates_per_object": 8,
+  "max_k_pairs": 8,
+  "new_observations": 0,
+  "query_shape": [
+    "P=1024",
+    "Tq=2",
+    "D"
+  ],
+  "support_shape": [
+    "role=2",
+    "K",
+    "Ts=8",
+    "D"
+  ],
+  "max_attention_scores": 262144,
+  "max_attention_scores_fp32_bytes": 1048576,
+  "limits": "Mean-erasure example is constructed features, not evidence native OlmoEarth loses its encoded temporal information."
+}

@@ -1,0 +1,317 @@
+index, uuid, name, memory.used [MiB], memory.total [MiB], utilization.gpu [%]
+0, GPU-83516c9a-4344-a891-ccf3-621c862d2468, NVIDIA H200, 61637 MiB, 143771 MiB, 99 %
+1, GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb, NVIDIA H200, 108855 MiB, 143771 MiB, 99 %
+gpu_uuid, pid, process_name, used_gpu_memory [MiB]
+GPU-83516c9a-4344-a891-ccf3-621c862d2468, 1474335, python3, 61606 MiB
+GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb, 1472164, python3, 108802 MiB
+{
+  "charged_seconds": 48,
+  "created_utc": "2026-09-27T23:53:15.602202+00:00",
+  "initial_snapshot_sha256": "0c7a2c815fc12270a68fa5cb9e8739a36614efe52837d94dcd13bd47b094cd20",
+  "jobs": [
+    {
+      "actual_elapsed_seconds": 47.45010853558779,
+      "charged_seconds": 48,
+      "child_pid": 1461250,
+      "exit_code": 0,
+      "finished_utc": "2026-09-27T23:54:03.061311+00:00",
+      "gpu_immediately_before_launch": {
+        "checked_utc": "2026-09-27T23:53:15.720597+00:00",
+        "compute_processes": [],
+        "index": 1,
+        "memory_mib": 0.0,
+        "utilization_percent": null,
+        "utilization_raw": "[Not Found]",
+        "utilization_telemetry": "unavailable",
+        "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb"
+      },
+      "job_id": "connection_20260928_01",
+      "metadata": {
+        "preflight": {
+          "episodes": {
+            "files_verified": 232,
+            "manifest_sha256": "14a59caee4dc716ebdc34b74092f19a5f5ca9dcc8b6178b63c5a6cf52eeeb0f8"
+          },
+          "full_reader_eo_hash_recheck_pending_reserved_child": true,
+          "gpu": {
+            "checked_utc": "2026-09-27T23:53:15.601233+00:00",
+            "compute_processes": [],
+            "index": 1,
+            "memory_mib": 0.0,
+            "utilization_percent": null,
+            "utilization_raw": "[Not Found]",
+            "utilization_telemetry": "unavailable",
+            "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb"
+          },
+          "launcher_source": {
+            "files_verified": 6,
+            "manifest_sha256": "3f00b5fd7e9669e4149c1c933d39da64d673fa92418b3432bf9776c4cca850a4"
+          },
+          "ledger": {
+            "charged_seconds": 0,
+            "read_only": true,
+            "would_reserve_seconds": 1800
+          },
+          "model_source": {
+            "files_verified": 16,
+            "manifest_sha256": "e9f393b4e648931603b2130c00de157dd1bc2333e8340050b507dd0cf58b93ad"
+          },
+          "p2_terminal_audit": {
+            "attestation_sha256": "ab387bddceb0600ac828fb2345a9df5ca488dbd25cea4533b76265348e39e3ea",
+            "audited_utc": "2026-09-27T23:50:17.600775+00:00",
+            "completed_runs": 5,
+            "expected_runs": 6,
+            "p2_result": "incomplete",
+            "p2_status_sha256": "df8da2d02dfe0e86be0ba9b6d61b7763c7f3e401ea3f44125f853aba02383533"
+          },
+          "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778",
+          "server_scope": true
+        },
+        "protocol_sha256": "bb721164b472cf6b66f2e3833a2e99689d59e59ee0c1c604d05b4f2894f5b778"
+      },
+      "reserved_seconds": 1800,
+      "reserved_utc": "2026-09-27T23:53:15.608262+00:00",
+      "started_utc": "2026-09-27T23:53:15.728533+00:00",
+      "status": "completed"
+    }
+  ],
+  "maximum_seconds": 7200,
+  "schema_version": "oe10_gpu_pilot_ledger_v1"
+}
+{
+  "status": "failed",
+  "controller_pid": 1419400,
+  "gpu_uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+  "stage": "training",
+  "workers": [
+    {
+      "name": "B0_270927_train",
+      "status": "completed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270927_train",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 14520,
+      "pid": 1419405,
+      "exit_code": 0,
+      "receipt_status": "training_completed"
+    },
+    {
+      "name": "B2_270927_train",
+      "status": "completed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270927_train",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 14520,
+      "pid": 1421757,
+      "exit_code": 0,
+      "receipt_status": "training_completed"
+    },
+    {
+      "name": "B0_270928_train",
+      "status": "completed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270928_train",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 26571,
+          "utilization_percent": 99,
+          "utilization_unavailable": false,
+          "has_compute_pid": true
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 14520,
+      "pid": 1435655,
+      "exit_code": 0,
+      "receipt_status": "training_completed"
+    },
+    {
+      "name": "B2_270928_train",
+      "status": "completed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270928_train",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 26571,
+          "utilization_percent": 99,
+          "utilization_unavailable": false,
+          "has_compute_pid": true
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 14520,
+      "pid": 1448236,
+      "exit_code": 0,
+      "receipt_status": "training_completed"
+    },
+    {
+      "name": "B0_270929_train",
+      "status": "completed",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B0_270929_train",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 26571,
+          "utilization_percent": 99,
+          "utilization_unavailable": false,
+          "has_compute_pid": true
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 14520,
+      "pid": 1456659,
+      "exit_code": 0,
+      "receipt_status": "training_completed"
+    },
+    {
+      "name": "B2_270929_train",
+      "status": "own_worker_timeout",
+      "output": "/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train",
+      "gpu_observations": [
+        {
+          "index": 0,
+          "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+          "memory_mib": 26571,
+          "utilization_percent": 99,
+          "utilization_unavailable": false,
+          "has_compute_pid": true
+        },
+        {
+          "index": 1,
+          "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+          "memory_mib": 0,
+          "utilization_percent": null,
+          "utilization_unavailable": true,
+          "has_compute_pid": false,
+          "idle_basis": "memory_zero_and_no_compute_PID"
+        }
+      ],
+      "timeout_seconds": 14520,
+      "pid": 1457846
+    }
+  ],
+  "started_utc": "2026-09-27T11:42:43.962886+00:00",
+  "protected_before": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458,
+      "bytes": 45602
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874,
+      "bytes": 10926
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291,
+      "bytes": 10983
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291,
+      "bytes": 7314
+    }
+  },
+  "source_hashes": {
+    "native_replay.py": "26c0fab96c328e9a5a022a574caf5f78f7ffda4e6fb01164128283f7918ff670",
+    "episode_model.py": "4997e85692b5600a034af351cd16360ff303a3a133bacb5d5756c53c89098297",
+    "episode_loader.py": "536de03b77bcd5bfedf439b5456d9e0fe60a3789c5f9c1a53c5511ded05d07f6",
+    "score_predictions.py": "949ccc8119f0cecf1c72a69b2562caf76f463a0f90083ab1c6e8c6e1faee555a",
+    "p2_worker.py": "f1f5fb3a02e7e20f0c61c8c867d0836561b73cfa00db0631f73f51c0ad30151a",
+    "run_bounded.py": "f0655a3ef36e62feb42219d0076023fd89eeee1dace584d6e78973c44becddb0",
+    "guard_reference.py": "202d54968a041398346045f6013999800e8435884844cde1b5965cbd0fb4bcb8",
+    "gate_config.json": "22f3a21c8b8a82022116c04a20d4b8a3949c2dbca654ff003056acbd885673d5",
+    "test_episode_model.py": "2e8f919fe6ceec043922ce95ba461fbcb482fc8c7a6ec59fc7ab84f980854863"
+  },
+  "protocol_sha256": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+  "current_worker": "B2_270929_train",
+  "error": "RuntimeError('worker timeout')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/run_bounded.py\", line 85, in main\n    try:code=child.wait(timeout=min(limit,total_limit-(time.monotonic()-started)))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/work/data/.local/uv-python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/work/data/.local/uv-python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['/home/work/data/olmoearth/.venv-master/bin/python', '/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/p2_worker.py', '--mode', 'train', '--arm', 'B2', '--seed', '270929', '--out', '/home/work/data/olmoearth/oe10_p2_v0/training_v0/B2_270929_train', '--protocol', '/home/work/data/olmoearth/oe10_p2_v0/config/oe10_p2_execution_protocol_20260927.json']' timed out after 9461.382762160152 seconds\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/work/data/olmoearth/oe10_p2_v0/code_snapshot/oe10_p2_v3/run_bounded.py\", line 87, in main\n    cleanup();row['status']='own_worker_timeout';save();raise RuntimeError('worker timeout')\n                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: worker timeout\n",
+  "protected_after": {
+    "pilot_sen12_gp_heads.py": {
+      "sha256": "8f805359c2989cd474e89d9086545698c0acdbb9673b27a82cc1ad00743a1af1",
+      "mtime_ns": 1788238578452341458,
+      "bytes": 45602
+    },
+    "sen12_official_baselines.py": {
+      "sha256": "19232b2ae122dd6529bac56977e075ce7b94c0daf90f24c21557b4d5cc213f5b",
+      "mtime_ns": 1787683824644839874,
+      "bytes": 10926
+    },
+    "extract_sen12_fold_cache.py": {
+      "sha256": "197895a05f2f6dddff12f6385c01aacf4f72bdbb877d273b473c83dc5d3a5e0a",
+      "mtime_ns": 1787659265235748291,
+      "bytes": 10983
+    },
+    "audit_sen12_fold_cache.py": {
+      "sha256": "4287dbcdef64c9ea9ea2a707e961ce6ba606b85405ee794fa91f44ded2419ec9",
+      "mtime_ns": 1787668636109707291,
+      "bytes": 7314
+    }
+  },
+  "protected_and_snapshot_unchanged": true,
+  "elapsed_seconds": 43200.395225815475,
+  "finished_utc": "2026-09-27T23:42:44.360103+00:00"
+}

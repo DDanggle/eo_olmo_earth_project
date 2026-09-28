@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "scope": "local CPU fake telemetry/worker and isolated temporary ledger tests",
+  "test_count": 26,
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_launcher.py"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "test_both_busy_and_fixed_index_refused (test_launcher.Tests) ... ok\ntest_busy_server_preflight_readonly_no_reservation_or_jobdir (test_launcher.Tests) ... ok\ntest_case_preflight_is_bound_to_exact_case_and_catalog_inputs (test_launcher.Tests) ... ok\ntest_cumulative_and_per_job_cap (test_launcher.Tests) ... ok\ntest_deadline_during_telemetry_cannot_start_stage (test_launcher.Tests) ... ok\ntest_environment_fixed_single_gpu_no_pythonpath (test_launcher.Tests) ... ok\ntest_existing48_ledger_preserved_and_view_readonly (test_launcher.Tests) ... ok\ntest_failure_settlement_rounds_up_and_preserves48 (test_launcher.Tests) ... ok\ntest_first_stage_failure_blocks_resume_and_charges_elapsed (test_launcher.Tests) ... ok\ntest_gpu1_preferred_and_gpu0_fallback (test_launcher.Tests) ... ok\ntest_inputs_only_report_cannot_execute (test_launcher.Tests) ... ok\ntest_ledger_lock_blocks_concurrent_reservation (test_launcher.Tests) ... ok\ntest_legacy_charge_mutation_refused (test_launcher.Tests) ... ok\ntest_local_preflight_is_readonly_and_does_not_launch (test_launcher.Tests) ... ok\ntest_missing_checkpoint_refused_before_resume (test_launcher.Tests) ... ok\ntest_missing_ledger_never_reinitialized (test_launcher.Tests) ... ok\ntest_no_budget_or_jobid_reset_on_retry (test_launcher.Tests) ... ok\ntest_nonfinite_telemetry_and_uuid_fail_closed (test_launcher.Tests) ... ok\ntest_resume_parent_directory_symlink_rejected (test_launcher.Tests) ... ok\ntest_resume_symlink_to_external_artifact_rejected (test_launcher.Tests) ... ok\ntest_resume_uses_own_artifact_hashes_and_new_process_stages (test_launcher.Tests) ... ok\ntest_timeout_grace_is_within_total_cap_own_group_only (test_launcher.Tests) ... ok\ntest_unavailable_utilization_requires_zero_memory_and_no_process (test_launcher.Tests) ... ok\ntest_unclean_timeout_full_status (test_launcher.Tests) ... ok\ntest_unconfirmed_cleanup_retains_full_reservation (test_launcher.Tests) ... ok\ntest_unsettled_reservation_blocks_another_job (test_launcher.Tests) ... ok\n\n----------------------------------------------------------------------\nRan 26 tests in 0.091s\n\nOK\n",
+  "manifest_sha256": "bf498475e1ba27cdf2a3dd1c0eaabbdcd882a6a65ec49ce5dc3987df7d7b6118",
+  "actual_gpu_executed": false,
+  "server_accessed": false
+}

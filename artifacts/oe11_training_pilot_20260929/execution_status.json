@@ -1,0 +1,49 @@
+{
+  "at_utc": "2026-09-28T16:33:07.067970+00:00",
+  "state": "prepared_and_identity_verified_waiting_for_idle_gpu",
+  "actual_gpu_execution_started": false,
+  "new_actual_optimizer_updates": 0,
+  "new_gpu_seconds": 0,
+  "pilot_ledger_charged_seconds": 48,
+  "pilot_ledger_remaining_seconds": 7152,
+  "new_gpu_reservation": false,
+  "automations_restarted": false,
+  "manual_gpu_use_authorized_by_latest_user": true,
+  "protocol_sha256": "3815b70c016eac9cd32066f15531e5cae04a303af618606404d1d5bb23d7d590",
+  "actual_input_preflight": "actual_input_preflight_v0.json",
+  "token_audit": "token_audit_v0.json",
+  "server_cpu_fresh_process_stages": 6,
+  "deliberate_wrong_rng_rejections": 2,
+  "server_launcher_cpu_tests": 26,
+  "input_identity_preflight": "launcher_inputs_preflight_v1.json",
+  "gpu_preflight": "launcher_gpu_preflight_v1.json",
+  "gpu_inventory": {
+    "1": {
+      "index": 1,
+      "uuid": "GPU-8b485982-e8bb-004a-a10a-e37637e5e2bb",
+      "memory_mib": 108855.0,
+      "utilization_percent": 99.0,
+      "utilization_raw": "99",
+      "utilization_telemetry": "numeric",
+      "compute_pids": [
+        1472164
+      ],
+      "idle": false,
+      "checked_utc": "2026-09-28T16:30:16.110485+00:00"
+    },
+    "0": {
+      "index": 0,
+      "uuid": "GPU-83516c9a-4344-a891-ccf3-621c862d2468",
+      "memory_mib": 61637.0,
+      "utilization_percent": 99.0,
+      "utilization_raw": "99",
+      "utilization_telemetry": "numeric",
+      "compute_pids": [
+        1474335
+      ],
+      "idle": false,
+      "checked_utc": "2026-09-28T16:30:16.110542+00:00"
+    }
+  },
+  "next": "Recheck idle GPU1 then0; if available launch one bounded B2+facts48-step fresh-process resume job under the fixed protocol and existing ledger. No queued/automatic execution."
+}

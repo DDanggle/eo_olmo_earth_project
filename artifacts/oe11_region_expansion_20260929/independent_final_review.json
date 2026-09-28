@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "reviewer": "independent catalog/loader agent",
+  "scope": "Final read-only review of v1 code and recovered receipts/files; no server or model run",
+  "checks": [
+    "Current manifest and four catalog hashes bind the 72-load receipt",
+    "Both catalogs have complete fixed query x 12 directed pairs x K1/2/4/8 coverage",
+    "Each mode train9216/development2304; total23040 rows",
+    "72 inference loads query_gold_read=false; 24 separate explicit targets",
+    "20 recovered files / 8196395 bytes have matching size and SHA",
+    "Documentation limits claims to preparation and CPU tests; no new model performance or unseen-region claim"
+  ],
+  "critical_findings": [],
+  "artifact_sha256": {
+    "code/oe11_catalog_review_v1/verify_export.py": "0326f985b554068b9219bb11986c4a7b7d106423f87540b507c2bba585139cfd",
+    "artifacts/oe11_region_expansion_20260929/catalog_review_v1/catalog_verification.json": "735dd651b129926eca24e5e5f56e509f8d818b5fb744fd60b38f84483ca2a1fa",
+    "artifacts/oe11_region_expansion_20260929/catalog_review_v1/loader_smoke_v0.json": "73c872c91a4c5122c586f37e44814c6f79e3d853a5ea156a4260321a5736f330"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "created_at_kst": "2026-09-28 23:52 KST",
+  "scope": "Manual local CPU diagnostics and research update only; no model training or new performance",
+  "protected_files_unchanged": {
+    "config/oe10_p2_execution_protocol_20260927.json": "778505eed8d5f5318f48b4f21d318283b95f100d8d5d7e5a0d8ceacfb4ecc1b3",
+    "config/oe10_hourly_research_context_20260928.json": "3c1ac45c2bd1df03d2cf45f1506389b1c9942a5cd3d1cffe404b7cbafa99eeb6",
+    "config/oe10_execution_status_20260927.json": "fb08489be381f716aae746c325b1c342468b6f6a6d643a26bcf9389527d41c5e"
+  },
+  "automation_status": "PAUSED",
+  "new_gpu_seconds": 0,
+  "new_training_updates": 0,
+  "server_access": false,
+  "new_heldout_data": false,
+  "equal_macro_windows_verified": 30,
+  "synthetic_contract_tests": 10,
+  "files": {
+    "artifacts/cvpr_direction_update_20260928/improvement_search/absolute_diagnostic.json": {
+      "sha256": "59b753835d3819c8c47ce5d1e29128fc718903eaaaad9d809c16c987d641905b",
+      "bytes": 109642
+    },
+    "artifacts/cvpr_direction_update_20260928/improvement_search/absolute_score_review.md": {
+      "sha256": "5f42e9c02807603fdbb2592fa28d5f5866b582d346d7dd5b767271fc00f00962",
+      "bytes": 8396
+    },
+    "artifacts/cvpr_direction_update_20260928/improvement_search/architecture_review.md": {
+      "sha256": "8674be2bf8d047cb9058a9f2c6345728d42b11ea22d11406ac61db2b0c459707",
+      "bytes": 13773
+    },
+    "artifacts/cvpr_direction_update_20260928/improvement_search/literature_review.md": {
+      "sha256": "4de30774eb3f28805047ea2bff3190fae8502d46727a30dc8b40defffe1e1cf8",
+      "bytes": 9293
+    },
+    "artifacts/cvpr_direction_update_20260928/improvement_search/support_compute_audit.json": {
+      "sha256": "90b13fbd3279aeaf582832a7c87624ff02437e9f46af1c4cbb3bdf897ae93388",
+      "bytes": 6105
+    },
+    "artifacts/cvpr_direction_update_20260928/improvement_search/tensor_contract.json": {
+      "sha256": "222edd2d522e02be24b8956594f8fe839d734205d7bd5dcc4b1c81ca3ecce457",
+      "bytes": 706
+    },
+    "code/oe10_improvement_diagnostics_v0/absolute_diagnostic.py": {
+      "sha256": "a1dabb3bac33b92dc4b91ee490fb4dd336ee9ea41a2d0fe0be70870d54982240",
+      "bytes": 5058
+    },
+    "code/oe10_improvement_diagnostics_v0/support_compute_audit.py": {
+      "sha256": "1ec9b8d3dfb42b7114b9b4836b7f66199fccfbe7c4412301f1382aaf0af97649",
+      "bytes": 4455
+    },
+    "code/oe10_improvement_diagnostics_v0/tensor_contract.py": {
+      "sha256": "fa8325b298aebf9eacfaf9dfa57f3dcb15f8f81bcad601918e722e986e4636e3",
+      "bytes": 7863
+    }
+  },
+  "updated_document": "docs/CVPR_CONTRIBUTION_DECISION_20260928.md",
+  "final_independent_review": {
+    "reviewer": "text_mask_path",
+    "status": "PASS",
+    "checked": "class means/contributions,30windows,dedup counts,10synthetic contracts,fair comparisons,no inflated efficacy claims",
+    "basis": "local appendix and canonical result reads; no new execution"
+  }
+}

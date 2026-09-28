@@ -1,0 +1,176 @@
+{
+  "status": "metadata_and_source_labels_audited",
+  "source_parent_counts": {
+    "t32ulu": 211,
+    "t31tfj": 228,
+    "t31tfm": 290,
+    "t30uxv": 182
+  },
+  "source_candidates_after_legacy_exclusion": 649,
+  "safe_candidates": 647,
+  "guard_dropped": 2,
+  "selected_count": 288,
+  "selected_partitions": {
+    "t31tfj/train_pool": 64,
+    "t31tfj/source_bank": 16,
+    "t31tfj/calibration": 16,
+    "t32ulu/train_pool": 64,
+    "t32ulu/source_bank": 16,
+    "t32ulu/calibration": 16,
+    "t31tfm/train_pool": 64,
+    "t31tfm/source_bank": 16,
+    "t31tfm/calibration": 16
+  },
+  "all_source_presence": {
+    "t31tfj": {
+      "1": 176,
+      "3": 16,
+      "8": 118,
+      "14": 111
+    },
+    "t32ulu": {
+      "1": 172,
+      "3": 139,
+      "8": 15,
+      "14": 69
+    },
+    "t31tfm": {
+      "1": 274,
+      "3": 200,
+      "8": 33,
+      "14": 87
+    }
+  },
+  "selected_presence": {
+    "t31tfj/train_pool": {
+      "1": 58,
+      "3": 7,
+      "8": 34,
+      "14": 38
+    },
+    "t31tfj/source_bank": {
+      "1": 16,
+      "3": 5,
+      "8": 14,
+      "14": 10
+    },
+    "t31tfj/calibration": {
+      "1": 16,
+      "3": 1,
+      "8": 10,
+      "14": 9
+    },
+    "t32ulu/train_pool": {
+      "1": 63,
+      "3": 53,
+      "8": 14,
+      "14": 34
+    },
+    "t32ulu/source_bank": {
+      "1": 13,
+      "3": 12,
+      "8": 1,
+      "14": 5
+    },
+    "t32ulu/calibration": {
+      "1": 16,
+      "3": 13,
+      "8": 0,
+      "14": 4
+    },
+    "t31tfm/train_pool": {
+      "1": 64,
+      "3": 47,
+      "8": 18,
+      "14": 27
+    },
+    "t31tfm/source_bank": {
+      "1": 16,
+      "3": 11,
+      "8": 5,
+      "14": 5
+    },
+    "t31tfm/calibration": {
+      "1": 16,
+      "3": 12,
+      "8": 2,
+      "14": 9
+    }
+  },
+  "selected_support_objects": {
+    "t31tfj": {
+      "1": 24,
+      "3": 6,
+      "8": 24,
+      "14": 16
+    },
+    "t32ulu": {
+      "1": 24,
+      "3": 23,
+      "8": 2,
+      "14": 7
+    },
+    "t31tfm": {
+      "1": 31,
+      "3": 18,
+      "8": 7,
+      "14": 8
+    }
+  },
+  "reserved_metadata_rows_skipped": 182,
+  "reserved_payload_reads": 0,
+  "legacy_ids_selected": 0,
+  "exact_footprint_verified": false,
+  "parcel_disjoint_verified": false,
+  "cloud_quality_certified": false,
+  "source_audit_sha256": "fb9f5e7819860398a9f6ed69d80f6c54282a70fc523f72679a37fd4a4b570d1b",
+  "source_stat_before": {
+    "bytes": 19990546644,
+    "mtime_ns": 1788655704162250000
+  },
+  "policy_sha256": "cb781fe93850f9bf5f93139c21f9a530c4c6a31fe1f36ab76fc696dfd53734f8",
+  "script_sha256": "8b2dfab23a653d6c32f3d4cb406b79b30832a53858a64ba72af2b8794b77705d",
+  "transform_sha256": "bd99e818778e5e70589740fd21c3379492c61e19b93ffd373935d1aa52d2404f",
+  "candidate_sha256": "1371530554379c9249ee55fa35de7e9111bf060bf67f3bed35d06636a38b3ba1",
+  "GPU_used": false,
+  "input_bands": [
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B8A",
+    "B11",
+    "B12"
+  ],
+  "native_bands": [
+    "B02",
+    "B03",
+    "B04",
+    "B08",
+    "B05",
+    "B06",
+    "B07",
+    "B8A",
+    "B11",
+    "B12",
+    "B01",
+    "B09"
+  ],
+  "band_mapping": [
+    0,
+    1,
+    2,
+    6,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    0,
+    7
+  ]
+}
