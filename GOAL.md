@@ -1,5 +1,39 @@
 # OlmoEarth 연구 목표 — 살아있는 계획서
 
+> **9/27 OE10 B0/B2 본 비교 실행 중 — [실행 기록](docs/OE10_P2_EXECUTION_20260927.md).** GPU1에서 두 모델×3시드×2,304update를20:42KST에 시작했다. 최대K8·공식native replay·별도프로세스 재개 검증과80입력/역할감사를 완료했다. 수치 안정성 수정 후 B2 재개 차이3.576e-7로 기존1e-6관문 통과, 반복K8약9.07초. 결과 전에 학습·평가 일정을 동결했으며 전체12시간 상한이다. 완주 점수·학습 충분성·논문 기여는 아직 미판정이다. 30분 추적을 등록했고 유의미한 변화만 보고한다. 아래는 이전 이력이다.
+
+> **9/27 OE9 리뷰 반영·P1 완료 — [실행 결과](docs/OE9_P1_EXECUTION_20260927.md).** v6에서 설계를 동결하고 B0/B2 수치 판정·Kuro 감사 제한·D1 미완료 보관을 반영했다. 실제80입력 loader 검사와 GPU1 두 학습 사례의 head fit(IoU .954/.861), 실제Qwen→EO 역전파·동일worker 저장복원이 통과했다. 이 수치는 훈련 사례이며 P2 비교·새방법·일반화 결과가 아니다. 사람pilot v1의 정보 부족(대상/혼동3건)을 보존하고 층화20건 v2를 준비했다. 실제사람응답0. GPU작업은 종료했고 다음은 native replay를 포함한 공통 B0/B2 trainer와 결과 전 학습 일정 고정이다. 아래는 이전 이력이다.
+
+> **9/27 OE8 입력 준비 완료 — [실행 결과·제약](docs/OE8_PASTIS_INPUT_PREPARATION_20260927.md).** PASTIS80개×8관측을 실제 추출하고 원자료80개/240payload를 독립 재검산했다. 48train/16source-bank/16dev, 합성 교정 train2,304/dev672구성까지 생성·감사 완료. 겨울보리 support 상한7로 전체4class는K1/2/4, 공통3class96query-pair만K8까지 가능하다. 구름 존재·dev부모1개·실제 사람 교정 및 runtime loader 미검증을 유지한다. 전체입력은 서버, 약59.4MB 검토 묶음은 로컬에 회수·hash검증; CPU작업 종료, 이번 새GPU학습0. 다음은 실제 loader/저장복원→GPU1 profile·두 사례 overfit→강한 기준선이다. 아래 이전 상태는 당시 이력이다.
+
+> **9/27 OE7 다음 실험 설계 v6 — [실험 순서·비교군·비용·판정](docs/OLMOEARTH_NEXT_EXPERIMENT_DESIGN_20260927.md).** 세 독립 검토와 두 후속 검토를 반영해 입력80개 준비→실제 trainer→강한 기준선→표현×관측 선택2×2→독립 평가로 구체화했다. 교정 쌍1/2/4/8, 같은 support/query, 숨은 관측 비용, 실제 사람 시간, EO/새 reader 재사용을 분리한다. 현재 두 입력·80메타후보·제안 학습0 상태는 그대로이며, 이번 갱신은 설계/문서만이다. 신규성·본 평가 사전등록은 미확정. 이전 내용은 당시 이력이다.
+
+> **9/27 OE6 실제 입력 준비·타 분야 확장 — [실행 기록](docs/OE6_PASTIS_INPUT_PROGRESS_20260927.md) · [설계 v5](docs/OLMOEARTH_CROSSDOMAIN_LOOP_PLAN_20260927.md).** PASTIS 약40GB hash 검사로 정상1/불일치1/누락1 확인. 정상 shard의911개 중 원사례2개를 변환하고 영상/날짜 불일치 수정·정규화 독립검산·육안 QA 완료.64train/16dev는 지역을 분리한 메타데이터 후보이며 아직 입력 준비 전이다. 로봇·시각토큰·물리 모델을 조사하고 캐시 의존성10개 테스트 통과. 비교 GPU 학습·tokenizer/loop 성능은 아직 없다. 다음은80개 입력과 관측 품질 정책·실제 trainer 저장복원 준비다. 이전 기록은 당시 이력이다.
+
+> **9/27 연구 설계 v4 — [문제·자료·아키텍처 업데이트](docs/OLMOEARTH_VLM_ARCHITECTURE_DATA_PLAN_20260927.md).** 전문가의 양성·혼동 교정을 새 환경에 재사용하는 OlmoEarth VLM을 중심으로, 근접 선행 8개와 공개 자료를 대조하고 독립 검토를 반영했다. 현재 128→16 token 평균이 공간 4개×날짜 2개를 묶는 것을 CPU 연산 진단으로 확인했다. 실제 영상의 의미 손실이나 방법 성능은 아직 미측정이다. PASTIS·Kuro를 중심으로 같은 정보의 강한 일반 모델과 구조/학습 2×2를 비교하며, 이미 관찰한 Kuro test 사건은 개발 자료로 취급한다. 새 GPU 학습·다운로드·유료 호출 없이 계획과 진단을 갱신했다. 다음 실행은 PASTIS 원 입력 최대 2사례와 Kuro 사건 노출 감사다. 직전 GPU1 연결 검사 완료 범위는 아래 기록과 별도로 유지한다.
+
+> **9/27 15:43 KST GPU1 완료 — [실제 VLM 실행 결과와 다음 실험](docs/OE4_GPU1_VLM_PROGRESS_20260927.md).** native8/32step 학습·저장복원과 실제 Qwen3-VL8B FP32 연결/역전파 검사 통과. 언어손실로 OlmoEarth211개·연결부4개tensor에gradient, 추적가중치변경과 원RGB경로보존 확인. BF16캐시검사실패는보존하며 FP32통과와구분한다. VLM checkpoint저장복원·새지역전이·성능개선은미검증. 이번GPU작업종료·결과/로그회수완료. 다음은PASTIS공개라벨입력2사례계약확인이다. 아래이전대기/실패표시는당시이력이다.
+
+> **9/27 11:54 KST 갱신 — [통합 문제와 첫 교정 전이 실험](docs/OLMOEARTH_TRANSFER_FIRST_EXPERIMENT_20260927.md).** 최근 EO–VLM 선행과 독립 검토를 반영해, 먼저 같은 교정의 환경별 도움/피해를 확인한 뒤 동일 정보의 G1/P1을 비교한다. PASTIS native 입력·지역 분할·교정 후보 library 비용은 실행 전 감사 대상이다. 현재 JSON은 초안이며 실제 episode 0개, 새 GPU 학습 없음. 기존 native v2는 유휴 GPU 90분 대기 초과로 04:09 KST 종료, VLM v1은 선행 실패로 종료했다. 둘 모두 대기 중이 아니며 이번 시도에서 GPU worker 성능 결과 없음. 원 종료 상태와 검토 대응은 `artifacts/oe5_correction_transfer_plan_20260927/`에 보존했다.
+
+> **9/27 OE4 실제 자료·학습 경로 실행 — [신규성 후보와 실행 상태](docs/OE4_NOVELTY_AND_NATIVE_VLM_EXECUTION_20260927.md).** 신규성9축·primary source21개와 독립 검토를 정리했다. 공식v1.2-Base·17.9GB corpus 확보,3,996H5/999저장좌표 그룹 감사,train64/dev8 입력준비 완료. 실제CPU1step에서 encoder213개 tensor gradient·실제가중치변경·저장복원 통과. 공개loss설정 복원 오류를 수정하고 원 실패를 보존했다. GPU0/1은 기존작업 점유로 native8/32step과실제Qwen3-VL검사는 한정 대기 중이며 GPU완료·신규방법효과는 아직 없다(02:45KST).
+
+> **9/27 CVPR 상세 계획·독립 검토 — [OlmoEarth 기반 VLM 연구계획](docs/CVPR_2027_OLMOEARTH_RESEARCH_PLAN_20260927.md).** 최신v1.2-Base+실제8B VLM을 중심으로 새 support 개념의 자연어 검색·영역·관계 재사용을 검증한다. mask→면적→설명을 독립 능력으로 중복 계산하지 않는다. 3개 독립 원 리뷰·draft 후속 검토와 수정 대응을 보존했다. 준비/한정 반증 실험은 조건부 진행, 방법 신규성·100k 본 학습·CVPR50% 채택 확률은 미확정이다. 계획 비용은21 core pipelines+12 보조+baseline별도이며10/10 처리량·자료 관문 전 실행을 약속하지 않는다. 이번에는 공개1k H5 약17.9GB와v1.2 revision의 metadata만 확인했고 새 다운로드·GPU학습·서버전송·유료호출은 없다. [검토 대응](artifacts/cvpr_plan_review_20260927/review_response.md).
+
+> **9/27 방향 확장 — [OlmoEarth 모델·학습·응용 프로그램](docs/OLMOEARTH_CAPABILITY_PROGRAM_20260927.md).** 최종 목표는 영역 찾기·측정·비교·설명을 공유하고 새 개념에 적은 교정으로 적응하는 모델이다. Encoder 단독 평가는 기여 귀속과 재사용성 검증으로 둔다. 동의한 첫 작업은 원본 EO 기준선과 공식 목적 추가 학습의 공정 비교 준비다. 공식 두 과제의 source/CLI를 확인하고 서버 26개 경로를 점검했다. 가중치 로더 연결·의존성·자료 계약이 남아 있으며, 이번에는 새 성능 결과나 학습이 없다.
+
+> **9/27 OE2 실제 문제 감사·수정 — [결과와 다음 실험](docs/OE2_PROBLEM_AUDIT_AND_FIXES_20260927.md).** train 클래스 prior만으로68.36%(frozen과 동점), 동일질문 양답26층 평균은blind50/frozen57.37/joint66.99%다(사후·68문항). 채점 동률75행을 재현하고 다음 실행용 사본을 수정했다. 640개면적라벨 계약은0개통과·기존격자충돌36배. 실제 frozenTiny20장 CPU 진단 완료: 원공간/16/64토큰 MAE .1245/.1553/.1458. VLM 성능·새 사전학습 기여는 미입증. 로그·그림·코드는 로컬/서버에 보존했고 이번 CPU 작업은 종료했다. 원결과/사전등록은 유지한다.
+
+> **9/26 OE2 후속 — [TerraScope 대비·첫 VLM 실행 순서](docs/OE2_TERRASCOPE_COMPARISON_AND_FIRST_VLM_20260926.md).** SPEX·MS-CLIP·분광 뷰 VLM 선행을 반영해 신규성 범위를 좁혔다. 기존 Qwen3-VL-8B 가중치 파일과 H200 메모리 상태를 읽기 확인했고, 20개 train 사례·40문항의 메타데이터 후보를 준비했다(raw 로컬0, 추론불가). 첫 단계는 실제 VLM 연결 검사이며 새 학습/추론 결과는 없다. 동일 연결부 P−L 비교→새 reader 전이·EO 성능 유지가 방법 연구의 결정 실험이다. 기존 진단 논문 골격과 원 사전등록은 유지한다.
+
+> **9/26 최신 설계 — [OE2 다중 AI 감독·OlmoEarth 표현 학습](docs/OE2_MULTIMODEL_SUPERVISION_AND_REPRESENTATION_PLAN_20260926.md).** OpenRouter는 학습 자료 생성·검수 후보이며, 논문 주장은 동일 감독의 방법 비교와 새 VLM으로의 encoder 전이로 검증한다. 총100만 원 계획=판독72만+전문16만+API상한5만+예비7만 원. train200/dev60/독립2인test120 목표와 큰 corpus 계획은 유지한다. 실행 전 설계이며 새 API 호출·학습·전송 결과는 없다. 아래 예산12만 원 예비비 기록은 이번에 API5만/예비7만으로 세분했다.
+
+> **9/26 예산 반영 — [100만 원 AI 보조 라벨링 계획](docs/EO_VLM_LABELING_BUDGET_1MKRW_20260926.md).** 이전5,000개 전수 정밀 라벨 제안은 이력으로 남긴다. 계획 단가 기준 검수자60인시+전문가4인시+예비12만 원. 목표는train200/dev60/독립2인test120개이며20개 유료pilot 실측 전의 가정이다. 채용·견적 확정·발주·새 학습은 아직 없다. 대규모 공개/AI 보조 학습 목표는 유지한다.
+
+> **9/26 확장 설계 — [대규모 EO VLM·전문가 라벨 계획](docs/EO_VLM_SCALE_AND_EXPERT_DATA_20260926.md).** 10k/100k/1M 관측 묶음과5,000개 정밀 라벨을 목표로 재설계했다. 공개 현장·전문 매핑·서술 자료9종의 출처 장부와 공정 비교·비용 계획을 정리했다. 목표 수량이며 확보량이 아니다. 이번 갱신은 문서·출처 조사까지이며 새 데이터 수집·GPU 학습 결과는 없다.
+
+> **9/26 OE1 완료 — [실제 Sentinel-2 encoder 학습과 독립 검산](docs/OE1_BENTXT_FEASIBILITY_20260926.md).** dev256 주 BA frozen .6836 / joint .7227 / blind .6680. encoder 공동학습·203개 텐서 변화·저장 복원·1,740응답 검산까지 완료. 단일 seed QA 미세조정이며 새 사전학습 목적의 증거는 아니다. 보조 .75는 동률 규칙 차이가 있어 주결과가 아니다. GPU 실행 종료, 원 응답은 로컬·가중치는 서버에 보존. 후속 실험은 미실행이다.
+
 > **9/25: [E5 완료·독립 검산](docs/E5_EQUAL_BUDGET_RESULTS_20260925.md), 주판정 mixed_or_inconclusive.**
 > 12모델·26,325응답·19,080학습step를 검산했다. full BA .7712/.8284/.9094, pair .7533/.8009/.7821. 주대조의 성능 보존·차이 이점 규칙 모두0/3이다.
 > full에서 평가 시 D 제거는5,265/5,265개 모두no지만 pair 재학습은 원 라벨 구분을 회복했다. 사전 지정 보조 관측이며 시간 추론·기억 효과·새 사건 일반화의 증거가 아니다.
@@ -5067,10 +5101,499 @@ dose 스크립트 자체가 선택 GPU에 다른 프로세스가 있으면 거�
 - 독립 읽기 감사는 실행 차단·gradient 단절을 찾지 못했다. 기존 재로딩 검사가 저장 상태 두 번 로드의 반복성만 확인하므로, 결과를 보기 전에 train-only probe의 저장 전/복원 후 logits 비교를 추가한다. 동일 seed17·3조건·256updates·최대3600초·원 질문/답/픽셀·분할을 유지하고 전용 OE1 snapshot에서 실행한다.
 - 새 전송은 이 실행에 필요한 OE1 코드만 기존 /home/work/data/olmoearth/code/oe1_bentxt_v0에 한정한다. 과거 E6 bundle을 전송하지 않는다. 보호4파일의 mtime/SHA는 현재 과거 핀과 일치하며 전송 후 다시 확인한다. 결과는 질문만 기준선·같은 질문의 donor 대상 real 비교·MGRS별 집계까지 검산한다. 영상+날짜 교체를 픽셀만의 인과 효과로 해석하지 않는다.
 
-
 ### 2026-09-26 — E6 실행 (사용자 승인)
 
 - 사용자 승인으로 봉인 bundle 업로드(10파일 SHA 일치) → 서버 테스트 57/57 → prepare(E5 게이트 통과) → GPU0 실행 96 s.
 - **MS-158**: E5 full(7B) − E6 head(367k) = −.064 [−.143, .006] / +.032 [−.030, .105] / +.108 [−.034, .264], 세 seed 모두 0 포함.
   이진 홍수 판별에서 LLM의 추가 가치는 보이지 않는다. 설계상 판정 없는 기술 비교.
 - 함의: VLM 동기는 위치·면적·다중 질의 과제에서 찾는다(`docs/CRITICAL_REVIEW_20260926.md` §3과 일치). 다음 E7(태양광 추가·엇갈린 질문).
+
+### 2026-09-26 — OE1 실행 완료·실제 encoder 업데이트·독립 결과 검산
+
+- 범위: 공개 BigEarthNet.txt 원문 presence QA와 실제 Sentinel-2 12밴드. train512패치/1024문항/43MGRS, dev128패치/256문항/11MGRS, 최소 거리7.6248km. 공식 test 미사용. 질문 종류만의 train-fitted BA .6484375를 모델 결과 전에 확인했다.
+- 전송: OE1 전용10파일91,492바이트를 업로드·SHA 대조했다. 모델 로딩/실제 학습은 실행 전 봉인한5파일의 snapshot 경로에서 수행했다. 보호4코드는 업로드 전후 및 실행 후 크기·mtime·SHA가 모두 같다. E6 경로는 재전송하지 않았다.
+- 실행: h200-dev 물리GPU1에서19:43:00–19:48:26 KST. 준비 포함325.881초, trainer201.996초, 최대 PyTorch 학습 할당19.624GiB. frozen/joint/blind 각각256step·2048문항 노출·seed17, 같은1024문항을 각2번 사용. 종료 후 GPU compute process 없음.
+- 주결과: frozen175/256=.68359375, joint185/256=.72265625, blind171/256=.66796875. joint의 순증은 frozen 대비10문항·3.90625%p, blind 대비14문항·5.46875%p. MGRS별 frozen 대비6개 개선/2동률/3악화. 같은68개 donor 문항에서 원/교체 BA frozen .599567/.577056, joint .676190/.618182, blind .491342/.508658. joint는26개 응답이 바뀌고 양쪽 모두 정답은23개다. 재사용 donor와 영상+날짜 교체를 독립 픽셀 인과 증거로 부르지 않는다.
+- 실제 학습 검증: joint203개 encoder 텐서 변화·256step 모두 비영 gradient, frozen/blind encoder변화0. LLM tensor SHA 불변. 세 조건 저장 전 train8질문 logits와 checkpoint 복원 logits bit-exact 일치. 결과 전 수정한 roundtrip CPU검사3개 로컬/서버 통과, 별도 receipt 감사기4검사 통과.
+- 독립 검산: 원 응답1740개를 별도 표준라이브러리 코드로 재채점하고 데이터/문항/정답/날짜/donor/배치/manifest SHA를 대조했다. 모델 tensor의 로컬 재추론은 하지 않았으며 원영상·corpus 해시는 서버에서 확인했다. 실행 완료·소스snapshot5개·보호4파일도 별도 로컬 검산했다.
+- 마찰/채점 발견: BF16 yes/no logit 동률8/13/13개에서 primary argmax는no, constrained >=.5는yes를 선택한다. 공동 보조 .75를 성공 점수로 바꾸지 않고 주 .72265625를 유지했다. joint zero의 '**'3개는 오답 포함. 다음 실행의 정밀도·동률 정책을 사전에 통일한다. 기존 터널 복구가 필요했고 wrapper의 localhost 호스트 키 경고는 그대로 남아 있었으며 SSH 보안 설정을 수정하지 않았다.
+- 보존: `artifacts/oe1_bentxt_v0_20260926/pilot_v1_review_20260926.tar.gz`, 압축 해제 원 로그/응답/실행snapshot, 결과·자료·실행 독립 감사JSON. 서버checkpoint `oe1_bentxt_v0/runs/pilot_v1/training/{frozen,joint,blind}_final.pt` 및 initial_state.pt. joint 파일 SHA b9e155c47b0043fd232407b89da08faad05c79d8e42f253f8081cd0fa3add626. Git commit/push·모델 외부 공개는 하지 않았다.
+- 판단과 다음: QA 공동 미세조정의 실행 가능성과 작은 관측 이득은 확인. 새 사전학습 목적·식생 변화·기후/관측 부족 이해는 미검증. 다음은 원/공동학습 encoder에 같은 새 연결부를 각각 학습해 encoder 효과를 분리하고 질문 편향·날짜·여러 seed를 통제한다. 후속 GPU 실행은 아직 없다. README/RESTART/STUDY와 `docs/OE1_BENTXT_FEASIBILITY_20260926.md`에 결과·한계를 연결했다. 이번 결과는 논문 실험표 후보이며 공개 PR은 만들지 않았다.
+
+
+### 2026-09-26 — EO VLM 대규모 학습·전문가 근거 라벨 확장 계획
+
+- 사용자 요청: 작은 벤치마크 비교를 넘어 규모 있는 EO VLM 연구로 확장하고, 공간·측정 과제와 공정 학습 비교에 정밀 라벨링을 추가한다. 공개 전문가 판독·현장 조사 데이터도 조사한다.
+- 이번 작업은 공식 자료의 출처·감독 수준·공간/시간 정합·라이선스 확인, 고유 관측 묶음 기준 데이터 규모 설계, 전문가 라벨링 지침·공정 비교·스케일 곡선·독립 평가 설계의 문서 갱신이다.
+- 공개 데이터 수와 확보한 파일 수, 구조화 현장 관측과 자유형 전문가 설명을 구별한다. OE1/E5/D1 결과·사전등록은 보존한다. 이 문서 작업에서 신규 GPU 실행·대량 데이터 수집·외부 연락·유료 발주는 하지 않는다.
+
+
+### 2026-09-26 — 대규모 EO VLM·전문가 라벨 확장 설계 완료
+
+- `docs/EO_VLM_SCALE_AND_EXPERT_DATA_20260926.md`에10k/100k/1M 고유 관측 묶음,5,000개 정밀 라벨(train3,000/dev500/test1,500),100개 train측 라벨 보정 pilot과 약1,500인시 계산 예시를 기록했다. 확보량·검정력·실행시간 보장이 아니다.
+- 공식 자료 조사: LUCAS137,966폴리곤, TreeSatAI50,381triplet, WorldFloods509지도/144사건; NEON은 개체×조사 기록이다. CEMS/NASA에 서술 자료는 있으나 픽셀별 전문가 정답과 다르다. 출처·감독·접근·라이선스·필수 정합 점검9종을 `config/eo_vlm_expert_sources_v0_20260926.json`에 정리했다.
+- 핵심 설계는100k 2×2 비교 및10k/100k/1M A/D 규모 곡선(3seed 계획24회), 같은 관측에서 전문가 라벨 예산0/300/1,000/3,000 비교(추가 비용 별도), EO frozen/joint와 새 연결부 평가다. 같은 라벨·입력·학습 기회를 공유하고 간단한 EO 측정→LLM 비교를 유지한다.
+- 마찰: 공개 현장 기록이 위성에서 관측 가능한 정답과 같지 않음, LUCAS partial labels, CEMS/WF 사건 중복·최신 보고서 시점 누출, NEON 신규 다운로드 계정/CC BY4.0, FIA 공개좌표 이동을 확인했다. 학습 입력과 교사 전용 근거를 구별한다.
+- 문서·JSON 정합과 링크 경로를 확인했다. 이번 작업은 새 corpus 다운로드·인력 발주/외부 연락·원격 전송·GPU 실행을 하지 않았다. 기존 결과·사전등록·서버 코드는 변경하지 않았다. 다음은 소량 원자료 조인 검증과 train측100개 라벨 패키지, 실제 VLM+EO Base 처리량 측정이다. 새 공개 PR 후보 없음.
+
+
+### 2026-09-26 — 사용자 예산 정정:100만 원 범위 AI 보조 라벨링 조사 계획
+
+- 사용자에게5,000개 전수 정밀 라벨링은 부담이 크며 한국 기준 총100만 원·약100인시라는 제약이 생겼다. AI 비교/초안 사용을 허용했다. 이전5,000개/1,500인시 안은 즉시 실행 계획에서 제외하고 이력으로 남긴다.
+- 국내 공개 인력/플랫폼 경로·현행 인건비 기준·AI 보조 도구를 조사하고, 총예산 안에서 훈련된 판독자/전문가/독립 평가/개발 검수를 배분한다. 시급·전문가 단가는 시장 견적과 계획 가정을 구별한다.
+- 새 유료 계약·외부 메시지·API 구매·GPU 실행은 하지 않는다. 조사 결과와 현실적인 축소 라벨링 계획을 기존 대규모 연구 설계에 연결한다.
+
+
+### 2026-09-26 — 100만 원 예산·국내 경로 조사 완료
+
+- 현재100만 원 상한에 맞춰 `docs/EO_VLM_LABELING_BUDGET_1MKRW_20260926.md`와 `config/eo_vlm_labeling_budget_v1_20260926.json`을 추가했다. 검수60h×12,000원+전문4h×40,000원+예비120,000원=1,000,000원은 계획 단가 가정이며 실제견적이 아니다.
+- 공식2026 최저시급10,320원 확인:100인시의 기본급만1,032,000원. 크몽 일반이미지 bbox/segmentation 게시가 확인(EO판독단가아님), Crowdworks/Selectstar/AIWORKX는 공식페이지상 개별견적이며 EO고정단가/최소발주 미확인. 관련 학과/연구실 경험자 경로를 우선 제안하되 가용인력 미확인이다.
+-60인시 배분=교육/pilot8+test120개×2인×8분32+train180개×4분12+dev60개×4분4+예비4. pilot20을train에 포함해train200/dev60/test120 목표, 전문가4h 별도. 실제시간·불일치 증가 시 물량조정. 전문검토4h로 전수expert gold라고 주장하지 않는다.
+- AI초안·모델불일치를 학습검수우선순위로 활용하고 합의사례도 무작위감사한다. test는 모델답을 숨겨 독립판독.120개 test만으로3–5%p 확증 불가, 원천대형평가+지역단위불확실성을 함께 보고한다. 추가검수예산은0/50/200개로 조정했다.
+- 계산과JSON·연결문서를 검증했다. 이전5,000개계획은이력표시,source카탈로그도현재예산config를참조한다. 업체/사람에게연락·채용·결제·원격전송·GPU실행없음. 다음은train20개 패키지와유료pilot실측. 새PR후보없음.
+
+
+### 2026-09-26 — OpenRouter 다중 AI 감독과 논문 실험 설계 갱신 계획
+
+- 사용자가 OpenRouter 등 여러AI로 라벨 초안과 검증을 나누고, 라벨링을 넘어 논문 가치가 있는 실험 설계를 요청했다. 단순 모델합의가 정답이라는 가정은 하지 않는다.
+- 이번 작업은 공식 API/비용/모델·공급자 고정 기능 조사, 다중teacher와 인간검수의 분업, 동일 감독 하 EOencoder/연결부 기여 분리, 규모·전이·독립평가의 실행 전 계획 갱신이다.100만 원 상한을 유지하고 API비용은 예비비 안에서 분리하는 초안을 만든다.
+- 유료 API 호출·키 열람·충전·발주·외부 메시지·GPU 실행 없이 문서와 기계판독 가능한 계획을 준비한다. 기존 결과·사전등록·학습코드는 보존한다.
+
+
+### 2026-09-26 — OE2 다중 AI 감독·표현 학습 연구 설계 갱신 완료
+
+- `docs/OE2_MULTIMODEL_SUPERVISION_AND_REPRESENTATION_PLAN_20260926.md`와 `config/oe2_multimodel_supervision_plan_v0_20260926.json`을 추가했다. OpenRouter는 감독 생성 수단이며 독립 gold·방법 신규성으로 취급하지 않는다. TerraScope의 선행 합성 감독, 모델 공동 오류와 MLLM 판정 편향을 확인했다.
+- A전수/B위험20%+그밖무작위5%p/C최대5%의 호출 계획, 실제비용 기준 teacher정책 비교, 원mask/수치 검증, 모델답을 가린test를 분리했다. 공식후보3개의 가격/기능을 출처JSON에 기록했으며 학습용 출력재사용·정확한endpoint는 미확정이다. 실제API호출/키열람/계정설정/지출은0이다.
+- 같은 corpus·라벨의 연결부×보존학습 2×2, 각A/D의 frozen/joint, encoder만 새연결부·pretrainedVLM으로 이식하는 검증을 명시했다. 정답ROI 누출, RGB우회, 입력별학습대조, 질문표본부풀림, 지역/사건중복을 통제한다. 방법수식·checkpoint·허용오차·split·효과문턱은 미정으로 기록하고 실행가능 사전등록이라고 부르지 않는다.
+- 초기core18+frozen6=24회, 조건부1M6회까지30회이고 readout/기준선/개발비용은 별도다. 사람train200/dev60/test120 목표를 유지하며120개로작은효과의확증을약속하지않는다. 원자료20개pilot을 다음단계로 둔다.
+- 예산v2는판독720,000+전문160,000+API상한50,000+예비70,000=1,000,000원이다. 가격은계획가정이고GPU/개발비는별도다. v1/과거결과/원사전등록은보존하고현재출처장부의예산포인터·재시작문서를갱신했다.
+- JSON/예산·인시·호출수·학습회수·로컬연결을검증했다. 이번변경은문서/설계자료뿐이며 새원격전송·GPU학습·외부연락·채용·결제없음. 새성능결과나새PR없음.
+
+
+### 2026-09-26 — TerraScope 대비 연구 차별점·첫 actual VLM 실행 순서 구체화 계획
+
+- 사용자 요청: 어떤 VLM부터 붙여 규모를 키울지, TerraScope와 무엇이 다르고 더 의미 있는지 검토하며 계획을 업데이트한다.
+- TerraScope 원논문/공식 공개 구현과 학생 VLM 후보를 확인하고, 이미 겹치는 공간근거·수치·다중시점 기여를 명확히 구별한다. 동일 입력 비교와 추가 분광 입력 효과를 분리한 최초 진단, 실제 모델 선택·연결 규격·확장 순서를 정리한다.
+- 로컬 OE1 재사용 자료/코드를 읽고 연구 설계·설정을 갱신한다. 원 실험 결과·사전등록을 보존하며 이번 문서/준비 작업에서 유료 API·새 GPU학습·공개 업로드를 자동 실행하지 않는다.
+
+
+### 2026-09-26 — TerraScope 대비·첫 actual VLM 경로 구체화 완료
+
+- `docs/OE2_TERRASCOPE_COMPARISON_AND_FIRST_VLM_20260926.md`와 `config/oe2_first_vlm_route_v1_20260926.json`에 P0 연결검사→P1 목적진단→10k→100k·새reader 전이 순서를 추가했다. TerraScope는 이미mask/면적/변화와RGB+SAR를지원하며visionencoder고정이다. SPEX v2는multispectralencoder까지갱신하므로언어연결/encoder갱신만으로신규성이되지않는다. MS-CLIP/Spectral-LLaVA/2609.02187도주비교에반영했다.
+- 신규후보는같은감독의P−L,새연결부/reader전이,독립EO과제유지를함께검증하는표현학습이다. 구체loss/알고리즘신규성은미완성이다. 원특징/압축토큰에는probe,최종답에는직접채점을사용하도록독립검토를반영했다. token64로시작하고16/256곡선은추가확장한다. 기존2×2/24·30회는즉시실행queue가아니며추가비용포함실행수는미정이다.
+- `./bin/nx status`에서h200-dev RUNNING, GPU읽기에서H200두장각143771MiB/사용0MiB를확인했다(조회시점). Qwen3-VL8Bconfig/index/4shards와Molmo2config존재확인. 파일무결성·모델로드·backward는미검증이다. 래퍼SSHhost-key경고가있었고신뢰설정은변경하지않았다. 잘못조회한manifest.jsonl부재를rawdata부재로해석하지않는다. 읽기receipt보존.
+- Qwen8B기존파일재사용을우선,4B는메모리/구현fallback,InternVL3는TerraScopebackbone대조·다른VLM구조전이로지정했다. InternVL의LLM도Qwen계열이므로독립언어계열이라고주장하지않는다. `config/oe2_vlm_candidates_20260926.json`에공식revision/코드출처와DeepStack주의점을기록했다.
+- `code/oe2_build_candidates20_v0.py`로`artifacts/oe2_startup_v0_20260926/candidates20_manifest.json`을생성했다. train512중hash+MGRS중복제거로20개/40원문QA/20MGRS를고르고원metadata·질문·정답·출처SHA일치검증. label은scene_presence이고dense_mask없음,raw로컬0개,ready_for_inference=false. 이표본은engineering용이며새test아니다.
+- 문서·JSON·링크·sourcepins·예산정합과독립과학검토완료. 새API호출/추론/GPU학습/가중치다운로드/원자료전송/원격파일변경/공개업로드없음. 기존결과·진단논문골격·원사전등록보존. 다음은20개raw확인과Qwen원경로/EO슬롯/역전파의P0검사. 새PR없음.
+
+
+### 2026-09-26 — OE2 문제 발견·재현·수정 작업 계획
+
+- 사용자가 제안 확장보다 실제 문제가 있는 부분을 찾고 개선하길 요청했다. 기존 OE1 코드/원답/자료와 OE2 설계에서 재현 가능한 입력·채점·정보손실 문제를 먼저 감사한다.
+- 독립 CPU 감사로 질문·클래스 prior와 실제 EO 입력 기여, yes/no 동률정책, 공간·라벨 계약을 확인한다. 원 실험결과와 사전등록은 보존하고 새 감사/수정은 별도 revision에 둔다.
+- 필요하면 이미 허용된 서버/GPU에서 소량 진단을 진행하되 현재자원·고정코드·자료hash를 먼저확인한다. 합성 또는센서계산target은생태적ground truth와구별하고, 작은진단을사전학습우월성/병목증명으로과장하지않는다. 유료API·외부게시·대규모자동학습은범위에없다.
+
+### 2026-09-27 — OE2 문제 감사·수정 및 frozen Tiny20장 CPU 실행 완료
+
+- 9/26 계획 후 원 OE1을 보존하며 재현했다. train-only class prior devBA .683594로frozen과총점동일; joint .722656, 순증10정답. same-question+class 양답26층/68문항의 macroBA blind.5/frozen.573718/joint.669872. 사후분석·날짜교락·작은지원수한계를명시.
+- 원1740응답 exacttie75행재현. 공통direct-logit채점+수정trainer사본연결, 회귀21통과. 원실험주지표와run경로는불변.
+- 640메타데이터계약:presenceonly,면적eligible0,outer/nestedaffine면적비36. 별도측정guard와resampling회귀13통과. 기존알려진격자충돌의범위를감사했으며분류결과무효화아님.
+- server oe2_problem_audit_20260927/cpu20_v0: CPU4threads, 약13.43초launcher/12.54초probe, raw20개hash검증, 실제native[1,30,30,1,3,192],encoder불변. 동일D ridge5fold full/16/64 MAE .124504/.155270/.145783,full이각각16/20우세. 6/20full장면R²음수와outlier도공개. DN센서비율진단이며VLM/식생gold/새objective증거아님.
+- 전송은새전용probe/renderer소스만, 보호4파일hash/mtime전후불변. 결과·snapshot·PNGpull및육안확인. GPU0/1이초기에는점유되어CPU로제한;GPU중단/새GPU학습/API비용없음. nx는접속repo로cd하므로상대push실패1회→절대경로재시도성공. 기존SSHhost-key경고는설정변경없이기록했고접속은완료됨.
+- 결과 docs/OE2_PROBLEM_AUDIT_AND_FIXES_20260927.md 및routev2갱신. 다음은actualVLM연결/지역·질문·날짜통제/공간gold확보→같은토큰·감독P−L. 연구기여미입증;기존진단논문골격·D1/E0–E5판정불변. Gitpush/외부게시없음.
+
+### 2026-09-27 — OlmoEarth 응용 능력 확장과 기준선 준비 계획
+
+- 사용자: encoder 단독 개선으로 연구를 좁히지 않고, OlmoEarth 학습 모델의 가치와 응용 범위를 크게 넓히길 요청했다. 원본 EO 기준선과 공식 목적 추가 학습의 공정 비교 준비에는 동의했다.
+- 목표는 native EO 관측을 이용한 찾기·측정·비교·설명의 공통 모델과 재사용 가능한 학습법이다. Encoder-only 평가는 기여 귀속과 재사용성 검증으로 두고, 최종 연구 목표와 구별한다.
+- 이번 작업은 공식 eval entrypoint 확인, 기존 서버 데이터·패키지의 제한된 읽기 감사, 미확보 항목을 명시한 실행 준비 설정, 모델/학습/응용 기여의 설계 갱신이다. 원 결과·사전등록·확증 실행 코드는 보존한다. 유료 API·대형 다운로드·새 대규모 학습은 시작하지 않는다.
+
+### 2026-09-27 — OlmoEarth 응용 능력 연구 범위와 첫 실행 준비 반영
+
+- 최종 목표를 native EO와 실제 VLM의 다목적 모델·공통 학습·새 개념 적응으로 정리했다. Encoder-only는 기여 귀속 평가이며 시스템 기여의 유일한 통과 조건이 아니다. 원 성능·사전등록·기존 진단 논문은 보존한다.
+- 문서 docs/OLMOEARTH_CAPABILITY_PROGRAM_20260927.md 및 config/olmoearth_capability_program_v0_20260927.json을 추가했다. A=공식 목적+영역/언어/수치 지속 학습, B=실제 VLM 작업 학습. 신규성·방법 수식·큰 모델 성능은 미입증이다. 같은 정답의 일반 공동학습, 언어 기여용 직접 지도 대조, 새 개념×작업 조합 검증을 연결했다.
+- 공식 clone 0497dfbb의 sen1floods11(S1)와 m_cashew_plant(S2) registry/CLI를 확인했다. 공개 weights.pth와 distributed trainer.load_path의 형식 차이, defaults_only 정규화 변경, 개발 run_on_test=False를 기록했다. AST argparse 검증이며 full runtime dry-run은 아니다.
+- 서버 inventory_assets.py 실행: 관련 26개 예상 경로·master package metadata·Tiny 두 파일 hash 확인. geobench2 폴더 존재, 선택한 공식 benchmark/pretrain 예상 경로는 미확인. master의 full pretrain/ai2-olmo-core/geobench distribution metadata 없음은 다른 환경·다른 경로까지 부재라는 뜻이 아니다. Tiny weights SHA는 기존66b9827a...와 일치.
+- 새 전용 inventory 코드만 전송하고 결과 JSON을 회수했다. 원 데이터/모델 로드·변경, 대형 다운로드, GPU 학습, 유료 API, Git push 없음. 보호 네 파일은 push 전과 실행 전후 hash/mtime 불변을 교차 확인했다. 기존 SSH host-key 경고의 신뢰 설정은 변경하지 않았다.
+- 다음 구현: 격리 환경과 checkpoint loader bridge·출력 동등성→공식 validation 두 과제→정합 원 목적 pretrain subset. 큰 모델 연구 범위를 이 두 과제로 축소하지 않는다. 새 PR 후보 없음.
+
+### 2026-09-27 — CVPR 본 논문을 위한 큰 연구계획·독립 검토 시작
+
+- 사용자가 좁은 구현 목표보다 CVPR 가치 중심의 상세한 연구계획 갱신과 다른 에이전트의 검증을 요청했다. 채택 가능성 50% 이상인지 물었으나 검증 가능한 확률 모델이 없으므로 수치를 만들어 조건을 충족시키지 않는다. 투입 판단과 채택 확률을 구별한다.
+- 세 독립 역할을 운영한다: 근접 선행 redteam, 방법·대조 설계 reviewer, 데이터·연산·일정 feasibility reviewer. Root는 출처·버전·공식 데이터와 상세 계획을 종합하고 draft에 대한 반론을 다시 요청한다.
+- 큰 모델·학습 프로그램은 유지하되, 마스크에서 유도한 면적/문장을 독립 능력 전이로 부풀리지 않는다. 새로운 개념×관계/grounding/retrieval 조합으로의 전이, 일반 multitask와 계산기 baseline, 기존 EO 유지·새 reader 전이를 분리한다.
+- 결과물: 상세 계획, 선행 비교, 방법 후보와 수식, 데이터/분할/실험 행렬/연산 실측 계획, 일정·진행/중단 기준, 원 독립 리뷰·대응표 및 기계판독 설정. 공식 공개 데이터의 크기·경로 metadata 확인까지 시작한다. 원 사전등록·실험·학습 코드는 보존하고 대규모 모델 학습과 유료 호출은 이번 설계 완료 전 자동 시작하지 않는다.
+
+### 2026-09-27 — CVPR 큰 연구계획 갱신·독립 반론 통합 완료
+
+- 사용자의 넓은 OlmoEarth 모델·학습·응용 목표에 맞춰 `docs/CVPR_2027_OLMOEARTH_RESEARCH_PLAN_20260927.md`와 기계판독 설계를 작성했다. 원본 EO 기준선은 보조 귀속 감사이며 main은 실제 VLM의 새 support 개념×관계 조합 활용이다.
+- 세 독립 reviewer가 선행/방법/실행 가능성을 검토하고 실제 draft를 다시 읽었다. generic method와 차이 부족, VLM 우회 지표, mask 파생결과 중복, 신규CPT 누출,4광역tile 통계, stage 모호성,비용 누락을 반영했다. 원 리뷰·후속 리뷰·최종 메모·대응표를 artifact에 보존했다. 조건부 준비/반증GO이며 신규성 확보나100k/채택확률 승인은 아니다.
+- 최신 공식v1.2-Base HF revision `2e99a734a30e9aeb993aaa39946c6dcf554739e0` 공개metadata, 공식1k H5 `17,855,037,440 bytes`, rawGeo `30,209,955,840 bytes`를 HEAD/GET으로 확인했다. full corpus/weights 다운로드는 하지 않았다. 공식v1.2 recipe와 이전v1 inventory를 구분했다.
+- C/S/I/G/P×3=15 +frozenI/P×3=6으로core21pipelines,scale6+새reader6=보조12,baseline/probe/eval별도. GPU시간은미측정,10/10 budgetgate 전 main보류. 공식CVPR등록11/10·본문11/16AoE를확인했다.
+- 단계정의: A EO-updated 또는원본frozen, B모든armencoder고정·동일instruction으로VLM/연결/field적응. G/P동일facts·forward에서listwisebinding의추가효과를반증한다. 이차이가genericcontrast와같다면새방법주장없음. loss/gallery/실제split/처리량등은실행전미정이다.
+- 새GPU학습/성능값/서버전송/유료API/채용/외부게시없음. 원D1/OE1/OE2사전등록·결과·학습코드는수정하지않았다. 문서링크·JSON·예산/실행수·복사hash를검사한다. 다음판단자료는실제자료/로더/기준선/반증결과다.
+
+### 2026-09-27 — OE4 신규성 탐색·실제 GPU 개발 실험 시작 계획
+
+- 사용자가 신규성 후보를 넓게 검토하며 실제로 조금씩 개선하고 GPU 학습도 진행하도록 명시했다. 이전 CVPR 계획을 근거로 진행하되 generic contrastive를 신규성으로 가정하지 않는다.
+- 병렬: 두 에이전트는 신규성 지도/메커니즘의 근접선행·결정반증을 독립 조사, 한 에이전트는 공식v1.2 loader/real-data/backward 계약을 검토한다. Root는 source/data/runtime와 bounded 실제 개발 학습을 연결한다.
+- 범위: 공식v1.2-Base와1k 공개 corpus 확보·고정, 기존PASTIS 등 실제자료 계약 감사, 원본/일반학습의 작은개발 비교 또는 공식목적 optimizer update 검증, 결과의독립감사·후속설계. 대규모100k 확증·유료API·채용·외부게시가 아니다. 기존prereg/test/원결과수정없음.
+- 최초GPU상태: GPU0/1 모두다른계산PID가활성이다. 해당작업을중단하거나동시에학습을덧붙이지않고 CPU자료/환경준비를먼저한다. 새학습은실행직전idle재확인후별도run dir와사전snapshot에서실행한다.
+- protected4개기존서버실행코드는푸시전후mtime/hash불변검사. source를먼저로컬code/에저장후./bin/nx로전송하고env -u PYTHONPATH사용. 개발run의목적/판정/노출범위는결과전에config로고정한다.
+
+### 2026-09-27 — OE4 신규성 조사·자료 확보·실행 경로 검증 결과
+
+- 신규성9축·21개primarysource를 조사하고 공간개념 교정전이/관측에 따른 정보보존 두가설을 우선순위로 뒀다. 세 에이전트의 방법·source·VLM·실행receipt 검토를 artifacts/oe4_native_v12_v0_20260927/에 보존했다.
+- 공식v1.2Base revision2e99a734...와 source0497dfbb...를 고정했다. 17,855,037,440byte corpus를 내려받아3,996H5를 해제. 전체좌표키999개,기존72파일70그룹(train64/63그룹,dev8/7그룹),train/dev정확좌표교차0. 다른좌표가독립지역이라는증거는아니다. 그룹분리 후보와 실제입력4개 RGB/WorldCover 그림도 보존.
+- CPU 실제model/loss/optimizer 1step은v0에서공개설정loss.type누락으로실패. 공식build.pop후저장경로를추적하고recipe/hash/나머지kwargs정확일치시에만누락키복원하는v1을구현. v1은26.95초에PASS,encoder213개parameter tensor에gradient,6개추적텐서delta약1e-6,두loss양수,저장/공식로더복원token및devloss차이0. devdelta+1.66e-5이며성능개선주장없음.
+- nativecontroller v0는NotFoundGPU사용률파싱오류로실패;7개회귀검사통과한v1은CPU오류발견후우리PID1145593만종료(학습시작전). 실제CPU PASS를확인하는controller v2로수정. 현재8/32step GPU실행은다른기존작업때문에대기. source는pre-run snapshot에서실행,기존4개protected서버파일hash/mtime유지확인.
+- 실제Qwen3-VL8B의RGB/DeepStack/캐시생성을보존하는EO슬롯과real-H5 encoder provider구현. VLM패키지v0는macOS부가파일을sourceguard가학습전거부;cleanv1재포장후native완료대기상태확인. native각run90분대기,worker1100초한도;VLMnative대기3시간+GPU대기30분,worker1100초. 다른작업중단없음.
+- 코드·가중치·자료는서버전송완료,로그/receipt/감사/그림은로컬에회수. 새GPU학습완료/의미성능/새방법비교는아직없음. 대규모확증·유료API·인력발주·외부게시·gitpush없음.
+- 다음: 현재controller결과확인→실제VLMgradient검사→독립label/region계약→충분히학습한frozenEO+adapter/공식continuation/단순회귀와matched방법비교. 마찰/수정/이전판정은보존한다.
+
+### 2026-09-27 — 지역·계절 맥락 학습 제안 검토 계획
+
+- 사용자는 Wikipedia·네팔 몬순·한국 장마 같은 지역 맥락을 함께 학습하면 OlmoEarth의 응용성과 연구 가치가 커질지 질문했다. 기존 신규성 검토에 이어 가까운 primary 선행과 데이터 출처를 조사하고, 구현 후보·대조군·주장 조건을 별도 설계 메모로 남긴다.
+- 독립 에이전트가 근접 선행과 반증 대조를 검토한다. 지역 명칭을 정답의 대리 신호로 쓰는 학습, 연평년을 특정일 관측으로 오인, 사후 사건 문서로 정답이 새는 문제를 구분한다.
+- 이번 범위는 문헌·설계 업데이트다. 기존 한정 GPU 큐/실행 source/판정 기준을 수정하지 않는다. 새 지역맥락 학습을 실행했다고 보고하지 않는다.
+
+### 2026-09-27 — 지역·계절 맥락 학습 제안 검토 결과
+
+- [설계 메모](docs/REGIONAL_CONTEXT_LEARNING_20260927.md)에 region background/기후평년/실제시점관측을 구분하고 OlmoEarth 공동학습·inference-only 대조를 정리했다. WikiSatNet, WildSAT, EcoWikiRS, GAMMA, AlphaEarth, SatCLIP의 겹침을 확인했으며 Wikipedia/기후 추가 자체의 신규성을 주장하지 않는다.
+- 국가명 암기보다 환경 속성의 국가 밖 전이, 실제관측과 배경의 충돌 처리, 텍스트 제거 후 EO 표현 재사용성을 가설로 둔다. 원본/추론맥락/단순공동학습/제안학습 및 metadata-only 대조와 자료 시점·공간범위 감사를 추가했다. 독립 에이전트 검토를 반영했다.
+- 이번은 primary 문헌·설계 업데이트이며 새 맥락 자료 수집·GPU학습·서버변경·유료API없음. 기존 큐와 결과는 그대로 유지한다.
+
+### 2026-09-27 — 통합 논문 기여 설계 계획
+
+- 사용자는 기존 작업과 지역맥락 학습을 결합해 더 큰 연구 기여로 발전시키자고 제안했다. 목표를 환경이 달라져도 소수 전문가 교정을 재사용하는 OlmoEarth 기반 VLM으로 통합하고, 각 구성의 역할·방법 비교·핵심 그림·실행 순서를 갱신한다.
+- 독립 에이전트가 feature bundle 위험과 결정적인 결합 실험을 검토한다. 기존 GPU 큐는 읽기 확인하며 이번 설계에 맞춰 실행 source나 과거 판정을 바꾸지 않는다.
+
+### 2026-09-27 — 통합 논문 기여 설계 v2 반영
+
+- [통합 설계](docs/OLMOEARTH_UNIFIED_CONTRIBUTION_20260927.md)를 작성했다. 지역 맥락=적용할 환경, 전문가 교정=대상 개념, EO=실제 위치·상태, VLM=근거 있는 질의 응답으로 역할을 연결했다. 중심 효과는 새 환경에서의 소수 교정 재사용과 라벨 효율이다.
+- 독립 에이전트의 feature-bundle 반론을 반영하여G/P학습×맥락유무2×2를 개발 결정 실험으로 뒀다. 주비교P1−G1은같은정보·예산,상호작용은보조로구분했다. K=0은이름없는새개념의support조건과동등하지않음을명시. 전문분할+연산+동일VLM,추론맥락-only,원공식목적,새reader/EO평가를유지했다.
+- 이번은 설계 통합이며 압도적 성능·새 신규성·채택 확률을 확인한 결과가 아니다. 이전21pipeline계획에무조건실행을추가하지않고개발효과·비용에따라확증설정을동결한다. 기존GPU실행source변경·새학습실행·서버쓰기없음.
+
+- 2026-09-27 11:36KST: 이번GPU로그조회는4분이상미응답. 조회용로컬SSH PID54534만SIGTERM으로정리(exit143),서버학습프로세스신호없음. native/VLM최신완료여부미확인;이전02:45대기는과거snapshot이다.
+
+
+### 2026-09-27 — 통합 문제·첫 실험 구체화 계획
+
+- 사용자 요청에 따라 지역 지식·소수 전문가 교정·native OlmoEarth·실제 VLM을 하나의 큰 응용 문제로 연결하고 최근 2026 EO–VLM 선행과 비교한다. 신규성·자료 계약·학습 연산은 독립 검토자 세 명이 병렬 검토한다.
+- 기존 학습 결과와 상태 기록을 읽고, 첫 개발 실험의 입력·분할·비교·판정·실행 선행조건을 구체화해 문서와 기계 판독 가능한 계획으로 남긴다. 기존 사전등록과 진행 중일 수 있는 서버 source는 변경하지 않는다. 데이터/계산량 1/10 절감은 별도 가설로 유지한다.
+- 이번에는 허용된 로컬 준비·검증부터 수행한다. 새 논문 성능·채택 가능성·GPU 완료를 확인 없이 보고하지 않는다.
+
+
+### 2026-09-27 — 통합 문제·첫 교정 전이 개발 계획 v3 결과
+
+- [새 계획](docs/OLMOEARTH_TRANSFER_FIRST_EXPERIMENT_20260927.md)과 `config/oe5_correction_transfer_development_v0.json`을 작성했다. 최근 TerraScope/Earth-OneVision/few-shot textual inversion/TMPA/Think2Seg 및 cross-domain adaptation 선행과 비교했고 세 독립 검토자의 지적을 반영했다.
+- 첫 단계는 교정 전이의 환경별 효과 관찰이다. PASTIS frozen-only 개발3지역36query는 준비 목표이며 실제선정0. 이후학습2train/1dev/1봉인tile을분리했고독립국가전이는추가자료가필요하다. native10/12밴드·PASTIS날짜·S4A L1C/L2A·후보library전체라벨비용·replay노출을미충족관문으로기록했다. prototype의무의미한K0비교를제거했다.
+- G1/P1차이와전체부품필요성을구분하고동일utility감독의generic router,전문분할+동일VLM,새reader와EO평가를유지했다. 계획JSON의정합성13항목통과는문서검증이며모델성능테스트가아니다.
+- 11:48~11:54KST 읽기확인/보존: nativev2는04:09:25KST `No idle GPU within 90 minutes`로종료(results=[]),VLMv1은04:09:34선행실패종료. 로컬보존receipt의해시를manifest에기록. 보호source/서버학습변경·새GPU실행·유료API·채용없음. 서버sandbox연결이한번차단되어읽기권한확대로동일조회가성공했다. 현재이두작업을대기중이라고보고하지않는다.
+- 다음실행: native/VLM선행검증재시도준비→PASTIS원입력감사와실제episode manifest→frozen 현상관찰→충분히학습한G1/P1. 기존과학적실패/사전등록은변경하지않았다.
+
+
+### 2026-09-27 — 사용자 GPU1 즉시 실행 요청 계획
+
+- 사용자가 GPU1에서 실제 실행을 요청했다. GPU1 유휴 상태를 먼저 확인하고, native 8/32step과 실제 Qwen3-VL 연결 검증을 새 출력/상태 경로로 재시도한다. GPU0으로 전환하지 않는다. 기존 종료 상태·실패 기록·worker source는 보존한다.
+- operational controller만 새 snapshot으로 작성해 동결하고 보호 source 네 파일의 해시/mtime를 전후 비교한다. 실제 GPU worker 로그와 receipt를 확인한 뒤 결과를 보고한다. 교정 전이 성능과 engineering 검증을 구분한다.
+
+- GPU1 실행 중간: native8/32step 실제 GPU 검증 모두 통과. VLMgpu1v2는 모델 로딩 전 CUDA peak-memory 초기화에서 Invalid device argument로 실패했다. CUDA 초기화를 먼저 수행하는 v3 worker 사본으로 재시도하며 원 실패·출력·소스는 보존한다. GPU1순간utilization이[Not Found]지만memory0/process없음/q utilization samples0/pmon없음을확인하여새운영실행기에제한된대체판정을기록했다.
+
+- GPU1 VLM v3: native RGB 경로는 정확히 보존됐으나 BF16 캐시/전체 재계산 allclose 실패(max .25, mean .03626, top1 일치). backward 전에 종료되어 gradient 통과로 세지 않는다. 원 실패 snapshot_03 보존. 별도 v4는 FP32·원래 RGB cache 대조를 추가하고 동일 .15/.01 및 top1 기준으로 실행한다. FP32 통과를 BF16 해결로 해석하지 않는다. GPU1에 등장한 타 작업 PID1178378/1178757은 건드리지 않고 최대10분 유휴 대기한다.
+
+### 2026-09-27 15:40 KST — 로컬 멈춤 진단·복구 지점
+
+- 사용자 확인: 멈춘 맥을 직접 재부팅. 15:26:15 부팅 확인. 13:56~14:39 Jetsam5건, Python PID97161의 기록된 메모리 페이지41.54~43.91GiB 및 vm-compressor-space-shortage 확인. 스크립트/작업 소유자는 미확인, 서버 GPU학습이 로컬메모리의 직접원인이라고 단정하지 않는다. 현재스왑0·압축0·디스크476GiB여유.
+- 서버202일uptime·응답정상·GPU0/1연산PID없음. native8/32step 결과와 VLMv3실패원본보존,로컬14개파일해시재검증통과. v4 18,167byte패키지서버전송완료·로컬해시일치하지만해제/launch/status없음. 진단 summary는 artifacts/oe4_gpu1_retry_20260927/incident_20260927/summary.json.
+- 기존GPU1실행승인에따라보존v4 FP32검사를원격GPU1에서만재개한다. 문제의로컬Python은재시작하지않는다.
+
+### 2026-09-27 — GPU1 VLM v4 완료·연구 상태 갱신
+
+- 사용자가VLM과정에집중하도록지시하여다른진단을중단하고,전송돼있던v4를별도source/output에서실행. GPU1물리UUID고정,15:42:12~15:43:42KST89.88초,peak34.56GiB. 서버조회실장치는H200. 작업종료후GPU프로세스없음·메모리0확인.
+- 기존기준을유지한FP32에서native/EO cache allclose+top1통과,최대차이2.6703e-5/2.3842e-5. encoder211/adapter4gradient와추적각4개가중치변경,고정VLMgrad0/optimizer0,원RGB출력전후bitwise일치. 일반문장CE6.23363한step은의미성능결과가아님.
+- native8/32checkpoint와별도로원본Base에서시작했다. native저장복원은통과했지만VLM저장복원은미구현. BF16실패결과유지. v4source/input/protected4파일전후hash/mtime/size불변,receipt/logsnapshot_04회수.
+- 실행문서/GOAL/RESTART/README/통합계획갱신, config/oe5_execution_status_20260927.json에통과범위와미충족관문구분. ready_to_train_transfer_experiment=false. 다음한작업은기존PASTISshard의무결성과공개라벨입력최대2사례준비이며아직실행하지않음. 새교정전이/추가GPU학습/유료API없음.
+
+- v4 독립검산35/35통과. 산출물4개hash/bytes·source·GPU1binding·gradient211+4·추적가중치4+4·RGB/DeepStack/고정VLM기록을검토했다. 감사md/json을 artifacts/oe4_gpu1_retry_20260927/에보존.
+
+### 2026-09-27 — VLM 연결 이후 문제·데이터·아키텍처 확장 계획
+
+- 사용자 요청: 남들이 덜 다룬 유의미한 문제를 찾고 실제 공개자료와 아키텍처 개선을 함께 설계해 연구계획 갱신. 연결/gradient PASS를 신규성 증거로 쓰지 않고 근접 primary 선행·공개 데이터·현재 코드의 정보 전달 범위를 대조한다.
+- 문헌과 데이터는 독립 에이전트가 병렬 확인하고, 현재16token압축 경로와 공간/시간/교정 기반 판독의 한계는 직접코드확인으로 분석. 가설·기존선행·측정된사실을분리하고 같은정보/예산의 결정비교를 정리한다.
+- 이번범위는 자료 조사·설계·작은구조진단/계획업데이트. 기존과학판정과확증등록은유지하며 대규모다운로드·유료호출·새GPU장시간학습을확인없이완료로보고하지않는다.
+
+
+### 2026-09-27 — VLM 문제·자료·아키텍처 확장 결과
+
+- 연구 설계 v4와 개발 JSON을 작성했다. TerraScope·SPEX·Earth-OneVision·SkySense-VITA·SkySense-O·FarSLIP·AlignJEPA·WildSAT의 겹치는 기여를 확인하고, 최초 EO–VLM/분광/예시분할 주장을 배제했다. 문헌·자료 조사와 독립 재검토 원문 및 대응을 `artifacts/eo_vlm_design_20260927/`에 보존했다.
+- 실제 v4 source/receipt의 hash와 출력 순서에 근거한 CPU 연산 진단 완료: 8×8×2×1×768→16개 평균, bin당 공간4개×날짜2개. 합성 고정 특징의 날짜 이동은 현재 평균에서 동일하고 날짜 분리 평균에서는 max delta .125. 날짜 분리도 세로 위치 구분을 잃는 예시가 있다. 실제 영상 오류·87.5% 의미손실·encoder 결함·새 방법 효과로 해석하지 않는다.
+- 다음 비교는 원 격자/평균/시공간 평균/일반 learned resampler와 더 큰 token 단순 baseline, 이후 구조×동일 감독 2×2다. dense head·양성/혼동 support·utility·맥락·튜닝 예산을 공유한다. utility cross-fit은 지역/연도/parent 단위이며 같은 dense 출력을 reader에 주는 기여 분리와 독립 EO 평가를 포함한다.
+- PASTIS 작물/필지·Kuro 전문가5인 홍수 정답을 중심으로 하고 MADOS는 후속 후보로 둔다. 과거 Kuro test 관찰을 확인했으므로 새 확증 평가로 재사용하지 않는다. PASTIS 연간 라벨을 고사/건강/계절 변화 정답으로 확대하지 않는다. 기존100만원/64인시 추정과 20개 시간 측정 pilot을 유지했다. 원 입력 정합·전처리·노출/권리 감사는 남아 있다.
+- 새 GPU 학습·대규모 다운로드·유료 API·서버 전송 없음. 새 교정 episode는0개이며 개발설계 준비 상태다. 다음은 기존 PASTIS shard 무결성·공개 라벨 최대2사례 준비와 Kuro 사건 노출 장부, 이후 실제 정답의 판독 손실 진단이다. 기존 실행 결과와 사전등록을 변경하지 않았다.
+
+
+### 2026-09-27 — 실제 PASTIS 입력 준비와 타 분야 설계 확장 계획
+
+- 사용자 요청에 따라 PASTIS 공개 정답 입력 준비를 실제 진행하고, 강한 일반 연결부→제안 구조/학습 비교의 실행 경로를 구체화한다. 서버 조회·파일 감사는 nx로 수행하며 GPU는 기존 승인된 물리1번만 사용한다. 기존 실행/사전등록은 보존한다.
+- 병렬 조사: 로봇/시뮬레이션/라벨링 VLM의 반복 관측·교정, discrete Earth tokenizer와 KV/embedding cache, 자연재해 물리 모델의 전이 가능성을 primary source로 검토한다. 루프 종류·데이터/계산비용·반증 대조를 분리한다.
+- 실제 원 입력이 통과하면 최대2사례와 공개 라벨을 준비하고 다음 GPU baseline에 필요한 trainer/저장복원 상태를 확인한다. 이번 시작점은 기존 자료의 무결성 감사이며 대량 다운로드나 유료 호출은 없다.
+
+
+### 2026-09-27 — PASTIS 준비·cross-domain v5 결과
+
+- 기존 파일39,982,228,803바이트 SHA256 감사·두 원사례 추출526.68초.0000정상,0001해시불일치,0002누락. 정상 부분911개/4부모tile이며 모두benchmark train이다. 정상자료만사용·원파일크기mtime불변.
+- 설치 로더의 균등 영상/마지막 날짜 선택 불일치를 실제 두 함수 분기 fixture와 원사례2건에서 확인. 분리된 공통 인덱스 경로로 수정. 원 로더/과거자료불변. 검증raw→patch/tile/date/label출처연결·공식 B01/B09보완·COMPUTED정규화1회·상수hash·연간crop/void검사 완료.
+- 균등선택RGB의 구름을 눈으로 확인해 v1을보존하고8날짜contact sheet를검토.공학전용v2날짜를기록.최종128×128×2×12입력2건(실측10+보완2),정규화독립maxdelta0,source/mask/date산술통과.구름정답/정확footprint/작물식별가능성/성능은미확정.
+- 원라벨을읽지않고2train부모64개/1dev부모16개메타데이터후보선정. 예비 t30uxv 원영상0개개봉.80입력준비완료나새확증test확보로보고하지않는다.
+- 세독립조사:로봇/학습/라벨링,토큰/캐시,물리/재난. SAM3·TerraMind등가까운선행과공개상태반영.우선G1학습경로,L1관측선택;T1압축,M1정확cache별도.물리·RL·생성자료는전제있는후속으로기록.
+- 캐시의존성코드4단계·10test통과,실제Qwen수치동등성은아님.보호서버소스4개hash/mtime/size마지막전송후동일.새GPU/유료API/추가dataset다운로드없음.이번CPU작업종료,자료/코드/기록로컬·서버보존.
+- 다음:80개원입력/라벨변환과관측품질정책,reader전체weightidentity와trainer저장복원,그뒤GPU1일반baseline.손상자료는복구없이사용하지않으며정상부분으로개발비교가능.문서만의미확정관문을성과로세지않는다.
+- PR 후보: 설치 GeoBench PASTIS의 image sampling/date indexing 불일치. 원 source와 재현 근거 보존; upstream 현행버전 확인 후 별도 patch 가능. 이번에 외부 PR/이슈는 만들지 않았다.
+
+
+### 2026-09-27 — OE7 다음 실험 설계 재정리 계획
+
+- 사용자 요청: CVPR 후보 기여를 실제 검증할 다음 단계와 실험설계를 꼼꼼히 재정리. OE6의 실제 준비 범위(두 사례 입력, 64/16 메타데이터 후보)와 제안 방법 미학습 상태를 기준으로 개발 비교와 봉인 평가를 분리한다.
+- 표현 학습과 관측 선택의 최소 대조, 공식 목적 추가 학습, 전문가 비용 및 support/query 분리, 누출·통계·GPU1 실행 관문을 문서/기계 가독 계획에 구체화한다. 세 독립 검토를 반영하고 기존 100만원 예산과 과거 사전등록은 유지한다.
+- 이번 작업은 설계·검토·문서 정합성 확인이다. 새 GPU 학습, 서버 전송, 다운로드, 유료 호출 및 채용을 실행한 것으로 보고하지 않는다. 다음 실행의 입력/코드/통과 기준을 명시한다.
+
+
+### 2026-09-27 — OE7 실험 설계 v6 결과
+
+- 사용자 요청에 따라 다음 실행부터 본 평가까지 계획을 문서와 JSON으로 정리했다. 실제 상태2입력/64train+16dev메타후보/제안episode학습0을 유지했다. 표준 pair metric learning과 신규성 후보를 구분하고 동일정보 B0~B4 및 표현×관측2×2, 동일 최종 근거/동일 dense 출력 replay를 명시했다.
+- 세 독립 검토와 통계/방법 후속 검토의 원문·대응을 artifacts/oe7_experiment_design_20260927/에 보존했다. 교정1쌍·K0정의·공통K cohort·source bank 분리·미개봉 영상 접근 제한·full-window 재인코딩·test120 외 support제작비를 보강했다.
+- 검증은 기존 상태/예산과 새 JSON·상대링크·파일 해시의 정합성이다. 새 모델 성능 테스트나 GPU 학습이 아니다. 전체100만원 예산과 과거 사전등록·실패 기록·서버코드는 유지. 새 서버전송/자료다운로드/API/외부 연락 없음. 현재 GPU 점유를 새로 조회한 것은 아니다.
+- 다음 한 작업은 manifest 기반80개 raw/label 준비기와 품질/episode 계약이다. 그 뒤 실제 trainer 저장복원과 GPU1 처리량·overfit, 충분히 학습한 일반 기준선. 새 공개 PR 후보 없음.
+
+
+### 2026-09-27 — OE8 PASTIS 실제80개 입력 준비 계획
+
+- 사용자 입력준비 실제수행 요청. 기존 정상0000 shard와 동결64train/16dev candidate를 사용해 manifest 기반 raw/label 추출,8개 날짜 공동선택,10실측+2보완 밴드·정규화·유효성 sidecar·contact sheet를 준비한다. 손상0001/누락0002와 예비t30uxv 원자료는 열지 않는다.
+- 결과를 보기 전 품질/분할 정책을 저장하고 source-evaluation support bank를 학습 episode와 분리한다. class pair와 coverage는 train에서 정하고 query gold는 분리 저장한다. 독립 agent가 episode 설계와 source 재개봉 verifier를 담당한다.
+- CPU 한정 준비·검산과 필요한 작은 산출물 회수를 수행한다. 분석 code는 연구 repo에 먼저 게시하고 nx로만 서버 전송/실행한다. source snapshot 및 protected4 hash/mtime 불변을 검사한다. 이번 범위에서 새 GPU학습/유료API/인력연락은 없다.
+
+
+### 2026-09-27 — OE 노선 v4~v6 계획 독립 검토 (외부 교수 관점, 결과)
+
+- 사용자 요청: 교정 전이 VLM 계획(v4~v6)에 대한 깐깐한 외부 검토. 범위는 문서·진단 감사만,
+  새 GPU 실행·원 prereg 변경 없음.
+- 산출물: `docs/OLMOEARTH_VLM_PLAN_INDEPENDENT_REVIEW_2026_09_27.md`. 확인한 것: connector 감사
+  JSON(8×8×2→16 슬롯, 슬롯당 공간4×날짜2 평균, rank16/nullity112 — 주장과 일치), RESTART_HERE
+  9/25~27 계보(E4~OE8), v6의 P0~P5·B0~B4·2×2 설계.
+- 핵심 지적 7개: ①설계 속도가 실측 속도를 초과 — P2 수치 전 v7 금지 동결 요구 ②척추 비교는 2×2가
+  아니라 B0(frozen) — B0≈B2 kill criterion 수치 동결 요구 ③사람 교정 일관성(100만원안 20개 timed
+  pilot)을 P4에서 P0 병렬로 전진 — D1의 H 기계 재사용 ④Kuro 노출 감사를 blocking으로 격상
+  ⑤dev 단일 타일(t31tfm) 공간 분할은 전이 과대평가 — P4 승격에 두 번째 타일 요구 ⑥EO 개선 주장의
+  강/약 버전 사전 구분 ⑦resampler가 풀면 연결부는 ablation 행이 된다는 사후 해석 사전 인정.
+- 노선 정리 요구: D1/SN7(H는 A 단독 완료·합의 미정)과 OE 노선 병행 금지. D1은 2인 관문대로 닫거나
+  명시적 종료를 기록할 것. P3 승인 조건 5개를 문서에 명시.
+- 커밋 없음. 사용자가 커밋 여부 결정.
+
+
+### 2026-09-27 — OE8 실제 입력 준비 결과
+
+- 80개 전체를 CPU 추출(51.50초),48train_pool/16source_bank/16dev_query로 분리. 10실측+2공식 보완밴드·8날짜 공동선택·정규화/validity/영상과정답 분리. 사용240payload를 원자료에서 다시 읽은 독립검산80/80통과. 정상 shard 전체hash는 OE6값+stat연속성 재사용이며 이번20GB재hash는 아님.
+- train-only class선택[1,3,2,4], 합성교정 후보1,282train/456bank, episode2,304train/672dev생성. 독립 episode 감사는1,738support mask·역할·Kprefix·hash1,777개통과; 원라벨 재검산은 대표3입력/82mask/90scoring행이며 전체원자료 verifier와 구분. 공개질문 동결 후 dev scorer생성. 실제runtime모델입력 차단은 다음단계.
+- winter_barley bank객체8/5patch이지만 patch/class최대2로 유효support7: 전체192query-pair는K1/2/4, class4를뺀 공통96은K1/2/4/8. 모집단을 혼합하지 않는다.32patch·256관측 육안QA에서 구름을 확인했으며 sentinel0을cloudclear로해석하지 않는다. dev부모1개·필지전역중복 미인증·사람교정미측정 제한 유지.
+- artifacts/oe8_pastis_prepare_20260927에59,416,566byte 검토묶음과 독립검토·검사기록 보존, full80배열은서버546MiB표시크기. code/oe8_*에 실행source·독립감사기 보존. 보호source code4개+root2개hash/size/mtime불변. CPU작업종료·새GPU학습/API/자료셋다운로드/외부연락/commit/push0. 보고서와config/oe8_input_preparation_status_20260927.json이 최신상태.
+- P0입력준비를 수행한 결과이며 신규성·새방법성능은 미입증. P1은 loader의역할/관측권한, 실제VLM checkpoint저장복원과 GPU1profile·두사례overfit이다. 충분히학습한 일반기준선보다 앞서 새아키텍처범위를 늘리지 않는다.
+
+
+### 2026-09-27 — OE9 외부 검토 반영·P1 실행 계획
+
+- 사용자 요청: 교수 관점7개지적을 실제 실행 기준에 반영하고 계속 진행. v6설계동결·P2이전새아키텍처확장금지. B0/B2개발효과폭·동등/미결 구분, Kuro노출감사전실행차단, 추가지역/EO강약주장/연결부귀속 조건을 기계가독실행관문으로 고정한다.
+- OE8입력80과episode를 사용하는 실제 loader의 감독/관측 접근 제한·훈련checkpoint저장복원·GPU1공학profile을 구현한다. runtime성공과 새방법성능을 구분한다. 기존정상코드/실패기록은 보존하며 새로운code경로와실행snapshot만 사용한다.
+- 병렬로 train20개 독립A/B 시간측정pilot 패키지를 준비한다. 실제사람판독/채용/유료지출을 한것으로세지않는다. D1은 H합의미충족상태그대로 신규투입을중단한보관노선으로표시하며 원사전등록의성공/실패판정은바꾸지않는다.
+- 서버는nx만, env -u PYTHONPATH·setsid nohup·GPU1UUID유휴검사·보호4코드hash/mtime전후검사. GPU0/타인작업종료금지. P1상한2GPU시간내한정실행이며 부족한baseline을실패판정하지않는다.
+
+
+### 2026-09-27 — OE9 외부 검토 반영·P1 실행 결과
+
+- v6동결. B0/B2 common96 K-AUC, seed270927/270928/270929, 전seed+.02 개발이득/전seed절댓값<.02 관측동률/나머지미결; 충분학습·동일정보·부재오탐관문 우선. 통계equivalence·지역일반화판정아님. config/oe9_review_execution_gates_20260927.json과 판정기/경계18검사 보존. EO강약주장·두번째지역·Kuro노출감사전실행금지·D1미완료보관을 반영. 원사전등록/과거판정변경없음.
+- loader핵심11검사+서버80packet/2,976episode metadata/64queryload 통과. 모델입력query2날짜만복사/정답·ID별도, support8과CPU전체8시점I/O비용기록. API경계이며OS격리인증아님. nx업로드의추가폴더때문에초기CPU명령path-not-found1회, 실행전폴더정리후재실행통과. 데이터실패와구분.
+- 실제GPU1 H200에서 worker54.03초/peak52.84GiB. 고정EO두훈련사례head192step IoU.95448179/.86100759 독립재채점; 이점/일반화수치아님. 실제Qwen가중치고정·mask+.05CE에서encoder211/head6/connector10nonzero유한gradient, CE단독encoderanchor검사·실제변경통과. 저장step1→동일다음step복원 loss/전체mask/마지막위치VLMlogit차0, 전체state3.8743e-7<1e-6. 같은worker복원이며cold CLI resume와native replay/B2완성은남음.
+- 별도원자료/예측/선정/체크포인트SHA독립감사통과, 실제2사례영상QA. 서버checkpoint1,235,902,343byte, 작은receipt/curve/npz/QA는로컬회수. 보호4코드hash/mtime/size·실행snapshot불변. GPU작업완료. 새모델공개·gitcommit/push·유료API·사람연락없음.
+- humanpilot v1실제분포2target/1counter/11neither/6참조불가로표본설계부족. 원자료보존, 인간응답수집전train정답만으로층화한20unique v2준비. 정답/원ID/private quota는배포ZIP에서제외. UI합성검사·타이머/내보내기브라우저검사와실제자료검산을구분. 실제사람응답0/합의미정. 이것은후보식별·시간pilot이며자유교정/모델라벨효율검증아님.
+- 현재새방법/P2비교수치0. 다음은공통B0/B2 trainer의공식native replay·coldresume·최대K메모리profile, 사전학습일정동결후 충분한일반기준선이다. 계획확장으로대체하지않는다. 신규공개PR후보없음.
+
+
+### 2026-09-27 — OE10 actual B0/B2 P2 execution plan
+
+- User authorized rigorous GPU1 experiments. Keep v6 and OE9 decision gates frozen. Implement common frozen-EO B0 and official-native-replay joint B2 trainer.
+- First validate train-only maximum K=8 memory/throughput, real native loss/gradients, and fresh-process resume. Lock updates, evaluation intervals, and resource limits before development results, then execute common96 and paired seeds270927/270928/270929. Undertraining is not evidence of equivalence or failure.
+- Independent agents own native replay, raw-mask scoring, and shared EO/VLM modules. Publish source in research code before nx transfer, preserve snapshots/input hashes/GPU UUID/protected sources. No Kuro, archived D1, reserve tile, paid APIs, or hiring. Human pilot responses remain0.
+
+- OE10 engineering_v0: B0 cold resume passed; B2 loss/prediction exact but native state delta6.51e-6 failed fixed1e-6 tolerance. Preserved failure, no development evaluation. New v1 sets deterministic GPU algorithms/CUBLAS workspace/AdamW foreach=False before rerun; tolerance unchanged.
+
+- OE10 engineering_v1 passed both cold resumes bit-exact, but B2 K8 steady50.73s exceeds intended long-run cost. v2 tests CUBLAS workspace/non-foreach optimizer+clipping with global deterministic disabled and phase timings; strict1e-6 criterion remains. No development scores.
+
+- OE10 engineering_v2 restored speed9.07s/K8 but strict resume failed7.45e-6 solely in one mixed-RoPE frequency tensor (next1.19e-7). v3 tests standard AdamW eps1e-6 identically for both arms as numerical-stability fix; weights remain trainable, tolerance unchanged, still no dev metrics.
+
+- OE10 engineering_v3 PASSED both fresh-process resumes under unchanged1e-6 criterion. B2 state max3.576e-7, loss/prediction0, K8steady9.065s, peak52.22GiB. Locked actual protocol before any dev prediction: B0/B2×3seeds×2304updates, eval384, finalcheckpointprimary, common96, AdamW eps1e-6, whole sequence12h cap. Starting actual training_v0.
+
+### 2026-09-27 — OE10 본 비교 시작 및 검증 결과
+
+- v6/기존OE9성능관문 유지. 공통B0/B2 trainer, official-native train64 replay, 실제Qwen CE→EO, allK support, raw-mask independent scorer 및6run collector 구현. 80개 실제입력/7개공정성계약 CPU감사통과.
+- v0/v2는 각각6.51e-6/7.45e-6 cold-resume state차이로실패보존; v1전역결정적설정은bitexact지만K8단계50.73초. v3는양팔AdamW eps1e-6, B2재개state3.576e-7,mask/loss차이0, K8steady9.065초/peak52.22GiB로원1e-6관문통과. 원모델·목적·학습가능인코더유지. 성능결과관문변경없음.
+- 프로토콜20:42:29KST동결후20:42:43KST본학습 training_v0 시작. 각2304update·eval384·seed270927/28/29·마지막checkpoint주결과·전체12h상한. 실제독립trainpatch는48개이며2304독립지역으로표현금지. 현재본학습진행중,완주비교없음.
+- 실제저장optimizer/weight 독립감사통과. 첫감사기는원모델의requires_grad필터가B2의전체encoder해제와달라실패했고, 공식모델중복제거순서에맞춘감사v2로수정. 학습소스변경없음.
+- nx상대local경로는접속repo로기준이바뀌므로절대경로로재전송; 첫결과export는macOS AppleDouble 메타파일을제외하도록수정. 전송/감사실패와원실행보존.
+- 추적heartbeat oe10-b0-b2 ACTIVE(30분). 변동없으면조용히,실패/첫paired결과/전체완료를확인. 최신감사코드 code/oe10_audit_v2. 새유료API/채용/Kuro/예비지역실행없음. 다음은현재6run완료→원예측검산→기존gate판정이다.
+
+- 첫실측: B0 seed270927 384/2304update의common96×K4=384원예측 독립채점완료, K-AUC0.1543489, absenceFP면적/사례모두0. 초기한팔수치라개선/동률/학습충분성판정금지. 채점후학습정상지속. review_export_v2 전체파일해시검증및로컬회수완료; 가중치와probability NPZ는서버보존.
+
+
+### 2026-09-27 21:16 KST — OE10 heartbeat check
+
+- Plan: read fixed execution status, controller/worker receipts, recent train/evaluation logs and owned process state through nx. Keep source/protocol/budget unchanged; report only failure, first paired result, full completion, or required action.
+
+- Result 21:16:45 KST: controller1419400 and GPU1 worker1419405 alive; B0 seed270927 reached1536/2304updates. Receipt evaluation AUC at384/768/1152/1536=.154349/.102945/.225201/.242148. No failure, completed pair, or required action. No scientific conclusion or notification; runtime/protocol/budget untouched. Local heartbeat snapshot saved, raw predictions not re-audited in this check.
+
+
+### 2026-09-27 21:46 KST — OE10 heartbeat check
+
+- Plan: inspect the existing controller, receipts, logs and GPU1 processes through nx, preserving all frozen conditions. Only notify on failure, first completed pair, all complete or required action.
+
+- Result: 21:47KST: 첫 B0 seed270927은2,304update·exit0으로 완료했고 최종 AUC는0.300996이다. 마지막3창 범위0.058848이 허용0.005를 초과하여 학습 안정성 필요조건은 미충족이다. 완주는 충분학습이나 우열의 증거가 아니다. B2는GPU1에서 실행 중이며 receipt96/최근log116update,유한loss와PID1421757생존을 확인했다. 첫pair미완료·전체gate미실행. 실행조건/예산/자료/소스 변경 없이 계속하며 새 GPU작업은 시작하지 않았다. 작은 상태/receipt/최근step 원자료를 artifacts/oe10_p2_20260927/heartbeat_20260927T124716Z에 보존. 단일팔 중간 기록으로 별도 알림은 보류하며 첫pair완료시 안정성 미충족을 함께 보고한다.
+
+
+### 2026-09-27 22:16 KST — OE10 heartbeat check
+
+- Plan: read controller, active worker receipts/logs/scores and live processes through nx; preserve fixed runtime and budget. Notify only on a failure, first completed pair, completion or required action.
+
+- Result22:16:52KST: B2 seed270927 live PID1421757,receipt456/log457update,first384step AUC0.193819. Score JSON286835bytes nx pull/hash verified; no raw prediction rescore. Initial text read was truncated so retried as file transfer, not a training failure. No completed pair/runtime failure/user action; continue unchanged and stay quiet. Prior B0 stability failure remains recorded.
+
+
+### 2026-09-27 22:46 KST — OE10 heartbeat check
+
+- Plan: inspect existing status, receipts, latest training/scoring evidence and owned GPU1 processes via nx. Keep training conditions, sources, gates and limits frozen; notify only actionable changes or completed comparison.
+
+- Result22:46:59KST: controller1419400/B2 worker1421757 alive onGPU1;receipt792/log799updates,finite latest loss. New768step score AUC0.1549090952 retrieved through nx and hash verified; no raw-mask rescore. No completed pair/new failure/action. Prior B0 convergence shortfall remains. GPU0 process observed and untouched. Source/protocol/budget unchanged; monitoring continues without notification. Evidence: artifacts/oe10_p2_20260927/heartbeat_20260927T134659Z.
+
+
+### 2026-09-27 23:16 KST — OE10 heartbeat check
+
+- Plan: inspect current controller, worker receipt/log and any new score through nx, with owned process verification. Keep frozen conditions; report only failure, completed pair, all complete or required action.
+
+- Result23:16:58KST: B2 receipt/log1152updates,controller1419400 and GPU1worker1421757 alive. New1152step AUC0.3086683881 score recovered via nx/hash verified. No first completed pair,new process failure or required action. Existing B0 stability shortfall persists. Raw masks/full gate not re-audited; conditions unchanged and notification withheld. Evidence: artifacts/oe10_p2_20260927/heartbeat_20260927T141658Z.
+
+
+### 2026-09-27 23:46 KST — OE10 heartbeat check
+
+- Plan: inspect controller, current worker, latest logs/scores and own GPU1 process through nx. Do not alter fixed source/protocol/budget; notify only failure, first completed pair, completion or required action.
+
+- Result23:46:53KST: controller1419400/GPU1 worker1421757 alive;B2 receipt/log1536update with finite loss. At evaluation boundary, latest recorded score remains1152step AUC0.3086683881; no new score or completed pair. No failure/action/condition changes; no notification. Evidence: artifacts/oe10_p2_20260927/heartbeat_20260927T144653Z.
+
+
+### 2026-09-28 00:17 KST — 사용자 요청 후 연결·진행 재확인
+
+- 계획: 끊김 의심에 대해nx로 controller/worker/PID/최근log를 확인하고 실제실행 중단과 알림공백을 구분한다. 기존6run·소스·판정·예산은 유지하며 작은결과 회수/해시검산과 현재상태 문서 갱신을 수행한다. 중복 GPU실행 및 타인프로세스 조작은 하지 않는다.
+
+- 결과: 기존controller1419400/worker1421757생존,GPU1약1900update로학습중단없음확인. B2동일1536step AUC0.323879 vsB0.242148이며단일seed중간값,우월판정아님. CPU collector는B0체크포인트/6창예측·로그검산1run완료·나머지미완료를보존. 467파일37,368,053byte/최종384NPZ포함회수·독립해시검증0불일치. B0안정성미충족유지. 자동화view카드반환,로컬TOML없음은heartbeat중단증거로간주하지않고중복생성없음. 기존학습/예산/소스유지·재시작/추가GPU실행없음. 문서·현재config갱신완료.
+
+
+### 2026-09-28 00:25 KST — 예약 의심·연구 의미 검토
+
+- 사용자질문에따라live확인,OpenAI Docs예약문서열람,기존automation view/legacy설정읽기,독립과학검토. 서버같은PID유지·B2약1951update,예약조회는카드반환만으로상태/중복미확정. 새예약생성/수정없음.
+- 최신1920step B0 .292462 vsB2 .336834(delta+.044372),이전+.081731보다격차감소. 원score회수/SHA일치. class2부진·K증가이득부재·Qwen을거치지않는mask평가·언어효과분리불가를독립확인. 고정EO대비공동학습초기신호와VLM/교정효율논문주장을분리한다. B0안정성미충족유지,설계/조건/상한변경없음.
+
+
+### 2026-09-28 00:40 KST — 성능 기대와 실제 실험 계약 진단
+
+- 사용자 지적에 따라 학습/입력/정답/표현 경로를 읽기 진단한다. 현재가설실패나성공을전제하지않는다. 로컬회수점수/원예측으로범주별놓침·오탐·면적을살피고,독립agent는손실경로와지원예시표현을검토한다. 현재GPU소스·조건·표본·상한은유지하며추가GPU실험은시작하지않는다.
+
+- 결과: prototype역할평균·query2/support8·연간정답·정형CE감독과mask평가경로를확인. 실제gradient/손실합산정상,중복checkpoint호출없음. 로컬CPU class2양성train22/dev8patch,dev대상존재16행중14행빈예측(각K);class3양성train23이라단순patch수로설명불가. 두독립agent가Kprefix96/96와손실경로검토. 0%언어정답996/2304(작은양성48포함),B2양성clip99.29%는진단단서이며원인미확정. 원소스/계산상한불변·새GPU0. 코드/감사JSON/실행문서에보존. 마지막live00:40KST B2receipt2136/log2151update진행중.
+
+
+### 2026-09-28 00:55 KST — 절대 성능 개선을 위한 원예측 진단 계획
+
+- 사용자가 절대 성능 향상을 우선함을 확인했다. 현재 동결 B0/B2 실행은 보존하고, 첫 완료 쌍의 원확률에서 class2 놓침을 순위 구분 실패와 보수적 확률 출력으로 나눠 CPU 진단한다. 원 임계값/주지표/관문은 유지하고 진단 지표를 새 방법 성능으로 보고하지 않는다. 독립 agent는 가장 싼 원인 판별과 후속 개선 우선순위를 검토한다. 새 GPU 실험/예산 변경은 없다.
+
+- 09/28 01:05 KST 결과: 첫 B0/B2 완주·검증2run. AUC .30099598/.34175410(delta+.04075812), 마지막3창범위 .058848/.017875로양팔안정성미충족. 다음B0 seed270928진행. 최종768NPZ포함860파일63,019,576bytes회수·독립해시검증0오류·재집계일치. CPU확률감사 B2겨울밀K8 IoU.007845/AP.395829·16행중14빈예측. threshold탐색/새학습0·보정오류인과미확정. 보호4소스mtime/hash·snapshot·protocol불변. 첫B2감사는완료전전제검사로중단후완료를확인하고실행. 선택적그림은matplotlib부재로생성안함·미사용새초안삭제·표로보고. 동일속도시총12.73시간예상이나기존12시간상한유지. 문서갱신첫시도는stdin인코딩오류로실행전중단,ASCII이스케이프로재시도.
+
+
+### 2026-09-28 01:09 KST — 출처 있는 작물 설명과 후속 학습 입력 준비
+
+- 사용자 제안에 따라 겨울밀·혼동 작물의 공개 농업 전문자료를 조사하고, 적용 범위·관측 불확실성·출처가 있는 지식카드와 훈련용 설명 조건 비교 입력을 준비한다. 실제 전문가 검수 자료와 AI가 출처를 요약한 자료는 구분한다. 현6run·입력계약·예산은 유지하고 아직 학습에 연결하지 않는다. 독립 agent는 농업 근거와 현재 mask/언어 경로·class명 정보교락을 검토한다. Dev 정답을 설명 생성·교정 입력으로 사용하지 않는다.
+
+- 09/28 01:17 KST 결과: 공식농업출처6개·4작물카드 작성, support주석 기반2304기존train연결/48query/서로다른20검수후보 준비. querygold·개발episode/score 미사용, 실제전문가응답0·이미지패키징전. 정보경계6검사통과·독립2agent 검토. 현재prompt고정/mask는Qwen경로전계산임을확인하고 C−B 설명효과 비교와텍스트→mask기울기검사를다음구현계약으로기록. 실행중9source해시불변, 서버전송/새GPU0. v1은v0의임의카드시각을제거한정정본.
+
+
+### 2026-09-28 01:19 KST — 평가 대상 확장과 실패 공개 검토
+
+- 사용자 제안에 따라 겨울밀에만 개선을 집중하지 않고 기존자료의 추가대상 가용성을 조사한다. 기존전체평균/사후부분집합/향후확장평가를구분하고, 새대상은점수이전에train·support자료충분성으로선정한다. 현재주평가·6run조건·예산유지, 새GPU/정답선택/원점수변경없음. 로컬source_objects와첫완료쌍만으로CPU집계하고독립검토한다.
+
+- 09/28 01:21 KST 결과: 동결전체평균유지·사후부분집합/향후확장평가구분. 원B2AUC.341754가대상겨울밀제외시.507816으로변하지만예측변경0;동일subsetB0.442049도계산. train/sourcebank수량조건7후보확인,포도밭16train/4bank와사료콩과15/7우선검토가능. 새평가개봉/새GPU/주판정변경0. 기존겨울밀만우선수정계획에서개발범위를넓히는사용자선호반영.
+- 독립 검산: 원입력3hash·18class집계·7후보·6개AUC재계산 일치. 결과 기록은 class_expansion_independent_review_20260928.json. bank8객체는추가품질제외여유없음; devquery는bank와분리됨.
+
+
+### 2026-09-28 01:36 KST - Hourly research continuation requested
+
+- User explicitly requested hourly research expansion in the existing big-picture context. Update existing heartbeat oe10-b0-b2, preserving the frozen P2 run and 12-hour cap. Concrete queue: audit current runs, prepare additional target inputs, connect sourced context to prediction, then run a separately frozen bounded feasibility pilot. Initial additional automatic pilot cap: 30 minutes per job, 2 GPU-hours cumulative including retries/inference. Preserve original primary scores and sealed final evaluation. Scope reviewed independently.
+
+- 09/28 01:39 KST: Existing heartbeat was confirmed missing by update tool; created replacement olmoearth-vlm, ACTIVE, interval60min. Saved executable phase queue and non-resetting initial pilot budget. Current P2: verifiedcompleted2, B0_270928 live train log1702/2304 and own controller/worker alive. No new GPU. Tool receipt preserved; independent agent reviewed scope. Next hourly step: new-target input checks while P2 continues.
+
+
+### 2026-09-28 02:38 KST - Hourly run: completed-run audit and expansion input QA
+
+- Read current experiment state: third run B0_270928 completed, fourth B2_270928 running. Audit completed artifacts with frozen collector, export final predictions and verify locally. In parallel, build a CPU-only reproducible input/support audit for preselected classes8/14 using source train/bank only. Do not open reserved evaluation, change P2 or add GPU jobs. Independent agent checks support capacity and independence.
+
+- 09/28 02:47 KST 결과: 3/6run 검산완료·B2 seed270928 진행. 새B0 final.29600542/last3range.08588245로 안정성실패. 최종NPZ1152포함1256파일95,206,251bytes회수·독립hash/점수집계일치. 별도CPU에서 확장입력30/객체294대조·6경계검사·4사례영상QA완료(dev0). 구름/연무/포화표시 및bank지역편중·경계민감도확인; 포도bank38객체/cap8 구분정정. 신규GPU0·보호소스불변·스케줄첫실행확인. 다음은train-only확장catalog/품질검토pack. 코드작성중보호파일경로를/code로정정한뒤실행했으며 실패한GPU/재시도없음.
+
+
+### 2026-09-28 03:38 KST - Hourly run: isolated expanded training catalog
+
+- First nx read failed with Connection closed on local port9922; checking session/tunnel status without modifying training. Continue local CPU work: generate class8/14 train-only catalog using pinned existing builder, freeze public references before training-target materialization, retain query/bank separation, prepare observation-quality review assets and blank forms. No new GPU, no dev/heldout opening, no current experiment changes. Independent agent reviews episode boundaries and leakage risks.
+
+- 09/28 03:55 KST 결과: 추가train384항목/48query/221mask 생성·5경계검사·독립support재구성통과. 실제CPU raw48/훈련정답384연결·두부모K8load검증. 20품질검토PNG/빈응답(사람0) 생성·회수. runtime_v0 reference메타데이터잔존 및AppleDouble229개 전송감사실패를 보존하고 v1메타데이터정정→v2순수연구파일232개hash통과, quality24파일hash통과. 단계공식입력runtime_v2. 터널 standalone호출실패 후 동일exec 내nx tunnel up+nx명령으로복구;03:48 B2seed270928log1333/2304·3완료. 추가GPU0·미개봉지역0·원실험불변. 다음설명카드8/14+text→mask분리경로준비.
+- Final independent readback: runtime_v2 232 files/hash0errors/sidecar0; scientific226files unchanged vs v0; training-only gold48/raw48 metadata corrected; quality20/4strata duplicate0/unreviewed confirmed.
+
+
+### 2026-09-28 04:38 KST - Hourly run: sourced-context prediction path
+
+- Check frozen P2 live status and audit any newly completed run without changing training or limits. Prepare sourced cards for classes8/14 and a separate minimal text-conditioned mask baseline with train-only A/B/C inputs and removal/swap diagnostics. CPU-only preparation; no extra GPU before P2 ends and is audited. Independent agents handle crop-source verification and isolated model-path implementation.
+
+- 09/28 04:50 KST 결과: 카드2/기관출처6·train384/48query 설명5조건 생성, 독립1,920projection 검산. 별도text→mask 공통기준선·로컬7+CPU12검사 통과, actual tokenizer58/44/267토큰·unique7문구. 실제EO/Qwen가중치forward/새GPU/사람응답0. CPU산출4파일13,750bytes hash일치·보호소스불변. EOcheckpoint identity 누락은동결전수정; 후속GPU CLI에는episode contract/catalog/scoring 외부SHA관문 추가필요.04:39 P2 3완료/B2seed270928 log1920/2304·기존3receipt/score불변. 첫조회path오지정후정상회수. 다음P2감사+실행identity보강→종료후실제가중치연결검사. 예산0/7,200초유지.
+- Final independent readback: CPU export4files/13,750bytes and model source10files hash errors0; 12 tests confirmed; actual installed Qwen API source-compatible. Real-weight execution still pending; external episode identity binding remains a required follow-up gate.
+
+
+### 2026-09-28 05:38 KST - Hourly run: next paired audit and external input identity
+
+- Read frozen P2 status and audit any newly completed workers with audit_v2, export/recover final predictions and independently recompute paired scores. In parallel, preserve text_mask_v0 and add a separate v1 external runtime/source identity check with boundary tests. No extra GPU, no changed P2 budget/criteria/data, no opening of held-out evaluation.
+
+- 09/28 06:00 KST 결과: 4/6run 검산·두 번째 비교쌍 B0.296005/B2.349704(차이+.053699),두 쌍 평균차이+.047228은기술통계. 완료4개모두안정성미충족·겨울밀/K증가실패유지. 원예측1536개포함1653파일127,940,279bytes 회수·독립hash/24점수집계일치.05:38확인다섯B0seed270929 1152/2304·자체PID생존. v1입력identity13+기존계약4검사, v2무한기울기오통과수정CPU8검사통과;모델연산불변. 실자산/입력SHA검증·2파일9408bytes회수확인. 첫reader목록불일치는cacheJSON추가확인으로해결·실패보존. 한trainK1실연결조건로컬동결·실가중치forward/새GPU/예약0. 다음은P2종료감사와bounded launcher준비→종료후실연결. 원12h·신규누적0/7200초유지;보호4mtime/SHA·snapshot9불변.
+
+
+### 2026-09-28 06:38 KST - Hourly run: fifth-run audit and bounded launcher
+
+- Read current frozen P2 status, audit/export any newly completed run with audit_v2, and independently verify recovered predictions. In parallel prepare a separately versioned CPU-tested connection launcher that enforces terminal P2 audit, atomic cumulative reservation, unique ownership/GPU idle and external timeout. Do not modify frozen model/data/protocol or start extra GPU work while P2 is running.
+
+- 09/28 06:59 KST 결과: 5/6 완료 검산. 새 B0 .274923845 / 마지막3창범위 .069244088, 완료5회 모두 안정성 미충족. 2,048파일156,498,242bytes·원예측1,920개 회수/hash오류0·독립30평가 재집계 일치. 06:38 마지막B2 384/2304·06:56 P2 running 확인. 별도 실행기 v0 동결/전송·서버CPU17검사 통과·실제 preflight P2/GPUbusy 차단·생산장부 전후부재. 초회 임시폴더 경계전제 실패(v0)보존 후 검사기v1에서 TMPDIR만정정, production 소스불변. 로컬터널 연결거부1회 재연결, GPU재시작없음. 보호4mtime/SHA·snapshot9·protocol불변. 새GPU/예약0/7,200초. 다음 P2종료감사→종료증거SHA/독립검토→실가중치연결검사. 사람0/언어평가부재/미완료 위험 유지.
+
+
+### 2026-09-28 07:38 KST - Hourly run: final worker live check
+
+- Read the actual final P2 worker status, receipt, log and own processes. Audit only newly completed results; preserve the original cap and do not repeat completed CPU preparation or start an extra GPU job while P2 remains running. Record unchanged completion/remaining prerequisites quietly if no actionable change is found.
+
+- 09/28 07:38 KST 결과: 5/6 완료 상태 유지. 마지막 B2_270929 receipt1104/log1119/2304, controller1419400·worker1457846 생존 확인. 완료5개의 receipt/최종score SHA와 원protocol SHA 불변. 새 완료분이 없어 전체export/감사 및 CPU 준비를 반복하지 않았다. 추가 GPU/예약0, 원08:42:43KST 상한 유지. 다음은 종료 상태/완료분 감사와 실제 연결 검사 관문이며 현재 새 사용자 조치 없음.
+
+
+### 2026-09-28 08:38 KST - Hourly run: sequence cap and terminal audit
+
+- Check the final P2 worker near the original 12-hour cap. Preserve automatic cap behavior and do not restart. Prepare a read-only terminal audit while it runs; once terminal, run the frozen completed-run collector, recover final predictions/terminal evidence, distinguish the unfinished final arm, and independently review a hash-pinned terminal attestation before any bounded connection pilot. Additional GPU remains forbidden until these prerequisites are satisfied.
+
+- 08:43 KST terminal confirmed: original P2 stopped at its 43,200-second cap (actual elapsed 43,200.395s); five complete, B2_270929 receipt1,872/log1,876 of2,304. Latest score remains1,536 intermediate. Frozen audit_v2 verifiedfive; full three-seed gate not run. Own controller/worker gone; original source/protocol integrity true. GPU1 memory0/no compute process; utilization returns [Not Found], exposing a numeric-only parsing bug in prepared launcher v0. Preserve v0 and prepare a narrowly scoped v1 telemetry fix with independent tests/review; no model/protocol/budget change. New GPU used/reserved remains0.
+
+- 08:51 KST terminal helper completed (P2 incomplete5/6 preserved) and frozen launcher_v1 preflight ready=true. Original 4 protected files and 9 P2 source files unchanged. Launcher telemetry-only v1 passed all22 Linux CPU tests. Plan after independent attestation readback: exactly one fixed connection_20260928_01 real-weight train-K1 engineering check, max1,800s reservation out of7,200s cumulative, optimizerupdates0. Freeze retains generic/name/knowledge/removal/swap conditions and finite EO/head gradient plus restore criteria. No P2 resume, no score comparison, no scientific gate promotion.
+
+### 2026-09-28 08:58 KST - Hourly result: P2 closed incomplete; actual connection passed
+- Original cap enforced: 5/6 completed, last B2 log1,876/2,304. Five final results verified, stability0/5, two-pair descriptive delta+0.047228. No full P2 gate or restart. Final export2,056files/161,365,609bytes with1,920finalNPZ hash verified; independent result/terminal reviews passed.
+- Actual frozen text-mask connection_20260928_01 passed: matched/name logit difference0.014232, removed/name0, EO212/head10 nonzero finite-gradient tensors, Qwen/unusedconnector0, same-process restore0. One trainK1case, optimizerupdates0, no dev/generation.
+- Telemetry-only launcher_v1 repair independently reviewed; Linux22tests passed. Actual occupancy47.450s, cumulative charged48s, reservation0, remaining7,152s. Worker gone and GPU1 no computePID; other GPU work untouched. Recovered36files/96,310bytes hash errors0.
+- Next: separate bounded training/optimizer-RNG fresh-process resume pilot, prospective identities/conditions/budget. No repeated connection check; no original P2 resume; no semantic/efficacy/transfer/CVPR claim. Single dev region, synthetic support, human0 and no language evaluation remain.
+- Final independent connection result review PASS: all36export hashes, fixed five contexts, source/weight identities, gradient/dependency/restore receipts and48-second ledger agree. No raw-logit/gradient re-computation. Review: artifacts/oe10_connection_launcher_20260928/independent_review_connection_01.json.
+
+### 2026-09-28 09:22 KST - User-requested schedule cancellation and status inventory
+- User requested all scheduled work stopped and a summary with paper/folder locations. OlmoEarth heartbeat changed to PAUSED via app tool; other two visible automations already PAUSED. Do not launch further research in this turn. Read current server receipts/process status only, inventory manuscript vs planning vs study folders, save a concise handoff, and update restart/scheduling metadata while preserving experimental results.
+- Result: app tool confirmed olmoearth-vlm PAUSED; all3 visible automation records PAUSED, active0. Server recheck09:22KST P2 remains capped incomplete with no own process; GPU1 computePID0, other GPU work untouched. Pilot ledger unchanged48seconds/onecompletedjob/no outstanding reservations. Saved docs/RESEARCH_STATUS_AND_LOCATIONS_20260928.md and pause_receipt.json; scheduler/restart metadata now requires a user request before further execution. No training, commit, push, or deletion this turn.
